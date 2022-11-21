@@ -1,5 +1,3 @@
-" init.vim
-"
 " vim: fdm=indent:
 "
 " This REQUIRES Neovim version 0.8.0 or later. Might work with earlier
