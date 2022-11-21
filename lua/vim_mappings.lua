@@ -2,14 +2,23 @@ local map = vim.api.nvim_set_keymap
 local opts = {noremap = true, silent = true}
 local expr = {noremap = true, silent = true, expr = true}
 -- Telescope pickers
+-- Ctrl-e -> list of  buffers
 map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{layout_config={height=0.3, width=0.7}}<CR>", opts)
+-- Ctrl-p -> old files
 map('n', "<C-p>", "<CMD>lua require'telescope.builtin'.oldfiles{layout_config={height=0.4,width=0.7,preview_width=0.4}}<CR>", opts)
+-- Ctrl-f -> browse files in current working  directory
 map('n', "<C-f>", "<CMD>lua require'telescope.builtin'.find_files{cwd = vim.fn.expand('%:p:h') }<CR>", opts)
+-- Alt-c -> command line  history
 map('n', "<A-c>", "<CMD>lua require'telescope.builtin'.command_history{layout_config={width=0.4, height=0.7}}<CR>", opts)
+-- Alt-f -> file  browser
 map('n', "<A-f>", "<CMD>Telescope file_browser path=%:p:h<CR>", opts)
+-- Alt-s show spelling suggestions
 map('n', "<A-s>", "<CMD>lua require'telescope.builtin'.spell_suggest{layout_config={height=0.5,width=0.3}}<CR>", opts)
+-- telescope-project extension (Alt-p)
 map('n', "<A-p>", "<CMD>lua require'telescope'.extensions.project.project{ layout_config={width=0.5} }<CR>", opts)
--- telescope + bookmarks
+-- telescope-bookmarks:
+-- Alt-b -> all bookmarks, Ctrl-b -> current file
+-- bookmarks
 map('n', "<A-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.all{hide_filename=false,layout_config={height=0.4, width=0.8,preview_width=0.3}}<CR>", opts)
 map('n', "<C-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.current_file{layout_config={height=0.4, width=0.7}}<CR>", opts)
 
