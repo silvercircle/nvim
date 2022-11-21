@@ -1,4 +1,5 @@
 vim.cmd [[packadd packer.nvim]]
+-- all plugins handled by packer. Plug has been retired
 
 return require("packer").startup {
   {
@@ -32,6 +33,7 @@ return require("packer").startup {
       'mtth/scratch.vim',
       'norcalli/nvim-colorizer.lua',
       'goolord/alpha-nvim',
+      'nvim-telescope/telescope-project.nvim'
   }
 }
 

@@ -20,15 +20,12 @@ local function getWordsV2()
     end
 end
 
---local function getWords()
---  return tostring(vim.fn.wordcount().words) .. ' Words'
---end
-
- -- You don't need to set any of these options.
--- IMPORTANT!: this is only a showcase of how you can set default options!
-
 local telescope_actions = require("telescope.actions.set")
 
+--[[
+--the following two functions are helpers for Telescope to workaround a bug
+--with creating/restoring view via autocmd when picking files via telescope.
+--]]
 local function stopinsert(callback)
   return function(prompt_bufnr)
     vim.cmd.stopinsert()
@@ -94,6 +91,7 @@ require'telescope'.setup {
 require("telescope").load_extension("file_browser")
 require('telescope').load_extension('coc')
 require('telescope').load_extension("vim_bookmarks")
+require'telescope'.load_extension('project')
 
 -- TabLine
 
@@ -135,22 +133,13 @@ require('lualine').setup {
   },
   tabline = {
     lualine_a = { {'buffers', mode=2, filetype_names = {coctree='C'}}},
---    lualine_b = {'branch'},
     lualine_b = {},
     lualine_c = {},
---    lualine_c = {'filename'},
     lualine_x = {},
     lualine_y = {},
     lualine_z = {'tabs'}
   },
-  winbar = {
---    lualine_a = {'filename'},
---    lualine_b = {'branch'},
---    lualine_c = {'filesize'},
---    lualine_x = {},
---    lualine_y = {},
---    lualine_z = {'filename'}
-  },
+  winbar = {},
   inactive_winbar = {},
   extensions = {}
 }
@@ -231,7 +220,7 @@ require("nvim-treesitter.configs").setup({
     "toml",
     "tsx",
     "typescript",
---    "vim",
+    "vim",
     "yaml",
   },
   playground = {
@@ -335,5 +324,4 @@ require'nvim-web-devicons'.setup {
 }
 require'colorizer'.setup()
 require'alpha'.setup(require'alpha.themes.startify'.config)
-
 

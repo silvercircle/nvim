@@ -61,7 +61,7 @@ o.viewoptions = 'folds,cursor,curdir'
 o.fillchars = {eob = ' '}
 o.completeopt='menuone,noinsert'
 o.pumheight = 15
-o.signcolumn='yes'
+o.signcolumn='yes:2'
 o.dictionary:append('/.local/share/nvim/dict')
 o.swapfile = false
 
@@ -114,7 +114,7 @@ vim.api.nvim_create_autocmd(
     {
         pattern = 'mail',
         callback = function()
-            vim.api.nvim_command('setlocal foldcolumn=0 | setlocal fo-=c | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de')
+            vim.api.nvim_command('setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=wa | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de')
         end,
         group = agroup_files
     }

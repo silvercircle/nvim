@@ -8,14 +8,15 @@ map('n', "<C-f>", "<CMD>lua require'telescope.builtin'.find_files{cwd = vim.fn.e
 map('n', "<A-c>", "<CMD>lua require'telescope.builtin'.command_history{layout_config={width=0.4, height=0.7}}<CR>", opts)
 map('n', "<A-f>", "<CMD>Telescope file_browser path=%:p:h<CR>", opts)
 map('n', "<A-s>", "<CMD>lua require'telescope.builtin'.spell_suggest{layout_config={height=0.5,width=0.3}}<CR>", opts)
-
--- nerdtree
-map('n', "<leader>r", "<CMD>NERDTreeFind <Bar> wincmd p<CR>", opts)
-
+map('n', "<A-p>", "<CMD>lua require'telescope'.extensions.project.project{ layout_config={width=0.5} }<CR>", opts)
 -- telescope + bookmarks
 map('n', "<A-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.all{hide_filename=false,layout_config={height=0.4, width=0.8,preview_width=0.3}}<CR>", opts)
 map('n', "<C-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.current_file{layout_config={height=0.4, width=0.7}}<CR>", opts)
 
+-- nerdtree
+map('n', "<leader>r", "<CMD>NERDTreeFind <Bar> wincmd p<CR>", opts)
+
+-- coc code navigation
 map('n', "gd", '<Plug>(coc-definition)', { silent = true, noremap = false })
 map('n', "gy", '<Plug>(coc-type-definition)', { silent = true, noremap = false })
 map('n', "gi", '<Plug>(coc-implementation)', { silent = true, noremap = false })
@@ -28,12 +29,14 @@ map('n', "gr", '<Plug>(coc-references)', { silent = true, noremap = false })
 map('n', "[g", '<Plug>(coc-diagnostic-prev)', { silent = true, noremap = false })
 map('n', "]g", '<Plug>(coc-diagnostic-next)', { silent = true, noremap = false })
 
+-- coc: autocomplete on ctrl-space
 map('i', "<c-space>", 'coc#refresh()', expr)
 
 map('n', "<leader>.", '<CMD>CocOutline<CR>', opts)
 map('n', "<leader>-", '<CMD>Minimap<CR>', opts)
 map('n', "<leader>,", '<CMD>NERDTreeToggle<CR>', opts)
 
+-- bookmark plugin, set and navigate bookmarks
 map('n', "<Leader>bt", '<Plug>BookmarkToggle', { silent = true, noremap = false })
 map('n', "<Leader>by", '<Plug>BookmarkAnnotate', { silent = true, noremap = false })
 map('n', "<Leader>ba", '<Plug>BookmarkShowAll', { silent = true, noremap = false })
@@ -47,6 +50,7 @@ map('n', "<Leader>bm", '<Plug>BookmarkMoveToLine', { silent = true, noremap = fa
 map('n', '<C-Tab>', ':bnext<CR>', opts)
 
 -- map some keys for formatting functions
+-- the functions are defined in the init.vim
 map('n', "<leader>a", ':AFToggle<CR>', opts)
 map('n', "<leader>w", ':HWToggle<CR>', opts)
 map('n', "<leader>t", ':HTToggle<CR>', opts)
