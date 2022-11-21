@@ -2577,9 +2577,9 @@ highlight! link cmakeKWvariable_watch Green
 highlight! link cmakeKWwrite_file Green
 " syn_end }}}
 " syn_begin: json {{{
-highlight! link jsonKeyword Red
+highlight! link jsonKeyword Blue
 highlight! link jsonString Green
-highlight! link jsonBoolean Blue
+highlight! link jsonBoolean Red
 highlight! link jsonNoise Grey
 highlight! link jsonQuote Grey
 highlight! link jsonBraces Fg

@@ -15,7 +15,7 @@ map('n', "<A-f>", "<CMD>Telescope file_browser path=%:p:h<CR>", opts)
 -- Alt-s show spelling suggestions
 map('n', "<A-s>", "<CMD>lua require'telescope.builtin'.spell_suggest{layout_config={height=0.5,width=0.3}}<CR>", opts)
 -- telescope-project extension (Alt-p)
-map('n', "<A-p>", "<CMD>lua require'telescope'.extensions.project.project{ layout_config={width=0.5} }<CR>", opts)
+map('n', "<A-p>", "<CMD>lua require'telescope'.extensions.project.project{ display_type='full', layout_config={width=0.5} }<CR>", opts)
 -- telescope-bookmarks:
 -- Alt-b -> all bookmarks, Ctrl-b -> current file
 -- bookmarks

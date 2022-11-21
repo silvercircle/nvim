@@ -58,18 +58,23 @@ o.foldcolumn = '5'
 o.foldmethod = 'indent'
 o.foldlevelstart = 20
 o.viewoptions = 'folds,cursor,curdir'
+-- no ~ at blank lines
 o.fillchars = {eob = ' '}
 o.completeopt='menuone,noinsert'
+-- coc respects this settings for the autocomplete-popup height
 o.pumheight = 15
+-- allow two signcolumns, the first will be occupied by git signs
 o.signcolumn='yes:2'
-o.dictionary:append('/.local/share/nvim/dict')
+-- set &dictionary to allow auto-complete with coc-dictionary
+o.dictionary:append(vim.fn.stdpath("data") .. "/dict")
+-- do not use swap files.
 o.swapfile = false
-
 -- autogroups
 
 local agroup_enter = vim.api.nvim_create_augroup("enter", {})
 local agroup_files = vim.api.nvim_create_augroup("files", {})
 
+-- open a 20 lines terminal at the bottom on enter
 vim.api.nvim_create_autocmd(
     { 'vimenter' },
     {
@@ -83,7 +88,7 @@ vim.api.nvim_create_autocmd(
         group = agroup_enter
     }
 )
-
+-- show the nerd tree unless environment variable forbid it
 vim.api.nvim_create_autocmd(
     {'vimenter'},
     {
@@ -97,7 +102,7 @@ vim.api.nvim_create_autocmd(
         group = agroup_enter
     }
 )
-
+-- never conceal anything. Conceal is evil :)
 vim.api.nvim_create_autocmd(
     {'FileType'},
     {
@@ -130,7 +135,6 @@ vim.api.nvim_create_autocmd(
         group = agroup_files
     }
 )
-
 
 vim.api.nvim_create_autocmd(
     {'FileType'},

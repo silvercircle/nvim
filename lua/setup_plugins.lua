@@ -1,5 +1,5 @@
 -- packer.nvim example
-local install_path = vim.fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
+-- local install_path = vim.fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
 
 -- vim.api.nvim_command 'packadd packer.nvim'
 
@@ -20,7 +20,7 @@ local function getWordsV2()
     end
 end
 
-local telescope_actions = require("telescope.actions.set")
+-- local telescope_actions = require("telescope.actions.set")
 
 --[[
 --the following two functions are helpers for Telescope to workaround a bug
@@ -173,7 +173,7 @@ require('gitsigns').setup {
     ignore_whitespace = false,
   },
   current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
-  sign_priority = 6,
+  sign_priority = 0,
   update_debounce = 100,
   status_formatter = nil, -- Use default
   max_file_length = 40000, -- Disable if file is longer than this (in lines)
