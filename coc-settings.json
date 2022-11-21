@@ -33,7 +33,7 @@
     "border": true,
     "winblend": 0,
     "borderhighlight": "FloatBorder",
-    "highlight": "CocFloating"
+    "highlight": "NormalFloat"
   },
   "suggest.minTriggerInputLength": 4,
   "suggest.labelMaxLength": 80,

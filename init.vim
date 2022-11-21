@@ -35,7 +35,7 @@ syntax on
 filetype plugin indent on
 
 " show white spaces, but only trailing spaces, newlines and tabs
-set list listchars=tab:·\ ,trail:☼,extends:>,precedes:<,eol:¬
+set list listchars=tab:·\ ,trail:▪,extends:>,precedes:<,eol:¬
 
 " NERDSymbols
 let g:NERDTreeGitStatusIndicatorMapCustom = {
@@ -56,12 +56,12 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
 
 
 " set the highlight color for these white spaces
-highlight WhiteSpace guifg=#ffcc00 ctermfg=48
+highlight WhiteSpace guifg=#206050 ctermfg=48
 
 " filetype related autocmds
 augroup filetypes
     autocmd!
-    autocmd FileType ada,d,nim syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
+    autocmd FileType ada,d,nim,objc,objcpp syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
 augroup end
 
 " this saves a view when a buffer loses focus or the file is written
