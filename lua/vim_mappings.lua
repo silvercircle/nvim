@@ -58,4 +58,9 @@ map('n', "<leader>y", ':!fmt -85<CR>', opts)
 map('n', "<leader>fm", ':AFManual<CR>', opts)
 map('n', "<leader>fa", ':AFAuto<CR>', opts)
 
-
+-- Ctrl-s in normal and insert mode: save if modified
+-- Ctrl-q in normal and insert mode: save if modified and close buffer
+map('i', "<C-q>", "<c-o>:update<CR><c-o>:BD<CR>", opts)
+map('n', "<C-q>", ":update<CR>:BD<CR>", opts)
+map('i', "<C-s>", "<c-o>:update<CR>", opts)
+map('n', "<C-s>", ":update<CR>", opts)
