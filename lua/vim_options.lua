@@ -141,7 +141,7 @@ vim.api.nvim_create_autocmd(
     {
         pattern = 'tex,markdown,text',
         callback = function()
-            vim.api.nvim_command("setlocal textwidth=105 | setlocal wrap | setlocal fo+=nawqt | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
+            vim.api.nvim_command("setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nawqt | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
         end,
         group = agroup_files
     }
