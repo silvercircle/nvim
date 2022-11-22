@@ -26,6 +26,7 @@ command Itime pu=strftime('%FT%T%z')
 " quickly enable/disable automatic formatting modes.
 command AFManual setlocal fo-=awcqtl
 command AFAuto setlocal fo+=awcqtl
+map <C-f> <NOP>
 
 lua require('vim_mappings')
 

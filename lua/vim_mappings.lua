@@ -7,7 +7,7 @@ map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{layout_config={he
 -- Ctrl-p -> old files
 map('n', "<C-p>", "<CMD>lua require'telescope.builtin'.oldfiles{layout_config={height=0.4,width=0.7,preview_width=0.4}}<CR>", opts)
 -- Ctrl-f -> browse files in current working  directory
-map('n', "<C-f>", "<CMD>lua require'telescope.builtin'.find_files{cwd = vim.fn.expand('%:p:h') }<CR>", opts)
+map('n', "<leader>f", "<CMD>lua require'telescope.builtin'.find_files{cwd = vim.fn.expand('%:p:h') }<CR>", opts)
 -- Alt-c -> command line  history
 map('n', "<A-c>", "<CMD>lua require'telescope.builtin'.command_history{layout_config={width=0.4, height=0.7}}<CR>", opts)
 -- Alt-f -> file  browser
@@ -16,7 +16,7 @@ map('n', "<A-f>", "<CMD>Telescope file_browser path=%:p:h<CR>", opts)
 map('n', "<A-s>", "<CMD>lua require'telescope.builtin'.spell_suggest{layout_config={height=0.5,width=0.3}}<CR>", opts)
 -- telescope-project extension (Alt-p)
 map('n', "<A-p>", "<CMD>lua require'telescope'.extensions.project.project{ display_type='full', layout_config={width=0.5} }<CR>", opts)
--- telescope-bookmarks:
+-- telescpe-bookmarks:
 -- Alt-b -> all bookmarks, Ctrl-b -> current file
 -- bookmarks
 map('n', "<A-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.all{hide_filename=false,layout_config={height=0.4, width=0.8,preview_width=0.3}}<CR>", opts)
@@ -60,20 +60,29 @@ map('n', '<C-Tab>', ':bnext<CR>', opts)
 
 -- map some keys for formatting functions
 -- the functions are defined in the init.vim
-map('n', "<leader>a", ':AFToggle<CR>', opts)
-map('n', "<leader>w", ':HWToggle<CR>', opts)
-map('n', "<leader>t", ':HTToggle<CR>', opts)
-map('n', "<leader>1", ':AutowrapOn<CR>', opts)
-map('n', "<leader>2", ':AutowrapOff<CR>', opts)
+map('i', "<C-f><C-a>", '<c-o>:AFToggle<CR>', opts)
+map('i', "<C-f><C-w>", '<c-o>:HWToggle<CR>', opts)
+map('i', "<C-f><C-t>", '<c-o>:HTToggle<CR>', opts)
+map('i', "<C-f>1", '<c-o>:AutowrapOn<CR>', opts)
+map('i', "<C-f>2", '<c-o>:AutowrapOff<CR>', opts)
 map('n', "<leader>V", ':!fmt -110<CR>', opts)
 map('n', "<leader>v", ':!fmt -100<CR>', opts)
 map('n', "<leader>y", ':!fmt -85<CR>', opts)
-map('n', "<leader>fm", ':AFManual<CR>', opts)
-map('n', "<leader>fa", ':AFAuto<CR>', opts)
+map('i', "<C-f>f", '<c-o>:AFManual<CR>', opts)
+map('i', "<C-f>a", '<c-o>:AFAuto<CR>', opts)
 
 -- Ctrl-s in normal and insert mode: save if modified
 -- Ctrl-q in normal and insert mode: save if modified and close buffer
-map('i', "<C-q>", "<c-o>:update<CR><c-o>:BD<CR>", opts)
-map('n', "<C-q>", ":update<CR>:BD<CR>", opts)
-map('i', "<C-s>", "<c-o>:update<CR>", opts)
-map('n', "<C-s>", ":update<CR>", opts)
+map('i', "<C-x><C-q>", '<c-o>:update<CR><c-o>:BD<CR>', opts)
+map('n', "<C-x><C-q>", ':update<CR>:BD<CR>', opts)
+map('i', "<C-x><C-s>", '<c-o>:update<CR>', opts)
+map('n', "<C-x><C-s>", ':update<CR>', opts)
+
+map('n', "tsh", ':TSHighlightCapturesUnderCursor<CR>', opts)
+map('n', "<C-x><C-c>", ':BD<CR>', opts)
+map('i', "<C-x><C-c>", '<c-o>:BD<CR>', opts)
+
+-- switch off highlighted search results
+map('n', "<C-x><C-h>", ':nohl<CR>', opts)
+map('i', "<C-x><C-h>", '<c-o>:nohl<CR>', opts)
+
