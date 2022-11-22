@@ -155,6 +155,7 @@ require('gitsigns').setup {
     changedelete = { hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn' },
     untracked    = { hl = 'GitSignsAdd'   , text = '┆', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'    },
   },
+  _refresh_staged_on_update = false,
   signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
   numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
   linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
@@ -173,7 +174,7 @@ require('gitsigns').setup {
   },
   current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
   sign_priority = 0,
-  update_debounce = 100,
+  update_debounce = 1000,
   status_formatter = nil, -- Use default
   max_file_length = 40000, -- Disable if file is longer than this (in lines)
   preview_config = {

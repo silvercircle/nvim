@@ -14,8 +14,8 @@ run macros/justify.vim
 
 colorscheme my_sonokai
 
-command AutowrapOn setlocal fo+=aw
-command AutowrapOff setlocal fo-=aw
+command AutowrapOn setlocal fo+=w | setlocal fo+=w
+command AutowrapOff setlocal fo-=a | setlocal fo-=w
 
 " toggle formatting options (a = auto, w = hard/soft wrap, t = use textwidth for wrapping)
 command AFToggle if &fo =~ 'a' | setlocal fo-=a | else | setlocal fo+=a | endif
@@ -24,11 +24,14 @@ command HTToggle if &fo =~ 't' | setlocal fo-=t | else | setlocal fo+=t | endif
 command Itime pu=strftime('%FT%T%z')
 
 " quickly enable/disable automatic formatting modes.
-command AFManual setlocal fo-=awcqtl
-command AFAuto setlocal fo+=awcqtl
+command AFManual setlocal fo-=a | setlocal fo-=w | setlocal fo-=c | setlocal fo-=q | setlocal fo-=t | setlocal fo-=l
+command AFAuto setlocal fo+=a | setlocal fo+=w | setlocal fo+=c | setlocal fo+=q | setlocal fo+=t | setlocal fo+=l 
+
 map <C-f> <NOP>
+map <C-c> <NOP>
 
 lua require('vim_mappings')
+
 
 " enable plugin-based filetyp identification, syntax highlighting
 filetype off

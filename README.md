@@ -34,3 +34,4 @@ Nim support is manually installed via nimlsp.
 |<C-f>a     | Insert             | Full autorwrap                         |
 |<C-f>f     | Insert             | Disable all Autowrap modes             |
 
+
