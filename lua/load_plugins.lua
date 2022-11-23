@@ -32,7 +32,8 @@ return require("packer").startup {
       'mtth/scratch.vim',
       'norcalli/nvim-colorizer.lua',
       'goolord/alpha-nvim',
-      'nvim-telescope/telescope-project.nvim'
+      'nvim-telescope/telescope-project.nvim',
+      'm-demare/hlargs.nvim'
   }
 }
 

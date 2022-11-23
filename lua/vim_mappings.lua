@@ -4,9 +4,9 @@ local expr = {noremap = true, silent = true, expr = true}
 
 -- Telescope pickers
 -- Ctrl-e -> list of  buffers
-map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{layout_config={height=0.3, width=0.7}}<CR>", opts)
+map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{previewer=false, layout_config={height=0.4, width=0.4}}<CR>", opts)
 -- Ctrl-p -> old files
-map('n', "<C-p>", "<CMD>lua require'telescope.builtin'.oldfiles{layout_config={height=0.4,width=0.7,preview_width=0.4}}<CR>", opts)
+map('n', "<C-p>", "<CMD>lua require'telescope.builtin'.oldfiles{previewer=false, layout_config={height=0.4,width=0.4,preview_width=0.4}}<CR>", opts)
 -- Ctrl-f -> browse files in current working  directory
 map('n', "<leader>f", "<CMD>lua require'telescope.builtin'.find_files{cwd = vim.fn.expand('%:p:h'), layout_config={ width=0.8, preview_width=0.6 } }<CR>", opts)
 -- Alt-c -> command line  history

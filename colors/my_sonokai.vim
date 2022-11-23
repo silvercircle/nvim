@@ -20,6 +20,8 @@ let s:purple = ['#c030c0', 241]
 let s:darkred = ['#601010', 249]
 let s:darkestred = ['#1a1010', 249]
 let s:darkestblue = ['#10101a', 247]
+let s:bg = ['#181822', 0]
+
 if !(exists('g:colors_name') && g:colors_name ==# 'my_sonokai' && s:configuration.better_performance)
   highlight clear
   if exists('syntax_on')
@@ -36,7 +38,7 @@ endif
 " Common Highlight Groups: {{{
 " UI: {{{
 if s:configuration.transparent_background >= 1
-  call sonokai#highlight('Normal', s:palette.fg, s:palette.none)
+  call sonokai#highlight('Normal', s:palette.fg, s:bg)
   call sonokai#highlight('Terminal', s:palette.fg, s:palette.none)
   if s:configuration.show_eob
     call sonokai#highlight('EndOfBuffer', s:palette.bg4, s:palette.none)
@@ -50,7 +52,7 @@ else
   call sonokai#highlight('Normal', s:palette.fg, s:palette.bg0)
   call sonokai#highlight('Terminal', s:palette.fg, s:palette.bg0)
   if s:configuration.show_eob
-    call sonokai#highlight('EndOfBuffer', s:palette.bg4, s:palette.bg0)
+    call sonokai#highlight('EndOfBuffer', s:palette.bg3, s:palette.bg0)
   else
     call sonokai#highlight('EndOfBuffer', s:palette.bg0, s:palette.bg0)
   endif
@@ -111,7 +113,7 @@ highlight! link WildMenu PmenuSel
 call sonokai#highlight('PmenuThumb', s:palette.none, s:palette.grey)
 call sonokai#highlight('NormalFloat', s:palette.fg, s:darkestred)
 call sonokai#highlight('FloatBorder', s:palette.grey, s:palette.none)
-call sonokai#highlight('CocFloating', s:palette.yellow, s:palette.none)
+call sonokai#highlight('CocFloating', s:palette.fg, s:palette.none)
 call sonokai#highlight('Question', s:palette.yellow, s:palette.none)
 if s:configuration.spell_foreground ==# 'none'
   call sonokai#highlight('SpellBad', s:palette.none, s:palette.none, 'undercurl', s:palette.red)

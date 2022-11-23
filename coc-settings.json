@@ -26,9 +26,6 @@
       }
     }
   },
-  "explorer.width": 40,
-  "explorer.position": "left",
-  "explorer.icon.enableNerdfont": true,
   "codeLens.enable": true,
   "suggest.enableFloat": true,
   "dialog.maxWidth": 40,

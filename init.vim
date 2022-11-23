@@ -12,8 +12,6 @@ lua require('globals')
 lua require('setup_plugins')
 run macros/justify.vim
 
-colorscheme my_sonokai
-
 command AutowrapOn setlocal fo+=w | setlocal fo+=w
 command AutowrapOff setlocal fo-=a | setlocal fo-=w
 
@@ -53,39 +51,6 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
                         \ "Clean"     : "✔",
                         \ 'Ignored'   : '☒',
                         \ "Unknown"   : "?"}
-
-" Auto commands when starting Vim:
-" open a NERDTree by default (we are nerds, ain't we, otherwise we wouldn't use vim :) )
-" also, change some colors for the tabline (airline extension)
-
-
-" set the highlight color for these white spaces
-highlight WhiteSpace guifg=#206050 ctermfg=48
-
-" filetype related autocmds
-augroup filetypes
-    autocmd!
-    autocmd FileType ada,d,nim,objc,objcpp syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
-augroup end
-
-" this saves a view when a buffer loses focus or the file is written
-" The view contains options, current cursor position and fold state
-augroup folds
-    autocmd!
-    autocmd BufWritePost,BufWinLeave *
-    \   if expand('%') != '' && &buftype !~ 'nofile'
-    \|      mkview
-    \|  endif
-" restore the view on load
-    autocmd BufRead *
-    \   if expand('%') != '' && &buftype !~ 'nofile'
-    \|      silent! loadview
-    \|  endif
-augroup end
-
-" key mappings for folding
-" F2 toggles a fold's state and can additionally be used to create
-" a new fold in manual mode.
 
 " toggle this fold
 inoremap <F2> <C-O>za
@@ -149,23 +114,6 @@ function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-" coc autocomplete stuff
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-
-" Make <CR> to accept selected completion item or notify coc.nvim to format
-" <C-g>u breaks current undo, please make your own choice.
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-inoremap <silent> <C-p> <C-r>=CocActionAsync('showSignatureHelp')<CR>
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call ShowDocumentation()<CR>
 
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')

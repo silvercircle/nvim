@@ -31,3 +31,4 @@ g.NERDTreeMapOpenSplit='$'
 g.NERDTreeFileExtensionHighlightFullName = 1
 g.NERDTreeRespectWildIgnore=1
 
+vim.cmd [[silent! colorscheme my_sonokai]]
