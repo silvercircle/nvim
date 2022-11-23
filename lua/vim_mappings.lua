@@ -4,19 +4,25 @@ local expr = {noremap = true, silent = true, expr = true}
 
 -- Telescope pickers
 -- Ctrl-e -> list of  buffers
-map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{previewer=false, layout_config={height=0.4, width=0.4}}<CR>", opts)
+map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{winblend=20, previewer=false, layout_config={height=0.4, width=0.4}}<CR>", opts)
 -- Ctrl-p -> old files
-map('n', "<C-p>", "<CMD>lua require'telescope.builtin'.oldfiles{previewer=false, layout_config={height=0.4,width=0.4,preview_width=0.4}}<CR>", opts)
+map('n', "<C-p>", "<CMD>lua require'telescope.builtin'.oldfiles{winblend=20, previewer=false, layout_config={height=0.4,width=0.4,preview_width=0.4}}<CR>", opts)
 -- Ctrl-f -> browse files in current working  directory
-map('n', "<leader>f", "<CMD>lua require'telescope.builtin'.find_files{cwd = vim.fn.expand('%:p:h'), layout_config={ width=0.8, preview_width=0.6 } }<CR>", opts)
+map('n', "<leader>f", "<CMD>lua require'telescope.builtin'.find_files{winblend=20, hidden=true, cwd = vim.fn.expand('%:p:h'), layout_config={ width=0.8, preview_width=0.6 } }<CR>", opts)
 -- Alt-c -> command line  history
-map('n', "<A-c>", "<CMD>lua require'telescope.builtin'.command_history{layout_config={width=0.4, height=0.7}}<CR>", opts)
+map('n', "<A-c>", "<CMD>lua require'telescope.builtin'.command_history{winblend=20, layout_config={width=0.4, height=0.7}}<CR>", opts)
+-- Alt-Shift-c -> commands
+map('n', "<A-C>", "<CMD>lua require'telescope.builtin'.commands{winblend=20, layout_config={width=0.6, height=0.7}}<CR>", opts)
+-- Alt-Shift-J -> Jumplist
+map('n', "<C-x><C-j>", "<CMD>lua require'telescope.builtin'.jumplist{layout_config={preview_width=0.4, width=0.6, height=0.7}}<CR>", opts)
 -- Alt-f -> file  browser
-map('n', "<A-f>", "<CMD>lua require('telescope').extensions.file_browser.file_browser{ path=vim.fn.expand('%:p:h'), layout_config={width=0.8, preview_width=0.6 } }<CR>", opts)
+map('n', "<A-f>", "<CMD>lua require('telescope').extensions.file_browser.file_browser{ winblend=20, hidden=true, path=vim.fn.expand('%:p:h'), layout_config={width=0.8, preview_width=0.6 } }<CR>", opts)
 -- Alt-s show spelling suggestions
-map('n', "<A-s>", "<CMD>lua require'telescope.builtin'.spell_suggest{layout_config={height=0.5,width=0.3}}<CR>", opts)
+map('n', "<A-s>", "<CMD>lua require'telescope.builtin'.spell_suggest{layout_config={winblend=20, height=0.5,width=0.3}}<CR>", opts)
 -- telescope-project extension (Alt-p)
-map('n', "<A-p>", "<CMD>lua require'telescope'.extensions.project.project{ display_type='full', layout_config={width=0.5} }<CR>", opts)
+map('n', "<A-p>", "<CMD>lua require'telescope'.extensions.project.project{ winblend=20, display_type='full', layout_config={width=0.5} }<CR>", opts)
+-- telescope-fuzzy-find in buffer
+map('n', "<C-x><C-f>", "<CMD>:lua require'telescope.builtin'.current_buffer_fuzzy_find{ winblend=20, layout_config={width=0.8, preview_width=0.4} }<CR>", opts)
 -- telescpe-bookmarks:
 -- Alt-b -> all bookmarks, Ctrl-b -> current file
 -- bookmarks
@@ -74,14 +80,15 @@ map('i', "<C-f>a", '<c-o>:AFAuto<CR>', opts)
 
 -- Ctrl-s in normal and insert mode: save if modified
 -- Ctrl-q in normal and insert mode: save if modified and close buffer
-map('i', "<C-x><C-q>", '<c-o>:update<CR><c-o>:BD<CR>', opts)
-map('n', "<C-x><C-q>", ':update<CR>:BD<CR>', opts)
+-- Ctrl-x Ctrl-q is deprecated, use Ctrl-s, Ctrl-x-Ctrl-c
+-- map('i', "<C-x><C-q>", '<c-o>:update<CR><c-o>:BD<CR>', opts)
+-- map('n', "<C-x><C-q>", ':update<CR>:BD<CR>', opts)
 map('i', "<C-x><C-s>", '<c-o>:update<CR>', opts)
 map('n', "<C-x><C-s>", ':update<CR>', opts)
 
 map('n', "tsh", ':TSHighlightCapturesUnderCursor<CR>', opts)
-map('n', "<C-x><C-c>", ':BD<CR>', opts)
-map('i', "<C-x><C-c>", '<c-o>:BD<CR>', opts)
+map('n', "<C-x><C-c>", ':BD!<CR>', opts)
+map('i', "<C-x><C-c>", '<c-o>:BD!<CR>', opts)
 
 -- switch off highlighted search results
 map('n', "<C-x><C-h>", ':nohl<CR>', opts)
@@ -93,4 +100,12 @@ map('i', "<C-l>", "<Plug>(coc-snippets-expand)", opts)
 -- various
 map('i', "<C-y>-", "—", opts )
 map('i', "<C-y>\"", "„”", opts)
+
+-- Telekasten mappings
+
+map('n', "<A-z>z", ":lua require('telekasten').panel()<CR>", opts)
+map('n', "<A-z>zf", ":lua require('telekasten').find_notes()<CR>", opts)
+map('n', "<A-z>zd", ":lua require('telekasten').find_daily_notes()<CR>", opts)
+map('n', "<A-z>zg", ":lua require('telekasten').search_notes()<CR>", opts)
+map('n', "<A-z>zz", ":lua require('telekasten').follow_link()<CR>", opts)
 

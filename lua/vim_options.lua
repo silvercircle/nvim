@@ -139,7 +139,7 @@ vim.api.nvim_create_autocmd(
 vim.api.nvim_create_autocmd(
     {'FileType'},
     {
-        pattern = 'tex,markdown,text',
+        pattern = 'tex,markdown,text,telekasten',
         callback = function()
             vim.api.nvim_command("setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nawqt | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
         end,

@@ -23,7 +23,6 @@ return require("packer").startup {
       'BurntSushi/ripgrep',
       'ryanoasis/vim-devicons',
       'nvim-tree/nvim-web-devicons',
-      'windwp/nvim-autopairs',
       'lewis6991/impatient.nvim',
       'sainnhe/sonokai',
       'preservim/nerdtree',
@@ -33,7 +32,13 @@ return require("packer").startup {
       'norcalli/nvim-colorizer.lua',
       'goolord/alpha-nvim',
       'nvim-telescope/telescope-project.nvim',
-      'm-demare/hlargs.nvim'
+      'm-demare/hlargs.nvim',
+      'renerocksai/calendar-vim',
+      'nvim-telescope/telescope-media-files.nvim',
+      'renerocksai/telekasten.nvim',
+    { 'nmac427/guess-indent.nvim', config = function() require('guess-indent').setup {} end },
+    { 'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
+    { 'ZhiyuanLck/smart-pairs', event = 'InsertEnter', config = function() require('pairs'):setup() end }
   }
 }
 
