@@ -20,7 +20,8 @@ Nim support is manually installed via nimlsp.
 
 ## Custom mappings:
 
-|  KEY      |      Mode(s)       | Function |
+|  KEY      |      Mode(s)       | Function                               |
+| --------- | ------------------ | -------------------------------------- |
 |<C-x><C-q> | Normal, Insert     | Save (if modified), close buffer       |
 |<C-x><C-s> | Normal, Insert     | Save (if modified)                     |
 |<C-x><C-c> | Normal, Insert     | Close buffer (will warn when modified) |
