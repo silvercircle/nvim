@@ -83,8 +83,8 @@ map('i', "<C-f>a", '<c-o>:AFAuto<CR>', opts)
 -- Ctrl-x Ctrl-q is deprecated, use Ctrl-s, Ctrl-x-Ctrl-c
 -- map('i', "<C-x><C-q>", '<c-o>:update<CR><c-o>:BD<CR>', opts)
 -- map('n', "<C-x><C-q>", ':update<CR>:BD<CR>', opts)
-map('i', "<C-x><C-s>", '<c-o>:update<CR>', opts)
-map('n', "<C-x><C-s>", ':update<CR>', opts)
+map('i', "<C-x><C-s>", '<c-o>:update!<CR>', opts)
+map('n', "<C-x><C-s>", ':update!<CR>', opts)
 
 map('n', "tsh", ':TSHighlightCapturesUnderCursor<CR>', opts)
 map('n', "<C-x><C-c>", ':BD!<CR>', opts)
