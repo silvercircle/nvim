@@ -45,7 +45,7 @@ return require("packer").startup {
     { 'mg979/vim-visual-multi', branch="master" },
     { 'neoclide/coc.nvim', branch="release" },
       'qpkorr/vim-bufkill',
---      'lervag/vimtex',
+--      'lervag/vimtex',      -- no longer needed with Treesitter
       'alaviss/nim.nvim',
       'gpanders/editorconfig.nvim',
       'nvim-lua/plenary.nvim',
@@ -63,7 +63,7 @@ return require("packer").startup {
       'sainnhe/sonokai',
       'preservim/nerdtree',
       'lewis6991/gitsigns.nvim',
---      'lewis6991/satellite.nvim',
+--      'lewis6991/satellite.nvim',     -- nvim-scrollbar replaces this
       'petertriho/nvim-scrollbar',
       'mtth/scratch.vim',
       'norcalli/nvim-colorizer.lua',
@@ -78,7 +78,7 @@ return require("packer").startup {
       'kevinhwang91/nvim-hlslens',
     { 'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
     { 'windwp/nvim-autopairs', config = function() require("nvim-autopairs").setup({
-          map_cr = false,
+          map_cr = false,   -- mapping <CR> would break the Autocomplete-popup
           map_bs = false
        }) end }
   }

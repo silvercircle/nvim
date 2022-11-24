@@ -332,7 +332,7 @@ require'nvim-web-devicons'.setup {
  -- will get overriden by `get_icons` option
  default = true;
 }
-require'colorizer'.setup()
+--require'colorizer'.setup()
 
 local hlopts = {
   color='#202080'
@@ -653,3 +653,10 @@ require('indent-o-matic').setup {
     skip_multiline = true,
 }
 require('hlslens').setup()
+
+require 'colorizer'.setup {
+  'css';
+  'javascript';
+  'html';
+  'vim';
+}
