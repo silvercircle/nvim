@@ -157,8 +157,6 @@ require('lualine').setup {
   inactive_winbar = {},
   extensions = {}
 }
-require("scrollbar").setup()
-
 require('gitsigns').setup {
   signs = {
     add          = { hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'    },
@@ -336,7 +334,6 @@ require'nvim-web-devicons'.setup {
  default = true;
 }
 require'colorizer'.setup()
-require'alpha'.setup(require'alpha.themes.startify'.config)
 
 local hlopts = {
     color='#202080'
@@ -496,12 +493,12 @@ require('telekasten').setup({
     rename_update_links = true,
 
     vaults = {
-        vault2 = {
-            -- alternate configuration for vault2 here. Missing values are defaulted to
-            -- default values from telekasten.
-            -- e.g.
-            -- home = "/home/user/vaults/personal",
-        },
+      vault2 ={
+          -- alternate configuration for vault2 here. Missing values are defaulted to
+          -- default values from telekasten.
+          -- e.g.
+          -- home = "/home/user/vaults/personal",
+      },
     },
 
     -- how to preview media files
@@ -512,3 +509,48 @@ require('telekasten').setup({
     -- A customizable fallback handler for urls.
     follow_url_fallback = nil,
 })
+
+require("indent_blankline").setup {
+  -- for example, context is off by default, use this to turn it on
+  show_current_context = true,
+  show_current_context_start = false,
+  show_end_of_line = true
+}
+--
+--require("scrollbar").setup()
+--[[
+require('scrollview').setup({
+  excluded_filetypes = {'nerdtree'},
+  current_only = false,
+  scrollview_mode = 'virtual',
+  winblend = 20,
+  base = 'right',
+  column = 1
+})
+--]]
+require'alpha'.setup(require'alpha.themes.startify'.config)
+
+require('satellite').setup {
+  current_only = false,
+  winblend = 20,
+  zindex = 40,
+  excluded_filetypes = {},
+  width = 2,
+  handlers = {
+    search = {
+      enable = true,
+    },
+    diagnostic = {
+      enable = true,
+    },
+    gitsigns = {
+      enable = true,
+    },
+    marks = {
+      enable = true,
+      key = 'm',
+      show_builtins = false, -- shows the builtin marks like [ ] < >
+    },
+  },
+}
+

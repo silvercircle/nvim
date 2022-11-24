@@ -14,7 +14,7 @@ map('n', "<A-c>", "<CMD>lua require'telescope.builtin'.command_history{winblend=
 -- Alt-Shift-c -> commands
 map('n', "<A-C>", "<CMD>lua require'telescope.builtin'.commands{winblend=20, layout_config={width=0.6, height=0.7}}<CR>", opts)
 -- Alt-Shift-J -> Jumplist
-map('n', "<C-x><C-j>", "<CMD>lua require'telescope.builtin'.jumplist{layout_config={preview_width=0.4, width=0.6, height=0.7}}<CR>", opts)
+map('n', "<C-x><C-j>", "<CMD>lua require'telescope.builtin'.jumplist{layout_config={preview_width=0.4, width=0.8, height=0.7}}<CR>", opts)
 -- Alt-f -> file  browser
 map('n', "<A-f>", "<CMD>lua require('telescope').extensions.file_browser.file_browser{ winblend=20, hidden=true, path=vim.fn.expand('%:p:h'), layout_config={width=0.8, preview_width=0.6 } }<CR>", opts)
 -- Alt-s show spelling suggestions

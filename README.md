@@ -22,17 +22,17 @@ Nim support is manually installed via nimlsp.
 
 |  KEY      |      Mode(s)       | Function                               |
 | --------- | ------------------ | -------------------------------------- |
-|<C-x><C-q> | Normal, Insert     | Save (if modified), close buffer       |
-|<C-x><C-s> | Normal, Insert     | Save (if modified)                     |
-|<C-x><C-c> | Normal, Insert     | Close buffer (will warn when modified) |
-|<C-x><C-h> | Normal, Insert     | execute nohl (cancel highlights)       |
-|TSH        | Normal             | Show Treesitter highlight class        |
-|<C-f><C-a> | Insert             | Toggle autowrap (a formatoption)       |
-|<C-f><C-w> | Insert             | Toggle w format option                 |
-|<C-f><C-t> | Insert             | Toggle t format option                 |
-|<C-f>1     | Insert             | autowrap on (+a+w)                     |
-|<C-f>2     | Insert             | Autowrap off (-a-w)                    |
-|<C-f>a     | Insert             | Full autorwrap                         |
-|<C-f>f     | Insert             | Disable all Autowrap modes             |
+|C-x C-q   | Normal, Insert     | Save (if modified), close buffer       |
+|C-x C-s   | Normal, Insert     | Save (if modified)                     |
+|C-x C-c   | Normal, Insert     | Close buffer (will warn when modified) |
+|C-x C-h   | Normal, Insert     | execute nohl (cancel highlights)       |
+|SH        | Normal             | Show Treesitter highlight class        |
+|C-f C-a   | Insert             | Toggle autowrap (a formatoption)       |
+|C-f C-w   | Insert             | Toggle w format option                 |
+|C-f C-t   | Insert             | Toggle t format option                 |
+|C-f 1      | Insert             | autowrap on (+a+w)                     |
+|C-f 2      | Insert             | Autowrap off (-a-w)                    |
+|C-f a      | Insert             | Full autorwrap                         |
+|C-f f      | Insert             | Disable all Autowrap modes             |
 
 

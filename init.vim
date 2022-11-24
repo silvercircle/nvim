@@ -37,7 +37,7 @@ syntax on
 filetype plugin indent on
 
 " show white spaces, but only trailing spaces, newlines and tabs
-set list listchars=tab:·\ ,trail:▪,extends:>,precedes:<,eol:¬
+set list listchars=tab:·\ ,trail:▪,extends:>,precedes:<,eol:↴
 
 " NERDSymbols
 let g:NERDTreeGitStatusIndicatorMapCustom = {
@@ -51,6 +51,7 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
                         \ "Clean"     : "✔",
                         \ 'Ignored'   : '☒',
                         \ "Unknown"   : "?"}
+
 
 " toggle this fold
 inoremap <F2> <C-O>za

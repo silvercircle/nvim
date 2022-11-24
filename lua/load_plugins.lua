@@ -8,7 +8,7 @@ return require("packer").startup {
     { 'mg979/vim-visual-multi', branch="master" },
     { 'neoclide/coc.nvim', branch="release" },
       'qpkorr/vim-bufkill',
-      'lervag/vimtex',
+--      'lervag/vimtex',
       'alaviss/nim.nvim',
       'gpanders/editorconfig.nvim',
       'nvim-lua/plenary.nvim',
@@ -27,18 +27,24 @@ return require("packer").startup {
       'sainnhe/sonokai',
       'preservim/nerdtree',
       'lewis6991/gitsigns.nvim',
-      'petertriho/nvim-scrollbar',
+--     'petertriho/nvim-scrollbar',
+--      'dstein64/nvim-scrollview',
+      'lewis6991/satellite.nvim',
       'mtth/scratch.vim',
       'norcalli/nvim-colorizer.lua',
-      'goolord/alpha-nvim',
       'nvim-telescope/telescope-project.nvim',
       'm-demare/hlargs.nvim',
       'renerocksai/calendar-vim',
+      'goolord/alpha-nvim',
       'nvim-telescope/telescope-media-files.nvim',
       'renerocksai/telekasten.nvim',
+      'lukas-reineke/indent-blankline.nvim',
     { 'nmac427/guess-indent.nvim', config = function() require('guess-indent').setup {} end },
     { 'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
-    { 'ZhiyuanLck/smart-pairs', event = 'InsertEnter', config = function() require('pairs'):setup() end }
+    { 'windwp/nvim-autopairs', config = function() require("nvim-autopairs").setup({
+          map_cr = false,
+          map_bs = false
+       }) end }
   }
 }
 

@@ -37,6 +37,7 @@ endif
 " }}}
 " Common Highlight Groups: {{{
 " UI: {{{
+call sonokai#highlight('ScrollView', s:teal, s:darkred)
 if s:configuration.transparent_background >= 1
   call sonokai#highlight('Normal', s:palette.fg, s:bg)
   call sonokai#highlight('Terminal', s:palette.fg, s:palette.none)
@@ -98,7 +99,7 @@ call sonokai#highlight('ModeMsg', s:palette.fg, s:palette.none, 'bold')
 call sonokai#highlight('MoreMsg', s:palette.blue, s:palette.none, 'bold')
 call sonokai#highlight('MatchParen', s:palette.yellow, s:palette.bg4)
 call sonokai#highlight('NonText', s:palette.bg4, s:palette.none)
-call sonokai#highlight('Whitespace', s:palette.bg4, s:palette.none)
+call sonokai#highlight('Whitespace', s:palette.green, s:palette.none)
 call sonokai#highlight('SpecialKey', s:palette.bg4, s:palette.none)
 call sonokai#highlight('Pmenu', s:palette.fg, s:palette.none)
 call sonokai#highlight('PmenuSbar', s:palette.none, s:palette.bg2)
