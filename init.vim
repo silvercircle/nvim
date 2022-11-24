@@ -30,6 +30,7 @@ map <C-c> <NOP>
 
 lua require('vim_mappings')
 
+set guifont=Hack\ NFM:h10:#e-subpixelantialias:#h-full
 
 " enable plugin-based filetyp identification, syntax highlighting
 filetype off
@@ -52,7 +53,7 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
                         \ 'Ignored'   : '☒',
                         \ "Unknown"   : "?"}
 
-
+" mappings for folding {{{
 " toggle this fold
 inoremap <F2> <C-O>za
 nnoremap <F2> za
@@ -93,7 +94,8 @@ nnoremap <A-Left> <c-w><Left>
 nnoremap <A-Right> <c-w><Right>
 nnoremap <A-Down> <c-w><Down>
 nnoremap <A-Up> <c-w><Up>
-
+" }}}
+  
 " close window (split)
 nnoremap <A-w> :close<CR>
 " fast quit
@@ -124,6 +126,27 @@ function! ShowDocumentation()
   endif
 endfunction
 
+" set the highlight color for these white spaces
+highlight WhiteSpace guifg=#206050 ctermfg=48
+" filetype related autocmds
+augroup filetypes
+    autocmd!
+    autocmd FileType ada,d,nim,objc,objcpp syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
+    autocmd FileType tex let b:coc_pairs = {[["$", "$"]]}
+augroup end
+
+augroup folds
+    autocmd!
+    autocmd BufWinLeave *
+    \   if expand('%') != '' && &buftype !~ 'nofile'
+    \|      mkview!
+    \|  endif
+" restore the view on load
+    autocmd BufRead *
+    \   if expand('%') != '' && &buftype !~ 'nofile'
+    \|      silent! loadview
+    \|  endif
+augroup end
 " latex:wq
 
 " This is for adding fortune cookies. User will be prompted for a section
@@ -157,14 +180,13 @@ endfunction
 command Fixq call Fixflowed()
 
 if exists("g:neovide")
-    set guifont=Hack\ NFM:h10:#e-subpixelantialias:#h-full
     let g:neovide_remember_window_size = v:true
     let g:neovide_fullscreen = v:false
     let g:neovide_scroll_animation_length = 0.3
     let g:neovide_cursor_vfx_mode = "railgun"
     let g:neovide_transparency = 1
-    let g:neovide_floating_blur_amount_x = 2.0
-    let g:neovide_floating_blur_amount_y = 2.0
+    let g:neovide_floating_blur_amount_x = 0
+    let g:neovide_floating_blur_amount_y = 0
     hi Normal guibg=#10141E
     " system clipboard support - support Ctrl-V, Ctrl-V etc in all modes,
     " including the command line.
@@ -190,7 +212,7 @@ hi visual guifg=#202080 guibg=#dddd00
 " always show the column for icons and signs
 
 
-" terminal stuff
+" terminal stuff {{{
 
 let g:term_buf = 0
 let g:term_win = 0
@@ -216,6 +238,7 @@ function! TermToggle(height)
     endif
 endfunction
 
+" }}}
 " Alt-t toggles the term in a 12 row split below
 nnoremap <A-t> :call TermToggle(12)<CR>
 inoremap <A-t> <Esc>:call TermToggle(12)<CR>
@@ -227,4 +250,3 @@ tnoremap <Esc> <C-\><C-n>
 if exists('g:loaded_webdevicons')
     call webdevicons#refresh()
 endif
-

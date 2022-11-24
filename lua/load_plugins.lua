@@ -23,13 +23,11 @@ return require("packer").startup {
       'BurntSushi/ripgrep',
       'ryanoasis/vim-devicons',
       'nvim-tree/nvim-web-devicons',
-      'lewis6991/impatient.nvim',
       'sainnhe/sonokai',
       'preservim/nerdtree',
       'lewis6991/gitsigns.nvim',
---     'petertriho/nvim-scrollbar',
---      'dstein64/nvim-scrollview',
-      'lewis6991/satellite.nvim',
+--      'lewis6991/satellite.nvim',
+      'petertriho/nvim-scrollbar',
       'mtth/scratch.vim',
       'norcalli/nvim-colorizer.lua',
       'nvim-telescope/telescope-project.nvim',
@@ -39,7 +37,8 @@ return require("packer").startup {
       'nvim-telescope/telescope-media-files.nvim',
       'renerocksai/telekasten.nvim',
       'lukas-reineke/indent-blankline.nvim',
-    { 'nmac427/guess-indent.nvim', config = function() require('guess-indent').setup {} end },
+      'Darazaki/indent-o-matic',
+      'kevinhwang91/nvim-hlslens',
     { 'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
     { 'windwp/nvim-autopairs', config = function() require("nvim-autopairs").setup({
           map_cr = false,
@@ -47,4 +46,3 @@ return require("packer").startup {
        }) end }
   }
 }
-

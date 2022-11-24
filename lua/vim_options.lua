@@ -6,7 +6,7 @@ o.shada = "'500,<50,s10,h,f1,%20"
 o.termguicolors = true
 o.background = "dark"
 o.cursorline = true
-o.sessionoptions="folds,buffers"
+o.sessionoptions="buffers"
 o.wildmenu = true
 o.wildoptions:append('pum')
 o.wildmode = "list:longest,full"
@@ -57,7 +57,7 @@ o.numberwidth = 5
 o.foldcolumn = '5'
 o.foldmethod = 'indent'
 o.foldlevelstart = 20
-o.viewoptions = 'folds,cursor,curdir'
+o.viewoptions = 'folds,cursor,options'
 -- no ~ at blank lines
 o.fillchars = {eob = ' '}
 o.completeopt='menuone,noinsert'
@@ -76,17 +76,17 @@ local agroup_files = vim.api.nvim_create_augroup("files", {})
 
 -- open a 20 lines terminal at the bottom on enter
 vim.api.nvim_create_autocmd(
-    { 'vimenter' },
-    {
-        pattern = '*',
-        callback = function()
-            local no_term = os.getenv('NVIM_NO_TERM')
-            if no_term == nil or no_term ~= 'yes'  then
-                vim.api.nvim_command('call TermToggle(12) | wincmd p')
-            end
-        end,
-        group = agroup_enter
-    }
+  { 'vimenter' },
+  {
+    pattern = '*',
+    callback = function()
+      local no_term = os.getenv('NVIM_NO_TERM')
+      if no_term == nil or no_term ~= 'yes'  then
+        vim.api.nvim_command('call TermToggle(12) | wincmd p')
+      end
+    end,
+    group = agroup_enter
+  }
 )
 -- show the nerd tree unless environment variable forbid it
 vim.api.nvim_create_autocmd(
@@ -166,29 +166,5 @@ vim.cmd([[
 
     " Use K to show documentation in preview window.
     nnoremap <silent> K :call ShowDocumentation()<CR>
-]])
-
-vim.cmd([[
-    " set the highlight color for these white spaces
-    highlight WhiteSpace guifg=#206050 ctermfg=48
-
-    " filetype related autocmds
-    augroup filetypes
-        autocmd!
-        autocmd FileType ada,d,nim,objc,objcpp syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
-    augroup end
-
-    augroup folds
-        autocmd!
-        autocmd BufWritePost,BufWinLeave *
-        \   if expand('%') != '' && &buftype !~ 'nofile'
-        \|      mkview
-        \|  endif
-    " restore the view on load
-        autocmd BufRead *
-        \   if expand('%') != '' && &buftype !~ 'nofile'
-        \|      silent! loadview
-        \|  endif
-    augroup end
 ]])
 
