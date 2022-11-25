@@ -21,7 +21,7 @@
           },
           "diagnostics": {
             "globals": [ "vim" ]
-          }  
+          }
         }
       }
     }
@@ -29,18 +29,20 @@
   "codeLens.enable": true,
   "suggest.enableFloat": true,
   "dialog.maxWidth": 40,
+  "dialog.rounded": true,
   "suggest.formatItems": [
     "abbr",
     "menu",
     "kind",
     "shortcut"
   ],
+  "suggest.virtualText": true,
   "suggest.detailField": "abbr",
   "suggest.noselect": false,
   "suggest.enablePreselect": true,
   "suggest.floatConfig": {
     "border": true,
-    "winblend": 20,
+    "winblend": 19,
     "borderhighlight": "FloatBorder",
     "highlight": "NormalFloat"
   },
@@ -76,5 +78,7 @@
   "codeLens.position": "eol",
   "inlayHint.enable": false,
   "outline.checkBufferSwitch": true,
-  "snippets.ultisnips.pythonPrompt": false
+  "snippets.ultisnips.pythonPrompt": false,
+  "coc.preferences.enableMessageDialog": true,
+
 }

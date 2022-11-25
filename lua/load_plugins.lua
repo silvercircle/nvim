@@ -37,6 +37,7 @@ return require("packer").startup {
       'nvim-telescope/telescope-media-files.nvim',
       'renerocksai/telekasten.nvim',
       'lukas-reineke/indent-blankline.nvim',
+      'fannheyward/telescope-coc.nvim',
 --      'Darazaki/indent-o-matic',
       'kevinhwang91/nvim-hlslens',
     { 'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },

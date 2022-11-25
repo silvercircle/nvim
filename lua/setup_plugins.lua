@@ -93,7 +93,6 @@ require'telescope'.setup {
           width=0.5,
           height=0.5
         },
-        theme = 'ivy',
         prefer_locations = true, -- always use Telescope locations to preview definitions/declarations/implementations etc
     }
   }
@@ -106,6 +105,7 @@ require('telescope').load_extension("vim_bookmarks")
 require('telescope').load_extension('project')
 require('telescope').load_extension('media_files')
 require('telescope').load_extension('fzf')
+require('telescope').load_extension('coc')
 
 
 require('lualine').setup {
@@ -605,8 +605,8 @@ require("scrollbar").setup({
         },
     },
     excluded_buftypes = {
-        "terminal",
-        "nofile"
+        "terminal"
+--        "nofile"
     },
     excluded_filetypes = {
         "prompt",

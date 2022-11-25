@@ -32,22 +32,6 @@ map('n', "<C-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.curren
 -- nerdtree
 map('n', "<leader>r", "<CMD>NERDTreeFind <Bar> wincmd p<CR>", opts)
 
--- coc code navigation
-map('n', "gd", '<Plug>(coc-definition)', { silent = true, noremap = false })
-map('n', "gy", '<Plug>(coc-type-definition)', { silent = true, noremap = false })
-map('n', "gi", '<Plug>(coc-implementation)', { silent = true, noremap = false })
-map('n', "gr", '<Plug>(coc-references)', { silent = true, noremap = false })
-
---More COC Bindings
---Use `[g` and `]g` to navigate diagnostics
---Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-
-map('n', "[g", '<Plug>(coc-diagnostic-prev)', { silent = true, noremap = false })
-map('n', "]g", '<Plug>(coc-diagnostic-next)', { silent = true, noremap = false })
-
--- coc: autocomplete on ctrl-space
-map('i', "<c-space>", 'coc#refresh()', expr)
-
 map('n', "<leader>.", '<CMD>CocOutline<CR>', opts)
 map('n', "<leader>-", '<CMD>Minimap<CR>', opts)
 map('n', "<leader>,", '<CMD>NERDTreeToggle<CR>', opts)

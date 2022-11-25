@@ -497,8 +497,8 @@ endif
 " }}}
 " neoclide/coc.nvim {{{
 call sonokai#highlight('CocHoverRange', s:palette.none, s:palette.none, 'bold,underline')
-call sonokai#highlight('CocSearch', s:palette.green, s:palette.none, 'bold')
-call sonokai#highlight('CocPumSearch', s:palette.green, s:palette.none, 'bold')
+call sonokai#highlight('CocSearch', s:blue, s:palette.none, 'bold')
+call sonokai#highlight('CocPumSearch', s:blue, s:palette.none, 'bold')
 call sonokai#highlight('CocMarkdownHeader', s:palette.blue, s:palette.none, 'bold')
 call sonokai#highlight('CocMarkdownLink', s:palette.green, s:palette.none, 'underline')
 highlight! link CocMarkdownCode Green

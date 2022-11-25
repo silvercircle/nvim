@@ -84,5 +84,3 @@ return require("packer").startup {
   }
 }
 ```
-
-TBC

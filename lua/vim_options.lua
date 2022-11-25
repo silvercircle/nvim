@@ -150,20 +150,32 @@ vim.api.nvim_create_autocmd(
 -- execute some vimscript not yet ported
 
 vim.cmd([[
-    " coc mappings for auto-complete etc."
     inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#pum#visible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ CheckBackspace() ? "\<TAB>" :
       \ coc#refresh()
-    inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-
+    " coc mappings for auto-complete etc."
+    
+    let g:coc_snippet_next = '<tab>'
+    
     " Make <CR> to accept selected completion item or notify coc.nvim to format
     " <C-g>u breaks current undo, please make your own choice.
     inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
     inoremap <silent> <C-p> <C-r>=CocActionAsync('showSignatureHelp')<CR>
-
+    inoremap <silent><expr> <c-space> coc#refresh()
     " Use K to show documentation in preview window.
     nnoremap <silent> K :call ShowDocumentation()<CR>
+
+    " Highlight the symbol and its references when holding the cursor.
+    autocmd CursorHold * silent call CocActionAsync('highlight')
+
+    " Symbol renaming.
+    nmap <leader>rn <Plug>(coc-rename)
+
+    " Formatting selected code.
+    xmap <leader>f  <Plug>(coc-format-selected)
+    nmap <leader>f  <Plug>(coc-format-selected)
 ]])

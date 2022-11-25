@@ -3,6 +3,8 @@
 " This REQUIRES Neovim version 0.8.0 or later. Might work with earlier
 " versions, but this has not been tested or verified.
 
+let $NVIM_COC_LOG_LEVEL='off'
+
 lua require('impatient_bootstrap')
 lua require('impatient')
 lua require('load_plugins')
@@ -132,7 +134,7 @@ highlight WhiteSpace guifg=#206050 ctermfg=48
 augroup filetypes
     autocmd!
     autocmd FileType ada,d,nim,objc,objcpp syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
-    autocmd FileType vim,nim,python,markdown,tex,lua setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab
+    autocmd FileType vim,nim,python,markdown,tex,lua,json,html,css setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab
 augroup end
 
 augroup folds
@@ -210,7 +212,6 @@ hi VertSplit guibg=#30343e guifg=#808080
 hi visual guifg=#202080 guibg=#dddd00
 
 " always show the column for icons and signs
-
 
 " terminal stuff {{{
 
