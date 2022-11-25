@@ -177,6 +177,9 @@ vim.cmd([[
     nmap <leader>rn <Plug>(coc-rename)
 
     " Formatting selected code.
-    xmap <leader>f  <Plug>(coc-format-selected)
-    nmap <leader>f  <Plug>(coc-format-selected)
+    xmap F  <Plug>(coc-format-selected)
+    nmap F  <Plug>(coc-format-selected)
+    
+    command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
 ]])
