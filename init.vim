@@ -140,7 +140,7 @@ augroup end
 augroup folds
     autocmd!
     autocmd BufWinLeave *
-    \   if expand('%') != '' && &buftype !~ 'nofile'
+    \   if expand('%') != '' && &buftype !~ 'nofile' && &buftype !~ 'terminal'
     \|      mkview!
     \|  endif
 " restore the view on load

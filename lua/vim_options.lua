@@ -55,7 +55,8 @@ o.formatprg = 'par'
 o.number = true
 o.numberwidth = 5
 o.foldcolumn = '5'
-o.foldmethod = 'indent'
+o.foldmethod = 'expr'
+o.foldexpr="nvim_treesitter#foldexpr()"
 o.foldlevelstart = 20
 o.viewoptions = 'folds,cursor'
 -- no ~ at blank lines
