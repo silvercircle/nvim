@@ -17,7 +17,7 @@ return require("packer").startup {
       'tom-anders/telescope-vim-bookmarks.nvim',
       'MattesGroeger/vim-bookmarks',
       'nvim-treesitter/nvim-treesitter',
---      'nvim-treesitter/playground',
+      'nvim-treesitter/playground',
       'p00f/nvim-ts-rainbow',
       'sharkdp/fd',
       'BurntSushi/ripgrep',

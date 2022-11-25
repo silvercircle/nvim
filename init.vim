@@ -11,6 +11,35 @@ lua require('load_plugins')
 
 lua require('vim_options')
 lua require('globals')
+
+if exists("g:neovide")
+    set guifont=Hack\ NFM:h10:#e-subpixelantialias:#h-full
+    let g:neovide_remember_window_size = v:true
+    let g:neovide_fullscreen = v:false
+    let g:neovide_scroll_animation_length = 0.3
+    let g:neovide_cursor_vfx_mode = "railgun"
+    let g:neovide_transparency = 1
+    let g:neovide_floating_blur_amount_x = 0
+    let g:neovide_floating_blur_amount_y = 0
+    hi Normal guibg=#10141E
+    " system clipboard support - support Ctrl-V, Ctrl-V etc in all modes,
+    " including the command line.
+
+    nnoremap <C-v> "+p
+    inoremap <S-Insert> "+p
+    nnoremap <S-Insert> "+p
+    inoremap <c-v> <c-r>+
+    inoremap <S-Insert> <c-r>+
+    cnoremap <c-v> <c-r>+
+    let g:NERDTreeWinSize=40
+else
+    if $NVIM_NERD_WIDTH != ''
+        let g:NERDTreeWinSize=$NVIM_NERD_WIDTH
+    else
+        let g:NERDTreeWinSize=40
+    endif
+endif
+
 lua require('setup_plugins')
 run macros/justify.vim
 
@@ -31,8 +60,6 @@ map <C-f> <NOP>
 map <C-c> <NOP>
 
 lua require('vim_mappings')
-
-set guifont=Hack\ NFM:h10:#e-subpixelantialias:#h-full
 
 " enable plugin-based filetyp identification, syntax highlighting
 filetype off
@@ -180,33 +207,6 @@ function! Fixflowed()
 endfunction
 
 command Fixq call Fixflowed()
-
-if exists("g:neovide")
-    let g:neovide_remember_window_size = v:true
-    let g:neovide_fullscreen = v:false
-    let g:neovide_scroll_animation_length = 0.3
-    let g:neovide_cursor_vfx_mode = "railgun"
-    let g:neovide_transparency = 1
-    let g:neovide_floating_blur_amount_x = 0
-    let g:neovide_floating_blur_amount_y = 0
-    hi Normal guibg=#10141E
-    " system clipboard support - support Ctrl-V, Ctrl-V etc in all modes,
-    " including the command line.
-
-    nnoremap <C-v> "+p
-    inoremap <S-Insert> "+p
-    nnoremap <S-Insert> "+p
-    inoremap <c-v> <c-r>+
-    inoremap <S-Insert> <c-r>+
-    cnoremap <c-v> <c-r>+
-    let g:NERDTreeWinSize=40
-else
-    if $NVIM_NERD_WIDTH != ''
-        let g:NERDTreeWinSize=$NVIM_NERD_WIDTH
-    else
-        let g:NERDTreeWinSize=40
-    endif
-endif
 
 hi VertSplit guibg=#30343e guifg=#808080
 hi visual guifg=#202080 guibg=#dddd00
