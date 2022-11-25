@@ -17,7 +17,7 @@ return require("packer").startup {
       'tom-anders/telescope-vim-bookmarks.nvim',
       'MattesGroeger/vim-bookmarks',
       'nvim-treesitter/nvim-treesitter',
-      'nvim-treesitter/playground',
+--      'nvim-treesitter/playground',
       'p00f/nvim-ts-rainbow',
       'sharkdp/fd',
       'BurntSushi/ripgrep',
@@ -37,7 +37,7 @@ return require("packer").startup {
       'nvim-telescope/telescope-media-files.nvim',
       'renerocksai/telekasten.nvim',
       'lukas-reineke/indent-blankline.nvim',
-      'Darazaki/indent-o-matic',
+--      'Darazaki/indent-o-matic',
       'kevinhwang91/nvim-hlslens',
     { 'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
     { 'windwp/nvim-autopairs', config = function() require("nvim-autopairs").setup({

@@ -132,7 +132,7 @@ highlight WhiteSpace guifg=#206050 ctermfg=48
 augroup filetypes
     autocmd!
     autocmd FileType ada,d,nim,objc,objcpp syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
-    autocmd FileType tex let b:coc_pairs = {[["$", "$"]]}
+    autocmd FileType vim,nim,python,markdown,tex,lua setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab
 augroup end
 
 augroup folds

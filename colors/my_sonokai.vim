@@ -37,7 +37,7 @@ endif
 " }}}
 " Common Highlight Groups: {{{
 " UI: {{{
-call sonokai#highlight('ScrollView', s:teal, s:darkred)
+call sonokai#highlight('ScrollView', s:teal, s:blue)
 if s:configuration.transparent_background >= 1
   call sonokai#highlight('Normal', s:palette.fg, s:bg)
   call sonokai#highlight('Terminal', s:palette.fg, s:palette.none)

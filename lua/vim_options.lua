@@ -57,7 +57,7 @@ o.numberwidth = 5
 o.foldcolumn = '5'
 o.foldmethod = 'indent'
 o.foldlevelstart = 20
-o.viewoptions = 'folds,cursor,options'
+o.viewoptions = 'folds,cursor'
 -- no ~ at blank lines
 o.fillchars = {eob = ' '}
 o.completeopt='menuone,noinsert'
@@ -167,4 +167,3 @@ vim.cmd([[
     " Use K to show documentation in preview window.
     nnoremap <silent> K :call ShowDocumentation()<CR>
 ]])
-

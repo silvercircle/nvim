@@ -640,6 +640,7 @@ require("scrollbar").setup({
     },
 })
 
+--[[
 require('indent-o-matic').setup {
     -- The values indicated here are the defaults
 
@@ -652,6 +653,7 @@ require('indent-o-matic').setup {
     -- Skip multi-line comments and strings (more accurate detection but less performant)
     skip_multiline = true,
 }
+--]]
 require('hlslens').setup()
 
 require 'colorizer'.setup {
