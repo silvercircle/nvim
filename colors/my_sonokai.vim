@@ -20,6 +20,7 @@ let s:purple = ['#c030c0', 241]
 let s:darkred = ['#601010', 249]
 let s:darkestred = ['#1a1010', 249]
 let s:darkestblue = ['#10101a', 247]
+let s:string = ['#30a03f', 231]
 let s:bg = ['#181822', 0]
 
 if !(exists('g:colors_name') && g:colors_name ==# 'my_sonokai' && s:configuration.better_performance)
@@ -238,7 +239,7 @@ call sonokai#highlight('Label', s:palette.purple, s:palette.none)
 call sonokai#highlight('Special', s:palette.purple, s:palette.none)
 call sonokai#highlight('SpecialChar', s:palette.purple, s:palette.none)
 call sonokai#highlight('Boolean', s:palette.purple, s:palette.none)
-call sonokai#highlight('String', s:palette.green, s:palette.none)
+call sonokai#highlight('String', s:string, s:palette.none)
 call sonokai#highlight('Character', s:palette.yellow, s:palette.none)
 call sonokai#highlight('Number', s:palette.purple, s:palette.none, 'bold')
 call sonokai#highlight('Float', s:palette.purple, s:palette.none)
@@ -401,7 +402,7 @@ highlight! link TSConditional BlueBold
 highlight! link TSConstBuiltin OrangeItalic
 highlight! link TSConstMacro OrangeItalic
 highlight! link TSConstant OrangeItalic
-highlight! link TSConstructor Green
+highlight! link TSConstructor Yellow
 highlight! link TSException Red
 highlight! link TSField Orange
 highlight! link TSFloat Purple
@@ -426,9 +427,9 @@ highlight! link TSPunctDelimiter RedBold
 highlight! link TSPunctSpecial RedBold
 highlight! link TSRepeat BlueBold
 highlight! link TSStorageClass Purple
-highlight! link TSString Green
+highlight! link TSString String
 highlight! link TSStringEscape Green
-highlight! link TSStringRegex Green
+highlight! link TSStringRegex String
 highlight! link TSSymbol Fg
 highlight! link TSTag BlueItalic
 highlight! link TSTagDelimiter RedBold

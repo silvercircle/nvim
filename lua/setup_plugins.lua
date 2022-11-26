@@ -249,6 +249,7 @@ require("nvim-treesitter.configs").setup({
         show_help = '?',
       },
   },
+  --[[
   rainbow = {
     enable = true,
       colors = {
@@ -276,6 +277,7 @@ require("nvim-treesitter.configs").setup({
     -- colors = {}, -- table of hex strings
     -- termcolors = {} -- table of colour name strings
   },
+  --]]
   highlight = { enable = true },
   indent = { enable = true },
   autotag = {

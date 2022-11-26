@@ -179,7 +179,9 @@ vim.cmd([[
     " Formatting selected code.
     xmap F  <Plug>(coc-format-selected)
     nmap F  <Plug>(coc-format-selected)
-    
-    command! -nargs=0 Prettier :CocCommand prettier.formatFile
+  
+    nnoremap cd :call CocActionAsync('jumpDefinition')<CR>
+    nnoremap ci :call CocActionAsync('jumpImplementation')<CR>
 
+    command! -nargs=0 Prettier :CocCommand prettier.formatFile
 ]])
