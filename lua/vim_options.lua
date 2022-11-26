@@ -180,8 +180,8 @@ vim.cmd([[
     xmap F  <Plug>(coc-format-selected)
     nmap F  <Plug>(coc-format-selected)
   
-    nnoremap cd :call CocActionAsync('jumpDefinition')<CR>
-    nnoremap ci :call CocActionAsync('jumpImplementation')<CR>
+    nnoremap <silent> cd :call CocActionAsync('jumpDefinition')<CR>
+    nnoremap <silent> ci :call CocActionAsync('jumpImplementation')<CR>
 
     command! -nargs=0 Prettier :CocCommand prettier.formatFile
 ]])

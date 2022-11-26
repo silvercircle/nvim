@@ -573,18 +573,18 @@ require("scrollbar").setup({
             highlight = "GitSignsAdd",
         },
         GitChange = {
-            text = "┆",
-            priority = 7,
-            color = nil,
-            cterm = nil,
-            highlight = "GitSignsChange",
+          text = "┆",
+          priority = 7,
+          color = nil,
+          cterm = nil,
+          highlight = "GitSignsChange",
         },
         GitDelete = {
-            text = "▁",
-            priority = 7,
-            color = nil,
-            cterm = nil,
-            highlight = "GitSignsDelete",
+          text = "▁",
+          priority = 7,
+          color = nil,
+          cterm = nil,
+          highlight = "GitSignsDelete",
         },
     },
     excluded_buftypes = {
@@ -645,3 +645,17 @@ require 'colorizer'.setup {
   'html';
   'vim';
 }
+
+
+require("noice").setup({
+  messages = {
+    -- NOTE: If you enable messages, then the cmdline is enabled automatically.
+    -- This is a current Neovim limitation.
+    enabled = true, -- enables the Noice messages UI
+    view = "notify", -- default view for messages
+    view_error = "mini", -- view for errors
+    view_warn = "notify", -- view for warnings
+    view_history = "mini", -- view for :messages
+    view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
+  }
+})

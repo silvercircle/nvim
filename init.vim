@@ -161,7 +161,7 @@ highlight WhiteSpace guifg=#206050 ctermfg=48
 augroup filetypes
     autocmd!
     autocmd FileType ada,d,nim,objc,objcpp syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
-    autocmd FileType vim,nim,python,markdown,tex,lua,json,html,css setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab
+    autocmd FileType vim,nim,python,markdown,tex,lua,json,html,css,dart,go setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab
 augroup end
 
 augroup folds
@@ -241,9 +241,9 @@ endfunction
 
 " }}}
 " Alt-t toggles the term in a 12 row split below
-nnoremap <A-t> :call TermToggle(12)<CR>
-inoremap <A-t> <Esc>:call TermToggle(12)<CR>
-tnoremap <A-t> <C-\><C-n>:call TermToggle(12)<CR>
+nnoremap <silent> <A-t> :call TermToggle(12)<CR>
+inoremap <silent> <A-t> <Esc>:call TermToggle(12)<CR>
+tnoremap <silent> <A-t> <C-\><C-n>:call TermToggle(12)<CR>
 " remap <ESC> to escape terminal mode
 tnoremap <Esc> <C-\><C-n>
 
