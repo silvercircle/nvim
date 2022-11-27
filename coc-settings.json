@@ -42,7 +42,7 @@
   "suggest.enablePreselect": true,
   "suggest.floatConfig": {
     "border": true,
-    "winblend": 19,
+    "winblend": 10,
     "borderhighlight": "FloatBorder",
     "highlight": "NormalFloat"
   },

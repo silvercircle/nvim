@@ -202,35 +202,9 @@ require('gitsigns').setup {
 
 -- use("williamboman/nvim-lsp-installer")
 require("nvim-treesitter.configs").setup({
-  ensure_installed = {
-    "bash",
-    "c",
-    "cpp",
-    "css",
-    "c_sharp",
-    "cmake",
-    "elixir",
-    "fish",
-    "graphql",
-    "go",
-    "html",
-    "java",
-    "javascript",
-    "json",
-    "lua",
-    "php",
-    "python",
-    "regex",
-    "ruby",
-    "rust",
-    "scss",
-    "sql",
-    "toml",
-    "tsx",
-    "typescript",
-    "vim",
-    "yaml",
-  },
+  additional_vim_regex_highlighting = false,
+  auto_install = false,
+  ensure_installed = { 'c', 'cpp', 'lua', 'vim' },
   playground = {
       enable = true,
       disable = {},
@@ -249,35 +223,6 @@ require("nvim-treesitter.configs").setup({
         show_help = '?',
       },
   },
-  --[[
-  rainbow = {
-    enable = true,
-      colors = {
-        "#cc241d",
-        "#cc241d",
-        "#cc241d",
-        "#cc241d",
-        "#cc241d",
-        "#d65d0e",
-        "#cc241d",
-      },
-      termcolors = {
-        "Red",
-        "Red",
-        "Red",
-        "Red",
-        "Magenta",
-        "Red",
-        "Red",
-      },
-
-    -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
-    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-    max_file_lines = 50000, -- Do not enable for files with more than n lines, int
-    -- colors = {}, -- table of hex strings
-    -- termcolors = {} -- table of colour name strings
-  },
-  --]]
   highlight = { enable = true },
   indent = { enable = true },
   autotag = {
@@ -646,16 +591,73 @@ require 'colorizer'.setup {
   'vim';
 }
 
-
 require("noice").setup({
   messages = {
     -- NOTE: If you enable messages, then the cmdline is enabled automatically.
     -- This is a current Neovim limitation.
     enabled = true, -- enables the Noice messages UI
-    view = "notify", -- default view for messages
-    view_error = "mini", -- view for errors
+    view = "cmdline", -- default view for messages
+    view_error = "notify", -- view for errors
     view_warn = "notify", -- view for warnings
-    view_history = "mini", -- view for :messages
+    view_history = "cmdline", -- view for :messages
     view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
+  },
+  views = {
+    notify = {
+      merge = true
+    },
+    cmdline_popup = {
+      position = {
+        row = 20,
+        col = "50%",
+      },
+      size = {
+        width = 80,
+        height = "auto",
+      },
+    },
+    popupmenu = {
+      relative = "editor",
+      position = {
+        row = 23,
+        col = "50%",
+      },
+      size = {
+        width = 80,
+        height = 10,
+      },
+      border = {
+        style = "rounded",
+        padding = { 0, 1 },
+      },
+      win_options = {
+        winhighlight = { Normal = "Normal", FloatBorder = "FloatBorder" },
+      },
+    },
+    cmdline = {
+      timeout = 5000,
+      backend = "popup",
+      relative = "editor",
+      position = {
+        row = "100%",
+        col = "50%",
+      },
+      size = {
+        height = "auto",
+        width = "auto",
+      },
+      border = {
+        style = "single",
+        padding = { 0, 1 },
+      },
+      win_options = {
+        winhighlight = {
+          Normal = "NormalFloat",
+          FloatBorder = "NormalFloat",
+          IncSearch = "",
+          Search = "",
+        }
+      }
+    }
   }
 })

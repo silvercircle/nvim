@@ -127,25 +127,25 @@ vim.api.nvim_create_autocmd(
 )
 
 vim.api.nvim_create_autocmd(
-    {'FileType'},
-    {
-        pattern = 'python,nim,vim',
-        callback = function()
-            vim.api.nvim_command("setlocal shiftwidth=2 | setlocal tabstop=2 | setlocal softtabstop=2 | setlocal expandtab | setlocal fo-=t")
-        end,
-        group = agroup_files
-    }
+  {'FileType'},
+  {
+      pattern = 'python,nim,vim',
+      callback = function()
+          vim.api.nvim_command("setlocal shiftwidth=2 | setlocal tabstop=2 | setlocal softtabstop=2 | setlocal expandtab | setlocal fo-=t")
+      end,
+      group = agroup_files
+  }
 )
 
 vim.api.nvim_create_autocmd(
-    {'FileType'},
-    {
-        pattern = 'tex,markdown,text,telekasten',
-        callback = function()
-            vim.api.nvim_command("setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nawqt | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
-        end,
-        group = agroup_files
-    }
+  {'FileType'},
+  {
+      pattern = 'tex,markdown,text,telekasten',
+      callback = function()
+          vim.api.nvim_command("setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nawqt | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
+      end,
+      group = agroup_files
+  }
 )
 
 -- execute some vimscript not yet ported
