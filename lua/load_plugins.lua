@@ -18,7 +18,7 @@ return require("packer").startup {
       'nvim-treesitter/nvim-treesitter',
       'nvim-treesitter/playground',
       'MunifTanjim/nui.nvim',
-      'rcarriga/nvim-notify',
+--      'rcarriga/nvim-notify',
       'folke/noice.nvim',
       'sharkdp/fd',
       'BurntSushi/ripgrep',
@@ -41,9 +41,6 @@ return require("packer").startup {
 --      'Darazaki/indent-o-matic',
       'kevinhwang91/nvim-hlslens',
     { 'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
-    { 'windwp/nvim-autopairs', config = function() require("nvim-autopairs").setup({
-          map_cr = false,
-          map_bs = false
-       }) end }
+    { 'windwp/nvim-autopairs' }
   }
 }

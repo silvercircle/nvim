@@ -71,16 +71,17 @@ set list listchars=tab:·\ ,trail:▪,extends:>,precedes:<,eol:↴
 
 " NERDSymbols
 let g:NERDTreeGitStatusIndicatorMapCustom = {
-                        \ "Modified"  : "✹",
-                        \ "Staged"    : "✚",
-                        \ "Untracked" : "✭",
-                        \ "Renamed"   : "➜",
-                        \ "Unmerged"  : "═",
-                        \ "Deleted"   : "✖",
-                        \ "Dirty"     : "✗",
-                        \ "Clean"     : "✔",
-                        \ 'Ignored'   : '☒',
-                        \ "Unknown"   : "?"}
+  \ "Modified"  : "✹",
+  \ "Staged"    : "✚",
+  \ "Untracked" : "✭",
+  \ "Renamed"   : "➜",
+  \ "Unmerged"  : "═",
+  \ "Deleted"   : "✖",
+  \ "Dirty"     : "✗",
+  \ "Clean"     : "✔",
+  \ 'Ignored'   : '☒',
+  \ "Unknown"   : "?"
+}
 
 " mappings for folding {{{
 " toggle this fold
@@ -132,16 +133,13 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " a key mapping for the kwbd macro to close a buffer
 command C Kwbd
 
-" set highlight color for braces and simple operators (see above)
-hi Braces guifg='#ff2020'
-" cursors and cursor line
-hi CursorLine guibg='#303050'
-
 function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+" This is mapped to K and shows the LSP documentation for the smbol under
+" cursor
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
     call CocActionAsync('doHover')
@@ -150,8 +148,6 @@ function! ShowDocumentation()
   endif
 endfunction
 
-" set the highlight color for these white spaces
-highlight WhiteSpace guifg=#206050 ctermfg=48
 " filetype related autocmds
 augroup filetypes
   autocmd!
@@ -172,7 +168,6 @@ augroup folds
     \|      silent! loadview
     \|  endif
 augroup end
-" latex:wq
 
 " This is for adding fortune cookies. User will be prompted for a section
 " (multiple sections can be entered separated with spaces) and the fortune

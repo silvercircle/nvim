@@ -1,12 +1,3 @@
--- packer.nvim example
--- local install_path = vim.fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
-
--- vim.api.nvim_command 'packadd packer.nvim'
-
-require('editorconfig').properties.foo = function(bufnr, val)
-  vim.b[bufnr].foo = val
-end
-
 --[[
 --count words in either the entire document or the current visual mode
 --selection. This is for a custom lualine section (see below)
@@ -107,8 +98,7 @@ require('telescope').load_extension('media_files')
 require('telescope').load_extension('fzf')
 require('telescope').load_extension('coc')
 
-
-require('lualine').setup {
+require('lualine').setup({
   options = {
     icons_enabled = true,
     theme = 'my_powerline',
@@ -155,7 +145,8 @@ require('lualine').setup {
   winbar = {},
   inactive_winbar = {},
   extensions = {}
-}
+})
+
 require('gitsigns').setup {
   signs = {
     add          = { hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'    },
@@ -204,7 +195,7 @@ require('gitsigns').setup {
 require("nvim-treesitter.configs").setup({
   additional_vim_regex_highlighting = false,
   auto_install = false,
-  ensure_installed = { 'c', 'cpp', 'lua', 'vim' },
+  ensure_installed = { 'c', 'cpp', 'lua', 'vim', 'python', 'rust' },
   playground = {
       enable = true,
       disable = {},
@@ -226,7 +217,7 @@ require("nvim-treesitter.configs").setup({
   highlight = { enable = true },
   indent = { enable = true },
   autotag = {
-  enable = true,
+    enable = false,
     filetypes = {
       "html",
       "javascript",
@@ -543,20 +534,6 @@ require("scrollbar").setup({
     },
 })
 
---[[
-require('indent-o-matic').setup {
-    -- The values indicated here are the defaults
-
-    -- Number of lines without indentation before giving up (use -1 for infinite)
-    max_lines = 2048,
-
-    -- Space indentations that should be detected
-    standard_widths = { 2, 4, 8 },
-
-    -- Skip multi-line comments and strings (more accurate detection but less performant)
-    skip_multiline = true,
-}
---]]
 require('hlslens').setup()
 
 require 'colorizer'.setup {
@@ -564,8 +541,8 @@ require 'colorizer'.setup {
   'javascript';
   'html';
   'vim';
+  'lua';
 }
-
 
 require("noice").setup({
   cmdline = {
@@ -621,6 +598,9 @@ require("noice").setup({
         winhighlight = { Normal = "Normal", FloatBorder = "FloatBorder" },
       },
     },
+    mini = {
+      timeout = 4000
+    },
     cmdline = {
       timeout = 5000,
       close = {
@@ -652,6 +632,8 @@ require("noice").setup({
   }
 })
 
---require('hlargs').setup {
---  color = '#8080ef'
---}
+require('nvim-autopairs').setup({
+  -- this is necessary to avoid breaking the Coc-autosuggest popup
+  map_cr = false,
+  map_bs = false
+})
