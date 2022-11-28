@@ -2,6 +2,16 @@
 --count words in either the entire document or the current visual mode
 --selection. This is for a custom lualine section (see below)
 --]]
+
+local modes = {
+  ['n'] = 'NOR',
+  ['i'] = 'INS',
+  ['v'] = 'VCR',
+  ['V'] = 'VLN',
+  ['R'] = 'REP',
+  ['c'] = 'INS'
+}
+
 local function getWordsV2()
     local wc = vim.api.nvim_eval("wordcount()")
     if wc["visual_words"] then    -- text is selected in visual mode
@@ -9,6 +19,15 @@ local function getWordsV2()
     else                          -- all of the document
         return wc["words"] .. ' Words'
     end
+end
+
+local function getModeShort()
+  local mode = vim.fn.mode()
+--  return mode
+  if modes[mode] == nil then
+    return 'VBL'
+  end
+  return modes[mode]
 end
 
 -- local telescope_actions = require("telescope.actions.set")
@@ -94,9 +113,10 @@ require'telescope'.setup {
 require("telescope").load_extension("file_browser")
 require('telescope').load_extension("vim_bookmarks")
 require('telescope').load_extension('project')
-require('telescope').load_extension('media_files')
-require('telescope').load_extension('fzf')
-require('telescope').load_extension('coc')
+--require('telescope').load_extension('media_files')
+--require('telescope').load_extension('fzf')
+--require('telescope').load_extension('coc')
+
 
 require('lualine').setup({
   options = {
@@ -119,12 +139,12 @@ require('lualine').setup({
     }
   },
   sections = {
-    lualine_a = {'mode', 'o:formatoptions'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_a = { { getModeShort } },
+    lualine_b = { 'o:formatoptions', 'branch', 'diff', 'diagnostics'},
     lualine_c = {'filename'},
     lualine_x = {'encoding', 'fileformat', 'filetype'},
-    lualine_y = {'progress'},
-    lualine_z = {{ getWordsV2 },'location'}
+    lualine_y = {'progress', { getWordsV2 },'location'},
+    lualine_z = {}
   },
   inactive_sections = {
     lualine_a = {},
@@ -409,7 +429,7 @@ require("indent_blankline").setup {
   show_current_context = true,
   show_current_context_start = false,
   show_end_of_line = true,
-  show_foldtext = false
+  show_foldtext = false,
 }
 
 require'alpha'.setup(require'alpha.themes.startify'.config)
@@ -635,8 +655,8 @@ require("noice").setup({
   }
 })
 
-require('nvim-autopairs').setup({
-  -- this is necessary to avoid breaking the Coc-autosuggest popup
-  map_cr = false,
-  map_bs = false
-})
+--require('nvim-autopairs').setup({
+--  -- this is necessary to avoid breaking the Coc-autosuggest popup
+--  map_cr = false,
+--  map_bs = false
+--}

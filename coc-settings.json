@@ -36,13 +36,13 @@
     "kind",
     "shortcut"
   ],
-  "suggest.virtualText": true,  
+  "suggest.virtualText": true,
   "suggest.detailField": "abbr",
   "suggest.noselect": false,
-  "suggest.enablePreselect": true,
+  "suggest.enablePreselect": false,
   "suggest.floatConfig": {
     "border": true,
-    "winblend": 10,
+    "winblend": 0,
     "borderhighlight": "FloatBorder",
     "highlight": "NormalFloat"
   },

@@ -29,9 +29,9 @@ return {
     c = { fg = Colors.gray7, bg = Colors.gray2 },
   },
   insert = {
-    a = { fg = Colors.white, bg = Colors.brightred, gui = 'bold' },
+    a = { fg = Colors.darkestgreen, bg = Colors.brightgreen, gui = 'bold' },
     b = { fg = Colors.gray10, bg = Colors.gray5 },
-    c = { fg = Colors.mediumcyan, bg = Colors.darkred },
+    c = { fg = Colors.gray7, bg = Colors.gray2 },
   },
   visual = { a = { fg = Colors.darkred, bg = Colors.brightorange, gui = 'bold' } },
   replace = { a = { fg = Colors.white, bg = Colors.brightred, gui = 'bold' } },
