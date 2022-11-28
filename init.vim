@@ -125,11 +125,6 @@ nnoremap <A-Down> <c-w><Down>
 nnoremap <A-Up> <c-w><Up>
 " }}}
   
-" close window (split)
-nnoremap <A-w> :close<CR>
-" fast quit
-nnoremap <A-q> :qa!<CR>
-
 " don't let the nerd tree take over the last frame. Close vim when nothing but
 " the nerd tree is left.
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -159,9 +154,10 @@ endfunction
 highlight WhiteSpace guifg=#206050 ctermfg=48
 " filetype related autocmds
 augroup filetypes
-    autocmd!
-    autocmd FileType ada,d,nim,objc,objcpp syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
-    autocmd FileType vim,nim,python,markdown,tex,lua,json,html,css,dart,go setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab
+  autocmd!
+  autocmd FileType ada,d,nim,objc,objcpp syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
+  autocmd FileType vim,nim,python,markdown,tex,lua,json,html,css,dart,go setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab
+  autocmd FileType noice silent! setlocal signcolumn=0 | silent!  setlocal foldcolumn=0 | silent! setlocal! nonumber
 augroup end
 
 augroup folds
@@ -213,8 +209,6 @@ hi visual guifg=#202080 guibg=#dddd00
 
 " always show the column for icons and signs
 
-" terminal stuff {{{
-
 let g:term_buf = 0
 let g:term_win = 0
 function! TermToggle(height)
@@ -233,19 +227,13 @@ function! TermToggle(height)
             set foldcolumn=0
             set signcolumn=yes
             set nocursorline
+            set winfixheight
         endtry
         startinsert!
         let g:term_win = win_getid()
     endif
 endfunction
 
-" }}}
-" Alt-t toggles the term in a 12 row split below
-nnoremap <silent> <A-t> :call TermToggle(12)<CR>
-inoremap <silent> <A-t> <Esc>:call TermToggle(12)<CR>
-tnoremap <silent> <A-t> <C-\><C-n>:call TermToggle(12)<CR>
-" remap <ESC> to escape terminal mode
-tnoremap <Esc> <C-\><C-n>
 
 " after a re-source, fix syntax matching issues (concealing brackets):
 if exists('g:loaded_webdevicons')

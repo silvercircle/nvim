@@ -1,6 +1,5 @@
 local map = vim.api.nvim_set_keymap
 local opts = {noremap = true, silent = true}
-local expr = {noremap = true, silent = true, expr = true}
 
 -- Telescope pickers
 -- Ctrl-e -> list of  buffers
@@ -47,7 +46,7 @@ map('n', "<Leader>bx", '<Plug>BookmarkClearAll', { silent = true, noremap = fals
 map('n', "<Leader>bu", '<Plug>BookmarkMoveUp', { silent = true, noremap = false })
 map('n', "<Leader>bb", '<Plug>BookmarkMoveDown', { silent = true, noremap = false })
 map('n', "<Leader>bm", '<Plug>BookmarkMoveToLine', { silent = true, noremap = false })
-map('n', '<C-Tab>', ':bnext<CR>', opts)
+map('n', '<C-Tab>', ':tabnext<CR>', opts)
 
 -- map some keys for formatting functions
 -- the functions are defined in the init.vim
@@ -82,11 +81,17 @@ map('i', "<C-x><C-h>", '<c-o>:nohl<CR>', opts)
 map('i', "<C-l>", "<Plug>(coc-snippets-expand)", opts)
 
 -- various
-map('i', "<C-y>-", "—", opts )
-map('i', "<C-y>\"", "„”", opts)
+map('i', "<C-y>-", "—", opts )              -- emdash
+map('i', "<C-y>\"", "„”", opts)             -- double quotes
+
+map('n', "<A-q>", ":qa!<CR>", opts)         -- close and quit all
+map('n', "<A-w>", ":close<CR>", opts)       -- close window
+
+-- Terminal plugin (open 12-line bottom split with terminal)
+map('n', "<A-t>", ":call TermToggle(12)<CR>", opts)
+map('t', "<Esc>", "<C-\\><C-n>", opts)                -- ESC allows to leave terminal split
 
 -- Telekasten mappings
-
 map('n', "<A-z>z", ":lua require('telekasten').panel()<CR>", opts)
 map('n', "<A-z>zf", ":lua require('telekasten').find_notes()<CR>", opts)
 map('n', "<A-z>zd", ":lua require('telekasten').find_daily_notes()<CR>", opts)
@@ -106,3 +111,5 @@ vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], 
 vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
 vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
 vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+
+-- EOF

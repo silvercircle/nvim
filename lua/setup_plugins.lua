@@ -260,32 +260,6 @@ require'nvim-web-devicons'.setup {
  -- will get overriden by `get_icons` option
  default = true;
 }
---require'colorizer'.setup()
-
-local hlopts = {
-  color='#202080'
-}
-require("hlargs").setup {
-  color = "#9488fa",
-  use_colorpalette = false,
-  colorpalette = {
-    { fg = "#ef9062" },
-    { fg = "#3AC6BE" },
-    { fg = "#35D27F" },
-    { fg = "#EB75D6" },
-    { fg = "#E5D180" },
-    { fg = "#8997F5" },
-    { fg = "#D49DA5" },
-    { fg = "#7FEC35" },
-    { fg = "#F6B223" },
-    { fg = "#F67C1B" },
-    { fg = "#DE9A4E" },
-    { fg = "#BBEA87" },
-    { fg = "#EEF06D" },
-    { fg = "#8FB272" },
-  },
-  -- excluded_filetypes = { "lua", "rust", "typescript", "typescriptreact", "javascript", "javascriptreact" },
-}
 
 local home = vim.fn.expand("~/OneDrive/zettelkasten")
 -- NOTE for Windows users:
@@ -441,7 +415,8 @@ require("indent_blankline").setup {
   -- for example, context is off by default, use this to turn it on
   show_current_context = true,
   show_current_context_start = false,
-  show_end_of_line = true
+  show_end_of_line = true,
+  show_foldtext = false
 }
 
 require'alpha'.setup(require'alpha.themes.startify'.config)
@@ -591,7 +566,11 @@ require 'colorizer'.setup {
   'vim';
 }
 
+
 require("noice").setup({
+  cmdline = {
+    enabled = true,
+  },
   messages = {
     -- NOTE: If you enable messages, then the cmdline is enabled automatically.
     -- This is a current Neovim limitation.
@@ -599,12 +578,20 @@ require("noice").setup({
     view = "cmdline", -- default view for messages
     view_error = "notify", -- view for errors
     view_warn = "notify", -- view for warnings
-    view_history = "cmdline", -- view for :messages
+    view_history = "messages", -- view for :messages
     view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
   },
   views = {
     notify = {
-      merge = true
+      opts = { merge = true, animate = false },
+    },
+    popup = {
+      size = { height = "auto", width="80%" }
+    },
+    messages = {
+      position = "right",
+      size = { width = "50%", height = "auto"},
+
     },
     cmdline_popup = {
       position = {
@@ -612,7 +599,7 @@ require("noice").setup({
         col = "50%",
       },
       size = {
-        width = 80,
+        width = "auto",
         height = "auto",
       },
     },
@@ -636,6 +623,9 @@ require("noice").setup({
     },
     cmdline = {
       timeout = 5000,
+      close = {
+        keys = { "q" },
+      },
       backend = "popup",
       relative = "editor",
       position = {
@@ -644,10 +634,10 @@ require("noice").setup({
       },
       size = {
         height = "auto",
-        width = "auto",
+        width = "100%",
       },
       border = {
-        style = "single",
+        style = "none",
         padding = { 0, 1 },
       },
       win_options = {
@@ -661,3 +651,7 @@ require("noice").setup({
     }
   }
 })
+
+--require('hlargs').setup {
+--  color = '#8080ef'
+--}

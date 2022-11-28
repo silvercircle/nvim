@@ -13,10 +13,12 @@ o.wildmode = "list:longest,full"
 o.ttyfast = true
 -- no scrollbar on the left side. Ever. Because it's stupid :)
 o.virtualedit = 'all'
+o.equalalways = false
 o.guicursor:append{'i:block-iCursor'}
 o.autoindent = true
 o.copyindent = true
 o.shiftwidth=4
+o.helpheight=45
 o.backspace = 'indent,eol,start'
 o.tabstop = 4
 o.textwidth = 76

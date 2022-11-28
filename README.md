@@ -1,24 +1,44 @@
 # My Neovim Config
 
+This repo contains my personal Neovim configuration. There are two branches: **main** is my primary setup 
+using CoC and the branch **lsp** is a somewhat experimental setup for the native LSP client. Both use a 
+fair amount of other plugins like lualine, Treesitter and noice.
 
 ## Coc
 I still use coc for LSP support and all the fancy features like auto-complete, code navigation and other 
 things. The following extensions are installed using the **CocInstall** command
 
-*  @yaegassy/coc-pylsp Current version 0.7.1 is up to date.
-*  coc-json Current version 1.7.0 is up to date.
-*  coc-clangd Current version 0.27.0 is up to date.
-*  coc-texlab Current version 3.2.0 is up to date.
-*  coc-dictionary Current version 1.2.2 is up to date.
-*  coc-snippets Current version 3.1.5 is up to date.
-*  coc-css Current version 2.0.0 is up to date.
-*  coc-dlang Current version 1.1.2 is up to date.
-*  coc-yaml Current version 1.9.0 is up to date.
-*  coc-html Current version is up to date
+- ✓ coc-json Current version 1.7.0 is up to date.
+- ✓ coc-clangd Current version 0.27.0 is up to date.
+- ✓ coc-texlab Current version 3.2.0 is up to date.
+- ✓ coc-dictionary Current version 1.2.2 is up to date.
+- ✓ coc-snippets Current version 3.1.5 is up to date.
+- ✓ coc-css Current version 2.0.0 is up to date.
+- ✓ coc-dlang Current version 1.1.2 is up to date.
+- ✓ coc-yaml Current version 1.9.0 is up to date.
+- ✓ coc-html Current version 1.8.0 is up to date.
+- ✓ coc-rust-analyzer Current version 0.69.6 is up to date.
+- ✓ coc-lists Current version 1.4.6 is up to date.
+- ✓ coc-prettier Current version 9.3.1 is up to date.
+- ✓ coc-pyright Current version 1.1.280 is up to date.
+- ✓ coc-flutter Current version 1.9.9 is up to date.      
 
-Nim support is manually installed via nimlsp.
+Nim support is manually installed via nimlsp in coc-settings.json.
+
+```json
+  languageserver: {
+    "nim": {
+      "command": "nimlsp",
+      "filetypes": ["nim"],
+      "trace.server": "verbose"
+    },
+    [...]
+  }
+```
 
 ## Custom mappings:
+
+Note: this list is incomplete, because I'm still experimenting with keyboard setups.
 
 |  KEY      |      Mode(s)       | Function                               |
 | --------- | ------------------ | -------------------------------------- |
@@ -45,7 +65,6 @@ return require("packer").startup {
     { 'mg979/vim-visual-multi', branch="master" },
     { 'neoclide/coc.nvim', branch="release" },
       'qpkorr/vim-bufkill',
---      'lervag/vimtex',      -- no longer needed with Treesitter
       'alaviss/nim.nvim',
       'gpanders/editorconfig.nvim',
       'nvim-lua/plenary.nvim',
@@ -55,7 +74,9 @@ return require("packer").startup {
       'MattesGroeger/vim-bookmarks',
       'nvim-treesitter/nvim-treesitter',
       'nvim-treesitter/playground',
-      'p00f/nvim-ts-rainbow',
+      'MunifTanjim/nui.nvim',
+      'rcarriga/nvim-notify',
+      'folke/noice.nvim',
       'sharkdp/fd',
       'BurntSushi/ripgrep',
       'ryanoasis/vim-devicons',
@@ -63,7 +84,6 @@ return require("packer").startup {
       'sainnhe/sonokai',
       'preservim/nerdtree',
       'lewis6991/gitsigns.nvim',
---      'lewis6991/satellite.nvim',     -- nvim-scrollbar replaces this
       'petertriho/nvim-scrollbar',
       'mtth/scratch.vim',
       'norcalli/nvim-colorizer.lua',
@@ -74,11 +94,11 @@ return require("packer").startup {
       'nvim-telescope/telescope-media-files.nvim',
       'renerocksai/telekasten.nvim',
       'lukas-reineke/indent-blankline.nvim',
-      'Darazaki/indent-o-matic',
+      'fannheyward/telescope-coc.nvim',
       'kevinhwang91/nvim-hlslens',
     { 'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
     { 'windwp/nvim-autopairs', config = function() require("nvim-autopairs").setup({
-          map_cr = false,   -- mapping <CR> would break the Autocomplete-popup
+          map_cr = false,
           map_bs = false
        }) end }
   }

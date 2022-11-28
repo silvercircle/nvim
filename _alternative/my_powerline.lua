@@ -31,7 +31,7 @@ return {
   insert = {
     a = { fg = Colors.white, bg = Colors.brightred, gui = 'bold' },
     b = { fg = Colors.gray10, bg = Colors.gray5 },
-    c = { fg = Colors.mediumcyan, bg = Colors.darkestblue },
+    c = { fg = Colors.mediumcyan, bg = Colors.darkred },
   },
   visual = { a = { fg = Colors.darkred, bg = Colors.brightorange, gui = 'bold' } },
   replace = { a = { fg = Colors.white, bg = Colors.brightred, gui = 'bold' } },
@@ -39,5 +39,5 @@ return {
     a = { fg = Colors.gray1, bg = Colors.gray5, gui = 'bold' },
     b = { fg = Colors.gray1, bg = Colors.gray5 },
     c = { bg = Colors.gray1, fg = Colors.gray5 },
-  },
+  }
 }
