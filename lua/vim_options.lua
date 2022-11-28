@@ -59,7 +59,8 @@ o.numberwidth = 5
 o.foldcolumn = '5'
 o.foldmethod = 'expr'
 o.foldexpr="nvim_treesitter#foldexpr()"
-o.foldlevelstart = 20
+o.foldlevelstart = 99
+o.foldnestmax=5
 o.viewoptions = 'folds,cursor'
 -- no ~ at blank lines
 o.fillchars = {eob = ' '}

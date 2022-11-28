@@ -80,8 +80,7 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
   \ "Dirty"     : "✗",
   \ "Clean"     : "✔",
   \ 'Ignored'   : '☒',
-  \ "Unknown"   : "?"
-}
+  \ "Unknown"   : "?"}
 
 " mappings for folding {{{
 " toggle this fold

@@ -36,7 +36,7 @@
     "kind",
     "shortcut"
   ],
-  "suggest.virtualText": true,
+  "suggest.virtualText": true,  
   "suggest.detailField": "abbr",
   "suggest.noselect": false,
   "suggest.enablePreselect": true,

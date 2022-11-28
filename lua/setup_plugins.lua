@@ -193,7 +193,6 @@ require('gitsigns').setup {
 
 -- use("williamboman/nvim-lsp-installer")
 require("nvim-treesitter.configs").setup({
-  additional_vim_regex_highlighting = false,
   auto_install = false,
   ensure_installed = { 'c', 'cpp', 'lua', 'vim', 'python', 'rust' },
   playground = {
@@ -214,7 +213,10 @@ require("nvim-treesitter.configs").setup({
         show_help = '?',
       },
   },
-  highlight = { enable = true },
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false
+  },
   indent = { enable = true },
   autotag = {
     enable = false,
@@ -566,8 +568,9 @@ require("noice").setup({
       size = { height = "auto", width="80%" }
     },
     messages = {
-      position = "right",
-      size = { width = "50%", height = "auto"},
+      position = "top",
+      relativ = "editor",
+      size = { width = "auto", height = "auto", max_height="30%" },
 
     },
     cmdline_popup = {
