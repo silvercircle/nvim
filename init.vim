@@ -81,20 +81,6 @@ endif
 " show white spaces, but only trailing spaces, newlines and tabs
 set list listchars=tab:·\ ,trail:▪,extends:>,precedes:<,eol:↴
 
-" NERDSymbols
-let g:NERDTreeGitStatusIndicatorMapCustom = {
-  \ "Modified"  : "✹",
-  \ "Staged"    : "✚",
-  \ "Untracked" : "✭",
-  \ "Renamed"   : "➜",
-  \ "Unmerged"  : "═",
-  \ "Deleted"   : "✖",
-  \ "Dirty"     : "✗",
-  \ "Clean"     : "✔",
-  \ 'Ignored'   : '☒',
-  \ "Unknown"   : "?"}
-
-" mappings for folding {{{
 " toggle this fold
 inoremap <F2> <C-O>za
 nnoremap <F2> za
@@ -135,19 +121,9 @@ nnoremap <A-Left> <c-w><Left>
 nnoremap <A-Right> <c-w><Right>
 nnoremap <A-Down> <c-w><Down>
 nnoremap <A-Up> <c-w><Up>
-" }}}
 
-" don't let the nerd tree take over the last frame. Close vim when nothing but
-" the nerd tree is left.
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" Don't allow NerdTree to be replaced
 " a key mapping for the kwbd macro to close a buffer
 command C Kwbd
-
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
 
 " filetype related autocmds
 augroup filetypes
@@ -172,7 +148,6 @@ augroup folds
     \|      silent! loadview
     \|  endif
 augroup end
-" latex:wq
 
 " This is for adding fortune cookies. User will be prompted for a section
 " (multiple sections can be entered separated with spaces) and the fortune
@@ -243,8 +218,3 @@ inoremap <A-t> <Esc>:call TermToggle(12)<CR>
 tnoremap <A-t> <C-\><C-n>:call TermToggle(12)<CR>
 " remap <ESC> to escape terminal mode
 tnoremap <Esc> <C-\><C-n>
-
-" after a re-source, fix syntax matching issues (concealing brackets):
-if exists('g:loaded_webdevicons')
-    call webdevicons#refresh()
-endif

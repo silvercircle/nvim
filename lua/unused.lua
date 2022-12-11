@@ -295,3 +295,27 @@ do
   augroup END
   ]])
 end
+
+-- this is for the lsp_signature plugin
+-- (https://github.com/ray-x/lsp_signature.nvim)
+-- it must be called from the on_attach handler
+local on_attach_lsp_signature = function(client, bufnr)
+  -- https://github.com/ray-x/lsp_signature.nvim#full-configuration-with-default-values
+  lsp_signature.on_attach({
+    bind = true, -- This is mandatory, otherwise border config won't get registered.
+    floating_window = false,
+    handler_opts = {
+      border = "single",
+    },
+    hint_enable = false,
+    floating_window_above_cur_line = true,
+    zindex = 99, -- <100 so that it does not hide completion popup.
+    fix_pos = false, -- Let signature window change its position when needed, see GH-53
+    toggle_key = "<C-p>", -- Press <Ctrl-p> to toggle signature on and off.
+    wrap = true,
+    floating_window_off_y = -2,
+    always_trigger = false,
+    max_height = 15,
+    max_width = 120,
+  })
+end

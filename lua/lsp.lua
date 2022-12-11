@@ -1,13 +1,8 @@
 -- set up lspconfig, lsp-installer, null-ls and cmp
 require("mason").setup()
 require("mason-lspconfig").setup()
---require("nvim-lsp-installer").setup({
---  ensure_installed = { "tsserver", "pyright", "clangd", "sumneko_lua",
---    "dartls", "rust_analyzer", "cssls", "vimls", "html", "gopls" },
---})
 local lspconfig = require("lspconfig")
 local util = require('lspconfig.util')
-local lsp_signature = require("lsp_signature")
 require("neodev").setup({ })
 
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -15,31 +10,10 @@ local cmp_nvim_lsp = require("cmp_nvim_lsp")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
-local on_attach_lsp_signature = function(client, bufnr)
-  -- https://github.com/ray-x/lsp_signature.nvim#full-configuration-with-default-values
-  lsp_signature.on_attach({
-    bind = true, -- This is mandatory, otherwise border config won't get registered.
-    floating_window = false,
-    handler_opts = {
-      border = "single",
-    },
-    hint_enable = false,
-    floating_window_above_cur_line = true,
-    zindex = 99, -- <100 so that it does not hide completion popup.
-    fix_pos = false, -- Let signature window change its position when needed, see GH-53
-    toggle_key = "<C-p>", -- Press <Ctrl-p> to toggle signature on and off.
-    wrap = true,
-    floating_window_off_y = -2,
-    always_trigger = false,
-    max_height = 15,
-    max_width = 120,
-  })
-end
-
 -- Customize LSP behavior via on_attach
 local on_attach = function(client, bufnr)
   -- Activate LSP signature on attach.
-  on_attach_lsp_signature(client, bufnr)
+  -- on_attach_lsp_signature(client, bufnr)
 
   -- Disable specific LSP capabilities: see nvim-lspconfig#1891
   if client.name == "sumneko_lua" and client.server_capabilities then
@@ -60,17 +34,6 @@ lspconfig.html.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.phpactor.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.gopls.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.vimls.setup({ on_attach = on_attach, capabilities = capabilities })
---lspconfig.csharp_ls.setup(
---  {
---    capabilities = capabilities,
---    on_attach = on_attach,
---    root_dir = util.root_pattern('*.sln', '*.csproj', '*.fsproj', '.git'),
---    filetypes = { 'cs' },
---    init_options = {
---      AutomaticWorkspaceInit = true
---    }
---  }
---)
 lspconfig.omnisharp.setup({ on_attach = on_attach,
   capabilities = capabilities,
   enable_editorconfig_support = true,
@@ -155,10 +118,20 @@ do
   local lsp_handlers_hover = vim.lsp.with(vim.lsp.handlers.hover, {
     border = "single",
   })
+
   vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
     local bufnr, winnr = lsp_handlers_hover(err, result, ctx, config)
     return bufnr, winnr
   end
+--  vim.lsp.handlers["textDocument/signatureHelp"] = function(err, result, ctx, config)
+--    local bufnr, winnr = lsp_handlers_hover(err, result, ctx, config)
+--    return bufnr, winnr
+--  end
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+    vim.lsp.handlers.signature_help, {
+      border = "single",
+      focusable = false
+    })
 end
 
 

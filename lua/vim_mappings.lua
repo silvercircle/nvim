@@ -114,7 +114,7 @@ map('n', "GR", ":Glance references<CR>", opts)        -- show references
 -- Telescope LSP code navigation and diagnostics
 map('n', "TD", ":lua require'telescope.builtin'.lsp_definitions{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
 map('n', "TR", ":lua require'telescope.builtin'.lsp_references{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
-map('n', "TS", ":lua require'telescope.builtin'.lsp_document_symbols{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
+map('n', "TS", ":lua require'telescope.builtin'.lsp_ocument_symbols{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
 map('n', "TW", ":lua require'telescope.builtin'.lsp_workspace_symbols{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
 map('n', "TI", ":lua require'telescope.builtin'.lsp_implementations{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
 map('n', "TW", ":lua require'telescope.builtin'.diagnostics{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
@@ -146,3 +146,5 @@ vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]]
 
 vim.keymap.set({ "s" }, "<C-i>", function() require'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
 vim.keymap.set({ "s" }, "<S-Tab>", function() require'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
+
+map('i', "<C-p>", "<CMD>:lua vim.lsp.buf.signature_help()<CR>", opts)

@@ -26,7 +26,6 @@ return require("packer").startup({
     "neovim/nvim-lspconfig",
     "silvercircle/symbols-outline.nvim",
     "dnlhc/glance.nvim",
-    "ray-x/lsp_signature.nvim",
     "j-hui/fidget.nvim",
     "onsails/lspkind-nvim",
     "alaviss/nim.nvim",
