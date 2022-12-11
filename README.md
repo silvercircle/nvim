@@ -1,29 +1,42 @@
 # My Neovim Config
 
-This is my growing and constantly changing configuration directory for Neovim. It basically contains two 
-branches:
+This is my growing and constantly changing configuration directory for Neovim. The repository contains 
+two branches with different setups.
 
-* The *main* branch. This is a bleeding edge setup using native LSP, CMP (for autocompletion), NeoTree 
+* The `main` branch. This is a bleeding edge setup using native LSP, CMP (for autocompletion), NeoTree 
   (as NERDTree replacement), luasnip and Glance.
 
-* The *coc* branch. This is somewhat more traditional, using NERDTree and CoC for code assistance. It is 
-  relatively stable but a bit outdated and not 
+* The `coc` branch. This is somewhat more traditional, using NERDTree and CoC for code assistance and 
+  snippet handling. It is  relatively stable but a bit outdated and depends heavily on NodeJS and NPM (due to Coc).
 
-Both branches use lots of Telescope stuff.
+Both branches use lots of Telescope stuff and Tree-Sitter for syntax highlighting. **The minimum required 
+Neovim version is 0.8**.
 
-You can switch by checking out either main or coc, but since the plugin configuration is vastly 
+You can switch by checking out either `main` or `coc`, but since the plugin configuration is vastly 
 different, a **PackerSync** is required after switching branches. I use only packer for plugin setup, so 
-it will keep your ~/.local/share/nvim/site directory clean and remove unused plugins. The first start 
+it will keep your `~/.local/share/nvim/site` directory tidied up and remove unused plugins. The first start 
 after switching the config branch will throw a lot of errors, but after syncing all plugins, all should 
 be fine again.
 
 ## LSP Config (main branch)
 
-This is my (experimental) LSP configuration for Neovim. It is built around:
+This is my (experimental) LSP configuration for Neovim. It should be considered a fast moving target and 
+plugin configuration might change. This configuration is built around:
 
-* native Neovim LSP together with [mason](https://github.com/williamboman/mason.nvim), [lspconfig](https://github.com/neovim/nvim-lspconfig),
+* Native Neovim LSP together with [mason](https://github.com/williamboman/mason.nvim), [lspconfig](https://github.com/neovim/nvim-lspconfig),
   [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim) and 
-  [lsp-signature](https://github.com/ray-x/lsp_signature.nvim).
+  [lsp-signature](https://github.com/ray-x/lsp_signature.nvim). These plugins provide all the LSP support 
+  and allow for easy setup of language servers. The configuration has presets for the following 
+  languages:
+  * Lua (sumneko_lua LSP)
+  * Python (pyright)
+  * C/C++  (clangd)
+  * Rust   (rust_analyzer)
+  * Dart   (dartls)
+  * Nim    (nimlsp)
+  * JS     (tsserver)
+  * CSS    (cssls)
+  * LaTeX  (texlab)
 * [CMP](https://github.com/hrsh7th/nvim-cmp) for auto-completion with various sources (lsp, dictionaries, snippets)
 * [Telescope](https://github.com/nvim-telescope/telescope.nvim) for all kind of cool stuff. Pick recent files, select open buffer, find files, LSP 
   references, diagnostics and more. Telescope is one of the absolute must-have plugins for Neovim, IMHO.
@@ -47,7 +60,7 @@ Nim support is manually installed via nimlsp.
 Lots of, actually. Please see lua/vim_mappings.lua for details. These are only custom mappings on top of 
 already existing plugin keymaps.
 
-## Theme
+## Color Theme
 
 It is a customized variant of the [Sonokai theme](https://github.com/sainnhe/sonokai).
 
