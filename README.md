@@ -29,12 +29,16 @@ This is my (experimental) LSP configuration for Neovim. It is built around:
   references, diagnostics and more. Telescope is one of the absolute must-have plugins for Neovim, IMHO.
   Some functionality is provided by extensions.
 * [Glance](https://github.com/DNLHC/glance.nvim) (for cool VSCode-like definition and references peeks)
-* Treesitter. Should be standard nowadays, it just gives way better syntax highlighting and syntax-based 
+* [Treesitter](https://github.com/nvim-treesitter). Should be standard nowadays, it just gives way better syntax highlighting and syntax-based 
   folding.
 * [Luasnip](https://github.com/L3MON4D3/LuaSnip) for snippets.
 * A custom colorscheme based on sonokai
 * [Lualine](https://github.com/nvim-lualine/lualine.nvim), a blazingly fast and customizable status- and tab line.
-* Various utilities, editorconfig, scrollbar, gitsigns and more.
+* Various utilities, editorconfig, scrollbar, [gitsigns](https://github.com/lewis6991/gitsigns.nvim), hlslens, [indent 
+  guides](https://github.com/lukas-reineke/indent-blankline.nvim), 
+  [startify](https://github.com/mhinz/vim-startify) (a start 
+  screen), [neodev](https://github.com/folke/neodev.nvim) to help with Lua development on Neovim and more.
+* [Neotree](https://github.com/nvim-neo-tree/neo-tree.nvim) - a file system browser like NERDTree, but much faster and written in Lua.
 
 Nim support is manually installed via nimlsp.
 
