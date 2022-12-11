@@ -1,5 +1,6 @@
 local map = vim.api.nvim_set_keymap
 local opts = {noremap = true, silent = true}
+-- local expr = {noremap = true, silent = true, expr = true}
 
 -- Telescope pickers
 -- Ctrl-e -> list of  buffers
@@ -12,16 +13,22 @@ map('n', "<leader>f", "<CMD>lua require'telescope.builtin'.find_files{winblend=2
 map('n', "<A-c>", "<CMD>lua require'telescope.builtin'.command_history{winblend=20, layout_config={width=0.4, height=0.7}}<CR>", opts)
 -- Alt-Shift-c -> commands
 map('n', "<A-C>", "<CMD>lua require'telescope.builtin'.commands{winblend=20, layout_config={width=0.6, height=0.7}}<CR>", opts)
--- Alt-Shift-J -> Jumplist
-map('n', "<C-x><C-j>", "<CMD>lua require'telescope.builtin'.jumplist{layout_config={preview_width=0.4, width=0.8, height=0.7}}<CR>", opts)
+-- C-x-C-j Jumplist
+map('n', "<C-x><C-j>", "<CMD>lua require'telescope.builtin'.jumplist{fname_width=40, show_line=false, layout_config={width=0.8, height=0.7, preview_width=0.6}}<CR>", opts)
+-- C-x-C-r Registers
+map('n', "<C-x><C-r>", "<CMD>lua require'telescope.builtin'.registers{layout_config={width=0.8, height=0.7}}<CR>", opts)
+-- C-x-C-k Keymaps
+map('n', "<C-x><C-k>", "<CMD>lua require'telescope.builtin'.keymaps{layout_config={width=0.8, height=0.7}}<CR>", opts)
 -- Alt-f -> file  browser
 map('n', "<A-f>", "<CMD>lua require('telescope').extensions.file_browser.file_browser{ winblend=20, hidden=true, path=vim.fn.expand('%:p:h'), layout_config={width=0.8, preview_width=0.6 } }<CR>", opts)
 -- Alt-s show spelling suggestions
-map('n', "<A-s>", "<CMD>lua require'telescope.builtin'.spell_suggest{layout_config={winblend=20, height=0.5,width=0.3}}<CR>", opts)
+map('n', "<A-s>", "<CMD>lua require'telescope.builtin'.spell_suggest{winblend=20, layout_config={height=0.5,width=0.3}}<CR>", opts)
 -- telescope-project extension (Alt-p)
 map('n', "<A-p>", "<CMD>lua require'telescope'.extensions.project.project{ winblend=20, display_type='full', layout_config={width=0.5} }<CR>", opts)
 -- telescope-fuzzy-find in buffer
 map('n', "<C-x><C-f>", "<CMD>:lua require'telescope.builtin'.current_buffer_fuzzy_find{ winblend=20, layout_config={width=0.8, preview_width=0.4} }<CR>", opts)
+-- telescope help tags
+map('n', "<A-h>", "<CMD>:lua require'telescope.builtin'.help_tags{ winblend=20, layout_config={width=0.8, height=0.8, preview_width=0.8} }<CR>", opts)
 -- telescpe-bookmarks:
 -- Alt-b -> all bookmarks, Ctrl-b -> current file
 -- bookmarks
@@ -29,11 +36,10 @@ map('n', "<A-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.all{hi
 map('n', "<C-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.current_file{layout_config={height=0.4, width=0.7}}<CR>", opts)
 
 -- nerdtree
-map('n', "<leader>r", "<CMD>NERDTreeFind <Bar> wincmd p<CR>", opts)
+map('n', "<leader>r", "<CMD>Neotree reveal<CR>", opts)   -- sync NERDTree with current 
 
-map('n', "<leader>.", '<CMD>CocOutline<CR>', opts)
-map('n', "<leader>-", '<CMD>Minimap<CR>', opts)
-map('n', "<leader>,", '<CMD>NERDTreeToggle<CR>', opts)
+map('n', "<leader>.", "<CMD>SymbolsOutline<CR>", opts)    -- toggle the Outline View
+map('n', "<leader>,", '<CMD>Neotree toggle<CR>', opts)    -- toggle the NERDTree
 
 -- bookmark plugin, set and navigate bookmarks
 map('n', "<Leader>bt", '<Plug>BookmarkToggle', { silent = true, noremap = false })
@@ -46,11 +52,13 @@ map('n', "<Leader>bx", '<Plug>BookmarkClearAll', { silent = true, noremap = fals
 map('n', "<Leader>bu", '<Plug>BookmarkMoveUp', { silent = true, noremap = false })
 map('n', "<Leader>bb", '<Plug>BookmarkMoveDown', { silent = true, noremap = false })
 map('n', "<Leader>bm", '<Plug>BookmarkMoveToLine', { silent = true, noremap = false })
-map('n', '<C-Tab>', ':tabnext<CR>', opts)
+map('n', '<C-Tab>', ':bnext<CR>', opts)
+map('n', '<leader><Tab>', ":bnext<CR>", opts)
 
--- map some keys for formatting functions
+-- map some keys to toggle formatting options
 -- the functions are defined in the init.vim
 map('i', "<C-f><C-a>", '<c-o>:AFToggle<CR>', opts)
+map('n', "<C-f><C-a>", ':AFToggle<CR>', opts)
 map('i', "<C-f><C-w>", '<c-o>:HWToggle<CR>', opts)
 map('i', "<C-f><C-t>", '<c-o>:HTToggle<CR>', opts)
 map('i', "<C-f>1", '<c-o>:AutowrapOn<CR>', opts)
@@ -61,6 +69,9 @@ map('n', "<leader>y", ':!fmt -85<CR>', opts)
 map('i', "<C-f>f", '<c-o>:AFManual<CR>', opts)
 map('i', "<C-f>a", '<c-o>:AFAuto<CR>', opts)
 
+map('n', "<leader>v", "}kV{j", opts)        -- select current paragraph
+map('n', "<C-A-w>", "}kV{jgq", opts)      -- select and format current paragraph
+
 -- Ctrl-s in normal and insert mode: save if modified
 -- Ctrl-q in normal and insert mode: save if modified and close buffer
 -- Ctrl-x Ctrl-q is deprecated, use Ctrl-s, Ctrl-x-Ctrl-c
@@ -69,7 +80,7 @@ map('i', "<C-f>a", '<c-o>:AFAuto<CR>', opts)
 map('i', "<C-x><C-s>", '<c-o>:update!<CR>', opts)
 map('n', "<C-x><C-s>", ':update!<CR>', opts)
 
-map('n', "tsh", ':TSHighlightCapturesUnderCursor<CR>', opts)
+map('n', "tsh", ':TSHighlightCapturesUnderCursor<CR>', opts)  -- show tree-sitter highlight class
 map('n', "<C-x><C-c>", ':BD!<CR>', opts)
 map('i', "<C-x><C-c>", '<c-o>:BD!<CR>', opts)
 
@@ -77,27 +88,48 @@ map('i', "<C-x><C-c>", '<c-o>:BD!<CR>', opts)
 map('n', "<C-x><C-h>", ':nohl<CR>', opts)
 map('i', "<C-x><C-h>", '<c-o>:nohl<CR>', opts)
 
--- snippets
-map('i', "<C-l>", "<Plug>(coc-snippets-expand)", opts)
-
 -- various
-map('i', "<C-y>-", "—", opts )              -- emdash
-map('i', "<C-y>\"", "„”", opts)             -- double quotes
+map('i', "<C-y>-", "—", opts )        -- emdash
+map('i', "<C-y>\"", "„”", opts)       -- typographic quotes („”)
 
-map('n', "<A-q>", ":qa!<CR>", opts)         -- close and quit all
-map('n', "<A-w>", ":close<CR>", opts)       -- close window
-
--- Terminal plugin (open 12-line bottom split with terminal)
-map('n', "<A-t>", ":call TermToggle(12)<CR>", opts)
-map('t', "<Esc>", "<C-\\><C-n>", opts)                -- ESC allows to leave terminal split
+-- close window
+map('n', "<A-w>", ":close<CR>", opts)
+-- force exit, caution all unsaved buffers will be lost
+map('n', "<A-q>", ":qa!<CR>", opts)
 
 -- Telekasten mappings
-map('n', "<A-z>z", ":lua require('telekasten').panel()<CR>", opts)
-map('n', "<A-z>zf", ":lua require('telekasten').find_notes()<CR>", opts)
-map('n', "<A-z>zd", ":lua require('telekasten').find_daily_notes()<CR>", opts)
-map('n', "<A-z>zg", ":lua require('telekasten').search_notes()<CR>", opts)
-map('n', "<A-z>zz", ":lua require('telekasten').follow_link()<CR>", opts)
+map('n', "ZP", ":lua require('telekasten').panel()<CR>", opts)
+map('n', "ZF", ":lua require('telekasten').find_notes()<CR>", opts)
+map('n', "ZD", ":lua require('telekasten').find_daily_notes()<CR>", opts)
+map('n', "ZS", ":lua require('telekasten').search_notes()<CR>", opts)
+map('n', "ZL", ":lua require('telekasten').follow_link()<CR>", opts)
 
+-- LSP mappings
+map('n', "lsi", ":LspInfo<CR>", opts)     -- LspInfo
+
+-- Glance plugin
+map('n', "GD", ":Glance definitions<CR>", opts)       -- goto definition(s)
+map('n', "GR", ":Glance references<CR>", opts)        -- show references
+
+-- Telescope LSP code navigation and diagnostics
+map('n', "TD", ":lua require'telescope.builtin'.lsp_definitions{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
+map('n', "TR", ":lua require'telescope.builtin'.lsp_references{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
+map('n', "TS", ":lua require'telescope.builtin'.lsp_document_symbols{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
+map('n', "TW", ":lua require'telescope.builtin'.lsp_workspace_symbols{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
+map('n', "TI", ":lua require'telescope.builtin'.lsp_implementations{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
+map('n', "TW", ":lua require'telescope.builtin'.diagnostics{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
+map('n', "TE", ":lua require'telescope.builtin'.diagnostics{bufnr=0, winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
+
+map('n', "TT", ":lua vim.lsp.buf.type_definition()<CR>", opts)
+
+-- diagnostics (LSP)
+map('n', "DO", ":lua vim.diagnostic.open_float()<CR>", opts)             -- show popup
+map('n', "DN", ":lua vim.diagnostic.goto_next()<CR>", opts)              -- goto next
+map('n', "DP", ":lua vim.diagnostic.goto_prev()<CR>", opts)              -- goto prev
+map('n', "DD", ":lua vim.lsp.buf.hover()<CR>", opts)                     -- show hover info for symbol
+
+map('n', "DF", ":LspFormatDoc<CR>", opts)         -- format the doc with null-ls provider
+map('v', "DR", ":LspFormatRange<CR>", opts )      -- format the range with null-ls provider
 -- hlslens
 local kopts = {noremap = true, silent = true}
 
@@ -112,4 +144,5 @@ vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], 
 vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
 vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
 
--- EOF
+vim.keymap.set({ "s" }, "<C-i>", function() require'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
+vim.keymap.set({ "s" }, "<S-Tab>", function() require'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })

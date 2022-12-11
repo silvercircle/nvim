@@ -1,4 +1,5 @@
--- unused, this is for luasnip
+-- unused, this is for luasnip, but we load snippets in snipmate
+-- format from .config/nvim/snippets
 
 local ls = require("luasnip")
 local s = ls.snippet
@@ -26,12 +27,11 @@ local postfix = require("luasnip.extras.postfix").postfix
 local types = require("luasnip.util.types")
 local parse = require("luasnip.util.parser").parse_snippet
 
+-- just an example
 ls.add_snippets("all", {
-    s("trigger", { t("Wow! Text!") }),
+  s("trigger", { t("Wow! Text!") }),
 	s("ternary", {
 		-- equivalent to "${1:cond} ? ${2:then} : ${3:else}"
 		i(1, "cond"), t(" ? "), i(2, "then"), t(" : "), i(3, "else")
 	})
 })
-
-
