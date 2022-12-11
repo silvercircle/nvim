@@ -375,6 +375,7 @@ cmp.setup({
 --    },
     { name = "luasnip", priority = 120, keyword_length = 3 },
     { name = "dictionary", priority = 110, keyword_length = 1 },
+    { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 }
     --   { name = 'cmdline', prority = 120, keyword_length = 5 }
   },
   sorting = {

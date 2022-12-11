@@ -26,4 +26,13 @@ g.tex_conceal = ''
 g.loaded_netrw       = 1
 g.loaded_netrwPlugin = 1
 
+g.loaded_zipPlugin= 1
+g.loaded_zip = 1
+
+g.loaded_tarPlugin= 1
+g.loaded_tar = 1
+
+vim.g.loaded_gzipPlugin= 1
+vim.g.loaded_gzip = 1
+
 vim.cmd [[silent! colorscheme my_sonokai]]
