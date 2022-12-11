@@ -21,16 +21,19 @@ be fine again.
 
 This is my (experimental) LSP configuration for Neovim. It is built around:
 
-* native Neovim LSP together with mason, lspconfig, null-ls and lsp-signature.
-* CMP for auto-completion with various sources (lsp, dictionaries, snippets)
-* Telescope for all kind of cool stuff. Pick recent files, select open buffer, find files, LSP 
+* native Neovim LSP together with [mason](https://github.com/williamboman/mason.nvim), [lspconfig](https://github.com/neovim/nvim-lspconfig),
+  [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim) and 
+  [lsp-signature](https://github.com/ray-x/lsp_signature.nvim).
+* [CMP](https://github.com/hrsh7th/nvim-cmp) for auto-completion with various sources (lsp, dictionaries, snippets)
+* [Telescope](https://github.com/nvim-telescope/telescope.nvim) for all kind of cool stuff. Pick recent files, select open buffer, find files, LSP 
   references, diagnostics and more. Telescope is one of the absolute must-have plugins for Neovim, IMHO.
-* Glance (for cool VSCode-like definition and references peeks)
+  Some functionality is provided by extensions.
+* [Glance](https://github.com/DNLHC/glance.nvim) (for cool VSCode-like definition and references peeks)
 * Treesitter. Should be standard nowadays, it just gives way better syntax highlighting and syntax-based 
   folding.
-* Luasnip for snippets.
+* [Luasnip](https://github.com/L3MON4D3/LuaSnip) for snippets.
 * A custom colorscheme based on sonokai
-* Lualine, a blazingly fast and customizable status- and tab line.
+* [Lualine](https://github.com/nvim-lualine/lualine.nvim), a blazingly fast and customizable status- and tab line.
 * Various utilities, editorconfig, scrollbar, gitsigns and more.
 
 Nim support is manually installed via nimlsp.
@@ -42,7 +45,7 @@ already existing plugin keymaps.
 
 ## Theme
 
-It is a customized variant of the [[Sonokai theme]](https://github.com/sainnhe/sonokai).
+It is a customized variant of the [Sonokai theme](https://github.com/sainnhe/sonokai).
 
 ## List of plugins in use by this config.
 
