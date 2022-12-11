@@ -75,14 +75,12 @@ map('n', "<C-A-w>", "}kV{jgq", opts)      -- select and format current paragraph
 -- Ctrl-s in normal and insert mode: save if modified
 -- Ctrl-q in normal and insert mode: save if modified and close buffer
 -- Ctrl-x Ctrl-q is deprecated, use Ctrl-s, Ctrl-x-Ctrl-c
--- map('i', "<C-x><C-q>", '<c-o>:update<CR><c-o>:BD<CR>', opts)
--- map('n', "<C-x><C-q>", ':update<CR>:BD<CR>', opts)
 map('i', "<C-x><C-s>", '<c-o>:update!<CR>', opts)
 map('n', "<C-x><C-s>", ':update!<CR>', opts)
 
-map('n', "tsh", ':TSHighlightCapturesUnderCursor<CR>', opts)  -- show tree-sitter highlight class
-map('n', "<C-x><C-c>", ':BD!<CR>', opts)
-map('i', "<C-x><C-c>", '<c-o>:BD!<CR>', opts)
+--map('n', "tsh", ':TSHighlightCapturesUnderCursor<CR>', opts)  -- show tree-sitter highlight class
+map('n', "<C-x><C-c>", ':Kwbd<CR>', opts)
+map('i', "<C-x><C-c>", '<c-o>:Kwbd<CR>', opts)
 
 -- switch off highlighted search results
 map('n', "<C-x><C-h>", ':nohl<CR>', opts)
@@ -148,3 +146,11 @@ vim.keymap.set({ "s" }, "<C-i>", function() require'luasnip'.jump(1) end, { desc
 vim.keymap.set({ "s" }, "<S-Tab>", function() require'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
 
 map('i', "<C-p>", "<CMD>:lua vim.lsp.buf.signature_help()<CR>", opts)
+
+vim.keymap.set("n",    "tsh",
+    function()
+        local result = vim.treesitter.get_captures_at_cursor(0)
+        print(vim.inspect(result))
+    end,
+    { noremap = true, silent = false }
+)

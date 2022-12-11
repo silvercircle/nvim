@@ -9,7 +9,6 @@ return require("packer").startup({
     {
       "mg979/vim-visual-multi", branch = "master"
     },
-    "qpkorr/vim-bufkill",
     "hrsh7th/nvim-cmp",
     --      'hrsh7th/cmp-buffer',
     "hrsh7th/cmp-cmdline",
@@ -44,7 +43,6 @@ return require("packer").startup({
     },
     "MattesGroeger/vim-bookmarks",
     "nvim-treesitter/nvim-treesitter",
-    "nvim-treesitter/playground",
     "sharkdp/fd",
     "BurntSushi/ripgrep",
     "lewis6991/gitsigns.nvim",

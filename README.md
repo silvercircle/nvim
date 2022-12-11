@@ -23,9 +23,9 @@ be fine again.
 This is my (experimental) LSP configuration for Neovim. It should be considered a fast moving target and 
 plugin configuration might change. This configuration is built around:
 
-* Native Neovim LSP together with [mason](https://github.com/williamboman/mason.nvim), [lspconfig](https://github.com/neovim/nvim-lspconfig),
-  [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim) and 
-  [lsp-signature](https://github.com/ray-x/lsp_signature.nvim). These plugins provide all the LSP support 
+* Native Neovim LSP together with [mason](https://github.com/williamboman/mason.nvim), [lspconfig](https://github.com/neovim/nvim-lspconfig) and
+  [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim).
+  These plugins provide all the LSP support 
   and allow for easy setup of language servers. The configuration has presets for the following 
   languages:
   * Lua (sumneko_lua LSP)
@@ -34,9 +34,10 @@ plugin configuration might change. This configuration is built around:
   * Rust   (rust_analyzer)
   * Dart   (dartls)
   * Nim    (nimlsp)
-  * JS     (tsserver)
+  * JavaScript, TypeScript (tsserver)
   * CSS    (cssls)
   * LaTeX  (texlab)
+  * C# (omnisharp-roslyn)
 * [CMP](https://github.com/hrsh7th/nvim-cmp) for auto-completion with various sources (lsp, dictionaries, snippets)
 * [Telescope](https://github.com/nvim-telescope/telescope.nvim) for all kind of cool stuff. Pick recent files, select open buffer, find files, LSP 
   references, diagnostics and more. Telescope is one of the absolute must-have plugins for Neovim, IMHO.

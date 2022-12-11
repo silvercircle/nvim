@@ -23,15 +23,7 @@ g.VM_Cursor_hl = 'Visual'
 g.VM_Insert_hl = 'DiffChange'
 g.tex_conceal = ''
 
--- NERDTree stuff
-g.NERDTreeMinimalUI = 0
-g.NERDTreeDirArrows = 1
-g.NERDTreeShowHidden = 1
-g.NERDTreeShowBookmarks = 1
-g.NERDTreeSortHiddenFirst = 1
-g.NERDTreeChDirMode = 2
-g.NERDTreeMapOpenSplit='$'
-g.NERDTreeFileExtensionHighlightFullName = 1
-g.NERDTreeRespectWildIgnore=1
+g.loaded_netrw       = 1
+g.loaded_netrwPlugin = 1
 
 vim.cmd [[silent! colorscheme my_sonokai]]

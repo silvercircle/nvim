@@ -237,7 +237,7 @@ local lspkind = require("lspkind")
 -- See ~/.vim/plugged/nvim-cmp/lua/cmp/config/default.lua
 cmp.setup({
   completion = {
-    --    autocomplete = true,
+    --autocomplete = false,
   },
   snippet = {
     expand = function(args)
