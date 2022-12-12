@@ -38,7 +38,9 @@ plugin configuration might change. This configuration is built around:
   * CSS    (cssls)
   * LaTeX  (texlab)
   * C# (omnisharp-roslyn)
-* [CMP](https://github.com/hrsh7th/nvim-cmp) for auto-completion with various sources (lsp, dictionaries, snippets)
+* [CMP](https://github.com/hrsh7th/nvim-cmp) for auto-completion with various sources 
+  [lsp](https://github.com/hrsh7th/cmp-nvim-lsp), 
+  [signature help](https://github.com/hrsh7th/cmp-nvim-lsp-signature-help), snippets via Luasnip.)
 * [Telescope](https://github.com/nvim-telescope/telescope.nvim) for all kind of cool stuff. Pick recent files, select open buffer, find files, LSP 
   references, diagnostics and more. Telescope is one of the absolute must-have plugins for Neovim, IMHO.
   Some functionality is provided by extensions.
@@ -64,6 +66,10 @@ already existing plugin keymaps.
 ## Color Theme
 
 It is a customized variant of the [Sonokai theme](https://github.com/sainnhe/sonokai).
+
+## How it looks?
+
+![Screenshot](screnshot.png)
 
 ## List of plugins in use by this config.
 
