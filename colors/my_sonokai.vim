@@ -153,60 +153,58 @@ call sonokai#highlight('Debug', s:palette.yellow, s:palette.none)
 call sonokai#highlight('debugPC', s:palette.bg0, s:palette.green)
 call sonokai#highlight('debugBreakpoint', s:palette.bg0, s:palette.red)
 call sonokai#highlight('ToolbarButton', s:palette.bg0, s:palette.bg_blue)
-if has('nvim')
-  call sonokai#highlight('Substitute', s:palette.bg0, s:palette.yellow)
-  highlight! link WinBarNC Grey
-  highlight! link DiagnosticFloatingError ErrorFloat
-  highlight! link DiagnosticFloatingWarn WarningFloat
-  highlight! link DiagnosticFloatingInfo InfoFloat
-  highlight! link DiagnosticFloatingHint HintFloat
-  highlight! link DiagnosticError ErrorText
-  highlight! link DiagnosticWarn WarningText
-  highlight! link DiagnosticInfo InfoText
-  highlight! link DiagnosticHint HintText
-  highlight! link DiagnosticVirtualTextError VirtualTextError
-  highlight! link DiagnosticVirtualTextWarn VirtualTextWarning
-  highlight! link DiagnosticVirtualTextInfo VirtualTextInfo
-  highlight! link DiagnosticVirtualTextHint VirtualTextHint
-  highlight! link DiagnosticUnderlineError ErrorText
-  highlight! link DiagnosticUnderlineWarn WarningText
-  highlight! link DiagnosticUnderlineInfo InfoText
-  highlight! link DiagnosticUnderlineHint HintText
-  highlight! link DiagnosticSignError RedSign
-  highlight! link DiagnosticSignWarn YellowSign
-  highlight! link DiagnosticSignInfo BlueSign
-  highlight! link DiagnosticSignHint GreenSign
-  highlight! link LspDiagnosticsFloatingError DiagnosticFloatingError
-  highlight! link LspDiagnosticsFloatingWarning DiagnosticFloatingWarn
-  highlight! link LspDiagnosticsFloatingInformation DiagnosticFloatingInfo
-  highlight! link LspDiagnosticsFloatingHint DiagnosticFloatingHint
-  highlight! link LspDiagnosticsDefaultError DiagnosticError
-  highlight! link LspDiagnosticsDefaultWarning DiagnosticWarn
-  highlight! link LspDiagnosticsDefaultInformation DiagnosticInfo
-  highlight! link LspDiagnosticsDefaultHint DiagnosticHint
-  highlight! link LspDiagnosticsVirtualTextError DiagnosticVirtualTextError
-  highlight! link LspDiagnosticsVirtualTextWarning DiagnosticVirtualTextWarn
-  highlight! link LspDiagnosticsVirtualTextInformation DiagnosticVirtualTextInfo
-  highlight! link LspDiagnosticsVirtualTextHint DiagnosticVirtualTextHint
-  highlight! link LspDiagnosticsUnderlineError DiagnosticUnderlineError
-  highlight! link LspDiagnosticsUnderlineWarning DiagnosticUnderlineWarn
-  highlight! link LspDiagnosticsUnderlineInformation DiagnosticUnderlineInfo
-  highlight! link LspDiagnosticsUnderlineHint DiagnosticUnderlineHint
-  highlight! link LspDiagnosticsSignError DiagnosticSignError
-  highlight! link LspDiagnosticsSignWarning DiagnosticSignWarn
-  highlight! link LspDiagnosticsSignInformation DiagnosticSignInfo
-  highlight! link LspDiagnosticsSignHint DiagnosticSignHint
-  highlight! link LspReferenceText CurrentWord
-  highlight! link LspReferenceRead CurrentWord
-  highlight! link LspReferenceWrite CurrentWord
-  highlight! link LspCodeLens VirtualTextInfo
-  highlight! link LspCodeLensSeparator VirtualTextHint
-  highlight! link LspSignatureActiveParameter Search
-  highlight! link TermCursor Cursor
-  highlight! link healthError Red
-  highlight! link healthSuccess Green
-  highlight! link healthWarning Yellow
-endif
+call sonokai#highlight('Substitute', s:palette.bg0, s:palette.yellow)
+highlight! link WinBarNC Grey
+highlight! link DiagnosticFloatingError ErrorFloat
+highlight! link DiagnosticFloatingWarn WarningFloat
+highlight! link DiagnosticFloatingInfo InfoFloat
+highlight! link DiagnosticFloatingHint HintFloat
+highlight! link DiagnosticError ErrorText
+highlight! link DiagnosticWarn WarningText
+highlight! link DiagnosticInfo InfoText
+highlight! link DiagnosticHint HintText
+highlight! link DiagnosticVirtualTextError VirtualTextError
+highlight! link DiagnosticVirtualTextWarn VirtualTextWarning
+highlight! link DiagnosticVirtualTextInfo VirtualTextInfo
+highlight! link DiagnosticVirtualTextHint VirtualTextHint
+highlight! link DiagnosticUnderlineError ErrorText
+highlight! link DiagnosticUnderlineWarn WarningText
+highlight! link DiagnosticUnderlineInfo InfoText
+highlight! link DiagnosticUnderlineHint HintText
+highlight! link DiagnosticSignError RedSign
+highlight! link DiagnosticSignWarn YellowSign
+highlight! link DiagnosticSignInfo BlueSign
+highlight! link DiagnosticSignHint GreenSign
+highlight! link LspDiagnosticsFloatingError DiagnosticFloatingError
+highlight! link LspDiagnosticsFloatingWarning DiagnosticFloatingWarn
+highlight! link LspDiagnosticsFloatingInformation DiagnosticFloatingInfo
+highlight! link LspDiagnosticsFloatingHint DiagnosticFloatingHint
+highlight! link LspDiagnosticsDefaultError DiagnosticError
+highlight! link LspDiagnosticsDefaultWarning DiagnosticWarn
+highlight! link LspDiagnosticsDefaultInformation DiagnosticInfo
+highlight! link LspDiagnosticsDefaultHint DiagnosticHint
+highlight! link LspDiagnosticsVirtualTextError DiagnosticVirtualTextError
+highlight! link LspDiagnosticsVirtualTextWarning DiagnosticVirtualTextWarn
+highlight! link LspDiagnosticsVirtualTextInformation DiagnosticVirtualTextInfo
+highlight! link LspDiagnosticsVirtualTextHint DiagnosticVirtualTextHint
+highlight! link LspDiagnosticsUnderlineError DiagnosticUnderlineError
+highlight! link LspDiagnosticsUnderlineWarning DiagnosticUnderlineWarn
+highlight! link LspDiagnosticsUnderlineInformation DiagnosticUnderlineInfo
+highlight! link LspDiagnosticsUnderlineHint DiagnosticUnderlineHint
+highlight! link LspDiagnosticsSignError DiagnosticSignError
+highlight! link LspDiagnosticsSignWarning DiagnosticSignWarn
+highlight! link LspDiagnosticsSignInformation DiagnosticSignInfo
+highlight! link LspDiagnosticsSignHint DiagnosticSignHint
+highlight! link LspReferenceText CurrentWord
+highlight! link LspReferenceRead CurrentWord
+highlight! link LspReferenceWrite CurrentWord
+highlight! link LspCodeLens VirtualTextInfo
+highlight! link LspCodeLensSeparator VirtualTextHint
+highlight! link LspSignatureActiveParameter Search
+highlight! link TermCursor Cursor
+highlight! link healthError Red
+highlight! link healthSuccess Green
+highlight! link healthWarning Yellow
 " }}}
 " Syntax: {{{
 if s:configuration.enable_italic
@@ -343,47 +341,35 @@ else
   call sonokai#highlight('CurrentWord', s:palette.none, s:palette.none, s:configuration.current_word)
 endif
 " }}}
-" }}}
-" Terminal: {{{
-if ((has('termguicolors') && &termguicolors) || has('gui_running')) && !s:configuration.disable_terminal_colors
-  " Definition
-  let s:terminal = {
-        \ 'black':           s:palette.black,
-        \ 'red':             s:palette.red,
-        \ 'yellow':          s:palette.yellow,
-        \ 'green':           s:palette.green,
-        \ 'cyan':            s:palette.orange,
-        \ 'blue':            s:palette.blue,
-        \ 'purple':          s:palette.purple,
-        \ 'white':           s:palette.fg,
-        \ 'bright_black':    s:palette.grey,
-        \ }
-  " Implementation: {{{
-  if !has('nvim')
-    let g:terminal_ansi_colors = [s:terminal.black[0], s:terminal.red[0], s:terminal.green[0], s:terminal.yellow[0],
-          \ s:terminal.blue[0], s:terminal.purple[0], s:terminal.cyan[0], s:terminal.white[0], s:terminal.black[0], s:terminal.red[0],
-          \ s:terminal.green[0], s:terminal.yellow[0], s:terminal.blue[0], s:terminal.purple[0], s:terminal.cyan[0], s:terminal.white[0]]
-  else
-    let g:terminal_color_0 = s:terminal.black[0]
-    let g:terminal_color_1 = s:terminal.red[0]
-    let g:terminal_color_2 = s:terminal.green[0]
-    let g:terminal_color_3 = s:terminal.yellow[0]
-    let g:terminal_color_4 = s:terminal.blue[0]
-    let g:terminal_color_5 = s:terminal.purple[0]
-    let g:terminal_color_6 = s:terminal.cyan[0]
-    let g:terminal_color_7 = s:terminal.white[0]
-    let g:terminal_color_8 = s:terminal.bright_black[0]
-    let g:terminal_color_9 = s:terminal.red[0]
-    let g:terminal_color_10 = s:terminal.green[0]
-    let g:terminal_color_11 = s:terminal.yellow[0]
-    let g:terminal_color_12 = s:terminal.blue[0]
-    let g:terminal_color_13 = s:terminal.purple[0]
-    let g:terminal_color_14 = s:terminal.cyan[0]
-    let g:terminal_color_15 = s:terminal.white[0]
-  endif
-  " }}}
-endif
-" }}}
+" Definition
+let s:terminal = {
+      \ 'black':           s:palette.black,
+      \ 'red':             s:palette.red,
+      \ 'yellow':          s:palette.yellow,
+      \ 'green':           s:palette.green,
+      \ 'cyan':            s:palette.orange,
+      \ 'blue':            s:palette.blue,
+      \ 'purple':          s:palette.purple,
+      \ 'white':           s:palette.fg,
+      \ 'bright_black':    s:palette.grey,
+      \ }
+" Implementation: {{{
+let g:terminal_color_0 = s:terminal.black[0]
+let g:terminal_color_1 = s:terminal.red[0]
+let g:terminal_color_2 = s:terminal.green[0]
+let g:terminal_color_3 = s:terminal.yellow[0]
+let g:terminal_color_4 = s:terminal.blue[0]
+let g:terminal_color_5 = s:terminal.purple[0]
+let g:terminal_color_6 = s:terminal.cyan[0]
+let g:terminal_color_7 = s:terminal.white[0]
+let g:terminal_color_8 = s:terminal.bright_black[0]
+let g:terminal_color_9 = s:terminal.red[0]
+let g:terminal_color_10 = s:terminal.green[0]
+let g:terminal_color_11 = s:terminal.yellow[0]
+let g:terminal_color_12 = s:terminal.blue[0]
+let g:terminal_color_13 = s:terminal.purple[0]
+let g:terminal_color_14 = s:terminal.cyan[0]
+let g:terminal_color_15 = s:terminal.white[0]
 " Plugins: {{{
 " nvim-treesitter/nvim-treesitter {{{
 call sonokai#highlight('TSStrong', s:palette.none, s:palette.none, 'bold')

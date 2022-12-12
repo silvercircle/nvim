@@ -86,11 +86,6 @@ require("hlslens").setup({
 })
 
 require("luasnip.loaders.from_snipmate").load()
-require("cmp_dictionary").setup({
-  dic = {
-    ["*"] = { vim.api.nvim_list_runtime_paths()[1] .. "/spell/personal.dict" },
-  },
-})
 
 local glance = require("glance")
 local actions = glance.actions

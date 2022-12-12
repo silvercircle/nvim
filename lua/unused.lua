@@ -319,3 +319,9 @@ local on_attach_lsp_signature = function(client, bufnr)
     max_width = 120,
   })
 end
+
+require("cmp_dictionary").setup({
+  dic = {
+    ["*"] = { vim.api.nvim_list_runtime_paths()[1] .. "/spell/personal.dict" },
+  },
+})

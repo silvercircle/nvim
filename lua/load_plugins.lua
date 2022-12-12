@@ -18,7 +18,7 @@ return require("packer").startup({
     'nvim-tree/nvim-web-devicons',
     'sainnhe/sonokai',
     'saadparwaiz1/cmp_luasnip',
-    'uga-rosa/cmp-dictionary',
+ --   'uga-rosa/cmp-dictionary',
     'jose-elias-alvarez/null-ls.nvim',
     'williamboman/mason.nvim',
     'williamboman/mason-lspconfig.nvim',
