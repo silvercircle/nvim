@@ -69,7 +69,7 @@ It is a customized variant of the [Sonokai theme](https://github.com/sainnhe/son
 
 ## How it looks?
 
-![Screenshot](screnshot.png)
+![Screenshot](/screnshot.png?raw=True)
 
 ## List of plugins in use by this config.
 
