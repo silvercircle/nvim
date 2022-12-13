@@ -1,6 +1,12 @@
 " This REQUIRES Neovim version 0.8.0 or later. Might work with earlier
 " versions, but this has not been tested or verified.
 
+" the following variables allow to enable or disable certain plugins
+" a PackerSync should be used to update the Plugin configuration
+" this is currently WIP and not working yet
+let g:config_null_ls = v:true
+let g:config_cokeline = v:false
+
 lua require('impatient_bootstrap')
 lua require('impatient')
 lua require('load_plugins')
@@ -38,7 +44,6 @@ map <C-f> <NOP>
 map <C-c> <NOP>
 imap <C-p> <NOP>
 
-"imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
 
 lua require('vim_mappings')
 " lua require('vim_snippets')

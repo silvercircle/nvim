@@ -3,7 +3,7 @@
 --selection. This is for a custom lualine section (see below)
 --]]
 local function getWordsV2()
-  local wc = vim.api.nvim_eval("wordcount()")
+  local wc = vim.fn.wordcount()
   if wc["visual_words"] then -- text is selected in visual mode
     return wc["visual_words"] .. " Words (Selection)"
   else -- all of the document
@@ -38,8 +38,8 @@ require("lualine").setup({
     lualine_x = {
       "encoding",
       {
-        -- show unicode for character under cursor
-        "%04B - %05b",
+        -- show unicode for character under cursor in hex and decimal
+        "%05B - %06b",
         fmt = function(str)
           return string.format("U:0x%s", str)
         end,

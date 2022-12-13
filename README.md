@@ -42,9 +42,9 @@ plugin configuration might change. This configuration is built around:
   * C# (omnisharp-roslyn)
 
 * [CMP](https://github.com/hrsh7th/nvim-cmp) for auto-completion with various sources 
-  [lsp](https://github.com/hrsh7th/cmp-nvim-lsp), 
-
-  [signature help](https://github.com/hrsh7th/cmp-nvim-lsp-signature-help), snippets via Luasnip.)
+  [lsp](https://github.com/hrsh7th/cmp-nvim-lsp), [signature 
+  help](https://github.com/hrsh7th/cmp-nvim-lsp-signature-help), snippets via Luasnip and, 
+  [emojis](https://github.com/hrsh7th/cmp-emoji) 
 
 * [Telescope](https://github.com/nvim-telescope/telescope.nvim) for all kind of cool stuff. Pick recent 
   files, select open buffer, find files, LSP references, diagnostics and more. Telescope is one of the 
