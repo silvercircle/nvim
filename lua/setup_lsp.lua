@@ -465,7 +465,7 @@ null_ls.setup({
     -- null_ls.builtins.diagnostics.pylint, -- pylint via pip, disabled
     -- because sometimes annoyingly slow
     -- js, css, HTML, json etc.
-    null_ls.builtins.formatting.prettier, -- npm install -g prettier
+    null_ls.builtins.formatting.prettier.with({ disabled_filetypes = { 'markdown', 'markdown.mdx' }}), -- npm install -g prettier
     -- astyle (artistic style): C/CPP, ObjC, Java, C#
     -- null_ls.builtins.formatting.astyle, -- astyle package (fedora, Ubuntu etc)
     -- clang_format
