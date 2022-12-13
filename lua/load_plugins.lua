@@ -10,7 +10,6 @@ return require("packer").startup({
       'mg979/vim-visual-multi', branch = "master"
     },
     'hrsh7th/nvim-cmp',
-    --      'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-cmdline',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-path',
@@ -18,7 +17,6 @@ return require("packer").startup({
     'nvim-tree/nvim-web-devicons',
     'sainnhe/sonokai',
     'saadparwaiz1/cmp_luasnip',
- --   'uga-rosa/cmp-dictionary',
     'jose-elias-alvarez/null-ls.nvim',
     'williamboman/mason.nvim',
     'williamboman/mason-lspconfig.nvim',

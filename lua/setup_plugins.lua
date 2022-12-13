@@ -80,9 +80,9 @@ require("indent_blankline").setup({
 -- require("alpha").setup(require("alpha.themes.startify").config)
 
 require("hlslens").setup({
-  calm_down = true,
-  nearest_float_when = "always",
-  nearest_only = false,
+--  calm_down = true,
+--  nearest_float_when = "always",
+--  nearest_only = false,
 })
 
 require("luasnip.loaders.from_snipmate").load()

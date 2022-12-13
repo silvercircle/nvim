@@ -34,6 +34,7 @@ lspconfig.html.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.phpactor.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.gopls.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.vimls.setup({ on_attach = on_attach, capabilities = capabilities })
+lspconfig.jdtls.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.omnisharp.setup({ on_attach = on_attach,
   capabilities = capabilities,
   enable_editorconfig_support = true,
@@ -123,10 +124,9 @@ do
     local bufnr, winnr = lsp_handlers_hover(err, result, ctx, config)
     return bufnr, winnr
   end
---  vim.lsp.handlers["textDocument/signatureHelp"] = function(err, result, ctx, config)
---    local bufnr, winnr = lsp_handlers_hover(err, result, ctx, config)
---    return bufnr, winnr
---  end
+
+  -- this is for vim.lsp.buf.signature_help()
+  -- Bound to C-p in insert mode
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
     vim.lsp.handlers.signature_help, {
       border = "single",
@@ -397,6 +397,7 @@ cmp.setup({
     }
   }
 })
+
 
 -- Custom sorting/ranking for completion items.
 -- cmp_helper.compare = {
