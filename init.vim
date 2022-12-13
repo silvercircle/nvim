@@ -7,7 +7,7 @@ lua require('load_plugins')
 
 lua require('vim_options')
 lua require('globals')
-lua require('lsp')
+lua require('setup_lsp')
 lua require('setup_plugins')
 lua require('setup_telescope')
 lua require('setup_lualine')
