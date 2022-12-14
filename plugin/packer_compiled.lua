@@ -194,6 +194,14 @@ _G.packer_plugins = {
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
   },
+  ["nvim-cokeline"] = {
+    cond = { "\27LJ\2\n-\0\0\1\0\3\0\0046\0\0\0009\0\1\0009\0\2\0L\0\2\0\20config_cokeline\6g\bvim\0" },
+    loaded = false,
+    needs_bufread = false,
+    only_cond = true,
+    path = "/home/alex/.local/share/nvim/site/pack/packer/opt/nvim-cokeline",
+    url = "https://github.com/noib3/nvim-cokeline"
+  },
   ["nvim-hlslens"] = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/nvim-hlslens",
@@ -293,6 +301,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Conditional loads
+time([[Conditional loading of nvim-cokeline]], true)
+  require("packer.load")({"nvim-cokeline"}, {}, _G.packer_plugins)
+time([[Conditional loading of nvim-cokeline]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

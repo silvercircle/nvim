@@ -139,9 +139,6 @@ end
 -- LSP diagnostics
 ------------------
 if vim.diagnostic then
-  -- Customize how to show diagnostics:
-  -- @see https://github.com/neovim/nvim-lspconfig/wiki/UI-customization
-  -- @see https://github.com/neovim/neovim/pull/16057 for new APIs
   vim.diagnostic.config({
     -- No virtual text (distracting!), show popup window on hover.
     virtual_text = false,
@@ -154,14 +151,13 @@ if vim.diagnostic then
       focusable = true,
       focus = false,
       border = "single",
-
       -- Customize how diagnostic message will be shown: show error code.
       format = function(diagnostic)
         local user_data
         user_data = diagnostic.user_data or {}
         user_data = user_data.lsp or user_data.null_ls or user_data
         local code = (
-                    -- TODO: symbol is specific to pylint (will be removed)
+          -- TODO: symbol is specific to pylint (will be removed)
           diagnostic.symbol
           or diagnostic.code
           or user_data.symbol
@@ -208,7 +204,6 @@ end
 -- ~/.vim/plugged/nvim-cmp/lua/cmp/config/default.lua
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
--- vim.o.completeopt = "menu,menuone,noselect"
 
 local has_words_before = function()
   if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
@@ -302,7 +297,6 @@ cmp.setup({
       -- fancy icons and a name of kind
       vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
       vim_item.kind = " " .. vim_item.kind_symbol .. " " .. vim_item.kind
-
       -- The 'menu' section: source, detail information (lsp, snippet), etc.
       -- set a name for each source (see the sources section below)
       vim_item.menu = ({
@@ -318,7 +312,6 @@ cmp.setup({
         nvim_lsp = "CmpItemMenuLSP",
         path = "CmpItemMenuPath",
       })[entry.source.name] -- default is CmpItemMenu
-
       -- detail information (optional)
       local cmp_item = entry:get_completion_item()
 
@@ -374,9 +367,8 @@ cmp.setup({
 --      },
 --    },
     { name = "luasnip", priority = 120, keyword_length = 3 },
---    { name = "dictionary", priority = 110, keyword_length = 1 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
-    { name = 'emoji', priority = 120, keyword_length = 2 }
+    { name = 'emoji', priority = 120, keyword_length = 2 }  -- cmp-emoji source
   },
   sorting = {
     comparators = {
@@ -472,7 +464,6 @@ null_ls.setup({
     -- null_ls.builtins.formatting.clang_format.with({ extra_args={"--style", "file" } })
   },
 })
-
 -- set up some custom commands (formatting, diagnostics)
 do
   vim.cmd([[

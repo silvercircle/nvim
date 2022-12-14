@@ -11,6 +11,19 @@ local function getWordsV2()
   end
 end
 
+local function actual_tabline()
+  if vim.g.config_cokeline then
+    return {}
+  else return {
+    lualine_a = { { "buffers", mode = 2 } },
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = { "tabs" } }
+  end
+end
+
 require("lualine").setup({
   options = {
     icons_enabled = true,
@@ -59,14 +72,7 @@ require("lualine").setup({
     lualine_y = {},
     lualine_z = {},
   },
-  tabline = {
-    lualine_a = { { "buffers", mode = 2 } },
-    lualine_b = {},
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = { "tabs" },
-  },
+  tabline = actual_tabline(),
   winbar = {},
   inactive_winbar = {},
   extensions = {},

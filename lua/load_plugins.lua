@@ -45,6 +45,9 @@ return require("packer").startup(function(use)
     use 'kevinhwang91/nvim-hlslens'
     use 'folke/neodev.nvim'
     use 'mhinz/vim-startify'
+    if vim.g.config_cokeline then
+      use { 'noib3/nvim-cokeline', cond = function() return vim.g.config_cokeline end }
+    end
     use { 'nvim-telescope/telescope-fzf-native.nvim',
       run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
 end)

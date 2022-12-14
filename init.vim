@@ -4,8 +4,8 @@
 " the following variables allow to enable or disable certain plugins
 " a PackerSync should be used to update the Plugin configuration
 " this is currently WIP and not working yet
-let g:config_null_ls = v:true
-let g:config_cokeline = v:false
+
+lua require('config')
 
 lua require('impatient_bootstrap')
 lua require('impatient')
@@ -22,6 +22,10 @@ lua require('setup_scrollbar')
 lua require('setup_telekasten')
 lua require('setup_treesitter')
 lua require('setup_outline')
+
+if g:config_cokeline == v:true
+  lua require('setup_cokeline')
+endif
 
 " lua require('setup_noice')
 

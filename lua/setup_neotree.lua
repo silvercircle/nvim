@@ -5,7 +5,7 @@ require("neo-tree").setup({
     "git_status",
   },
   close_floats_on_escape_key = true,
-  add_blank_line_at_top = true,
+  add_blank_line_at_top = not vim.g.config_cokeline,
   close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
   popup_border_style = "single",
   enable_git_status = true,
