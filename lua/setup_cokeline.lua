@@ -26,7 +26,7 @@ require('cokeline').setup({
     components = {
       {
         text = '  Neotree',
-        bg = def_bg,
+        bg = vim.g.cokeline_bg,
         style = 'bold',
       },
     }
