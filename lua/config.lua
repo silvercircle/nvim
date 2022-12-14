@@ -23,6 +23,7 @@ local Colors = {
   gray10         = '#f0f0f0',
 }
 
+-- cokeline colors for the buffer line
 local cokeline_colors = {
   bg = '#005f87',
   focus_bg = '#afdf00',
@@ -53,9 +54,11 @@ function Lualine_internal_theme()
 end
 
 vim.g.config_null_ls = false                   -- use null_ls plugin
+vim.g.config_noice = false
 vim.g.config_cokeline = true                   -- use cokeline (and disable lualine tabbar)
 vim.g.cokeline_filename_width = 20             -- max filename length on cokeline tabs
-vim.g.lualine_theme = 'internal'                -- lualine theme, use 'internal' for the intrated theme
+vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' for the integrated theme 
+                                               -- or any valid lualine theme name
 
 function Cokeline_theme()
   return {

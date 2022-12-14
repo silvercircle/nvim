@@ -7,6 +7,7 @@ local truncate = function(text, max_width)
   end
 end
 
+vim.cmd([[ PackerLoad nvim-cokeline ]])
 require('cokeline').setup({
   -- Cokeline_theme() is defined in config.lua
   default_hl = Cokeline_theme().hl,

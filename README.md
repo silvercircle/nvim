@@ -82,6 +82,12 @@ Nim support is manually installed via nimlsp.
 
 * Some dependencies like ripgrep and fd. These packages must be installed on OS level.
 
+## Customization
+
+`lua/config.lua` contains some global variables to customize the setup. Refer to the comments in that 
+file for more information. Basically, it's possible to enable/disable some plugins and to customize some color 
+settings. This is still in an early stage, more will follow.
+
 ## Custom mappings:
 
 Lots of, actually. Please see lua/vim_mappings.lua for details. These are only custom mappings on top of 

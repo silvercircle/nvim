@@ -10,7 +10,8 @@ lua require('config')
 lua require('impatient_bootstrap')
 lua require('impatient')
 lua require('load_plugins')
-
+exec "source " . expand("<sfile>:h") . '/plugin/packer_compiled.lua'
+"source packer_compiled.lua
 lua require('vim_options')
 lua require('globals')
 lua require('setup_lsp')
@@ -25,6 +26,10 @@ lua require('setup_outline')
 
 if g:config_cokeline == v:true
   lua require('setup_cokeline')
+endif
+
+if g:config_noice == v:true
+  lua require('setup_noice')
 endif
 
 " lua require('setup_noice')
