@@ -308,15 +308,15 @@ _G.packer_plugins = {
 
 time([[Defining packer_plugins]], false)
 -- Conditional loads
+time([[Conditional loading of noice.nvim]], true)
+  require("packer.load")({"noice.nvim"}, {}, _G.packer_plugins)
+time([[Conditional loading of noice.nvim]], false)
 time([[Conditional loading of null-ls.nvim]], true)
   require("packer.load")({"null-ls.nvim"}, {}, _G.packer_plugins)
 time([[Conditional loading of null-ls.nvim]], false)
 time([[Conditional loading of nvim-cokeline]], true)
   require("packer.load")({"nvim-cokeline"}, {}, _G.packer_plugins)
 time([[Conditional loading of nvim-cokeline]], false)
-time([[Conditional loading of noice.nvim]], true)
-  require("packer.load")({"noice.nvim"}, {}, _G.packer_plugins)
-time([[Conditional loading of noice.nvim]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

@@ -1,4 +1,7 @@
 " -----------------------------------------------------------------------------
+" Name:         my_Sonokai
+"
+" BASED ON original work by:
 " Name:         Sonokai
 " Description:  High Contrast & Vivid Color Scheme based on Monokai Pro
 " Author:       Sainnhepark <i@sainnhe.dev>
@@ -6,7 +9,7 @@
 " License:      MIT
 " -----------------------------------------------------------------------------
 
-function! my_sonokai#get_configuration() "{{{
+function! my_sonokai#get_configuration()
   return {
         \ 'style': get(g:, 'sonokai_style', 'default'),
         \ 'colors_override': get(g:, 'sonokai_colors_override', {}),
@@ -28,7 +31,7 @@ function! my_sonokai#get_configuration() "{{{
         \ }
 endfunction
 
-function! my_sonokai#get_palette(style, colors_override) "{{{
+function! my_sonokai#get_palette(style, colors_override)
   let palette = {
         \ 'black':      ['#181819',   '232'],
         \ 'bg_dim':     ['#222327',   '232'],
@@ -56,9 +59,9 @@ function! my_sonokai#get_palette(style, colors_override) "{{{
         \ 'none':       ['NONE',      'NONE']
         \ }
   return extend(palette, a:colors_override)
-endfunction "}}}
+endfunction
 
-function! my_sonokai#highlight(group, fg, bg, ...) "{{{
+function! my_sonokai#highlight(group, fg, bg, ...)
   execute 'highlight' a:group
         \ 'guifg=' . a:fg[0]
         \ 'guibg=' . a:bg[0]
@@ -73,121 +76,9 @@ function! my_sonokai#highlight(group, fg, bg, ...) "{{{
         \ 'guisp=' . (a:0 >= 2 ?
           \ a:2[0] :
           \ 'NONE')
-endfunction "}}}
-function! my_sonokai#syn_gen(path, last_modified, msg) "{{{
-  " Generate the `after/syntax` directory.
-  let full_content = join(readfile(a:path), "\n") " Get the content of `colors/sonokai.vim`
-  let syn_conent = []
-  let rootpath = my_sonokai#syn_rootpath(a:path) " Get the path to place the `after/syntax` directory.
-  call substitute(full_content, '" syn_begin.\{-}syn_end', '\=add(syn_conent, submatch(0))', 'g') " Search for 'syn_begin.\{-}syn_end' (non-greedy) and put all the search results into a list.
-  for content in syn_conent
-    let syn_list = []
-    call substitute(matchstr(matchstr(content, 'syn_begin:.\{-}{{{'), ':.\{-}{{{'), '\(\w\|-\)\+', '\=add(syn_list, submatch(0))', 'g') " Get the file types. }}}}}}
-    for syn in syn_list
-      call my_sonokai#syn_write(rootpath, syn, content) " Write the content.
-    endfor
-  endfor
-  call my_sonokai#syn_write(rootpath, 'text', "let g:sonokai_last_modified = '" . a:last_modified . "'") " Write the last modified time to `after/syntax/text/sonokai.vim`
-  let syntax_relative_path = has('win32') ? '\after\syntax' : '/after/syntax'
-  if a:msg ==# 'update'
-    echohl WarningMsg | echom '[sonokai] Updated ' . rootpath . syntax_relative_path | echohl None
-    call my_sonokai#ftplugin_detect(a:path)
-  else
-    echohl WarningMsg | echom '[sonokai] Generated ' . rootpath . syntax_relative_path | echohl None
-    execute 'set runtimepath+=' . fnamemodify(rootpath, ':p') . 'after'
-  endif
-endfunction "}}}
-function! my_sonokai#syn_write(rootpath, syn, content) "{{{
-  " Write the content.
-  let syn_path = a:rootpath . '/after/syntax/' . a:syn . '/sonokai.vim' " The path of a syntax file.
-  " create a new file if it doesn't exist
-  if !filereadable(syn_path)
-    call mkdir(a:rootpath . '/after/syntax/' . a:syn, 'p')
-    call writefile([
-          \ "if !exists('g:colors_name') || g:colors_name !=# 'sonokai'",
-          \ '    finish',
-          \ 'endif'
-          \ ], syn_path, 'a') " Abort if the current color scheme is not sonokai.
-    call writefile([
-          \ "if index(g:sonokai_loaded_file_types, '" . a:syn . "') ==# -1",
-          \ "    call add(g:sonokai_loaded_file_types, '" . a:syn . "')",
-          \ 'else',
-          \ '    finish',
-          \ 'endif'
-          \ ], syn_path, 'a') " Abort if this file type has already been loaded.
-  endif
-  " If there is something like `call my_sonokai#highlight()`, then add
-  " code to initialize the palette and configuration.
-  if matchstr(a:content, 'my_sonokai#highlight') !=# ''
-    call writefile([
-          \ 'let s:configuration = my_sonokai#get_configuration()',
-          \ 'let s:palette = my_sonokai#get_palette(s:configuration.style, s:configuration.colors_override)'
-          \ ], syn_path, 'a')
-  endif
-  " Append the content.
-  call writefile(split(a:content, "\n"), syn_path, 'a')
-  " Add modeline.
-  call writefile(['" vim: set sw=2 ts=2 sts=2 et tw=80 ft=vim fdm=marker fmr={{{,}}}:'], syn_path, 'a')
-endfunction "}}}
-function! my_sonokai#syn_rootpath(path) "{{{
-  " Get the directory where `after/syntax` is generated.
-  if (matchstr(a:path, '^/usr/share') ==# '') " Return the plugin directory. The `after/syntax` directory should never be generated in `/usr/share`, even if you are a root user.
-    return fnamemodify(a:path, ':p:h:h')
-  else " Use vim home directory.
-    if has('nvim')
-      return stdpath('config')
-    else
-      return expand('~') . '/.vim'
-    endif
-  endif
-endfunction "}}}
-function! my_sonokai#syn_newest(path, last_modified) "{{{
-  " Determine whether the current syntax files are up to date by comparing the last modified time in `colors/sonokai.vim` and `after/syntax/text/sonokai.vim`.
-  let rootpath = my_sonokai#syn_rootpath(a:path)
-  execute 'source ' . rootpath . '/after/syntax/text/sonokai.vim'
-  return a:last_modified ==# g:sonokai_last_modified ? 1 : 0
-endfunction "}}}
-function! my_sonokai#syn_clean(path, msg) "{{{
-  " Clean the `after/syntax` directory.
-  let rootpath = my_sonokai#syn_rootpath(a:path)
-  " Remove `after/syntax/**/sonokai.vim`.
-  let file_list = split(globpath(rootpath, 'after/syntax/**/sonokai.vim'), "\n")
-  for file in file_list
-    call delete(file)
-  endfor
-  " Remove empty directories.
-  let dir_list = split(globpath(rootpath, 'after/syntax/*'), "\n")
-  for dir in dir_list
-    if globpath(dir, '*') ==# ''
-      call delete(dir, 'd')
-    endif
-  endfor
-  if globpath(rootpath . '/after/syntax', '*') ==# ''
-    call delete(rootpath . '/after/syntax', 'd')
-  endif
-  if globpath(rootpath . '/after', '*') ==# ''
-    call delete(rootpath . '/after', 'd')
-  endif
-  if a:msg
-    let syntax_relative_path = has('win32') ? '\after\syntax' : '/after/syntax'
-    echohl WarningMsg | echom '[sonokai] Cleaned ' . rootpath . syntax_relative_path | echohl None
-  endif
-endfunction "}}}
-function! my_sonokai#syn_exists(path) "{{{
-  return filereadable(my_sonokai#syn_rootpath(a:path) . '/after/syntax/text/sonokai.vim')
-endfunction "}}}
-function! my_sonokai#ftplugin_detect(path) "{{{
-  " Check if /after/ftplugin exists.
-  " This directory is generated in earlier versions, users may need to manually clean it.
-  let rootpath = my_sonokai#syn_rootpath(a:path)
-  if filereadable(my_sonokai#syn_rootpath(a:path) . '/after/ftplugin/text/sonokai.vim')
-    let ftplugin_relative_path = has('win32') ? '\after\ftplugin' : '/after/ftplugin'
-    echohl WarningMsg | echom '[sonokai] Detected ' . rootpath . ftplugin_relative_path | echohl None
-    echohl WarningMsg | echom '[sonokai] This directory is no longer used, you may need to manually delete it.' | echohl None
-  endif
-endfunction "}}}
+endfunction
 
-" Initialization: {{{
+" Initialization:
 let s:configuration = my_sonokai#get_configuration()
 let s:palette = my_sonokai#get_palette(s:configuration.style, s:configuration.colors_override)
 let s:path = expand('<sfile>:p') " the path of this script
@@ -216,12 +107,6 @@ endif
 
 let g:colors_name = 'my_sonokai'
 
-if !(has('termguicolors') && &termguicolors) && !has('gui_running') && &t_Co != 256
-  finish
-endif
-" }}}
-" Common Highlight Groups: {{{
-" UI: {{{
 call my_sonokai#highlight("Braces", s:palette.red, s:palette.none)
 call my_sonokai#highlight('ScrollView', s:teal, s:blue)
 if s:configuration.transparent_background >= 1
@@ -386,7 +271,6 @@ highlight! link TermCursor Cursor
 highlight! link healthError Red
 highlight! link healthSuccess Green
 highlight! link healthWarning Yellow
-" }}}
 " Syntax: {{{
 if s:configuration.enable_italic
   call my_sonokai#highlight('Type', s:palette.blue, s:palette.none, 'italic')
@@ -860,24 +744,6 @@ highlight! link diffLine Grey
 highlight! link diffIndexLine Purple
 " }}}
 " }}}
-" Generate the `after/syntax` directory based on the comment tags in this file.
-" For example, the content between `syn_begin: sh/zsh` and `syn_end` will be placed in `after/syntax/sh/sonokai.vim` and `after/syntax/zsh/sonokai.vim`.
-if my_sonokai#syn_exists(s:path) " If the syntax files exist.
-  if s:configuration.better_performance
-    if !my_sonokai#syn_newest(s:path, s:last_modified) " Regenerate if it's not up to date.
-      call my_sonokai#syn_clean(s:path, 0)
-      call my_sonokai#syn_gen(s:path, s:last_modified, 'update')
-    endif
-    finish
-  else
-    call my_sonokai#syn_clean(s:path, 1)
-  endif
-else
-  if s:configuration.better_performance
-    call my_sonokai#syn_gen(s:path, s:last_modified, 'generate')
-    finish
-  endif
-endif
 " syn_begin: packer {{{
 " https://github.com/wbthomason/packer.nvim
 highlight! link packerSuccess Green
@@ -1769,4 +1635,3 @@ highlight!      CmpItemKindText          guibg=NONE guifg=#D4D4D4
 highlight!      CmpItemKindUnit          guibg=NONE guifg=#D4D4D4
 highlight!      CmpItemKindConstant      guibg=NONE guifg=#409F31
 highlight!      CmpItemKindSnippet       guibg=NONE guifg=#E3E300
-" vim: set sw=2 ts=2 sts=2 et tw=80 ft=vim fdm=expr fmr={{{,}}}:

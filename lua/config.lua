@@ -92,10 +92,6 @@ g.sonokai_cursor = "auto"
 g.sonokai_diagnostic_text_highlight=0
 g.sonokai_diagnostic_line_highlight=0
 
-g.scratch_persistence_file = "~/vim-scratch.txt"
-g.scratch_height = 20
-g.coc_max_treeview_width = 30
-
 -- multicursor
 g.VM_Mono_hl   = 'DiffText'
 g.VM_Extend_hl = 'DiffAdd'
@@ -114,5 +110,8 @@ g.loaded_tar = 1
 
 vim.g.loaded_gzipPlugin= 1
 vim.g.loaded_gzip = 1
+
+g.neotree_width = 44
+g.outline_width = 36
 
 vim.cmd [[silent! colorscheme my_sonokai]]

@@ -16,7 +16,7 @@ map('n', "<A-C>", "<CMD>lua require'telescope.builtin'.commands{winblend=20, lay
 -- C-x-C-j Jumplist
 map('n', "<C-x><C-j>", "<CMD>lua require'telescope.builtin'.jumplist{fname_width=40, show_line=false, layout_config={width=0.8, height=0.7, preview_width=0.6}}<CR>", opts)
 -- C-x-C-r Registers
-map('n', "<C-x><C-r>", "<CMD>lua require'telescope.builtin'.registers{layout_config={width=0.8, height=0.7}}<CR>", opts)
+map('n', "<C-x><C-r>", "<CMD>lua require'telescope.builtin'.registers{layout_config={width=0.6, height=0.7}}<CR>", opts)
 -- C-x-C-k Keymaps
 map('n', "<C-x><C-k>", "<CMD>lua require'telescope.builtin'.keymaps{layout_config={width=0.8, height=0.7}}<CR>", opts)
 -- Alt-f -> file  browser
