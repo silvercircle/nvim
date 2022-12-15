@@ -213,14 +213,6 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local truncate = function(text, max_width)
-  if #text > max_width then
-    return string.sub(text, 1, max_width) .. "…"
-  else
-    return text
-  end
-end
-
 local luasnip = require("luasnip")
 local cmp = require("cmp")
 -- local cmp_helper = {}
@@ -293,7 +285,7 @@ cmp.setup({
   formatting = {
     format = function(entry, vim_item)
       -- Truncate the item if it is too long
-      vim_item.abbr = truncate(vim_item.abbr, max_abbr_item_width)
+      vim_item.abbr = Truncate(vim_item.abbr, max_abbr_item_width)
       -- fancy icons and a name of kind
       vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
       vim_item.kind = " " .. vim_item.kind_symbol .. " " .. vim_item.kind
@@ -333,9 +325,9 @@ cmp.setup({
 
           if lspserver_name == "pyright" and cmp_item.detail == "Auto-import" then
             local label = (cmp_item.labelDetails or {}).description
-            return label and (" " .. truncate(label, 20)) or nil
+            return label and (" " .. Truncate(label, 20)) or nil
           else
-            return truncate(cmp_item.detail, max_detail_item_width)
+            return Truncate(cmp_item.detail, max_detail_item_width)
           end
         end)(cmp_item)
         if detail_txt then
@@ -444,7 +436,7 @@ cmp.setup.cmdline(":", {
 
 -- null-ls: Linting, diagnostics, formatting etc.
 if vim.g.config_null_ls == true then
-  vim.cmd([[ PackerLoad null-ls.nvim ]])
+  -- vim.cmd([[ PackerLoad null-ls.nvim ]])
   local null_ls = require("null-ls")
   null_ls.setup({
    -- the external tools must be installed separately. see comments

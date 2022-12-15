@@ -58,7 +58,7 @@ vim.g.config_noice = false
 vim.g.config_cokeline = true                   -- use cokeline (and disable lualine tabbar)
 vim.g.cokeline_filename_width = 20             -- max filename length on cokeline tabs
 vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' for the integrated theme 
-                                               -- or any valid lualine theme name
+                                               -- or any valid lualine theme name (e.g. 'dracula')
 
 function Cokeline_theme()
   return {
@@ -66,6 +66,14 @@ function Cokeline_theme()
       fg = function(buffer) return buffer.is_focused and cokeline_colors.focus_fg or cokeline_colors.fg end,
       bg = function(buffer) return buffer.is_focused and cokeline_colors.focus_bg or cokeline_colors.bg end
     },
-    unread = '#ff6060'
+    unsaved = '#ff6060' -- the unsaved indicator on the tab
   }
+end
+
+Truncate = function(text, max_width)
+  if #text > max_width then
+    return string.sub(text, 1, max_width) .. "…"
+  else
+    return text
+  end
 end

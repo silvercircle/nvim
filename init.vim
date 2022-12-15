@@ -32,8 +32,6 @@ if g:config_noice == v:true
   lua require('setup_noice')
 endif
 
-" lua require('setup_noice')
-
 run macros/justify.vim
 
 command AutowrapOn setlocal fo+=w | setlocal fo+=w
