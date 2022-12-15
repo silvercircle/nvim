@@ -1,6 +1,6 @@
 -- set vim options and autocommands. No plugins involved
 
-local o = vim.opt
+local o = vim.o
 
 o.shada = "'500,<50,s10,h,f1,%20"
 o.termguicolors = true
@@ -8,13 +8,13 @@ o.background = "dark"
 o.cursorline = true
 o.sessionoptions = "buffers"
 o.wildmenu = true
-o.wildoptions:append("pum")
+vim.opt.wildoptions:append("pum")
 o.wildmode = "list:longest,full"
 o.ttyfast = true
 -- no scrollbar on the left side. Ever. Because it's stupid :)
 o.virtualedit = "all"
 o.equalalways = false
-o.guicursor:append({ "i:block-iCursor" })
+vim.opt.guicursor:append({ "i:block-iCursor" })
 o.autoindent = true
 o.copyindent = true
 o.shiftwidth = 4
@@ -66,14 +66,14 @@ o.foldnestmax = 5
 -- this keeps views small
 o.viewoptions = "folds,cursor"
 -- no ~ at blank lines
-o.fillchars = { eob = " " }
+vim.opt.fillchars = { eob = " " }
 o.completeopt = "menu,menuone,noinsert"
 -- coc and also CMP respect this settings for the maximum autocomplete-popup height
 o.pumheight = 15
 -- allow two signcolumns, the first will be occupied by git signs
 o.signcolumn = "yes:2"
 -- set &dictionary to allow auto-complete with coc-dictionary
-o.dictionary:append(vim.fn.stdpath("data") .. "/dict")
+vim.opt.dictionary:append(vim.fn.stdpath("data") .. "/dict")
 -- do not use swap files.
 o.swapfile = false
 -- wait 800ms to show hover popups (diagnostics, for example) this would
@@ -88,8 +88,7 @@ o.scrolloff = 5
 o.undolevels = 200
 o.scrolljump = 5
 o.sidescrolloff = 5
-
--- o.eventignore="InsertEnter,InsertLeave"
+o.conceallevel = 0
 
 -- autogroups
 local agroup_enter = vim.api.nvim_create_augroup("enter", {})
@@ -118,14 +117,6 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
     end
   end,
   group = agroup_enter,
-})
--- never conceal anything. Conceal is evil :)
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = "*",
-  callback = function()
-    vim.opt_local.conceallevel = 0
-  end,
-  group = agroup_files,
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {

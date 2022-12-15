@@ -99,6 +99,7 @@ g.VM_Cursor_hl = 'Visual'
 g.VM_Insert_hl = 'DiffChange'
 g.tex_conceal = ''
 
+-- disable some standard plugins
 g.loaded_netrw       = 1
 g.loaded_netrwPlugin = 1
 
@@ -108,10 +109,11 @@ g.loaded_zip = 1
 g.loaded_tarPlugin= 1
 g.loaded_tar = 1
 
-vim.g.loaded_gzipPlugin= 1
-vim.g.loaded_gzip = 1
+g.loaded_gzipPlugin= 1
+g.loaded_gzip = 1
 
 g.neotree_width = 44
 g.outline_width = 36
 
+-- load the color theme
 vim.cmd [[silent! colorscheme my_sonokai]]

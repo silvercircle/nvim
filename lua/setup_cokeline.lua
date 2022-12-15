@@ -1,5 +1,4 @@
-
--- vim.cmd([[ PackerLoad nvim-cokeline ]])
+-- setup cokeline plugin. It provides a buffer line (aka tab-bar)
 require('cokeline').setup({
   -- Cokeline_theme() is defined in config.lua
   default_hl = Cokeline_theme().hl,
@@ -15,7 +14,7 @@ require('cokeline').setup({
     }
   },
   components = {
-    { text = function(buffer) return (buffer.index ~= 1) and '▏' or '' end, },
+    { text = function(buffer) return (buffer.index ~= 1) and '▏' or ' ' end, },
     {
       text = function(buffer) return buffer.devicon.icon end,
       fg = function(buffer) return buffer.devicon.color end
