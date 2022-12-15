@@ -1,19 +1,16 @@
 " This REQUIRES Neovim version 0.8.0 or later. Might work with earlier
 " versions, but this has not been tested or verified.
 
-" the following variables allow to enable or disable certain plugins
-" a PackerSync should be used to update the Plugin configuration
-" this is currently WIP and not working yet
-
-lua require('config')
-
 lua require('impatient_bootstrap')
 lua require('impatient')
+
+" Set configuration variables
+lua require('config')
+" load plugins (packer)
 lua require('load_plugins')
 exec "source " . expand("<sfile>:h") . '/plugin/packer_compiled.lua'
-"source packer_compiled.lua
+
 lua require('vim_options')
-lua require('globals')
 lua require('setup_lsp')
 lua require('setup_plugins')
 lua require('setup_telescope')
