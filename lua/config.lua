@@ -85,7 +85,7 @@ g.mapleader = ','
 
 -- sonokai theme
 g.sonokai_menu_selection_background='red'
-g.sonokai_style='atlantis'
+g.sonokai_style='default'
 g.sonokai_transparent_background=1
 g.sonokai_disable_italic_comment=1
 g.sonokai_cursor = "auto"

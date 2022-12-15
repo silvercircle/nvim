@@ -12,7 +12,7 @@ return require("packer").startup(function(use)
   use 'L3MON4D3/LuaSnip'
   use 'saadparwaiz1/cmp_luasnip'
   use 'nvim-tree/nvim-web-devicons'
-  use 'sainnhe/sonokai'
+--   use 'sainnhe/sonokai'
   use { 'jose-elias-alvarez/null-ls.nvim', cond = function() return vim.g.config_null_ls end }
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'

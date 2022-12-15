@@ -254,11 +254,6 @@ _G.packer_plugins = {
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/ripgrep",
     url = "https://github.com/BurntSushi/ripgrep"
   },
-  sonokai = {
-    loaded = true,
-    path = "/home/alex/.local/share/nvim/site/pack/packer/start/sonokai",
-    url = "https://github.com/sainnhe/sonokai"
-  },
   ["symbols-outline.nvim"] = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/symbols-outline.nvim",
@@ -316,12 +311,12 @@ time([[Defining packer_plugins]], false)
 time([[Conditional loading of null-ls.nvim]], true)
   require("packer.load")({"null-ls.nvim"}, {}, _G.packer_plugins)
 time([[Conditional loading of null-ls.nvim]], false)
-time([[Conditional loading of noice.nvim]], true)
-  require("packer.load")({"noice.nvim"}, {}, _G.packer_plugins)
-time([[Conditional loading of noice.nvim]], false)
 time([[Conditional loading of nvim-cokeline]], true)
   require("packer.load")({"nvim-cokeline"}, {}, _G.packer_plugins)
 time([[Conditional loading of nvim-cokeline]], false)
+time([[Conditional loading of noice.nvim]], true)
+  require("packer.load")({"noice.nvim"}, {}, _G.packer_plugins)
+time([[Conditional loading of noice.nvim]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then
