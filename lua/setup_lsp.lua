@@ -77,6 +77,7 @@ lspconfig.omnisharp.setup({ on_attach = on_attach,
     return util.root_pattern '*.sln'(fname) or util.root_pattern '*.csproj'(fname)
   end,
   on_new_config = function(new_config, new_root_dir)
+    new_config.cmd = { "omnisharp" }
     table.insert(new_config.cmd, '-z') -- https://github.com/OmniSharp/omnisharp-vscode/pull/4300
     vim.list_extend(new_config.cmd, { '-s', new_root_dir })
     vim.list_extend(new_config.cmd, { '--hostPID', tostring(vim.fn.getpid()) })
@@ -84,10 +85,7 @@ lspconfig.omnisharp.setup({ on_attach = on_attach,
     vim.list_extend(new_config.cmd, { '--encoding', 'utf-8' })
     table.insert(new_config.cmd, '--languageserver')
     table.insert(new_config.cmd, 'csharp.semanticHighlighting.enabled=false')
-    table.insert(new_config.cmd, 'dotnet_diagnostic.IDE0055.severity=none')
-    if new_config.enable_editorconfig_support then
-      table.insert(new_config.cmd, 'FormattingOptions:EnableEditorConfigSupport=true')
-    end
+    table.insert(new_config.cmd, 'FormattingOptions:EnableEditorConfigSupport=true')
     if new_config.organize_imports_on_format then
       table.insert(new_config.cmd, 'FormattingOptions:OrganizeImports=true')
     end
@@ -108,6 +106,24 @@ lspconfig.omnisharp.setup({ on_attach = on_attach,
     end
   end,
   init_options = {}
+})
+lspconfig.metals.setup({
+  cmd = { '/home/alex/.local/share/coursier/bin/metals' },
+  filetypes = { 'scala' },
+  root_dir = util.root_pattern('build.sbt', 'build.sc', 'build.gradle', 'pom.xml'),
+  message_level = vim.lsp.protocol.MessageType.Log,
+  init_options = {
+    statusBarProvider = 'show-message',
+    isHttpEnabled = true,
+    compilerOptions = {
+      snippetAutoIndent = false,
+    },
+  },
+  capabilities = {
+    workspace = {
+      configuration = false,
+    },
+  },
 })
 lspconfig.pyright.setup({ on_attach = on_attach })
 lspconfig.sumneko_lua.setup {
@@ -498,3 +514,10 @@ if vim.g.config_null_ls == true then
     ]])
   end
 end
+
+require('lspsaga').init_lsp_saga({
+  code_action_lightbulb = { enable = false },
+  show_outline = {
+    win_width=36
+  }
+})

@@ -96,11 +96,11 @@ map('n', "<A-w>", ":close<CR>", opts)
 map('n', "<A-q>", ":qa!<CR>", opts)
 
 -- Telekasten mappings
-map('n', "ZP", ":lua require('telekasten').panel()<CR>", opts)
-map('n', "ZF", ":lua require('telekasten').find_notes()<CR>", opts)
-map('n', "ZD", ":lua require('telekasten').find_daily_notes()<CR>", opts)
-map('n', "ZS", ":lua require('telekasten').search_notes()<CR>", opts)
-map('n', "ZL", ":lua require('telekasten').follow_link()<CR>", opts)
+map('n', "Zp", ":lua require('telekasten').panel()<CR>", opts)
+map('n', "Zf", ":lua require('telekasten').find_notes()<CR>", opts)
+map('n', "Zd", ":lua require('telekasten').find_daily_notes()<CR>", opts)
+map('n', "Zs", ":lua require('telekasten').search_notes()<CR>", opts)
+map('n', "Zl", ":lua require('telekasten').follow_link()<CR>", opts)
 
 -- LSP mappings
 map('n', "lsi", ":LspInfo<CR>", opts)     -- LspInfo
@@ -125,9 +125,13 @@ map('n', "DO", ":lua vim.diagnostic.open_float()<CR>", opts)             -- show
 map('n', "DN", ":lua vim.diagnostic.goto_next()<CR>", opts)              -- goto next
 map('n', "DP", ":lua vim.diagnostic.goto_prev()<CR>", opts)              -- goto prev
 map('n', "DD", ":lua vim.lsp.buf.hover()<CR>", opts)                     -- show hover info for symbol
-map('n', "DA", ":CodeActionMenu<CR>", opts)               -- code action
 map('n', "DF", ":LspFormatDoc<CR>", opts)         -- format the doc with null-ls provider
 map('v', "DR", ":LspFormatRange<CR>", opts )      -- format the range with null-ls provider
+-- lspsaga
+map('n', "Sa", ":Lspsaga code_action<CR>", opts)               -- code action
+map('n', "Sf", ":Lspsaga lsp_finder<CR>", opts)
+
+
 -- hlslens
 local kopts = {noremap = true, silent = true}
 
