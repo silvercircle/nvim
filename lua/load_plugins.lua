@@ -60,4 +60,7 @@ return require("packer").startup(function(use)
       "nvim-telescope/telescope.nvim"
     }
   })
+  use({
+    'weilbith/nvim-code-action-menu', cmd = 'CodeActionMenu'
+  })
 end)

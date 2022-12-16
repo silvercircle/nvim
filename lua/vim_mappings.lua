@@ -125,7 +125,7 @@ map('n', "DO", ":lua vim.diagnostic.open_float()<CR>", opts)             -- show
 map('n', "DN", ":lua vim.diagnostic.goto_next()<CR>", opts)              -- goto next
 map('n', "DP", ":lua vim.diagnostic.goto_prev()<CR>", opts)              -- goto prev
 map('n', "DD", ":lua vim.lsp.buf.hover()<CR>", opts)                     -- show hover info for symbol
-
+map('n', "DA", ":CodeActionMenu<CR>", opts)               -- code action
 map('n', "DF", ":LspFormatDoc<CR>", opts)         -- format the doc with null-ls provider
 map('v', "DR", ":LspFormatRange<CR>", opts )      -- format the range with null-ls provider
 -- hlslens

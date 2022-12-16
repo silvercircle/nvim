@@ -211,6 +211,14 @@ _G.packer_plugins = {
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
   },
+  ["nvim-code-action-menu"] = {
+    commands = { "CodeActionMenu" },
+    loaded = false,
+    needs_bufread = true,
+    only_cond = false,
+    path = "/home/alex/.local/share/nvim/site/pack/packer/opt/nvim-code-action-menu",
+    url = "https://github.com/weilbith/nvim-code-action-menu"
+  },
   ["nvim-cokeline"] = {
     cond = { "\27LJ\2\n-\0\0\1\0\3\0\0046\0\0\0009\0\1\0009\0\2\0L\0\2\0\20config_cokeline\6g\bvim\0" },
     loaded = false,
@@ -318,15 +326,27 @@ time([[Config for ChatGPT.nvim]], true)
 try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\fchatgpt\frequire\0", "config", "ChatGPT.nvim")
 time([[Config for ChatGPT.nvim]], false)
 -- Conditional loads
+time([[Conditional loading of null-ls.nvim]], true)
+  require("packer.load")({"null-ls.nvim"}, {}, _G.packer_plugins)
+time([[Conditional loading of null-ls.nvim]], false)
 time([[Conditional loading of nvim-cokeline]], true)
   require("packer.load")({"nvim-cokeline"}, {}, _G.packer_plugins)
 time([[Conditional loading of nvim-cokeline]], false)
 time([[Conditional loading of noice.nvim]], true)
   require("packer.load")({"noice.nvim"}, {}, _G.packer_plugins)
 time([[Conditional loading of noice.nvim]], false)
-time([[Conditional loading of null-ls.nvim]], true)
-  require("packer.load")({"null-ls.nvim"}, {}, _G.packer_plugins)
-time([[Conditional loading of null-ls.nvim]], false)
+
+-- Command lazy-loads
+time([[Defining lazy-load commands]], true)
+pcall(vim.api.nvim_create_user_command, 'CodeActionMenu', function(cmdargs)
+          require('packer.load')({'nvim-code-action-menu'}, { cmd = 'CodeActionMenu', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'nvim-code-action-menu'}, { cmd = 'CodeActionMenu' }, _G.packer_plugins)
+          return vim.fn.getcompletion('CodeActionMenu ', 'cmdline')
+      end})
+time([[Defining lazy-load commands]], false)
+
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then
