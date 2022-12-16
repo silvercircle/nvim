@@ -4,7 +4,7 @@ local actions_fb = require("telescope").extensions.file_browser.actions
 
 --[[
 --the following two functions are helpers for Telescope to workaround a bug
---with creating/restoring view via autocmd when picking files via telescope.
+--with creating/restoring views via autocmd when picking files via telescope.
 --]]
 local function stopinsert(callback)
   return function(prompt_bufnr)

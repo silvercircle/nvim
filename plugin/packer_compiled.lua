@@ -74,6 +74,12 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["ChatGPT.nvim"] = {
+    config = { "\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\fchatgpt\frequire\0" },
+    loaded = true,
+    path = "/home/alex/.local/share/nvim/site/pack/packer/start/ChatGPT.nvim",
+    url = "https://github.com/jackMort/ChatGPT.nvim"
+  },
   LuaSnip = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/LuaSnip",
@@ -307,16 +313,20 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: ChatGPT.nvim
+time([[Config for ChatGPT.nvim]], true)
+try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\fchatgpt\frequire\0", "config", "ChatGPT.nvim")
+time([[Config for ChatGPT.nvim]], false)
 -- Conditional loads
+time([[Conditional loading of nvim-cokeline]], true)
+  require("packer.load")({"nvim-cokeline"}, {}, _G.packer_plugins)
+time([[Conditional loading of nvim-cokeline]], false)
 time([[Conditional loading of noice.nvim]], true)
   require("packer.load")({"noice.nvim"}, {}, _G.packer_plugins)
 time([[Conditional loading of noice.nvim]], false)
 time([[Conditional loading of null-ls.nvim]], true)
   require("packer.load")({"null-ls.nvim"}, {}, _G.packer_plugins)
 time([[Conditional loading of null-ls.nvim]], false)
-time([[Conditional loading of nvim-cokeline]], true)
-  require("packer.load")({"nvim-cokeline"}, {}, _G.packer_plugins)
-time([[Conditional loading of nvim-cokeline]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

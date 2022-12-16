@@ -47,4 +47,17 @@ return require("packer").startup(function(use)
   use { 'noib3/nvim-cokeline', cond = function() return vim.g.config_cokeline end }
   use { 'nvim-telescope/telescope-fzf-native.nvim',
     run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
+  use({
+    "jackMort/ChatGPT.nvim",
+    config = function()
+      require("chatgpt").setup({
+        -- optional configuration
+      })
+    end,
+    requires = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim"
+    }
+  })
 end)

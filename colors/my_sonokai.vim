@@ -577,14 +577,6 @@ highlight! link LspSemanticNumber TSNumber
 highlight! link LspSemanticRegexp TSStringRegex
 highlight! link LspSemanticOperator TSOperator
 " }}}
-" vim-syntastic/syntastic {{{
-highlight! link SyntasticError ErrorText
-highlight! link SyntasticWarning WarningText
-highlight! link SyntasticErrorSign RedSign
-highlight! link SyntasticWarningSign YellowSign
-highlight! link SyntasticErrorLine ErrorLine
-highlight! link SyntasticWarningLine WarningLine
-" }}}
 highlight! link SignifySignAdd GreenSign
 highlight! link SignifySignChange BlueSign
 highlight! link SignifySignDelete RedSign
@@ -988,53 +980,6 @@ highlight! link xmlCdataCdata Purple
 highlight! link xmlString Green
 " }}}
 " syn_end }}}
-" syn_begin: css/scss/sass/less {{{
-" builtin: https://github.com/JulesWang/css.vim{{{
-highlight! link cssStringQ Green
-highlight! link cssStringQQ Green
-highlight! link cssAttrComma Grey
-highlight! link cssBraces Red
-highlight! link cssTagName Purple
-highlight! link cssClassNameDot Grey
-highlight! link cssClassName Red
-highlight! link cssFunctionName Orange
-highlight! link cssAttr Green
-highlight! link cssCommonAttr Green
-highlight! link cssProp Blue
-highlight! link cssPseudoClassId Yellow
-highlight! link cssPseudoClassFn Green
-highlight! link cssPseudoClass Yellow
-highlight! link cssImportant Red
-highlight! link cssSelectorOp Orange
-highlight! link cssSelectorOp2 Orange
-highlight! link cssColor Green
-highlight! link cssUnitDecorators Green
-highlight! link cssValueLength Green
-highlight! link cssValueInteger Green
-highlight! link cssValueNumber Green
-highlight! link cssValueAngle Green
-highlight! link cssValueTime Green
-highlight! link cssValueFrequency Green
-highlight! link cssVendor Grey
-highlight! link cssNoise Grey
-" }}}
-" syn_end }}}
-" syn_begin: scss {{{
-" scss-syntax: https://github.com/cakebaker/scss-syntax.vim{{{
-highlight! link scssMixinName Orange
-highlight! link scssSelectorChar Grey
-highlight! link scssSelectorName Red
-highlight! link scssInterpolationDelimiter Yellow
-highlight! link scssVariableValue Green
-highlight! link scssNull Purple
-highlight! link scssBoolean Purple
-highlight! link scssVariableAssignment Grey
-highlight! link scssAttribute Green
-highlight! link scssFunctionName Orange
-highlight! link scssVariable Fg
-highlight! link scssAmpersand Purple
-" }}}
-" syn_end }}}
 " syn_begin: less {{{
 " vim-less: https://github.com/groenewege/vim-less{{{
 highlight! link lessMixinChar Grey
@@ -1164,22 +1109,6 @@ highlight! link pythonNone OrangeItalic
 highlight! link pythonCoding Grey
 highlight! link pythonDot Grey
 " }}}
-" semshi: https://github.com/numirias/semshi{{{
-call my_sonokai#highlight('semshiUnresolved', s:palette.orange, s:palette.none, 'undercurl')
-highlight! link semshiImported TSInclude
-highlight! link semshiParameter TSParameter
-highlight! link semshiParameterUnused Grey
-highlight! link semshiSelf TSVariableBuiltin
-highlight! link semshiGlobal TSType
-highlight! link semshiBuiltin TSTypeBuiltin
-highlight! link semshiAttribute TSAttribute
-highlight! link semshiLocal TSKeyword
-highlight! link semshiFree TSKeyword
-highlight! link semshiSelected CurrentWord
-highlight! link semshiErrorSign RedSign
-highlight! link semshiErrorChar RedSign
-" }}}
-" syn_end }}}
 " syn_begin: lua {{{
 " builtin: {{{
 highlight! link luaFunc Green
@@ -1242,22 +1171,6 @@ highlight! link goDirective Red
 highlight! link goConstants OrangeItalic
 highlight! link goDeclType Red
 " }}}
-" syn_begin: rust {{{
-" builtin: https://github.com/rust-lang/rust.vim{{{
-highlight! link rustStructure Red
-highlight! link rustIdentifier OrangeItalic
-highlight! link rustModPath BlueItalic
-highlight! link rustModPathSep Grey
-highlight! link rustSelf OrangeItalic
-highlight! link rustSuper OrangeItalic
-highlight! link rustDeriveTrait Purple
-highlight! link rustEnumVariant Purple
-highlight! link rustMacroVariable OrangeItalic
-highlight! link rustAssert Green
-highlight! link rustPanic Green
-highlight! link rustPubScopeCrate BlueItalic
-highlight! link rustAttribute Purple
-" }}}
 " coc-rust-analyzer: https://github.com/fannheyward/coc-rust-analyzer {{{
 highlight! link CocRustChainingHint Grey
 highlight! link CocRustTypeHint Grey
@@ -1310,72 +1223,6 @@ highlight! link rubyAccess Red
 highlight! link rubyMacro Red
 highlight! link rubySymbol Fg
 " }}}
-" syn_end }}}
-" syn_begin: haskell {{{
-" haskell-vim: https://github.com/neovimhaskell/haskell-vim{{{
-highlight! link haskellBrackets Fg
-highlight! link haskellIdentifier OrangeItalic
-highlight! link haskellDecl Red
-highlight! link haskellType BlueItalic
-highlight! link haskellDeclKeyword Red
-highlight! link haskellWhere Red
-highlight! link haskellDeriving Red
-highlight! link haskellForeignKeywords Red
-" }}}
-" syn_end }}}
-" syn_begin: perl/pod {{{
-" builtin: https://github.com/vim-perl/vim-perl{{{
-highlight! link perlStatementPackage Red
-highlight! link perlStatementInclude Red
-highlight! link perlStatementStorage Red
-highlight! link perlStatementList Red
-highlight! link perlMatchStartEnd Red
-highlight! link perlVarSimpleMemberName Green
-highlight! link perlVarSimpleMember Fg
-highlight! link perlMethod Green
-highlight! link podVerbatimLine Green
-highlight! link podCmdText Yellow
-highlight! link perlVarPlain Fg
-highlight! link perlVarPlain2 Fg
-" }}}
-" syn_end }}}
-" syn_begin: ocaml {{{
-" builtin: https://github.com/rgrinberg/vim-ocaml{{{
-highlight! link ocamlArrow Red
-highlight! link ocamlEqual Red
-highlight! link ocamlOperator Red
-highlight! link ocamlKeyChar Red
-highlight! link ocamlModPath Green
-highlight! link ocamlFullMod Green
-highlight! link ocamlModule BlueItalic
-highlight! link ocamlConstructor Orange
-highlight! link ocamlModParam Fg
-highlight! link ocamlModParam1 Fg
-highlight! link ocamlAnyVar Fg " aqua
-highlight! link ocamlPpxEncl Red
-highlight! link ocamlPpxIdentifier Fg
-highlight! link ocamlSigEncl Red
-highlight! link ocamlModParam1 Fg
-" }}}
-" syn_end }}}
-" syn_begin: erlang {{{
-" builtin: https://github.com/vim-erlang/vim-erlang-runtime{{{
-highlight! link erlangAtom Fg
-highlight! link erlangVariable Fg
-highlight! link erlangLocalFuncRef Green
-highlight! link erlangLocalFuncCall Green
-highlight! link erlangGlobalFuncRef Green
-highlight! link erlangGlobalFuncCall Green
-highlight! link erlangAttribute BlueItalic
-highlight! link erlangPipe Red
-" syn_end }}}
-" syn_begin: lisp {{{
-" builtin: http://www.drchip.org/astronaut/vim/index.html#SYNTAX_LISP{{{
-highlight! link lispAtomMark Purple
-highlight! link lispKey Orange
-highlight! link lispFunc Green
-" }}}
-" syn_end }}}
 " syn_begin: matlab {{{
 " builtin: {{{
 highlight! link matlabSemicolon Fg
@@ -1419,140 +1266,6 @@ highlight! link ps1FunctionDeclaration Green
 highlight! link ps1InterpolationDelimiter Purple
 highlight! link ps1BuiltIn BlueItalic
 " }}}
-" syn_end }}}
-" syn_begin: vim {{{
-call my_sonokai#highlight('vimCommentTitle', s:palette.grey, s:palette.none, 'bold')
-highlight! link vimLet Red
-highlight! link vimFunction Green
-highlight! link vimIsCommand Fg
-highlight! link vimUserFunc Green
-highlight! link vimFuncName Green
-highlight! link vimMap BlueItalic
-highlight! link vimNotation Purple
-highlight! link vimMapLhs Green
-highlight! link vimMapRhs Green
-highlight! link vimSetEqual BlueItalic
-highlight! link vimSetSep Fg
-highlight! link vimOption BlueItalic
-highlight! link vimUserAttrbKey BlueItalic
-highlight! link vimUserAttrb Green
-highlight! link vimAutoCmdSfxList Orange
-highlight! link vimSynType Orange
-highlight! link vimHiBang Orange
-highlight! link vimSet BlueItalic
-highlight! link vimSetSep Grey
-" syn_end }}}
-" syn_begin: make {{{
-highlight! link makeIdent Purple
-highlight! link makeSpecTarget BlueItalic
-highlight! link makeTarget Orange
-highlight! link makeCommands Red
-" syn_end }}}
-" syn_begin: cmake {{{
-highlight! link cmakeCommand Red
-highlight! link cmakeKWconfigure_package_config_file BlueItalic
-highlight! link cmakeKWwrite_basic_package_version_file BlueItalic
-highlight! link cmakeKWExternalProject Green
-highlight! link cmakeKWadd_compile_definitions Green
-highlight! link cmakeKWadd_compile_options Green
-highlight! link cmakeKWadd_custom_command Green
-highlight! link cmakeKWadd_custom_target Green
-highlight! link cmakeKWadd_definitions Green
-highlight! link cmakeKWadd_dependencies Green
-highlight! link cmakeKWadd_executable Green
-highlight! link cmakeKWadd_library Green
-highlight! link cmakeKWadd_link_options Green
-highlight! link cmakeKWadd_subdirectory Green
-highlight! link cmakeKWadd_test Green
-highlight! link cmakeKWbuild_command Green
-highlight! link cmakeKWcmake_host_system_information Green
-highlight! link cmakeKWcmake_minimum_required Green
-highlight! link cmakeKWcmake_parse_arguments Green
-highlight! link cmakeKWcmake_policy Green
-highlight! link cmakeKWconfigure_file Green
-highlight! link cmakeKWcreate_test_sourcelist Green
-highlight! link cmakeKWctest_build Green
-highlight! link cmakeKWctest_configure Green
-highlight! link cmakeKWctest_coverage Green
-highlight! link cmakeKWctest_memcheck Green
-highlight! link cmakeKWctest_run_script Green
-highlight! link cmakeKWctest_start Green
-highlight! link cmakeKWctest_submit Green
-highlight! link cmakeKWctest_test Green
-highlight! link cmakeKWctest_update Green
-highlight! link cmakeKWctest_upload Green
-highlight! link cmakeKWdefine_property Green
-highlight! link cmakeKWdoxygen_add_docs Green
-highlight! link cmakeKWenable_language Green
-highlight! link cmakeKWenable_testing Green
-highlight! link cmakeKWexec_program Green
-highlight! link cmakeKWexecute_process Green
-highlight! link cmakeKWexport Green
-highlight! link cmakeKWexport_library_dependencies Green
-highlight! link cmakeKWfile Green
-highlight! link cmakeKWfind_file Green
-highlight! link cmakeKWfind_library Green
-highlight! link cmakeKWfind_package Green
-highlight! link cmakeKWfind_path Green
-highlight! link cmakeKWfind_program Green
-highlight! link cmakeKWfltk_wrap_ui Green
-highlight! link cmakeKWforeach Green
-highlight! link cmakeKWfunction Green
-highlight! link cmakeKWget_cmake_property Green
-highlight! link cmakeKWget_directory_property Green
-highlight! link cmakeKWget_filename_component Green
-highlight! link cmakeKWget_property Green
-highlight! link cmakeKWget_source_file_property Green
-highlight! link cmakeKWget_target_property Green
-highlight! link cmakeKWget_test_property Green
-highlight! link cmakeKWif Green
-highlight! link cmakeKWinclude Green
-highlight! link cmakeKWinclude_directories Green
-highlight! link cmakeKWinclude_external_msproject Green
-highlight! link cmakeKWinclude_guard Green
-highlight! link cmakeKWinstall Green
-highlight! link cmakeKWinstall_files Green
-highlight! link cmakeKWinstall_programs Green
-highlight! link cmakeKWinstall_targets Green
-highlight! link cmakeKWlink_directories Green
-highlight! link cmakeKWlist Green
-highlight! link cmakeKWload_cache Green
-highlight! link cmakeKWload_command Green
-highlight! link cmakeKWmacro Green
-highlight! link cmakeKWmark_as_advanced Green
-highlight! link cmakeKWmath Green
-highlight! link cmakeKWmessage Green
-highlight! link cmakeKWoption Green
-highlight! link cmakeKWproject Green
-highlight! link cmakeKWqt_wrap_cpp Green
-highlight! link cmakeKWqt_wrap_ui Green
-highlight! link cmakeKWremove Green
-highlight! link cmakeKWseparate_arguments Green
-highlight! link cmakeKWset Green
-highlight! link cmakeKWset_directory_properties Green
-highlight! link cmakeKWset_property Green
-highlight! link cmakeKWset_source_files_properties Green
-highlight! link cmakeKWset_target_properties Green
-highlight! link cmakeKWset_tests_properties Green
-highlight! link cmakeKWsource_group Green
-highlight! link cmakeKWstring Green
-highlight! link cmakeKWsubdirs Green
-highlight! link cmakeKWtarget_compile_definitions Green
-highlight! link cmakeKWtarget_compile_features Green
-highlight! link cmakeKWtarget_compile_options Green
-highlight! link cmakeKWtarget_include_directories Green
-highlight! link cmakeKWtarget_link_directories Green
-highlight! link cmakeKWtarget_link_libraries Green
-highlight! link cmakeKWtarget_link_options Green
-highlight! link cmakeKWtarget_precompile_headers Green
-highlight! link cmakeKWtarget_sources Green
-highlight! link cmakeKWtry_compile Green
-highlight! link cmakeKWtry_run Green
-highlight! link cmakeKWunset Green
-highlight! link cmakeKWuse_mangled_mesa Green
-highlight! link cmakeKWvariable_requires Green
-highlight! link cmakeKWvariable_watch Green
-highlight! link cmakeKWwrite_file Green
 " syn_end }}}
 " syn_begin: json {{{
 highlight! link jsonKeyword Blue

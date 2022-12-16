@@ -36,6 +36,7 @@ lspconfig.gopls.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.vimls.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.jdtls.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.serve_d.setup({ on_attach = on_attach, capabilities = capabilities })
+lspconfig.kotlin_language_server.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.omnisharp.setup({ on_attach = on_attach,
   capabilities = capabilities,
   enable_editorconfig_support = true,
