@@ -59,19 +59,19 @@ require("lualine").setup({
     lualine_c = { "filename", "searchcount" },
     lualine_x = {
       "encoding",
-      {
-        -- show unicode for character under cursor in hex and decimal
-        "%05B - %06b",
-        fmt = function(str)
-          return string.format("U:0x%s", str)
-        end,
-      },
+--      {
+--        -- show unicode for character under cursor in hex and decimal
+--        "%05B - %06b",
+--        fmt = function(str)
+--          return string.format("U:0x%s", str)
+--        end,
+--      },
       "fileformat",
       "filetype",
     },
     lualine_y = { "progress" },
     -- word counter via custom function
-    lualine_z = { { getWordsV2 }, "location" },
+    lualine_z = { "location" },
   },
   inactive_sections = {
     lualine_a = {},
