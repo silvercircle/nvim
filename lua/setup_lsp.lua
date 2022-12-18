@@ -432,42 +432,6 @@ cmp.setup({
   }
 })
 
-
--- Custom sorting/ranking for completion items.
--- cmp_helper.compare = {
---   -- Deprioritize items starting with underscores (private or protected)
---   deprioritize_underscore = function(lhs, rhs)
---     local l = (lhs.completion_item.label:find("^_+")) and 1 or 0
---     local r = (rhs.completion_item.label:find("^_+")) and 1 or 0
---     if l ~= r then
---       return l < r
---     end
---   end,
---   -- Prioritize items that ends with "= ..." (usually for argument completion).
---   prioritize_argument = function(lhs, rhs)
---     local l = (lhs.completion_item.label:find("=$")) and 1 or 0
---     local r = (rhs.completion_item.label:find("=$")) and 1 or 0
---     if l ~= r then
---       return l > r
---     end
---   end,
--- }
-
------------------------------------
---- Fidget.nvim (LSP status widget)
------------------------------------
-
-require("fidget").setup({
-  text = {
-    --see ~/.vim/plugged/fidget.nvim/lua/fidget/spinners.lua
-    spinner = "zip",
-  },
-  window = {
-    relative = "win",
-    blend = 50,
-  },
-})
-
 -- Command line completion
 cmp.setup.cmdline("/", {
   mapping = cmp.mapping.preset.cmdline(),

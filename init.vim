@@ -16,10 +16,7 @@ lua require('setup_plugins')
 lua require('setup_telescope')
 lua require('setup_lualine')
 lua require('setup_neotree')
-lua require('setup_scrollbar')
-lua require('setup_telekasten')
 lua require('setup_treesitter')
-lua require('setup_outline')
 lua require('setup_dressing')
 
 if g:config_cokeline == v:true

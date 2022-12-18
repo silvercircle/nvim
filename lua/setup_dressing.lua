@@ -19,7 +19,7 @@
     anchor = "SW",
     border = "rounded",
     -- 'editor' and 'win' will default to being centered
-    relative = "win",
+    relative = "cursor",
 
     -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
     prefer_width = 40,
