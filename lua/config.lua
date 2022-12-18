@@ -59,6 +59,8 @@ vim.g.config_cokeline = true                   -- use cokeline (and disable lual
 vim.g.cokeline_filename_width = 20             -- max filename length on cokeline tabs
 vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' for the integrated theme 
                                                -- or any valid lualine theme name (e.g. 'dracula')
+vim.g.config_neodev = false
+vim.g.config_lspsaga = false
 
 function Cokeline_theme()
   return {

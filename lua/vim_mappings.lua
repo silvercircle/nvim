@@ -56,9 +56,11 @@ map('n', '<C-Tab>', ':bnext<CR>', opts)
 map('n', '<leader><Tab>', ":bnext<CR>", opts)
 
 -- map some keys to toggle formatting options
--- the functions are defined in the init.vim
+-- the vimscript functions are defined in the init.vim
 map('i', "<C-f><C-a>", '<c-o>:AFToggle<CR>', opts)
 map('n', "<C-f><C-a>", ':AFToggle<CR>', opts)
+map('i', "<C-f><C-c>", '<c-o>:CFToggle<CR>', opts)
+map('n', "<C-f><C-c>", ':CFToggle<CR>', opts)
 map('i', "<C-f><C-w>", '<c-o>:HWToggle<CR>', opts)
 map('i', "<C-f><C-t>", '<c-o>:HTToggle<CR>', opts)
 map('i', "<C-f>1", '<c-o>:AutowrapOn<CR>', opts)
@@ -127,6 +129,7 @@ map('n', "DP", ":lua vim.diagnostic.goto_prev()<CR>", opts)              -- goto
 map('n', "DD", ":lua vim.lsp.buf.hover()<CR>", opts)                     -- show hover info for symbol
 map('n', "DF", ":LspFormatDoc<CR>", opts)         -- format the doc with null-ls provider
 map('v', "DR", ":LspFormatRange<CR>", opts )      -- format the range with null-ls provider
+map('n', "DA", ":lua vim.lsp.buf.code_action()<CR>", opts)
 -- lspsaga
 map('n', "Sa", ":Lspsaga code_action<CR>", opts)               -- code action
 map('n', "Sf", ":Lspsaga lsp_finder<CR>", opts)
