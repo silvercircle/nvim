@@ -11,18 +11,18 @@ lua require('load_plugins')
 exec "source " . expand("<sfile>:h") . '/plugin/packer_compiled.lua'
 lua require('vim_options')
 
-if g:config_lsp == v:true
+if index(g:features, 'lsp') >= 0
   lua require('setup_lsp')
 endif
 
 lua require('setup_outline')
 lua require('setup_plugins')
 
-if g:config_telescope == v:true
+if index(g:features, 'telescope') >= 0
   lua require('setup_telescope')
 endif
 
-if g:config_lualine == v:true
+if index(g:features, 'lualine') >= 0
   lua require('setup_lualine')
 endif
 
@@ -36,22 +36,25 @@ endif
 
 lua require('setup_telekasten')
 
-if g:config_treesitter == v:true
+if index(g:features, 'treesitter') >= 0
   lua require('setup_treesitter')
 endif
 
 lua require('setup_dressing')
 
-if g:config_optional == v:true
+if index(g:features, 'scrollbar') >= 0
   lua require('setup_scrollbar')
+endif
+
+if index(g:features, 'gitsigns') >= 0
   lua require('setup_gitsigns')
 endif
 
-if g:config_cokeline == v:true
+if index(g:features, 'cokeline') >= 0
   lua require('setup_cokeline')
 endif
 
-if g:config_noice == v:true
+if index(g:features, 'noice') >= 0
   lua require('setup_noice')
 endif
 
