@@ -11,18 +11,18 @@ lua require('load_plugins')
 exec "source " . expand("<sfile>:h") . '/plugin/packer_compiled.lua'
 lua require('vim_options')
 
-if g:config_lsp == v:true
+if index(g:features, 'lsp') >= 0
   lua require('setup_lsp')
 endif
 
 lua require('setup_outline')
 lua require('setup_plugins')
 
-if g:config_telescope == v:true
+if index(g:features, 'telescope') >= 0
   lua require('setup_telescope')
 endif
 
-if g:config_lualine == v:true
+if index(g:features, 'lualine') >= 0
   lua require('setup_lualine')
 endif
 
@@ -36,22 +36,25 @@ endif
 
 lua require('setup_telekasten')
 
-if g:config_treesitter == v:true
+if index(g:features, 'treesitter') >= 0
   lua require('setup_treesitter')
 endif
 
 lua require('setup_dressing')
 
-if g:config_optional == v:true
+if index(g:features, 'scrollbar') >= 0
   lua require('setup_scrollbar')
+endif
+
+if index(g:features, 'gitsigns') >= 0
   lua require('setup_gitsigns')
 endif
 
-if g:config_cokeline == v:true
+if index(g:features, 'cokeline') >= 0
   lua require('setup_cokeline')
 endif
 
-if g:config_noice == v:true
+if index(g:features, 'noice') >= 0
   lua require('setup_noice')
 endif
 
@@ -70,6 +73,12 @@ command Itime pu=strftime('%FT%T%z')
 " quickly enable/disable automatic formatting modes.
 command AFManual setlocal fo-=a | setlocal fo-=w | setlocal fo-=c | setlocal fo-=q | setlocal fo-=t | setlocal fo-=l
 command AFAuto setlocal fo+=a | setlocal fo+=w | setlocal fo+=c | setlocal fo+=q | setlocal fo+=t | setlocal fo+=l
+
+" Fold all levels of a block (toggle)
+command ToggleAllFold :call feedkeys("zA")
+
+" only fold the current level (toggle)
+command ToggleFold :call feedkeys("za")
 
 map <C-f> <NOP>
 map <C-c> <NOP>
@@ -118,40 +127,16 @@ endif
 set list listchars=tab:·\ ,trail:▪,extends:>,precedes:<,eol:↴
 
 " toggle this fold
-inoremap <F2> <C-O>za
-nnoremap <F2> za
-onoremap <F2> <C-C>za
-vnoremap <F2> zf
+inoremap <F2> <C-o>:ToggleFold<CR>
+nnoremap <F2> :ToggleFold<CR>
+onoremap <F2> <C-o>:ToggleFold<CR>
+vnoremap <F2> :ToggleFold<CR>
 
-" close current level
-inoremap <S-F2> <C-O>zc
-nnoremap <S-F2> zc
-onoremap <S-F2> <C-C>zc
-vnoremap <S-F2> zf
-
-" open current level
-inoremap <C-F2> <C-O>zo
-nnoremap <C-F2> zo
-onoremap <C-F2> <C-C>zo
-vnoremap <C-F2> zf
-
-" toggle all levels of current fold
-inoremap <F3> <C-O>zA
-nnoremap <F3> zA
-onoremap <F3> <C-C>zA
-vnoremap <F3> zf
-
-" close all current levels
-inoremap <S-F3> <C-O>zA
-nnoremap <S-F3> zA
-onoremap <S-F3> <C-C>zA
-vnoremap <S-F3> zf
-
-" open all current levels
-inoremap <C-F3> <C-O>zO
-nnoremap <C-F3> zO
-onoremap <C-F3> <C-C>zO
-vnoremap <C-F3> zf
+" toggle s of current fold
+inoremap <F3> <C-o>:ToggleAllFold<CR>
+nnoremap <F3> :ToggleAllFold<CR>
+onoremap <F3> <C-o>:ToggleAllFold<CR>
+vnoremap <F3> :ToggleAllFold<CR>
 
 nnoremap <A-Left> <c-w><Left>
 nnoremap <A-Right> <c-w><Right>
@@ -175,10 +160,10 @@ augroup end
 " simply create a view
 augroup folds
     autocmd!
-    autocmd BufWinLeave *
-    \   if expand('%') != '' && &buftype !~ 'nofile' && &buftype !~ 'terminal'
-    \|      mkview!
-    \|  endif
+"    autocmd BufWinLeave *
+"    \   if expand('%') != '' && &buftype !~ 'nofile' && &buftype !~ 'terminal'
+"    \|      mkview!
+"    \|  endif
 " restore the view on load
     autocmd BufRead *
     \   if expand('%') != '' && &buftype !~ 'nofile'

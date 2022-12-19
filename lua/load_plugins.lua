@@ -2,11 +2,11 @@ vim.cmd([[packadd packer.nvim]])
 -- all plugins handled by packer. Plug has been retired
 return require("packer").startup(function(use)
   use { 'wbthomason/packer.nvim', opt = true }
-  if vim.g.config_lualine then
+  if vim.g.features["lualine"] ~= nil then
     use 'nvim-lualine/lualine.nvim'
   end
   use { 'mg979/vim-visual-multi', branch = "master" }
-  if vim.g.config_lsp then
+  if vim.g.features["lsp"] ~= nil then
     use 'williamboman/mason.nvim'
     use 'williamboman/mason-lspconfig.nvim'
     use 'neovim/nvim-lspconfig'
@@ -28,10 +28,11 @@ return require("packer").startup(function(use)
   use 'alaviss/nim.nvim'
   use 'gpanders/editorconfig.nvim'
   use 'nvim-lua/plenary.nvim'
-  if vim.g.config_telescope then
+  if vim.g.features["telescope"] ~= nil then
     use { 'nvim-telescope/telescope.nvim', branch = '0.1.x' }
     use 'nvim-telescope/telescope-file-browser.nvim'
     use 'tom-anders/telescope-vim-bookmarks.nvim'
+    use 'nvim-telescope/telescope-project.nvim'
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
   end
   if vim.g.config_nvimtree then
@@ -42,21 +43,26 @@ return require("packer").startup(function(use)
   end
 --  use { "nvim-neo-tree/neo-tree.nvim", branch = "v2.x" }
   use 'MattesGroeger/vim-bookmarks'
-  if vim.g.config_treesitter then
+  if vim.g.features["treesitter"] ~= nil then
     use 'nvim-treesitter/nvim-treesitter'
   end
   use 'sharkdp/fd'
   use 'BurntSushi/ripgrep'
-  if vim.g.config_optional then
+  if vim.g.features["gitsigns"] ~= nil then
     use 'lewis6991/gitsigns.nvim'
+  end
+  if vim.g.features["scrollbar"] ~= nil then
     use 'petertriho/nvim-scrollbar'
+  end
+  if vim.g.features["indent-blankline"] ~= nil then
     use 'lukas-reineke/indent-blankline.nvim'
   end
-  use 'nvim-telescope/telescope-project.nvim'
   use 'renerocksai/calendar-vim'
   use 'renerocksai/telekasten.nvim'
   use 'mhinz/vim-startify'
   use 'kevinhwang91/nvim-hlslens'
-  use { 'noib3/nvim-cokeline', cond = function() return vim.g.config_cokeline end }
+  if vim.g.features["cokeline"] ~= nil then
+    use { 'noib3/nvim-cokeline' }
+  end
   use 'stevearc/dressing.nvim'
 end)
