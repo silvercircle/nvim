@@ -38,6 +38,11 @@ return require("packer").startup(function(use)
   use 'nvim-treesitter/nvim-treesitter'
   use 'sharkdp/fd'
   use 'BurntSushi/ripgrep'
+  if vim.g.config_optional then
+    use 'lewis6991/gitsigns.nvim'
+    use 'petertriho/nvim-scrollbar'
+    use 'lukas-reineke/indent-blankline.nvim'
+  end
   use 'nvim-telescope/telescope-project.nvim'
   use 'renerocksai/calendar-vim'
   use 'renerocksai/telekasten.nvim'

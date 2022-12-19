@@ -61,8 +61,13 @@ vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' 
                                                -- or any valid lualine theme name (e.g. 'dracula')
 vim.g.config_neodev = false
 vim.g.config_lspsaga = false
+
+-- only use ONE of them
 vim.g.config_neotree = false
 vim.g.config_nvimtree = true
+
+-- scrollbar, git signs, indent guides
+vim.g.config_optional = false
 
 function Cokeline_theme()
   return {

@@ -26,6 +26,11 @@ lua require('setup_telekasten')
 lua require('setup_treesitter')
 lua require('setup_dressing')
 
+if g:config_optional == v:true
+  lua require('setup_scrollbar')
+  lua require('setup_gitsigns')
+endif
+
 if g:config_cokeline == v:true
   lua require('setup_cokeline')
 endif
