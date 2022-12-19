@@ -432,6 +432,21 @@ cmp.setup({
   }
 })
 
+-----------------------------------
+--- Fidget.nvim (LSP status widget)
+-----------------------------------
+
+require("fidget").setup({
+  text = {
+    --see ~/.vim/plugged/fidget.nvim/lua/fidget/spinners.lua
+    spinner = "zip",
+  },
+  window = {
+    relative = "win",
+    blend = 50,
+  },
+})
+
 -- Command line completion
 cmp.setup.cmdline("/", {
   mapping = cmp.mapping.preset.cmdline(),

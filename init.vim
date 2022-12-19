@@ -12,10 +12,12 @@ exec "source " . expand("<sfile>:h") . '/plugin/packer_compiled.lua'
 
 lua require('vim_options')
 lua require('setup_lsp')
+lua require('setup_outline')
 lua require('setup_plugins')
 lua require('setup_telescope')
 lua require('setup_lualine')
-lua require('setup_neotree')
+"lua require('setup_neotree')
+lua require('setup_telekasten')
 lua require('setup_treesitter')
 lua require('setup_dressing')
 
@@ -139,7 +141,7 @@ augroup filetypes
   autocmd FileType ada,d,nim,objc,objcpp,javascript,scala syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
   autocmd FileType vim,nim,python,markdown,tex,lua,json,html,css,dart,go setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab
   autocmd FileType noice silent! setlocal signcolumn=no | silent!  setlocal foldcolumn=0 | silent! setlocal nonumber
-  autocmd FileType Outline,lspsagaoutline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
+  autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
 augroup end
 
 " remember folds for all buffers, unless they are nofile or special kind
