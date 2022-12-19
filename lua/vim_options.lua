@@ -112,7 +112,6 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
   callback = function()
     local no_nerd = os.getenv("NVIM_NO_NERD")
     if no_nerd == nil or no_nerd ~= "yes" then
-      --                vim.api.nvim_command('NERDTree ~/OneDrive | setlocal signcolumn=no | wincmd p')
       if vim.g.config_neotree then
         vim.api.nvim_command("NeoTreeShow")
       end
