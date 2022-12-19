@@ -15,7 +15,9 @@ lua require('setup_lsp')
 lua require('setup_outline')
 lua require('setup_plugins')
 lua require('setup_telescope')
-lua require('setup_lualine')
+if g:config_lualine == v:true
+  lua require('setup_lualine')
+endif
 if g:config_neotree == v:true
   lua require('setup_neotree')
 endif

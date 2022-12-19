@@ -2,7 +2,9 @@ vim.cmd([[packadd packer.nvim]])
 -- all plugins handled by packer. Plug has been retired
 return require("packer").startup(function(use)
   use { 'wbthomason/packer.nvim', opt = true }
-  use 'nvim-lualine/lualine.nvim'
+  if vim.g.config_lualine then
+    use 'nvim-lualine/lualine.nvim'
+  end
   use { 'mg979/vim-visual-multi', branch = "master" }
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-cmdline'
