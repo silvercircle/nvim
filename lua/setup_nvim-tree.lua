@@ -29,7 +29,8 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
     mappings = {
       custom_only = false,
       list = {
-        -- user mappings go here
+        { key = "u", action = "dir_up" },
+        { key = "<C-Enter>", action = "cd" }
       },
     },
     float = {
@@ -48,13 +49,13 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
   renderer = {
     add_trailing = false,
     group_empty = false,
-    highlight_git = false,
+    highlight_git = true,
     full_name = false,
-    highlight_opened_files = "none",
+    highlight_opened_files = "all",
     root_folder_label = ":~:s?$?/..?",
     indent_width = 2,
     indent_markers = {
-      enable = false,
+      enable = true,
       inline_arrows = true,
       icons = {
         corner = "└",
@@ -66,7 +67,7 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
     },
     icons = {
       webdev_colors = true,
-      git_placement = "signcolumn",
+      git_placement = "after",
       padding = " ",
       symlink_arrow = " ➛ ",
       show = {
@@ -109,7 +110,7 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
   },
   update_focused_file = {
     enable = false,
-    debounce_delay = 15,
+    debounce_delay = 50,
     update_root = true,
     ignore_list = {},
   },
@@ -119,10 +120,10 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
     args = {},
   },
   diagnostics = {
-    enable = false,
-    show_on_dirs = false,
+    enable = true,
+    show_on_dirs = true,
     show_on_open_dirs = true,
-    debounce_delay = 50,
+    debounce_delay = 100,
     severity = {
       min = vim.diagnostic.severity.HINT,
       max = vim.diagnostic.severity.ERROR,
@@ -135,7 +136,7 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
     },
   },
   filters = {
-    dotfiles = false,
+    dotfiles = true,
     git_clean = false,
     no_buffer = false,
     custom = {},

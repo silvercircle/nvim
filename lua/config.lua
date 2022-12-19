@@ -68,7 +68,7 @@ vim.g.config_neotree = false
 vim.g.config_nvimtree = true
 
 -- scrollbar, git signs, indent guides
-vim.g.config_optional = false
+vim.g.config_optional = true
 
 function Cokeline_theme()
   return {
