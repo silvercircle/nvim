@@ -64,6 +64,7 @@ vim.g.config_lspsaga = false
 vim.g.config_lualine = true
 vim.g.config_treesitter = true
 vim.g.config_telescope = true
+vim.g.config_lsp = true
 
 -- only use ONE of them
 vim.g.config_neotree = false

@@ -81,8 +81,8 @@ map('n', "<C-A-w>", "}kV{jgq", opts)      -- select and format current paragraph
 -- Ctrl-s in normal and insert mode: save if modified
 -- Ctrl-q in normal and insert mode: save if modified and close buffer
 -- Ctrl-x Ctrl-q is deprecated, use Ctrl-s, Ctrl-x-Ctrl-c
-map('i', "<C-x><C-s>", '<c-o>:update!<CR>', opts)
-map('n', "<C-x><C-s>", ':update!<CR>', opts)
+map('i', "<C-x><C-s>", '<c-o>:mkview!<CR>:update!<CR>', opts)
+map('n', "<C-x><C-s>", ':mkview<CR>:update!<CR>', opts)
 
 --map('n', "tsh", ':TSHighlightCapturesUnderCursor<CR>', opts)  -- show tree-sitter highlight class
 map('n', "<C-x><C-c>", ':Kwbd<CR>', opts)

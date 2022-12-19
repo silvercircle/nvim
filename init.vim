@@ -71,6 +71,9 @@ command Itime pu=strftime('%FT%T%z')
 command AFManual setlocal fo-=a | setlocal fo-=w | setlocal fo-=c | setlocal fo-=q | setlocal fo-=t | setlocal fo-=l
 command AFAuto setlocal fo+=a | setlocal fo+=w | setlocal fo+=c | setlocal fo+=q | setlocal fo+=t | setlocal fo+=l
 
+command ToggleAllFold :call feedkeys("zA")
+command ToggleFold :call feedkeys("za")
+
 map <C-f> <NOP>
 map <C-c> <NOP>
 imap <C-p> <NOP>
@@ -118,40 +121,16 @@ endif
 set list listchars=tab:·\ ,trail:▪,extends:>,precedes:<,eol:↴
 
 " toggle this fold
-inoremap <F2> <C-O>za
-nnoremap <F2> za
-onoremap <F2> <C-C>za
-vnoremap <F2> zf
+inoremap <F2> <C-o>:ToggleFold<CR>
+nnoremap <F2> :ToggleFold<CR>
+onoremap <F2> <C-o>:ToggleFold<CR>
+vnoremap <F2> :ToggleFold<CR>
 
-" close current level
-inoremap <S-F2> <C-O>zc
-nnoremap <S-F2> zc
-onoremap <S-F2> <C-C>zc
-vnoremap <S-F2> zf
-
-" open current level
-inoremap <C-F2> <C-O>zo
-nnoremap <C-F2> zo
-onoremap <C-F2> <C-C>zo
-vnoremap <C-F2> zf
-
-" toggle all levels of current fold
-inoremap <F3> <C-O>zA
-nnoremap <F3> zA
-onoremap <F3> <C-C>zA
-vnoremap <F3> zf
-
-" close all current levels
-inoremap <S-F3> <C-O>zA
-nnoremap <S-F3> zA
-onoremap <S-F3> <C-C>zA
-vnoremap <S-F3> zf
-
-" open all current levels
-inoremap <C-F3> <C-O>zO
-nnoremap <C-F3> zO
-onoremap <C-F3> <C-C>zO
-vnoremap <C-F3> zf
+" toggle s of current fold
+inoremap <F3> <C-o>:ToggleAllFold<CR>
+nnoremap <F3> :ToggleAllFold<CR>
+onoremap <F3> <C-o>:ToggleAllFold<CR>
+vnoremap <F3> :ToggleAllFold<CR>
 
 nnoremap <A-Left> <c-w><Left>
 nnoremap <A-Right> <c-w><Right>
@@ -175,10 +154,10 @@ augroup end
 " simply create a view
 augroup folds
     autocmd!
-    autocmd BufWinLeave *
-    \   if expand('%') != '' && &buftype !~ 'nofile' && &buftype !~ 'terminal'
-    \|      mkview!
-    \|  endif
+"    autocmd BufWinLeave *
+"    \   if expand('%') != '' && &buftype !~ 'nofile' && &buftype !~ 'terminal'
+"    \|      mkview!
+"    \|  endif
 " restore the view on load
     autocmd BufRead *
     \   if expand('%') != '' && &buftype !~ 'nofile'
