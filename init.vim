@@ -9,23 +9,37 @@ lua require('config')
 " load plugins (packer)
 lua require('load_plugins')
 exec "source " . expand("<sfile>:h") . '/plugin/packer_compiled.lua'
-
 lua require('vim_options')
-lua require('setup_lsp')
+
+if g:config_lsp == v:true
+  lua require('setup_lsp')
+endif
+
 lua require('setup_outline')
 lua require('setup_plugins')
-lua require('setup_telescope')
+
+if g:config_telescope == v:true
+  lua require('setup_telescope')
+endif
+
 if g:config_lualine == v:true
   lua require('setup_lualine')
 endif
+
 if g:config_neotree == v:true
   lua require('setup_neotree')
 endif
+
 if g:config_nvimtree == v:true
   lua require('setup_nvim-tree')
 endif
+
 lua require('setup_telekasten')
-lua require('setup_treesitter')
+
+if g:config_treesitter == v:true
+  lua require('setup_treesitter')
+endif
+
 lua require('setup_dressing')
 
 if g:config_optional == v:true
