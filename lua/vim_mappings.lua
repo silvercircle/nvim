@@ -78,15 +78,15 @@ map('i', "<C-f>a", '<c-o>:AFAuto<CR>', opts)
 map('n', "<leader>v", "}kV{j", opts)        -- select current paragraph
 map('n', "<C-A-w>", "}kV{jgq", opts)      -- select and format current paragraph
 
--- Ctrl-s in normal and insert mode: save if modified
--- Ctrl-q in normal and insert mode: save if modified and close buffer
--- Ctrl-x Ctrl-q is deprecated, use Ctrl-s, Ctrl-x-Ctrl-c
+-- Ctrl-x Ctrl-s save the file if modified (use update command). Also,
+-- create a view to save state
 map('i', "<C-x><C-s>", '<c-o>:mkview!<CR>:update!<CR>', opts)
 map('n', "<C-x><C-s>", ':mkview<CR>:update!<CR>', opts)
 
---map('n', "tsh", ':TSHighlightCapturesUnderCursor<CR>', opts)  -- show tree-sitter highlight class
-map('n', "<C-x><C-c>", ':Kwbd<CR>', opts)
-map('i', "<C-x><C-c>", '<c-o>:Kwbd<CR>', opts)
+-- Ctrl-x Ctrl-c close the file, do NOT save it(!) but create the view to save folding state and
+-- cursor position. This does not throw a warning, you've been warned.
+map('n', "<C-x><C-c>", ':mkview!<CR>:Kwbd<CR>', opts)
+map('i', "<C-x><C-c>", '<c-o>:mkview!<CR>:Kwbd<CR>', opts)
 
 -- switch off highlighted search results
 map('n', "<C-x><C-h>", ':nohl<CR>', opts)

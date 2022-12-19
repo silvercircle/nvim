@@ -71,7 +71,10 @@ command Itime pu=strftime('%FT%T%z')
 command AFManual setlocal fo-=a | setlocal fo-=w | setlocal fo-=c | setlocal fo-=q | setlocal fo-=t | setlocal fo-=l
 command AFAuto setlocal fo+=a | setlocal fo+=w | setlocal fo+=c | setlocal fo+=q | setlocal fo+=t | setlocal fo+=l
 
+" Fold all levels of a block (toggle)
 command ToggleAllFold :call feedkeys("zA")
+
+" only fold the current level (toggle)
 command ToggleFold :call feedkeys("za")
 
 map <C-f> <NOP>
