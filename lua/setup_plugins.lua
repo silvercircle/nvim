@@ -92,3 +92,9 @@ glance.setup({
     enable = true, -- Available strating from nvim-0.8+
   },
 })
+
+require("hlslens").setup({
+--  calm_down = true,
+--  nearest_float_when = "always",
+--  nearest_only = false,
+})

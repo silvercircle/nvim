@@ -61,6 +61,8 @@ vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' 
                                                -- or any valid lualine theme name (e.g. 'dracula')
 vim.g.config_neodev = false
 vim.g.config_lspsaga = false
+vim.g.config_neotree = false
+vim.g.config_nvimtree = true
 
 function Cokeline_theme()
   return {

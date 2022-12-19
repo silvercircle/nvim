@@ -16,7 +16,12 @@ lua require('setup_outline')
 lua require('setup_plugins')
 lua require('setup_telescope')
 lua require('setup_lualine')
-"lua require('setup_neotree')
+if g:config_neotree == v:true
+  lua require('setup_neotree')
+endif
+if g:config_nvimtree == v:true
+  lua require('setup_nvim-tree')
+endif
 lua require('setup_telekasten')
 lua require('setup_treesitter')
 lua require('setup_dressing')
@@ -142,6 +147,7 @@ augroup filetypes
   autocmd FileType vim,nim,python,markdown,tex,lua,json,html,css,dart,go setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab
   autocmd FileType noice silent! setlocal signcolumn=no | silent!  setlocal foldcolumn=0 | silent! setlocal nonumber
   autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
+  autocmd FileType NvimTree silent! setlocal statusline=NvimTree
 augroup end
 
 " remember folds for all buffers, unless they are nofile or special kind

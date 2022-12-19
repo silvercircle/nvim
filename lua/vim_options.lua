@@ -113,7 +113,12 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
     local no_nerd = os.getenv("NVIM_NO_NERD")
     if no_nerd == nil or no_nerd ~= "yes" then
       --                vim.api.nvim_command('NERDTree ~/OneDrive | setlocal signcolumn=no | wincmd p')
-      vim.api.nvim_command("NeoTreeShow")
+      if vim.g.config_neotree then
+        vim.api.nvim_command("NeoTreeShow")
+      end
+      if vim.g.config_nvimtree then
+        require('nvim-tree').toggle(false, true)
+      end
     end
   end,
   group = agroup_enter,

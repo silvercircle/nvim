@@ -27,6 +27,12 @@ return require("packer").startup(function(use)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x' }
   use 'nvim-telescope/telescope-file-browser.nvim'
   use 'tom-anders/telescope-vim-bookmarks.nvim'
+  if vim.g.config_nvimtree then
+    use 'nvim-tree/nvim-tree.lua'
+  end
+  if vim.g.config_neotree then
+    use { "nvim-neo-tree/neo-tree.nvim", branch = "v2.x" }
+  end
 --  use { "nvim-neo-tree/neo-tree.nvim", branch = "v2.x" }
   use 'MattesGroeger/vim-bookmarks'
   use 'nvim-treesitter/nvim-treesitter'
@@ -36,6 +42,7 @@ return require("packer").startup(function(use)
   use 'renerocksai/calendar-vim'
   use 'renerocksai/telekasten.nvim'
   use 'mhinz/vim-startify'
+  use 'kevinhwang91/nvim-hlslens'
   use { 'noib3/nvim-cokeline', cond = function() return vim.g.config_cokeline end }
   use { 'nvim-telescope/telescope-fzf-native.nvim',
     run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
