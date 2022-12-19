@@ -1,4 +1,4 @@
--- nvim-symbols-outline
+ -- nvim-symbols-outline
 local outline_opts = {
   highlight_hovered_item = true,
   show_guides = true,

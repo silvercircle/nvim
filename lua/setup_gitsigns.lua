@@ -1,9 +1,48 @@
--- packer.nvim example
--- local install_path = vim.fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
+-- setup gitsigns plugin
 
-require("editorconfig").properties.foo = function(bufnr, val)
-  vim.b[bufnr].foo = val
-end
+require("gitsigns").setup({
+  signs = {
+    add = { hl = "GitSignsAdd", text = "│", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+    change = { hl = "GitSignsChange", text = "│", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
+    delete = { hl = "GitSignsDelete", text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+    topdelete = { hl = "GitSignsDelete", text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+    changedelete = { hl = "GitSignsChange", text = "~", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
+    untracked = { hl = "GitSignsAdd", text = "┆", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+  },
+  _refresh_staged_on_update = false,
+  signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
+  numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
+  linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
+  watch_gitdir = {
+    interval = 2000,
+    follow_files = true,
+  },
+  attach_to_untracked = true,
+  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
+    delay = 1000,
+    ignore_whitespace = false,
+  },
+  current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
+  sign_priority = 0,
+  update_debounce = 1000,
+  status_formatter = nil, -- Use default
+  max_file_length = 40000, -- Disable if file is longer than this (in lines)
+  preview_config = {
+    -- Options passed to nvim_open_win
+    border = "single",
+    style = "minimal",
+    relative = "cursor",
+    row = 0,
+    col = 1,
+  },
+  yadm = {
+    enable = false,
+  },
+})
 
 -- devicons for lua plugins (e.g. Telescope needs them)
 require("nvim-web-devicons").setup({
@@ -26,11 +65,26 @@ require("nvim-web-devicons").setup({
   default = true,
 })
 
+require("indent_blankline").setup({
+  -- for example, context is off by default, use this to turn it on
+  show_current_context = true,
+  show_current_context_start = false,
+  show_end_of_line = true,
+})
+
+-- require("alpha").setup(require("alpha.themes.startify").config)
+
+require("hlslens").setup({
+--  calm_down = true,
+--  nearest_float_when = "always",
+--  nearest_only = false,
+})
 
 require("luasnip.loaders.from_snipmate").load()
 
 local glance = require("glance")
 local actions = glance.actions
+
 glance.setup({
   height = 30, -- Height of the window
   border = {
@@ -91,19 +145,4 @@ glance.setup({
   winbar = {
     enable = true, -- Available strating from nvim-0.8+
   },
-})
-
-if vim.g.config_optional then
-  require("indent_blankline").setup({
-    -- for example, context is off by default, use this to turn it on
-    show_current_context = true,
-    show_current_context_start = false,
-    show_end_of_line = true,
-  })
-end
-
-require("hlslens").setup({
---  calm_down = true,
---  nearest_float_when = "always",
---  nearest_only = false,
 })

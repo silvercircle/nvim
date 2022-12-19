@@ -74,12 +74,6 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
-  ["ChatGPT.nvim"] = {
-    config = { "\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\fchatgpt\frequire\0" },
-    loaded = true,
-    path = "/home/alex/.local/share/nvim/site/pack/packer/start/ChatGPT.nvim",
-    url = "https://github.com/jackMort/ChatGPT.nvim"
-  },
   LuaSnip = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/LuaSnip",
@@ -120,6 +114,11 @@ _G.packer_plugins = {
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
+  ["dressing.nvim"] = {
+    loaded = true,
+    path = "/home/alex/.local/share/nvim/site/pack/packer/start/dressing.nvim",
+    url = "https://github.com/stevearc/dressing.nvim"
+  },
   ["editorconfig.nvim"] = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/editorconfig.nvim",
@@ -155,11 +154,6 @@ _G.packer_plugins = {
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/lspkind-nvim",
     url = "https://github.com/onsails/lspkind-nvim"
   },
-  ["lspsaga.nvim"] = {
-    loaded = true,
-    path = "/home/alex/.local/share/nvim/site/pack/packer/start/lspsaga.nvim",
-    url = "https://github.com/glepnir/lspsaga.nvim"
-  },
   ["lualine.nvim"] = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/lualine.nvim",
@@ -175,41 +169,15 @@ _G.packer_plugins = {
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
   },
-  ["neo-tree.nvim"] = {
-    loaded = true,
-    path = "/home/alex/.local/share/nvim/site/pack/packer/start/neo-tree.nvim",
-    url = "https://github.com/nvim-neo-tree/neo-tree.nvim"
-  },
-  ["neodev.nvim"] = {
-    loaded = true,
-    path = "/home/alex/.local/share/nvim/site/pack/packer/start/neodev.nvim",
-    url = "https://github.com/folke/neodev.nvim"
-  },
   ["nim.nvim"] = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/nim.nvim",
     url = "https://github.com/alaviss/nim.nvim"
   },
-  ["noice.nvim"] = {
-    cond = { "\27LJ\2\n*\0\0\1\0\3\0\0046\0\0\0009\0\1\0009\0\2\0L\0\2\0\17config_noice\6g\bvim\0" },
-    loaded = false,
-    needs_bufread = false,
-    only_cond = true,
-    path = "/home/alex/.local/share/nvim/site/pack/packer/opt/noice.nvim",
-    url = "https://github.com/folke/noice.nvim"
-  },
   ["nui.nvim"] = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/nui.nvim",
     url = "https://github.com/MunifTanjim/nui.nvim"
-  },
-  ["null-ls.nvim"] = {
-    cond = { "\27LJ\2\n,\0\0\1\0\3\0\0046\0\0\0009\0\1\0009\0\2\0L\0\2\0\19config_null_ls\6g\bvim\0" },
-    loaded = false,
-    needs_bufread = false,
-    only_cond = true,
-    path = "/home/alex/.local/share/nvim/site/pack/packer/opt/null-ls.nvim",
-    url = "https://github.com/jose-elias-alvarez/null-ls.nvim"
   },
   ["nvim-cmp"] = {
     loaded = true,
@@ -238,6 +206,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/nvim-scrollbar",
     url = "https://github.com/petertriho/nvim-scrollbar"
+  },
+  ["nvim-tree.lua"] = {
+    loaded = true,
+    path = "/home/alex/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
+    url = "https://github.com/nvim-tree/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
     loaded = true,
@@ -318,20 +291,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: ChatGPT.nvim
-time([[Config for ChatGPT.nvim]], true)
-try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\fchatgpt\frequire\0", "config", "ChatGPT.nvim")
-time([[Config for ChatGPT.nvim]], false)
 -- Conditional loads
-time([[Conditional loading of noice.nvim]], true)
-  require("packer.load")({"noice.nvim"}, {}, _G.packer_plugins)
-time([[Conditional loading of noice.nvim]], false)
 time([[Conditional loading of nvim-cokeline]], true)
   require("packer.load")({"nvim-cokeline"}, {}, _G.packer_plugins)
 time([[Conditional loading of nvim-cokeline]], false)
-time([[Conditional loading of null-ls.nvim]], true)
-  require("packer.load")({"null-ls.nvim"}, {}, _G.packer_plugins)
-time([[Conditional loading of null-ls.nvim]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

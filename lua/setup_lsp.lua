@@ -3,7 +3,9 @@ require("mason").setup()
 require("mason-lspconfig").setup()
 local lspconfig = require("lspconfig")
 local util = require('lspconfig.util')
-require("neodev").setup({ })
+if vim.g.config_neodev then
+  require("neodev").setup({ })
+end
 
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
@@ -111,7 +113,7 @@ lspconfig.metals.setup({
   cmd = { '/home/alex/.local/share/coursier/bin/metals' },
   filetypes = { 'scala' },
   root_dir = util.root_pattern('build.sbt', 'build.sc', 'build.gradle', 'pom.xml'),
-  message_level = vim.lsp.protocol.MessageType.Log,
+  message_level = vim.lsp.protocol.MessageType.Error,
   init_options = {
     statusBarProvider = 'show-message',
     isHttpEnabled = true,
@@ -430,27 +432,6 @@ cmp.setup({
   }
 })
 
-
--- Custom sorting/ranking for completion items.
--- cmp_helper.compare = {
---   -- Deprioritize items starting with underscores (private or protected)
---   deprioritize_underscore = function(lhs, rhs)
---     local l = (lhs.completion_item.label:find("^_+")) and 1 or 0
---     local r = (rhs.completion_item.label:find("^_+")) and 1 or 0
---     if l ~= r then
---       return l < r
---     end
---   end,
---   -- Prioritize items that ends with "= ..." (usually for argument completion).
---   prioritize_argument = function(lhs, rhs)
---     local l = (lhs.completion_item.label:find("=$")) and 1 or 0
---     local r = (rhs.completion_item.label:find("=$")) and 1 or 0
---     if l ~= r then
---       return l > r
---     end
---   end,
--- }
-
 -----------------------------------
 --- Fidget.nvim (LSP status widget)
 -----------------------------------
@@ -515,9 +496,13 @@ if vim.g.config_null_ls == true then
   end
 end
 
-require('lspsaga').init_lsp_saga({
-  code_action_lightbulb = { enable = false },
-  show_outline = {
-    win_width=36
-  }
-})
+if vim.g.config_lspsaga then
+  require('lspsaga').init_lsp_saga({
+    code_action_lightbulb = { enable = false },
+    show_outline = {
+      win_width=36,
+      auto_refresh = true,
+      auto_preview = false
+    }
+  })
+end

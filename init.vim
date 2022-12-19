@@ -12,14 +12,26 @@ exec "source " . expand("<sfile>:h") . '/plugin/packer_compiled.lua'
 
 lua require('vim_options')
 lua require('setup_lsp')
+lua require('setup_outline')
 lua require('setup_plugins')
 lua require('setup_telescope')
-lua require('setup_lualine')
-lua require('setup_neotree')
-lua require('setup_scrollbar')
+if g:config_lualine == v:true
+  lua require('setup_lualine')
+endif
+if g:config_neotree == v:true
+  lua require('setup_neotree')
+endif
+if g:config_nvimtree == v:true
+  lua require('setup_nvim-tree')
+endif
 lua require('setup_telekasten')
 lua require('setup_treesitter')
-lua require('setup_outline')
+lua require('setup_dressing')
+
+if g:config_optional == v:true
+  lua require('setup_scrollbar')
+  lua require('setup_gitsigns')
+endif
 
 if g:config_cokeline == v:true
   lua require('setup_cokeline')
@@ -34,8 +46,9 @@ run macros/justify.vim
 command AutowrapOn setlocal fo+=w | setlocal fo+=w
 command AutowrapOff setlocal fo-=a | setlocal fo-=w
 
-" toggle formatting options (a = auto, w = hard/soft wrap, t = use textwidth for wrapping)
+" toggle formatting options (a = auto, w = hard/soft wrap, t = use textwidth for wrapping, c = wrap comments)
 command AFToggle if &fo =~ 'a' | setlocal fo-=a | else | setlocal fo+=a | endif
+command CFToggle if &fo =~ 'c' | setlocal fo-=c | else | setlocal fo+=c | endif
 command HWToggle if &fo =~ 'w' | setlocal fo-=w | else | setlocal fo+=w | endif
 command HTToggle if &fo =~ 't' | setlocal fo-=t | else | setlocal fo+=t | endif
 command Itime pu=strftime('%FT%T%z')
@@ -137,10 +150,11 @@ command C Kwbd
 " filetype related autocmds
 augroup filetypes
   autocmd!
-  autocmd FileType ada,d,nim,objc,objcpp,javascript syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
+  autocmd FileType ada,d,nim,objc,objcpp,javascript,scala syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
   autocmd FileType vim,nim,python,markdown,tex,lua,json,html,css,dart,go setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab
   autocmd FileType noice silent! setlocal signcolumn=no | silent!  setlocal foldcolumn=0 | silent! setlocal nonumber
-  autocmd FileType Outline,lspsagaoutline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
+  autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
+  autocmd FileType NvimTree silent! setlocal statusline=NvimTree
 augroup end
 
 " remember folds for all buffers, unless they are nofile or special kind

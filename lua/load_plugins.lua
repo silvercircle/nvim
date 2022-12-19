@@ -2,7 +2,9 @@ vim.cmd([[packadd packer.nvim]])
 -- all plugins handled by packer. Plug has been retired
 return require("packer").startup(function(use)
   use { 'wbthomason/packer.nvim', opt = true }
-  use 'nvim-lualine/lualine.nvim'
+  if vim.g.config_lualine then
+    use 'nvim-lualine/lualine.nvim'
+  end
   use { 'mg979/vim-visual-multi', branch = "master" }
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-cmdline'
@@ -11,8 +13,8 @@ return require("packer").startup(function(use)
   use 'hrsh7th/cmp-emoji'
   use 'L3MON4D3/LuaSnip'
   use 'saadparwaiz1/cmp_luasnip'
+  use 'MunifTanjim/nui.nvim'
   use 'nvim-tree/nvim-web-devicons'
-  use { 'jose-elias-alvarez/null-ls.nvim', cond = function() return vim.g.config_null_ls end }
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
   use 'neovim/nvim-lspconfig'
@@ -27,38 +29,29 @@ return require("packer").startup(function(use)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x' }
   use 'nvim-telescope/telescope-file-browser.nvim'
   use 'tom-anders/telescope-vim-bookmarks.nvim'
-  use 'MunifTanjim/nui.nvim'
-  --      'rcarriga/nvim-notify',
-  use { 'folke/noice.nvim', cond = function() return vim.g.config_noice end }
-  use { "nvim-neo-tree/neo-tree.nvim", branch = "v2.x" }
+  if vim.g.config_nvimtree then
+    use 'nvim-tree/nvim-tree.lua'
+  end
+  if vim.g.config_neotree then
+    use { "nvim-neo-tree/neo-tree.nvim", branch = "v2.x" }
+  end
+--  use { "nvim-neo-tree/neo-tree.nvim", branch = "v2.x" }
   use 'MattesGroeger/vim-bookmarks'
   use 'nvim-treesitter/nvim-treesitter'
   use 'sharkdp/fd'
   use 'BurntSushi/ripgrep'
-  use 'lewis6991/gitsigns.nvim'
-  use 'petertriho/nvim-scrollbar'
+  if vim.g.config_optional then
+    use 'lewis6991/gitsigns.nvim'
+    use 'petertriho/nvim-scrollbar'
+    use 'lukas-reineke/indent-blankline.nvim'
+  end
   use 'nvim-telescope/telescope-project.nvim'
   use 'renerocksai/calendar-vim'
   use 'renerocksai/telekasten.nvim'
-  use 'lukas-reineke/indent-blankline.nvim'
-  use 'kevinhwang91/nvim-hlslens'
-  use 'folke/neodev.nvim'
   use 'mhinz/vim-startify'
+  use 'kevinhwang91/nvim-hlslens'
   use { 'noib3/nvim-cokeline', cond = function() return vim.g.config_cokeline end }
   use { 'nvim-telescope/telescope-fzf-native.nvim',
     run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
-  use({
-    "jackMort/ChatGPT.nvim",
-    config = function()
-      require("chatgpt").setup({
-        -- optional configuration
-      })
-    end,
-    requires = {
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim"
-    }
-  })
-  use { 'glepnir/lspsaga.nvim', branch = "main" }
+  use 'stevearc/dressing.nvim'
 end)

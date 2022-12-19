@@ -35,11 +35,15 @@ map('n', "<A-h>", "<CMD>:lua require'telescope.builtin'.help_tags{ winblend=20, 
 map('n', "<A-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.all{hide_filename=false,layout_config={height=0.4, width=0.8,preview_width=0.3}}<CR>", opts)
 map('n', "<C-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.current_file{layout_config={height=0.4, width=0.7}}<CR>", opts)
 
--- nerdtree
-map('n', "<leader>r", "<CMD>Neotree reveal<CR>", opts)   -- sync NERDTree with current 
-
+-- file tree
+if vim.g.config_neotree then
+  map('n', "<leader>r", "<CMD>Neotree reveal<CR>", opts)   -- sync NERDTree with current 
+  map('n', "<leader>,", '<CMD>Neotree toggle<CR>', opts)    -- toggle the NERDTree
+elseif vim.g.config_nvimtree then
+  map('n', "<leader>,", '<CMD>NvimTreeToggle<CR>', opts)    -- toggle the NERDTree
+  map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)   -- sync NERDTree with current 
+end
 map('n', "<leader>.", "<CMD>SymbolsOutline<CR>", opts)    -- toggle the Outline View
-map('n', "<leader>,", '<CMD>Neotree toggle<CR>', opts)    -- toggle the NERDTree
 
 -- bookmark plugin, set and navigate bookmarks
 map('n', "<Leader>bt", '<Plug>BookmarkToggle', { silent = true, noremap = false })
@@ -56,9 +60,11 @@ map('n', '<C-Tab>', ':bnext<CR>', opts)
 map('n', '<leader><Tab>', ":bnext<CR>", opts)
 
 -- map some keys to toggle formatting options
--- the functions are defined in the init.vim
+-- the vimscript functions are defined in the init.vim
 map('i', "<C-f><C-a>", '<c-o>:AFToggle<CR>', opts)
 map('n', "<C-f><C-a>", ':AFToggle<CR>', opts)
+map('i', "<C-f><C-c>", '<c-o>:CFToggle<CR>', opts)
+map('n', "<C-f><C-c>", ':CFToggle<CR>', opts)
 map('i', "<C-f><C-w>", '<c-o>:HWToggle<CR>', opts)
 map('i', "<C-f><C-t>", '<c-o>:HTToggle<CR>', opts)
 map('i', "<C-f>1", '<c-o>:AutowrapOn<CR>', opts)
@@ -127,6 +133,7 @@ map('n', "DP", ":lua vim.diagnostic.goto_prev()<CR>", opts)              -- goto
 map('n', "DD", ":lua vim.lsp.buf.hover()<CR>", opts)                     -- show hover info for symbol
 map('n', "DF", ":LspFormatDoc<CR>", opts)         -- format the doc with null-ls provider
 map('v', "DR", ":LspFormatRange<CR>", opts )      -- format the range with null-ls provider
+map('n', "DA", ":lua vim.lsp.buf.code_action()<CR>", opts)
 -- lspsaga
 map('n', "Sa", ":Lspsaga code_action<CR>", opts)               -- code action
 map('n', "Sf", ":Lspsaga lsp_finder<CR>", opts)

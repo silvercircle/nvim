@@ -40,6 +40,9 @@ plugin configuration might change. This configuration is built around:
   * CSS    (cssls)
   * LaTeX  (texlab)
   * C# (omnisharp-roslyn)
+  * Scala (via metals, sbt and coursier). This requires to setup quite some stuff, a working scala 
+    environment (easiest way is to use SDKMAN), the Coursier scala package manager and the scala build 
+    and project management tool sbt.
 
 * [CMP](https://github.com/hrsh7th/nvim-cmp) for auto-completion with various sources 
   [lsp](https://github.com/hrsh7th/cmp-nvim-lsp), [signature 
