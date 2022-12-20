@@ -97,7 +97,6 @@ augroup filetypes
   autocmd FileType vim,nim,python,markdown,tex,lua,json,html,css,dart,go setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab
   autocmd FileType noice silent! setlocal signcolumn=no | silent!  setlocal foldcolumn=0 | silent! setlocal nonumber
   autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
-  autocmd FileType NvimTree setlocal statusline=NvimTree
 augroup end
 
 " remember folds for all buffers, unless they are nofile or special kind

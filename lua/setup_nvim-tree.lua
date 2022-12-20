@@ -1,3 +1,5 @@
+local api = require("nvim-tree.api")
+
 require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
   auto_reload_on_write = true,
   disable_netrw = true,
@@ -223,4 +225,9 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
       watcher = false,
     },
   },
-}) -- END_DEFAULT_OPTS
+}) -- END_DEFAULT_OPT
+
+local Event = api.events.Event
+api.events.subscribe(Event.TreeOpen, function(data)
+  vim.opt.statusline="NvimTree"
+end)
