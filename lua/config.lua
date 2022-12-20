@@ -53,10 +53,25 @@ function Lualine_internal_theme()
   }
 end
 
+-- valid and supported features are:
+--  "scrollbar", "gitsigns", "indent-blankline",
+--  "cokeline", "neodev", "treesitter", "telescope",
+--  "lsp", "lualine", "lspsaga", "outline"
+
 vim.g.features = {
-  "scrollbar", "gitsigns", "indent-blankline",
-  "cokeline", "neodev", "treesitter", "telescope",
-  "lsp", "lualine", "lspsaga"
+  lsp = 'setup_lsp',
+  scrollbar = 'setup_scrollbar',
+  gitsigns = 'setup_gitsigns',
+  indent_blankline = 'setup_indent_blankline',
+  cokeline = 'setup_cokeline',
+  neodev = "", -- setup_neodev
+  treesitter = 'setup_treesitter',
+  telescope = 'setup_telescope',
+  lualine = 'setup_lualine',
+  outline = 'setup_outline',
+  lspsaga = "", -- setup_lspsaga
+  noice = "", -- setup_noice
+  dressing = 'setup_dressing'
 }
 
 vim.g.config_null_ls = false                   -- use null_ls plugin

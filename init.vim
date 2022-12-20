@@ -11,20 +11,7 @@ lua require('load_plugins')
 exec "source " . expand("<sfile>:h") . '/plugin/packer_compiled.lua'
 lua require('vim_options')
 
-if index(g:features, 'lsp') >= 0
-  lua require('setup_lsp')
-endif
-
-lua require('setup_outline')
 lua require('setup_plugins')
-
-if index(g:features, 'telescope') >= 0
-  lua require('setup_telescope')
-endif
-
-if index(g:features, 'lualine') >= 0
-  lua require('setup_lualine')
-endif
 
 if g:config_neotree == v:true
   lua require('setup_neotree')
@@ -35,28 +22,7 @@ if g:config_nvimtree == v:true
 endif
 
 lua require('setup_telekasten')
-
-if index(g:features, 'treesitter') >= 0
-  lua require('setup_treesitter')
-endif
-
 lua require('setup_dressing')
-
-if index(g:features, 'scrollbar') >= 0
-  lua require('setup_scrollbar')
-endif
-
-if index(g:features, 'gitsigns') >= 0
-  lua require('setup_gitsigns')
-endif
-
-if index(g:features, 'cokeline') >= 0
-  lua require('setup_cokeline')
-endif
-
-if index(g:features, 'noice') >= 0
-  lua require('setup_noice')
-endif
 
 run macros/justify.vim
 

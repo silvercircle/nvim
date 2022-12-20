@@ -495,14 +495,3 @@ if vim.g.config_null_ls == true then
     ]])
   end
 end
-
-if vim.g.config_lspsaga then
-  require('lspsaga').init_lsp_saga({
-    code_action_lightbulb = { enable = false },
-    show_outline = {
-      win_width=36,
-      auto_refresh = true,
-      auto_preview = false
-    }
-  })
-end

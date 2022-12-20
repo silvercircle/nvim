@@ -26,7 +26,6 @@ require("nvim-web-devicons").setup({
   default = true,
 })
 
-
 require("luasnip.loaders.from_snipmate").load()
 
 local glance = require("glance")
@@ -93,17 +92,15 @@ glance.setup({
   },
 })
 
-if vim.g.config_optional then
-  require("indent_blankline").setup({
-    -- for example, context is off by default, use this to turn it on
-    show_current_context = true,
-    show_current_context_start = false,
-    show_end_of_line = true,
-  })
-end
-
 require("hlslens").setup({
 --  calm_down = true,
 --  nearest_float_when = "always",
 --  nearest_only = false,
 })
+
+-- setup all optional features according to vim.g.features (see config.lua)
+for k,v in pairs(vim.g.features) do
+  if #v > 0 then
+    require(v)
+  end
+end
