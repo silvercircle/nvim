@@ -10,19 +10,9 @@ lua require('config')
 lua require('load_plugins')
 exec "source " . expand("<sfile>:h") . '/plugin/packer_compiled.lua'
 lua require('vim_options')
-
+" setup all default and optional plugins, based on g.features (see
+" config.lua)
 lua require('setup_plugins')
-
-if g:config_neotree == v:true
-  lua require('setup_neotree')
-endif
-
-if g:config_nvimtree == v:true
-  lua require('setup_nvim-tree')
-endif
-
-lua require('setup_telekasten')
-lua require('setup_dressing')
 
 run macros/justify.vim
 

@@ -53,11 +53,6 @@ function Lualine_internal_theme()
   }
 end
 
--- valid and supported features are:
---  "scrollbar", "gitsigns", "indent-blankline",
---  "cokeline", "neodev", "treesitter", "telescope",
---  "lsp", "lualine", "lspsaga", "outline"
-
 vim.g.features = {
   lsp = 'setup_lsp',
   scrollbar = 'setup_scrollbar',
@@ -71,17 +66,18 @@ vim.g.features = {
   outline = 'setup_outline',
   lspsaga = "", -- setup_lspsaga
   noice = "", -- setup_noice
-  dressing = 'setup_dressing'
+  dressing = 'setup_dressing',
+  telekasten = 'setup_telekasten',
+  -- please use ONLY ONE of te following two. Using both won't hurt but will
+  -- be a waste.
+  neotree = '',
+  nvimtree = 'setup_nvim-tree'
 }
 
 vim.g.config_null_ls = false                   -- use null_ls plugin
 vim.g.cokeline_filename_width = 20             -- max filename length on cokeline tabs
 vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' for the integrated theme 
                                                -- or any valid lualine theme name (e.g. 'dracula')
--- only use ONE of them
-vim.g.config_neotree = false
-vim.g.config_nvimtree = true
-
 function Cokeline_theme()
   return {
     hl = {

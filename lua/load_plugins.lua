@@ -37,10 +37,10 @@ return require("packer").startup(function(use)
     use 'nvim-telescope/telescope-project.nvim'
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
   end
-  if vim.g.config_nvimtree then
+  if #vim.g.features['nvimtree'] > 0 then
     use 'nvim-tree/nvim-tree.lua'
   end
-  if vim.g.config_neotree then
+  if #vim.g.features['neotree'] > 0 then
     use { "nvim-neo-tree/neo-tree.nvim", branch = "v2.x" }
   end
   use 'MattesGroeger/vim-bookmarks'

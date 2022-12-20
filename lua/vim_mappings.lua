@@ -36,10 +36,10 @@ map('n', "<A-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.all{hi
 map('n', "<C-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.current_file{layout_config={height=0.4, width=0.7}}<CR>", opts)
 
 -- file tree
-if vim.g.config_neotree then
+if #vim.g.features['neotree'] > 0 then
   map('n', "<leader>r", "<CMD>Neotree reveal<CR>", opts)   -- sync NERDTree with current 
   map('n', "<leader>,", '<CMD>Neotree toggle<CR>', opts)    -- toggle the NERDTree
-elseif vim.g.config_nvimtree then
+elseif #vim.g.features['nvimtree'] > 0 then
   map('n', "<leader>,", '<CMD>NvimTreeToggle<CR>', opts)    -- toggle the NERDTree
   map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)   -- sync NERDTree with current 
 end
