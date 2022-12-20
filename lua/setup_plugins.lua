@@ -100,6 +100,7 @@ require("hlslens").setup({
 
 -- setup all optional features according to vim.g.features (see config.lua)
 for _, v in pairs(vim.g.features) do
+  -- the plugin has a setup module associated
   if #v > 0 then
     require(v)
   end

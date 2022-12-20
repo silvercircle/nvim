@@ -138,6 +138,18 @@ map('n', "DA", ":lua vim.lsp.buf.code_action()<CR>", opts)
 map('n', "Sa", ":Lspsaga code_action<CR>", opts)               -- code action
 map('n', "Sf", ":Lspsaga lsp_finder<CR>", opts)
 
+-- folds
+-- toggle this fold
+map('i', "<F2>", "<C-o>:ToggleFold<CR>", opts)
+map('n', "<F2>", ":ToggleFold<CR>", opts)
+map('o', "<F2>", "<C-o>:ToggleFold<CR>", opts)
+map('v', "<F2>", ":ToggleFold<CR>", opts)
+
+-- toggle all folds at current level
+map('i', "<F3>", "<C-o>:ToggleAllFold<CR>", opts)
+map('n', "<F3>", ":ToggleAllFold<CR>", opts)
+map('o', "<F3>", "<C-o>:ToggleAllFold<CR>", opts)
+map('v', "<F3>", ":ToggleAllFold<CR>", opts)
 
 -- hlslens
 local kopts = {noremap = true, silent = true}

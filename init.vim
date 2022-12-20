@@ -39,7 +39,7 @@ command ToggleFold :call feedkeys("za")
 map <C-f> <NOP>
 map <C-c> <NOP>
 imap <C-p> <NOP>
-
+imap <C-c> <NOP>
 
 lua require('vim_mappings')
 " lua require('vim_snippets')
@@ -82,18 +82,6 @@ endif
 " show white spaces, but only trailing spaces, newlines and tabs
 set list listchars=tab:·\ ,trail:▪,extends:>,precedes:<,eol:↴
 
-" toggle this fold
-inoremap <F2> <C-o>:ToggleFold<CR>
-nnoremap <F2> :ToggleFold<CR>
-onoremap <F2> <C-o>:ToggleFold<CR>
-vnoremap <F2> :ToggleFold<CR>
-
-" toggle s of current fold
-inoremap <F3> <C-o>:ToggleAllFold<CR>
-nnoremap <F3> :ToggleAllFold<CR>
-onoremap <F3> <C-o>:ToggleAllFold<CR>
-vnoremap <F3> :ToggleAllFold<CR>
-
 nnoremap <A-Left> <c-w><Left>
 nnoremap <A-Right> <c-w><Right>
 nnoremap <A-Down> <c-w><Down>
@@ -109,7 +97,7 @@ augroup filetypes
   autocmd FileType vim,nim,python,markdown,tex,lua,json,html,css,dart,go setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab
   autocmd FileType noice silent! setlocal signcolumn=no | silent!  setlocal foldcolumn=0 | silent! setlocal nonumber
   autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
-  autocmd FileType NvimTree silent! setlocal statusline=NvimTree
+  autocmd FileType NvimTree setlocal statusline=NvimTree
 augroup end
 
 " remember folds for all buffers, unless they are nofile or special kind
