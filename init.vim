@@ -100,7 +100,7 @@ function! ReconfigFold()
     if g:features['treesitter']['enable'] == v:true
       echo "TS found, Set fdm to expr"
       setlocal foldmethod=expr
-      setlocal foldexpr="nvim_treesitter#foldexpr()"
+      setlocal foldexpr=nvim_treesitter#foldexpr()
     else
       echo "TS not found, Set fdm to indent"
       setlocal foldmethod=indent

@@ -64,7 +64,6 @@ if vim.g.features['treesitter']['enable'] == true then
   o.foldmethod = "expr"
   o.foldexpr = "nvim_treesitter#foldexpr()"
 else
-  print("No treesitter for folding")
   o.foldmethod = "indent"
   o.foldexpr = ""
 end

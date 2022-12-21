@@ -12,6 +12,11 @@ return require("packer").startup(function(use)
     use 'williamboman/mason-lspconfig.nvim'
     use 'neovim/nvim-lspconfig'
     use 'onsails/lspkind-nvim'
+    -- the following to belong to the lsp group. They are useless without the LSP client
+    use 'j-hui/fidget.nvim'
+    use 'dnlhc/glance.nvim'
+  end
+  if vim.g.features['cmp']['enable'] == true then
     use 'hrsh7th/nvim-cmp'
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/cmp-nvim-lsp'
@@ -25,8 +30,6 @@ return require("packer").startup(function(use)
   if vim.g.features['outline']['enable'] == true then
     use 'silvercircle/symbols-outline.nvim'
   end
-  use 'dnlhc/glance.nvim'
-  use 'j-hui/fidget.nvim'
   use 'alaviss/nim.nvim'
   use 'gpanders/editorconfig.nvim'
   use 'nvim-lua/plenary.nvim'
@@ -61,8 +64,10 @@ return require("packer").startup(function(use)
   if vim.g.features["indent_blankline"]['enable'] == true then
     use 'lukas-reineke/indent-blankline.nvim'
   end
-  use 'renerocksai/calendar-vim'
-  use 'renerocksai/telekasten.nvim'
+  if vim.g.features['telekasten']['enable'] == true then
+    use 'renerocksai/calendar-vim'
+    use 'renerocksai/telekasten.nvim'
+  end
   use 'mhinz/vim-startify'
   use 'kevinhwang91/nvim-hlslens'
   if vim.g.features["cokeline"]['enable'] == true then
