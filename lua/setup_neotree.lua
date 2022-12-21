@@ -117,7 +117,7 @@ require("neo-tree").setup({
   },
   window = {
     position = "left",
-    width = vim.g.neotree_width,
+    width = vim.g.filetree_width,
     mapping_options = {
       noremap = true,
       nowait = true,

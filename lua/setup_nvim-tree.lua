@@ -21,7 +21,7 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
   view = {
     adaptive_size = false,
     centralize_selection = false,
-    width = 44,
+    width = vim.g.filetree_width,
     hide_root_folder = false,
     side = "left",
     preserve_window_proportions = true,
