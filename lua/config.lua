@@ -8,16 +8,16 @@
 -- To add or remove a plugin, just change its enable status
 
 vim.g.features = {
-  lsp = { enable = false, module = 'setup_lsp' },                          -- lsp, mason, cmp
+  lsp = { enable = true, module = 'setup_lsp' },                          -- lsp, mason, cmp
   scrollbar = { enable = true, module = 'setup_scrollbar' },              -- scrollbar
   gitsigns = { enable = true, module = 'setup_gitsigns' },                -- gitsigns plugin
   indent_blankline = { enable = true, module = 'setup_indent_blankline' },-- indent guides
   cokeline = { enable = true, module = 'setup_cokeline' },                -- cokeline
                                                                           -- diables lualine bufferbar
   neodev = "", -- setup_neodev
-  treesitter = { enable = true, module = 'setup_treesitter' },           -- use treesitter
+  treesitter = { enable = false, module = 'setup_treesitter' },           -- use treesitter
   -- playground is a special case, it is configured in the treesitter module and has no setup module of its own
-  treesitter_playground = { enable = true, module = '' },
+  treesitter_playground = { enable = false, module = '' },
   telescope = { enable = true, module = 'setup_telescope'},               -- use telescope (+ various extensions)
   lualine = { enable = true, module = 'setup_lualine'},                   -- use lualine
   outline = { enable = true, module = 'setup_outline' },                  -- use symbols-outline plugin
@@ -29,7 +29,8 @@ vim.g.features = {
   -- be a waste.
   neotree = { enable = false, module = 'setup_neotree' },                 -- neotree file explorer
   nvimtree = { enable = true, module = 'setup_nvim-tree' },               -- nvim-tree file explorer
-  null_ls = { enable = false, module = 'setup_null_ls' }                  -- null-ls for linting, formatting and more lsp features
+  null_ls = { enable = false, module = 'setup_null_ls' },                  -- null-ls for linting, formatting and more lsp features
+  todo = { enable = true, module = 'setup_todo' }
 }
 
 local g = vim.g

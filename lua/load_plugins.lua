@@ -6,6 +6,7 @@ return require("packer").startup(function(use)
     use 'nvim-lualine/lualine.nvim'
   end
   use { 'mg979/vim-visual-multi', branch = "master" }
+  use 'L3MON4D3/LuaSnip'
   if vim.g.features["lsp"]['enable'] == true then
     use 'williamboman/mason.nvim'
     use 'williamboman/mason-lspconfig.nvim'
@@ -19,7 +20,6 @@ return require("packer").startup(function(use)
     use 'saadparwaiz1/cmp_luasnip'
     use 'hrsh7th/cmp-nvim-lsp-signature-help'
   end
-  use 'L3MON4D3/LuaSnip'
   use 'MunifTanjim/nui.nvim'
   use 'nvim-tree/nvim-web-devicons'
   if vim.g.features['outline']['enable'] == true then
@@ -71,4 +71,9 @@ return require("packer").startup(function(use)
   if vim.g.features['dressing']['enable'] == true then
     use 'stevearc/dressing.nvim'
   end
+  if vim.g.features['todo']['enable'] == true then
+    use 'folke/todo-comments.nvim'
+  end
 end)
+
+-- TODO: test and make this useful

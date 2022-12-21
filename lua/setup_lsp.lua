@@ -273,7 +273,7 @@ local lspkind = require("lspkind")
 -- See ~/.vim/plugged/nvim-cmp/lua/cmp/config/default.lua
 cmp.setup({
   completion = {
-    --autocomplete = false,
+    autocomplete = false
   },
   snippet = {
     expand = function(args)
@@ -407,7 +407,7 @@ cmp.setup({
 --        keyword_pattern = [[\k\+]],
 --      },
 --    },
-    { name = "luasnip", priority = 120, keyword_length = 3 },
+    { name = "luasnip", priority = 120, keyword_length = 2 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
     { name = 'emoji', priority = 120, keyword_length = 2 }  -- cmp-emoji source
   },

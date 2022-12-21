@@ -10,8 +10,16 @@ two branches with different setups.
   snippet handling. It is  relatively stable but a bit outdated and depends heavily on NodeJS and NPM 
   (due to Coc).
 
-Both branches use lots of Telescope stuff and Tree-Sitter for syntax highlighting. **The minimum required 
+- The `minimal` branch. This is a fast-moving unstable testing environment not meant to be used for a 
+  production configuration. It's unstable at times and might disable important plugins for testing 
+  purposes.
+
+All branches use lots of Telescope stuff and Tree-Sitter for syntax highlighting. **The minimum required 
 Neovim version is 0.8**.
+
+The main branch (LSP) is modular and it is fairly easy to disable certain features. See `config.lua` for 
+more information. It is advised to run a `PackerSync` after adding or removing features. When removing 
+features, some things may break until you perform a `PackerSync`.
 
 You can switch by checking out either `main` or `coc`, but since the plugin configuration is vastly 
 different, a **PackerSync** is required after switching branches. I use only packer for plugin setup, so 
