@@ -8,7 +8,7 @@ require('cokeline').setup({
     filetype = 'NvimTree',
     components = {
       {
-        text = '  Neotree',
+        text = '  File Explorer',
         bg = vim.g.cokeline_bg,
         style = 'bold',
       },

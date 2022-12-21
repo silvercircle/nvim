@@ -36,10 +36,10 @@ map('n', "<A-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.all{hi
 map('n', "<C-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.current_file{layout_config={height=0.4, width=0.7}}<CR>", opts)
 
 -- file tree
-if vim.g.config_neotree then
+if vim.g.features['neotree']['enable'] == true then
   map('n', "<leader>r", "<CMD>Neotree reveal<CR>", opts)   -- sync NERDTree with current 
   map('n', "<leader>,", '<CMD>Neotree toggle<CR>', opts)    -- toggle the NERDTree
-elseif vim.g.config_nvimtree then
+elseif vim.g.features['nvimtree']['enable'] == true then
   map('n', "<leader>,", '<CMD>NvimTreeToggle<CR>', opts)    -- toggle the NERDTree
   map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)   -- sync NERDTree with current 
 end
@@ -138,6 +138,24 @@ map('n', "DA", ":lua vim.lsp.buf.code_action()<CR>", opts)
 map('n', "Sa", ":Lspsaga code_action<CR>", opts)               -- code action
 map('n', "Sf", ":Lspsaga lsp_finder<CR>", opts)
 
+-- folds
+-- toggle this fold
+map('i', "<F2>", "<C-o>:ToggleFold<CR>", opts)
+map('n', "<F2>", ":ToggleFold<CR>", opts)
+map('o', "<F2>", "<C-o>:ToggleFold<CR>", opts)
+map('v', "<F2>", ":ToggleFold<CR>", opts)
+
+-- toggle all folds at current level
+map('i', "<F3>", "<C-o>:ToggleAllFold<CR>", opts)
+map('n', "<F3>", ":ToggleAllFold<CR>", opts)
+map('o', "<F3>", "<C-o>:ToggleAllFold<CR>", opts)
+map('v', "<F3>", ":ToggleAllFold<CR>", opts)
+
+-- move left/right/up/down split window
+map('n', "<A-Left>", "<c-w><Left>", opts)
+map('n', "<A-Right>", "<c-w><Right>", opts)
+map('n', "<A-Down>", "<c-w><Down>", opts)
+map('n', "<A-Up>", "<c-w><Up>", opts)
 
 -- hlslens
 local kopts = {noremap = true, silent = true}

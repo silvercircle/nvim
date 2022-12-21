@@ -10,19 +10,9 @@ lua require('config')
 lua require('load_plugins')
 exec "source " . expand("<sfile>:h") . '/plugin/packer_compiled.lua'
 lua require('vim_options')
-
+" setup all default and optional plugins, based on g.features (see
+" config.lua)
 lua require('setup_plugins')
-
-if g:config_neotree == v:true
-  lua require('setup_neotree')
-endif
-
-if g:config_nvimtree == v:true
-  lua require('setup_nvim-tree')
-endif
-
-lua require('setup_telekasten')
-lua require('setup_dressing')
 
 run macros/justify.vim
 
@@ -49,7 +39,7 @@ command ToggleFold :call feedkeys("za")
 map <C-f> <NOP>
 map <C-c> <NOP>
 imap <C-p> <NOP>
-
+imap <C-c> <NOP>
 
 lua require('vim_mappings')
 " lua require('vim_snippets')
@@ -92,49 +82,27 @@ endif
 " show white spaces, but only trailing spaces, newlines and tabs
 set list listchars=tab:·\ ,trail:▪,extends:>,precedes:<,eol:↴
 
-" toggle this fold
-inoremap <F2> <C-o>:ToggleFold<CR>
-nnoremap <F2> :ToggleFold<CR>
-onoremap <F2> <C-o>:ToggleFold<CR>
-vnoremap <F2> :ToggleFold<CR>
-
-" toggle s of current fold
-inoremap <F3> <C-o>:ToggleAllFold<CR>
-nnoremap <F3> :ToggleAllFold<CR>
-onoremap <F3> <C-o>:ToggleAllFold<CR>
-vnoremap <F3> :ToggleAllFold<CR>
-
-nnoremap <A-Left> <c-w><Left>
-nnoremap <A-Right> <c-w><Right>
-nnoremap <A-Down> <c-w><Down>
-nnoremap <A-Up> <c-w><Up>
-
 " a key mapping for the kwbd macro to close a buffer
 command C Kwbd
 
 " filetype related autocmds
 augroup filetypes
   autocmd!
-  autocmd FileType ada,d,nim,objc,objcpp,javascript,scala syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
+  autocmd FileType ada,d,nim,objc,objcpp,javascript,scala,lua syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
   autocmd FileType vim,nim,python,markdown,tex,lua,json,html,css,dart,go setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab
   autocmd FileType noice silent! setlocal signcolumn=no | silent!  setlocal foldcolumn=0 | silent! setlocal nonumber
   autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
-  autocmd FileType NvimTree silent! setlocal statusline=NvimTree
 augroup end
 
 " remember folds for all buffers, unless they are nofile or special kind
 " simply create a view
 augroup folds
-    autocmd!
-"    autocmd BufWinLeave *
-"    \   if expand('%') != '' && &buftype !~ 'nofile' && &buftype !~ 'terminal'
-"    \|      mkview!
-"    \|  endif
+  autocmd!
 " restore the view on load
-    autocmd BufRead *
-    \   if expand('%') != '' && &buftype !~ 'nofile'
-    \|      silent! loadview
-    \|  endif
+  autocmd BufRead *
+  \   if expand('%') != '' && &buftype !~ 'nofile'
+  \|    silent! loadview
+  \|  endif
 augroup end
 
 " This is for adding fortune cookies. User will be prompted for a section

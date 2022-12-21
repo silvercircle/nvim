@@ -5,7 +5,7 @@ require("editorconfig").properties.foo = function(bufnr, val)
   vim.b[bufnr].foo = val
 end
 
--- devicons for lua plugins (e.g. Telescope needs them)
+-- devicons for lua plugins (e.g. Telescope, neotree, nvim-tree among others  need them)
 require("nvim-web-devicons").setup({
   -- your personnal icons can go here (to override)
   -- you can specify color or cterm_color instead of specifying both of them
@@ -99,8 +99,9 @@ require("hlslens").setup({
 })
 
 -- setup all optional features according to vim.g.features (see config.lua)
-for k,v in pairs(vim.g.features) do
-  if #v > 0 then
-    require(v)
+for _, v in pairs(vim.g.features) do
+  -- the plugin has a setup module associated
+  if v['enable'] == true then
+    require(v['module'])
   end
 end

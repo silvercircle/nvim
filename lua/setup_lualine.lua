@@ -12,7 +12,7 @@ local function getWordsV2()
 end
 
 local function actual_tabline()
-  if vim.g.features['cokeline'] then
+  if vim.g.features['cokeline']['enable'] == true then
     return {}
   else return {
     lualine_a = { { "buffers", mode = 2 } },
@@ -40,7 +40,7 @@ require("lualine").setup({
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", "neo-tree"},
+      statusline = { "Outline", "neo-tree", 'NvimTree'},
       winbar = {},
       tabline = {},
     },
