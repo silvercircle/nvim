@@ -47,6 +47,9 @@ return require("packer").startup(function(use)
   if vim.g.features["treesitter"]['enable'] == true then
     use 'nvim-treesitter/nvim-treesitter'
   end
+  if vim.g.features['treesitter_playground']['enable'] == true then
+    use 'nvim-treesitter/playground'
+  end
   use 'sharkdp/fd'
   use 'BurntSushi/ripgrep'
   if vim.g.features["gitsigns"]['enable'] == true then

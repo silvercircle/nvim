@@ -2,7 +2,7 @@ require("nvim-treesitter.configs").setup({
   auto_install = false,
   ensure_installed = { "c", "cpp", "lua", "vim", "python", "rust", "dart", "go" },
   playground = {
-    enable = true,
+    enable = vim.g.features['treesitter_playground']['enable'],
     disable = {},
     updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
     persist_queries = false, -- Whether the query persists across vim sessions

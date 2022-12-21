@@ -8,14 +8,16 @@
 -- To add or remove a plugin, just change its enable status
 
 vim.g.features = {
-  lsp = { enable = true, module = 'setup_lsp' },                          -- lsp, mason, cmp
+  lsp = { enable = false, module = 'setup_lsp' },                          -- lsp, mason, cmp
   scrollbar = { enable = true, module = 'setup_scrollbar' },              -- scrollbar
   gitsigns = { enable = true, module = 'setup_gitsigns' },                -- gitsigns plugin
   indent_blankline = { enable = true, module = 'setup_indent_blankline' },-- indent guides
   cokeline = { enable = true, module = 'setup_cokeline' },                -- cokeline
                                                                           -- diables lualine bufferbar
   neodev = "", -- setup_neodev
-  treesitter = { enable = true, module = 'setup_treesitter' },            -- use treesitter
+  treesitter = { enable = true, module = 'setup_treesitter' },           -- use treesitter
+  -- playground is a special case, it is configured in the treesitter module and has no setup module of its own
+  treesitter_playground = { enable = true, module = '' },
   telescope = { enable = true, module = 'setup_telescope'},               -- use telescope (+ various extensions)
   lualine = { enable = true, module = 'setup_lualine'},                   -- use lualine
   outline = { enable = true, module = 'setup_outline' },                  -- use symbols-outline plugin
@@ -23,7 +25,7 @@ vim.g.features = {
   noice = { enable = false, module = 'setup_noice' },                     -- use noice for notifications
   dressing = { enable = true, module = 'setup_dressing' },                -- use dressing for various UI improvements
   telekasten = { enable = true, module = 'setup_telekasten' },            -- telekasten/calendar personal note taking
-  -- please use ONLY ONE of te following two. Using both won't hurt but will
+  -- please use ONLY ONE of te following two. Using both wont hurt but will
   -- be a waste.
   neotree = { enable = false, module = 'setup_neotree' },                 -- neotree file explorer
   nvimtree = { enable = true, module = 'setup_nvim-tree' },               -- nvim-tree file explorer
