@@ -112,10 +112,10 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
   callback = function()
     local no_nerd = os.getenv("NVIM_NO_NERD")
     if no_nerd == nil or no_nerd ~= "yes" then
-      if #vim.g.features['neotree'] > 0 then
+      if vim.g.features['neotree']['enable'] == true then
         vim.api.nvim_command("NeoTreeShow")
       end
-      if #vim.g.features['nvimtree'] > 0 then
+      if vim.g.features['nvimtree']['enable'] == true then
         require('nvim-tree').toggle(false, true)
       end
     end

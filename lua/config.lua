@@ -54,24 +54,24 @@ function Lualine_internal_theme()
 end
 
 vim.g.features = {
-  lsp = 'setup_lsp',
-  scrollbar = 'setup_scrollbar',
-  gitsigns = 'setup_gitsigns',
-  indent_blankline = 'setup_indent_blankline',
-  cokeline = 'setup_cokeline',
+  lsp = { enable = true, module = 'setup_lsp' },
+  scrollbar = { enable = true, module = 'setup_scrollbar' },
+  gitsigns = { enable = true, module = 'setup_gitsigns' },
+  indent_blankline = { enable = true, module = 'setup_indent_blankline' },
+  cokeline = { enable = true, module = 'setup_cokeline' },
   neodev = "", -- setup_neodev
-  treesitter = 'setup_treesitter',
-  telescope = 'setup_telescope',
-  lualine = 'setup_lualine',
-  outline = 'setup_outline',
-  lspsaga = "", -- setup_lspsaga
-  noice = "", -- setup_noice
-  dressing = 'setup_dressing',
-  telekasten = 'setup_telekasten',
+  treesitter = { enable = true, module = 'setup_treesitter' },
+  telescope = { enable = true, module = 'setup_telescope'},
+  lualine = { enable = true, module = 'setup_lualine'},
+  outline = { enable = true, module = 'setup_outline' },
+  lspsaga = { enable = false, module = 'setup_lspsaga' },
+  noice = { enable = false, module = 'setup_noice' },
+  dressing = { enable = true, module = 'setup_dressing' },
+  telekasten = { enable = true, module = 'setup_telekasten' },
   -- please use ONLY ONE of te following two. Using both won't hurt but will
   -- be a waste.
-  neotree = '',
-  nvimtree = 'setup_nvim-tree'
+  neotree = { enable = false, module = 'setup_neotree' },
+  nvimtree = { enable = true, module = 'setup_nvim-tree' }
 }
 
 vim.g.config_null_ls = false                   -- use null_ls plugin

@@ -12,7 +12,7 @@ local function getWordsV2()
 end
 
 local function actual_tabline()
-  if #vim.g.features['cokeline'] > 0 then
+  if vim.g.features['cokeline']['enable'] == true then
     return {}
   else return {
     lualine_a = { { "buffers", mode = 2 } },

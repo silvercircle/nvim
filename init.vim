@@ -82,11 +82,6 @@ endif
 " show white spaces, but only trailing spaces, newlines and tabs
 set list listchars=tab:·\ ,trail:▪,extends:>,precedes:<,eol:↴
 
-nnoremap <A-Left> <c-w><Left>
-nnoremap <A-Right> <c-w><Right>
-nnoremap <A-Down> <c-w><Down>
-nnoremap <A-Up> <c-w><Up>
-
 " a key mapping for the kwbd macro to close a buffer
 command C Kwbd
 
@@ -102,16 +97,12 @@ augroup end
 " remember folds for all buffers, unless they are nofile or special kind
 " simply create a view
 augroup folds
-    autocmd!
-"    autocmd BufWinLeave *
-"    \   if expand('%') != '' && &buftype !~ 'nofile' && &buftype !~ 'terminal'
-"    \|      mkview!
-"    \|  endif
+  autocmd!
 " restore the view on load
-    autocmd BufRead *
-    \   if expand('%') != '' && &buftype !~ 'nofile'
-    \|      silent! loadview
-    \|  endif
+  autocmd BufRead *
+  \   if expand('%') != '' && &buftype !~ 'nofile'
+  \|    silent! loadview
+  \|  endif
 augroup end
 
 " This is for adding fortune cookies. User will be prompted for a section
