@@ -95,6 +95,19 @@ augroup filetypes
   autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
 augroup end
 
+function! ReconfigFold()
+  if &fdm == 'expr'
+    if g:features['treesitter']['enable'] == v:true
+      echo "TS found, Set fdm to expr"
+      setlocal foldmethod=expr
+      setlocal foldexpr="nvim_treesitter#foldexpr()"
+    else
+      echo "TS not found, Set fdm to indent"
+      setlocal foldmethod=indent
+    endif
+  endif
+endfunction
+
 " remember folds for all buffers, unless they are nofile or special kind
 " simply create a view
 augroup folds
@@ -104,6 +117,7 @@ augroup folds
   \   if expand('%') != '' && &buftype !~ 'nofile'
   \|    silent! loadview
   \|  endif
+  autocmd BufRead * call ReconfigFold()
 augroup end
 
 " This is for adding fortune cookies. User will be prompted for a section

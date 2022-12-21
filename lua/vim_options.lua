@@ -57,9 +57,18 @@ o.wrap = false
 o.number = true
 o.numberwidth = 5
 o.foldcolumn = "5"
--- use treesitter for folding
-o.foldmethod = "expr"
-o.foldexpr = "nvim_treesitter#foldexpr()"
+
+-- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 
+-- indentation-based folding.
+if vim.g.features['treesitter']['enable'] == true then
+  o.foldmethod = "expr"
+  o.foldexpr = "nvim_treesitter#foldexpr()"
+else
+  print("No treesitter for folding")
+  o.foldmethod = "indent"
+  o.foldexpr = ""
+end
+
 o.foldlevelstart = 99
 o.foldnestmax = 5
 -- mkview will only save current cursor position and folding state

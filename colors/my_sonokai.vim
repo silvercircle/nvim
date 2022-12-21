@@ -759,31 +759,6 @@ highlight! link packerTimeLow Green
 highlight! link DirvishPathTail Blue
 highlight! link DirvishArg Yellow
 " syn_end }}}
-" syn_begin: NvimTree {{{
-" https://github.com/kyazdani42/nvim-tree.lua
-highlight! link NvimTreeSymlink Fg
-highlight! link NvimTreeFolderName Green
-highlight! link NvimTreeRootFolder Grey
-highlight! link NvimTreeFolderIcon Blue
-highlight! link NvimTreeEmptyFolderName Green
-highlight! link NvimTreeOpenedFolderName Green
-highlight! link NvimTreeExecFile Fg
-highlight! link NvimTreeOpenedFile Fg
-highlight! link NvimTreeSpecialFile Fg
-highlight! link NvimTreeImageFile Fg
-highlight! link NvimTreeMarkdownFile Fg
-highlight! link NvimTreeIndentMarker Grey
-highlight! link NvimTreeGitDirty Yellow
-highlight! link NvimTreeGitStaged Blue
-highlight! link NvimTreeGitMerge Orange
-highlight! link NvimTreeGitRenamed Purple
-highlight! link NvimTreeGitNew Green
-highlight! link NvimTreeGitDeleted Red
-highlight! link NvimTreeLspDiagnosticsError RedSign
-highlight! link NvimTreeLspDiagnosticsWarning YellowSign
-highlight! link NvimTreeLspDiagnosticsInformation BlueSign
-highlight! link NvimTreeLspDiagnosticsHint GreenSign
-" syn_end }}}
 " syn_begin: startify/quickmenu {{{
 " https://github.com/mhinz/vim-startify
 " https://github.com/skywind3000/quickmenu.vim
