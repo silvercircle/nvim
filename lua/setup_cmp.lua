@@ -14,7 +14,11 @@ local cmp = require("cmp")
 local cmp_types = require("cmp.types.cmp")
 local max_abbr_item_width = 40
 local max_detail_item_width = 40
-local lspkind = require("lspkind")
+
+local lspkind = nil
+if vim.g.features['lsp']['enabled'] == true then
+  lspkind = require("lspkind")
+end
 
 cmp.setup({
   completion = {
@@ -80,9 +84,11 @@ cmp.setup({
     format = function(entry, vim_item)
       -- Truncate the item if it is too long
       vim_item.abbr = Truncate(vim_item.abbr, max_abbr_item_width)
-      -- fancy icons and a name of kind
-      vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
-      vim_item.kind = " " .. vim_item.kind_symbol .. " " .. vim_item.kind
+      if lspkind ~= nil then
+        -- fancy icons and a name of kind
+        vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
+        vim_item.kind = " " .. vim_item.kind_symbol .. " " .. vim_item.kind
+      end
       -- The 'menu' section: source, detail information (lsp, snippet), etc.
       -- set a name for each source (see the sources section below)
       vim_item.menu = ({

@@ -1,6 +1,6 @@
 require("nvim-treesitter.configs").setup({
   auto_install = false,
-  ensure_installed = { "c", "cpp", "lua", "vim", "python", "rust", "dart", "go" },
+  ensure_installed = { "c", "cpp", "lua", "vim", "python", "rust", "dart", "go", "scala" },
   playground = {
     enable = vim.g.features['treesitter_playground']['enable'],
     disable = {},

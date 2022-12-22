@@ -8,8 +8,8 @@
 -- To add or remove a plugin, just change its enable status
 
 vim.g.features = {
-  lsp = { enable = false, module = 'setup_lsp' },                         -- mason, lspconfig, fidget Glance
-  cmp = { enable = false, module = 'setup_cmp' },                         -- cmp
+  lsp = { enable = false, module = 'setup_lsp' },                          -- mason, lspconfig, fidget Glance
+  cmp = { enable = true, module = 'setup_cmp' },                         -- cmp
   scrollbar = { enable = true, module = 'setup_scrollbar' },              -- scrollbar
   gitsigns = { enable = true, module = 'setup_gitsigns' },                -- gitsigns plugin
   indent_blankline = { enable = true, module = 'setup_indent_blankline' },-- indent guides

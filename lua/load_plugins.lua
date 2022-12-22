@@ -1,5 +1,4 @@
 vim.cmd([[packadd packer.nvim]])
--- all plugins handled by packer. Plug has been retired
 return require("packer").startup(function(use)
   use { 'wbthomason/packer.nvim', opt = true }
   if vim.g.features["lualine"]['enable'] == true then
@@ -16,6 +15,9 @@ return require("packer").startup(function(use)
     use 'j-hui/fidget.nvim'
     use 'dnlhc/glance.nvim'
   end
+  -- while cmp does not make much sense without lsp, some things like snippets, emojis, command-line
+  -- and path completion will still work.
+  -- that's why it's separated from lsp
   if vim.g.features['cmp']['enable'] == true then
     use 'hrsh7th/nvim-cmp'
     use 'hrsh7th/cmp-cmdline'
@@ -25,14 +27,21 @@ return require("packer").startup(function(use)
     use 'saadparwaiz1/cmp_luasnip'
     use 'hrsh7th/cmp-nvim-lsp-signature-help'
   end
-  use 'MunifTanjim/nui.nvim'
-  use 'nvim-tree/nvim-web-devicons'
+  -- outline view in theory depends on lsp, but it won't complain without it.
   if vim.g.features['outline']['enable'] == true then
     use 'silvercircle/symbols-outline.nvim'
   end
+  -- some generic plugins
+  use 'MunifTanjim/nui.nvim'
+  use 'nvim-tree/nvim-web-devicons'
   use 'alaviss/nim.nvim'
   use 'gpanders/editorconfig.nvim'
   use 'nvim-lua/plenary.nvim'
+  use 'MattesGroeger/vim-bookmarks'
+  use 'sharkdp/fd'
+  use 'BurntSushi/ripgrep'
+  use 'mhinz/vim-startify'
+  use 'kevinhwang91/nvim-hlslens'
   if vim.g.features["telescope"]['enable'] == true then
     use { 'nvim-telescope/telescope.nvim', branch = '0.1.x' }
     use 'nvim-telescope/telescope-file-browser.nvim'
@@ -40,21 +49,20 @@ return require("packer").startup(function(use)
     use 'nvim-telescope/telescope-project.nvim'
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
   end
+  -- filesystem tree. Only enable ONE of the following, either neo-tree or nvim-tree.
   if vim.g.features['nvimtree']['enable'] == true then
     use 'nvim-tree/nvim-tree.lua'
   end
   if vim.g.features['neotree']['enable'] == true then
     use { "nvim-neo-tree/neo-tree.nvim", branch = "v2.x" }
   end
-  use 'MattesGroeger/vim-bookmarks'
+  -- treesitter
   if vim.g.features["treesitter"]['enable'] == true then
     use 'nvim-treesitter/nvim-treesitter'
   end
   if vim.g.features['treesitter_playground']['enable'] == true then
     use 'nvim-treesitter/playground'
   end
-  use 'sharkdp/fd'
-  use 'BurntSushi/ripgrep'
   if vim.g.features["gitsigns"]['enable'] == true then
     use 'lewis6991/gitsigns.nvim'
   end
@@ -68,8 +76,6 @@ return require("packer").startup(function(use)
     use 'renerocksai/calendar-vim'
     use 'renerocksai/telekasten.nvim'
   end
-  use 'mhinz/vim-startify'
-  use 'kevinhwang91/nvim-hlslens'
   if vim.g.features["cokeline"]['enable'] == true then
     use { 'noib3/nvim-cokeline' }
   end
@@ -80,5 +86,3 @@ return require("packer").startup(function(use)
     use 'folke/todo-comments.nvim'
   end
 end)
-
--- TODO: test and make this useful

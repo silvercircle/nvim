@@ -96,13 +96,11 @@ augroup filetypes
 augroup end
 
 function! ReconfigFold()
-  if &fdm == 'expr'
+  if &fdm == 'expr' || &fdm == 'indent'
     if g:features['treesitter']['enable'] == v:true
-      echo "TS found, Set fdm to expr"
       setlocal foldmethod=expr
       setlocal foldexpr=nvim_treesitter#foldexpr()
     else
-      echo "TS not found, Set fdm to indent"
       setlocal foldmethod=indent
     endif
   endif
@@ -116,8 +114,8 @@ augroup folds
   autocmd BufRead *
   \   if expand('%') != '' && &buftype !~ 'nofile'
   \|    silent! loadview
+  \|    call ReconfigFold()
   \|  endif
-  autocmd BufRead * call ReconfigFold()
 augroup end
 
 " This is for adding fortune cookies. User will be prompted for a section
