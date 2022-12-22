@@ -280,6 +280,11 @@ _G.packer_plugins = {
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/todo-comments.nvim",
     url = "https://github.com/folke/todo-comments.nvim"
   },
+  ["vim-bookmarks"] = {
+    loaded = true,
+    path = "/home/alex/.local/share/nvim/site/pack/packer/start/vim-bookmarks",
+    url = "https://github.com/MattesGroeger/vim-bookmarks"
+  },
   ["vim-startify"] = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/vim-startify",

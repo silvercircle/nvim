@@ -8,8 +8,8 @@
 -- To add or remove a plugin, just change its enable status
 
 vim.g.features = {
-  lsp = { enable = true, module = 'setup_lsp' },                         -- mason, lspconfig, fidget Glance
-  cmp = { enable = true, module = 'setup_cmp' },                          -- cmp
+  lsp = { enable = true, module = 'setup_lsp' },                          -- mason, lspconfig, fidget Glance
+  cmp = { enable = true, module = 'setup_cmp_simple' },                   -- cmp
   scrollbar = { enable = true, module = 'setup_scrollbar' },              -- scrollbar
   gitsigns = { enable = true, module = 'setup_gitsigns' },                -- gitsigns plugin
   indent_blankline = { enable = true, module = 'setup_indent_blankline' },-- indent guides
@@ -31,7 +31,8 @@ vim.g.features = {
   neotree = { enable = false, module = 'setup_neotree' },                 -- neotree file explorer
   nvimtree = { enable = true, module = 'setup_nvim-tree' },               -- nvim-tree file explorer
   null_ls = { enable = false, module = 'setup_null_ls' },                  -- null-ls for linting, formatting and more lsp features
-  todo = { enable = true, module = 'setup_todo' }
+  todo = { enable = true, module = 'setup_todo' },
+  indent_guides = { enable = false, module = 'setup_indent_guides' }
 }
 
 local g = vim.g
@@ -48,6 +49,9 @@ g.loaded_tar = 1
 
 g.loaded_gzipPlugin= 1
 g.loaded_gzip = 1
+
+g.loaded_matchparen = 1
+g.loaded_matchparenPlugin = 0
 
 g.filetree_width = 44    -- width for the neotree and nvim-tree plugins
 g.outline_width = 36     -- split width for symbols-outline

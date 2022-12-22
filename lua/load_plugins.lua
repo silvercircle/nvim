@@ -37,7 +37,7 @@ return require("packer").startup(function(use)
   use 'alaviss/nim.nvim'
   use 'gpanders/editorconfig.nvim'
   use 'nvim-lua/plenary.nvim'
---  use 'MattesGroeger/vim-bookmarks'
+  use 'MattesGroeger/vim-bookmarks'
   use 'sharkdp/fd'
   use 'BurntSushi/ripgrep'
   use 'mhinz/vim-startify'
@@ -69,9 +69,14 @@ return require("packer").startup(function(use)
   if vim.g.features["scrollbar"]['enable'] == true then
     use 'petertriho/nvim-scrollbar'
   end
+  -- use only one of the following two
   if vim.g.features["indent_blankline"]['enable'] == true then
     use 'lukas-reineke/indent-blankline.nvim'
   end
+  if vim.g.features['indent_guides']['enable'] == true then
+    use 'glepnir/indent-guides.nvim'
+  end
+
   if vim.g.features['telekasten']['enable'] == true then
     use 'renerocksai/calendar-vim'
     use 'renerocksai/telekasten.nvim'
