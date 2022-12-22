@@ -37,7 +37,7 @@ return require("packer").startup(function(use)
   use 'alaviss/nim.nvim'
   use 'gpanders/editorconfig.nvim'
   use 'nvim-lua/plenary.nvim'
-  use 'MattesGroeger/vim-bookmarks'
+--  use 'MattesGroeger/vim-bookmarks'
   use 'sharkdp/fd'
   use 'BurntSushi/ripgrep'
   use 'mhinz/vim-startify'

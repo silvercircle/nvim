@@ -1,6 +1,7 @@
 require("nvim-treesitter.configs").setup({
   auto_install = false,
-  ensure_installed = { "c", "cpp", "lua", "vim", "python", "rust", "dart", "go", "scala" },
+  -- NOTE: Problem parsers: JavaScript is slow, scala lacks Scala3 syntax.
+  ensure_installed = { "c", "cpp", "lua", "vim", "python", "rust", "dart", "go", "scala", "c_sharp" },
   playground = {
     enable = vim.g.features['treesitter_playground']['enable'],
     disable = {},
@@ -21,7 +22,7 @@ require("nvim-treesitter.configs").setup({
   },
   highlight = {
     enable = true,
-    disable = { "javascript" },
+    disable = { "javascript" },     -- FIXME: JavaScript parser is painfully slow.
     additional_vim_regex_highlighting = false,
   },
   indent = { enable = true },
