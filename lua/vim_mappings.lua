@@ -104,12 +104,13 @@ map('n', "<A-w>", ":close<CR>", opts)
 map('n', "<A-q>", ":qa!<CR>", opts)
 
 -- Telekasten mappings
-map('n', "Zp", ":lua require('telekasten').panel()<CR>", opts)
-map('n', "Zf", ":lua require('telekasten').find_notes()<CR>", opts)
-map('n', "Zd", ":lua require('telekasten').find_daily_notes()<CR>", opts)
-map('n', "Zs", ":lua require('telekasten').search_notes()<CR>", opts)
-map('n', "Zl", ":lua require('telekasten').follow_link()<CR>", opts)
-
+if vim.g.features['telekasten']['enable'] == true then
+  map('n', "Zp", ":lua require('telekasten').panel()<CR>", opts)
+  map('n', "Zf", ":lua require('telekasten').find_notes()<CR>", opts)
+  map('n', "Zd", ":lua require('telekasten').find_daily_notes()<CR>", opts)
+  map('n', "Zs", ":lua require('telekasten').search_notes()<CR>", opts)
+  map('n', "Zl", ":lua require('telekasten').follow_link()<CR>", opts)
+end
 -- LSP mappings
 map('n', "lsi", ":LspInfo<CR>", opts)     -- LspInfo
 

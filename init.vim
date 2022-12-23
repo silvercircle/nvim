@@ -8,7 +8,7 @@ lua require('impatient')
 lua require('config')
 " load plugins (packer)
 lua require('load_plugins')
-exec "source " . expand("<sfile>:h") . '/plugin/packer_compiled.lua'
+" exec "source " . expand("<sfile>:h") . '/plugin/packer_compiled.lua'
 lua require('vim_options')
 " setup all default and optional plugins, based on g.features (see
 " config.lua)

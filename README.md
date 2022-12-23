@@ -110,7 +110,7 @@ It is a customized variant of the [Sonokai theme](https://github.com/sainnhe/son
 
 ## How it looks?
 
-![Screenshot](https://github.com/silvercircle/nvim/blob/main/screenshot.png?raw=True)
+![Screenshot](https://gitlab.com/silvercircle74/nvim/-/blob/minimal/screenshot.png)
 
 ## List of plugins in use by this config.
 

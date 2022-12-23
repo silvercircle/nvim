@@ -99,6 +99,7 @@ cmp.setup({
     --    ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp_types.SelectBehavior.Insert }),
     --    ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp_types.SelectBehavior.Insert }),
     ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
+    ["<C-CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
     ["<Tab>"] = { -- see GH-880, GH-897
       i = function(fallback) -- see GH-231, GH-286
         if cmp.visible() then
@@ -191,6 +192,7 @@ cmp.setup({
     { name = "luasnip", priority = 120, keyword_length = 2 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
     { name = 'dictionary', priority = 100, keyword_length = 2, max_item_count = 30 },
+    { name = 'orgmode' },
     { name = 'emoji', priority = 120, keyword_length = 2 }  -- cmp-emoji source
   },
   sorting = {
