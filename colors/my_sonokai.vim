@@ -49,7 +49,7 @@ function! my_sonokai#get_palette(style, colors_override)
         \ 'diff_yellow':['#4e432f',   '54'],
         \ 'fg':         ['#e2e2e3',   '250'],
         \ 'red':        ['#fc5d7c',   '203'],
-        \ 'orange':     ['#f39660',   '215'],
+        \ 'orange':     ['#c36630',   '215'],
         \ 'yellow':     ['#e7c664',   '179'],
         \ 'green':      ['#9ed072',   '107'],
         \ 'blue':       ['#76cce0',   '110'],
@@ -98,6 +98,8 @@ let s:statuslinebg = [ '#262626', 208 ]
 let s:palette.fg = [ '#a5a0b5', 1 ]
 let s:palette.grey = [ '#707070', 2 ]
 let s:pmenubg = [ '#241a20', 156 ]
+let s:cmpbg = s:palette.bg4
+
 if !(exists('g:colors_name') && g:colors_name ==# 'my_sonokai' && s:configuration.better_performance)
   highlight clear
   if exists('syntax_on')
@@ -175,7 +177,7 @@ call my_sonokai#highlight('Whitespace', s:palette.green, s:palette.none)
 call my_sonokai#highlight('SpecialKey', s:palette.bg4, s:palette.none)
 call my_sonokai#highlight('Pmenu', s:palette.fg, s:pmenubg)
 call my_sonokai#highlight('PmenuSbar', s:palette.none, s:palette.bg2)
-call my_sonokai#highlight('PmenuSel', s:palette.yellow, s:darkpurple)
+call my_sonokai#highlight('PmenuSel', s:palette.yellow, s:blue)
 highlight! link WildMenu PmenuSel
 call my_sonokai#highlight('PmenuThumb', s:palette.none, s:palette.grey)
 call my_sonokai#highlight('NormalFloat', s:palette.fg, s:darkestred)
@@ -1265,9 +1267,9 @@ hi! CmpItemMenuSnippet    guifg=#cc5de8
 hi! CmpItemMenuLSP        guifg=#cfa050
 hi link CmpItemMenuPath   CmpItemMenu
 
-highlight! CmpPmenu         guibg=#241a20
-highlight! CmpPmenuBorder   guibg=#241a20
-highlight! CmpItemAbbr      guifg=#d0b0d0
+call my_sonokai#highlight('CmpPmenu', s:palette.fg, s:palette.bg_dim)
+call my_sonokai#highlight('CmpPmenuBorder', s:palette.fg, s:palette.bg_dim)
+highlight! CmpItemAbbr      guifg=#d0b1d0
 " gray
 highlight! CmpItemAbbrDeprecated    guibg=NONE gui=strikethrough guifg=#808080
 highlight! CmpItemAbbrMatch         guibg=NONE guifg=#f03e3e gui=bold

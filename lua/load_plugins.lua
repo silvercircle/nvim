@@ -26,6 +26,7 @@ return require("packer").startup(function(use)
     use 'hrsh7th/cmp-emoji'
     use 'saadparwaiz1/cmp_luasnip'
     use 'hrsh7th/cmp-nvim-lsp-signature-help'
+    use 'uga-rosa/cmp-dictionary'
   end
   -- outline view in theory depends on lsp, but it won't complain without it.
   if vim.g.features['outline']['enable'] == true then

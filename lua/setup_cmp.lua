@@ -68,8 +68,9 @@ lspkind.init({
 })
 
 cmp.setup({
+  enabled = true,
   completion = {
-    autocomplete = false
+    -- autocomplete = true
   },
   snippet = {
     expand = function(args)
@@ -193,6 +194,7 @@ cmp.setup({
     { name = "path", priority = 30 },
     { name = "luasnip", priority = 120, keyword_length = 2 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
+    { name = 'dictionary', priority = 100, keyword_length = 2, max_item_count = 30 },
     { name = 'emoji', priority = 120, keyword_length = 2 }  -- cmp-emoji source
   },
   sorting = {
@@ -217,6 +219,7 @@ cmp.setup({
 })
 
 -- Command line completion
+--[[
 cmp.setup.cmdline("/", {
   mapping = cmp.mapping.preset.cmdline(),
   sources = { { name = "buffer" } },
@@ -229,4 +232,11 @@ cmp.setup.cmdline(":", {
   }, {
     { name = "cmdline" },
   }),
+})
+--]]
+require("cmp_dictionary").setup({
+  dic = {
+    ["*"] = { vim.api.nvim_list_runtime_paths()[1] .. "/spell/personal.dict" },
+  },
+  first_case_insensitive = true,
 })
