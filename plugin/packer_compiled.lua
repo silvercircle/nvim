@@ -182,7 +182,7 @@ _G.packer_plugins = {
   ["nvim-cmp"] = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/nvim-cmp",
-    url = "https://github.com/hrsh7th/nvim-cmp"
+    url = "https://github.com/silvercircle/nvim-cmp"
   },
   ["nvim-cokeline"] = {
     loaded = true,
@@ -224,6 +224,11 @@ _G.packer_plugins = {
     needs_bufread = false,
     path = "/home/alex/.local/share/nvim/site/pack/packer/opt/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
+  },
+  playground = {
+    loaded = true,
+    path = "/home/alex/.local/share/nvim/site/pack/packer/start/playground",
+    url = "https://github.com/nvim-treesitter/playground"
   },
   ["plenary.nvim"] = {
     loaded = true,
@@ -269,6 +274,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
+  },
+  ["todo-comments.nvim"] = {
+    loaded = true,
+    path = "/home/alex/.local/share/nvim/site/pack/packer/start/todo-comments.nvim",
+    url = "https://github.com/folke/todo-comments.nvim"
   },
   ["vim-bookmarks"] = {
     loaded = true,

@@ -38,13 +38,13 @@ command ToggleFold :call feedkeys("za")
 
 map <C-f> <NOP>
 map <C-c> <NOP>
-imap <C-p> <NOP>
+" imap <C-p> <NOP>
 imap <C-c> <NOP>
 
 lua require('vim_mappings')
 " lua require('vim_snippets')
 
-set guifont=VictorMono\ NFM:h10:#e-subpixelantialias:#h-full
+set guifont=Hack\ NFM:h10:#e-subpixelantialias:#h-full
 
 " enable plugin-based filetyp identification, syntax highlighting
 filetype off
@@ -88,11 +88,23 @@ command C Kwbd
 " filetype related autocmds
 augroup filetypes
   autocmd!
-  autocmd FileType ada,d,nim,objc,objcpp,javascript,scala,lua syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
+  autocmd FileType ada,d,nim,objc,objcpp,javascript,scala syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
+  autocmd FileType lua syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\+]'
   autocmd FileType vim,nim,python,markdown,tex,lua,json,html,css,dart,go setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab
   autocmd FileType noice silent! setlocal signcolumn=no | silent!  setlocal foldcolumn=0 | silent! setlocal nonumber
   autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
 augroup end
+
+function! ReconfigFold()
+  if &fdm == 'expr' || &fdm == 'indent'
+    if g:features['treesitter']['enable'] == v:true
+      setlocal foldmethod=expr
+      setlocal foldexpr=nvim_treesitter#foldexpr()
+    else
+      setlocal foldmethod=indent
+    endif
+  endif
+endfunction
 
 " remember folds for all buffers, unless they are nofile or special kind
 " simply create a view
@@ -102,6 +114,7 @@ augroup folds
   autocmd BufRead *
   \   if expand('%') != '' && &buftype !~ 'nofile'
   \|    silent! loadview
+  \|    call ReconfigFold()
   \|  endif
 augroup end
 

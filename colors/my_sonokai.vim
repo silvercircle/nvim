@@ -97,7 +97,7 @@ let s:bg = ['#181822', 0]
 let s:statuslinebg = [ '#262626', 208 ]
 let s:palette.fg = [ '#a5a0b5', 1 ]
 let s:palette.grey = [ '#707070', 2 ]
-
+let s:pmenubg = [ '#241a20', 156 ]
 if !(exists('g:colors_name') && g:colors_name ==# 'my_sonokai' && s:configuration.better_performance)
   highlight clear
   if exists('syntax_on')
@@ -173,7 +173,7 @@ call my_sonokai#highlight('MatchParen', s:palette.yellow, s:darkred)
 call my_sonokai#highlight('NonText', s:palette.bg4, s:palette.none)
 call my_sonokai#highlight('Whitespace', s:palette.green, s:palette.none)
 call my_sonokai#highlight('SpecialKey', s:palette.bg4, s:palette.none)
-call my_sonokai#highlight('Pmenu', s:palette.fg, s:palette.none)
+call my_sonokai#highlight('Pmenu', s:palette.fg, s:pmenubg)
 call my_sonokai#highlight('PmenuSbar', s:palette.none, s:palette.bg2)
 call my_sonokai#highlight('PmenuSel', s:palette.yellow, s:darkpurple)
 highlight! link WildMenu PmenuSel
@@ -761,6 +761,12 @@ highlight! link DirvishArg Yellow
 " syn_end }}}
 " syn_begin: NvimTree {{{
 " https://github.com/kyazdani42/nvim-tree.lua
+if !s:configuration.transparent_background
+  call sonokai#highlight('NvimTreeNormal', s:palette.fg, s:palette.bg_dim)
+  call sonokai#highlight('NvimTreeEndOfBuffer', s:palette.bg_dim, s:palette.bg_dim)
+  call sonokai#highlight('NvimTreeVertSplit', s:palette.bg0, s:palette.bg0)
+  call sonokai#highlight('NvimTreeCursorLine', s:palette.none, s:palette.bg0)
+endif
 highlight! link NvimTreeSymlink Fg
 highlight! link NvimTreeFolderName Green
 highlight! link NvimTreeRootFolder Grey
@@ -1073,41 +1079,11 @@ highlight! link objcPropertyAttribute Purple
 highlight! link objcHiddenArgument Fg
 " }}}
 " syn_end }}}
-" syn_begin: cs {{{
-" builtin: https://github.com/nickspoons/vim-cs{{{
-highlight! link csUnspecifiedStatement Red
-highlight! link csStorage Red
-highlight! link csClass Red
-highlight! link csNewType BlueItalic
-highlight! link csContextualStatement Red
-highlight! link csInterpolationDelimiter Purple
-highlight! link csInterpolation Purple
-highlight! link csEndColon Fg
-" }}}
-" syn_end }}}
 " syn_begin: python {{{
 " builtin: {{{
 highlight! link pythonBuiltin BlueItalic
 highlight! link pythonExceptions Red
 highlight! link pythonDecoratorName OrangeItalic
-" }}}
-" python-syntax: https://github.com/vim-python/python-syntax{{{
-highlight! link pythonExClass BlueItalic
-highlight! link pythonBuiltinType BlueItalic
-highlight! link pythonBuiltinObj OrangeItalic
-highlight! link pythonDottedName OrangeItalic
-highlight! link pythonBuiltinFunc Green
-highlight! link pythonFunction Green
-highlight! link pythonDecorator OrangeItalic
-highlight! link pythonInclude Include
-highlight! link pythonImport PreProc
-highlight! link pythonOperator Red
-highlight! link pythonConditional Red
-highlight! link pythonRepeat Red
-highlight! link pythonException Red
-highlight! link pythonNone OrangeItalic
-highlight! link pythonCoding Grey
-highlight! link pythonDot Grey
 " }}}
 " syn_begin: lua {{{
 " builtin: {{{
@@ -1116,20 +1092,6 @@ highlight! link luaFunction Red
 highlight! link luaTable Fg
 highlight! link luaIn Red
 " }}}
-" vim-lua: https://github.com/tbastos/vim-lua{{{
-highlight! link luaFuncCall Green
-highlight! link luaLocal Red
-highlight! link luaSpecialValue Green
-highlight! link luaBraces Fg
-highlight! link luaBuiltIn BlueItalic
-highlight! link luaNoise Grey
-highlight! link luaLabel Purple
-highlight! link luaFuncTable BlueItalic
-highlight! link luaFuncArgName Fg
-highlight! link luaEllipsis Red
-highlight! link luaDocTag Green
-" }}}
-" syn_end }}}
 " syn_begin: java {{{
 " builtin: {{{
 highlight! link javaClassDecl Red
@@ -1184,30 +1146,6 @@ highlight! link swiftProperty Fg
 highlight! link swiftTypeDeclaration Red
 highlight! link swiftClosureArgument OrangeItalic
 highlight! link swiftStructure Red
-" }}}
-" syn_end }}}
-" syn_begin: php {{{
-" builtin: https://jasonwoof.com/gitweb/?p=vim-syntax.git;a=blob;f=php.vim;hb=HEAD{{{
-highlight! link phpVarSelector Fg
-highlight! link phpIdentifier Fg
-highlight! link phpDefine Green
-highlight! link phpStructure Red
-highlight! link phpSpecialFunction Green
-highlight! link phpInterpSimpleCurly Purple
-highlight! link phpComparison Red
-highlight! link phpMethodsVar Fg
-highlight! link phpInterpVarname Fg
-highlight! link phpMemberSelector Red
-highlight! link phpLabel Red
-" }}}
-" php.vim: https://github.com/StanAngeloff/php.vim{{{
-highlight! link phpParent Fg
-highlight! link phpNowDoc Yellow
-highlight! link phpFunction Green
-highlight! link phpMethod Green
-highlight! link phpClass BlueItalic
-highlight! link phpSuperglobals BlueItalic
-highlight! link phpNullValue OrangeItalic
 " }}}
 " syn_end }}}
 " syn_begin: ruby {{{
