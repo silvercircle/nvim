@@ -6,7 +6,9 @@ require('orgmode').setup({
   win_split_mode = 'float',
   mappings = {
     org = {
-      org_return = '<C-CR>'
+      org_return = '<C-CR>',
+      org_timestamp_up = '<A-UP>',
+      org_timestamp_down = '<A-Down>'
     }
   }
 })
