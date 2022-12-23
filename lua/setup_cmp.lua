@@ -10,6 +10,7 @@ local has_words_before = function()
 end
 
 local luasnip = require("luasnip")
+require("luasnip.loaders.from_snipmate").load()
 local cmp = require("cmp")
 local cmp_types = require("cmp.types.cmp")
 local max_abbr_item_width = 40

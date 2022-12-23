@@ -97,7 +97,7 @@ let s:bg = ['#181822', 0]
 let s:statuslinebg = [ '#262626', 208 ]
 let s:palette.fg = [ '#a5a0b5', 1 ]
 let s:palette.grey = [ '#707070', 2 ]
-
+let s:pmenubg = [ '#241a20', 156 ]
 if !(exists('g:colors_name') && g:colors_name ==# 'my_sonokai' && s:configuration.better_performance)
   highlight clear
   if exists('syntax_on')
@@ -173,7 +173,7 @@ call my_sonokai#highlight('MatchParen', s:palette.yellow, s:darkred)
 call my_sonokai#highlight('NonText', s:palette.bg4, s:palette.none)
 call my_sonokai#highlight('Whitespace', s:palette.green, s:palette.none)
 call my_sonokai#highlight('SpecialKey', s:palette.bg4, s:palette.none)
-call my_sonokai#highlight('Pmenu', s:palette.fg, s:palette.none)
+call my_sonokai#highlight('Pmenu', s:palette.fg, s:pmenubg)
 call my_sonokai#highlight('PmenuSbar', s:palette.none, s:palette.bg2)
 call my_sonokai#highlight('PmenuSel', s:palette.yellow, s:darkpurple)
 highlight! link WildMenu PmenuSel

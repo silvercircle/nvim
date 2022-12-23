@@ -10,6 +10,7 @@ local has_words_before = function()
 end
 
 local luasnip = require("luasnip")
+require("luasnip.loaders.from_snipmate").load()
 local cmp = require("cmp")
 local cmp_types = require("cmp.types.cmp")
 local max_abbr_item_width = 40
@@ -22,8 +23,10 @@ end
 
 cmp.setup({
   completion = {
-    autocomplete = false
+    autocomplete = false,
+    keyword_length = 20
   },
+  preselect = cmp.PreselectMode.Item,
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
@@ -138,19 +141,7 @@ cmp.setup({
     -- Note: make sure you have proper plugins specified in plugins.vim
     -- https://github.com/topics/nvim-cmp
     { name = "nvim_lsp", priority = 100, keyword_length = 1, max_item_count = 40 },
-    { name = "path", priority = 30 },
---    {
---      name = "buffer",
---      priority = 10,
---      keyword_length = 3,
---      max_item_count = 20,
---      option = {
---        indexing_interval = 300,
---        indexing_batchsize = 1000,
---        max_indexed_line_length = 160,
---        keyword_pattern = [[\k\+]],
---      },
---    },
+--    { name = "path", priority = 30 },
     { name = "luasnip", priority = 120, keyword_length = 2 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
     { name = 'emoji', priority = 120, keyword_length = 2 }  -- cmp-emoji source

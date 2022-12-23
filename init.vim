@@ -38,7 +38,7 @@ command ToggleFold :call feedkeys("za")
 
 map <C-f> <NOP>
 map <C-c> <NOP>
-imap <C-p> <NOP>
+" imap <C-p> <NOP>
 imap <C-c> <NOP>
 
 lua require('vim_mappings')

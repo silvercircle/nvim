@@ -5,7 +5,6 @@ return require("packer").startup(function(use)
     use 'nvim-lualine/lualine.nvim'
   end
   use { 'mg979/vim-visual-multi', branch = "master" }
-  use 'L3MON4D3/LuaSnip'
   if vim.g.features["lsp"]['enable'] == true then
     use 'williamboman/mason.nvim'
     use 'williamboman/mason-lspconfig.nvim'
@@ -19,13 +18,17 @@ return require("packer").startup(function(use)
   -- and path completion will still work.
   -- that's why it's separated from lsp
   if vim.g.features['cmp']['enable'] == true then
-    use 'hrsh7th/nvim-cmp'
+    use 'L3MON4D3/LuaSnip'
+    use 'silvercircle/nvim-cmp'
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-emoji'
     use 'saadparwaiz1/cmp_luasnip'
     use 'hrsh7th/cmp-nvim-lsp-signature-help'
+  end
+  if vim.g.features['coq']['enable'] == true then
+    use  'ms-jpq/coq_nvim'
   end
   -- outline view in theory depends on lsp, but it won't complain without it.
   if vim.g.features['outline']['enable'] == true then

@@ -26,8 +26,6 @@ require("nvim-web-devicons").setup({
   default = true,
 })
 
-require("luasnip.loaders.from_snipmate").load()
-
 require("hlslens").setup({
 --  calm_down = true,
 --  nearest_float_when = "always",

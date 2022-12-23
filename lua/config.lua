@@ -9,7 +9,8 @@
 
 vim.g.features = {
   lsp = { enable = true, module = 'setup_lsp' },                          -- mason, lspconfig, fidget Glance
-  cmp = { enable = true, module = 'setup_cmp_simple' },                   -- cmp
+  cmp = { enable = true, module = 'setup_cmp' },                  -- cmp
+  coq = { enable = false, module = 'setup_coq' },
   scrollbar = { enable = true, module = 'setup_scrollbar' },              -- scrollbar
   gitsigns = { enable = true, module = 'setup_gitsigns' },                -- gitsigns plugin
   indent_blankline = { enable = true, module = 'setup_indent_blankline' },-- indent guides
@@ -50,8 +51,8 @@ g.loaded_tar = 1
 g.loaded_gzipPlugin= 1
 g.loaded_gzip = 1
 
-g.loaded_matchparen = 1
-g.loaded_matchparenPlugin = 0
+--g.loaded_matchparen = 1
+--g.loaded_matchparenPlugin = 0
 
 g.filetree_width = 44    -- width for the neotree and nvim-tree plugins
 g.outline_width = 36     -- split width for symbols-outline

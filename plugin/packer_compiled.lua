@@ -182,7 +182,7 @@ _G.packer_plugins = {
   ["nvim-cmp"] = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/nvim-cmp",
-    url = "https://github.com/hrsh7th/nvim-cmp"
+    url = "https://github.com/silvercircle/nvim-cmp"
   },
   ["nvim-cokeline"] = {
     loaded = true,
