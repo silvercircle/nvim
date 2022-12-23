@@ -16,14 +16,61 @@ local cmp_types = require("cmp.types.cmp")
 local max_abbr_item_width = 40
 local max_detail_item_width = 40
 
-local lspkind = nil
-if vim.g.features['lsp']['enabled'] == true then
-  lspkind = require("lspkind")
-end
+local lspkind = require("lspkind")
+lspkind.init({
+  -- DEPRECATED (use mode instead): enables text annotations
+  --
+  -- default: true
+  -- with_text = true,
+
+  -- defines how annotations are shown
+  -- default: symbol
+  -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
+  mode = 'symbol_text',
+
+  -- default symbol map
+  -- can be either 'default' (requires nerd-fonts font) or
+  -- 'codicons' for codicon preset (requires vscode-codicons font)
+  --
+  -- default: 'default'
+  preset = 'default',
+
+  -- override preset symbols
+  --
+  -- default: {}
+  symbol_map = {
+    Text = "",
+    Method = "",
+    Function = "",
+    Constructor = "",
+    Field = "ﰠ",
+    Variable = "",
+    Class = "ﴯ",
+    Interface = "",
+    Module = "",
+    Property = "ﰠ",
+    Unit = "塞",
+    Value = "",
+    Enum = "",
+    Keyword = "",
+    Snippet = "",
+    Color = "",
+    File = "",
+    Reference = "",
+    Folder = "",
+    EnumMember = "",
+    Constant = "",
+    Struct = "פּ",
+    Event = "",
+    Operator = "",
+    TypeParameter = ""
+  },
+})
 
 cmp.setup({
+  enabled = true,
   completion = {
-    autocomplete = false
+    -- autocomplete = true
   },
   snippet = {
     expand = function(args)
@@ -85,11 +132,9 @@ cmp.setup({
     format = function(entry, vim_item)
       -- Truncate the item if it is too long
       vim_item.abbr = Truncate(vim_item.abbr, max_abbr_item_width)
-      if lspkind ~= nil then
         -- fancy icons and a name of kind
-        vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
-        vim_item.kind = " " .. vim_item.kind_symbol .. " " .. vim_item.kind
-      end
+      vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
+      vim_item.kind = " " .. vim_item.kind_symbol .. " " .. vim_item.kind
       -- The 'menu' section: source, detail information (lsp, snippet), etc.
       -- set a name for each source (see the sources section below)
       vim_item.menu = ({
@@ -147,20 +192,9 @@ cmp.setup({
     -- https://github.com/topics/nvim-cmp
     { name = "nvim_lsp", priority = 100, keyword_length = 1, max_item_count = 40 },
     { name = "path", priority = 30 },
---    {
---      name = "buffer",
---      priority = 10,
---      keyword_length = 3,
---      max_item_count = 20,
---      option = {
---        indexing_interval = 300,
---        indexing_batchsize = 1000,
---        max_indexed_line_length = 160,
---        keyword_pattern = [[\k\+]],
---      },
---    },
     { name = "luasnip", priority = 120, keyword_length = 2 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
+    { name = 'dictionary', priority = 100, keyword_length = 2, max_item_count = 30 },
     { name = 'emoji', priority = 120, keyword_length = 2 }  -- cmp-emoji source
   },
   sorting = {
@@ -200,3 +234,9 @@ cmp.setup.cmdline(":", {
   }),
 })
 --]]
+require("cmp_dictionary").setup({
+  dic = {
+    ["*"] = { vim.api.nvim_list_runtime_paths()[1] .. "/spell/personal.dict" },
+  },
+  first_case_insensitive = true,
+})

@@ -38,7 +38,7 @@ command ToggleFold :call feedkeys("za")
 
 map <C-f> <NOP>
 map <C-c> <NOP>
-" imap <C-p> <NOP>
+imap <C-p> <NOP>
 imap <C-c> <NOP>
 
 lua require('vim_mappings')
@@ -95,17 +95,6 @@ augroup filetypes
   autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
 augroup end
 
-function! ReconfigFold()
-  if &fdm == 'expr' || &fdm == 'indent'
-    if g:features['treesitter']['enable'] == v:true
-      setlocal foldmethod=expr
-      setlocal foldexpr=nvim_treesitter#foldexpr()
-    else
-      setlocal foldmethod=indent
-    endif
-  endif
-endfunction
-
 " remember folds for all buffers, unless they are nofile or special kind
 " simply create a view
 augroup folds
@@ -114,7 +103,6 @@ augroup folds
   autocmd BufRead *
   \   if expand('%') != '' && &buftype !~ 'nofile'
   \|    silent! loadview
-  \|    call ReconfigFold()
   \|  endif
 augroup end
 

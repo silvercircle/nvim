@@ -11,43 +11,6 @@ if vim.g.features['cmp']['enable'] == true then
   local cmp_nvim_lsp = require("cmp_nvim_lsp")
   capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 end
-
-if vim.g.features['coq']['enable'] == true then
-  vim.g.coq_settings = {
-    auto_start = 'shut-up',
-    keymap = {
-      recommended = true,
-      jump_to_mark = "<c-,>"
-    },
-    completion = {
-      always = true
-    },
-    limits = {
-      completion_auto_timeout = 1000
-    },
-    clients = {
-      paths = {
-        path_seps = {
-          "/"
-        }
-      },
-      buffers = {
-        match_syms = true
-      }
-    },
-    display = {
-      ghost_text = {
-        enabled = true
-      },
-      pum = {
-        fast_close = false
-      }
-    }
-  }
-  local coq = require('coq')
-  vim.cmd('COQnow')
---  capabilities = coq.lsp_ensure_capabilities{}
-end
 -- Customize LSP behavior via on_attach
 local on_attach = function(client, bufnr)
   -- Activate LSP signature on attach.

@@ -4,7 +4,7 @@ local opts = {noremap = true, silent = true}
 
 -- Telescope pickers
 -- Ctrl-e -> list of  buffers
-map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{winblend=20, previewer=false, layout_config={height=0.4, width=0.4}}<CR>", opts)
+map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{sort_lastused=true, winblend=20, previewer=false, layout_config={height=0.4, width=0.4}}<CR>", opts)
 -- Ctrl-p -> old files
 map('n', "<C-p>", "<CMD>lua require'telescope.builtin'.oldfiles{winblend=20, previewer=false, layout_config={height=0.4,width=0.4,preview_width=0.4}}<CR>", opts)
 -- Ctrl-f -> browse files in current working  directory
@@ -142,13 +142,11 @@ map('n', "Sf", ":Lspsaga lsp_finder<CR>", opts)
 
 -- folds
 -- toggle this fold
-map('i', "<F2>", "<C-o>:ToggleFold<CR>", opts)
 map('n', "<F2>", ":ToggleFold<CR>", opts)
 map('o', "<F2>", "<C-o>:ToggleFold<CR>", opts)
 map('v', "<F2>", ":ToggleFold<CR>", opts)
 
 -- toggle all folds at current level
-map('i', "<F3>", "<C-o>:ToggleAllFold<CR>", opts)
 map('n', "<F3>", ":ToggleAllFold<CR>", opts)
 map('o', "<F3>", "<C-o>:ToggleAllFold<CR>", opts)
 map('v', "<F3>", ":ToggleAllFold<CR>", opts)
