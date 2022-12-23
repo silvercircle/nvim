@@ -4,7 +4,7 @@ local opts = {noremap = true, silent = true}
 
 -- Telescope pickers
 -- Ctrl-e -> list of  buffers
-map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{sort_lastused=true, winblend=20, previewer=false, layout_config={height=0.4, width=0.4}}<CR>", opts)
+map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{sort_lastused=true, ignore_current_buffer=true, sorter = require'telescope.sorters'.get_substr_matcher(), winblend=20, previewer=false, layout_config={height=0.4, width=0.4}}<CR>", opts)
 -- Ctrl-p -> old files
 map('n', "<C-p>", "<CMD>lua require'telescope.builtin'.oldfiles{winblend=20, previewer=false, layout_config={height=0.4,width=0.4,preview_width=0.4}}<CR>", opts)
 -- Ctrl-f -> browse files in current working  directory

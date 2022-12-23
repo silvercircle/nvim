@@ -51,6 +51,7 @@ function! my_sonokai#get_palette(style, colors_override)
         \ 'red':        ['#fc5d7c',   '203'],
         \ 'orange':     ['#c36630',   '215'],
         \ 'yellow':     ['#e7c664',   '179'],
+        \ 'darkyellow': ['#a78624',   '180'],
         \ 'green':      ['#9ed072',   '107'],
         \ 'blue':       ['#76cce0',   '110'],
         \ 'purple':     ['#b39df3',   '176'],
@@ -82,17 +83,17 @@ endfunction
 let s:configuration = my_sonokai#get_configuration()
 let s:palette = my_sonokai#get_palette(s:configuration.style, s:configuration.colors_override)
 let s:path = expand('<sfile>:p') " the path of this script
-let s:last_modified = 'Sun Nov 13 11:49:38 UTC 2022'
+let s:last_modified = '2022-12-23T08:46:17+0100'
 let g:sonokai_loaded_file_types = []
 let s:darkbg = ['#111118', 237]
 let s:teal = ['#109090', 238]
 let s:blue = ['#4a4ac8', 239]
-let s:darkpurple = ['#a030a0', 240]
+let s:darkpurple = ['#803090', 240]
 let s:purple = ['#c030c0', 241]
 let s:darkred = ['#601010', 249]
 let s:darkestred = ['#161616', 249]
 let s:darkestblue = ['#10101a', 247]
-let s:string = ['#30a03f', 231]
+let s:string = ['#20902f', 231]
 let s:bg = ['#181822', 0]
 let s:statuslinebg = [ '#262626', 208 ]
 let s:palette.fg = [ '#a5a0b5', 1 ]
@@ -294,7 +295,7 @@ call my_sonokai#highlight('Keyword', s:blue, s:palette.none, 'bold')
 call my_sonokai#highlight('Define', s:palette.red, s:palette.none)
 call my_sonokai#highlight('Typedef', s:palette.red, s:palette.none, 'bold')
 call my_sonokai#highlight('Exception', s:palette.red, s:palette.none)
-call my_sonokai#highlight('Conditional', s:palette.blue, s:palette.none, 'bold')
+call my_sonokai#highlight('Conditional', s:palette.darkyellow, s:palette.none, 'bold')
 call my_sonokai#highlight('Repeat', s:palette.blue, s:palette.none, 'bold')
 call my_sonokai#highlight('Statement', s:palette.blue, s:palette.none, 'bold')
 call my_sonokai#highlight('Macro', s:palette.purple, s:palette.none)
@@ -302,7 +303,7 @@ call my_sonokai#highlight('Error', s:palette.red, s:palette.none)
 call my_sonokai#highlight('Label', s:palette.purple, s:palette.none)
 call my_sonokai#highlight('Special', s:palette.purple, s:palette.none)
 call my_sonokai#highlight('SpecialChar', s:palette.purple, s:palette.none)
-call my_sonokai#highlight('Boolean', s:palette.purple, s:palette.none)
+call my_sonokai#highlight('Boolean', s:palette.red, s:palette.none)
 call my_sonokai#highlight('String', s:string, s:palette.none)
 call my_sonokai#highlight('Character', s:palette.yellow, s:palette.none)
 call my_sonokai#highlight('Number', s:palette.purple, s:palette.none, 'bold')
@@ -447,10 +448,10 @@ call my_sonokai#highlight('TSWarning', s:palette.bg0, s:palette.yellow, 'bold')
 call my_sonokai#highlight('TSDanger', s:palette.bg0, s:palette.red, 'bold')
 highlight! link TSAnnotation BlueItalic
 highlight! link TSAttribute BlueItalic
-highlight! link TSBoolean Purple
+highlight! link TSBoolean RedBold
 highlight! link TSCharacter Yellow
 highlight! link TSComment Comment
-highlight! link TSConditional BlueBold
+highlight! link TSConditional Conditional
 highlight! link TSConstBuiltin OrangeItalic
 highlight! link TSConstMacro OrangeItalic
 highlight! link TSConstant OrangeItalic

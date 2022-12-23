@@ -16,13 +16,9 @@ local cmp_types = require("cmp.types.cmp")
 local max_abbr_item_width = 40
 local max_detail_item_width = 40
 
+-- make the completion popup a little more fancy
 local lspkind = require("lspkind")
 lspkind.init({
-  -- DEPRECATED (use mode instead): enables text annotations
-  --
-  -- default: true
-  -- with_text = true,
-
   -- defines how annotations are shown
   -- default: symbol
   -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
@@ -96,7 +92,7 @@ cmp.setup({
     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete({
         reason = cmp.ContextReason.Auto,
       }), {"i", "c"}),
-    ["<C-y>"] = cmp.config.disable,
+    ["<C-e>"] = cmp.config.disable,
     ["<Esc>"] = cmp.mapping.close(), -- ESC close complete popup. Feels more natural than <C-e>
     ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp_types.SelectBehavior.Select }),
     ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp_types.SelectBehavior.Select }),
