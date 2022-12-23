@@ -35,7 +35,7 @@ map('n', "<A-h>", "<CMD>:lua require'telescope.builtin'.help_tags{ winblend=20, 
 map('n', "<A-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.all{hide_filename=false,layout_config={height=0.4, width=0.8,preview_width=0.3}}<CR>", opts)
 map('n', "<C-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.current_file{layout_config={height=0.4, width=0.7}}<CR>", opts)
 
-map('n', "tdo", "<CMD>TodoTelescope<CR>", opts)
+map('n', "tdo", "<CMD>TodoTelescope cwd=%:p:h<CR>", opts)
 
 -- file tree
 if vim.g.features['neotree']['enable'] == true then

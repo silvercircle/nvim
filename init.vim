@@ -138,10 +138,7 @@ command Fixq call Fixflowed()
 
 hi visual guifg=#202080 guibg=#dddd00
 
-" always show the column for icons and signs
-
-
-" terminal stuff {{{
+" terminal stuff
 
 let g:term_buf = 0
 let g:term_win = 0
@@ -168,7 +165,6 @@ function! TermToggle(height)
     endif
 endfunction
 
-" }}}
 " Alt-t toggles the term in a 12 row split below
 nnoremap <A-t> :call TermToggle(12)<CR>
 inoremap <A-t> <Esc>:call TermToggle(12)<CR>

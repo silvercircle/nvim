@@ -35,7 +35,7 @@ lspconfig.html.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.phpactor.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.gopls.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.vimls.setup({ on_attach = on_attach, capabilities = capabilities })
-lspconfig.jdtls.setup({ on_attach = on_attach, capabilities = capabilities })
+-- lspconfig.jdtls.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.serve_d.setup({ on_attach = on_attach, capabilities = capabilities })
 lspconfig.omnisharp.setup({ on_attach = on_attach,
    -- Enables support for reading code style, naming convention and analyzer
@@ -108,6 +108,7 @@ lspconfig.omnisharp.setup({ on_attach = on_attach,
   end,
   init_options = {}
 })
+-- metals = scala language server.
 lspconfig.metals.setup({
   cmd = { '/home/alex/.local/share/coursier/bin/metals' },
   filetypes = { 'scala' },
