@@ -10,6 +10,8 @@
 vim.g.features = {
   lsp = { enable = true, module = 'setup_lsp' },                          -- mason, lspconfig, fidget Glance
   cmp = { enable = true, module = 'setup_cmp' },                          -- cmp
+  orgmode = { enable = true, module = 'setup_orgmode' },
+--  trouble = { enable = true, module = 'setup_trouble' },
   scrollbar = { enable = true, module = 'setup_scrollbar' },              -- scrollbar
   gitsigns = { enable = true, module = 'setup_gitsigns' },                -- gitsigns plugin
   indent_blankline = { enable = true, module = 'setup_indent_blankline' },-- indent guides
@@ -25,7 +27,7 @@ vim.g.features = {
   lspsaga = { enable = false, module = 'setup_lspsaga' },                 -- use lspsaga
   noice = { enable = false, module = 'setup_noice' },                     -- use noice for notifications
   dressing = { enable = true, module = 'setup_dressing' },                -- use dressing for various UI improvements
-  telekasten = { enable = true, module = 'setup_telekasten' },            -- telekasten/calendar personal note taking
+  telekasten = { enable = false, module = 'setup_telekasten' },            -- telekasten/calendar personal note taking
   -- please use ONLY ONE of te following two. Using both wont hurt but will
   -- be a waste.
   neotree = { enable = false, module = 'setup_neotree' },                 -- neotree file explorer
@@ -62,7 +64,7 @@ vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' 
 -- this is used when g.lualine_theme is set to 'internal'. otherwise, the variable can specify 
 -- a builtin lualine theme (e.g. 'dracula')
 
-local Colors = {
+local LuaLineColors = {
   white          = '#ffffff',
   darkestgreen   = '#005f00',
   brightgreen    = '#afdf00',
@@ -92,21 +94,21 @@ local cokeline_colors = {
 function Lualine_internal_theme()
   return {
     normal = {
-      a = { fg = Colors.darkestgreen, bg = Colors.brightgreen, gui = 'bold' },
-      b = { fg = Colors.gray10, bg = Colors.gray5 },
-      c = { fg = Colors.gray7, bg = Colors.gray2 },
+      a = { fg = LuaLineColors.darkestgreen, bg = LuaLineColors.brightgreen, gui = 'bold' },
+      b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
+      c = { fg = LuaLineColors.gray7, bg = LuaLineColors.gray2 },
     },
     insert = {
-      a = { fg = Colors.white, bg = Colors.brightred, gui = 'bold' },
-      b = { fg = Colors.gray10, bg = Colors.gray5 },
-      c = { fg = Colors.mediumcyan, bg = Colors.darkestblue },
+      a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' },
+      b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
+      c = { fg = LuaLineColors.mediumcyan, bg = LuaLineColors.darkestblue },
     },
-    visual = { a = { fg = Colors.darkred, bg = Colors.brightorange, gui = 'bold' } },
-    replace = { a = { fg = Colors.white, bg = Colors.brightred, gui = 'bold' } },
+    visual = { a = { fg = LuaLineColors.darkred, bg = LuaLineColors.brightorange, gui = 'bold' } },
+    replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' } },
     inactive = {
-      a = { fg = Colors.gray1, bg = Colors.gray5, gui = 'bold' },
-      b = { fg = Colors.gray1, bg = Colors.gray5 },
-      c = { bg = Colors.gray1, fg = Colors.gray5 },
+      a = { fg = LuaLineColors.gray1, bg = LuaLineColors.gray5, gui = 'bold' },
+      b = { fg = LuaLineColors.gray1, bg = LuaLineColors.gray5 },
+      c = { bg = LuaLineColors.gray1, fg = LuaLineColors.gray5 },
     },
   }
 end
@@ -122,7 +124,7 @@ function Cokeline_theme()
   }
 end
 
--- this global funciton is used in cokeline, cmp and maybe other modules to truncate strings.
+-- this global function is used in cokeline, cmp and maybe other modules to truncate strings.
 Truncate = function(text, max_width)
   if #text > max_width then
     return string.sub(text, 1, max_width) .. "…"
@@ -148,7 +150,6 @@ g.VM_Mono_hl   = 'DiffText'
 g.VM_Extend_hl = 'DiffAdd'
 g.VM_Cursor_hl = 'Visual'
 g.VM_Insert_hl = 'DiffChange'
-g.tex_conceal = ''
 
 -- load the color theme
 vim.cmd [[silent! colorscheme my_sonokai]]

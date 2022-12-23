@@ -4,7 +4,7 @@ local opts = {noremap = true, silent = true}
 
 -- Telescope pickers
 -- Ctrl-e -> list of  buffers
-map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{sort_lastused=true, winblend=20, previewer=false, layout_config={height=0.4, width=0.4}}<CR>", opts)
+map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{sort_lastused=true, ignore_current_buffer=true, sorter = require'telescope.sorters'.get_substr_matcher(), winblend=20, previewer=false, layout_config={height=0.4, width=0.4}}<CR>", opts)
 -- Ctrl-p -> old files
 map('n', "<C-p>", "<CMD>lua require'telescope.builtin'.oldfiles{winblend=20, previewer=false, layout_config={height=0.4,width=0.4,preview_width=0.4}}<CR>", opts)
 -- Ctrl-f -> browse files in current working  directory
@@ -35,7 +35,7 @@ map('n', "<A-h>", "<CMD>:lua require'telescope.builtin'.help_tags{ winblend=20, 
 map('n', "<A-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.all{hide_filename=false,layout_config={height=0.4, width=0.8,preview_width=0.3}}<CR>", opts)
 map('n', "<C-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.current_file{layout_config={height=0.4, width=0.7}}<CR>", opts)
 
-map('n', "tdo", "<CMD>TodoTelescope<CR>", opts)
+map('n', "tdo", "<CMD>TodoTelescope cwd=%:p:h<CR>", opts)
 
 -- file tree
 if vim.g.features['neotree']['enable'] == true then
@@ -104,12 +104,13 @@ map('n', "<A-w>", ":close<CR>", opts)
 map('n', "<A-q>", ":qa!<CR>", opts)
 
 -- Telekasten mappings
-map('n', "Zp", ":lua require('telekasten').panel()<CR>", opts)
-map('n', "Zf", ":lua require('telekasten').find_notes()<CR>", opts)
-map('n', "Zd", ":lua require('telekasten').find_daily_notes()<CR>", opts)
-map('n', "Zs", ":lua require('telekasten').search_notes()<CR>", opts)
-map('n', "Zl", ":lua require('telekasten').follow_link()<CR>", opts)
-
+if vim.g.features['telekasten']['enable'] == true then
+  map('n', "Zp", ":lua require('telekasten').panel()<CR>", opts)
+  map('n', "Zf", ":lua require('telekasten').find_notes()<CR>", opts)
+  map('n', "Zd", ":lua require('telekasten').find_daily_notes()<CR>", opts)
+  map('n', "Zs", ":lua require('telekasten').search_notes()<CR>", opts)
+  map('n', "Zl", ":lua require('telekasten').follow_link()<CR>", opts)
+end
 -- LSP mappings
 map('n', "lsi", ":LspInfo<CR>", opts)     -- LspInfo
 
@@ -139,17 +140,6 @@ map('n', "DA", ":lua vim.lsp.buf.code_action()<CR>", opts)
 -- lspsaga
 map('n', "Sa", ":Lspsaga code_action<CR>", opts)               -- code action
 map('n', "Sf", ":Lspsaga lsp_finder<CR>", opts)
-
--- folds
--- toggle this fold
-map('n', "<F2>", ":ToggleFold<CR>", opts)
-map('o', "<F2>", "<C-o>:ToggleFold<CR>", opts)
-map('v', "<F2>", ":ToggleFold<CR>", opts)
-
--- toggle all folds at current level
-map('n', "<F3>", ":ToggleAllFold<CR>", opts)
-map('o', "<F3>", "<C-o>:ToggleAllFold<CR>", opts)
-map('v', "<F3>", ":ToggleAllFold<CR>", opts)
 
 -- move left/right/up/down split window
 map('n', "<A-Left>", "<c-w><Left>", opts)
@@ -188,3 +178,42 @@ else  -- otherwise, use the API (less pretty, but functional)
     { noremap = true, silent = false }
   )
 end
+
+vim.cmd([[
+   " mappings for folding {{{
+  " toggle this fold
+  inoremap <F2> <C-O>za
+  nnoremap <F2> za
+  onoremap <F2> <C-C>za
+  vnoremap <F2> zf
+
+  " close current level
+  inoremap <S-F2> <C-O>zc
+  nnoremap <S-F2> zc
+  onoremap <S-F2> <C-C>zc
+  vnoremap <S-F2> zf
+
+  " open current level
+  inoremap <C-F2> <C-O>zo
+  nnoremap <C-F2> zo
+  onoremap <C-F2> <C-C>zo
+  vnoremap <C-F2> zf
+
+  " toggle all levels of current fold
+  inoremap <F3> <C-O>zA
+  nnoremap <F3> zA
+  onoremap <F3> <C-C>zA
+  vnoremap <F3> zf
+
+  " close all current levels
+  inoremap <S-F3> <C-O>zA
+  nnoremap <S-F3> zA
+  onoremap <S-F3> <C-C>zA
+  vnoremap <S-F3> zf
+
+  " open all current levels
+  inoremap <C-F3> <C-O>zO
+  nnoremap <C-F3> zO
+  onoremap <C-F3> <C-C>zO
+  vnoremap <C-F3> zf
+]])

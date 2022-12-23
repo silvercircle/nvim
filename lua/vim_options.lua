@@ -94,7 +94,7 @@ o.timeoutlen = 1000
 o.cmdheight = 1
 o.scrolloff = 5
 o.undolevels = 200
-o.scrolljump = 5
+o.scrolljump = 2
 o.sidescrolloff = 5
 o.conceallevel = 0
 

@@ -19,7 +19,9 @@ return require("packer").startup(function(use)
   -- that's why it's separated from lsp
   if vim.g.features['cmp']['enable'] == true then
     use 'L3MON4D3/LuaSnip'
-    use 'silvercircle/nvim-cmp'
+    -- use the local version of nvim-cmp. Makes tweaking easier.
+    use '~/.config/nvim/local_plugin/nvim-cmp'
+--    use 'silvercircle/nvim-cmp'
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-path'
@@ -85,5 +87,8 @@ return require("packer").startup(function(use)
   end
   if vim.g.features['todo']['enable'] == true then
     use 'folke/todo-comments.nvim'
+  end
+  if vim.g.features['orgmode']['enable'] == true then
+    use 'nvim-orgmode/orgmode'
   end
 end)

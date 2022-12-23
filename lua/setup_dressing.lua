@@ -27,7 +27,7 @@
     -- min_width and max_width can be a list of mixed types.
     -- min_width = {20, 0.2} means "the greater of 20 columns or 20% of total"
     max_width = { 140, 0.9 },
-    min_width = { 20, 0.2 },
+    min_width = { 40, 0.2 },
 
     buf_options = {},
     win_options = {

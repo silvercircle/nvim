@@ -1,18 +1,20 @@
-# My Neovim Config
+# My Neovim Config aka „Dotfiles”
 
 This is my growing and constantly changing configuration directory for Neovim. The repository contains 
 two branches with different setups.
 
 - The `main` branch. This is a bleeding edge setup using native LSP, CMP (for autocompletion), NeoTree 
-  (as NERDTree replacement), luasnip and Glance.
+  (as NERDTree replacement), luasnip and Glance. This is about 90% LUA and some tiny remains of 
+  Vimscript. The majority of plugins in use are written in LUA. The color theme is still an old Vimscript 
+  theme, but almost everything else is LUA.
 
 - The `coc` branch. This is somewhat more traditional, using NERDTree and CoC for code assistance and 
   snippet handling. It is  relatively stable but a bit outdated and depends heavily on NodeJS and NPM 
-  (due to Coc).
+  (due to Coc). It is currently unmaintained, but should work ok.
 
 - The `minimal` branch. This is a fast-moving unstable testing environment not meant to be used for a 
   production configuration. It's unstable at times and might disable important plugins for testing 
-  purposes.
+  purposes. This is where most development happens and snapshots are frequently merged into `main`.
 
 All branches use lots of Telescope stuff and Tree-Sitter for syntax highlighting. **The minimum required 
 Neovim version is 0.8**.
@@ -110,7 +112,7 @@ It is a customized variant of the [Sonokai theme](https://github.com/sainnhe/son
 
 ## How it looks?
 
-![Screenshot](https://github.com/silvercircle/nvim/blob/main/screenshot.png?raw=True)
+![Screenshot](https://i.imgur.com/pg4hdkL.png)
 
 ## List of plugins in use by this config.
 
