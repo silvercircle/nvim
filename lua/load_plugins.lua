@@ -4,19 +4,24 @@ return require("packer").startup(function(use)
   if vim.g.features["lualine"]['enable'] == true then
     use 'nvim-lualine/lualine.nvim'
   end
+  -- multiple cursors.
   use { 'mg979/vim-visual-multi', branch = "master" }
   if vim.g.features["lsp"]['enable'] == true then
     use 'williamboman/mason.nvim'
     use 'williamboman/mason-lspconfig.nvim'
     use 'neovim/nvim-lspconfig'
     use 'onsails/lspkind-nvim'
-    -- the following to belong to the lsp group. They are useless without the LSP client
+    -- the following two belong to the lsp group. They are useless without the LSP client
     use 'j-hui/fidget.nvim'
     use 'dnlhc/glance.nvim'
+    -- outline view depends on lsp. It is completely useless without.
+    if vim.g.features['outline']['enable'] == true then
+      use 'silvercircle/symbols-outline.nvim'
+    end
   end
   -- while cmp does not make much sense without lsp, some things like snippets, emojis, command-line
   -- and path completion will still work.
-  -- that's why it's separated from lsp
+  -- that's why it's separated from lsp and grouped with luasnip.
   if vim.g.features['cmp']['enable'] == true then
     use 'L3MON4D3/LuaSnip'
     -- use the local version of nvim-cmp. Makes tweaking easier.
@@ -29,10 +34,6 @@ return require("packer").startup(function(use)
     use 'saadparwaiz1/cmp_luasnip'
     use 'hrsh7th/cmp-nvim-lsp-signature-help'
     use 'uga-rosa/cmp-dictionary'
-  end
-  -- outline view in theory depends on lsp, but it won't complain without it.
-  if vim.g.features['outline']['enable'] == true then
-    use 'silvercircle/symbols-outline.nvim'
   end
   -- some generic plugins
   use 'MunifTanjim/nui.nvim'
@@ -52,7 +53,7 @@ return require("packer").startup(function(use)
     use 'nvim-telescope/telescope-project.nvim'
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
   end
-  -- filesystem tree. Only enable ONE of the following, either neo-tree or nvim-tree.
+  -- filesystem tree. Only enable ONE of the following, either neo-tree or nvim-tree. I prefer the latter
   if vim.g.features['nvimtree']['enable'] == true then
     use 'nvim-tree/nvim-tree.lua'
   end
@@ -62,9 +63,10 @@ return require("packer").startup(function(use)
   -- treesitter
   if vim.g.features["treesitter"]['enable'] == true then
     use 'nvim-treesitter/nvim-treesitter'
-  end
-  if vim.g.features['treesitter_playground']['enable'] == true then
-    use 'nvim-treesitter/playground'
+    -- playground depends on tree-sitter and does nothing standalone.
+    if vim.g.features['treesitter_playground']['enable'] == true then
+      use 'nvim-treesitter/playground'
+    end
   end
   if vim.g.features["gitsigns"]['enable'] == true then
     use 'lewis6991/gitsigns.nvim'

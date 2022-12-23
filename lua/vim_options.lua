@@ -97,7 +97,6 @@ o.undolevels = 200
 o.scrolljump = 2
 o.sidescrolloff = 5
 o.conceallevel = 0
-
 -- autogroups
 local agroup_enter = vim.api.nvim_create_augroup("enter", {})
 local agroup_files = vim.api.nvim_create_augroup("files", {})

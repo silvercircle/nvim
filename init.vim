@@ -43,6 +43,7 @@ set guifont=Hack\ NFM:h10:#e-subpixelantialias:#h-full
 filetype off
 syntax on
 filetype plugin indent on
+set noshowmode
 
 " neovide configuration. You can delete this if you do not use neovide
 if exists("g:neovide")
@@ -129,7 +130,7 @@ endfunction
 
 command Fixq call Fixflowed()
 
-hi visual guifg=#202080 guibg=#dddd00
+hi visual guifg=#cccc20 guibg=#3030b0
 
 " terminal stuff
 
