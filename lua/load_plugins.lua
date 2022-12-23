@@ -27,9 +27,6 @@ return require("packer").startup(function(use)
     use 'saadparwaiz1/cmp_luasnip'
     use 'hrsh7th/cmp-nvim-lsp-signature-help'
   end
-  if vim.g.features['coq']['enable'] == true then
-    use  'ms-jpq/coq_nvim'
-  end
   -- outline view in theory depends on lsp, but it won't complain without it.
   if vim.g.features['outline']['enable'] == true then
     use 'silvercircle/symbols-outline.nvim'
@@ -72,14 +69,9 @@ return require("packer").startup(function(use)
   if vim.g.features["scrollbar"]['enable'] == true then
     use 'petertriho/nvim-scrollbar'
   end
-  -- use only one of the following two
   if vim.g.features["indent_blankline"]['enable'] == true then
     use 'lukas-reineke/indent-blankline.nvim'
   end
-  if vim.g.features['indent_guides']['enable'] == true then
-    use 'glepnir/indent-guides.nvim'
-  end
-
   if vim.g.features['telekasten']['enable'] == true then
     use 'renerocksai/calendar-vim'
     use 'renerocksai/telekasten.nvim'
