@@ -30,16 +30,9 @@ command Itime pu=strftime('%FT%T%z')
 command AFManual setlocal fo-=a | setlocal fo-=w | setlocal fo-=c | setlocal fo-=q | setlocal fo-=t | setlocal fo-=l
 command AFAuto setlocal fo+=a | setlocal fo+=w | setlocal fo+=c | setlocal fo+=q | setlocal fo+=t | setlocal fo+=l
 
-" Fold all levels of a block (toggle)
-command ToggleAllFold :call feedkeys("zA")
-
-" only fold the current level (toggle)
-command ToggleFold :call feedkeys("za")
-
 map <C-f> <NOP>
 map <C-c> <NOP>
 imap <C-p> <NOP>
-imap <C-c> <NOP>
 
 lua require('vim_mappings')
 " lua require('vim_snippets')
@@ -93,13 +86,13 @@ augroup filetypes
   autocmd FileType vim,nim,python,markdown,tex,lua,json,html,css,dart,go setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab
   autocmd FileType noice silent! setlocal signcolumn=no | silent!  setlocal foldcolumn=0 | silent! setlocal nonumber
   autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
+  autocmd FileType org,orgagenda silent! setlocal conceallevel=2 | silent! setlocal concealcursor='nc' | silent! setlocal tw=105 | setlocal ff=unix | setlocal fo+=nwqt | setlocal spell spelllang=en_us,de_de | setlocal fdm=manual
 augroup end
 
-" remember folds for all buffers, unless they are nofile or special kind
-" simply create a view
 augroup folds
   autocmd!
-" restore the view on load
+  " restore the view on load
+  " views are created when saving or quitting a file 
   autocmd BufRead *
   \   if expand('%') != '' && &buftype !~ 'nofile'
   \|    silent! loadview

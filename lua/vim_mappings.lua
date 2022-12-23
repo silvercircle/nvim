@@ -140,17 +140,6 @@ map('n', "DA", ":lua vim.lsp.buf.code_action()<CR>", opts)
 map('n', "Sa", ":Lspsaga code_action<CR>", opts)               -- code action
 map('n', "Sf", ":Lspsaga lsp_finder<CR>", opts)
 
--- folds
--- toggle this fold
-map('n', "<F2>", ":ToggleFold<CR>", opts)
-map('o', "<F2>", "<C-o>:ToggleFold<CR>", opts)
-map('v', "<F2>", ":ToggleFold<CR>", opts)
-
--- toggle all folds at current level
-map('n', "<F3>", ":ToggleAllFold<CR>", opts)
-map('o', "<F3>", "<C-o>:ToggleAllFold<CR>", opts)
-map('v', "<F3>", ":ToggleAllFold<CR>", opts)
-
 -- move left/right/up/down split window
 map('n', "<A-Left>", "<c-w><Left>", opts)
 map('n', "<A-Right>", "<c-w><Right>", opts)
@@ -188,3 +177,42 @@ else  -- otherwise, use the API (less pretty, but functional)
     { noremap = true, silent = false }
   )
 end
+
+vim.cmd([[
+   " mappings for folding {{{
+  " toggle this fold
+  inoremap <F2> <C-O>za
+  nnoremap <F2> za
+  onoremap <F2> <C-C>za
+  vnoremap <F2> zf
+
+  " close current level
+  inoremap <S-F2> <C-O>zc
+  nnoremap <S-F2> zc
+  onoremap <S-F2> <C-C>zc
+  vnoremap <S-F2> zf
+
+  " open current level
+  inoremap <C-F2> <C-O>zo
+  nnoremap <C-F2> zo
+  onoremap <C-F2> <C-C>zo
+  vnoremap <C-F2> zf
+
+  " toggle all levels of current fold
+  inoremap <F3> <C-O>zA
+  nnoremap <F3> zA
+  onoremap <F3> <C-C>zA
+  vnoremap <F3> zf
+
+  " close all current levels
+  inoremap <S-F3> <C-O>zA
+  nnoremap <S-F3> zA
+  onoremap <S-F3> <C-C>zA
+  vnoremap <S-F3> zf
+
+  " open all current levels
+  inoremap <C-F3> <C-O>zO
+  nnoremap <C-F3> zO
+  onoremap <C-F3> <C-C>zO
+  vnoremap <C-F3> zf
+]])

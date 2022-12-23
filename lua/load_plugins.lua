@@ -88,4 +88,7 @@ return require("packer").startup(function(use)
   if vim.g.features['todo']['enable'] == true then
     use 'folke/todo-comments.nvim'
   end
+  if vim.g.features['orgmode']['enable'] == true then
+    use 'nvim-orgmode/orgmode'
+  end
 end)

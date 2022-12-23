@@ -10,6 +10,7 @@
 vim.g.features = {
   lsp = { enable = true, module = 'setup_lsp' },                          -- mason, lspconfig, fidget Glance
   cmp = { enable = true, module = 'setup_cmp' },                          -- cmp
+  orgmode = { enable = true, module = 'setup_orgmode' },
 --  trouble = { enable = true, module = 'setup_trouble' },
   scrollbar = { enable = true, module = 'setup_scrollbar' },              -- scrollbar
   gitsigns = { enable = true, module = 'setup_gitsigns' },                -- gitsigns plugin
@@ -26,7 +27,7 @@ vim.g.features = {
   lspsaga = { enable = false, module = 'setup_lspsaga' },                 -- use lspsaga
   noice = { enable = false, module = 'setup_noice' },                     -- use noice for notifications
   dressing = { enable = true, module = 'setup_dressing' },                -- use dressing for various UI improvements
-  telekasten = { enable = true, module = 'setup_telekasten' },            -- telekasten/calendar personal note taking
+  telekasten = { enable = false, module = 'setup_telekasten' },            -- telekasten/calendar personal note taking
   -- please use ONLY ONE of te following two. Using both wont hurt but will
   -- be a waste.
   neotree = { enable = false, module = 'setup_neotree' },                 -- neotree file explorer
