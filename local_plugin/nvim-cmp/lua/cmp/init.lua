@@ -311,6 +311,8 @@ end
 -- might break command line completion, which i do not use. Better fix
 -- needed
 --
+-- silvercircle@gmail.com
+--
 -- autocmd.subscribe({ 'InsertEnter', 'CmdlineEnter' }, async.debounce_next_tick(on_insert_enter))
 -- autocmd.subscribe({ 'InsertEnter', 'CmdLineEnter' }, on_insert_enter)
 autocmd.subscribe({ 'InsertEnter' }, on_insert_enter)
