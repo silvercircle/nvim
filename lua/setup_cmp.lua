@@ -1,6 +1,7 @@
 -- nvim-cmp: completion support
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
+-- helper function for cmp <TAB> mapping.
 local has_words_before = function()
   if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
     return false

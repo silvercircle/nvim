@@ -169,6 +169,11 @@ _G.packer_plugins = {
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
   },
+  ["my_nvim-lspconfig"] = {
+    loaded = true,
+    path = "/home/alex/.local/share/nvim/site/pack/packer/start/my_nvim-lspconfig",
+    url = "/home/alex/.config/nvim/local_plugin/my_nvim-lspconfig"
+  },
   ["nim.nvim"] = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/nim.nvim",
@@ -193,11 +198,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/nvim-hlslens",
     url = "https://github.com/kevinhwang91/nvim-hlslens"
-  },
-  ["nvim-lspconfig"] = {
-    loaded = true,
-    path = "/home/alex/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
-    url = "/home/alex/.config/nvim/local_plugin/nvim-lspconfig"
   },
   ["nvim-scrollbar"] = {
     loaded = true,

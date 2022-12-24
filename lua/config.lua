@@ -9,6 +9,9 @@
 
 vim.g.features = {
   lsp = { enable = true, module = 'setup_lsp' },                          -- mason, lspconfig, fidget Glance
+  -- mason is part of the lsp plugin group, but optional. it has no setup module of its own - setup_lsp.lua
+  -- deals with mason
+  mason = { enable = true, module = '' },
   cmp = { enable = true, module = 'setup_cmp' },                          -- cmp
   orgmode = { enable = true, module = 'setup_orgmode' },
 --  trouble = { enable = true, module = 'setup_trouble' },
@@ -36,8 +39,34 @@ vim.g.features = {
   todo = { enable = true, module = 'setup_todo' },
 }
 
-local g = vim.g
+local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'
+local localbin = vim.fn.getenv('HOME') .. '/.local/bin/'
+local homepath = vim.fn.getenv('HOME')
 
+-- this table holds full path information for lsp server binaries. They can be installed with mason or
+-- manually setup_lsp.lua does all the work. Mason and mason-lspconfig are optional. They allow easy installation
+-- and upgrading of your lsp servers, but if you do this manually, nvim-lspconfig alone is enough.
+
+vim.g.lsp_server_bin = {
+  phpactor = '/usr/local/bin/phpactor',
+  rust_analyzer = masonbinpath .. 'rust-analyzer',
+  gopls = localbin .. 'gopls',
+  nimls = homepath .. '/.nimble/bin/nimlsp',
+  texlab = localbin .. 'texlab',
+  clangd = '/usr/bin/clangd',
+  dartls = '/opt/flutter/bin/dart',
+  vimlsp = masonbinpath .. 'vim-language-server',
+  omnisharp = masonbinpath .. 'omnisharp',
+  metals = '/home/alex/.local/share/coursier/bin/metals',
+  pyright = masonbinpath .. 'pyright-langserver',
+  sumneko_lua = masonbinpath .. 'lua-language-server',
+  serve_d = localbin .. 'serve-d',
+  cssls = masonbinpath .. 'vscode-css-language-server',
+  tsserver = '/usr/local/bin/tsserver',
+  html = masonbinpath .. 'vscode-html-language-server'
+}
+
+local g = vim.g
 -- disable some standard plugins
 g.loaded_netrw       = 1
 g.loaded_netrwPlugin = 1
