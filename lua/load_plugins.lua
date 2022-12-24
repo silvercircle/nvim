@@ -9,7 +9,7 @@ return require("packer").startup(function(use)
   if vim.g.features["lsp"]['enable'] == true then
     use 'williamboman/mason.nvim'
     use 'williamboman/mason-lspconfig.nvim'
-    use 'neovim/nvim-lspconfig'
+    use '~/.config/nvim/local_plugin/nvim-lspconfig'
     use 'onsails/lspkind-nvim'
     -- the following two belong to the lsp group. They are useless without the LSP client
     use 'j-hui/fidget.nvim'

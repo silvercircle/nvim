@@ -3,7 +3,7 @@
 This is my growing and constantly changing configuration directory for Neovim. The repository contains 
 two branches with different setups.
 
-- The `main` branch. This is a bleeding edge setup using native LSP, CMP (for autocompletion), NeoTree 
+- The `main` branch. This is a bleeding edge setup using native LSP, CMP (for completion), NeoTree 
   (as NERDTree replacement), luasnip and Glance. This is about 90% LUA and some tiny remains of 
   Vimscript. The majority of plugins in use are written in LUA. The color theme is still an old Vimscript 
   theme, but almost everything else is LUA.
@@ -52,7 +52,8 @@ plugin configuration might change. This configuration is built around:
   * C# (omnisharp-roslyn)
   * Scala (via metals, sbt and coursier). This requires to setup quite some stuff, a working scala 
     environment (easiest way is to use SDKMAN), the Coursier scala package manager and the scala build 
-    and project management tool sbt.
+    and project management tool sbt. An easier way to set up Neovim for Scala programming might be the 
+    separate plugin [nvim-metals](https://github.com/scalameta/nvim-metals).
 
 * [CMP](https://github.com/hrsh7th/nvim-cmp) for auto-completion with various sources 
   [lsp](https://github.com/hrsh7th/cmp-nvim-lsp), [signature 
@@ -98,8 +99,8 @@ Nim support is manually installed via nimlsp.
 ## Customization
 
 `lua/config.lua` contains some global variables to customize the setup. Refer to the comments in that 
-file for more information. Basically, it's possible to enable/disable some plugins and to customize some color 
-settings. This is still in an early stage, more will follow.
+file for more information. Basically, it's possible to enable/disable some plugins and to customize some 
+color settings. This is still in an early stage, more will follow.
 
 ## Custom mappings:
 
@@ -114,7 +115,7 @@ It is a customized variant of the [Sonokai theme](https://github.com/sainnhe/son
 
 ![Screenshot](https://i.imgur.com/pg4hdkL.png)
 
-## List of plugins in use by this config.
+## List of plugins in use by this configuration.
 
 ```lua
 return require("packer").startup(function(use)

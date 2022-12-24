@@ -197,7 +197,7 @@ _G.packer_plugins = {
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "/home/alex/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
-    url = "https://github.com/neovim/nvim-lspconfig"
+    url = "/home/alex/.config/nvim/local_plugin/nvim-lspconfig"
   },
   ["nvim-scrollbar"] = {
     loaded = true,

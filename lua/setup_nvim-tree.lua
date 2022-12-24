@@ -227,6 +227,9 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
   },
 }) -- END_DEFAULT_OPT
 
+-- set a default status line with just the name. My lualine config ignores
+-- nvim-tree and other file trees
+
 local Event = api.events.Event
 api.events.subscribe(Event.TreeOpen, function(data)
   vim.opt.statusline="NvimTree"
