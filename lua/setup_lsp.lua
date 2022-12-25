@@ -47,9 +47,30 @@ lspconfig.clangd.setup({
   on_attach = on_attach
 })
 
+lspconfig.als.setup({
+  cmd = { vim.g.lsp_server_bin['als'] },
+  filetypes = { 'ada' },
+  root_dir = util.root_pattern('Makefile', '.git', '*.gpr', '*.adc'),
+})
+
 lspconfig.dartls.setup({
   cmd = { vim.g.lsp_server_bin['dartls'], 'language-server', '--protocol=lsp' },
-  on_attach = on_attach
+  on_attach = on_attach,
+  filetypes = { 'dart' },
+  root_dir = util.root_pattern 'pubspec.yaml',
+  init_options = {
+    onlyAnalyzeProjectsWithOpenFiles = true,
+    suggestFromUnimportedLibraries = true,
+    closingLabels = true,
+    outline = true,
+    flutterOutline = true,
+  },
+  settings = {
+    dart = {
+      completeFunctionCalls = true,
+      showTodos = true,
+    }
+  }
 })
 
 lspconfig.rust_analyzer.setup({
@@ -108,6 +129,17 @@ lspconfig.serve_d.setup({
   cmd = { vim.g.lsp_server_bin['serve_d'] },
   on_attach = on_attach,
   capabilities = capabilities
+})
+
+lspconfig.yamlls.setup({
+  cmd = { vim.g.lsp_server_bin['yamlls'] },
+  filetypes = { 'yaml', 'yaml.docker-compose' },
+  root_dir = util.find_git_ancestor,
+  single_file_support = true,
+  settings = {
+    -- https://github.com/redhat-developer/vscode-redhat-telemetry#how-to-disable-telemetry-reporting
+    redhat = { telemetry = { enabled = false } },
+  }
 })
 
 lspconfig.omnisharp.setup({ on_attach = on_attach,

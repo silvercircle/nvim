@@ -11,6 +11,7 @@ local function getWordsV2()
   end
 end
 
+-- lspsaga plugin: display the current symbol context in the winbar or
 local function saga_symbols()
   if vim.g.features['lspsaga']['enable'] == true then
     return require('lspsaga.symbolwinbar').get_symbol_node()

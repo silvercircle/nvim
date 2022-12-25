@@ -63,7 +63,9 @@ vim.g.lsp_server_bin = {
   serve_d = localbin .. 'serve-d',
   cssls = masonbinpath .. 'vscode-css-language-server',
   tsserver = '/usr/local/bin/tsserver',
-  html = masonbinpath .. 'vscode-html-language-server'
+  html = masonbinpath .. 'vscode-html-language-server',
+  yamlls = masonbinpath .. 'yaml-language-server',
+  als = masonbinpath .. 'ada_language_server'
 }
 
 local g = vim.g
