@@ -13,14 +13,14 @@ vim.g.features = {
   -- deals with mason
   mason = { enable = true, module = '' },
   cmp = { enable = true, module = 'setup_cmp' },                          -- cmp
-  orgmode = { enable = true, module = 'setup_orgmode' },
+  orgmode = { enable = true, module = 'setup_orgmode' },                  -- orgmode is a must-have
 --  trouble = { enable = true, module = 'setup_trouble' },
   scrollbar = { enable = true, module = 'setup_scrollbar' },              -- scrollbar
   gitsigns = { enable = true, module = 'setup_gitsigns' },                -- gitsigns plugin
   indent_blankline = { enable = true, module = 'setup_indent_blankline' },-- indent guides
   cokeline = { enable = true, module = 'setup_cokeline' },                -- cokeline
                                                                           -- diables lualine bufferbar
-  neodev = "", -- setup_neodev
+  neodev = { enable = false, module = '' }, -- setup_neodev
   treesitter = { enable = true, module = 'setup_treesitter' },           -- use treesitter
   -- playground is a special case, it is configured in the treesitter module and has no setup module of its own
   treesitter_playground = { enable = true, module = '' },
@@ -30,12 +30,12 @@ vim.g.features = {
   lspsaga = { enable = false, module = 'setup_lspsaga' },                 -- use lspsaga
   noice = { enable = false, module = 'setup_noice' },                     -- use noice for notifications
   dressing = { enable = true, module = 'setup_dressing' },                -- use dressing for various UI improvements
-  telekasten = { enable = false, module = 'setup_telekasten' },            -- telekasten/calendar personal note taking
-  -- please use ONLY ONE of te following two. Using both wont hurt but will
-  -- be a waste.
+  telekasten = { enable = false, module = 'setup_telekasten' },           -- telekasten/calendar personal note taking
+  -- please use ONLY ONE of te following two. Using both wont hurt but will be a waste.
+  -- personally i prefer nvim-tree, but both plugins are fine. Matter of personal preference.
   neotree = { enable = false, module = 'setup_neotree' },                 -- neotree file explorer
   nvimtree = { enable = true, module = 'setup_nvim-tree' },               -- nvim-tree file explorer
-  null_ls = { enable = false, module = 'setup_null_ls' },                  -- null-ls for linting, formatting and more lsp features
+  null_ls = { enable = false, module = 'setup_null_ls' },                 -- null-ls for linting, formatting and more lsp features
   todo = { enable = true, module = 'setup_todo' },
 }
 
@@ -44,7 +44,7 @@ local localbin = vim.fn.getenv('HOME') .. '/.local/bin/'
 local homepath = vim.fn.getenv('HOME')
 
 -- this table holds full path information for lsp server binaries. They can be installed with mason or
--- manually setup_lsp.lua does all the work. Mason and mason-lspconfig are optional. They allow easy installation
+-- manually. setup_lsp.lua does all the work. Mason and mason-lspconfig are optional. They allow easy installation
 -- and upgrading of your lsp servers, but if you do this manually, nvim-lspconfig alone is enough.
 
 vim.g.lsp_server_bin = {

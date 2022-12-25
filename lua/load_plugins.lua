@@ -20,6 +20,9 @@ return require("packer").startup(function(use)
     if vim.g.features['outline']['enable'] == true then
       use 'silvercircle/symbols-outline.nvim'
     end
+    if vim.g.features['lspsaga']['enable'] == true then
+      use 'glepnir/lspsaga.nvim'
+    end
   end
   -- while cmp does not make much sense without lsp, some things like snippets, emojis, command-line
   -- and path completion will still work.

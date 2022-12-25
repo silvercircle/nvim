@@ -67,7 +67,7 @@ lspkind.init({
 cmp.setup({
   enabled = true,
   completion = {
-    -- autocomplete = true
+    autocomplete = false
   },
   snippet = {
     expand = function(args)
@@ -188,13 +188,13 @@ cmp.setup({
   sources = {
     -- Note: make sure you have proper plugins specified in plugins.vim
     -- https://github.com/topics/nvim-cmp
-    { name = "nvim_lsp", priority = 100, keyword_length = 1, max_item_count = 40 },
+    { name = "nvim_lsp", priority = 110, keyword_length = 1, max_item_count = 40 },
     { name = "path", priority = 30 },
     { name = "luasnip", priority = 120, keyword_length = 2 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
-    { name = 'dictionary', priority = 120, keyword_length = 2 },
+    { name = 'dictionary', priority = 100, keyword_length = 2 },
     { name = 'orgmode' },
-    { name = 'emoji', priority = 120, keyword_length = 2 }  -- cmp-emoji source
+    { name = 'emoji', priority = 10, keyword_length = 2 }  -- cmp-emoji source
   },
   sorting = {
     comparators = {

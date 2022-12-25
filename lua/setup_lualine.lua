@@ -11,6 +11,13 @@ local function getWordsV2()
   end
 end
 
+local function saga_symbols()
+  if vim.g.features['lspsaga']['enable'] == true then
+    return require('lspsaga.symbolwinbar').get_symbol_node()
+  end
+  return ''
+end
+
 local function actual_tabline()
   if vim.g.features['cokeline']['enable'] == true then
     return {}
@@ -40,7 +47,7 @@ require("lualine").setup({
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", "neo-tree", 'NvimTree'},
+      statusline = { "Outline", "neo-tree", 'NvimTree', 'lspsagaoutline'},
       winbar = {},
       tabline = {},
     },
@@ -83,6 +90,7 @@ require("lualine").setup({
   },
   tabline = actual_tabline(),
   winbar = {},
+  --  lualine_a = { { saga_symbols} }
   inactive_winbar = {},
   extensions = {},
 })
