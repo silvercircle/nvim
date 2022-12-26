@@ -27,7 +27,19 @@ local on_attach = function(client, bufnr)
 end
 
 lspconfig.tsserver.setup({
-  cmd = { vim.g.lsp_server_bin['tsserver'] },
+  init_options = { hostInfo = 'neovim' },
+  cmd = { vim.g.lsp_server_bin['tsserver'], '--stdio' },
+  filetypes = {
+      'javascript',
+      'javascriptreact',
+      'javascript.jsx',
+      'typescript',
+      'typescriptreact',
+      'typescript.tsx',
+  },
+  root_dir = function(fname)
+    return util.root_pattern 'tsconfig.json'(fname) or util.root_pattern('package.json', 'jsconfig.json', '.git')(fname)
+  end,
   on_attach = on_attach,
   capabilities = capabilities
 })

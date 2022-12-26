@@ -82,13 +82,13 @@ map('n', "<C-A-w>", "}kV{jgq", opts)      -- select and format current paragraph
 
 -- Ctrl-x Ctrl-s save the file if modified (use update command). Also,
 -- create a view to save state
-map('i', "<C-x><C-s>", '<c-o>:mkview!<CR><C-o>:update!<CR>', opts)
-map('n', "<C-x><C-s>", ':mkview<CR>:update!<CR>', opts)
+map('i', "<C-x><C-s>", '<c-o>:update!<CR>', opts)
+map('n', "<C-x><C-s>", ':update!<CR>', opts)
 
 -- Ctrl-x Ctrl-c close the file, do NOT save it(!) but create the view to save folding state and
 -- cursor position. This does not throw a warning, you've been warned.
-map('n', "<C-x><C-c>", ':mkview!<CR>:Kwbd<CR>', opts)
-map('i', "<C-x><C-c>", '<c-o>:mkview!<CR><C-o>:Kwbd<CR>', opts)
+map('n', "<C-x><C-c>", ':call Mkview()<CR>:Kwbd<CR>', opts)
+map('i', "<C-x><C-c>", '<c-o>:call Mkview()<CR><C-o>:Kwbd<CR>', opts)
 
 -- switch off highlighted search results
 map('n', "<C-x><C-h>", ':nohl<CR>', opts)

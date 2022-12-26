@@ -13,7 +13,6 @@ lua require('vim_options')
 " setup all default and optional plugins, based on g.features (see
 " config.lua)
 lua require('setup_plugins')
-
 run macros/justify.vim
 
 command AutowrapOn setlocal fo+=w | setlocal fo+=w
@@ -24,7 +23,6 @@ command AFToggle if &fo =~ 'a' | setlocal fo-=a | else | setlocal fo+=a | endif
 command CFToggle if &fo =~ 'c' | setlocal fo-=c | else | setlocal fo+=c | endif
 command HWToggle if &fo =~ 'w' | setlocal fo-=w | else | setlocal fo+=w | endif
 command HTToggle if &fo =~ 't' | setlocal fo-=t | else | setlocal fo+=t | endif
-command Itime pu=strftime('%FT%T%z')
 
 " quickly enable/disable automatic formatting modes.
 command AFManual setlocal fo-=a | setlocal fo-=w | setlocal fo-=c | setlocal fo-=q | setlocal fo-=t | setlocal fo-=l
@@ -35,7 +33,6 @@ map <C-c> <NOP>
 imap <C-p> <NOP>
 
 lua require('vim_mappings')
-" lua require('vim_snippets')
 
 set guifont=Hack\ NFM:h10:#e-subpixelantialias:#h-full
 
@@ -43,6 +40,7 @@ set guifont=Hack\ NFM:h10:#e-subpixelantialias:#h-full
 filetype off
 syntax on
 filetype plugin indent on
+" keep the command line clean, MODE is always visible on the status line.
 set noshowmode
 
 " neovide configuration. You can delete this if you do not use neovide
@@ -84,16 +82,26 @@ augroup filetypes
   autocmd!
   autocmd FileType ada,d,nim,objc,objcpp,javascript,scala syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
   autocmd FileType lua syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\+]'
-  autocmd FileType vim,nim,python,markdown,tex,lua,json,html,css,dart,go setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal fo-=t
+  autocmd FileType vim,nim,python,markdown,tex,lua,json,html,css,dart,go,org setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal fo-=t
   autocmd FileType noice silent! setlocal signcolumn=no | silent!  setlocal foldcolumn=0 | silent! setlocal nonumber
   autocmd FileType Outline,lspsagaoutline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
   autocmd FileType org,orgagenda silent! setlocal conceallevel=2 | silent! setlocal concealcursor='nc' | silent! setlocal tw=105 | setlocal ff=unix | setlocal fo+=nwqt | setlocal spell spelllang=en_us,de_de | setlocal fdm=manual
 augroup end
 
+function Mkview()
+  if expand('%') != '' && &buftype !~ 'nofile'
+    echo "View created"
+    silent! mkview
+  endif
+endfunction
+
 augroup folds
   autocmd!
+  " make a view (save folds and cursor position) before saving a file
+  autocmd BufWritePre * :call Mkview()
+    
   " restore the view on load
-  " views are created when saving or quitting a file 
+  " views are created when saving or quitting a file
   autocmd BufRead *
   \   if expand('%') != '' && &buftype !~ 'nofile'
   \|    silent! loadview
