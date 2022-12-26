@@ -94,8 +94,9 @@ o.timeoutlen = 1000
 o.cmdheight = 1
 o.scrolloff = 5
 o.undolevels = 200
-o.scrolljump = 2
+o.scrolljump = 1
 o.sidescrolloff = 5
+o.sidescroll = 5
 o.conceallevel = 0
 -- autogroups
 local agroup_enter = vim.api.nvim_create_augroup("enter", {})
@@ -135,16 +136,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   callback = function()
     vim.api.nvim_command(
       "setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de"
-    )
-  end,
-  group = agroup_files,
-})
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = "python,nim,vim,lua",
-  callback = function()
-    vim.api.nvim_command(
-      "setlocal shiftwidth=2 | setlocal tabstop=2 | setlocal softtabstop=2 | setlocal expandtab | setlocal fo-=t"
     )
   end,
   group = agroup_files,

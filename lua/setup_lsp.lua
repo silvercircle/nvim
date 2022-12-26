@@ -1,7 +1,9 @@
 -- set up lspconfig and mason
 
-require("mason").setup()
-require("mason-lspconfig").setup()
+if vim.g.features['mason']['enable'] == true then
+  require("mason").setup()
+  require("mason-lspconfig").setup()
+end
 local lspconfig = require("lspconfig")
 local util = require('lspconfig.util')
 
@@ -24,18 +26,134 @@ local on_attach = function(client, bufnr)
   end
 end
 
-lspconfig.tsserver.setup({ on_attach = on_attach, capabilities = capabilities })
-lspconfig.texlab.setup({ on_attach = on_attach })
-lspconfig.nimls.setup({ on_attach = on_attach })
-lspconfig.clangd.setup({ on_attach = on_attach })
-lspconfig.dartls.setup({ on_attach = on_attach })
-lspconfig.rust_analyzer.setup({ on_attach = on_attach })
-lspconfig.cssls.setup({ on_attach = on_attach, capabilities = capabilities })
-lspconfig.html.setup({ on_attach = on_attach, capabilities = capabilities })
-lspconfig.phpactor.setup({ on_attach = on_attach, capabilities = capabilities })
-lspconfig.gopls.setup({ on_attach = on_attach, capabilities = capabilities })
-lspconfig.vimls.setup({ on_attach = on_attach, capabilities = capabilities })
-lspconfig.serve_d.setup({ on_attach = on_attach, capabilities = capabilities })
+lspconfig.tsserver.setup({
+  init_options = { hostInfo = 'neovim' },
+  cmd = { vim.g.lsp_server_bin['tsserver'], '--stdio' },
+  filetypes = {
+      'javascript',
+      'javascriptreact',
+      'javascript.jsx',
+      'typescript',
+      'typescriptreact',
+      'typescript.tsx',
+  },
+  root_dir = function(fname)
+    return util.root_pattern 'tsconfig.json'(fname) or util.root_pattern('package.json', 'jsconfig.json', '.git')(fname)
+  end,
+  on_attach = on_attach,
+  capabilities = capabilities
+})
+
+lspconfig.texlab.setup({
+  cmd = { vim.g.lsp_server_bin['texlab'] },
+  on_attach = on_attach
+})
+
+lspconfig.nimls.setup({
+  cmd = { vim.g.lsp_server_bin['nimlsp'] },
+  on_attach = on_attach
+})
+
+lspconfig.clangd.setup({
+  cmd = { 'clangd' },
+  on_attach = on_attach
+})
+
+lspconfig.als.setup({
+  cmd = { vim.g.lsp_server_bin['als'] },
+  filetypes = { 'ada' },
+  root_dir = util.root_pattern('Makefile', '.git', '*.gpr', '*.adc'),
+})
+
+lspconfig.dartls.setup({
+  cmd = { vim.g.lsp_server_bin['dartls'], 'language-server', '--protocol=lsp' },
+  on_attach = on_attach,
+  filetypes = { 'dart' },
+  root_dir = util.root_pattern 'pubspec.yaml',
+  init_options = {
+    onlyAnalyzeProjectsWithOpenFiles = true,
+    suggestFromUnimportedLibraries = true,
+    closingLabels = true,
+    outline = true,
+    flutterOutline = true,
+  },
+  settings = {
+    dart = {
+      completeFunctionCalls = true,
+      showTodos = true,
+    }
+  }
+})
+
+lspconfig.rust_analyzer.setup({
+  cmd = { vim.g.lsp_server_bin['rust_analyzer'] },
+  on_attach = on_attach
+})
+
+lspconfig.cssls.setup({
+  cmd = { vim.g.lsp_server_bin['cssls'], '--stdio' },
+  on_attach = on_attach,
+  capabilities = capabilities
+})
+
+lspconfig.html.setup({
+  cmd = { vim.g.lsp_server_bin['html'] },
+  filetypes = { 'html', 'xhtml' },
+  root_dir = util.root_pattern('package.json', '.git'),
+  single_file_support = true,
+  settings = {},
+  init_options = {
+    provideFormatter = true,
+    embeddedLanguages = { css = true, javascript = true },
+    configurationSection = { 'html', 'css', 'javascript' },
+  },
+  on_attach = on_attach,
+  capabilities = capabilities
+})
+
+lspconfig.phpactor.setup({
+  cmd = { vim.g.lsp_server_bin['phpactor'], 'language-server' },
+  filetypes = { 'php' },
+  root_dir = function(pattern)
+      local cwd = vim.loop.cwd()
+      local root = util.root_pattern('composer.json', '.git')(pattern)
+
+      -- prefer cwd if root is a descendant
+      return util.path.is_descendant(cwd, root) and cwd or root
+  end,
+  on_attach = on_attach,
+  capabilities = capabilities
+})
+
+lspconfig.gopls.setup({
+  cmd = { vim.g.lsp_server_bin['gopls'] },
+  on_attach = on_attach,
+  capabilities = capabilities
+})
+
+lspconfig.vimls.setup({
+  cmd = { vim.g.lsp_server_bin['vimlsp'], '--stdio' },
+  on_attach = on_attach,
+  capabilities = capabilities
+})
+
+lspconfig.serve_d.setup({
+  cmd = { vim.g.lsp_server_bin['serve_d'] },
+  on_attach = on_attach,
+  capabilities = capabilities
+})
+
+lspconfig.yamlls.setup({
+  cmd = { vim.g.lsp_server_bin['yamlls'] },
+  filetypes = { 'yaml', 'yaml.docker-compose' },
+  root_dir = util.find_git_ancestor,
+  single_file_support = true,
+  settings = {
+    -- https://github.com/redhat-developer/vscode-redhat-telemetry#how-to-disable-telemetry-reporting
+    redhat = { telemetry = { enabled = false } },
+  }
+})
+
 lspconfig.omnisharp.setup({ on_attach = on_attach,
    -- Enables support for reading code style, naming convention and analyzer
     -- settings from .editorconfig.
@@ -77,7 +195,7 @@ lspconfig.omnisharp.setup({ on_attach = on_attach,
     return util.root_pattern '*.sln'(fname) or util.root_pattern '*.csproj'(fname)
   end,
   on_new_config = function(new_config, new_root_dir)
-    new_config.cmd = { "omnisharp" }
+    new_config.cmd = { vim.g.lsp_server_bin['omnisharp'] }
     table.insert(new_config.cmd, '-z') -- https://github.com/OmniSharp/omnisharp-vscode/pull/4300
     vim.list_extend(new_config.cmd, { '-s', new_root_dir })
     vim.list_extend(new_config.cmd, { '--hostPID', tostring(vim.fn.getpid()) })
@@ -107,9 +225,10 @@ lspconfig.omnisharp.setup({ on_attach = on_attach,
   end,
   init_options = {}
 })
+
 -- metals = scala language server.
 lspconfig.metals.setup({
-  cmd = { '/home/alex/.local/share/coursier/bin/metals' },
+  cmd = { vim.g.lsp_server_bin['metals'] },
   filetypes = { 'scala' },
   root_dir = util.root_pattern('build.sbt', 'build.sc', 'build.gradle', 'pom.xml'),
   message_level = vim.lsp.protocol.MessageType.Error,
@@ -126,8 +245,15 @@ lspconfig.metals.setup({
     },
   },
 })
-lspconfig.pyright.setup({ on_attach = on_attach })
+
+-- python pyright
+lspconfig.pyright.setup({
+  cmd = { vim.g.lsp_server_bin['pyright'], '--stdio' },
+  on_attach = on_attach
+})
+
 lspconfig.sumneko_lua.setup {
+  cmd = { vim.g.lsp_server_bin['sumneko_lua'] },
   capabilities = capabilities,
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)

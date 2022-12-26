@@ -7,9 +7,12 @@ return require("packer").startup(function(use)
   -- multiple cursors.
   use { 'mg979/vim-visual-multi', branch = "master" }
   if vim.g.features["lsp"]['enable'] == true then
-    use 'williamboman/mason.nvim'
-    use 'williamboman/mason-lspconfig.nvim'
-    use '~/.config/nvim/local_plugin/nvim-lspconfig'
+    if vim.g.features['mason']['enable'] == true then
+      use 'williamboman/mason.nvim'
+      use 'williamboman/mason-lspconfig.nvim'
+    end
+    --use 'neovim/nvim-lspconfig'
+    use '~/.config/nvim/local_plugin/my_nvim-lspconfig'
     use 'onsails/lspkind-nvim'
     -- the following two belong to the lsp group. They are useless without the LSP client
     use 'j-hui/fidget.nvim'
@@ -17,6 +20,9 @@ return require("packer").startup(function(use)
     -- outline view depends on lsp. It is completely useless without.
     if vim.g.features['outline']['enable'] == true then
       use 'silvercircle/symbols-outline.nvim'
+    end
+    if vim.g.features['lspsaga']['enable'] == true then
+      use 'glepnir/lspsaga.nvim'
     end
   end
   -- while cmp does not make much sense without lsp, some things like snippets, emojis, command-line
