@@ -36,9 +36,9 @@ plugin configuration might change. This configuration is built around:
 
 * Native Neovim LSP together with [mason](https://github.com/williamboman/mason.nvim), 
   [lspconfig](https://github.com/neovim/nvim-lspconfig) and 
-  [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim) These plugins provide all the LSP support 
-  and allow for easy setup of language servers. The configuration has presets for the following 
-  languages:
+  [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim). Mason is optional for comfortably
+  installing and updating language servers, but essentially, nvim-lspconfig is enough.
+  The configuration has presets for the following languages:
 
   * Lua (sumneko_lua LSP)
   * Python (pyright)
@@ -54,6 +54,8 @@ plugin configuration might change. This configuration is built around:
     environment (easiest way is to use SDKMAN), the Coursier scala package manager and the scala build 
     and project management tool sbt. An easier way to set up Neovim for Scala programming might be the 
     separate plugin [nvim-metals](https://github.com/scalameta/nvim-metals).
+  * VimScript via vimls.
+
 
 * [CMP](https://github.com/hrsh7th/nvim-cmp) for auto-completion with various sources 
   [lsp](https://github.com/hrsh7th/cmp-nvim-lsp), [signature 
