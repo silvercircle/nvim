@@ -29,7 +29,7 @@
     max_width = { 140, 0.9 },
     min_width = { 40, 0.2 },
 
-    buf_options = {},
+    buf_options = { filetype = "DressingInput" },
     win_options = {
       -- Window transparency (0-100)
       winblend = 10,
@@ -65,7 +65,7 @@
     enabled = true,
 
     -- Priority list of preferred vim.select implementations
-    backend = { "nui", "builtin", "telescope"},
+    backend = { "builtin", "nui", "telescope"},
 
     -- Trim trailing `:` from prompt
     trim_prompt = true,
@@ -93,7 +93,7 @@
       max_width = 80,
       max_height = 40,
       min_width = 40,
-      min_height = 10,
+      min_height = 2,
     },
 
     -- Options for built-in selector
@@ -104,7 +104,7 @@
       -- 'editor' and 'win' will default to being centered
       relative = "editor",
 
-      buf_options = {},
+      buf_options = { filetype = "DressingSelect" },
       win_options = {
         -- Window transparency (0-100)
         winblend = 10,
@@ -118,7 +118,7 @@
       min_width = { 40, 0.2 },
       height = nil,
       max_height = 0.9,
-      min_height = { 10, 0.2 },
+      min_height = { 2, 0.0 },
 
       -- Set to `false` to disable
       mappings = {

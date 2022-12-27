@@ -68,6 +68,11 @@ vim.g.lsp_server_bin = {
   als = masonbinpath .. 'ada_language_server'
 }
 
+vim.g.confirm_actions = {
+  exit = true,            -- ALWAYS confirm force-close (Alt-q) 
+  close_buffer = true,    -- only if file unsaved
+}
+
 local g = vim.g
 -- disable some standard plugins
 g.loaded_netrw       = 1
@@ -155,15 +160,6 @@ function Cokeline_theme()
     },
     unsaved = '#ff6060' -- the unsaved indicator on the tab
   }
-end
-
--- this global function is used in cokeline, cmp and maybe other modules to truncate strings.
-Truncate = function(text, max_width)
-  if #text > max_width then
-    return string.sub(text, 1, max_width) .. "…"
-  else
-    return text
-  end
 end
 
 -- global variables for plugins

@@ -6,6 +6,7 @@ lua require('impatient')
 
 " Set configuration variables
 lua require('config')
+lua require('lib')
 " load plugins (packer)
 lua require('load_plugins')
 " exec "source " . expand("<sfile>:h") . '/plugin/packer_compiled.lua'

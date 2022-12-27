@@ -2,22 +2,6 @@ local map = vim.api.nvim_set_keymap
 local opts = {noremap = true, silent = true}
 -- local expr = {noremap = true, silent = true, expr = true}
 
-function Quitapp()
-  vim.ui.select({ 'Yes, exit now', 'Cancel exit' }, {
-    prompt = 'Exit (all unsaved changes are lost)',
-      format_item = function(item)
-        return item
-      end,
-    },
-    function(choice)
-      if choice == 'Yes, exit now' then
-        vim.cmd("qa!")
-      else
-        return
-      end
-    end)
-end
-
 -- Telescope pickers
 -- Ctrl-e -> list of  buffers
 map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{sort_lastused=true, ignore_current_buffer=true, sorter = require'telescope.sorters'.get_substr_matcher(), winblend=20, previewer=false, layout_config={height=0.4, width=0.4}}<CR>", opts)
@@ -116,9 +100,11 @@ map('i', "<C-x><C-s>", '<c-o>:update!<CR>', opts)
 map('n', "<C-x><C-s>", ':update!<CR>', opts)
 
 -- Ctrl-x Ctrl-c close the file, do NOT save it(!) but create the view to save folding state and
--- cursor position. This does not throw a warning, you've been warned.
-map('n', "<C-x><C-c>", ':call Mkview()<CR>:Kwbd<CR>', opts)
-map('i', "<C-x><C-c>", '<c-o>:call Mkview()<CR><C-o>:Kwbd<CR>', opts)
+-- cursor position. if g.confirm_actions['buffer_close'] is true then a warning message and a 
+-- selection dialog will appear..
+map('n', "<C-x><C-c>", ':lua BufClose()<CR>', opts)
+-- basically, we do not need this in insert mode
+-- map('i', "<C-x><C-c>", '<c-o>:lua BufClose()<CR>', opts)
 
 -- switch off highlighted search results
 map('n', "<C-x><C-h>", ':nohl<CR>', opts)
