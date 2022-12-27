@@ -115,7 +115,8 @@ local LuaLineColors = {
 
 -- cokeline colors for the buffer line
 local cokeline_colors = {
-  bg = '#005f87',
+--  bg = '#005f87',
+  bg = '#606060',
   focus_bg = '#afdf00',
   fg = '#e0e0e0',
   focus_fg = '#202020'
@@ -132,7 +133,8 @@ function Lualine_internal_theme()
     insert = {
       a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' },
       b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
-      c = { fg = LuaLineColors.mediumcyan, bg = LuaLineColors.darkestblue },
+      -- c = { fg = LuaLineColors.mediumcyan, bg = LuaLineColors.darkestblue },
+      c = { fg = LuaLineColors.gray7, bg = LuaLineColors.gray2 },
     },
     visual = { a = { fg = LuaLineColors.darkred, bg = LuaLineColors.brightorange, gui = 'bold' } },
     replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' } },

@@ -2,6 +2,22 @@ local map = vim.api.nvim_set_keymap
 local opts = {noremap = true, silent = true}
 -- local expr = {noremap = true, silent = true, expr = true}
 
+function Quitapp()
+  vim.ui.select({ 'Yes, exit now', 'Cancel exit' }, {
+    prompt = 'Exit (all unsaved changes are lost)',
+      format_item = function(item)
+        return item
+      end,
+    },
+    function(choice)
+      if choice == 'Yes, exit now' then
+        vim.cmd("qa!")
+      else
+        return
+      end
+    end)
+end
+
 -- Telescope pickers
 -- Ctrl-e -> list of  buffers
 map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{sort_lastused=true, ignore_current_buffer=true, sorter = require'telescope.sorters'.get_substr_matcher(), winblend=20, previewer=false, layout_config={height=0.4, width=0.4}}<CR>", opts)
@@ -32,8 +48,8 @@ map('n', "<A-h>", "<CMD>:lua require'telescope.builtin'.help_tags{ winblend=20, 
 -- telescpe-bookmarks:
 -- Alt-b -> all bookmarks, Ctrl-b -> current file
 -- bookmarks
-map('n', "<A-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.all{hide_filename=false,layout_config={height=0.4, width=0.8,preview_width=0.3}}<CR>", opts)
-map('n', "<C-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.current_file{layout_config={height=0.4, width=0.7}}<CR>", opts)
+map('n', "<A-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.all{hide_filename=false, width_text=80, layout_config={height=0.4, width=0.8,preview_width=0.3}}<CR>", opts)
+map('n', "<A-B>", "<CMD>lua require('telescope').extensions.vim_bookmarks.current_file{layout_config={height=0.4, width=0.7}}<CR>", opts)
 
 map('n', "tdo", "<CMD>TodoTelescope cwd=%:p:h<CR>", opts)
 
@@ -65,17 +81,31 @@ map('n', '<leader><Tab>', ":bnext<CR>", opts)
 -- the vimscript functions are defined in the init.vim
 map('i', "<C-f><C-a>", '<c-o>:AFToggle<CR>', opts)
 map('n', "<C-f><C-a>", ':AFToggle<CR>', opts)
+
 map('i', "<C-f><C-c>", '<c-o>:CFToggle<CR>', opts)
 map('n', "<C-f><C-c>", ':CFToggle<CR>', opts)
+
 map('i', "<C-f><C-w>", '<c-o>:HWToggle<CR>', opts)
+map('n', "<C-f><C-w>", ':HWToggle<CR>', opts)
+
 map('i', "<C-f><C-t>", '<c-o>:HTToggle<CR>', opts)
+map('n', "<C-f><C-t>", ':HTToggle<CR>', opts)
+
 map('i', "<C-f>1", '<c-o>:AutowrapOn<CR>', opts)
+map('n', "<C-f>1", ':AutowrapOn<CR>', opts)
+
 map('i', "<C-f>2", '<c-o>:AutowrapOff<CR>', opts)
+map('n', "<C-f>2", ':AutowrapOff<CR>', opts)
+
+map('i', "<C-f>f", '<c-o>:AFManual<CR>', opts)
+map('n', "<C-f>f", ':AFManual<CR>', opts)
+
+map('i', "<C-f>a", '<c-o>:AFAuto<CR>', opts)
+map('n', "<C-f>a", ':AFAuto<CR>', opts)
+
 map('n', "<leader>V", ':!fmt -110<CR>', opts)
 map('n', "<leader>v", ':!fmt -100<CR>', opts)
 map('n', "<leader>y", ':!fmt -85<CR>', opts)
-map('i', "<C-f>f", '<c-o>:AFManual<CR>', opts)
-map('i', "<C-f>a", '<c-o>:AFAuto<CR>', opts)
 
 map('n', "<leader>v", "}kV{j", opts)        -- select current paragraph
 map('n', "<C-A-w>", "}kV{jgq", opts)      -- select and format current paragraph
@@ -101,7 +131,7 @@ map('i', "<C-y>\"", "„”", opts)       -- typographic quotes („”)
 -- close window
 map('n', "<A-w>", ":close<CR>", opts)
 -- force exit, caution all unsaved buffers will be lost
-map('n', "<A-q>", ":qa!<CR>", opts)
+map('n', "<A-q>", ":lua Quitapp()<CR>", opts)
 
 -- Telekasten mappings
 if vim.g.features['telekasten']['enable'] == true then
