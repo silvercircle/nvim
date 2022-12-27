@@ -1,16 +1,16 @@
 -- some library functions
 
+-- pad string left and right to length with fill as fillchar
 local function MyPad(string, length, fill)
-  if #string >= length then
-    return string
-  end
   local padlen = (length - #string) / 2
-  if padlen < 2 then
+  if #string >= length or padlen < 2 then
     return string
   end
   return string.rep(fill, padlen) .. string .. string.rep(fill, padlen)
 end
 
+
+-- confirm force-quit (Alt-q)
 function Quitapp()
   if vim.g.confirm_actions['exit'] == true then
     vim.ui.select({ 'Yes, exit now', 'Cancel exit' }, {
@@ -31,9 +31,10 @@ function Quitapp()
   end
 end
 
+-- confirm buffer close when file is modified. May discard the file but always save the view.
 function BufClose()
   local closecmd = "call Mkview() | Kwbd"
-  local saveclosecmd = "update! | call Mkview() | Kwbd"
+  local saveclosecmd = "update! | Kwbd"
 
   if vim.api.nvim_buf_get_option(0, "modified") == true and vim.g.confirm_actions['close_buffer'] == true then
     vim.ui.select({ 'Save and Close', 'Close and discard', 'Cancel Operation' }, {

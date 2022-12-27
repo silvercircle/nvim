@@ -150,7 +150,7 @@ lspconfig.serve_d.setup({
 })
 
 lspconfig.yamlls.setup({
-  cmd = { vim.g.lsp_server_bin['yamlls'] },
+  cmd = { vim.g.lsp_server_bin['yamlls'], '--stdio' },
   filetypes = { 'yaml', 'yaml.docker-compose' },
   root_dir = util.find_git_ancestor,
   single_file_support = true,
