@@ -313,10 +313,11 @@ end
 --
 -- silvercircle@gmail.com
 --
--- autocmd.subscribe({ 'InsertEnter', 'CmdlineEnter' }, async.debounce_next_tick(on_insert_enter))
--- autocmd.subscribe({ 'InsertEnter', 'CmdLineEnter' }, on_insert_enter)
 autocmd.subscribe({ 'InsertEnter' }, on_insert_enter)
-print("implemented async fix in CMP autocmd InsertEnter: init.lua, line 312")
+print("implemented async fix in CMP autocmd InsertEnter (upstream fix?): init.lua, line 322")
+
+-- autocmd.subscribe({ 'CmdlineEnter' }, async.debounce_next_tick(on_insert_enter))
+-- autocmd.subscribe({ 'InsertEnter' }, async.debounce_next_tick_by_keymap(on_insert_enter))
 
 -- async.throttle is needed for performance. The mapping `:<C-u>...<CR>` will fire `CmdlineChanged` for each character.
 local on_text_changed = function()
@@ -325,7 +326,7 @@ local on_text_changed = function()
   end
 end
 autocmd.subscribe({ 'TextChangedI', 'TextChangedP' }, on_text_changed)
--- autocmd.subscribe('CmdlineChanged', on_text_changed)
+-- autocmd.subscribe('CmdlineChanged', async.debounce_next_tick(on_text_changed))
 
 autocmd.subscribe('CursorMovedI', function()
   if config.enabled() then

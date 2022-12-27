@@ -63,6 +63,12 @@ lspconfig.als.setup({
   cmd = { vim.g.lsp_server_bin['als'] },
   filetypes = { 'ada' },
   root_dir = util.root_pattern('Makefile', '.git', '*.gpr', '*.adc'),
+  settings = {
+    ada = {
+      projectFile = "project.gpr";
+      scenarioVariables = { };
+    }
+  }
 })
 
 lspconfig.dartls.setup({
