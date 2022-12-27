@@ -37,6 +37,7 @@ vim.g.features = {
   nvimtree = { enable = true, module = 'setup_nvim-tree' },               -- nvim-tree file explorer
   null_ls = { enable = false, module = 'setup_null_ls' },                 -- null-ls for linting, formatting and more lsp features
   todo = { enable = true, module = 'setup_todo' },
+  aerial = { enable = true, module = 'setup_aerial' }
 }
 
 local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'

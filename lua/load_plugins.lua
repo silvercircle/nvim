@@ -51,6 +51,7 @@ return require("packer").startup(function(use)
   use 'BurntSushi/ripgrep'
   use 'mhinz/vim-startify'
   use 'kevinhwang91/nvim-hlslens'
+  use 'stevearc/aerial.nvim'
   if vim.g.features["telescope"]['enable'] == true then
     use { 'nvim-telescope/telescope.nvim', branch = '0.1.x' }
     use 'nvim-telescope/telescope-file-browser.nvim'

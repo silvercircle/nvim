@@ -64,10 +64,7 @@ lspconfig.als.setup({
   filetypes = { 'ada' },
   root_dir = util.root_pattern('Makefile', '.git', '*.gpr', '*.adc'),
   settings = {
-    ada = {
-      projectFile = "project.gpr";
-      scenarioVariables = { };
-    }
+    ada = { }
   }
 })
 
