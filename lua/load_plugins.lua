@@ -32,7 +32,6 @@ return require("packer").startup(function(use)
     use 'L3MON4D3/LuaSnip'
     -- use the local version of nvim-cmp. Makes tweaking easier.
     use '~/.config/nvim/local_plugin/nvim-cmp'
---    use 'silvercircle/nvim-cmp'
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-path'
@@ -52,6 +51,7 @@ return require("packer").startup(function(use)
   use 'BurntSushi/ripgrep'
   use 'mhinz/vim-startify'
   use 'kevinhwang91/nvim-hlslens'
+  use 'stevearc/aerial.nvim'
   if vim.g.features["telescope"]['enable'] == true then
     use { 'nvim-telescope/telescope.nvim', branch = '0.1.x' }
     use 'nvim-telescope/telescope-file-browser.nvim'

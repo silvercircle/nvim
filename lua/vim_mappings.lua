@@ -32,8 +32,8 @@ map('n', "<A-h>", "<CMD>:lua require'telescope.builtin'.help_tags{ winblend=20, 
 -- telescpe-bookmarks:
 -- Alt-b -> all bookmarks, Ctrl-b -> current file
 -- bookmarks
-map('n', "<A-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.all{hide_filename=false,layout_config={height=0.4, width=0.8,preview_width=0.3}}<CR>", opts)
-map('n', "<C-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.current_file{layout_config={height=0.4, width=0.7}}<CR>", opts)
+map('n', "<A-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.all{hide_filename=false, width_text=80, layout_config={height=0.4, width=0.8,preview_width=0.3}}<CR>", opts)
+map('n', "<A-B>", "<CMD>lua require('telescope').extensions.vim_bookmarks.current_file{layout_config={height=0.4, width=0.7}}<CR>", opts)
 
 map('n', "tdo", "<CMD>TodoTelescope cwd=%:p:h<CR>", opts)
 
@@ -65,17 +65,31 @@ map('n', '<leader><Tab>', ":bnext<CR>", opts)
 -- the vimscript functions are defined in the init.vim
 map('i', "<C-f><C-a>", '<c-o>:AFToggle<CR>', opts)
 map('n', "<C-f><C-a>", ':AFToggle<CR>', opts)
+
 map('i', "<C-f><C-c>", '<c-o>:CFToggle<CR>', opts)
 map('n', "<C-f><C-c>", ':CFToggle<CR>', opts)
+
 map('i', "<C-f><C-w>", '<c-o>:HWToggle<CR>', opts)
+map('n', "<C-f><C-w>", ':HWToggle<CR>', opts)
+
 map('i', "<C-f><C-t>", '<c-o>:HTToggle<CR>', opts)
+map('n', "<C-f><C-t>", ':HTToggle<CR>', opts)
+
 map('i', "<C-f>1", '<c-o>:AutowrapOn<CR>', opts)
+map('n', "<C-f>1", ':AutowrapOn<CR>', opts)
+
 map('i', "<C-f>2", '<c-o>:AutowrapOff<CR>', opts)
+map('n', "<C-f>2", ':AutowrapOff<CR>', opts)
+
+map('i', "<C-f>f", '<c-o>:AFManual<CR>', opts)
+map('n', "<C-f>f", ':AFManual<CR>', opts)
+
+map('i', "<C-f>a", '<c-o>:AFAuto<CR>', opts)
+map('n', "<C-f>a", ':AFAuto<CR>', opts)
+
 map('n', "<leader>V", ':!fmt -110<CR>', opts)
 map('n', "<leader>v", ':!fmt -100<CR>', opts)
 map('n', "<leader>y", ':!fmt -85<CR>', opts)
-map('i', "<C-f>f", '<c-o>:AFManual<CR>', opts)
-map('i', "<C-f>a", '<c-o>:AFAuto<CR>', opts)
 
 map('n', "<leader>v", "}kV{j", opts)        -- select current paragraph
 map('n', "<C-A-w>", "}kV{jgq", opts)      -- select and format current paragraph
@@ -86,9 +100,11 @@ map('i', "<C-x><C-s>", '<c-o>:update!<CR>', opts)
 map('n', "<C-x><C-s>", ':update!<CR>', opts)
 
 -- Ctrl-x Ctrl-c close the file, do NOT save it(!) but create the view to save folding state and
--- cursor position. This does not throw a warning, you've been warned.
-map('n', "<C-x><C-c>", ':call Mkview()<CR>:Kwbd<CR>', opts)
-map('i', "<C-x><C-c>", '<c-o>:call Mkview()<CR><C-o>:Kwbd<CR>', opts)
+-- cursor position. if g.confirm_actions['buffer_close'] is true then a warning message and a 
+-- selection dialog will appear..
+map('n', "<C-x><C-c>", ':lua BufClose()<CR>', opts)
+-- basically, we do not need this in insert mode
+-- map('i', "<C-x><C-c>", '<c-o>:lua BufClose()<CR>', opts)
 
 -- switch off highlighted search results
 map('n', "<C-x><C-h>", ':nohl<CR>', opts)
@@ -101,7 +117,7 @@ map('i', "<C-y>\"", "„”", opts)       -- typographic quotes („”)
 -- close window
 map('n', "<A-w>", ":close<CR>", opts)
 -- force exit, caution all unsaved buffers will be lost
-map('n', "<A-q>", ":qa!<CR>", opts)
+map('n', "<A-q>", ":lua Quitapp()<CR>", opts)
 
 -- Telekasten mappings
 if vim.g.features['telekasten']['enable'] == true then
@@ -121,7 +137,7 @@ map('n', "GR", ":Glance references<CR>", opts)        -- show references
 -- Telescope LSP code navigation and diagnostics
 map('n', "TD", ":lua require'telescope.builtin'.lsp_definitions{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
 map('n', "TR", ":lua require'telescope.builtin'.lsp_references{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
-map('n', "TS", ":lua require'telescope.builtin'.lsp_ocument_symbols{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
+map('n', "TS", ":lua require'telescope.builtin'.lsp_document_symbols{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
 map('n', "TW", ":lua require'telescope.builtin'.lsp_workspace_symbols{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
 map('n', "TI", ":lua require'telescope.builtin'.lsp_implementations{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
 map('n', "TW", ":lua require'telescope.builtin'.diagnostics{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
@@ -165,6 +181,10 @@ vim.keymap.set({ "s" }, "<C-i>", function() require'luasnip'.jump(1) end, { desc
 vim.keymap.set({ "s" }, "<S-Tab>", function() require'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
 
 map('i', "<C-p>", "<CMD>:lua vim.lsp.buf.signature_help()<CR>", opts)
+
+-- aerial
+map('n', "<A-o>", ":AerialOpen float<CR>", opts)
+map('i', "<A-o>", "<c-o>:AerialOpen float<CR>", opts)
 
 -- if we have playgrund, use the special command to reveal the highlight group under the cursor
 if vim.g.features['treesitter_playground']['enable'] == true then

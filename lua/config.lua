@@ -11,7 +11,7 @@ vim.g.features = {
   lsp = { enable = true, module = 'setup_lsp' },                          -- mason, lspconfig, fidget Glance
   -- mason is part of the lsp plugin group, but optional. it has no setup module of its own - setup_lsp.lua
   -- deals with mason
-  mason = { enable = true, module = '' },
+  mason = { enable = false, module = '' },
   cmp = { enable = true, module = 'setup_cmp' },                          -- cmp
   orgmode = { enable = true, module = 'setup_orgmode' },                  -- orgmode is a must-have
 --  trouble = { enable = true, module = 'setup_trouble' },
@@ -37,6 +37,7 @@ vim.g.features = {
   nvimtree = { enable = true, module = 'setup_nvim-tree' },               -- nvim-tree file explorer
   null_ls = { enable = false, module = 'setup_null_ls' },                 -- null-ls for linting, formatting and more lsp features
   todo = { enable = true, module = 'setup_todo' },
+  aerial = { enable = true, module = 'setup_aerial' }
 }
 
 local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'
@@ -66,6 +67,11 @@ vim.g.lsp_server_bin = {
   html = masonbinpath .. 'vscode-html-language-server',
   yamlls = masonbinpath .. 'yaml-language-server',
   als = masonbinpath .. 'ada_language_server'
+}
+
+vim.g.confirm_actions = {
+  exit = true,            -- ALWAYS confirm force-close (Alt-q) 
+  close_buffer = true,    -- only if file unsaved
 }
 
 local g = vim.g
@@ -115,7 +121,8 @@ local LuaLineColors = {
 
 -- cokeline colors for the buffer line
 local cokeline_colors = {
-  bg = '#005f87',
+--  bg = '#005f87',
+  bg = '#606060',
   focus_bg = '#afdf00',
   fg = '#e0e0e0',
   focus_fg = '#202020'
@@ -132,7 +139,8 @@ function Lualine_internal_theme()
     insert = {
       a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' },
       b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
-      c = { fg = LuaLineColors.mediumcyan, bg = LuaLineColors.darkestblue },
+      -- c = { fg = LuaLineColors.mediumcyan, bg = LuaLineColors.darkestblue },
+      c = { fg = LuaLineColors.gray7, bg = LuaLineColors.gray2 },
     },
     visual = { a = { fg = LuaLineColors.darkred, bg = LuaLineColors.brightorange, gui = 'bold' } },
     replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' } },
@@ -153,15 +161,6 @@ function Cokeline_theme()
     },
     unsaved = '#ff6060' -- the unsaved indicator on the tab
   }
-end
-
--- this global function is used in cokeline, cmp and maybe other modules to truncate strings.
-Truncate = function(text, max_width)
-  if #text > max_width then
-    return string.sub(text, 1, max_width) .. "…"
-  else
-    return text
-  end
 end
 
 -- global variables for plugins

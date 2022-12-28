@@ -63,6 +63,9 @@ lspconfig.als.setup({
   cmd = { vim.g.lsp_server_bin['als'] },
   filetypes = { 'ada' },
   root_dir = util.root_pattern('Makefile', '.git', '*.gpr', '*.adc'),
+  settings = {
+    ada = { }
+  }
 })
 
 lspconfig.dartls.setup({
@@ -144,7 +147,7 @@ lspconfig.serve_d.setup({
 })
 
 lspconfig.yamlls.setup({
-  cmd = { vim.g.lsp_server_bin['yamlls'] },
+  cmd = { vim.g.lsp_server_bin['yamlls'], '--stdio' },
   filetypes = { 'yaml', 'yaml.docker-compose' },
   root_dir = util.find_git_ancestor,
   single_file_support = true,
