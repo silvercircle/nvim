@@ -9,9 +9,9 @@ require("aerial").setup({
     -- They can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
     -- min_width and max_width can be a list of mixed types.
     -- max_width = {40, 0.2} means "the lesser of 40 columns or 20% of total"
-    max_width = { 40, 0.2 },
+    max_width = { 36, 0.2 },
     width = nil,
-    min_width = 20,
+    min_width = 36,
 
     -- key-value pairs of window-local options for aerial window (e.g. winhl)
     win_opts = {},

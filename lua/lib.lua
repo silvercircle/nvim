@@ -12,6 +12,18 @@ end
 
 -- confirm force-quit (Alt-q)
 function Quitapp()
+  local bufs = vim.api.nvim_list_bufs()
+  local have_modified_buf = false
+
+  for i, bufnr in ipairs(bufs) do
+    if vim.api.nvim_buf_get_option(bufnr, "modified") == true then
+      have_modified_buf = true
+    end
+  end
+  if have_modified_buf == false then
+    vim.cmd("qa!")
+  end
+
   if vim.g.confirm_actions['exit'] == true then
     vim.ui.select({ 'Yes, exit now', 'Cancel exit' }, {
       prompt = 'Exit (all unsaved changes are lost)',

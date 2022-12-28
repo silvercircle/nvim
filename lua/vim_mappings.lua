@@ -182,6 +182,10 @@ vim.keymap.set({ "s" }, "<S-Tab>", function() require'luasnip'.jump(-1) end, { d
 
 map('i', "<C-p>", "<CMD>:lua vim.lsp.buf.signature_help()<CR>", opts)
 
+-- aerial
+map('n', "<A-o>", ":AerialOpen float<CR>", opts)
+map('i', "<A-o>", "<c-o>:AerialOpen float<CR>", opts)
+
 -- if we have playgrund, use the special command to reveal the highlight group under the cursor
 if vim.g.features['treesitter_playground']['enable'] == true then
   vim.keymap.set('n', "tsh", ":TSCaptureUnderCursor<CR>", opts)

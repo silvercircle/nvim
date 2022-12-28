@@ -95,7 +95,7 @@ require("scrollbar").setup({
     "NvimTree",
     "Outline",
     "DressingSelect",
-    "DressingImput"
+    "aerial"
   },
   autocmd = {
     render = {
