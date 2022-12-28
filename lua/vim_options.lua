@@ -150,3 +150,13 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
   group = agroup_files,
 })
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = "html",
+  callback = function()
+    vim.api.nvim_command(
+      "setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nwqt | setlocal spell spelllang=en_us,de_de"
+    )
+  end,
+  group = agroup_files,
+})

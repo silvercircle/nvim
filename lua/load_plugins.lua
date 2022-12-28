@@ -41,6 +41,7 @@ return require("packer").startup(function(use)
     use 'uga-rosa/cmp-dictionary'
   end
   -- some generic plugins
+  use 'tpope/vim-liquid'             -- markdown / liquid mode, mainly for jekyll pages
   use 'MunifTanjim/nui.nvim'
   use 'nvim-tree/nvim-web-devicons'
   use 'alaviss/nim.nvim'
