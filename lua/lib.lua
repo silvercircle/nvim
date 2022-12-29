@@ -20,26 +20,45 @@ function Quitapp()
       have_modified_buf = true
     end
   end
+
   if have_modified_buf == false then
-    vim.cmd("qa!")            -- fast exit, no modified buffers
+    -- no modified files, but we want to confirm exit anyway
+    if vim.g.confirm_actions['exit'] == true then
+      vim.ui.select({ 'Really exit?', 'Cancel operation' }, {
+        prompt = 'Exit (no modified buffers)',
+        format_item = function(item)
+          return MyPad(item, 44, ' ')
+        end,
+      },
+      function(choice)
+        if choice == 'Really exit?' then
+          vim.cmd("qa!")
+        else
+          return
+        end
+      end)
+    else
+      vim.cmd("qa!")
+    end
+  else
+    -- let the user choose (save all, discard all, cancel)
+    vim.ui.select({ 'Save all modified buffers and exit', 'Discard all modified buffers and exit', 'Cancel operation' }, {
+      prompt = 'Exit (all unsaved changes are lost)',
+        format_item = function(item)
+          return MyPad(item, 44, ' ')
+        end,
+      },
+      function(choice)
+        if choice == 'Discard all modified buffers and exit' then
+          vim.cmd("qa!")
+        elseif choice == 'Save all modified buffers and exit' then
+          vim.cmd("wa!")
+          vim.cmd("qa!")
+        else
+          return
+        end
+      end)
   end
-  -- let the user choose (save all, discard all, cancel)
-  vim.ui.select({ 'Save all modified buffers and exit', 'Discard all modified buffers and exit', 'Cancel operation' }, {
-    prompt = 'Exit (all unsaved changes are lost)',
-      format_item = function(item)
-        return MyPad(item, 44, ' ')
-      end,
-    },
-    function(choice)
-      if choice == 'Discard all modified buffers and exit' then
-        vim.cmd("qa!")
-      elseif choice == 'Save all modified buffers and exit' then
-        vim.cmd("wa!")
-        vim.cmd("qa!")
-      else
-        return
-      end
-    end)
 end
 
 -- confirm buffer close when file is modified. May discard the file but always save the view.
