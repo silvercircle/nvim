@@ -30,6 +30,18 @@ require("telescope").setup({
       width = 0.9,
       height = 0.6,
     },
+    pickers = {
+      buffers = {
+        mappings = {
+          n = {
+  	        ['<c-d>'] = actions.delete_buffer
+          },
+          i = {
+  	        ['<c-d>'] = actions.delete_buffer
+          },
+        }
+      }
+    },
     color_devicons = true,
     disable_devicons = false,
     mappings = {
@@ -38,6 +50,7 @@ require("telescope").setup({
         ["<C-x>"] = stopinsert(actions.select_horizontal),
         ["<C-v>"] = stopinsert(actions.select_vertical),
         ["<C-t>"] = stopinsert(actions.select_tab),
+    	  ['<c-d>'] = actions.delete_buffer
       },
     },
   },
@@ -64,14 +77,6 @@ require("telescope").setup({
           ["<C-t>"] = stopinsert_fb(actions.select_tab, actions_fb.change_cwd),
         },
       },
-    },
-    coc = {
-      layout_config = {
-        width = 0.5,
-        height = 0.5,
-      },
-      theme = "ivy",
-      prefer_locations = true, -- always use Telescope locations to preview definitions/declarations/implementations etc
     },
   },
 })

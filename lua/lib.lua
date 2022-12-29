@@ -21,26 +21,25 @@ function Quitapp()
     end
   end
   if have_modified_buf == false then
-    vim.cmd("qa!")
+    vim.cmd("qa!")            -- fast exit, no modified buffers
   end
-
-  if vim.g.confirm_actions['exit'] == true then
-    vim.ui.select({ 'Yes, exit now', 'Cancel exit' }, {
-      prompt = 'Exit (all unsaved changes are lost)',
-        format_item = function(item)
-          return MyPad(item, 44, ' ')
-        end,
-      },
-      function(choice)
-        if choice == 'Yes, exit now' then
-          vim.cmd("qa!")
-        else
-          return
-        end
-      end)
-  else
-    vim.cmd("qa!")
-  end
+  -- let the user choose (save all, discard all, cancel)
+  vim.ui.select({ 'Save all modified buffers and exit', 'Discard all modified buffers and exit', 'Cancel operation' }, {
+    prompt = 'Exit (all unsaved changes are lost)',
+      format_item = function(item)
+        return MyPad(item, 44, ' ')
+      end,
+    },
+    function(choice)
+      if choice == 'Discard all modified buffers and exit' then
+        vim.cmd("qa!")
+      elseif choice == 'Save all modified buffers and exit' then
+        vim.cmd("wa!")
+        vim.cmd("qa!")
+      else
+        return
+      end
+    end)
 end
 
 -- confirm buffer close when file is modified. May discard the file but always save the view.
