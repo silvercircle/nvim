@@ -35,7 +35,7 @@ imap <C-p> <NOP>
 
 lua require('vim_mappings')
 
-set guifont=Hack\ NFM:h10:#e-subpixelantialias:#h-full
+set guifont=Iosevka:h11.2:#e-subpixelantialias:#h-full
 
 " enable plugin-based filetyp identification, syntax highlighting
 filetype off

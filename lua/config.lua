@@ -70,8 +70,8 @@ vim.g.lsp_server_bin = {
 }
 
 vim.g.confirm_actions = {
-  exit = true,            -- ALWAYS confirm force-close (Alt-q) 
-  close_buffer = true,    -- only if file unsaved
+  exit = true,            -- ALWAYS confirm force-close (Alt-q), even when no buffers are modified
+  close_buffer = true,    -- <C-x><C-c>: only confirm when buffer modified
 }
 
 local g = vim.g

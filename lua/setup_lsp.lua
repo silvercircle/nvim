@@ -100,8 +100,8 @@ lspconfig.cssls.setup({
 })
 
 lspconfig.html.setup({
-  cmd = { vim.g.lsp_server_bin['html'] },
-  filetypes = { 'html', 'xhtml' },
+  cmd = { vim.g.lsp_server_bin['html'], '--stdio' },
+  filetypes = { 'html', 'xhtml', 'liquid' },
   root_dir = util.root_pattern('package.json', '.git'),
   single_file_support = true,
   settings = {},

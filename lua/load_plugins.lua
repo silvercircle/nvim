@@ -41,6 +41,7 @@ return require("packer").startup(function(use)
     use 'uga-rosa/cmp-dictionary'
   end
   -- some generic plugins
+  use 'tpope/vim-liquid'             -- markdown / liquid mode, mainly for jekyll pages
   use 'MunifTanjim/nui.nvim'
   use 'nvim-tree/nvim-web-devicons'
   use 'alaviss/nim.nvim'
@@ -51,7 +52,9 @@ return require("packer").startup(function(use)
   use 'BurntSushi/ripgrep'
   use 'mhinz/vim-startify'
   use 'kevinhwang91/nvim-hlslens'
-  use 'stevearc/aerial.nvim'
+  if vim.g.features['aerial']['enable'] == true then
+    use 'stevearc/aerial.nvim'
+  end
   if vim.g.features["telescope"]['enable'] == true then
     use { 'nvim-telescope/telescope.nvim', branch = '0.1.x' }
     use 'nvim-telescope/telescope-file-browser.nvim'

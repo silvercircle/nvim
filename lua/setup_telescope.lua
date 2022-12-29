@@ -41,6 +41,20 @@ require("telescope").setup({
       },
     },
   },
+  pickers = {
+    buffers = {
+      -- implement Ctrl-d to close a buffer directly from the buffer list without closing the list itself.
+      -- works in both normal and insert modes.
+      mappings = {
+        n = {
+          ['<c-d>'] = actions.delete_buffer
+        },
+        i = {
+          ['<c-d>'] = actions.delete_buffer
+        },
+      }
+    }
+  },
   extensions = {
     fzf = {
       fuzzy = true, -- false will only do exact matching
@@ -64,14 +78,6 @@ require("telescope").setup({
           ["<C-t>"] = stopinsert_fb(actions.select_tab, actions_fb.change_cwd),
         },
       },
-    },
-    coc = {
-      layout_config = {
-        width = 0.5,
-        height = 0.5,
-      },
-      theme = "ivy",
-      prefer_locations = true, -- always use Telescope locations to preview definitions/declarations/implementations etc
     },
   },
 })

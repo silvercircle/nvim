@@ -1,3 +1,4 @@
+
 -- set vim options and autocommands. No plugins involved
 
 local o = vim.o
@@ -98,6 +99,7 @@ o.scrolljump = 1
 o.sidescrolloff = 5
 o.sidescroll = 5
 o.conceallevel = 0
+o.clipboard = "unnamedplus"
 -- autogroups
 local agroup_enter = vim.api.nvim_create_augroup("enter", {})
 local agroup_files = vim.api.nvim_create_augroup("files", {})
@@ -146,6 +148,16 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   callback = function()
     vim.api.nvim_command(
       "setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nwqt | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de"
+    )
+  end,
+  group = agroup_files,
+})
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = "html",
+  callback = function()
+    vim.api.nvim_command(
+      "setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nwqt | setlocal spell spelllang=en_us,de_de"
     )
   end,
   group = agroup_files,
