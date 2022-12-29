@@ -65,7 +65,7 @@
     enabled = true,
 
     -- Priority list of preferred vim.select implementations
-    backend = { "builtin", "nui", "telescope"},
+    backend = { "builtin", "nui", "telescope" },
 
     -- Trim trailing `:` from prompt
     trim_prompt = true,
@@ -73,6 +73,7 @@
     -- Options for telescope selector
     -- These are passed into the telescope picker directly. Can be used like:
     -- telescope = require('telescope.themes').get_ivy({...})
+
     telescope = nil,
 
     -- Options for nui Menu

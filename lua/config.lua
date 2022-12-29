@@ -30,11 +30,10 @@ vim.g.features = {
   lspsaga = { enable = false, module = 'setup_lspsaga' },                 -- use lspsaga
   noice = { enable = false, module = 'setup_noice' },                     -- use noice for notifications
   dressing = { enable = true, module = 'setup_dressing' },                -- use dressing for various UI improvements
-  telekasten = { enable = false, module = 'setup_telekasten' },           -- telekasten/calendar personal note taking
   -- please use ONLY ONE of te following two. Using both wont hurt but will be a waste.
   -- personally i prefer nvim-tree, but both plugins are fine. Matter of personal preference.
-  neotree = { enable = false, module = 'setup_neotree' },                 -- neotree file explorer
-  nvimtree = { enable = true, module = 'setup_nvim-tree' },               -- nvim-tree file explorer
+  neotree = { enable = true, module = 'setup_neotree' },                 -- neotree file explorer
+  nvimtree = { enable = false, module = 'setup_nvim-tree' },               -- nvim-tree file explorer
   null_ls = { enable = false, module = 'setup_null_ls' },                 -- null-ls for linting, formatting and more lsp features
   todo = { enable = true, module = 'setup_todo' },
   aerial = { enable = true, module = 'setup_aerial' }

@@ -2,6 +2,10 @@ local map = vim.api.nvim_set_keymap
 local opts = {noremap = true, silent = true}
 -- local expr = {noremap = true, silent = true, expr = true}
 
+-- Ctrl-Shift-E - neo-tree open buffers in current dir
+map('n', "<C-T>", ":Neotree buffers position=float<CR>", opts )
+map('n', "<f12>", ":lua Neofavs()<CR>", opts)
+
 -- Telescope pickers
 -- Ctrl-e -> list of  buffers
 map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{sort_lastused=true, ignore_current_buffer=true, sorter = require'telescope.sorters'.get_substr_matcher(), winblend=20, previewer=false, layout_config={height=0.4, width=0.4}}<CR>", opts)
@@ -16,7 +20,7 @@ map('n', "<A-C>", "<CMD>lua require'telescope.builtin'.commands{winblend=20, lay
 -- C-x-C-j Jumplist
 map('n', "<C-x><C-j>", "<CMD>lua require'telescope.builtin'.jumplist{fname_width=40, show_line=false, layout_config={width=0.8, height=0.7, preview_width=0.6}}<CR>", opts)
 -- C-x-C-r Registers
-map('n', "<C-x><C-r>", "<CMD>lua require'telescope.builtin'.registers{layout_config={width=0.6, height=0.7}}<CR>", opts)
+map('n', "<C-x><C-r>", "<CMD>lua require'telescope.builtyin'.registers{layout_config={width=0.6, height=0.7}}<CR>", opts)
 -- C-x-C-k Keymaps
 map('n', "<C-x><C-k>", "<CMD>lua require'telescope.builtin'.keymaps{layout_config={width=0.8, height=0.7}}<CR>", opts)
 -- Alt-f -> file  browser
@@ -119,14 +123,6 @@ map('n', "<A-w>", ":close<CR>", opts)
 -- force exit, caution all unsaved buffers will be lost
 map('n', "<A-q>", ":lua Quitapp()<CR>", opts)
 
--- Telekasten mappings
-if vim.g.features['telekasten']['enable'] == true then
-  map('n', "Zp", ":lua require('telekasten').panel()<CR>", opts)
-  map('n', "Zf", ":lua require('telekasten').find_notes()<CR>", opts)
-  map('n', "Zd", ":lua require('telekasten').find_daily_notes()<CR>", opts)
-  map('n', "Zs", ":lua require('telekasten').search_notes()<CR>", opts)
-  map('n', "Zl", ":lua require('telekasten').follow_link()<CR>", opts)
-end
 -- LSP mappings
 map('n', "lsi", ":LspInfo<CR>", opts)     -- LspInfo
 

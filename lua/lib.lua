@@ -1,7 +1,6 @@
 -- some library functions
-
 -- pad string left and right to length with fill as fillchar
-local function MyPad(string, length, fill)
+function MyPad(string, length, fill)
   local padlen = (length - #string) / 2
   if #string >= length or padlen < 2 then
     return string
@@ -9,6 +8,28 @@ local function MyPad(string, length, fill)
   return string.rep(fill, padlen) .. string .. string.rep(fill, padlen)
 end
 
+function Lpad(string, length, fill)
+  local padlen = (length - #string)
+  if #string >= length or padlen < 2 then
+    return string
+  end
+  return string.rep(fill, padlen) .. string
+end
+function Rpad(string, length, fill)
+  local padlen = (length - #string)
+  if #string >= length or padlen < 2 then
+    return string
+  end
+  return string .. string.rep(fill, padlen)
+end
+
+function string_split(s, delimiter)
+  result = {};
+  for match in (s..delimiter):gmatch("(.-)"..delimiter) do
+    table.insert(result, match);
+  end
+  return result;
+end
 
 -- confirm force-quit (Alt-q)
 function Quitapp()
@@ -20,7 +41,6 @@ function Quitapp()
       have_modified_buf = true
     end
   end
-
   if have_modified_buf == false then
     -- no modified files, but we want to confirm exit anyway
     if vim.g.confirm_actions['exit'] == true then
@@ -66,8 +86,9 @@ function BufClose()
   local closecmd = "call Mkview() | Kwbd"
   local saveclosecmd = "update! | Kwbd"
 
-  if vim.api.nvim_buf_get_option(0, "modified") == true and vim.g.confirm_actions['close_buffer'] == true then
-    vim.ui.select({ 'Save and Close', 'Close and discard', 'Cancel Operation' }, {
+  if vim.api.nvim_buf_get_option(0, "modified") == true then
+    if vim.g.confirm_actions['close_buffer'] == true then
+      vim.ui.select({ 'Save and Close', 'Close and discard', 'Cancel Operation' }, {
       prompt = 'Close modified buffer?',
         format_item = function(item)
           return MyPad(item, 44, ' ')
@@ -79,11 +100,16 @@ function BufClose()
         elseif choice == 'Save and Close' then
           vim.cmd(saveclosecmd)
           return
-        else
+        elseif choice == 'Close and discard' then
           vim.cmd(closecmd)
+          return
+        else
           return
         end
       end)
+    else
+      vim.cmd(closecmd)
+    end
   else
     vim.cmd(closecmd)
   end
