@@ -30,18 +30,6 @@ require("telescope").setup({
       width = 0.9,
       height = 0.6,
     },
-    pickers = {
-      buffers = {
-        mappings = {
-          n = {
-  	        ['<c-d>'] = actions.delete_buffer
-          },
-          i = {
-  	        ['<c-d>'] = actions.delete_buffer
-          },
-        }
-      }
-    },
     color_devicons = true,
     disable_devicons = false,
     mappings = {
@@ -50,9 +38,22 @@ require("telescope").setup({
         ["<C-x>"] = stopinsert(actions.select_horizontal),
         ["<C-v>"] = stopinsert(actions.select_vertical),
         ["<C-t>"] = stopinsert(actions.select_tab),
-    	  ['<c-d>'] = actions.delete_buffer
       },
     },
+  },
+  pickers = {
+    buffers = {
+      -- implement Ctrl-d to close a buffer directly from the buffer list without closing the list itself.
+      -- works in both normal and insert modes.
+      mappings = {
+        n = {
+          ['<c-d>'] = actions.delete_buffer
+        },
+        i = {
+          ['<c-d>'] = actions.delete_buffer
+        },
+      }
+    }
   },
   extensions = {
     fzf = {
