@@ -134,6 +134,7 @@ end
 function Neofavs()
   local max_width = 90
   local favs = {}
+  -- TODO: make the path and filename customizeable.
   local filename = vim.fn.stdpath("config") .. "/favs"
   if pcall(require, 'telescope') == false then
     print("This feature requires the Telecope plugin.")
