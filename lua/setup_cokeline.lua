@@ -5,7 +5,7 @@ require('cokeline').setup({
   -- header for the neo-tree sidebar
   sidebar = {
     --filetype = 'neo-tree',
-    filetype = 'NvimTree',
+    filetype = vim.g.features['nvimtree']['enable'] == true and 'NvimTree' or 'neo-tree',
     components = {
       {
         text = '  File Explorer',

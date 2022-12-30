@@ -19,6 +19,12 @@ two branches with different setups.
 All branches use lots of Telescope stuff and Tree-Sitter for syntax highlighting. **The minimum required 
 Neovim version is 0.8**.
 
+# Some words of warning
+
+These dotfiles are likely **not to work out of the box**. They are heavily customized for *Linux only* 
+and some things won't work on Windows and probably not on macOS. These problems should, however, be easy 
+to fix, particularly in `lua/config.lua`.
+
 The main branch (LSP) is modular and it is fairly easy to disable certain features. See `config.lua` for 
 more information. It is advised to run a `PackerSync` after adding or removing features. When removing 
 features, some things may break until you perform a `PackerSync`.
@@ -39,6 +45,8 @@ plugin configuration might change. This configuration is built around:
   [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim). Mason is optional for comfortably
   installing and updating language servers, but essentially, nvim-lspconfig is enough.
   The configuration has presets for the following languages:
+
+  By default, Mason is optional and language servers configured manually via lspconfig.
 
   * Lua (sumneko_lua LSP)
   * Python (pyright)

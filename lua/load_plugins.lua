@@ -59,7 +59,6 @@ return require("packer").startup(function(use)
     use { 'nvim-telescope/telescope.nvim', branch = '0.1.x' }
     use 'nvim-telescope/telescope-file-browser.nvim'
     use 'tom-anders/telescope-vim-bookmarks.nvim'
-    use 'nvim-telescope/telescope-project.nvim'
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
   end
   -- filesystem tree. Only enable ONE of the following, either neo-tree or nvim-tree. I prefer the latter
@@ -85,10 +84,6 @@ return require("packer").startup(function(use)
   end
   if vim.g.features["indent_blankline"]['enable'] == true then
     use 'lukas-reineke/indent-blankline.nvim'
-  end
-  if vim.g.features['telekasten']['enable'] == true then
-    use 'renerocksai/calendar-vim'
-    use 'renerocksai/telekasten.nvim'
   end
   if vim.g.features["cokeline"]['enable'] == true then
     use { 'noib3/nvim-cokeline' }

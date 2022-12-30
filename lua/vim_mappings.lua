@@ -2,6 +2,11 @@ local map = vim.api.nvim_set_keymap
 local opts = {noremap = true, silent = true}
 -- local expr = {noremap = true, silent = true, expr = true}
 
+-- Ctrl-Shift-E - neo-tree open buffers in current dir
+map('n', "<C-T>", ":Neotree buffers position=float<CR>", opts )
+map('n', "<f12>", ":lua Neofavs()<CR>", opts)
+map('n', "<A-p>", ":lua Neofavs()<CR>", opts)
+
 -- Telescope pickers
 -- Ctrl-e -> list of  buffers
 map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers{sort_lastused=true, ignore_current_buffer=true, sorter = require'telescope.sorters'.get_substr_matcher(), winblend=20, previewer=false, layout_config={height=0.4, width=0.4}}<CR>", opts)
@@ -16,15 +21,13 @@ map('n', "<A-C>", "<CMD>lua require'telescope.builtin'.commands{winblend=20, lay
 -- C-x-C-j Jumplist
 map('n', "<C-x><C-j>", "<CMD>lua require'telescope.builtin'.jumplist{fname_width=40, show_line=false, layout_config={width=0.8, height=0.7, preview_width=0.6}}<CR>", opts)
 -- C-x-C-r Registers
-map('n', "<C-x><C-r>", "<CMD>lua require'telescope.builtin'.registers{layout_config={width=0.6, height=0.7}}<CR>", opts)
+map('n', "<C-x><C-r>", "<CMD>lua require'telescope.builtyin'.registers{layout_config={width=0.6, height=0.7}}<CR>", opts)
 -- C-x-C-k Keymaps
 map('n', "<C-x><C-k>", "<CMD>lua require'telescope.builtin'.keymaps{layout_config={width=0.8, height=0.7}}<CR>", opts)
 -- Alt-f -> file  browser
 map('n', "<A-f>", "<CMD>lua require('telescope').extensions.file_browser.file_browser{ winblend=20, hidden=true, path=vim.fn.expand('%:p:h'), layout_config={width=0.8, preview_width=0.6 } }<CR>", opts)
 -- Alt-s show spelling suggestions
-map('n', "<A-s>", "<CMD>lua require'telescope.builtin'.spell_suggest{winblend=20, layout_config={height=0.5,width=0.3}}<CR>", opts)
--- telescope-project extension (Alt-p)
-map('n', "<A-p>", "<CMD>lua require'telescope'.extensions.project.project{ winblend=20, display_type='full', layout_config={width=0.5} }<CR>", opts)
+map('n', "<A-s>", "<CMD>lua require'telescope.builtin'.spell_suggest{winblend=20, layout_config={height=0.5,width=0.2}}<CR>", opts)
 -- telescope-fuzzy-find in buffer
 map('n', "<C-x><C-f>", "<CMD>:lua require'telescope.builtin'.current_buffer_fuzzy_find{ winblend=20, layout_config={width=0.8, preview_width=0.4} }<CR>", opts)
 -- telescope help tags
@@ -39,11 +42,11 @@ map('n', "tdo", "<CMD>TodoTelescope cwd=%:p:h<CR>", opts)
 
 -- file tree
 if vim.g.features['neotree']['enable'] == true then
-  map('n', "<leader>r", "<CMD>Neotree reveal<CR>", opts)   -- sync NERDTree with current 
-  map('n', "<leader>,", '<CMD>Neotree toggle<CR>', opts)    -- toggle the NERDTree
+  map('n', "<leader>r", "<CMD>Neotree reveal_force_cwd<CR>", opts)    -- sync Neotree dir to current buffer
+  map('n', "<leader>,", '<CMD>Neotree toggle<CR>', opts)              -- toggle the Neotree
 elseif vim.g.features['nvimtree']['enable'] == true then
-  map('n', "<leader>,", '<CMD>NvimTreeToggle<CR>', opts)    -- toggle the NERDTree
-  map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)   -- sync NERDTree with current 
+  map('n', "<leader>,", '<CMD>NvimTreeToggle<CR>', opts)              -- toggle the Nvim-Tree
+  map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)            -- sync Nvim-Tree with current 
 end
 map('n', "<leader>.", "<CMD>SymbolsOutline<CR>", opts)    -- toggle the Outline View
 
@@ -119,14 +122,6 @@ map('n', "<A-w>", ":close<CR>", opts)
 -- force exit, caution all unsaved buffers will be lost
 map('n', "<A-q>", ":lua Quitapp()<CR>", opts)
 
--- Telekasten mappings
-if vim.g.features['telekasten']['enable'] == true then
-  map('n', "Zp", ":lua require('telekasten').panel()<CR>", opts)
-  map('n', "Zf", ":lua require('telekasten').find_notes()<CR>", opts)
-  map('n', "Zd", ":lua require('telekasten').find_daily_notes()<CR>", opts)
-  map('n', "Zs", ":lua require('telekasten').search_notes()<CR>", opts)
-  map('n', "Zl", ":lua require('telekasten').follow_link()<CR>", opts)
-end
 -- LSP mappings
 map('n', "lsi", ":LspInfo<CR>", opts)     -- LspInfo
 
