@@ -5,6 +5,7 @@ local opts = {noremap = true, silent = true}
 -- Ctrl-Shift-E - neo-tree open buffers in current dir
 map('n', "<C-T>", ":Neotree buffers position=float<CR>", opts )
 map('n', "<f12>", ":lua Neofavs()<CR>", opts)
+map('n', "<A-p>", ":lua Neofavs()<CR>", opts)
 
 -- Telescope pickers
 -- Ctrl-e -> list of  buffers
@@ -26,9 +27,7 @@ map('n', "<C-x><C-k>", "<CMD>lua require'telescope.builtin'.keymaps{layout_confi
 -- Alt-f -> file  browser
 map('n', "<A-f>", "<CMD>lua require('telescope').extensions.file_browser.file_browser{ winblend=20, hidden=true, path=vim.fn.expand('%:p:h'), layout_config={width=0.8, preview_width=0.6 } }<CR>", opts)
 -- Alt-s show spelling suggestions
-map('n', "<A-s>", "<CMD>lua require'telescope.builtin'.spell_suggest{winblend=20, layout_config={height=0.5,width=0.3}}<CR>", opts)
--- telescope-project extension (Alt-p)
-map('n', "<A-p>", "<CMD>lua require'telescope'.extensions.project.project{ winblend=20, display_type='full', layout_config={width=0.5} }<CR>", opts)
+map('n', "<A-s>", "<CMD>lua require'telescope.builtin'.spell_suggest{winblend=20, layout_config={height=0.5,width=0.2}}<CR>", opts)
 -- telescope-fuzzy-find in buffer
 map('n', "<C-x><C-f>", "<CMD>:lua require'telescope.builtin'.current_buffer_fuzzy_find{ winblend=20, layout_config={width=0.8, preview_width=0.4} }<CR>", opts)
 -- telescope help tags
@@ -43,11 +42,11 @@ map('n', "tdo", "<CMD>TodoTelescope cwd=%:p:h<CR>", opts)
 
 -- file tree
 if vim.g.features['neotree']['enable'] == true then
-  map('n', "<leader>r", "<CMD>Neotree reveal<CR>", opts)   -- sync NERDTree with current 
-  map('n', "<leader>,", '<CMD>Neotree toggle<CR>', opts)    -- toggle the NERDTree
+  map('n', "<leader>r", "<CMD>Neotree reveal_force_cwd<CR>", opts)    -- sync Neotree dir to current buffer
+  map('n', "<leader>,", '<CMD>Neotree toggle<CR>', opts)              -- toggle the Neotree
 elseif vim.g.features['nvimtree']['enable'] == true then
-  map('n', "<leader>,", '<CMD>NvimTreeToggle<CR>', opts)    -- toggle the NERDTree
-  map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)   -- sync NERDTree with current 
+  map('n', "<leader>,", '<CMD>NvimTreeToggle<CR>', opts)              -- toggle the Nvim-Tree
+  map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)            -- sync Nvim-Tree with current 
 end
 map('n', "<leader>.", "<CMD>SymbolsOutline<CR>", opts)    -- toggle the Outline View
 
