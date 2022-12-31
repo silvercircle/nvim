@@ -61,13 +61,18 @@ o.foldcolumn = "5"
 
 -- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 
 -- indentation-based folding.
-if vim.g.features['treesitter']['enable'] == true then
-  o.foldmethod = "expr"
-  o.foldexpr = "nvim_treesitter#foldexpr()"
-else
+--
+-- FIXME: Treesitter indent(folding) still has a HUGE memory leak, see:
+-- https://github.com/nvim-treesitter/nvim-treesitter/issues/2918
+-- for now, I disabled treesitter-based folding
+
+-- if vim.g.features['treesitter']['enable'] == true then
+--  o.foldmethod = "expr"
+--  o.foldexpr = "nvim_treesitter#foldexpr()"
+-- else
   o.foldmethod = "indent"
   o.foldexpr = ""
-end
+-- end
 
 o.foldlevelstart = 99
 o.foldnestmax = 5

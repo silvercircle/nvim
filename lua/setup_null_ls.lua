@@ -1,6 +1,5 @@
 -- null-ls: Linting, diagnostics, formatting etc.
 if vim.g.config_null_ls == true then
-  -- vim.cmd([[ PackerLoad null-ls.nvim ]])
   local null_ls = require("null-ls")
   null_ls.setup({
    -- the external tools must be installed separately. see comments

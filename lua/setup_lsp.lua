@@ -14,7 +14,7 @@ if vim.g.features['cmp']['enable'] == true then
   capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 end
 -- Customize LSP behavior via on_attach
-local on_attach = function(client, bufnr)
+local on_attach = function(client, _)
   -- Activate LSP signature on attach.
   -- on_attach_lsp_signature(client, bufnr)
 

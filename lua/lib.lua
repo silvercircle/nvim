@@ -36,7 +36,7 @@ function Quitapp()
   local bufs = vim.api.nvim_list_bufs()
   local have_modified_buf = false
 
-  for i, bufnr in ipairs(bufs) do
+  for _, bufnr in ipairs(bufs) do
     if vim.api.nvim_buf_get_option(bufnr, "modified") == true then
       have_modified_buf = true
     end
@@ -130,7 +130,6 @@ end
 -- one entry per line
 --
 -- Requirements: Telescope for the searchable picker.
-
 function Neofavs()
   local max_width = 90
   local favs = {}
@@ -149,6 +148,7 @@ function Neofavs()
   local file = io.open(filename)
   if pcall(require, "neo-tree") == false then
     print("This feature requires the NeoTree plugin")
+    io.close(file)
     return
   end
   if file == nil then
@@ -164,6 +164,7 @@ function Neofavs()
       end
     end
   end
+  io.close(file)
   local entries = {}
   for _,v in pairs(favs) do
     local entry = Rpad(v['title'], 30, ' ') .. "  " .. v['dir']
@@ -183,7 +184,7 @@ function Neofavs()
         results = entries
       },
       sorter = conf.generic_sorter(opts),
-      attach_mappings = function(prompt_bufnr, map)
+      attach_mappings = function(prompt_bufnr, _)
         actions.select_default:replace(function()
           actions.close(prompt_bufnr)
           local selection = action_state.get_selected_entry()
@@ -203,7 +204,6 @@ function Neofavs()
     }):find()
   end
   favselector(require("telescope.themes").get_dropdown{})
-  return
 end
 
 function Editfavs()

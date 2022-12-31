@@ -42,7 +42,7 @@ map('n', "tdo", "<CMD>TodoTelescope cwd=%:p:h<CR>", opts)
 
 -- file tree
 if vim.g.features['neotree']['enable'] == true then
-  map('n', "<leader>r", "<CMD>Neotree reveal_force_cwd<CR>", opts)    -- sync Neotree dir to current buffer
+  map('n', "<leader>r", "<CMD>Neotree reveal_force_cwd action=show<CR>", opts)    -- sync Neotree dir to current buffer
   map('n', "<leader>,", '<CMD>Neotree toggle<CR>', opts)              -- toggle the Neotree
 elseif vim.g.features['nvimtree']['enable'] == true then
   map('n', "<leader>,", '<CMD>NvimTreeToggle<CR>', opts)              -- toggle the Nvim-Tree

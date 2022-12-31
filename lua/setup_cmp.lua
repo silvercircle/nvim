@@ -153,11 +153,8 @@ cmp.setup({
 
       if entry.source.name == "nvim_lsp" then
         -- Display which LSP servers this item came from.
-        local lspserver_name = nil
-        pcall(function()
-          lspserver_name = entry.source.source.client.name
-          vim_item.menu = lspserver_name
-        end)
+        local lspserver_name = entry.source.source.client.name
+        vim_item.menu = lspserver_name
 
         -- Some language servers provide details, e.g. type information.
         -- The details info hide the name of lsp server, but mostly we'll have one LSP
@@ -179,7 +176,6 @@ cmp.setup({
           vim_item.menu_hl_group = "CmpItemMenuDetail"
         end
       end
-
       -- Add a little bit more padding
       vim_item.menu = " " .. vim_item.menu
       return vim_item

@@ -52,7 +52,9 @@ require("nvim-treesitter.configs").setup({
     disable = { "javascript" },     -- FIXME: JavaScript parser is painfully slow.
     additional_vim_regex_highlighting = { 'org' },
   },
-  indent = { enable = true },
+  indent = { 
+    enable = false
+  },
   autotag = {
     enable = false,
     filetypes = {
