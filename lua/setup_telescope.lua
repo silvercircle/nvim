@@ -28,8 +28,10 @@ require("telescope").setup({
   defaults = {
     layout_config = {
       width = 0.9,
-      height = 0.6,
+      height = 0.6
     },
+    winblend = 0,
+    borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
     color_devicons = true,
     disable_devicons = false,
     mappings = {
@@ -88,3 +90,60 @@ require("telescope").load_extension("file_browser")
 require("telescope").load_extension("vim_bookmarks")
 -- require("telescope").load_extension("project")
 require("telescope").load_extension("fzf")
+
+-- private modified version of the dropdown theme
+-- with a square border
+
+Telescope_dropdown_theme = function(opts)
+  return require('telescope.themes').get_dropdown({
+    borderchars = {
+      { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+      prompt = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
+      results = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
+      preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+    },
+    layout_config = {
+      width = opts.width,
+      height = opts.height
+    },
+    winblend = 0,
+    prompt_title = false,
+    previewer = false
+  })
+end
+
+Telescope_dropdown_theme = function(opts)
+  return require('telescope.themes').get_dropdown({
+    borderchars = {
+      { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+      prompt = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
+      results = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
+      preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+    },
+    layout_config = {
+      width = opts.width,
+      height = opts.height
+    },
+    winblend = 0,
+    prompt_title = false,
+    previewer = false
+  })
+end
+
+Telescope_dropdown_preview_theme = function(opts)
+  return require('telescope.themes').get_dropdown({
+    borderchars = {
+      { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+      prompt = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
+      results = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
+      preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+    },
+    layout_config = {
+      width = opts.width,
+      height = opts.height,
+--      preview_width = opts.preview_width
+    },
+    winblend = 0,
+    prompt_title = true
+  })
+end

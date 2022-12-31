@@ -21,7 +21,7 @@ vim.g.features = {
   cokeline = { enable = true, module = 'setup_cokeline' },                -- cokeline
                                                                           -- diables lualine bufferbar
   neodev = { enable = false, module = '' }, -- setup_neodev
-  treesitter = { enable = true, module = 'setup_treesitter' },           -- use treesitter
+  treesitter = { enable = false, module = 'setup_treesitter' },           -- use treesitter
   -- playground is a special case, it is configured in the treesitter module and has no setup module of its own
   treesitter_playground = { enable = true, module = '' },
   telescope = { enable = true, module = 'setup_telescope'},               -- use telescope (+ various extensions)

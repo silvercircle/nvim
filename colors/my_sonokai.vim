@@ -634,7 +634,8 @@ if has('nvim')
 " }}}
 " nvim-telescope/telescope.nvim {{{
 call my_sonokai#highlight('TelescopeMatching', s:palette.green, s:palette.none, 'bold')
-highlight! link TelescopeBorder Grey
+call my_sonokai#highlight('TelescopeBorder', s:palette.bg4, s:palette.bg_dim, 'bold')
+call my_sonokai#highlight('TelescopeNormal', s:palette.fg, s:palette.bg_dim)
 highlight! link TelescopePromptPrefix Blue
 highlight! link TelescopeSelection DiffAdd
 " }}}

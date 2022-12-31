@@ -14,6 +14,8 @@ lua require('vim_options')
 " setup all default and optional plugins, based on g.features (see
 " config.lua)
 lua require('setup_plugins')
+lua require('features')
+
 run macros/justify.vim
 
 command AutowrapOn setlocal fo+=w | setlocal fo+=w

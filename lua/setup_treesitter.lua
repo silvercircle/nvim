@@ -10,7 +10,6 @@ parser_config.objc = {
     requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
   },
 }
- 
 --parser_config.scala = {
 --  install_info = {
 --  -- url can be Git repo or a local directory:
@@ -53,7 +52,6 @@ require("nvim-treesitter.configs").setup({
     additional_vim_regex_highlighting = { 'org' },
   },
   indent = {
-
     -- FIXME: Setting this to true will cause a huge memory leak when inserting lines
     -- probably related to: https://github.com/nvim-treesitter/nvim-treesitter/issues/2918
     enable = false
