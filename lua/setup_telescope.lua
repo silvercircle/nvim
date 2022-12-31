@@ -97,7 +97,6 @@ require("telescope").load_extension("fzf")
 Telescope_dropdown_theme = function(opts)
   return require('telescope.themes').get_dropdown({
     borderchars = {
-      { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
       prompt = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
       results = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
       preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
@@ -107,43 +106,7 @@ Telescope_dropdown_theme = function(opts)
       height = opts.height
     },
     winblend = 0,
-    prompt_title = false,
+    prompt_title = opts.title ~= nil and opts.title or 'Prompt',
     previewer = false
-  })
-end
-
-Telescope_dropdown_theme = function(opts)
-  return require('telescope.themes').get_dropdown({
-    borderchars = {
-      { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
-      prompt = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
-      results = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
-      preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
-    },
-    layout_config = {
-      width = opts.width,
-      height = opts.height
-    },
-    winblend = 0,
-    prompt_title = false,
-    previewer = false
-  })
-end
-
-Telescope_dropdown_preview_theme = function(opts)
-  return require('telescope.themes').get_dropdown({
-    borderchars = {
-      { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
-      prompt = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
-      results = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
-      preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
-    },
-    layout_config = {
-      width = opts.width,
-      height = opts.height,
---      preview_width = opts.preview_width
-    },
-    winblend = 0,
-    prompt_title = true
   })
 end

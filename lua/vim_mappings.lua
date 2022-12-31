@@ -9,25 +9,25 @@ map('n', "<A-p>", ":lua Neofavs()<CR>", opts)
 
 -- Telescope pickers
 -- Ctrl-e -> list of  buffers
-map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers(Telescope_dropdown_theme{width=0.4, height=0.3, sort_lastused=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})<CR>", opts)
+map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers(Telescope_dropdown_theme{title='Buffer list', width=0.4, height=0.3, sort_lastused=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})<CR>", opts)
 -- Ctrl-p -> old files
-map('n', "<C-p>", "<CMD>lua require'telescope.builtin'.oldfiles(Telescope_dropdown_theme{width=0.4, height=0.5})<CR>", opts)
+map('n', "<C-p>", "<CMD>lua require'telescope.builtin'.oldfiles(Telescope_dropdown_theme{title='Old files', width=0.4, height=0.5})<CR>", opts)
 -- Ctrl-f -> browse files in current working  directory
-map('n', "<leader>f", "<CMD>lua require'telescope.builtin'.find_files{Telescope_dropdown_theme{width=0.8, height=0.6, hidden=true, cwd=vim.fn.expand('%:p:h'), preview_width=0.3 }}<CR>", opts)
+map('n', "<leader>f", "<CMD>lua require'telescope.builtin'.find_files{hidden=true, cwd=vim.fn.expand('%:p:h'), layout_config={width=0.8, height=0.6,preview_width=0.7}}<CR>", opts)
 -- Alt-c -> command line  history
-map('n', "<A-c>", "<CMD>lua require'telescope.builtin'.command_history{layout_config={width=0.4, height=0.7}}<CR>", opts)
+map('n', "<A-c>", "<CMD>lua require'telescope.builtin'.command_history(Telescope_dropdown_theme{title='Command history', width=0.4, height=0.7})<CR>", opts)
 -- Alt-Shift-c -> commands
-map('n', "<A-C>", "<CMD>lua require'telescope.builtin'.commands{layout_config={width=0.6, height=0.7}}<CR>", opts)
+map('n', "<A-C>", "<CMD>lua require'telescope.builtin'.commands(Telescope_dropdown_theme{title='Commands', width=0.6, height=0.7})<CR>", opts)
 -- C-x-C-j Jumplist
-map('n', "<C-x><C-j>", "<CMD>lua require'telescope.builtin'.jumplist{fname_width=40, show_line=false, width=0.8, height=0.7, preview_width=0.6}<CR>", opts)
+map('n', "<C-x><C-j>", "<CMD>lua require'telescope.builtin'.jumplist{fname_width=40, show_line=false, layout_config={width=0.7, height=0.7, preview_width=0.6}}<CR>", opts)
 -- C-x-C-r Registers
-map('n', "<C-x><C-r>", "<CMD>lua require'telescope.builtin'.registers(Telescope_dropdown_theme{width=0.6, height=0.7})<CR>", opts)
+map('n', "<C-x><C-r>", "<CMD>lua require'telescope.builtin'.registers(Telescope_dropdown_theme{title='Registers',width=0.6, height=0.7})<CR>", opts)
 -- C-x-C-k Keymaps
 map('n', "<C-x><C-k>", "<CMD>lua require'telescope.builtin'.keymaps{layout_config={width=0.8, height=0.7}}<CR>", opts)
 -- Alt-f -> file  browser
 map('n', "<A-f>", "<CMD>lua require('telescope').extensions.file_browser.file_browser{hidden=true, path=vim.fn.expand('%:p:h'), layout_config={width=0.8, preview_width=0.6 } }<CR>", opts)
 -- Alt-s show spelling suggestions
-map('n', "<A-s>", "<CMD>lua require'telescope.builtin'.spell_suggest(Telescope_dropdown_theme{height=0.5,width=0.2})<CR>", opts)
+map('n', "<A-s>", "<CMD>lua require'telescope.builtin'.spell_suggest(Telescope_dropdown_theme{title='Spell suggestions', height=0.5,width=0.2})<CR>", opts)
 -- telescope-fuzzy-find in buffer
 map('n', "<C-x><C-f>", "<CMD>:lua require'telescope.builtin'.current_buffer_fuzzy_find{layout_config={width=0.8, preview_width=0.4} }<CR>", opts)
 -- telescope help tags

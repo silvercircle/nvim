@@ -46,6 +46,7 @@ function Quitapp()
     if vim.g.confirm_actions['exit'] == true then
       vim.ui.select({ 'Really exit?', 'Cancel operation' }, {
         prompt = 'Exit (no modified buffers)',
+        border="single",
         format_item = function(item)
           return MyPad(item, 44, ' ')
         end,

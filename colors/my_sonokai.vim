@@ -181,9 +181,8 @@ call my_sonokai#highlight('PmenuSbar', s:palette.none, s:palette.bg2)
 call my_sonokai#highlight('PmenuSel', s:palette.yellow, s:blue)
 highlight! link WildMenu PmenuSel
 call my_sonokai#highlight('PmenuThumb', s:palette.none, s:palette.grey)
-call my_sonokai#highlight('NormalFloat', s:palette.fg, s:darkestred)
-call my_sonokai#highlight('FloatBorder', s:palette.grey, s:palette.none)
-call my_sonokai#highlight('CocFloating', s:palette.fg, s:palette.none)
+call my_sonokai#highlight('NormalFloat', s:palette.fg, s:palette.bg_dim)
+call my_sonokai#highlight('FloatBorder', s:palette.grey_dim, s:palette.bg_dim)
 call my_sonokai#highlight('Question', s:palette.yellow, s:palette.none)
 if s:configuration.spell_foreground ==# 'none'
   call my_sonokai#highlight('SpellBad', s:palette.none, s:palette.none, 'undercurl', s:palette.red)
@@ -634,7 +633,7 @@ if has('nvim')
 " }}}
 " nvim-telescope/telescope.nvim {{{
 call my_sonokai#highlight('TelescopeMatching', s:palette.green, s:palette.none, 'bold')
-call my_sonokai#highlight('TelescopeBorder', s:palette.bg4, s:palette.bg_dim, 'bold')
+call my_sonokai#highlight('TelescopeBorder', s:palette.grey_dim, s:palette.bg_dim, 'bold')
 call my_sonokai#highlight('TelescopeNormal', s:palette.fg, s:palette.bg_dim)
 highlight! link TelescopePromptPrefix Blue
 highlight! link TelescopeSelection DiffAdd
@@ -1270,7 +1269,7 @@ hi! CmpItemMenuLSP        guifg=#cfa050
 hi link CmpItemMenuPath   CmpItemMenu
 
 call my_sonokai#highlight('CmpPmenu', s:palette.fg, s:palette.bg_dim)
-call my_sonokai#highlight('CmpPmenuBorder', s:palette.fg, s:palette.bg_dim)
+call my_sonokai#highlight('CmpPmenuBorder', s:palette.grey_dim, s:palette.bg_dim)
 highlight! CmpItemAbbr      guifg=#d0b1d0
 " gray
 highlight! CmpItemAbbrDeprecated    guibg=NONE gui=strikethrough guifg=#808080

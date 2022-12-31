@@ -87,7 +87,7 @@ function Neofavs()
       end,
     }):find()
   end
-  favselector(Telescope_dropdown_theme{width=0.5, height=0.4})
+  favselector(Telescope_dropdown_theme{width=0.5, height=0.4, title="Favorite folders"})
 end
 
 function Editfavs()

@@ -58,7 +58,7 @@ require("neo-tree").setup({
     --                       true  : |/    a    \/    b    \/    c    \|
     --                       false : |     a    \/    b    \/    c     |
     highlight_tab = "StatusLine",
-    highlight_tab_active = "StatusLin",
+    highlight_tab_active = "StatusLine",
     highlight_background = "StatusLine",
     highlight_separator = "StatusLine",
     highlight_separator_active = "StatusLine",
