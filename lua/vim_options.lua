@@ -66,13 +66,13 @@ o.foldcolumn = "5"
 -- https://github.com/nvim-treesitter/nvim-treesitter/issues/2918
 -- for now, I disabled treesitter-based folding
 
--- if vim.g.features['treesitter']['enable'] == true then
---  o.foldmethod = "expr"
---  o.foldexpr = "nvim_treesitter#foldexpr()"
--- else
+if vim.g.features['treesitter']['enable'] == true then
+  o.foldmethod = "expr"
+  o.foldexpr = "nvim_treesitter#foldexpr()"
+else
   o.foldmethod = "indent"
   o.foldexpr = ""
--- end
+end
 
 o.foldlevelstart = 99
 o.foldnestmax = 5
