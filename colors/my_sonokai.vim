@@ -33,7 +33,7 @@ endfunction
 
 function! my_sonokai#get_palette(style, colors_override)
   let palette = {
-        \ 'black':      ['#181819',   '232'],
+        \ 'black':      ['#18181c',   '232'],
         \ 'bg_dim':     ['#222327',   '232'],
         \ 'bg0':        ['#2c2e34',   '235'],
         \ 'bg1':        ['#33353f',   '236'],
@@ -58,7 +58,7 @@ function! my_sonokai#get_palette(style, colors_override)
         \ 'purple':     ['#b39df3',   '176'],
         \ 'grey':       ['#7f8490',   '246'],
         \ 'grey_dim':   ['#595f6f',   '240'],
-        \ 'neotreebg':  ['#1b1b25',   '232'],
+        \ 'neotreebg':  ['#181822',   '232'],
         \ 'none':       ['NONE',      'NONE']
         \ }
   return extend(palette, a:colors_override)
@@ -96,7 +96,7 @@ let s:darkred = ['#601010', 249]
 let s:darkestred = ['#161616', 249]
 let s:darkestblue = ['#10101a', 247]
 let s:string = ['#10801f', 231]
-let s:bg = ['#181822', 0]
+let s:bg = ['#14141c', 0]
 let s:statuslinebg = [ g:statuslinebg, 208 ]
 let s:palette.fg = [ '#a5a0b5', 1 ]
 let s:palette.grey = [ '#707070', 2 ]
@@ -114,29 +114,17 @@ let g:colors_name = 'my_sonokai'
 
 call my_sonokai#highlight("Braces", s:palette.red, s:palette.none)
 call my_sonokai#highlight('ScrollView', s:teal, s:blue)
-if s:configuration.transparent_background >= 1
-  call my_sonokai#highlight('Normal', s:palette.fg, s:bg)
-  call my_sonokai#highlight('Terminal', s:palette.fg, s:palette.none)
-  if s:configuration.show_eob
-    call my_sonokai#highlight('EndOfBuffer', s:palette.bg4, s:palette.none)
-  else
-    call my_sonokai#highlight('EndOfBuffer', s:palette.bg0, s:palette.none)
-  endif
-  call my_sonokai#highlight('Folded', s:palette.yellow, s:darkred, 'bold')
-  call my_sonokai#highlight('ToolbarLine', s:palette.fg, s:palette.none)
-  call my_sonokai#highlight('FoldColumn', s:palette.grey_dim, s:palette.neotreebg)
+
+call my_sonokai#highlight('Normal', s:palette.fg, s:bg)
+call my_sonokai#highlight('Terminal', s:palette.fg, s:palette.neotreebg)
+if s:configuration.show_eob
+  call my_sonokai#highlight('EndOfBuffer', s:palette.bg4, s:palette.none)
 else
-  call my_sonokai#highlight('Normal', s:palette.fg, s:palette.bg0)
-  call my_sonokai#highlight('Terminal', s:palette.fg, s:palette.bg0)
-  if s:configuration.show_eob
-    call my_sonokai#highlight('EndOfBuffer', s:palette.bg3, s:palette.bg0)
-  else
-    call my_sonokai#highlight('EndOfBuffer', s:palette.bg0, s:palette.bg0)
-  endif
-  call my_sonokai#highlight('Folded', s:palette.yellow, s:darkred, 'bold')
-  call my_sonokai#highlight('ToolbarLine', s:palette.fg, s:palette.bg2)
-  call my_sonokai#highlight('FoldColumn', s:palette.grey_dim, s:darkestred)
+  call my_sonokai#highlight('EndOfBuffer', s:palette.bg0, s:palette.none)
 endif
+call my_sonokai#highlight('Folded', s:palette.yellow, s:darkred, 'bold')
+call my_sonokai#highlight('ToolbarLine', s:palette.fg, s:palette.none)
+call my_sonokai#highlight('FoldColumn', s:palette.grey_dim, s:bg)
 call my_sonokai#highlight('SignColumn', s:palette.fg, s:palette.none)
 call my_sonokai#highlight('IncSearch', s:palette.yellow, s:darkpurple)
 call my_sonokai#highlight('Search', s:palette.yellow, s:blue)
@@ -1297,8 +1285,3 @@ call my_sonokai#highlight('GlancePreviewNormal', s:palette.fg, s:palette.black)
 call my_sonokai#highlight('GlancePreviewMatch', s:palette.fg, s:palette.black)
 
 call my_sonokai#highlight('NeoTreeNormalNC', s:palette.fg, s:palette.neotreebg)
-"augroup insertmode
-"  autocmd!
-"  autocmd InsertEnter * highlight CursorLine guibg=#2b1a1a
-"  autocmd InsertLeave * highlight CursorLine guibg=#33353f
-"augroup end

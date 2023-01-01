@@ -89,7 +89,7 @@
         filetype = "DressingSelect",
       },
       win_options = {
-        winblend = 10,
+        winblend = 0,
       },
       max_width = 80,
       max_height = 40,
@@ -108,7 +108,7 @@
       buf_options = { filetype = "DressingSelect" },
       win_options = {
         -- Window transparency (0-100)
-        winblend = 10,
+        winblend = 0,
       },
 
       -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)

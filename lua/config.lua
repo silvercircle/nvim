@@ -124,8 +124,8 @@ local LuaLineColors = {
 
 -- cokeline colors for the buffer line
 local cokeline_colors = {
---  bg = '#005f87',
   bg = vim.g.statuslinebg,
+--  bg = '#202050',
   focus_bg = '#afdf00',
   fg = LuaLineColors.gray7,
   focus_fg = '#202020'

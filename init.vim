@@ -91,6 +91,17 @@ augroup filetypes
   autocmd FileType org,orgagenda silent! setlocal conceallevel=2 | silent! setlocal concealcursor='nc' | silent! setlocal tw=105 | setlocal ff=unix | setlocal fo+=nwqt | setlocal spell spelllang=en_us,de_de | setlocal fdm=manual
 augroup end
 
+function! SetBG()
+  if &buftype == 'terminal' || &filetype == 'Outline'
+    setlocal winhl=Normal:NeoTreeNormalNC
+  endif
+endfunction
+
+augroup WinColors
+  autocmd!
+  autocmd FileType Outline setlocal winhl=Normal:NeoTreeNormalNC
+augroup end
+
 " create a view (save folding state and cursor position)
 function Mkview()
   if expand('%') != '' && &buftype !~ 'nofile'
@@ -164,6 +175,7 @@ function! TermToggle(height)
             set signcolumn=yes
             set winfixheight
             set nocursorline
+            set winhl=Normal:NeoTreeNormalNC
         endtry
         startinsert!
         let g:term_win = win_getid()
