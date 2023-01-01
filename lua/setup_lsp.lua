@@ -297,12 +297,12 @@ do
     border = "single",
   })
 
-  vim.lsp.handlers['workspace/diagnostic/refresh'] = function(_, _, ctx)
-    local ns = vim.lsp.diagnostic.get_namespace(ctx.client_id)
-    local bufnr = vim.api.nvim_get_current_buf()
-    vim.diagnostic.reset(ns, bufnr)
-    return true
-  end
+--  vim.lsp.handlers['workspace/diagnostic/refresh'] = function(_, _, ctx)
+--    local ns = vim.lsp.diagnostic.get_namespace(ctx.client_id)
+--    local bufnr = vim.api.nvim_get_current_buf()
+--    vim.diagnostic.reset(ns, bufnr)
+--    return true
+--  end
 
   vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
     local bufnr, winnr = lsp_handlers_hover(err, result, ctx, config)
@@ -413,7 +413,7 @@ glance.setup({
     width = 0.25, -- 33% width relative to the active window, min 0.1, max 0.5
   },
   theme = { -- This feature might not work properly in nvim-0.7.2
-    enable = true, -- Will generate colors for the plugin based on your current colorscheme
+    enable = false, -- Will generate colors for the plugin based on your current colorscheme
     mode = "darken", -- 'brighten'|'darken'|'auto', 'auto' will set mode based on the brightness of your colorscheme
   },
   mappings = {

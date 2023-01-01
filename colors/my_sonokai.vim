@@ -48,7 +48,8 @@ function! my_sonokai#get_palette(style, colors_override)
         \ 'diff_blue':  ['#354157',   '17'],
         \ 'diff_yellow':['#4e432f',   '54'],
         \ 'fg':         ['#e2e2e3',   '250'],
-        \ 'red':        ['#fc5d7c',   '203'],
+        \ 'red':        ['#cc2d3c',   '203'],
+        \ 'palered':    ['#9c2d4c',   '203'],
         \ 'orange':     ['#c36630',   '215'],
         \ 'yellow':     ['#e7c664',   '179'],
         \ 'darkyellow': ['#a78624',   '180'],
@@ -57,6 +58,7 @@ function! my_sonokai#get_palette(style, colors_override)
         \ 'purple':     ['#b39df3',   '176'],
         \ 'grey':       ['#7f8490',   '246'],
         \ 'grey_dim':   ['#595f6f',   '240'],
+        \ 'neotreebg':  ['#1b1b25',   '232'],
         \ 'none':       ['NONE',      'NONE']
         \ }
   return extend(palette, a:colors_override)
@@ -95,7 +97,7 @@ let s:darkestred = ['#161616', 249]
 let s:darkestblue = ['#10101a', 247]
 let s:string = ['#10801f', 231]
 let s:bg = ['#181822', 0]
-let s:statuslinebg = [ '#262626', 208 ]
+let s:statuslinebg = [ g:statuslinebg, 208 ]
 let s:palette.fg = [ '#a5a0b5', 1 ]
 let s:palette.grey = [ '#707070', 2 ]
 let s:pmenubg = [ '#241a20', 156 ]
@@ -122,7 +124,7 @@ if s:configuration.transparent_background >= 1
   endif
   call my_sonokai#highlight('Folded', s:palette.yellow, s:darkred, 'bold')
   call my_sonokai#highlight('ToolbarLine', s:palette.fg, s:palette.none)
-  call my_sonokai#highlight('FoldColumn', s:palette.grey_dim, s:darkestred)
+  call my_sonokai#highlight('FoldColumn', s:palette.grey_dim, s:palette.neotreebg)
 else
   call my_sonokai#highlight('Normal', s:palette.fg, s:palette.bg0)
   call my_sonokai#highlight('Terminal', s:palette.fg, s:palette.bg0)
@@ -287,7 +289,7 @@ else
   call my_sonokai#highlight('Identifier', s:palette.orange, s:palette.none)
   call my_sonokai#highlight('Constant', s:palette.orange, s:palette.none)
 endif
-call my_sonokai#highlight('PreProc', s:palette.grey, s:palette.none, 'bold')
+call my_sonokai#highlight('PreProc', s:palette.darkyellow, s:palette.none, 'bold')
 call my_sonokai#highlight('PreCondit', s:palette.red, s:palette.none)
 call my_sonokai#highlight('Include', s:palette.green, s:palette.none)
 call my_sonokai#highlight('Keyword', s:blue, s:palette.none, 'bold')
@@ -300,9 +302,9 @@ call my_sonokai#highlight('Statement', s:palette.blue, s:palette.none, 'bold')
 call my_sonokai#highlight('Macro', s:palette.purple, s:palette.none)
 call my_sonokai#highlight('Error', s:palette.red, s:palette.none)
 call my_sonokai#highlight('Label', s:palette.purple, s:palette.none)
-call my_sonokai#highlight('Special', s:palette.purple, s:palette.none)
+call my_sonokai#highlight('Special', s:darkpurple, s:palette.none, 'bold')
 call my_sonokai#highlight('SpecialChar', s:palette.purple, s:palette.none)
-call my_sonokai#highlight('Boolean', s:palette.red, s:palette.none)
+call my_sonokai#highlight('Boolean', s:palette.palered, s:palette.none)
 call my_sonokai#highlight('String', s:string, s:palette.none)
 call my_sonokai#highlight('Character', s:palette.yellow, s:palette.none)
 call my_sonokai#highlight('Number', s:palette.purple, s:palette.none, 'bold')
@@ -328,6 +330,7 @@ call my_sonokai#highlight('Underlined', s:palette.none, s:palette.none, 'underli
 call my_sonokai#highlight('Fg', s:palette.fg, s:palette.none)
 call my_sonokai#highlight('Grey', s:palette.grey, s:palette.none)
 call my_sonokai#highlight('Red', s:palette.red, s:palette.none)
+call my_sonokai#highlight('PaleRed', s:palette.palered, s:palette.none)
 call my_sonokai#highlight('Orange', s:palette.orange, s:palette.none)
 call my_sonokai#highlight('OrangeBold', s:palette.orange, s:palette.none, 'bold')
 call my_sonokai#highlight('Yellow', s:palette.yellow, s:palette.none)
@@ -447,7 +450,7 @@ call my_sonokai#highlight('TSWarning', s:palette.bg0, s:palette.yellow, 'bold')
 call my_sonokai#highlight('TSDanger', s:palette.bg0, s:palette.red, 'bold')
 highlight! link TSAnnotation BlueItalic
 highlight! link TSAttribute BlueItalic
-highlight! link TSBoolean RedBold
+highlight! link TSBoolean PaleRed
 highlight! link TSCharacter Yellow
 highlight! link TSComment Comment
 highlight! link TSConditional Conditional
@@ -463,7 +466,7 @@ highlight! link TSFuncMacro TealBold
 highlight! link TSFunction Teal
 highlight! link TSInclude Green
 highlight! link TSKeyword BlueBold
-highlight! link TSKeywordFunction Red
+highlight! link TSKeywordFunction PaleRed
 highlight! link TSKeywordOperator Red
 highlight! link TSLabel Red
 highlight! link TSMethod TealBold
@@ -1289,3 +1292,13 @@ highlight!      CmpItemKindText          guibg=NONE guifg=#D4D4D4
 highlight!      CmpItemKindUnit          guibg=NONE guifg=#D4D4D4
 highlight!      CmpItemKindConstant      guibg=NONE guifg=#409F31
 highlight!      CmpItemKindSnippet       guibg=NONE guifg=#E3E300
+
+call my_sonokai#highlight('GlancePreviewNormal', s:palette.fg, s:palette.black)
+call my_sonokai#highlight('GlancePreviewMatch', s:palette.fg, s:palette.black)
+
+call my_sonokai#highlight('NeoTreeNormalNC', s:palette.fg, s:palette.neotreebg)
+"augroup insertmode
+"  autocmd!
+"  autocmd InsertEnter * highlight CursorLine guibg=#2b1a1a
+"  autocmd InsertLeave * highlight CursorLine guibg=#33353f
+"augroup end

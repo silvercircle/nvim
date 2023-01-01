@@ -75,9 +75,7 @@ function Neofavs()
           if selection[1] ~= nil and #selection[1] > 0 then
             for _,v in pairs(favs) do
               if string.sub(selection[1], 1, #v['title']) == v['title'] then
-                if vim.g.features['neotree']['enable'] == true then
-                  vim.cmd("Neotree dir=" .. v['dir'])
-                end
+                vim.cmd("Neotree dir=" .. v['dir'])
                 return
               end
             end

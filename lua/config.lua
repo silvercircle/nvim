@@ -21,7 +21,7 @@ vim.g.features = {
   cokeline = { enable = true, module = 'setup_cokeline' },                -- cokeline
                                                                           -- diables lualine bufferbar
   neodev = { enable = false, module = '' }, -- setup_neodev
-  treesitter = { enable = false, module = 'setup_treesitter' },           -- use treesitter
+  treesitter = { enable = true, module = 'setup_treesitter' },           -- use treesitter
   -- playground is a special case, it is configured in the treesitter module and has no setup module of its own
   treesitter_playground = { enable = true, module = '' },
   telescope = { enable = true, module = 'setup_telescope'},               -- use telescope (+ various extensions)
@@ -91,12 +91,15 @@ g.loaded_gzip = 1
 
 g.filetree_width = 44    -- width for the neotree and nvim-tree plugins
 g.outline_width = 36     -- split width for symbols-outline
+g.float_winblend = 5
 
 -- some tweaks
 vim.g.cokeline_filename_width = 20             -- max filename length on cokeline tabs
 vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' for the integrated theme 
                                                -- or any valid lualine theme name (e.g. 'dracula')
--- lualine internal theme
+
+vim.g.statuslinebg = '#262636'
+                                               -- lualine internal theme
 -- this is used when g.lualine_theme is set to 'internal'. otherwise, the variable can specify 
 -- a builtin lualine theme (e.g. 'dracula')
 
@@ -116,14 +119,15 @@ local LuaLineColors = {
   gray5          = '#606060',
   gray7          = '#9e9e9e',
   gray10         = '#f0f0f0',
+  statuslinebg   = vim.g.statuslinebg
 }
 
 -- cokeline colors for the buffer line
 local cokeline_colors = {
 --  bg = '#005f87',
-  bg = '#606060',
+  bg = vim.g.statuslinebg,
   focus_bg = '#afdf00',
-  fg = '#e0e0e0',
+  fg = LuaLineColors.gray7,
   focus_fg = '#202020'
 }
 
@@ -133,20 +137,20 @@ function Lualine_internal_theme()
     normal = {
       a = { fg = LuaLineColors.darkestgreen, bg = LuaLineColors.brightgreen, gui = 'bold' },
       b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
-      c = { fg = LuaLineColors.gray7, bg = LuaLineColors.gray2 },
+      c = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
     },
     insert = {
       a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' },
       b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
       -- c = { fg = LuaLineColors.mediumcyan, bg = LuaLineColors.darkestblue },
-      c = { fg = LuaLineColors.gray7, bg = LuaLineColors.gray2 },
+      c = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
     },
     visual = { a = { fg = LuaLineColors.darkred, bg = LuaLineColors.brightorange, gui = 'bold' } },
     replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' } },
     inactive = {
-      a = { fg = LuaLineColors.gray1, bg = LuaLineColors.gray5, gui = 'bold' },
-      b = { fg = LuaLineColors.gray1, bg = LuaLineColors.gray5 },
-      c = { bg = LuaLineColors.gray1, fg = LuaLineColors.gray5 },
+      a = { fg = LuaLineColors.gray1, bg = LuaLineColors.statuslinebg, gui = 'bold' },
+      b = { fg = LuaLineColors.gray1, bg = LuaLineColors.statuslinebg },
+      c = { bg = LuaLineColors.statuslinebg, fg = LuaLineColors.gray1 },
     },
   }
 end

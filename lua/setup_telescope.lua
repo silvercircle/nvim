@@ -30,7 +30,7 @@ require("telescope").setup({
       width = 0.9,
       height = 0.6
     },
-    winblend = 0,
+    winblend = vim.g.float_winblend,
     borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
     color_devicons = true,
     disable_devicons = false,
@@ -88,7 +88,6 @@ require("telescope").setup({
 -- you need to call load_extension, somewhere after setup function:
 require("telescope").load_extension("file_browser")
 require("telescope").load_extension("vim_bookmarks")
--- require("telescope").load_extension("project")
 require("telescope").load_extension("fzf")
 
 -- private modified version of the dropdown theme
@@ -105,8 +104,9 @@ Telescope_dropdown_theme = function(opts)
       width = opts.width,
       height = opts.height
     },
-    winblend = 0,
+    winblend = vim.g.float_winblend,
     prompt_title = opts.title ~= nil and opts.title or 'Prompt',
-    previewer = false
+    previewer = false,
+    sort_lastused = true
   })
 end

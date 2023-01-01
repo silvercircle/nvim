@@ -79,6 +79,7 @@ cmp.setup({
       -- border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' }, a rounded
       -- variant
       border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }, -- square
+      winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
     },
     completion = {
       border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
