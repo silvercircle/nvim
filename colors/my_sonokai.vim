@@ -48,8 +48,8 @@ function! my_sonokai#get_palette(style, colors_override)
         \ 'diff_blue':  ['#354157',   '17'],
         \ 'diff_yellow':['#4e432f',   '54'],
         \ 'fg':         ['#e2e2e3',   '250'],
-        \ 'red':        ['#cc2d3c',   '203'],
-        \ 'palered':    ['#9c2d4c',   '203'],
+        \ 'red':        ['#cc2d4c',   '203'],
+        \ 'palered':    ['#8b2d3c',   '203'],
         \ 'orange':     ['#c36630',   '215'],
         \ 'yellow':     ['#e7c664',   '179'],
         \ 'darkyellow': ['#a78624',   '180'],
@@ -89,7 +89,7 @@ let s:last_modified = '2022-12-23T08:46:17+0100'
 let g:sonokai_loaded_file_types = []
 let s:darkbg = ['#111118', 237]
 let s:teal = ['#108080', 238]
-let s:blue = ['#5a4acf', 239]
+let s:blue = ['#5a6acf', 239]
 let s:darkpurple = ['#803090', 240]
 let s:purple = ['#c030c0', 241]
 let s:darkred = ['#601010', 249]
@@ -124,7 +124,7 @@ else
 endif
 call my_sonokai#highlight('Folded', s:palette.yellow, s:darkred, 'bold')
 call my_sonokai#highlight('ToolbarLine', s:palette.fg, s:palette.none)
-call my_sonokai#highlight('FoldColumn', s:palette.grey_dim, s:bg)
+call my_sonokai#highlight('FoldColumn', s:palette.bg4, s:bg)
 call my_sonokai#highlight('SignColumn', s:palette.fg, s:palette.none)
 call my_sonokai#highlight('IncSearch', s:palette.yellow, s:darkpurple)
 call my_sonokai#highlight('Search', s:palette.yellow, s:blue)
@@ -202,7 +202,7 @@ else
   call my_sonokai#highlight('TabLineFill', s:palette.grey, s:palette.bg1)
   call my_sonokai#highlight('TabLineSel', s:palette.bg0, s:palette.bg_red)
 endif
-call my_sonokai#highlight('VertSplit', s:statuslinebg, s:statuslinebg)
+call my_sonokai#highlight('VertSplit', s:statuslinebg, s:palette.neotreebg)
 highlight! link WinSeparator VertSplit
 call my_sonokai#highlight('Visual', s:palette.none, s:palette.bg3)
 call my_sonokai#highlight('VisualNOS', s:palette.none, s:palette.bg3, 'underline')
@@ -318,7 +318,7 @@ call my_sonokai#highlight('Underlined', s:palette.none, s:palette.none, 'underli
 call my_sonokai#highlight('Fg', s:palette.fg, s:palette.none)
 call my_sonokai#highlight('Grey', s:palette.grey, s:palette.none)
 call my_sonokai#highlight('Red', s:palette.red, s:palette.none)
-call my_sonokai#highlight('PaleRed', s:palette.palered, s:palette.none)
+call my_sonokai#highlight('PaleRed', s:palette.palered, s:palette.none, 'bold')
 call my_sonokai#highlight('Orange', s:palette.orange, s:palette.none)
 call my_sonokai#highlight('OrangeBold', s:palette.orange, s:palette.none, 'bold')
 call my_sonokai#highlight('Yellow', s:palette.yellow, s:palette.none)
@@ -455,7 +455,7 @@ highlight! link TSFunction Teal
 highlight! link TSInclude Green
 highlight! link TSKeyword BlueBold
 highlight! link TSKeywordFunction PaleRed
-highlight! link TSKeywordOperator Red
+highlight! link TSKeywordOperator RedBold
 highlight! link TSLabel Red
 highlight! link TSMethod TealBold
 highlight! link TSNamespace DarkPurpleBold
@@ -914,7 +914,8 @@ highlight! link texNewCmd Orange
 highlight! link texCmdName BlueBold
 highlight! link texBeginEnd Red
 highlight! link texBeginEndName Green
-highlight! link texDocType RedItalic
+highlight! link texDocType Type
+highlight! link texDocZone BlueBold
 highlight! link texDocTypeArgs Orange
 highlight! link texInputFile Green
 " }}}
@@ -1285,3 +1286,8 @@ call my_sonokai#highlight('GlancePreviewNormal', s:palette.fg, s:palette.black)
 call my_sonokai#highlight('GlancePreviewMatch', s:palette.fg, s:palette.black)
 
 call my_sonokai#highlight('NeoTreeNormalNC', s:palette.fg, s:palette.neotreebg)
+
+" Org mode
+"
+call my_sonokai#highlight('OrgTSHeadlineLevel1', s:blue, s:palette.none, 'bold')
+hi! link OrgTSHeadlineLevel2 OrgTSHeadlineLevel1
