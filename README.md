@@ -123,7 +123,7 @@ It is a customized variant of the [Sonokai theme](https://github.com/sainnhe/son
 
 ## How it looks?
 
-![Screenshot](https://i.imgur.com/pg4hdkL.png)
+![Screenshot](https://i.imgur.com/ok0iuC0.png)
 
 ## List of plugins in use by this configuration.
 
