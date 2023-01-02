@@ -11,8 +11,11 @@ return require("packer").startup(function(use)
       use 'williamboman/mason.nvim'
       use 'williamboman/mason-lspconfig.nvim'
     end
-    --use 'neovim/nvim-lspconfig'
-    use '~/.config/nvim/local_plugin/my_nvim-lspconfig'
+    if vim.g.use_private_forks == true then
+      use '~/.config/nvim/local_plugin/my_nvim-lspconfig'
+    else
+      use 'neovim/nvim-lspconfig'
+    end
     use 'onsails/lspkind-nvim'
     -- the following two belong to the lsp group. They are useless without the LSP client
     use 'j-hui/fidget.nvim'
@@ -32,7 +35,11 @@ return require("packer").startup(function(use)
   if vim.g.features['cmp']['enable'] == true then
     use 'L3MON4D3/LuaSnip'
     -- use the local version of nvim-cmp. Makes tweaking easier.
-    use '~/.config/nvim/local_plugin/nvim-cmp'
+    if vim.g.use_private_forks == true then
+      use '~/.config/nvim/local_plugin/nvim-cmp'
+    else
+      use 'hrsh7th/nvim-cmp'
+    end
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-path'
@@ -67,7 +74,11 @@ return require("packer").startup(function(use)
     use 'nvim-tree/nvim-tree.lua'
   end
   if vim.g.features['neotree']['enable'] == true then
-    use { "nvim-neo-tree/neo-tree.nvim", branch = "v2.x" }
+    if vim.g.use_private_forks == true then
+      use { 'silvercircle/neo-tree.nvim', branch = "v2.x" }
+    else
+      use { 'nvim-neo-tree/neo-tree.nvim', branch = "v2.x" }
+    end
   end
   -- treesitter
   if vim.g.features["treesitter"]['enable'] == true then

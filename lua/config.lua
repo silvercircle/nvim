@@ -36,7 +36,7 @@ vim.g.features = {
   nvimtree = { enable = false, module = 'setup_nvim-tree' },               -- nvim-tree file explorer
   null_ls = { enable = false, module = 'setup_null_ls' },                 -- null-ls for linting, formatting and more lsp features
   todo = { enable = true, module = 'setup_todo' },
-  aerial = { enable = true, module = 'setup_aerial' }
+  aerial = { enable = false, module = 'setup_aerial' }
 }
 
 local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'
@@ -67,6 +67,16 @@ vim.g.lsp_server_bin = {
   yamlls = masonbinpath .. 'yaml-language-server',
   als = masonbinpath .. 'ada_language_server'
 }
+
+-- ugly but working hack. If $NVIM_USE_PRIVATE_FORKS is set (to anything), we will use private
+-- forks of some plugins. 
+-- Reason: I'm just experimenting with said plugins. 
+-- This hack will go away without notice.
+vim.g.use_private_forks = false
+
+if os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil then
+  vim.g.use_private_forks = true
+end
 
 vim.g.confirm_actions = {
   exit = true,            -- ALWAYS confirm force-close (Alt-q), even when no buffers are modified

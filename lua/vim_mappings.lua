@@ -4,6 +4,7 @@ local opts = {noremap = true, silent = true}
 
 -- Ctrl-Shift-E - neo-tree open buffers in current dir
 map('n', "<C-T>", ":Neotree buffers position=float<CR>", opts )
+map('n', "<C-G>", ":Neotree git_status position=float<CR>", opts )
 map('n', "<f12>", ":lua Neofavs()<CR>", opts)
 map('n', "<A-p>", ":lua Neofavs()<CR>", opts)
 

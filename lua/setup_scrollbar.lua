@@ -1,3 +1,7 @@
+-- require("scrollbar.handlers.search").setup({
+--     override_lens = function() end,
+-- })
+
 require("scrollbar").setup({
   show = true,
   show_in_active_only = false,

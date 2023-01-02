@@ -30,6 +30,9 @@ require("hlslens").setup({
 --  calm_down = true,
 --  nearest_float_when = "always",
 --  nearest_only = false,
+  build_position_cb = function(plist, _, _, _)
+    require("scrollbar.handlers.search").handler.show(plist.start_pos)
+  end,--
 })
 
 -- setup all optional features according to vim.g.features (see config.lua)
@@ -38,4 +41,8 @@ for _, v in pairs(vim.g.features) do
   if v['enable'] == true and #v['module'] > 0 then
     require(v['module'])
   end
+end
+
+if vim.g.use_private_forks == true then
+  print("Warning: Using private forks of some plugins")
 end
