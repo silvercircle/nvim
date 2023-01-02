@@ -1,6 +1,9 @@
 -- setup cokeline plugin. It provides a buffer line (aka tab-bar)
 require('cokeline').setup({
   -- Cokeline_theme() is defined in config.lua
+  buffers = {
+    filter_visible = function(buffer) return not(buffer['type'] == 'terminal' and true or false) end
+  },
   default_hl = Cokeline_theme().hl,
   -- header for the neo-tree sidebar
   sidebar = {

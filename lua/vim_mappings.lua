@@ -137,6 +137,9 @@ map('n', "tds", ":lua require'telescope.builtin'.lsp_dynamic_workspace_symbols{w
 map('n', "tws", ":lua require'telescope.builtin'.lsp_workspace_symbols{winblend=0, fname_width=80,layout_config={height=0.6, width=0.9,preview_width=0.3}}<CR>", opts)
 map('n', "ti", ":lua require'telescope.builtin'.lsp_implementations{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
 map('n', "te", ":lua require'telescope.builtin'.diagnostics{bufnr=0, winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
+map('n', "tgs", ":lua require'telescope.builtin'.git_status{layout_config={height=0.8, width=0.8}}<CR>", opts)
+map('n', "tgc", ":lua require'telescope.builtin'.git_commits{layout_config={height=0.8, width=0.8}}<CR>", opts)
+
 
 map('n', "TT", ":lua vim.lsp.buf.type_definition()<CR>", opts)
 

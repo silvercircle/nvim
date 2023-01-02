@@ -110,3 +110,21 @@ Telescope_dropdown_theme = function(opts)
     sort_lastused = true
   })
 end
+
+Telescope_preview_dropdown_theme = function(opts)
+  return require('telescope.themes').get_dropdown({
+    borderchars = {
+      prompt = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
+      results = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
+      preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+    },
+    layout_config = {
+      width = opts.width,
+      height = opts.height,
+      preview_height=0.5
+    },
+    winblend = vim.g.float_winblend,
+    prompt_title = opts.title ~= nil and opts.title or 'Prompt',
+    sort_lastused = true
+  })
+end
