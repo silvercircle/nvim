@@ -105,7 +105,6 @@ o.sidescrolloff = 5
 o.sidescroll = 5
 o.conceallevel = 0
 o.clipboard = "unnamedplus"
-o.cmdheight = 0
 -- autogroups
 local agroup_enter = vim.api.nvim_create_augroup("enter", {})
 local agroup_files = vim.api.nvim_create_augroup("files", {})

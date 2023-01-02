@@ -7,6 +7,8 @@
 -- I currently do not use optional or conditional packer features. That might change at some point.
 -- To add or remove a plugin, just change its enable status
 
+-- NOTE: the environment variable NVIM_USE_PRIVATE_FORKS must be set (to anything) in order to use the private
+-- forks of some plugins. 
 vim.g.features = {
   lsp = { enable = true, module = 'setup_lsp' },                          -- mason, lspconfig, fidget Glance
   -- mason is part of the lsp plugin group, but optional. it has no setup module of its own - setup_lsp.lua

@@ -23,7 +23,7 @@ require("nvim-web-devicons").setup({
   color_icons = true,
   -- globally enable default icons (default to false)
   -- will get overriden by `get_icons` option
-  default = true,
+  default = true
 })
 
 require("hlslens").setup({
@@ -32,7 +32,7 @@ require("hlslens").setup({
 --  nearest_only = false,
   build_position_cb = function(plist, _, _, _)
     require("scrollbar.handlers.search").handler.show(plist.start_pos)
-  end,--
+  end
 })
 
 -- setup all optional features according to vim.g.features (see config.lua)
@@ -44,5 +44,5 @@ for _, v in pairs(vim.g.features) do
 end
 
 if vim.g.use_private_forks == true then
-  print("Warning: Using private forks of some plugins")
+  vim.notify("Warning: Using private forks of some plugins", 3)
 end

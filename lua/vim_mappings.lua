@@ -10,9 +10,9 @@ map('n', "<A-p>", ":lua Neofavs()<CR>", opts)
 
 -- Telescope pickers
 -- Ctrl-e -> list of  buffers
-map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers(Telescope_dropdown_theme{title='Buffer list', width=0.4, height=0.3, sort_lastused=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})<CR>", opts)
+map('n', "<C-e>", "<CMD>lua require'telescope.builtin'.buffers(Telescope_dropdown_theme{title='Buffer list', width=0.6, height=0.3, sort_lastused=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})<CR>", opts)
 -- Ctrl-p -> old files
-map('n', "<C-p>", "<CMD>lua require'telescope.builtin'.oldfiles(Telescope_dropdown_theme{title='Old files', width=0.4, height=0.5})<CR>", opts)
+map('n', "<C-p>", "<CMD>lua require'telescope.builtin'.oldfiles(Telescope_dropdown_theme{title='Old files', width=0.6, height=0.5})<CR>", opts)
 -- Ctrl-f -> browse files in current working  directory
 map('n', "<leader>f", "<CMD>lua require'telescope.builtin'.find_files{hidden=true, cwd=vim.fn.expand('%:p:h'), layout_config={width=0.8, height=0.6,preview_width=0.7}}<CR>", opts)
 -- Alt-c -> command line  history
