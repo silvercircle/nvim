@@ -21,6 +21,7 @@ return require("packer").startup(function(use)
     if vim.g.features['outline']['enable'] == true then
       use 'silvercircle/symbols-outline.nvim'
     end
+    -- same for lspsaga
     if vim.g.features['lspsaga']['enable'] == true then
       use 'glepnir/lspsaga.nvim'
     end

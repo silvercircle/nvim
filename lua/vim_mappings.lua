@@ -114,7 +114,7 @@ map('n', "<C-x><C-h>", ':nohl<CR>', opts)
 map('i', "<C-x><C-h>", '<c-o>:nohl<CR>', opts)
 
 -- various
-map('i', "<C-y>-", "—", opts )        -- emdash
+map('i', "<C-y>-", "—", opts)        -- emdash
 map('i', "<C-y>\"", "„”", opts)       -- typographic quotes („”)
 
 -- close window
@@ -130,13 +130,13 @@ map('n', "GD", ":Glance definitions<CR>", opts)       -- goto definition(s)
 map('n', "GR", ":Glance references<CR>", opts)        -- show references
 
 -- Telescope LSP code navigation and diagnostics
-map('n', "TD", ":lua require'telescope.builtin'.lsp_definitions{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
-map('n', "TR", ":lua require'telescope.builtin'.lsp_references{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
-map('n', "TS", ":lua require'telescope.builtin'.lsp_document_symbols{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
-map('n', "TW", ":lua require'telescope.builtin'.lsp_workspace_symbols{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
-map('n', "TI", ":lua require'telescope.builtin'.lsp_implementations{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
-map('n', "TW", ":lua require'telescope.builtin'.diagnostics{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
-map('n', "TE", ":lua require'telescope.builtin'.diagnostics{bufnr=0, winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
+map('n', "td", ":lua require'telescope.builtin'.lsp_definitions{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
+map('n', "tr", ":lua require'telescope.builtin'.lsp_references{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
+map('n', "ts", ":lua require'telescope.builtin'.lsp_document_symbols{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
+map('n', "tds", ":lua require'telescope.builtin'.lsp_dynamic_workspace_symbols{winblend=0, fname_width=80,layout_config={height=0.6, width=0.9,preview_width=0.3}}<CR>", opts)
+map('n', "tws", ":lua require'telescope.builtin'.lsp_workspace_symbols{winblend=0, fname_width=80,layout_config={height=0.6, width=0.9,preview_width=0.3}}<CR>", opts)
+map('n', "ti", ":lua require'telescope.builtin'.lsp_implementations{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
+map('n', "te", ":lua require'telescope.builtin'.diagnostics{bufnr=0, winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
 
 map('n', "TT", ":lua vim.lsp.buf.type_definition()<CR>", opts)
 

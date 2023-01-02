@@ -8,6 +8,7 @@
 " Website:      https://github.com/sainnhe/sonokai/
 " License:      MIT
 " -----------------------------------------------------------------------------
+" TODO: convert this to lua at some point
 
 function! my_sonokai#get_configuration()
   return {
@@ -31,38 +32,37 @@ function! my_sonokai#get_configuration()
         \ }
 endfunction
 
-function! my_sonokai#get_palette(style, colors_override)
-  let palette = {
-        \ 'black':      ['#18181c',   '232'],
-        \ 'bg_dim':     ['#222327',   '232'],
-        \ 'bg0':        ['#2c2e34',   '235'],
-        \ 'bg1':        ['#33353f',   '236'],
-        \ 'bg2':        ['#363944',   '236'],
-        \ 'bg3':        ['#3b3e48',   '237'],
-        \ 'bg4':        ['#414550',   '237'],
-        \ 'bg_red':     ['#ff6077',   '203'],
-        \ 'diff_red':   ['#55393d',   '52'],
-        \ 'bg_green':   ['#a7df78',   '107'],
-        \ 'diff_green': ['#394634',   '22'],
-        \ 'bg_blue':    ['#85d3f2',   '110'],
-        \ 'diff_blue':  ['#354157',   '17'],
-        \ 'diff_yellow':['#4e432f',   '54'],
-        \ 'fg':         ['#e2e2e3',   '250'],
-        \ 'red':        ['#cc2d4c',   '203'],
-        \ 'palered':    ['#8b2d3c',   '203'],
-        \ 'orange':     ['#c36630',   '215'],
-        \ 'yellow':     ['#e7c664',   '179'],
-        \ 'darkyellow': ['#a78624',   '180'],
-        \ 'green':      ['#9ed072',   '107'],
-        \ 'blue':       ['#76cce0',   '110'],
-        \ 'purple':     ['#b39df3',   '176'],
-        \ 'grey':       ['#7f8490',   '246'],
-        \ 'grey_dim':   ['#595f6f',   '240'],
-        \ 'neotreebg':  ['#181822',   '232'],
-        \ 'none':       ['NONE',      'NONE']
-        \ }
-  return extend(palette, a:colors_override)
-endfunction
+let palette = {
+      \ 'black':      ['#18181c',   '232'],
+      \ 'bg_dim':     ['#222327',   '232'],
+      \ 'bg0':        ['#2c2e34',   '235'],
+      \ 'bg1':        ['#33353f',   '236'],
+      \ 'bg2':        ['#363944',   '236'],
+      \ 'bg3':        ['#3b3e48',   '237'],
+      \ 'bg4':        ['#414550',   '237'],
+      \ 'bg_red':     ['#ff6077',   '203'],
+      \ 'diff_red':   ['#55393d',   '52'],
+      \ 'bg_green':   ['#a7df78',   '107'],
+      \ 'diff_green': ['#394634',   '22'],
+      \ 'bg_blue':    ['#85d3f2',   '110'],
+      \ 'diff_blue':  ['#354157',   '17'],
+      \ 'diff_yellow':['#4e432f',   '54'],
+      \ 'fg':         ['#e2e2e3',   '250'],
+      \ 'red':        ['#cc2d4c',   '203'],
+      \ 'palered':    ['#8b2d3c',   '203'],
+      \ 'orange':     ['#c36630',   '215'],
+      \ 'yellow':     ['#e7c664',   '179'],
+      \ 'darkyellow': ['#a78624',   '180'],
+      \ 'green':      ['#9ed072',   '107'],
+      \ 'blue':       ['#76cce0',   '110'],
+      \ 'purple':     ['#b39df3',   '176'],
+      \ 'grey':       ['#7f8490',   '246'],
+      \ 'grey_dim':   ['#595f6f',   '240'],
+      \ 'neotreebg':  ['#181822',   '232'],
+      \ 'selfg':      ['#cccc20',   '233'],
+      \ 'selbg':      ['#3030b0',   '234'],
+      \ 'none':       ['NONE',      'NONE']
+      \ }
 
 function! my_sonokai#highlight(group, fg, bg, ...)
   execute 'highlight' a:group
@@ -83,7 +83,7 @@ endfunction
 
 " Initialization:
 let s:configuration = my_sonokai#get_configuration()
-let s:palette = my_sonokai#get_palette(s:configuration.style, s:configuration.colors_override)
+let s:palette = palette
 let s:path = expand('<sfile>:p') " the path of this script
 let s:last_modified = '2022-12-23T08:46:17+0100'
 let g:sonokai_loaded_file_types = []
@@ -204,7 +204,8 @@ else
 endif
 call my_sonokai#highlight('VertSplit', s:statuslinebg, s:palette.neotreebg)
 highlight! link WinSeparator VertSplit
-call my_sonokai#highlight('Visual', s:palette.none, s:palette.bg3)
+
+call my_sonokai#highlight('Visual', s:palette.selfg, s:palette.selbg)
 call my_sonokai#highlight('VisualNOS', s:palette.none, s:palette.bg3, 'underline')
 call my_sonokai#highlight('QuickFixLine', s:palette.blue, s:palette.none, 'bold')
 call my_sonokai#highlight('Debug', s:palette.yellow, s:palette.none)
@@ -278,7 +279,7 @@ else
   call my_sonokai#highlight('Constant', s:palette.orange, s:palette.none)
 endif
 call my_sonokai#highlight('PreProc', s:palette.darkyellow, s:palette.none, 'bold')
-call my_sonokai#highlight('PreCondit', s:palette.red, s:palette.none)
+call my_sonokai#highlight('PreCondit', s:palette.darkyellow, s:palette.none, 'bold')
 call my_sonokai#highlight('Include', s:palette.green, s:palette.none)
 call my_sonokai#highlight('Keyword', s:blue, s:palette.none, 'bold')
 call my_sonokai#highlight('Define', s:palette.red, s:palette.none)

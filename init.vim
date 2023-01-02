@@ -147,8 +147,6 @@ endfunction
 
 command Fixq call Fixflowed()
 
-hi visual guifg=#cccc20 guibg=#3030b0
-
 " terminal stuff
 
 let g:term_buf = 0
