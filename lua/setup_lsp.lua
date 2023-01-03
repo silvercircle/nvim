@@ -134,8 +134,12 @@ lspconfig.phpactor.setup({
 
 lspconfig.gopls.setup({
   cmd = { vim.g.lsp_server_bin['gopls'] },
-  on_attach = on_attach,
-  capabilities = capabilities
+  capabilities = capabilities,
+  single_file_support = true,
+  filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+  root_dir = function(fname)
+    return util.root_pattern 'go.work'(fname) or util.root_pattern('go.mod', '.git')(fname)
+  end
 })
 
 lspconfig.vimls.setup({
