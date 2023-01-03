@@ -7,8 +7,8 @@ require('cokeline').setup({
   default_hl = Cokeline_theme().hl,
   -- header for the neo-tree sidebar
   sidebar = {
-    --filetype = 'neo-tree',
-    filetype = vim.g.features['nvimtree']['enable'] == true and 'NvimTree' or 'neo-tree',
+    filetype = 'neo-tree',
+    -- filetype = vim.g.features['nvimtree']['enable'] == true and 'NvimTree' or 'neo-tree',
     components = {
       {
         text = '  File Explorer',

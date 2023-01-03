@@ -50,8 +50,12 @@ lspconfig.texlab.setup({
 })
 
 lspconfig.nimls.setup({
-  cmd = { vim.g.lsp_server_bin['nimlsp'] },
-  on_attach = on_attach
+  cmd = { vim.g.lsp_server_bin['nimls'] },
+  filetypes = { 'nim' },
+  root_dir = function(fname)
+    return util.root_pattern '*.nimble'(fname) or util.find_git_ancestor(fname)
+  end,
+  single_file_support = true
 })
 
 lspconfig.clangd.setup({

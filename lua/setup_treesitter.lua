@@ -49,7 +49,7 @@ require("nvim-treesitter.configs").setup({
   highlight = {
     enable = true,
     disable = { "javascript" },     -- FIXME: JavaScript parser is painfully slow.
-    additional_vim_regex_highlighting = { 'org' },
+    additional_vim_regex_highlighting = false -- { 'org', 'nim' },
   },
   indent = {
     -- FIXME: Setting this to true will cause a huge memory leak when inserting lines
