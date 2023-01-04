@@ -41,6 +41,12 @@ vim.g.features = {
   aerial = { enable = false, module = 'setup_aerial' }
 }
 
+-- theme variant can be either cold or warm.
+-- cold has slight blue-ish tint in the background colors, while warm is more reddish
+-- the default is warm
+vim.g.theme_variant = 'warm'
+-- vim.g.theme_variant = 'warm'
+
 local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'
 local localbin = vim.fn.getenv('HOME') .. '/.local/bin/'
 local homepath = vim.fn.getenv('HOME')
@@ -110,33 +116,56 @@ vim.g.cokeline_filename_width = 20             -- max filename length on cokelin
 vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' for the integrated theme 
                                                -- or any valid lualine theme name (e.g. 'dracula')
 
-vim.g.statuslinebg = '#262636'
-                                               -- lualine internal theme
 -- this is used when g.lualine_theme is set to 'internal'. otherwise, the variable can specify 
 -- a builtin lualine theme (e.g. 'dracula')
 
-local LuaLineColors = {
-  white          = '#ffffff',
-  darkestgreen   = '#005f00',
-  brightgreen    = '#afdf00',
-  darkestcyan    = '#005f5f',
-  mediumcyan     = '#87dfff',
-  darkestblue    = '#005f87',
-  darkred        = '#870000',
-  brightred      = '#df0000',
-  brightorange   = '#ff8700',
-  gray1          = '#262626',
-  gray2          = '#303030',
-  gray4          = '#585858',
-  gray5          = '#404050',
-  gray7          = '#9e9e9e',
-  gray10         = '#f0f0f0',
-  statuslinebg   = vim.g.statuslinebg
-}
+local LuaLineColors
+
+if vim.g.theme_variant == 'cold' then
+  LuaLineColors = {
+    white          = '#ffffff',
+    darkestgreen   = '#005f00',
+    brightgreen    = '#afdf00',
+    darkestcyan    = '#005f5f',
+    mediumcyan     = '#87dfff',
+    darkestblue    = '#005f87',
+    darkred        = '#870000',
+    brightred      = '#df0000',
+    brightorange   = '#ff8700',
+    gray1          = '#262626',
+    gray2          = '#303030',
+    gray4          = '#585858',
+    gray5          = '#404050',
+    gray7          = '#9e9e9e',
+    gray10         = '#f0f0f0',
+    statuslinebg   = '#262636'
+  }
+else
+  LuaLineColors = {
+    white          = '#ffffff',
+    darkestgreen   = '#005f00',
+    brightgreen    = '#afdf00',
+    darkestcyan    = '#005f5f',
+    mediumcyan     = '#87dfff',
+    darkestblue    = '#005f87',
+    darkred        = '#870000',
+    brightred      = '#df0000',
+    brightorange   = '#ff8700',
+    gray1          = '#262626',
+    gray2          = '#303030',
+    gray4          = '#585858',
+    gray5          = '#404050',
+    gray7          = '#9e9e9e',
+    gray10         = '#f0f0f0',
+    statuslinebg   = '#302626'
+  }
+end
+
+vim.g.statuslinebg = LuaLineColors.statuslinebg
 
 -- cokeline colors for the buffer line
 local cokeline_colors = {
-  bg = vim.g.statuslinebg,
+  bg = LuaLineColors.statuslinebg,
 --  bg = '#202050',
   focus_bg = '#afdf00',
   fg = LuaLineColors.gray7,

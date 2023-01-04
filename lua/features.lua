@@ -23,7 +23,7 @@ function Neofavs(favfile)
     vim.notify("A required plugin (plenary) is missing.", 3)
     return
   end
-  
+
   if favfile ~= nil then
     filename = path:new(vim.fn.stdpath("config"), favfile)['filename']
   else
@@ -32,11 +32,12 @@ function Neofavs(favfile)
   if vim.fn.filereadable(filename) == 0 then
     vim.notify("The given file (" .. filename .. ") does not exist", 3)
     return
-  end 
+  end
   if pcall(require, 'telescope') == false then
     print("This feature requires the Telecope plugin.")
     return
   end
+
   local pickers = require "telescope.pickers"
   local finders = require "telescope.finders"
   local conf = require("telescope.config").values
@@ -44,13 +45,13 @@ function Neofavs(favfile)
   local action_state = require "telescope.actions.state"
 
   local file = io.open(filename)
+  if file == nil then
+    print("Favorite file not found, should be in " .. filename)
+    return
+  end
   if pcall(require, "neo-tree") == false then
     print("This feature requires the NeoTree plugin")
     io.close(file)
-    return
-  end
-  if file == nil then
-    print("Favorite file not found, should be in " .. vim.fn.stdpath("config") .. "/favs")
     return
   end
   local lines = file:lines()

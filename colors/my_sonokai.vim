@@ -32,37 +32,71 @@ function! my_sonokai#get_configuration()
         \ }
 endfunction
 
-let palette = {
-      \ 'black':      ['#18181c',   '232'],
-      \ 'bg_dim':     ['#222327',   '232'],
-      \ 'bg0':        ['#2c2e34',   '235'],
-      \ 'bg1':        ['#33353f',   '236'],
-      \ 'bg2':        ['#363944',   '236'],
-      \ 'bg3':        ['#3b3e48',   '237'],
-      \ 'bg4':        ['#414550',   '237'],
-      \ 'bg_red':     ['#ff6077',   '203'],
-      \ 'diff_red':   ['#55393d',   '52'],
-      \ 'bg_green':   ['#a7df78',   '107'],
-      \ 'diff_green': ['#394634',   '22'],
-      \ 'bg_blue':    ['#85d3f2',   '110'],
-      \ 'diff_blue':  ['#354157',   '17'],
-      \ 'diff_yellow':['#4e432f',   '54'],
-      \ 'fg':         ['#e2e2e3',   '250'],
-      \ 'red':        ['#cc2d4c',   '203'],
-      \ 'palered':    ['#8b2d3c',   '203'],
-      \ 'orange':     ['#c36630',   '215'],
-      \ 'yellow':     ['#e7c664',   '179'],
-      \ 'darkyellow': ['#a78624',   '180'],
-      \ 'green':      ['#9ed072',   '107'],
-      \ 'blue':       ['#76cce0',   '110'],
-      \ 'purple':     ['#b39df3',   '176'],
-      \ 'grey':       ['#7f8490',   '246'],
-      \ 'grey_dim':   ['#595f6f',   '240'],
-      \ 'neotreebg':  ['#181822',   '232'],
-      \ 'selfg':      ['#cccc20',   '233'],
-      \ 'selbg':      ['#3030b0',   '234'],
-      \ 'none':       ['NONE',      'NONE']
-      \ }
+if g:theme_variant == 'cold'
+  let palette = {
+        \ 'black':      ['#18181c',   '232'],
+        \ 'bg_dim':     ['#222327',   '232'],
+        \ 'bg0':        ['#2c2e34',   '235'],
+        \ 'bg1':        ['#33353f',   '236'],
+        \ 'bg2':        ['#363944',   '236'],
+        \ 'bg3':        ['#3b3e48',   '237'],
+        \ 'bg4':        ['#414550',   '237'],
+        \ 'bg_red':     ['#ff6077',   '203'],
+        \ 'diff_red':   ['#55393d',   '52'],
+        \ 'bg_green':   ['#a7df78',   '107'],
+        \ 'diff_green': ['#394634',   '22'],
+        \ 'bg_blue':    ['#85d3f2',   '110'],
+        \ 'diff_blue':  ['#354157',   '17'],
+        \ 'diff_yellow':['#4e432f',   '54'],
+        \ 'fg':         ['#e2e2e3',   '250'],
+        \ 'red':        ['#cc2d4c',   '203'],
+        \ 'palered':    ['#8b2d3c',   '203'],
+        \ 'orange':     ['#c36630',   '215'],
+        \ 'yellow':     ['#e7c664',   '179'],
+        \ 'darkyellow': ['#a78624',   '180'],
+        \ 'green':      ['#9ed072',   '107'],
+        \ 'blue':       ['#76cce0',   '110'],
+        \ 'purple':     ['#b39df3',   '176'],
+        \ 'grey':       ['#7f8490',   '246'],
+        \ 'grey_dim':   ['#595f6f',   '240'],
+        \ 'neotreebg':  ['#18181c',   '232'],
+        \ 'selfg':      ['#cccc20',   '233'],
+        \ 'selbg':      ['#3030b0',   '234'],
+        \ 'none':       ['NONE',      'NONE']
+        \ }
+else
+  let palette = {
+        \ 'black':      ['#1b1818',   '232'],
+        \ 'bg_dim':     ['#252222',   '232'],
+        \ 'bg0':        ['#322c2c',   '235'],
+        \ 'bg1':        ['#3f3533',   '236'],
+        \ 'bg2':        ['#403936',   '236'],
+        \ 'bg3':        ['#483e3b',   '237'],
+        \ 'bg4':        ['#504531',   '237'],
+        \ 'bg_red':     ['#ff6077',   '203'],
+        \ 'diff_red':   ['#55393d',   '52'],
+        \ 'bg_green':   ['#a7df78',   '107'],
+        \ 'diff_green': ['#394634',   '22'],
+        \ 'bg_blue':    ['#85d3f2',   '110'],
+        \ 'diff_blue':  ['#354157',   '17'],
+        \ 'diff_yellow':['#4e432f',   '54'],
+        \ 'fg':         ['#e5e2e0',   '250'],
+        \ 'red':        ['#cc2d4c',   '203'],
+        \ 'palered':    ['#8b2d3c',   '203'],
+        \ 'orange':     ['#c36630',   '215'],
+        \ 'yellow':     ['#e7c664',   '179'],
+        \ 'darkyellow': ['#a78624',   '180'],
+        \ 'green':      ['#9ed072',   '107'],
+        \ 'blue':       ['#76cce0',   '110'],
+        \ 'purple':     ['#b39df3',   '176'],
+        \ 'grey':       ['#7f8490',   '246'],
+        \ 'grey_dim':   ['#595f6f',   '240'],
+        \ 'neotreebg':  ['#1b1818',   '232'],
+        \ 'selfg':      ['#cccc20',   '233'],
+        \ 'selbg':      ['#3030b0',   '234'],
+        \ 'none':       ['NONE',      'NONE']
+        \ }
+endif
 
 function! my_sonokai#highlight(group, fg, bg, ...)
   execute 'highlight' a:group
@@ -87,21 +121,39 @@ let s:palette = palette
 let s:path = expand('<sfile>:p') " the path of this script
 let s:last_modified = '2022-12-23T08:46:17+0100'
 let g:sonokai_loaded_file_types = []
-let s:darkbg = ['#111118', 237]
-let s:teal = ['#108080', 238]
-let s:blue = ['#5a6acf', 239]
-let s:darkpurple = ['#803090', 240]
-let s:purple = ['#c030c0', 241]
-let s:darkred = ['#601010', 249]
-let s:darkestred = ['#161616', 249]
-let s:darkestblue = ['#10101a', 247]
-let s:string = ['#10801f', 231]
-let s:bg = ['#14141c', 0]
-let s:statuslinebg = [ g:statuslinebg, 208 ]
-let s:palette.fg = [ '#a5a0b5', 1 ]
-let s:palette.grey = [ '#707070', 2 ]
-let s:pmenubg = [ '#241a20', 156 ]
-let s:cmpbg = s:palette.bg4
+if g:theme_variant == 'cold'
+  let s:darkbg = ['#111118', 237]
+  let s:teal = ['#108080', 238]
+  let s:blue = ['#5a6acf', 239]
+  let s:darkpurple = ['#803090', 240]
+  let s:purple = ['#c030c0', 241]
+  let s:darkred = ['#601010', 249]
+  let s:darkestred = ['#161616', 249]
+  let s:darkestblue = ['#10101a', 247]
+  let s:string = ['#10801f', 231]
+  let s:bg = ['#141414', 0]
+  let s:statuslinebg = [ g:statuslinebg, 208 ]
+  let s:palette.fg = [ '#a5a0b5', 1 ]
+  let s:palette.grey = [ '#707070', 2 ]
+  let s:pmenubg = [ '#241a20', 156 ]
+  let s:cmpbg = s:palette.bg4
+else
+  let s:darkbg = ['#181111', 237]
+  let s:teal = ['#108080', 238]
+  let s:blue = ['#5a6acf', 239]
+  let s:darkpurple = ['#803090', 240]
+  let s:purple = ['#c030c0', 241]
+  let s:darkred = ['#601010', 249]
+  let s:darkestred = ['#161616', 249]
+  let s:darkestblue = ['#10101a', 247]
+  let s:string = ['#10801f', 231]
+  let s:bg = ['#181414', 0]
+  let s:statuslinebg = [ g:statuslinebg, 208 ]
+  let s:palette.fg = [ '#a5a0b5', 1 ]
+  let s:palette.grey = [ '#707070', 2 ]
+  let s:pmenubg = [ '#241a20', 156 ]
+  let s:cmpbg = s:palette.bg4
+endif
 
 if !(exists('g:colors_name') && g:colors_name ==# 'my_sonokai' && s:configuration.better_performance)
   highlight clear
