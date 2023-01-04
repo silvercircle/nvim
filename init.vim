@@ -104,6 +104,8 @@ function Mkview()
   endif
 endfunction
 
+
+
 augroup folds
   autocmd!
   " make a view before saving a file

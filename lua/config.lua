@@ -160,9 +160,9 @@ function Lualine_internal_theme()
     visual = { a = { fg = LuaLineColors.darkred, bg = LuaLineColors.brightorange, gui = 'bold' } },
     replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' } },
     inactive = {
-      a = { fg = LuaLineColors.gray1, bg = LuaLineColors.statuslinebg, gui = 'bold' },
-      b = { fg = LuaLineColors.gray1, bg = LuaLineColors.statuslinebg },
-      c = { bg = LuaLineColors.statuslinebg, fg = LuaLineColors.gray1 },
+      a = { fg = LuaLineColors.gray4, bg = LuaLineColors.statuslinebg, gui = 'bold' },
+      b = { fg = LuaLineColors.gray4, bg = LuaLineColors.statuslinebg },
+      c = { fg = LuaLineColors.gray4, bg = LuaLineColors.statuslinebg }
     },
   }
 end
