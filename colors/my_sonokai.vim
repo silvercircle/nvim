@@ -150,7 +150,7 @@ else
   let s:darkestred = ['#161616', 249]
   let s:darkestblue = ['#10101a', 247]
   let s:string = ['#10801f', 231]
-  let s:bg = ['#181414', 0]
+  let s:bg = ['#161414', 0]
   let s:statuslinebg = [ g:statuslinebg, 208 ]
   let s:palette.fg = [ '#a5a0b5', 1 ]
   let s:palette.grey = [ '#707070', 2 ]

@@ -88,12 +88,17 @@ function Neofavs(favfile)
         results = entries
       },
       sorter = conf.generic_sorter(opts),
+      mappings = {
+        i = {
+          ['<C-d>'] = function() print("foobar") end
+        }
+      },
       attach_mappings = function(prompt_bufnr, _)
         actions.select_default:replace(function()
           actions.close(prompt_bufnr)
           local selection = action_state.get_selected_entry()
           if selection[1] ~= nil and #selection[1] > 0 then
-            for _,v in pairs(favs) do
+            for _,v in pairs(entries) do
               if string.sub(selection[1], 1, #v['title']) == v['title'] then
                 vim.cmd("Neotree dir=" .. v['dir'])
                 return
@@ -105,7 +110,7 @@ function Neofavs(favfile)
       end,
     }):find()
   end
-  favselector(Telescope_dropdown_theme{width=0.5, height=0.4, title="Favorite folders"})
+  favselector(Telescope_dropdown_theme{width=0.5, height=0.4, title="Force - quit LSP server"})
 end
 
 function Editfavs()
@@ -113,8 +118,46 @@ function Editfavs()
 end
 
 function StopLsp()
+  local entries = {}
   clients = vim.lsp.get_active_clients()
-  for _,client in ipairs(clients) do
-    print(client.name)
+  for _, client in ipairs(clients) do
+    local entry = Rpad(tostring(client['id']), 10, ' ') .. Rpad(client['name'], 20, ' ') .. Rpad(client['config']['cmd'][1], 40, ' ')
+    table.insert(entries, entry)
   end
+  local pickers = require "telescope.pickers"
+  local finders = require "telescope.finders"
+  local conf = require("telescope.config").values
+  local actions = require "telescope.actions"
+  local action_state = require "telescope.actions.state"
+  local favs
+
+  local lspselector = function(opts)
+    opts = opts or {}
+    pickers.new(opts, {
+      prompt_title = "Active LSP servers",
+      layout_config = {
+        horizontal = {
+          prompt_position = "bottom"
+        }
+      },
+      finder = finders.new_table {
+        results = entries
+      },
+      sorter = conf.generic_sorter(opts),
+      attach_mappings = function(prompt_bufnr, _)
+        actions.select_default:replace(function()
+          actions.close(prompt_bufnr)
+          local selection = action_state.get_selected_entry()
+          if selection[1] ~= nil and #selection[1] > 0 then
+            local id = tonumber(string.sub(selection[1], 1, 6))
+            if id ~= nil and id > 0 then
+              vim.lsp.stop_client({id, true})
+            end
+          end
+        end)
+      return true
+      end,
+    }):find()
+  end
+  lspselector(Telescope_dropdown_theme{width=0.4, height=0.3, title="Active LSP clients"})
 end
