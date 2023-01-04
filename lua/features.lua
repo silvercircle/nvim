@@ -8,12 +8,31 @@
 -- one entry per line
 --
 -- Requirements: Telescope for the searchable picker.
-function Neofavs()
+
+--- create a telescope picker with favorite folders, read from given file.
+--- file must be relative to config directory.
+--
+function Neofavs(favfile)
   local max_width = 90
   local title_width = 30
   local favs = {}
-  -- TODO: make the path and filename customizeable.
-  local filename = vim.fn.stdpath("config") .. "/favs"
+  local filename
+
+  local status, path = pcall(require, 'plenary.path')
+  if status == false then
+    vim.notify("A required plugin (plenary) is missing.", 3)
+    return
+  end
+  
+  if favfile ~= nil then
+    filename = path:new(vim.fn.stdpath("config"), favfile)['filename']
+  else
+    filename = vim.fn.stdpath("config") .. "/favs"
+  end
+  if vim.fn.filereadable(filename) == 0 then
+    vim.notify("The given file (" .. filename .. ") does not exist", 3)
+    return
+  end 
   if pcall(require, 'telescope') == false then
     print("This feature requires the Telecope plugin.")
     return
