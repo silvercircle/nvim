@@ -53,7 +53,13 @@ return require("packer").startup(function(use)
   use 'MunifTanjim/nui.nvim'
   use 'nvim-tree/nvim-web-devicons'
   use 'alaviss/nim.nvim'
-  use 'gpanders/editorconfig.nvim'
+  local version = vim.version()
+  if version['api_level'] < 11 then
+    use 'gpanders/editorconfig.nvim'
+    vim.notify('using editorconfig PLUGIN', 3)
+  else
+    vim.notify('using BUILTIN editorconfig', 3)
+  end
   use 'nvim-lua/plenary.nvim'
   use 'MattesGroeger/vim-bookmarks'
   use 'sharkdp/fd'
