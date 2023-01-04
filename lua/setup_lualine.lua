@@ -48,7 +48,7 @@ require("lualine").setup({
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", "neo-tree", 'NvimTree', 'lspsagaoutline'},
+      statusline = { "Outline", "neo-tree", 'lspsagaoutline', 'terminal'},
       winbar = {},
       tabline = {},
     },

@@ -104,8 +104,6 @@ function Mkview()
   endif
 endfunction
 
-
-
 augroup folds
   autocmd!
   " make a view before saving a file
@@ -171,6 +169,8 @@ function! TermToggle(height)
             set winfixheight
             set nocursorline
             set winhl=Normal:NeoTreeNormalNC
+            set filetype=terminal
+            set statusline=Terminal
         endtry
         startinsert!
         let g:term_win = win_getid()
