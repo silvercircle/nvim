@@ -117,6 +117,7 @@ function Editfavs()
   vim.cmd("e " .. vim.fn.stdpath("config") .. "/favs")
 end
 
+--- simple telescope picker to list active LSP servers. Allows to terminate a server on selection.
 function StopLsp()
   local entries = {}
   clients = vim.lsp.get_active_clients()
@@ -129,7 +130,6 @@ function StopLsp()
   local conf = require("telescope.config").values
   local actions = require "telescope.actions"
   local action_state = require "telescope.actions.state"
-  local favs
 
   local lspselector = function(opts)
     opts = opts or {}
@@ -159,5 +159,5 @@ function StopLsp()
       end,
     }):find()
   end
-  lspselector(Telescope_dropdown_theme{width=0.4, height=0.3, title="Active LSP clients"})
+  lspselector(Telescope_dropdown_theme{width=0.4, height=0.2, title="Active LSP clients (Enter = terminate, ESC cancels)"})
 end
