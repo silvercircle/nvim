@@ -1,9 +1,9 @@
 -- packer.nvim example
 -- local install_path = vim.fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
 
-require("editorconfig").properties.foo = function(bufnr, val)
-  vim.b[bufnr].foo = val
-end
+--require("editorconfig").properties.foo = function(bufnr, val)
+--  vim.b[bufnr].foo = val
+-- end
 
 -- devicons for lua plugins (e.g. Telescope, neotree, nvim-tree among others  need them)
 require("nvim-web-devicons").setup({

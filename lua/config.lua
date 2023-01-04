@@ -104,8 +104,6 @@ g.loaded_tar = 1
 
 g.loaded_gzipPlugin= 1
 g.loaded_gzip = 1
---g.loaded_matchparen = 1
---g.loaded_matchparenPlugin = 0
 
 g.filetree_width = 44    -- width for the neotree and nvim-tree plugins
 g.outline_width = 36     -- split width for symbols-outline
@@ -154,10 +152,10 @@ else
     gray1          = '#262626',
     gray2          = '#303030',
     gray4          = '#585858',
-    gray5          = '#404050',
+    gray5          = '#474040',
     gray7          = '#9e9e9e',
     gray10         = '#f0f0f0',
-    statuslinebg   = '#302626'
+    statuslinebg   = '#2c2626'
   }
 end
 

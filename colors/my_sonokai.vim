@@ -10,6 +10,8 @@
 " -----------------------------------------------------------------------------
 " TODO: convert this to lua at some point
 
+
+
 function! my_sonokai#get_configuration()
   return {
         \ 'style': get(g:, 'sonokai_style', 'default'),
@@ -32,6 +34,7 @@ function! my_sonokai#get_configuration()
         \ }
 endfunction
 
+" The default variant is "warm"
 if g:theme_variant == 'cold'
   let palette = {
         \ 'black':      ['#18181c',   '232'],
@@ -67,9 +70,9 @@ if g:theme_variant == 'cold'
 else
   let palette = {
         \ 'black':      ['#1b1818',   '232'],
-        \ 'bg_dim':     ['#252222',   '232'],
+        \ 'bg_dim':     ['#242020',   '232'],
         \ 'bg0':        ['#322c2c',   '235'],
-        \ 'bg1':        ['#3f3533',   '236'],
+        \ 'bg1':        ['#322a2a',   '236'],
         \ 'bg2':        ['#403936',   '236'],
         \ 'bg3':        ['#483e3b',   '237'],
         \ 'bg4':        ['#504531',   '237'],
@@ -191,7 +194,7 @@ highlight! link vCursor Cursor
 highlight! link iCursor Cursor
 highlight! link lCursor Cursor
 highlight! link CursorIM Cursor
-call my_sonokai#highlight('FocusedSymbol', s:palette.yellow, s:palette.bg1, 'bold')
+call my_sonokai#highlight('FocusedSymbol', s:palette.yellow, s:palette.bg0, 'bold')
 if &diff
   call my_sonokai#highlight('CursorLine', s:palette.none, s:palette.none, 'underline')
   call my_sonokai#highlight('CursorColumn', s:palette.none, s:palette.none, 'bold')

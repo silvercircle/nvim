@@ -96,11 +96,10 @@ require("scrollbar").setup({
     "prompt",
     "TelescopePrompt",
     "noice",
-    "NvimTree",
     "neo-tree",
-    "Outline",
+--    "Outline",
     "DressingSelect",
-    "aerial"
+    "DressingInput"
   },
   autocmd = {
     render = {

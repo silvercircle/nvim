@@ -111,3 +111,10 @@ end
 function Editfavs()
   vim.cmd("e " .. vim.fn.stdpath("config") .. "/favs")
 end
+
+function StopLsp()
+  clients = vim.lsp.get_active_clients()
+  for _,client in ipairs(clients) do
+    print(client.name)
+  end
+end

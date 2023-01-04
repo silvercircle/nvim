@@ -6,7 +6,6 @@ local opts = {noremap = true, silent = true}
 map('n', "<C-T>", ":Neotree buffers position=float<CR>", opts )
 map('n', "<C-G>", ":Neotree git_status position=float<CR>", opts )
 map('n', "<f12>", ":lua Neofavs()<CR>", opts)
-map('n', "<A-p>", ":lua Neofavs()<CR>", opts)
 
 -- Telescope pickers
 -- Ctrl-e -> list of  buffers
@@ -20,7 +19,8 @@ map('n', "<A-c>", "<CMD>lua require'telescope.builtin'.command_history(Telescope
 -- Alt-Shift-c -> commands
 map('n', "<A-C>", "<CMD>lua require'telescope.builtin'.commands(Telescope_dropdown_theme{title='Commands', width=0.6, height=0.7})<CR>", opts)
 -- C-x-C-j Jumplist
-map('n', "<C-x><C-j>", "<CMD>lua require'telescope.builtin'.jumplist{fname_width=40, show_line=false, layout_config={width=0.7, height=0.7, preview_width=0.6}}<CR>", opts)
+map('n', "<C-x><C-j>", "<CMD>lua require'telescope.builtin'.jumplist{fname_width=50, show_line=false, layout_config={width=0.8, height=0.7, preview_width=0.6}}<CR>", opts)
+map('n', "<f4>", "<CMD>lua require'telescope.builtin'.jumplist{fname_width=50, show_line=false, layout_config={width=0.8, height=0.7, preview_width=0.6}}<CR>", opts)
 -- C-x-C-r Registers
 map('n', "<C-x><C-r>", "<CMD>lua require'telescope.builtin'.registers(Telescope_dropdown_theme{title='Registers',width=0.6, height=0.7})<CR>", opts)
 -- C-x-C-k Keymaps
@@ -113,6 +113,8 @@ map('n', "<C-x><C-c>", ':lua BufClose()<CR>', opts)
 -- switch off highlighted search results
 map('n', "<C-x><C-h>", ':nohl<CR>', opts)
 map('i', "<C-x><C-h>", '<c-o>:nohl<CR>', opts)
+map('n', "<f5>", ':nohl<CR>', opts)
+map('i', "<f5>", '<c-o>:nohl<CR>', opts)
 
 -- various
 map('i', "<C-y>-", "—", opts)        -- emdash
