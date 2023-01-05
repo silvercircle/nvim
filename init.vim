@@ -35,7 +35,11 @@ map <C-f> <NOP>
 map <C-c> <NOP>
 imap <C-p> <NOP>
 
-lua require('vim_mappings')
+if g:use_command_center == v:true
+  lua require('vim_mappings_light')
+else
+  lua require('vim_mappings_full')
+end
 
 set guifont=Iosevka:h11.2:#e-subpixelantialias:#h-full
 

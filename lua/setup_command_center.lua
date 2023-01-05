@@ -3,12 +3,68 @@ Command_center = require("command_center")
 local noremap = {noremap = true}
 local silent_noremap = {noremap = true, silent = true}
 
+
+-- bookmark plugin, set and navigate bookmarks
+-- map('n', "<Leader>bt", '<Plug>BookmarkToggle', { silent = true, noremap = false })
+-- map('n', "<Leader>by", '<Plug>BookmarkAnnotate', { silent = true, noremap = false })
+-- map('n', "<Leader>ba", '<Plug>BookmarkShowAll', { silent = true, noremap = false })
+-- map('n', "<Leader>bn", '<Plug>BookmarkNext', { silent = true, noremap = false })
+-- map('n', "<Leader>bp", '<Plug>BookmarkPrev', { silent = true, noremap = false })
+-- map('n', "<Leader>bd", '<Plug>BookmarkClear', { silent = true, noremap = false })
+-- map('n', "<Leader>bx", '<Plug>BookmarkClearAll', { silent = true, noremap = false })
+-- map('n', "<Leader>bu", '<Plug>BookmarkMoveUp', { silent = true, noremap = false })
+-- map('n', "<Leader>bb", '<Plug>BookmarkMoveDown', { silent = true, noremap = false })
+-- map('n', "<Leader>bm", '<Plug>BookmarkMoveToLine', { silent = true, noremap = false })
 Command_center.add({
+  {
+    desc = "Bookmark Toggle",
+    cmd = "<Plug>BookmarkToggle",
+    keys = { "n", "<leader>bt",  noremap },
+    category = "Bookmarks"
+  },
+  {
+    desc = "Bookmark Annotate",
+    cmd = "<Plug>BookmarkAnnotate",
+    keys = { "n", "<leader>by", noremap },
+    category = "Bookmarks"
+  },
+  {
+    desc = "Bookmarks show all",
+    cmd = "<Plug>BookmarkShowAll",
+    keys = { "n", "<leader>ba", noremap },
+    category = "Bookmarks"
+  },
+  {
+    desc = "Bookmark next",
+    cmd = "<Plug>BookmarkNext",
+    keys = { "n", "<leader>bn", noremap },
+    category = "Bookmarks"
+  },
+  {
+    desc = "Bookmark previous",
+    cmd = "<Plug>BookmarkPrev",
+    keys = { "n", "<leader>bp", noremap },
+    category = "Bookmarks"
+  },
+  -- text formatting
+  {
+    desc = "Format paragraph",
+    cmd = "}kV{jgq",
+    keys = { "n", "<A-C-w>", noremap },
+    category = "Formatting"
+  },
+  {
+    desc = "Select paragraph",
+    cmd = "}kV{j",
+    keys = { "n", "<leader>v", noremap },
+    category = "Formatting"
+  },
   {
     desc = "Search inside current buffer",
     cmd = "<CMD>Telescope current_buffer_fuzzy_find<CR>",
     keys = { "n", "<leader>fl", noremap },
-  },  {
+  },
+  {
     -- If no descirption is specified, cmd is used to replace descirption by default
     -- You can change this behavior in setup()
     cmd = "<CMD>Telescope find_files<CR>",

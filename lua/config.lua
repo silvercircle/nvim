@@ -45,6 +45,8 @@ vim.g.features = {
 -- cold has slight blue-ish tint in the background colors, while warm is more reddish
 -- the default is warm
 vim.g.theme_variant = 'warm'
+vim.g.use_command_center=true
+
 -- vim.g.theme_variant = 'cold'
 
 local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'

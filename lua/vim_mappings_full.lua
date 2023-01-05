@@ -1,5 +1,10 @@
+-- full keyboard mappings.
+-- This version is needed when the command_center plugin does not exist or is not desired
+-- if you use the command_center setup, then vim_mappings_light must be used instead of this
+-- file.
 local map = vim.api.nvim_set_keymap
 local opts = {noremap = true, silent = true}
+vim.notify("Warning: FULL keyboard mappings in effect, might collide with command_center plugin", 3)
 -- local expr = {noremap = true, silent = true, expr = true}
 
 -- Ctrl-Shift-E - neo-tree open buffers in current dir

@@ -151,7 +151,7 @@ require("telescope").setup({
       -- The description compoenent will be empty if it is not specified
       auto_replace_desc_with_cmd = true,
       -- Default title to Telescope prompt
-      prompt_title = "Command Center",
+      prompt_title = "Command Palette",
         -- can be any builtin or custom telescope theme
       theme = command_center_theme
     },
