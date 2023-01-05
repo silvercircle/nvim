@@ -59,6 +59,7 @@ require("telescope").setup({
   },
   extensions = {
     command_palette = {
+      -- TODO: this needs lots of customization (outsource to external file?)
       {"File",
         { "entire selection (C-a)", ':call feedkeys("GVgg")' },
         { "save current file (C-s)", ':w' },

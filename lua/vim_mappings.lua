@@ -240,3 +240,4 @@ vim.cmd([[
   onoremap <C-F3> <C-C>zO
   vnoremap <C-F3> zf
 ]])
+

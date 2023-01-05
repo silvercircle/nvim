@@ -98,7 +98,7 @@ function Neofavs(favfile)
           actions.close(prompt_bufnr)
           local selection = action_state.get_selected_entry()
           if selection[1] ~= nil and #selection[1] > 0 then
-            for _,v in pairs(entries) do
+            for _,v in pairs(favs) do
               if string.sub(selection[1], 1, #v['title']) == v['title'] then
                 vim.cmd("Neotree dir=" .. v['dir'])
                 return
