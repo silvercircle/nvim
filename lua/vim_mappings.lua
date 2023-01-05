@@ -19,8 +19,7 @@ map('n', "<A-c>", "<CMD>lua require'telescope.builtin'.command_history(Telescope
 -- Alt-Shift-c -> commands
 map('n', "<A-C>", "<CMD>lua require'telescope.builtin'.commands(Telescope_dropdown_theme{title='Commands', width=0.6, height=0.7})<CR>", opts)
 -- C-x-C-j Jumplist
-map('n', "<C-x><C-j>", "<CMD>lua require'telescope.builtin'.jumplist{fname_width=50, show_line=false, layout_config={width=0.8, height=0.7, preview_width=0.6}}<CR>", opts)
-map('n', "<f4>", "<CMD>lua require'telescope.builtin'.jumplist{fname_width=50, show_line=false, layout_config={width=0.8, height=0.7, preview_width=0.6}}<CR>", opts)
+map('n', "<A-Backspace>", "<CMD>lua require'telescope.builtin'.jumplist{fname_width=50, show_line=false, layout_config={width=0.8, height=0.7, preview_width=0.6}}<CR>", opts)
 -- C-x-C-r Registers
 map('n', "<C-x><C-r>", "<CMD>lua require'telescope.builtin'.registers(Telescope_dropdown_theme{title='Registers',width=0.6, height=0.7})<CR>", opts)
 -- C-x-C-k Keymaps
@@ -32,12 +31,15 @@ map('n', "<A-s>", "<CMD>lua require'telescope.builtin'.spell_suggest(Telescope_d
 -- telescope-fuzzy-find in buffer
 map('n', "<C-x><C-f>", "<CMD>:lua require'telescope.builtin'.current_buffer_fuzzy_find{layout_config={width=0.8, preview_width=0.4} }<CR>", opts)
 -- telescope help tags
-map('n', "<A-h>", "<CMD>:lua require'telescope.builtin'.help_tags{ winblend=20, layout_config={width=0.8, height=0.8, preview_width=0.8} }<CR>", opts)
+map('n', "<A-h>", "<CMD>:lua require'telescope.builtin'.help_tags{ winblend=20, layout_config={width=0.8, height=0.8, preview_width=0.7} }<CR>", opts)
 -- telescpe-bookmarks:
 -- Alt-b -> all bookmarks, Ctrl-b -> current file
 -- bookmarks
 map('n', "<A-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.all{hide_filename=false, width_text=80, layout_config={height=0.4, width=0.8,preview_width=0.3}}<CR>", opts)
 map('n', "<A-B>", "<CMD>lua require('telescope').extensions.vim_bookmarks.current_file{layout_config={height=0.4, width=0.7}}<CR>", opts)
+-- command palette
+map('n', "<A-p>", ":Telescope command_palette<CR>", opts)
+
 
 map('n', "tdo", "<CMD>TodoTelescope cwd=%:p:h<CR>", opts)
 

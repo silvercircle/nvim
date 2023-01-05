@@ -120,7 +120,7 @@ end
 --- simple telescope picker to list active LSP servers. Allows to terminate a server on selection.
 function StopLsp()
   local entries = {}
-  clients = vim.lsp.get_active_clients()
+  local clients = vim.lsp.get_active_clients()
   for _, client in ipairs(clients) do
     local entry = Rpad(tostring(client['id']), 10, ' ') .. Rpad(client['name'], 20, ' ') .. Rpad(client['config']['cmd'][1], 40, ' ')
     table.insert(entries, entry)

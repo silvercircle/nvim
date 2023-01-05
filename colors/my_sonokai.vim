@@ -10,8 +10,6 @@
 " -----------------------------------------------------------------------------
 " TODO: convert this to lua at some point
 
-
-
 function! my_sonokai#get_configuration()
   return {
         \ 'style': get(g:, 'sonokai_style', 'default'),

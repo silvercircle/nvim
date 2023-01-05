@@ -14,9 +14,9 @@ vim.g.features = {
   -- mason is part of the lsp plugin group, but optional. it has no setup module of its own - setup_lsp.lua
   -- deals with mason
   mason = { enable = false, module = '' },
-  cmp = { enable = true, module = 'setup_cmp' },                          -- cmp
+  cmp = { enable = true, module = 'setup_cmp' },                          -- cmp, including all its sources
+                                                                          -- and luasnip
   orgmode = { enable = true, module = 'setup_orgmode' },                  -- orgmode is a must-have
---  trouble = { enable = true, module = 'setup_trouble' },
   scrollbar = { enable = true, module = 'setup_scrollbar' },              -- scrollbar
   gitsigns = { enable = true, module = 'setup_gitsigns' },                -- gitsigns plugin
   indent_blankline = { enable = true, module = 'setup_indent_blankline' },-- indent guides
@@ -34,18 +34,17 @@ vim.g.features = {
   dressing = { enable = true, module = 'setup_dressing' },                -- use dressing for various UI improvements
   -- please use ONLY ONE of te following two. Using both wont hurt but will be a waste.
   -- personally i prefer nvim-tree, but both plugins are fine. Matter of personal preference.
-  neotree = { enable = true, module = 'setup_neotree' },                 -- neotree file explorer
-  nvimtree = { enable = false, module = 'setup_nvim-tree' },               -- nvim-tree file explorer
+  neotree = { enable = true, module = 'setup_neotree' },                  -- neotree file explorer
+  nvimtree = { enable = false, module = 'setup_nvim-tree' },              -- nvim-tree file explorer
   null_ls = { enable = false, module = 'setup_null_ls' },                 -- null-ls for linting, formatting and more lsp features
   todo = { enable = true, module = 'setup_todo' },
-  aerial = { enable = false, module = 'setup_aerial' }
 }
 
 -- theme variant can be either cold or warm.
 -- cold has slight blue-ish tint in the background colors, while warm is more reddish
 -- the default is warm
 vim.g.theme_variant = 'warm'
--- vim.g.theme_variant = 'warm'
+-- vim.g.theme_variant = 'cold'
 
 local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'
 local localbin = vim.fn.getenv('HOME') .. '/.local/bin/'
@@ -77,11 +76,11 @@ vim.g.lsp_server_bin = {
 }
 
 -- ugly but working hack. If $NVIM_USE_PRIVATE_FORKS is set (to anything), we will use private
--- forks of some plugins. 
--- Reason: I'm just experimenting with said plugins. 
--- This hack will go away without notice.
+-- forks of some plugins.
+-- Reason: I'm just experimenting with some plugins.
+-- This hack may go away without notice.
+-- You REALLY should not use this and stick to the official plugins
 vim.g.use_private_forks = false
-
 if os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil then
   vim.g.use_private_forks = true
 end
@@ -114,8 +113,9 @@ vim.g.cokeline_filename_width = 20             -- max filename length on cokelin
 vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' for the integrated theme 
                                                -- or any valid lualine theme name (e.g. 'dracula')
 
--- this is used when g.lualine_theme is set to 'internal'. otherwise, the variable can specify 
+-- this color table is used when g.lualine_theme is set to 'internal'. otherwise, the variable can specify 
 -- a builtin lualine theme (e.g. 'dracula')
+-- the internal theme is designed to blend into the global color scheme.
 
 local LuaLineColors
 

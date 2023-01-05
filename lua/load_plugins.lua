@@ -66,13 +66,11 @@ return require("packer").startup(function(use)
   use 'BurntSushi/ripgrep'
   use 'mhinz/vim-startify'
   use 'kevinhwang91/nvim-hlslens'
-  if vim.g.features['aerial']['enable'] == true then
-    use 'stevearc/aerial.nvim'
-  end
   if vim.g.features["telescope"]['enable'] == true then
     use { 'nvim-telescope/telescope.nvim', branch = '0.1.x' }
     use 'nvim-telescope/telescope-file-browser.nvim'
     use 'tom-anders/telescope-vim-bookmarks.nvim'
+    use 'LinArcX/telescope-command-palette.nvim'
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
   end
   -- filesystem tree. Only enable ONE of the following, either neo-tree or nvim-tree. I prefer the latter
@@ -116,3 +114,4 @@ return require("packer").startup(function(use)
     use 'nvim-orgmode/orgmode'
   end
 end)
+
