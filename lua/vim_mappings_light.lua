@@ -82,15 +82,8 @@ map('i', "<f5>", '<c-o>:nohl<CR>', opts)
 -- various
 map('i', "<C-y>-", "—", opts)        -- emdash
 map('i', "<C-y>\"", "„”", opts)       -- typographic quotes („”)
-
 -- close window
 map('n', "<A-w>", ":close<CR>", opts)
--- force exit, caution all unsaved buffers will be lost
-map('n', "<A-q>", ":lua Quitapp()<CR>", opts)
-
--- diagnostics (LSP)
-map('n', "DF", ":LspFormatDoc<CR>", opts)         -- format the doc with null-ls provider
-map('v', "DR", ":LspFormatRange<CR>", opts )      -- format the range with null-ls provider
 
 -- move left/right/up/down split window
 map('n', "<A-Left>", "<c-w><Left>", opts)

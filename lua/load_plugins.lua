@@ -80,7 +80,7 @@ return require("packer").startup(function(use)
   end
   if vim.g.features['neotree']['enable'] == true then
     if vim.g.use_private_forks == true then
-      use { 'silvercircle/neo-tree.nvim', branch = "v2.x" }
+      use { 'silvercircle/neo-tree.nvim', branch = "main" }
     else
       use { 'nvim-neo-tree/neo-tree.nvim', branch = "v2.x" }
     end

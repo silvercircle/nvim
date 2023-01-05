@@ -3,6 +3,7 @@ local actions = require("telescope.actions")
 local actions_fb = require("telescope").extensions.file_browser.actions
 local themes = require("telescope.themes")
 
+-- add all the commands and mappings to the command_center plugin.
 require('setup_command_center')
 
 -- private modified version of the dropdown theme
@@ -188,6 +189,5 @@ require("telescope").setup({
 require("telescope").load_extension("file_browser")
 require("telescope").load_extension("vim_bookmarks")
 require("telescope").load_extension("fzf")
--- require('telescope').load_extension('command_palette')
 require("telescope").load_extension("command_center")
 

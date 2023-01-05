@@ -1,7 +1,8 @@
--- setup command center commands. Outsourced from setup_telescope.lua
+-- setup command center mappings. Outsourced from setup_telescope.lua
+-- when this is in use, only vim_mappings_light is required for full keyboard configuration
+
 Command_center = require("command_center")
 local noremap = {noremap = true}
-local silent_noremap = {noremap = true, silent = true}
 
 Command_center.add({
   {
@@ -213,9 +214,16 @@ Command_center.add({
     category = "Formatting"
   },
   {
-    desc = "Search inside current buffer",
-    cmd = "<CMD>Telescope current_buffer_fuzzy_find<CR>",
-    keys = { "n", "<leader>fl", noremap },
+    desc = "LSP Format document",
+    cmd = "<CMD>LspFormatDoc<CR>",
+    keys = { "n", "DF", noremap },
+    category = "Formatting"
+  },
+  {
+    desc = "LSP Format range",
+    cmd = "<CMD>LspFormatRange<CR>",
+    keys = { "n", "DR", noremap },
+    category = "Formatting"
   },
   -- Telescope pickers
   {
@@ -294,6 +302,12 @@ Command_center.add({
     desc = "Todo List",
     cmd = "<CMD>TodoTelescope cwd=%:p:h<CR>",
     keys = { "n", "tdo", noremap },
+    category = "Neovim"
+  },
+  {
+    desc = "Quit Neovim",
+    cmd = function() Quitapp() end,
+    keys = { "n", "<A-q>", noremap },
     category = "Neovim"
   }
 })

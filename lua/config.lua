@@ -109,7 +109,7 @@ g.loaded_gzip = 1
 
 g.filetree_width = 44    -- width for the neotree and nvim-tree plugins
 g.outline_width = 36     -- split width for symbols-outline
-g.float_winblend = 5
+g.float_winblend = 0
 
 -- some tweaks
 vim.g.cokeline_filename_width = 20             -- max filename length on cokeline tabs

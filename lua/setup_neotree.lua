@@ -5,7 +5,7 @@ require("neo-tree").setup({
     "git_status",
   },
   close_floats_on_escape_key = true,
-  add_blank_line_at_top = not vim.g.config_cokeline,
+  add_blank_line_at_top = true,
   close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
   popup_border_style = "single",
   enable_git_status = true,
@@ -204,7 +204,7 @@ require("neo-tree").setup({
     -- "open_current",  -- netrw disabled, opening a directory opens within the
     -- window like netrw would, regardless of window.position
     -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
-    use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes
+    use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
     -- instead of relying on nvim autocmd events.
     window = {
       mappings = {
