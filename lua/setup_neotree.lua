@@ -204,8 +204,10 @@ require("neo-tree").setup({
     -- "open_current",  -- netrw disabled, opening a directory opens within the
     -- window like netrw would, regardless of window.position
     -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
-    use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
-    -- instead of relying on nvim autocmd events.
+    use_libuv_file_watcher = false, -- When true, it will use the OS level file watchers to detect changes
+                                    -- instead of relying on nvim autocmd events.
+                                    -- NOTE: This might introduce increasing idle CPU load over
+                                    -- time (Linux) for whatever reason. More testing is needed.
     window = {
       mappings = {
         ["<bs>"] = "navigate_up",

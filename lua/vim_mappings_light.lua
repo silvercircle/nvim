@@ -6,16 +6,6 @@
 local map = vim.api.nvim_set_keymap
 local opts = {noremap = true, silent = true}
 
--- local expr = {noremap = true, silent = true, expr = true}
-
--- Ctrl-Shift-E - neo-tree open buffers in current dir
-map('n', "<C-T>", ":Neotree buffers position=float<CR>", opts )
-map('n', "<C-G>", ":Neotree git_status position=float<CR>", opts )
-
--- command palette
-map('n', "<A-p>", ":Telescope command_center<CR>", opts)
-map('i', "<A-p>", "<c-o>:Telescope command_center<CR>", opts)
-
 -- file tree
 if vim.g.features['neotree']['enable'] == true then
   map('n', "<leader>r", "<CMD>Neotree reveal_force_cwd action=show<CR>", opts)    -- sync Neotree dir to current buffer
@@ -24,7 +14,6 @@ elseif vim.g.features['nvimtree']['enable'] == true then
   map('n', "<leader>,", '<CMD>NvimTreeToggle<CR>', opts)              -- toggle the Nvim-Tree
   map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)            -- sync Nvim-Tree with current 
 end
-map('n', "<leader>.", "<CMD>SymbolsOutline<CR>", opts)    -- toggle the Outline View
 
 map('n', '<C-Tab>', ':bnext<CR>', opts)
 map('n', '<leader><Tab>', ":bnext<CR>", opts)
@@ -55,9 +44,8 @@ map('n', "<C-f>f", ':AFManual<CR>', opts)
 map('i', "<C-f>a", '<c-o>:AFAuto<CR>', opts)
 map('n', "<C-f>a", ':AFAuto<CR>', opts)
 
-map('n', "<leader>V", ':!fmt -110<CR>', opts)
-map('n', "<leader>v", ':!fmt -100<CR>', opts)
-map('n', "<leader>y", ':!fmt -85<CR>', opts)
+map('v', "<leader>V", ':!fmt -110<CR>', opts)
+map('v', "<leader>y", ':!fmt -85<CR>', opts)
 
 map('n', "<leader>v", "}kV{j", opts)        -- select current paragraph
 
@@ -107,8 +95,6 @@ vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]]
 
 vim.keymap.set({ "s" }, "<C-i>", function() require'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
 vim.keymap.set({ "s" }, "<S-Tab>", function() require'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
-
-map('i', "<C-p>", "<CMD>:lua vim.lsp.buf.signature_help()<CR>", opts)
 
 -- if we have playgrund, use the special command to reveal the highlight group under the cursor
 if vim.g.features['treesitter_playground']['enable'] == true then

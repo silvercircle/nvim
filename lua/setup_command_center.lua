@@ -156,6 +156,18 @@ Command_center.add({
     keys = { "n", "TT",  },
     category = "LSP"
   },
+  {
+    desc = "toggle outline view",
+    cmd = "<CMD>SymbolsOutline<CR>",
+    keys = { "n", "<leader>.", noremap },
+    category = "LSP"
+  },
+  {
+    desc = "Signature help",
+    cmd = function() vim.lsp.buf.signature_help() end,
+    keys = { "i", "<C-p>", noremap  },
+    category = "LSP"
+  },
   -- LSP Diagnostics
   {
     desc = "Show diagnostic popup",
@@ -234,7 +246,7 @@ Command_center.add({
   },
   {
     desc = "Recent files (Telescope)",
-    cmd = function() require'telescope.builtin'.oldfiles(Telescope_dropdown_theme{title='Old files', width=0.6, height=0.5}) end,
+    cmd = function() require'telescope.builtin'.oldfiles(Telescope_dropdown_theme({title='Old files', width=0.6, height=0.5})) end,
     keys = { "n", "<C-p>", noremap },
     category = "Telescope"
   },
@@ -246,13 +258,13 @@ Command_center.add({
   },
   {
     desc = "Jumplist (Telescope)",
-    cmd = function() require'telescope.builtin'.jumplist({fname_width=50, show_line=false, layout_config={width=0.8, height=0.7, preview_width=0.6}}) end,
+    cmd = function() require'telescope.builtin'.jumplist({fname_width=70, show_line=false, layout_config={width=0.9, height=0.7, preview_width=0.5}}) end,
     keys = { "n", "<A-Backspace>", noremap },
     category = "Telescope"
   },
   {
     desc = "Command history (Telescope)",
-    cmd = function() require'telescope.builtin'.command_history(Telescope_dropdown_theme{title='Command history', width=-1.4, height=0.7}) end,
+    cmd = function() require'telescope.builtin'.command_history(Telescope_dropdown_theme{title='Command history', width=0.4, height=0.7}) end,
     keys = { "n", "<A-C>", noremap },
     category = "Telescope"
   },
@@ -308,6 +320,30 @@ Command_center.add({
     desc = "Quit Neovim",
     cmd = function() Quitapp() end,
     keys = { "n", "<A-q>", noremap },
+    category = "Neovim"
+  },
+  {
+    desc = "Command Palette (Insert Mode)",
+    cmd = function() require("telescope").extensions.command_center.command_center({ mode='i' }) end,
+    keys = { "i", "<A-p>", noremap },
+    category = "Neovim"
+  },
+  {
+    desc = "Command Palette (Normal Mode)",
+    cmd = function() require("telescope").extensions.command_center.command_center() end,
+    keys = { "n", "<A-p>", noremap },
+    category = "Neovim"
+  },
+  {
+    desc = "Neotree buffer list",
+    cmd = "<CMD>Neotree buffers position=float<CR>",
+    keys = { "n", "<C-t>", noremap },
+    category = "Neovim"
+  },
+  {
+    desc = "Neotree Git status",
+    cmd = "<CMD>Neotree git_status position=float<CR>",
+    keys = { "n", "<C-g>", noremap },
     category = "Neovim"
   }
 })
