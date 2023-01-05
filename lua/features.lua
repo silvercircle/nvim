@@ -110,7 +110,7 @@ function Neofavs(favfile)
       end,
     }):find()
   end
-  favselector(Telescope_dropdown_theme{width=0.5, height=0.4, title="Force - quit LSP server"})
+  favselector(Telescope_dropdown_theme{width=0.5, height=0.4, title="Select favorite folder"})
 end
 
 function Editfavs()

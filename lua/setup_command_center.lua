@@ -64,6 +64,24 @@ Command_center.add({
     keys = { "n", "<leader>bm", noremap },
     category = "Bookmarks"
   },
+  {
+    desc = "Show all bookmarks (Telescope)",
+    cmd = function() require('telescope').extensions.vim_bookmarks.all({hide_filename=false, width_text=80, layout_config={height=0.4, width=0.8,preview_width=0.3}}) end,
+    keys = { "n", "<A-b>", noremap },
+    category = "Bookmarks"
+  },
+  {
+    desc = "Show bookmarks in current file (Telescope)",
+    cmd = function() require('telescope').extensions.vim_bookmarks.current_file({layout_config={height=0.4, width=0.7}}) end,
+    keys = { "n", "<A-B>", noremap },
+    category = "Bookmarks"
+  },
+  {
+    desc = "Show favorite folders",
+    cmd = function() Neofavs() end,
+    keys = { "n", "<f12>",  },
+    category = "Bookmarks"
+  },
   -- LSP
   {
     desc = "LSP Server Info",
@@ -81,6 +99,60 @@ Command_center.add({
     desc = "Peek references (Glance Plugin)",
     cmd = "<CMD>Glance references<CR>",
     keys = { "n", "GR", noremap },
+    category = "LSP"
+  },
+-- Telescope LSP code navigation and diagnostics
+  {
+    desc = "Jump to definition",
+    cmd = function() require'telescope.builtin'.lsp_definitions({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}) end,
+    keys = { "n", "td", noremap },
+    category = "LSP"
+  },
+  {
+    desc = "Show references",
+    cmd = function() require'telescope.builtin'.lsp_references({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}) end,
+    keys = { "n", "tr", noremap },
+    category = "LSP"
+  },
+  {
+    desc = "Document symbols",
+    cmd = function() require'telescope.builtin'.lsp_document_symbols({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}) end,
+    keys = { "n", "ts", noremap },
+    category = "LSP"
+  },
+  {
+    desc = "Dynamic workspace symbols",
+    cmd = function() require'telescope.builtin'.lsp_dynamic_workspace_symbols({winblend=0, fname_width=80,layout_config={height=0.6, width=0.9,preview_width=0.3}}) end,
+    keys = { "n", "tds", noremap },
+    category = "LSP"
+  },
+  {
+    desc = "Workspace symbols",
+    cmd = function() require'telescope.builtin'.lsp_workspace_symbols({winblend=0, fname_width=80,layout_config={height=0.6, width=0.9,preview_width=0.3}}) end,
+    keys = { "n", "tws", noremap },
+    category = "LSP"
+  },
+  {
+    desc = "Show implementations",
+    cmd = function() require'telescope.builtin'.lsp_implementations({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}) end,
+    keys = { "n", "ti", noremap },
+    category = "LSP"
+  },
+  {
+    desc = "Run diagnostics",
+    cmd = function() require'telescope.builtin'.diagnostics({bufnr=0, winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}) end,
+    keys = { "n", "te", noremap },
+    category = "LSP"
+  },
+  {
+    desc = "Shutdown LSP server",
+    cmd = function() StopLsp() end,
+    category = "LSP"
+  },
+  {
+    desc = "Show type definition",
+    cmd = function() vim.lsp.buf.type_definition() end,
+    keys = { "n", "TT",  },
     category = "LSP"
   },
   -- LSP Diagnostics
@@ -145,42 +217,84 @@ Command_center.add({
     cmd = "<CMD>Telescope current_buffer_fuzzy_find<CR>",
     keys = { "n", "<leader>fl", noremap },
   },
+  -- Telescope pickers
   {
-    -- If no descirption is specified, cmd is used to replace descirption by default
-    -- You can change this behavior in setup()
-    cmd = "<CMD>Telescope find_files<CR>",
-    keys = { "n", "<leader>ff", noremap },
-  }, {
-    -- If no keys are specified, no keymaps will be displayed nor set
-    desc = "Find hidden files",
-    cmd = "<CMD>Telescope find_files hidden=true<CR>",
-  }, {
-    -- You can specify multiple keys for the same cmd ...
-    desc = "Show document symbols",
-    cmd = "<CMD>Telescope lsp_document_symbols<CR>",
-    keys = {
-      {"n", "<leader>ss", noremap},
-      {"n", "<leader>ssd", noremap},
-    },
-  }, {
-    -- ... and for different modes
-    desc = "Show function signaure (hover)",
-    cmd = "<CMD>lua vim.lsp.buf.hover()<CR>",
-    keys = {
-      {"n", "K", silent_noremap },
-      {"i", "<C-k>", silent_noremap },
-    }
-  }, {
-    -- You can pass in a key sequences as if you would type them in nvim
-    desc = "My favorite key sequence",
-    cmd = "A  -- Add a comment at the end of a line",
-    keys = {"n", "<leader>Ac", noremap}
-  }, {
-    -- You can also pass in a lua functions as cmd
-    -- NOTE: binding lua funciton to a keymap requires nvim 0.7 and above
-    desc = "Run lua function",
-    cmd = function() print("ANONYMOUS LUA FUNCTION") end,
-    keys = {"n", "<leader>alf", noremap},
+    desc = "Buffer list (Telescope)",
+    cmd = function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.3, sort_lastused=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end,
+    keys = { "n", "<C-e>", noremap },
+    category = "Telescope"
+  },
+  {
+    desc = "Recent files (Telescope)",
+    cmd = function() require'telescope.builtin'.oldfiles(Telescope_dropdown_theme{title='Old files', width=0.6, height=0.5}) end,
+    keys = { "n", "<C-p>", noremap },
+    category = "Telescope"
+  },
+  {
+    desc = "Find files in current directory (Telescope)",
+    cmd = function() require'telescope.builtin'.find_files({hidden=true, cwd=vim.fn.expand('%:p:h'), layout_config={width=0.8, height=0.6,preview_width=0.7}}) end,
+    keys = { "n", "<leader>f", noremap },
+    category = "Telescope"
+  },
+  {
+    desc = "Jumplist (Telescope)",
+    cmd = function() require'telescope.builtin'.jumplist({fname_width=50, show_line=false, layout_config={width=0.8, height=0.7, preview_width=0.6}}) end,
+    keys = { "n", "<A-Backspace>", noremap },
+    category = "Telescope"
+  },
+  {
+    desc = "Command history (Telescope)",
+    cmd = function() require'telescope.builtin'.command_history(Telescope_dropdown_theme{title='Command history', width=-1.4, height=0.7}) end,
+    keys = { "n", "<A-C>", noremap },
+    category = "Telescope"
+  },
+  {
+    desc = "Command list (Telescope)",
+    cmd = function() require'telescope.builtin'.commands(Telescope_dropdown_theme{title='Commands', width=0.6, height=0.7}) end,
+    keys = { "n", "<A-c>", noremap },
+    category = "Telescope"
+  },
+  {
+    desc = "Registers (Telescope)",
+    cmd = function() require'telescope.builtin'.registers(Telescope_dropdown_theme{title='Registers',width=0.6, height=0.7}) end,
+    keys = { "n", "<C-x><C-r>", noremap },
+    category = "Telescope"
+  },
+  {
+    desc = "Keymaps (Telescope",
+    cmd = function() require'telescope.builtin'.keymaps({layout_config={width=0.8, height=0.7}}) end,
+    keys = { "n", "<C-x><C-k>", noremap },
+    category = "Telescope"
+  },
+  {
+    desc = "File Browser (Telescope)",
+    cmd = function() require('telescope').extensions.file_browser.file_browser({hidden=true, path=vim.fn.expand('%:p:h'), layout_config={width=0.8, preview_width=0.6 } }) end,
+    keys = { "n", "<A-f>", noremap },
+    category = "Telescope"
+  },
+  {
+    desc = "Fuzzy search in current buffer",
+    cmd = function() require'telescope.builtin'.current_buffer_fuzzy_find({layout_config={width=0.8, preview_width=0.4} }) end,
+    keys = { "n", "<C-x><C-f>", noremap },
+    category = "Telescope"
+  },
+  {
+    desc = "Help tags (Telescope)",
+    cmd = function() require'telescope.builtin'.help_tags({ winblend=20, layout_config={width=0.8, height=0.8, preview_width=0.7} }) end,
+    keys = { "n", "<A-h>", noremap },
+    category = "Telescope"
+  },
+  {
+    desc = "Spell suggestions",
+    cmd = function() require'telescope.builtin'.spell_suggest(Telescope_dropdown_theme{title='Spell suggestions', height=0.5,width=0.2}) end,
+    keys = { "n", "<A-s>", noremap },
+    category = "Telescope"
+  },
+  {
+    desc = "Todo List",
+    cmd = "<CMD>TodoTelescope cwd=%:p:h<CR>",
+    keys = { "n", "tdo", noremap },
+    category = "Neovim"
   }
 })
 
