@@ -22,8 +22,9 @@ vim.g.features = {
   indent_blankline = { enable = true, module = 'setup_indent_blankline' },-- indent guides
   cokeline = { enable = true, module = 'setup_cokeline' },                -- cokeline
                                                                           -- diables lualine bufferbar
-  neodev = { enable = false, module = '' }, -- setup_neodev
-  treesitter = { enable = true, module = 'setup_treesitter' },           -- use treesitter
+  neodev = { enable = false, module = '' },                               -- neodev has no own module as it requires a working lsp
+                                                                          -- config. So it's activated in setup_lsp.lua
+  treesitter = { enable = true, module = 'setup_treesitter' },            -- use treesitter
   -- playground is a special case, it is configured in the treesitter module and has no setup module of its own
   treesitter_playground = { enable = true, module = '' },
   telescope = { enable = true, module = 'setup_telescope'},               -- use telescope (+ various extensions)
