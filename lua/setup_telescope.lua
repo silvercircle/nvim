@@ -43,7 +43,9 @@ Telescope_preview_dropdown_theme = function(opts)
   })
 end
 
-function command_center_theme(opts)
+-- custom theme for the command_center Telescope plugin
+-- reason: I have square borders everywhere
+local function command_center_theme(opts)
   opts = opts or {}
   local theme_opts = {
     theme = "command_center",

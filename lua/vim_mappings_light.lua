@@ -1,6 +1,8 @@
 -- light keyboard mappings.
 -- This version is needed when the command_center plugin is installed and configure. It will
 -- overtake many of the original keyboar mappings.
+-- The majority of the more complex mappings for LSP are in setup_command_center.lua
+
 local map = vim.api.nvim_set_keymap
 local opts = {noremap = true, silent = true}
 
@@ -43,7 +45,7 @@ map('n', "<A-b>", "<CMD>lua require('telescope').extensions.vim_bookmarks.all{hi
 map('n', "<A-B>", "<CMD>lua require('telescope').extensions.vim_bookmarks.current_file{layout_config={height=0.4, width=0.7}}<CR>", opts)
 -- command palette
 map('n', "<A-p>", ":Telescope command_center<CR>", opts)
-
+map('i', "<A-p>", "<c-o>:Telescope command_center<CR>", opts)
 
 map('n', "tdo", "<CMD>TodoTelescope cwd=%:p:h<CR>", opts)
 
@@ -119,13 +121,6 @@ map('n', "<A-w>", ":close<CR>", opts)
 -- force exit, caution all unsaved buffers will be lost
 map('n', "<A-q>", ":lua Quitapp()<CR>", opts)
 
--- LSP mappings
-map('n', "lsi", ":LspInfo<CR>", opts)     -- LspInfo
-
--- Glance plugin
-map('n', "GD", ":Glance definitions<CR>", opts)       -- goto definition(s)
-map('n', "GR", ":Glance references<CR>", opts)        -- show references
-
 -- Telescope LSP code navigation and diagnostics
 map('n', "td", ":lua require'telescope.builtin'.lsp_definitions{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
 map('n', "tr", ":lua require'telescope.builtin'.lsp_references{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}<CR>", opts)
@@ -134,23 +129,13 @@ map('n', "tds", ":lua require'telescope.builtin'.lsp_dynamic_workspace_symbols{w
 map('n', "tws", ":lua require'telescope.builtin'.lsp_workspace_symbols{winblend=0, fname_width=80,layout_config={height=0.6, width=0.9,preview_width=0.3}}<CR>", opts)
 map('n', "ti", ":lua require'telescope.builtin'.lsp_implementations{winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
 map('n', "te", ":lua require'telescope.builtin'.diagnostics{bufnr=0, winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}<CR>", opts)
-map('n', "tgs", ":lua require'telescope.builtin'.git_status{layout_config={height=0.8, width=0.8}}<CR>", opts)
-map('n', "tgc", ":lua require'telescope.builtin'.git_commits{layout_config={height=0.8, width=0.8}}<CR>", opts)
 
 
 map('n', "TT", ":lua vim.lsp.buf.type_definition()<CR>", opts)
 
 -- diagnostics (LSP)
-map('n', "DO", ":lua vim.diagnostic.open_float()<CR>", opts)             -- show popup
-map('n', "DN", ":lua vim.diagnostic.goto_next()<CR>", opts)              -- goto next
-map('n', "DP", ":lua vim.diagnostic.goto_prev()<CR>", opts)              -- goto prev
-map('n', "DD", ":lua vim.lsp.buf.hover()<CR>", opts)                     -- show hover info for symbol
 map('n', "DF", ":LspFormatDoc<CR>", opts)         -- format the doc with null-ls provider
 map('v', "DR", ":LspFormatRange<CR>", opts )      -- format the range with null-ls provider
-map('n', "DA", ":lua vim.lsp.buf.code_action()<CR>", opts)
--- lspsaga
-map('n', "Sa", ":Lspsaga code_action<CR>", opts)               -- code action
-map('n', "Sf", ":Lspsaga lsp_finder<CR>", opts)
 
 -- move left/right/up/down split window
 map('n', "<A-Left>", "<c-w><Left>", opts)
@@ -176,10 +161,6 @@ vim.keymap.set({ "s" }, "<C-i>", function() require'luasnip'.jump(1) end, { desc
 vim.keymap.set({ "s" }, "<S-Tab>", function() require'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
 
 map('i', "<C-p>", "<CMD>:lua vim.lsp.buf.signature_help()<CR>", opts)
-
--- aerial
-map('n', "<A-o>", ":AerialOpen float<CR>", opts)
-map('i', "<A-o>", "<c-o>:AerialOpen float<CR>", opts)
 
 -- if we have playgrund, use the special command to reveal the highlight group under the cursor
 if vim.g.features['treesitter_playground']['enable'] == true then

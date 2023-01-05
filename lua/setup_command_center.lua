@@ -3,18 +3,6 @@ Command_center = require("command_center")
 local noremap = {noremap = true}
 local silent_noremap = {noremap = true, silent = true}
 
-
--- bookmark plugin, set and navigate bookmarks
--- map('n', "<Leader>bt", '<Plug>BookmarkToggle', { silent = true, noremap = false })
--- map('n', "<Leader>by", '<Plug>BookmarkAnnotate', { silent = true, noremap = false })
--- map('n', "<Leader>ba", '<Plug>BookmarkShowAll', { silent = true, noremap = false })
--- map('n', "<Leader>bn", '<Plug>BookmarkNext', { silent = true, noremap = false })
--- map('n', "<Leader>bp", '<Plug>BookmarkPrev', { silent = true, noremap = false })
--- map('n', "<Leader>bd", '<Plug>BookmarkClear', { silent = true, noremap = false })
--- map('n', "<Leader>bx", '<Plug>BookmarkClearAll', { silent = true, noremap = false })
--- map('n', "<Leader>bu", '<Plug>BookmarkMoveUp', { silent = true, noremap = false })
--- map('n', "<Leader>bb", '<Plug>BookmarkMoveDown', { silent = true, noremap = false })
--- map('n', "<Leader>bm", '<Plug>BookmarkMoveToLine', { silent = true, noremap = false })
 Command_center.add({
   {
     desc = "Bookmark Toggle",
@@ -45,6 +33,99 @@ Command_center.add({
     cmd = "<Plug>BookmarkPrev",
     keys = { "n", "<leader>bp", noremap },
     category = "Bookmarks"
+  },
+  {
+    desc = "Bookmark delete",
+    cmd = "<Plug>BookmarkClear",
+    keys = { "n", "<leader>bd", noremap },
+    category = "Bookmarks"
+  },
+  {
+    desc = "Bookmark delete All",
+    cmd = "<Plug>BookmarkClearAll",
+    keys = { "n", "<leader>bx", noremap },
+    category = "Bookmarks"
+  },
+  {
+    desc = "Bookmark move down",
+    cmd = "<Plug>BookmarkMoveDown",
+    keys = { "n", "<leader>bb",  noremap },
+    category = "Bookmarks"
+  },
+  {
+    desc = "Bookmark move up",
+    cmd = "<Plug>BookmarkMoveUp",
+    keys = { "n", "<leader>bu", noremap },
+    category = "Bookmarks"
+  },
+  {
+    desc = "Bookmark move to line",
+    cmd = "<Plug>BookmarkMoveToLine",
+    keys = { "n", "<leader>bm", noremap },
+    category = "Bookmarks"
+  },
+  -- LSP
+  {
+    desc = "LSP Server Info",
+    cmd = "<CMD>LspInfo<CR>",
+    keys = { "n", "lsi", noremap },
+    category = "LSP"
+  },
+  {
+    desc = "Peek definitions (Glance Plugin)",
+    cmd = "<CMD>Glance definitions<CR>",
+    keys = { "n", "GD", noremap },
+    category = "LSP"
+  },
+  {
+    desc = "Peek references (Glance Plugin)",
+    cmd = "<CMD>Glance references<CR>",
+    keys = { "n", "GR", noremap },
+    category = "LSP"
+  },
+  -- LSP Diagnostics
+  {
+    desc = "Show diagnostic popup",
+    cmd = function() vim.diagnostic.open_float() end,
+    keys = { "n", "DO",  noremap},
+    category = "LSP Diagnostics"
+  },
+  {
+    desc = "Go to next diagnostic",
+    cmd = function() vim.diagnostic.goto_next() end,
+    keys = { "n", "DN", noremap },
+    category = "LSP Diagnostics"
+  },
+  {
+    desc = "Go to previous diagnostic",
+    cmd = function() vim.diagnostic.goto_prev() end,
+    keys = { "n", "DP", noremap },
+    category = "LSP Diagnostics"
+  },
+  {
+    desc = "Show hover info for current symbol",
+    cmd = function() vim.lsp.buf.hover() end,
+    keys = { "n", "DD", noremap },
+    category = "LSP Diagnostics"
+  },
+  {
+    desc = "Code Action",
+    cmd = function() vim.lsp.buf.code_action() end,
+    keys = { "n", "DA",  },
+    category = "LSP Diagnostics"
+  },
+  -- GIT
+  {
+    desc = "GIT status (Telescope)",
+    cmd = function() require'telescope.builtin'.git_status({layout_config={height=0.8, width=0.8}}) end,
+    keys = { "n", "tgs", noremap },
+    category = "GIT"
+  },
+  {
+    desc = "GIT commits (Telescope)",
+    cmd = function() require'telescope.builtin'.git_commits({layout_config={height=0.8, width=0.8}}) end,
+    keys = { "n", "tgc", noremap },
+    category = "GIT"
   },
   -- text formatting
   {
