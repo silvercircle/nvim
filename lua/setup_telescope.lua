@@ -187,7 +187,6 @@ require("telescope").setup({
     },
   },
 })
-
 -- finally, load the extensions
 require("telescope").load_extension("file_browser")
 require("telescope").load_extension("vim_bookmarks")

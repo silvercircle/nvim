@@ -39,6 +39,7 @@ vim.g.features = {
   nvimtree = { enable = false, module = 'setup_nvim-tree' },              -- nvim-tree file explorer
   null_ls = { enable = false, module = 'setup_null_ls' },                 -- null-ls for linting, formatting and more lsp features
   todo = { enable = true, module = 'setup_todo' },
+  sidebar = { enable = true, module = 'setup_sidebar' }
 }
 
 -- theme variant can be either cold or warm.

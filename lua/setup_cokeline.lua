@@ -1,4 +1,6 @@
 -- setup cokeline plugin. It provides a buffer line (aka tab-bar)
+local sidebar_or_tree = vim.g.features['sidebar']['enable'] == true and true or false
+
 require('cokeline').setup({
   -- Cokeline_theme() is defined in config.lua
   buffers = {
@@ -6,13 +8,13 @@ require('cokeline').setup({
   },
   default_hl = Cokeline_theme().hl,
   -- header for the neo-tree sidebar
-  sidebar = {
+ sidebar = {
     -- filetype = 'neo-tree',
-    filetype = 'SidebarNvim',
-    -- filetype = vim.g.features['nvimtree']['enable'] == true and 'NvimTree' or 'neo-tree',
+    -- filetype = 'SidebarNvim',
+    filetype = sidebar_or_tree == true and 'SidebarNvim' or 'neo-tree',
     components = {
       {
-        text = '  File Explorer',
+        text = sidebar_or_tree == true and '  Side Bar' or '  File Explorer',
         bg = vim.g.cokeline_bg,
         style = 'bold',
       },
@@ -36,3 +38,4 @@ require('cokeline').setup({
     { text = '  ' }
   }
 })
+

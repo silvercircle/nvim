@@ -15,64 +15,26 @@
 function Neofavs(favfile)
   local max_width = 90
   local title_width = 30
-  local favs = {}
-  local filename
 
-  local status, path = pcall(require, 'plenary.path')
-  if status == false then
-    vim.notify("A required plugin (plenary) is missing.", 3)
-    return
-  end
-
-  if favfile ~= nil then
-    filename = path:new(vim.fn.stdpath("config"), favfile)['filename']
-  else
-    filename = vim.fn.stdpath("config") .. "/favs"
-  end
-  if vim.fn.filereadable(filename) == 0 then
-    vim.notify("The given file (" .. filename .. ") does not exist", 3)
+  if pcall(require, "neo-tree") == false then
+    print("This feature requires the NeoTree plugin")
     return
   end
   if pcall(require, 'telescope') == false then
     print("This feature requires the Telecope plugin.")
     return
   end
-
   local pickers = require "telescope.pickers"
   local finders = require "telescope.finders"
   local conf = require("telescope.config").values
   local actions = require "telescope.actions"
   local action_state = require "telescope.actions.state"
+  local utils = require "telescope.utils"
 
-  local file = io.open(filename)
-  if file == nil then
-    print("Favorite file not found, should be in " .. filename)
+  local status, favs = ReadFolderFavs(favfile)
+  if status == false then
+    vim.notify("Read favorite folders returned an error", 3)
     return
-  end
-  if pcall(require, "neo-tree") == false then
-    print("This feature requires the NeoTree plugin")
-    io.close(file)
-    return
-  end
-  local lines = file:lines()
-  for line in lines do
-    if line ~= nil and #line > 1 then
-      local elem=String_split(line, '|')
-      if #elem == 2 then
-        table.insert(favs, { title = elem[1], dir = elem[2] } )
-      end
-    end
-  end
-  io.close(file)
-  local entries = {}
-  for _,v in pairs(favs) do
-    local entry = Rpad(v['title'], title_width, ' ') .. "  " .. v['dir']
-    if #entry > max_width then
-      entry = Truncate(entry, max_width)
-    else
-      entry = Rpad(entry, max_width, ' ')
-    end
-    table.insert(entries, entry)
   end
   -- use telescope
   local favselector = function(opts)
@@ -85,7 +47,17 @@ function Neofavs(favfile)
         }
       },
       finder = finders.new_table {
-        results = entries
+        results = favs,
+        entry_maker = function(entry)
+          local display = utils.transform_path({}, entry.dir)
+          local icon, hl_group = utils.transform_devicons(display, display, false)
+          print(hl_group)
+          return {
+            value = entry,
+            display = function() return Truncate(Rpad(entry.title, title_width, ' ') .. " | " .. icon, max_width) end,
+            ordinal = entry.title
+          }
+        end,
       },
       sorter = conf.generic_sorter(opts),
       mappings = {
@@ -95,14 +67,16 @@ function Neofavs(favfile)
       },
       attach_mappings = function(prompt_bufnr, _)
         actions.select_default:replace(function()
+          local path = require("plenary.path")
           actions.close(prompt_bufnr)
           local selection = action_state.get_selected_entry()
-          if selection[1] ~= nil and #selection[1] > 0 then
-            for _,v in pairs(favs) do
-              if string.sub(selection[1], 1, #v['title']) == v['title'] then
-                vim.cmd("Neotree dir=" .. v['dir'])
-                return
-              end
+          if selection.value.dir ~= nil and #selection.value.dir > 0 then
+            local f = path:new(selection.value.dir)
+            local name = f:expand()
+            if vim.fn.filereadable(name) ~= 0 then
+              vim.cmd('e ' .. name)
+            elseif vim.fn.isdirectory(name) ~= 0 then
+              vim.cmd("Neotree position=float dir=" .. name)
             end
           end
         end)
