@@ -122,5 +122,6 @@ return require("packer").startup(function(use)
     end
   end
   use '~/.config/nvim/local_plugin/quickfavs'
+  use 'voldikss/vim-floaterm'
 end)
 

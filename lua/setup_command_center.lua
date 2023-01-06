@@ -3,6 +3,7 @@
 
 Command_center = require("command_center")
 local noremap = {noremap = true}
+local lsputil = require('lspconfig.util')
 
 Command_center.add({
   {
@@ -210,6 +211,12 @@ Command_center.add({
     desc = "GIT commits (Telescope)",
     cmd = function() require'telescope.builtin'.git_commits({layout_config={height=0.8, width=0.8}}) end,
     keys = { "n", "tgc", noremap },
+    category = "@GIT"
+  },
+  {
+    desc = "FloatTerm lazygit",
+    cmd = function() local cmd = "FloatermNew --name=GIT --width=0.9 --height=0.9 lazygit --path=" .. lsputil.root_pattern(".git")(vim.fn.expand("%:p")) vim.cmd(cmd) end,
+    keys = { "n", "<f6>", noremap },
     category = "@GIT"
   },
   -- text formatting

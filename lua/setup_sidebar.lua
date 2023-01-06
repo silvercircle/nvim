@@ -6,7 +6,7 @@ require("sidebar-nvim").setup({
     initial_width = vim.g.filetree_width,
     hide_statusline = false,
     update_interval = 2000,
-    sections = { "datetime", "buffers", "git", "diagnostics" },
+    sections = { "datetime", "buffers", "diagnostics" },
     section_separator = {"", "-----------------------------", ""},
     section_title_separator = {""},
     containers = {

@@ -1,15 +1,16 @@
 local M = {}
 
+local conf = {
+  filename = vim.fn.stdpath("config") .. "/favs"
+}
+
 function M.init()
-  print("in M.init")
+  print("The filename is: " .. conf.filename)
 end
 
-local function lpad(string, length, fill)
-  local padlen = (length - #string)
-  if #string >= length or padlen < 2 then
-    return string
-  end
-  return string.rep(fill, padlen) .. string
+function M.setup(opts)
+  --local path =  require("plenary.path")
+  opts = opts or {}
 end
 
 local function rpad(string, length, fill)
@@ -85,9 +86,10 @@ local function ReadFolderFavs(favfile)
   return true, favs
 end
 
-function M.Quickfavs(favfile)
+function M.Quickfavs()
   local max_width = 90
   local title_width = 30
+  local status
 
   if pcall(require, "neo-tree") == false then
     print("This feature requires the NeoTree plugin")
@@ -105,7 +107,7 @@ function M.Quickfavs(favfile)
   local utils = require "telescope.utils"
  --  local make_entry = require "telescope.make_entry"
 
-  local status, favs = ReadFolderFavs(favfile)
+  status, favs = ReadFolderFavs(conf.filename)
   if status == false then
     vim.notify("Read favorite folders returned an error", 3)
     return
