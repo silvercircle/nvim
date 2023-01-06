@@ -6,8 +6,7 @@ local themes = require("telescope.themes")
 -- add all the commands and mappings to the command_center plugin.
 require('setup_command_center')
 
--- private modified version of the dropdown theme
--- with a square border
+-- private modified version of the dropdown theme with a square border
 Telescope_dropdown_theme = function(opts)
   return themes.get_dropdown({
     borderchars = {
@@ -26,6 +25,7 @@ Telescope_dropdown_theme = function(opts)
   })
 end
 
+-- and one with a preview (currently unused)
 Telescope_preview_dropdown_theme = function(opts)
   return themes.get_dropdown({
     borderchars = {
@@ -75,8 +75,11 @@ local function command_center_theme(opts)
   return vim.tbl_deep_extend("force", theme_opts, opts)
 end
 
---the following two functions are helpers for Telescope to workaround a bug
---with creating/restoring views via autocmd when picking files via telescope.
+-- the following two functions are helpers for Telescope to workaround a bug
+-- with creating/restoring views via autocmd when picking files via telescope.
+-- the problem affects file browser, buffer list and the „oldfiles“ picker. Maybe 
+-- others too.
+-- Reference: https://github.com/nvim-telescope/telescope.nvim/issues/559
 local function stopinsert(callback)
   return function(prompt_bufnr)
     vim.cmd.stopinsert()
@@ -104,6 +107,7 @@ require("telescope").setup({
       height = 0.6
     },
     winblend = vim.g.float_winblend,
+    -- square borders (just to be consistend with other UI elements like CMP)
     borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
     color_devicons = true,
     disable_devicons = false,
@@ -131,6 +135,8 @@ require("telescope").setup({
     }
   },
   extensions = {
+    -- command center is a command palette plugin. Pretty much like Ctrl-P in sublime text
+    -- the actual commands are setup in setup_command_center.lua
     command_center = {
     -- Specify what components are shown in telescope prompt;
     -- Order matters, and components may repeat
@@ -151,7 +157,7 @@ require("telescope").setup({
       -- Change the separator used to separate each component
       separator = " ",
       -- When set to false,
-      -- The description compoenent will be empty if it is not specified
+      -- The description component will be empty if it is not specified
       auto_replace_desc_with_cmd = true,
       -- Default title to Telescope prompt
       prompt_title = "Command Palette",
@@ -166,8 +172,6 @@ require("telescope").setup({
       -- the default case_mode is "smart_case"
     },
     media_files = {
-      -- filetypes whitelist
-      -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
       filetypes = { "png", "webp", "jpg", "jpeg" },
       find_cmd = "rg", -- find command (defaults to `fd`)
     },
@@ -184,8 +188,7 @@ require("telescope").setup({
   },
 })
 
--- To get telescope-file-browser loaded and working with telescope,
--- you need to call load_extension, somewhere after setup function:
+-- finally, load the extensions
 require("telescope").load_extension("file_browser")
 require("telescope").load_extension("vim_bookmarks")
 require("telescope").load_extension("fzf")

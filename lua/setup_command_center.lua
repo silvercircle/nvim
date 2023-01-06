@@ -9,342 +9,348 @@ Command_center.add({
     desc = "Bookmark Toggle",
     cmd = "<Plug>BookmarkToggle",
     keys = { "n", "<leader>bt",  noremap },
-    category = "Bookmarks"
+    category = "@Bookmarks"
   },
   {
     desc = "Bookmark Annotate",
     cmd = "<Plug>BookmarkAnnotate",
     keys = { "n", "<leader>by", noremap },
-    category = "Bookmarks"
+    category = "@Bookmarks"
   },
   {
     desc = "Bookmarks show all",
     cmd = "<Plug>BookmarkShowAll",
     keys = { "n", "<leader>ba", noremap },
-    category = "Bookmarks"
+    category = "@Bookmarks"
   },
   {
     desc = "Bookmark next",
     cmd = "<Plug>BookmarkNext",
     keys = { "n", "<leader>bn", noremap },
-    category = "Bookmarks"
+    category = "@Bookmarks"
   },
   {
     desc = "Bookmark previous",
     cmd = "<Plug>BookmarkPrev",
     keys = { "n", "<leader>bp", noremap },
-    category = "Bookmarks"
+    category = "@Bookmarks"
   },
   {
     desc = "Bookmark delete",
     cmd = "<Plug>BookmarkClear",
     keys = { "n", "<leader>bd", noremap },
-    category = "Bookmarks"
+    category = "@Bookmarks"
   },
   {
     desc = "Bookmark delete All",
     cmd = "<Plug>BookmarkClearAll",
     keys = { "n", "<leader>bx", noremap },
-    category = "Bookmarks"
+    category = "@Bookmarks"
   },
   {
     desc = "Bookmark move down",
     cmd = "<Plug>BookmarkMoveDown",
     keys = { "n", "<leader>bb",  noremap },
-    category = "Bookmarks"
+    category = "@Bookmarks"
   },
   {
     desc = "Bookmark move up",
     cmd = "<Plug>BookmarkMoveUp",
     keys = { "n", "<leader>bu", noremap },
-    category = "Bookmarks"
+    category = "@Bookmarks"
   },
   {
     desc = "Bookmark move to line",
     cmd = "<Plug>BookmarkMoveToLine",
     keys = { "n", "<leader>bm", noremap },
-    category = "Bookmarks"
+    category = "@Bookmarks"
   },
   {
     desc = "Show all bookmarks (Telescope)",
     cmd = function() require('telescope').extensions.vim_bookmarks.all({hide_filename=false, width_text=80, layout_config={height=0.4, width=0.8,preview_width=0.3}}) end,
     keys = { "n", "<A-b>", noremap },
-    category = "Bookmarks"
+    category = "@Bookmarks"
   },
   {
     desc = "Show bookmarks in current file (Telescope)",
     cmd = function() require('telescope').extensions.vim_bookmarks.current_file({layout_config={height=0.4, width=0.7}}) end,
     keys = { "n", "<A-B>", noremap },
-    category = "Bookmarks"
+    category = "@Bookmarks"
   },
   {
     desc = "Show favorite folders",
     cmd = function() Neofavs() end,
     keys = { "n", "<f12>",  },
-    category = "Bookmarks"
+    category = "@Bookmarks"
   },
   -- LSP
   {
     desc = "LSP Server Info",
     cmd = "<CMD>LspInfo<CR>",
     keys = { "n", "lsi", noremap },
-    category = "LSP"
+    category = "@LSP"
   },
   {
     desc = "Peek definitions (Glance Plugin)",
     cmd = "<CMD>Glance definitions<CR>",
     keys = { "n", "GD", noremap },
-    category = "LSP"
+    category = "@LSP"
   },
   {
     desc = "Peek references (Glance Plugin)",
     cmd = "<CMD>Glance references<CR>",
     keys = { "n", "GR", noremap },
-    category = "LSP"
+    category = "@LSP"
   },
 -- Telescope LSP code navigation and diagnostics
   {
     desc = "Jump to definition",
     cmd = function() require'telescope.builtin'.lsp_definitions({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}) end,
     keys = { "n", "td", noremap },
-    category = "LSP"
+    category = "@LSP"
   },
   {
     desc = "Show references",
     cmd = function() require'telescope.builtin'.lsp_references({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}) end,
     keys = { "n", "tr", noremap },
-    category = "LSP"
+    category = "@LSP"
   },
   {
     desc = "Document symbols",
     cmd = function() require'telescope.builtin'.lsp_document_symbols({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}) end,
     keys = { "n", "ts", noremap },
-    category = "LSP"
+    category = "@LSP"
   },
   {
     desc = "Dynamic workspace symbols",
     cmd = function() require'telescope.builtin'.lsp_dynamic_workspace_symbols({winblend=0, fname_width=80,layout_config={height=0.6, width=0.9,preview_width=0.3}}) end,
     keys = { "n", "tds", noremap },
-    category = "LSP"
+    category = "@LSP"
   },
   {
     desc = "Workspace symbols",
     cmd = function() require'telescope.builtin'.lsp_workspace_symbols({winblend=0, fname_width=80,layout_config={height=0.6, width=0.9,preview_width=0.3}}) end,
     keys = { "n", "tws", noremap },
-    category = "LSP"
+    category = "@LSP"
   },
   {
     desc = "Show implementations",
     cmd = function() require'telescope.builtin'.lsp_implementations({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}) end,
     keys = { "n", "ti", noremap },
-    category = "LSP"
+    category = "@LSP"
   },
   {
     desc = "Run diagnostics",
     cmd = function() require'telescope.builtin'.diagnostics({bufnr=0, winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}) end,
     keys = { "n", "te", noremap },
-    category = "LSP"
+    category = "@LSP"
   },
   {
     desc = "Shutdown LSP server",
     cmd = function() StopLsp() end,
-    category = "LSP"
+    category = "@LSP"
   },
   {
     desc = "Show type definition",
     cmd = function() vim.lsp.buf.type_definition() end,
     keys = { "n", "TT",  },
-    category = "LSP"
+    category = "@LSP"
   },
   {
     desc = "toggle outline view",
     cmd = "<CMD>SymbolsOutline<CR>",
     keys = { "n", "<leader>.", noremap },
-    category = "LSP"
+    category = "@LSP"
   },
   {
     desc = "Signature help",
     cmd = function() vim.lsp.buf.signature_help() end,
     keys = { "i", "<C-p>", noremap  },
-    category = "LSP"
+    category = "@LSP"
   },
   -- LSP Diagnostics
   {
     desc = "Show diagnostic popup",
     cmd = function() vim.diagnostic.open_float() end,
     keys = { "n", "DO",  noremap},
-    category = "LSP Diagnostics"
+    category = "@LSP Diagnostics"
   },
   {
     desc = "Go to next diagnostic",
     cmd = function() vim.diagnostic.goto_next() end,
     keys = { "n", "DN", noremap },
-    category = "LSP Diagnostics"
+    category = "@LSP Diagnostics"
   },
   {
     desc = "Go to previous diagnostic",
     cmd = function() vim.diagnostic.goto_prev() end,
     keys = { "n", "DP", noremap },
-    category = "LSP Diagnostics"
+    category = "@LSP Diagnostics"
   },
   {
     desc = "Show hover info for current symbol",
     cmd = function() vim.lsp.buf.hover() end,
     keys = { "n", "DD", noremap },
-    category = "LSP Diagnostics"
+    category = "@LSP Diagnostics"
   },
   {
     desc = "Code Action",
     cmd = function() vim.lsp.buf.code_action() end,
     keys = { "n", "DA",  },
-    category = "LSP Diagnostics"
+    category = "@LSP Diagnostics"
   },
   -- GIT
   {
     desc = "GIT status (Telescope)",
     cmd = function() require'telescope.builtin'.git_status({layout_config={height=0.8, width=0.8}}) end,
     keys = { "n", "tgs", noremap },
-    category = "GIT"
+    category = "@GIT"
   },
   {
     desc = "GIT commits (Telescope)",
     cmd = function() require'telescope.builtin'.git_commits({layout_config={height=0.8, width=0.8}}) end,
     keys = { "n", "tgc", noremap },
-    category = "GIT"
+    category = "@GIT"
   },
   -- text formatting
   {
     desc = "Format paragraph",
     cmd = "}kV{jgq",
     keys = { "n", "<A-C-w>", noremap },
-    category = "Formatting"
+    category = "@Formatting"
   },
   {
     desc = "Select paragraph",
     cmd = "}kV{j",
     keys = { "n", "<leader>v", noremap },
-    category = "Formatting"
+    category = "@Formatting"
   },
   {
     desc = "LSP Format document",
     cmd = "<CMD>LspFormatDoc<CR>",
     keys = { "n", "DF", noremap },
-    category = "Formatting"
+    category = "@Formatting"
   },
   {
     desc = "LSP Format range",
     cmd = "<CMD>LspFormatRange<CR>",
     keys = { "n", "DR", noremap },
-    category = "Formatting"
+    category = "@Formatting"
   },
   -- Telescope pickers
   {
     desc = "Buffer list (Telescope)",
     cmd = function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.3, sort_lastused=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end,
     keys = { "n", "<C-e>", noremap },
-    category = "Telescope"
+    category = "@Telescope"
   },
   {
     desc = "Recent files (Telescope)",
     cmd = function() require'telescope.builtin'.oldfiles(Telescope_dropdown_theme({title='Old files', width=0.6, height=0.5})) end,
     keys = { "n", "<C-p>", noremap },
-    category = "Telescope"
+    category = "@Telescope"
   },
   {
     desc = "Find files in current directory (Telescope)",
     cmd = function() require'telescope.builtin'.find_files({hidden=true, cwd=vim.fn.expand('%:p:h'), layout_config={width=0.8, height=0.6,preview_width=0.7}}) end,
     keys = { "n", "<leader>f", noremap },
-    category = "Telescope"
+    category = "@Telescope"
   },
   {
     desc = "Jumplist (Telescope)",
     cmd = function() require'telescope.builtin'.jumplist({fname_width=70, show_line=false, layout_config={width=0.9, height=0.7, preview_width=0.5}}) end,
     keys = { "n", "<A-Backspace>", noremap },
-    category = "Telescope"
+    category = "@Telescope"
   },
   {
     desc = "Command history (Telescope)",
     cmd = function() require'telescope.builtin'.command_history(Telescope_dropdown_theme{title='Command history', width=0.4, height=0.7}) end,
     keys = { "n", "<A-C>", noremap },
-    category = "Telescope"
+    category = "@Telescope"
   },
   {
     desc = "Command list (Telescope)",
     cmd = function() require'telescope.builtin'.commands(Telescope_dropdown_theme{title='Commands', width=0.6, height=0.7}) end,
     keys = { "n", "<A-c>", noremap },
-    category = "Telescope"
+    category = "@Telescope"
   },
   {
     desc = "Registers (Telescope)",
     cmd = function() require'telescope.builtin'.registers(Telescope_dropdown_theme{title='Registers',width=0.6, height=0.7}) end,
     keys = { "n", "<C-x><C-r>", noremap },
-    category = "Telescope"
+    category = "@Telescope"
   },
   {
     desc = "Keymaps (Telescope",
     cmd = function() require'telescope.builtin'.keymaps({layout_config={width=0.8, height=0.7}}) end,
     keys = { "n", "<C-x><C-k>", noremap },
-    category = "Telescope"
+    category = "@Telescope"
   },
   {
     desc = "File Browser (Telescope)",
     cmd = function() require('telescope').extensions.file_browser.file_browser({hidden=true, path=vim.fn.expand('%:p:h'), layout_config={width=0.8, preview_width=0.6 } }) end,
     keys = { "n", "<A-f>", noremap },
-    category = "Telescope"
+    category = "@Telescope"
   },
   {
     desc = "Fuzzy search in current buffer",
     cmd = function() require'telescope.builtin'.current_buffer_fuzzy_find({layout_config={width=0.8, preview_width=0.4} }) end,
     keys = { "n", "<C-x><C-f>", noremap },
-    category = "Telescope"
+    category = "@Telescope"
   },
   {
-    desc = "Help tags (Telescope)",
+    desc = "Help tags (@Telescope)",
     cmd = function() require'telescope.builtin'.help_tags({ winblend=20, layout_config={width=0.8, height=0.8, preview_width=0.7} }) end,
     keys = { "n", "<A-h>", noremap },
-    category = "Telescope"
+    category = "@Telescope"
   },
   {
     desc = "Spell suggestions",
     cmd = function() require'telescope.builtin'.spell_suggest(Telescope_dropdown_theme{title='Spell suggestions', height=0.5,width=0.2}) end,
     keys = { "n", "<A-s>", noremap },
-    category = "Telescope"
-  },
-  {
+    category = "@Telescope"
+  }, 
+  { 
     desc = "Todo List",
     cmd = "<CMD>TodoTelescope cwd=%:p:h<CR>",
     keys = { "n", "tdo", noremap },
-    category = "Neovim"
+    category = "@Neovim"
   },
   {
     desc = "Quit Neovim",
     cmd = function() Quitapp() end,
     keys = { "n", "<A-q>", noremap },
-    category = "Neovim"
+    category = "@Neovim"
   },
   {
     desc = "Command Palette (Insert Mode)",
     cmd = function() require("telescope").extensions.command_center.command_center({ mode='i' }) end,
     keys = { "i", "<A-p>", noremap },
-    category = "Neovim"
+    category = "@Neovim"
   },
   {
     desc = "Command Palette (Normal Mode)",
     cmd = function() require("telescope").extensions.command_center.command_center() end,
     keys = { "n", "<A-p>", noremap },
-    category = "Neovim"
+    category = "@Neovim"
   },
   {
     desc = "Neotree buffer list",
     cmd = "<CMD>Neotree buffers position=float<CR>",
     keys = { "n", "<C-t>", noremap },
-    category = "Neovim"
+    category = "@Neovim"
   },
   {
     desc = "Neotree Git status",
     cmd = "<CMD>Neotree git_status position=float<CR>",
     keys = { "n", "<C-g>", noremap },
-    category = "Neovim"
+    category = "@Neovim"
+  },
+  {
+    desc = "Packer Sync",
+    cmd = "<CMD>PackerSync<CR>",
+    keys = {  },
+    category = "@Neovim"
   }
 })
 

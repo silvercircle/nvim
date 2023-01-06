@@ -99,7 +99,8 @@ require("scrollbar").setup({
     "neo-tree",
 --    "Outline",
     "DressingSelect",
-    "DressingInput"
+    "DressingInput",
+    "lazygit"
   },
   autocmd = {
     render = {
