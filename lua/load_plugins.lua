@@ -114,5 +114,10 @@ return require("packer").startup(function(use)
   if vim.g.features['orgmode']['enable'] == true then
     use 'nvim-orgmode/orgmode'
   end
+  if vim.g.use_private_forks == true then
+    use 'silvercircle/sidebar.nvim'
+  else
+    use 'sidebar-nvim/sidebar.nvim'
+  end
 end)
 

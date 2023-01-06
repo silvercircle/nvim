@@ -46,3 +46,25 @@ end
 if vim.g.use_private_forks == true then
   vim.notify("Warning: Using private forks of some plugins", 3)
 end
+
+require("sidebar-nvim").setup({
+    disable_default_keybindings = 0,
+    bindings = nil,
+    open = true,
+    side = "left",
+    initial_width = vim.g.filetree_width,
+    hide_statusline = false,
+    update_interval = 2000,
+    sections = { "datetime", "git", "diagnostics" },
+    section_separator = {"", "-----", ""},
+    section_title_separator = {""},
+    containers = {
+        attach_shell = "/bin/sh", show_all = true, interval = 5000,
+    },
+    datetime = { format = "%a %b %d, %H:%M", clocks = { { name = "local" } } },
+    todos = { ignored_paths = { "~" } },
+--     statusline = "Keine",
+    winhl = "NeoTreeNormalNC",
+    statusline = "Sidebar"
+})
+

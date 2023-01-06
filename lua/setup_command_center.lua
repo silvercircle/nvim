@@ -309,8 +309,8 @@ Command_center.add({
     cmd = function() require'telescope.builtin'.spell_suggest(Telescope_dropdown_theme{title='Spell suggestions', height=0.5,width=0.2}) end,
     keys = { "n", "<A-s>", noremap },
     category = "@Telescope"
-  }, 
-  { 
+  },
+  {
     desc = "Todo List",
     cmd = "<CMD>TodoTelescope cwd=%:p:h<CR>",
     keys = { "n", "tdo", noremap },

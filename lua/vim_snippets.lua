@@ -1,5 +1,4 @@
--- unused, this is for luasnip, but we load snippets in snipmate
--- format from .config/nvim/snippets
+-- unused, this is for luasnip, but we load snippets in snipmate format from .config/nvim/snippets
 
 local ls = require("luasnip")
 local s = ls.snippet

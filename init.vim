@@ -1,11 +1,6 @@
 " This REQUIRES Neovim version 0.8.0 or later. Might work with earlier
 " versions, but this has not been tested or verified.
 
-let g:lazygit_floating_window_scaling_factor = 0.9 " scaling factor for floating window
-let g:lazygit_floating_window_corner_chars = ['╭', '╮', '╰', '╯'] " customize lazygit popup window corner characters
-let g:lazygit_floating_window_use_plenary = 0 " use plenary.nvim to manage floating window if available
-let g:lazygit_use_neovim_remote = 0 " fallback to 0 if neovim-remote is not installed
-
 lua require('impatient_bootstrap')
 lua require('impatient')
 
@@ -49,7 +44,7 @@ end
 set guifont=Iosevka:h11.2:#e-subpixelantialias:#h-full
 
 " enable plugin-based filetyp identification, syntax highlighting
-filetype off
+filetype on
 syntax on
 filetype plugin indent on
 " keep the command line clean, MODE is always visible on the status line.
@@ -98,7 +93,6 @@ augroup filetypes
   autocmd FileType noice silent! setlocal signcolumn=no | silent!  setlocal foldcolumn=0 | silent! setlocal nonumber
   autocmd FileType Outline,lspsagaoutline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
   autocmd FileType org,orgagenda,markdown,liquid silent! setlocal conceallevel=2 | silent! setlocal concealcursor='nc' | silent! setlocal tw=105 | setlocal ff=unix | setlocal fo+=nwqt | setlocal spell spelllang=en_us,de_de | setlocal fdm=manual
-  autocmd FileType lazygit ScrollbarHide
 augroup end
 
 " set filetype dependent background colors.
@@ -195,4 +189,5 @@ tnoremap <A-t> <C-\><C-n>:call TermToggle(12)<CR>
 tnoremap <Esc> <C-\><C-n>
 
 command! Jsonf :execute '%!python -c "import json,sys,collections,re; sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambda m:m.group().decode(\"unicode_escape\").encode(\"utf-8\"),json.dumps(json.load(sys.stdin, object_pairs_hook=collections.OrderedDict), indent=2)))"'
+
 

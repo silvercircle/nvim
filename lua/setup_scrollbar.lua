@@ -100,7 +100,7 @@ require("scrollbar").setup({
 --    "Outline",
     "DressingSelect",
     "DressingInput",
-    "lazygit"
+    "SidebarNvim"
   },
   autocmd = {
     render = {
@@ -128,3 +128,4 @@ require("scrollbar").setup({
     search = true, -- Requires hlslens
   },
 })
+
