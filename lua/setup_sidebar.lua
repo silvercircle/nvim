@@ -18,6 +18,6 @@ require("sidebar-nvim").setup({
     datetime = { format = "%a %b %d, %H:%M", clocks = { { name = "local" } } },
     todos = { ignored_paths = { "~" } },
     winhl = "NeoTreeNormalNC",
-    statusline = "Sidebar"
+    statusline = "  Sidebar / Neotree"
 })
 

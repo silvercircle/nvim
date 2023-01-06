@@ -121,5 +121,6 @@ return require("packer").startup(function(use)
       use 'sidebar-nvim/sidebar.nvim'
     end
   end
+  use '~/.config/nvim/local_plugin/quickfavs'
 end)
 

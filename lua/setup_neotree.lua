@@ -118,7 +118,7 @@ require("neo-tree").setup({
   window = {
     position = "left",
     popup = { -- settings that apply to float position only
-      size = { height = "90%", width = "60" },
+      size = { height = "70%", width = "60" },
       position = "50%", -- 50% means center it
     },
     width = vim.g.filetree_width,

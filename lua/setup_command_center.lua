@@ -79,7 +79,7 @@ Command_center.add({
   },
   {
     desc = "Show favorite folders",
-    cmd = function() Neofavs() end,
+    cmd = function() require "quickfavs".Quickfavs() end,
     keys = { "n", "<f12>",  },
     category = "@Bookmarks"
   },
