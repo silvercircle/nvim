@@ -1340,7 +1340,6 @@ call my_sonokai#highlight('GlancePreviewNormal', s:palette.fg, s:palette.black)
 call my_sonokai#highlight('GlancePreviewMatch', s:palette.fg, s:palette.black)
 
 call my_sonokai#highlight('NeoTreeNormalNC', s:palette.fg, s:palette.neotreebg)
-call my_sonokai#highlight('SidebarNvimWindow', s:palette.fg, s:palette.neotreebg)
 call my_sonokai#highlight('NeoTreeNormal', s:palette.fg, s:palette.neotreebg)
 call my_sonokai#highlight('NeoTreeFloatBorder', s:palette.grey_dim, s:palette.neotreebg)
 

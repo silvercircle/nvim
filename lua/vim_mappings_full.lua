@@ -113,9 +113,8 @@ map('n', "<C-x><C-s>", ':update!<CR>', opts)
 -- Ctrl-x Ctrl-c close the file, do NOT save it(!) but create the view to save folding state and
 -- cursor position. if g.confirm_actions['buffer_close'] is true then a warning message and a 
 -- selection dialog will appear..
-map('n', "<C-x><C-c>", ':lua BufClose()<CR>', opts)
+map('n', "<C-x><C-c>", ':lua require("local_utils").BufClose()<CR>', opts)
 -- basically, we do not need this in insert mode
--- map('i', "<C-x><C-c>", '<c-o>:lua BufClose()<CR>', opts)
 
 -- switch off highlighted search results
 map('n', "<C-x><C-h>", ':nohl<CR>', opts)
@@ -130,7 +129,7 @@ map('i', "<C-y>\"", "„”", opts)       -- typographic quotes („”)
 -- close window
 map('n', "<A-w>", ":close<CR>", opts)
 -- force exit, caution all unsaved buffers will be lost
-map('n', "<A-q>", ":lua Quitapp()<CR>", opts)
+map('n', "<A-q>", ":lua require('local_utils').Quitapp()<CR>", opts)
 
 -- LSP mappings
 map('n', "lsi", ":LspInfo<CR>", opts)     -- LspInfo

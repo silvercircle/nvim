@@ -6,7 +6,6 @@ lua require('impatient')
 
 " Set configuration variables
 lua require('config')
-lua require('lib')
 " load plugins (packer)
 lua require('load_plugins')
 " exec "source " . expand("<sfile>:h") . '/plugin/packer_compiled.lua'
@@ -14,7 +13,6 @@ lua require('vim_options')
 " setup all default and optional plugins, based on g.features (see
 " config.lua)
 lua require('setup_plugins')
-lua require('features')
 
 run macros/justify.vim
 
@@ -33,7 +31,6 @@ command AFAuto setlocal fo+=a | setlocal fo+=w | setlocal fo+=c | setlocal fo+=q
 
 map <C-f> <NOP>
 map <C-c> <NOP>
-imap <C-p> <NOP>
 
 if g:use_command_center == v:true
   lua require('vim_mappings_light')

@@ -148,7 +148,7 @@ Command_center.add({
   },
   {
     desc = "Shutdown LSP server",
-    cmd = function() StopLsp() end,
+    cmd = function() require "local_utils".StopLsp() end,
     category = "@LSP"
   },
   {
@@ -214,6 +214,9 @@ Command_center.add({
     category = "@GIT"
   },
   {
+    -- open a float term with lazygit.
+    -- use the path of the current buffer to find the .git root. The LSP utils are useful for
+    -- such a case.
     desc = "FloatTerm lazygit",
     cmd = function() local cmd = "FloatermNew --name=GIT --width=0.9 --height=0.9 lazygit --path=" .. lsputil.root_pattern(".git")(vim.fn.expand("%:p")) vim.cmd(cmd) end,
     keys = { "n", "<f6>", noremap },
@@ -221,17 +224,20 @@ Command_center.add({
   },
   -- text formatting
   {
+    -- select and format the current paragraph
     desc = "Format paragraph",
     cmd = "}kV{jgq",
     keys = { "n", "<A-C-w>", noremap },
     category = "@Formatting"
   },
   {
+    -- select the current paragraph
     desc = "Select paragraph",
     cmd = "}kV{j",
     keys = { "n", "<leader>v", noremap },
     category = "@Formatting"
   },
+  -- lsp formatters, this requires the null-ls plugin
   {
     desc = "LSP Format document",
     cmd = "<CMD>LspFormatDoc<CR>",
@@ -325,7 +331,7 @@ Command_center.add({
   },
   {
     desc = "Quit Neovim",
-    cmd = function() Quitapp() end,
+    cmd = function() require "local_utils".Quitapp() end,
     keys = { "n", "<A-q>", noremap },
     category = "@Neovim"
   },

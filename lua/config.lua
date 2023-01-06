@@ -227,5 +227,13 @@ g.VM_Extend_hl = 'DiffAdd'
 g.VM_Cursor_hl = 'Visual'
 g.VM_Insert_hl = 'DiffChange'
 
+Truncate = function(text, max_width)
+  if #text > max_width then
+    return string.sub(text, 1, max_width) .. "…"
+  else
+    return text
+  end
+end
+
 -- load the color theme
 vim.cmd [[silent! colorscheme my_sonokai]]

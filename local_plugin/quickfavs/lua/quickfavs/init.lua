@@ -6,6 +6,8 @@ local conf = {
 
 function M.init()
   print("The filename is: " .. conf.filename)
+  local utils=require "local_utils"
+  print(utils.rpad("Affe", 20, ' '))
 end
 
 function M.setup(opts)
@@ -13,33 +15,11 @@ function M.setup(opts)
   opts = opts or {}
 end
 
-local function rpad(string, length, fill)
-  local padlen = (length - #string)
-  if #string >= length or padlen < 2 then
-    return string
-  end
-  return string .. string.rep(fill, padlen)
-end
-local function string_split(s, delimiter)
-  local result = {};
-  for match in (s..delimiter):gmatch("(.-)"..delimiter) do
-    table.insert(result, match);
-  end
-  return result;
-end
-
-local function truncate(text, max_width)
-  if #text > max_width then
-    return string.sub(text, 1, max_width) .. "…"
-  else
-    return text
-  end
-end
-
 local favs = {}
 
 -- read favorite files and folders from the given file
 local function ReadFolderFavs(favfile)
+  local utils = require('local_utils')
   -- local favs = {}
   local filename
   if #favs > 0 then
@@ -52,11 +32,10 @@ local function ReadFolderFavs(favfile)
     vim.notify("A required plugin (plenary) is missing.", 3)
     return false, {}
   end
-
   if favfile ~= nil then
-    filename = path:new(vim.fn.stdpath("config"), favfile)['filename']
+    filename = favfile
   else
-    filename = vim.fn.stdpath("config") .. "/favs"
+    filename = conf.filename
   end
   if vim.fn.filereadable(filename) == 0 then
     vim.notify("The given file (" .. filename .. ") does not exist", 3)
@@ -70,7 +49,7 @@ local function ReadFolderFavs(favfile)
   local lines = file:lines()
   for line in lines do
     if line ~= nil and #line > 1 then
-      local elem = string_split(line, '|')
+      local elem = utils.string_split(line, '|')
       if #elem == 2 then
         local f = path:new(elem[2])
         local e = f:expand()
@@ -90,6 +69,7 @@ function M.Quickfavs()
   local max_width = 90
   local title_width = 30
   local status
+  local lutils = require("local_utils")
 
   if pcall(require, "neo-tree") == false then
     print("This feature requires the NeoTree plugin")
@@ -101,7 +81,7 @@ function M.Quickfavs()
   end
   local pickers = require "telescope.pickers"
   local finders = require "telescope.finders"
-  local conf = require("telescope.config").values
+  local tconf = require("telescope.config").values
   local actions = require "telescope.actions"
   local action_state = require "telescope.actions.state"
   local utils = require "telescope.utils"
@@ -126,22 +106,15 @@ function M.Quickfavs()
         results = favs,
         entry_maker = function(entry)
           local icon, hl_group = utils.get_devicons(entry.filename, false)
+          print(icon, hl_group)
           return {
             value = entry,
-            display = function() return truncate(rpad(entry.type, 10, ' ') .. rpad(entry.title, title_width, ' ') .. "  " .. icon .. " " .. entry.filename, max_width) end,
+            display = function() return lutils.truncate(lutils.rpad(entry.type, 10, ' ') .. lutils.rpad(entry.title, title_width, ' ') .. "  " .. icon .. " " .. entry.filename, max_width) end,
             ordinal = entry.title .. "  " .. entry.type,
           }
         end,
       },
-      mappings = {
-        n = {
-          ['<c-d>'] = actions.delete_buffer
-        },
-        i = {
-          ['<c-d>'] = function() print("affen") end,
-        },
-      },
-      sorter = conf.generic_sorter(opts),
+      sorter = tconf.generic_sorter(opts),
       attach_mappings = function(prompt_bufnr, map)
         map('i', '<c-d>', function(_)
           local selection = action_state.get_selected_entry()
