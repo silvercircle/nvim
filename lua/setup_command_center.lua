@@ -288,9 +288,15 @@ Command_center.add({
     category = "@Telescope"
   },
   {
-    desc = "Find files from current project (git) root",
-    cmd = function() require("telescope.builtin").find_files({cwd = require("local_utils").getroot_current()}) end,
+    desc = "Find files from current GIT root",
+    cmd = function() require("telescope.builtin").find_files({cwd = require("local_utils").getroot_current(".git")}) end,
     keys = { "n", "<f8>", noremap },
+    category = "@Telescope"
+  },
+  {
+    desc = "Find files from current project root",
+    cmd = function() require("telescope.builtin").find_files({cwd = require("local_utils").getroot_current(vim.g.root_patterns)}) end,
+    keys = { "n", "<leader>f8", noremap },
     category = "@Telescope"
   },
   {

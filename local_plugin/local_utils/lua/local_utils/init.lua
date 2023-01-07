@@ -42,6 +42,11 @@ function M.truncate(text, max_width)
   end
 end
 
+-- find root (guesswork) for the file with the full path fname
+-- @param fname: string (a fullpath filename)
+-- @param pattern: varargs strings or table of strings: pattern that occur in a project
+--  root directory. Full filenames and wildcards allowed. For example: .git, *.gpr, Cargo.toml are all
+--  valid patterns. This uses the LSP utility library.
 function M.getroot(fname, pattern, ...)
   local lsputil = require('lspconfig.util')
   local path = lsputil.root_pattern(pattern, ...)(fname)
@@ -53,6 +58,9 @@ function M.getroot(fname, pattern, ...)
   end
 end
 
+-- a helper function for M.getroot()
+-- @param pattern: varargs string. see above
+-- this always exands the filename for the current buffer.
 function M.getroot_current(pattern, ...)
   return M.getroot(vim.fn.expand("%:p:h"), pattern, ...)
 end
