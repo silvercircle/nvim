@@ -231,6 +231,6 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
 -- nvim-tree and other file trees
 
 local Event = api.events.Event
-api.events.subscribe(Event.TreeOpen, function(data)
+api.events.subscribe(Event.TreeOpen, function(_)
   vim.opt.statusline="NvimTree"
 end)

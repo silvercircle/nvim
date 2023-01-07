@@ -103,11 +103,13 @@ function M.Quickfavs(forcerescan)
         results = favs,
         entry_maker = function(entry)
           local icon, hl_group = tutils.get_devicons(entry.filename, false)
-          print(hl_group)
           return {
             value = entry,
             display = function() return lutils.truncate(lutils.rpad(entry.type, 10, ' ') .. lutils.rpad(entry.title, title_width, ' ') .. "  " .. icon .. " " .. entry.filename, max_width) end,
             ordinal = entry.title .. "  " .. entry.type,
+          },
+          {
+            { { 1, 3 }, hl_group }
           }
         end,
       },
