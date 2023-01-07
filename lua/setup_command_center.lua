@@ -228,8 +228,7 @@ Command_center.add({
   },
   {
     -- open a float term with lazygit.
-    -- use the path of the current buffer to find the .git root. The LSP utils are useful for
-    -- such a case.
+    -- use the path of the current buffer to find the .git root. The LSP utils are useful here
     desc = "FloatTerm lazygit",
     cmd = function() local path = lsputil.root_pattern(".git")(vim.fn.expand("%:p"))
       if path == nil then
@@ -286,6 +285,12 @@ Command_center.add({
     desc = "Find files in current directory (Telescope)",
     cmd = function() require'telescope.builtin'.find_files({hidden=true, cwd=vim.fn.expand('%:p:h'), layout_config={width=0.8, height=0.6,preview_width=0.7}}) end,
     keys = { "n", "<leader>f", noremap },
+    category = "@Telescope"
+  },
+  {
+    desc = "Find files from current project (git) root",
+    cmd = function() require("telescope.builtin").find_files({cwd = require("local_utils").getroot_current()}) end,
+    keys = { "n", "<f8>", noremap },
     category = "@Telescope"
   },
   {
