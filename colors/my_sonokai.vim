@@ -56,7 +56,7 @@ if g:theme_variant == 'cold'
         \ 'yellow':     ['#e7c664',   '179'],
         \ 'darkyellow': ['#a78624',   '180'],
         \ 'green':      ['#9ed072',   '107'],
-        \ 'blue':       ['#76cce0',   '110'],
+        \ 'blue':       ['#469c70',   '110'],
         \ 'purple':     ['#b39df3',   '176'],
         \ 'grey':       ['#7f8490',   '246'],
         \ 'grey_dim':   ['#595f6f',   '240'],
@@ -88,7 +88,7 @@ else
         \ 'yellow':     ['#e7c664',   '179'],
         \ 'darkyellow': ['#a78624',   '180'],
         \ 'green':      ['#9ed072',   '107'],
-        \ 'blue':       ['#76cce0',   '110'],
+        \ 'blue':       ['#469c70',   '110'],
         \ 'purple':     ['#b39df3',   '176'],
         \ 'grey':       ['#7f8490',   '246'],
         \ 'grey_dim':   ['#595f6f',   '240'],
@@ -1336,8 +1336,10 @@ highlight!      CmpItemKindUnit          guibg=NONE guifg=#D4D4D4
 highlight!      CmpItemKindConstant      guibg=NONE guifg=#409F31
 highlight!      CmpItemKindSnippet       guibg=NONE guifg=#E3E300
 
+" Glance plugin: https://github.com/DNLHC/glance.nvim
 call my_sonokai#highlight('GlancePreviewNormal', s:palette.fg, s:palette.black)
-call my_sonokai#highlight('GlancePreviewMatch', s:palette.fg, s:palette.black)
+call my_sonokai#highlight('GlancePreviewMatch', s:palette.fg, s:palette.selbg)
+call my_sonokai#highlight('GlanceListMatch', s:palette.yellow, s:palette.none)
 
 call my_sonokai#highlight('NeoTreeNormalNC', s:palette.fg, s:palette.neotreebg)
 call my_sonokai#highlight('NeoTreeNormal', s:palette.fg, s:palette.neotreebg)
