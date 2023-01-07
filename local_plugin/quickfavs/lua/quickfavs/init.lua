@@ -13,10 +13,6 @@ local conf = {
   open_mode = 'telescope'
 }
 
-function M.init()
-  debugnotify("The filename is: " .. conf.filename)
-end
-
 function M.setup(opts)
   --local path =  require("plenary.path")
   opts = opts or {}
