@@ -218,7 +218,13 @@ Command_center.add({
     -- use the path of the current buffer to find the .git root. The LSP utils are useful for
     -- such a case.
     desc = "FloatTerm lazygit",
-    cmd = function() local cmd = "FloatermNew --name=GIT --width=0.9 --height=0.9 lazygit --path=" .. lsputil.root_pattern(".git")(vim.fn.expand("%:p")) vim.cmd(cmd) end,
+    cmd = function() local path = lsputil.root_pattern(".git")(vim.fn.expand("%:p"))
+      if path == nil then
+        vim.notify("This file is not under GIT version control", 3)
+      else
+        local cmd = "FloatermNew --name=GIT --width=0.9 --height=0.9 lazygit --path=" .. lsputil.root_pattern(".git")(vim.fn.expand("%:p")) vim.cmd(cmd)
+      end
+    end,
     keys = { "n", "<f6>", noremap },
     category = "@GIT"
   },
