@@ -11,13 +11,14 @@ local function getWordsV2()
   end
 end
 
--- lspsaga plugin: display the current symbol context in the winbar or
-local function saga_symbols()
-  if vim.g.features['lspsaga']['enable'] == true then
-    return require('lspsaga.symbolwinbar').get_symbol_node()
-  end
-  return ''
-end
+-- -- lspsaga plugin: display the current symbol context in the winbar or
+-- local sagastatus, saga = pcall(require, "lspsaga.symbolwinbar")
+-- local function getsagasymbol()
+--   if sagastatus == true then
+--     return saga.get_symbol_node()
+--   end
+--   return ''
+-- end
 
 local function actual_tabline()
   if vim.g.features['cokeline']['enable'] == true then
@@ -48,7 +49,7 @@ require("lualine").setup({
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", "neo-tree", 'lspsagaoutline', 'terminal', 'SidebarNvim'},
+      statusline = { "Outline", "neo-tree", 'terminal', 'SidebarNvim', 'qf'},
       winbar = {},
       tabline = {},
     },

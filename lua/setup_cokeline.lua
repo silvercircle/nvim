@@ -8,7 +8,7 @@ require('cokeline').setup({
   },
   default_hl = Cokeline_theme().hl,
   -- header for the neo-tree sidebar
- sidebar = {
+  sidebar = {
     -- filetype = 'neo-tree',
     -- filetype = 'SidebarNvim',
     filetype = sidebar_or_tree == true and 'SidebarNvim' or 'neo-tree',
