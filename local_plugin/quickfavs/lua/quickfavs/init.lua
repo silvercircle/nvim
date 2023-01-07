@@ -1,12 +1,20 @@
 local M = {}
 
+local function msg(msg)
+  vim.notify("Quickfavs: " .. msg, 3)
+end
+
 local conf = {
+  -- the default filename
   filename = vim.fn.stdpath("config") .. "/favs",
-  neotree = 'left'
+  neotree = 'left',
+  -- open_mode can be neotree OR telescope
+  -- for telescope, the file browser extension is needed
+  open_mode = 'telescope'
 }
 
 function M.init()
-  print("The filename is: " .. conf.filename)
+  msg("The filename is: " .. conf.filename)
 end
 
 function M.setup(opts)
@@ -24,7 +32,7 @@ local function ReadFolderFavs(favfile)
 
   local status, path = pcall(require, 'plenary.path')
   if status == false then
-    vim.notify("A required plugin (plenary) is missing.", 3)
+    msg("A required plugin (plenary) is missing.")
     return false, {}
   end
   if favfile ~= nil then
@@ -33,12 +41,12 @@ local function ReadFolderFavs(favfile)
     filename = conf.filename
   end
   if vim.fn.filereadable(filename) == 0 then
-    vim.notify("The given file (" .. filename .. ") does not exist", 3)
+    msg("The given file (" .. filename .. ") does not exist")
     return false, {}
   end
   local file = io.open(filename)
   if file == nil then
-    print("Favorite file not found, should be in " .. filename)
+    msg("Favorite file not found, should be in " .. filename)
     return false, {}
   end
   local lines = file:lines()
@@ -66,12 +74,12 @@ function M.Quickfavs(forcerescan)
   local status
   local lutils = require("local_utils")
 
-  if pcall(require, "neo-tree") == false then
-    print("This feature requires the NeoTree plugin")
+  if conf.open_mode == 'neotree' and pcall(require, "neo-tree") == false then
+    msg("This feature requires the NeoTree plugin")
     return
   end
   if pcall(require, 'telescope') == false then
-    print("This feature requires the Telecope plugin.")
+    msg("This feature requires the Telecope plugin.")
     return
   end
   local pickers = require "telescope.pickers"
@@ -84,14 +92,14 @@ function M.Quickfavs(forcerescan)
 
   if forcerescan == true or #favs == 0 then
     if forcerescan == true then
-      vim.notify("Force rescan favorites file requested", 3)
+      msg("Force rescan favorites file requested")
     elseif #favs == 0 then
-      vim.notify("Reading favorites.", 3)
+      msg("Reading favorites.")
     end
     status, favs = ReadFolderFavs(conf.filename)
   end
   if status == false then
-    vim.notify("Read favorite folders returned an error", 3)
+    msg("Read favorite folders returned an error")
     return
   end
   -- use telescope
@@ -138,7 +146,11 @@ function M.Quickfavs(forcerescan)
             if vim.fn.filereadable(name) ~= 0 then
               vim.cmd('e ' .. name)
             elseif vim.fn.isdirectory(name) ~= 0 then
-              vim.cmd("Neotree position=" .. conf.neotree .. " dir=" .. name)
+              if conf.open_mode == 'neotree' then
+                vim.cmd("Neotree position=" .. conf.neotree .. " dir=" .. name)
+              elseif conf.open_mode == 'telescope' then
+                require("telescope").extensions.file_browser.file_browser({path = name})
+              end
             end
           end
         end)
