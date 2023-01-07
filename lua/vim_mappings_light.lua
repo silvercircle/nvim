@@ -65,8 +65,6 @@ map('n', "<C-x><C-s>", ':update!<CR>', opts)
 map('n', "<C-x><C-c>", ':lua require("local_utils").BufClose()<CR>', opts)
 
 -- switch off highlighted search results
-map('n', "<C-x><C-h>", ':nohl<CR>', opts)
-map('i', "<C-x><C-h>", '<c-o>:nohl<CR>', opts)
 map('n', "<f5>", ':nohl<CR>', opts)
 map('i', "<f5>", '<c-o>:nohl<CR>', opts)
 
@@ -112,42 +110,27 @@ else  -- otherwise, use the API (less pretty, but functional)
   )
 end
 
-vim.cmd([[
-   " mappings for folding {{{
-  " toggle this fold
-  inoremap <F2> <C-O>za
-  nnoremap <F2> za
-  onoremap <F2> <C-C>za
-  vnoremap <F2> zf
+-- toggle current fold
+vim.keymap.set('n', "<F2>", function() vim.api.nvim_feedkeys('za', 'n', true) vim.cmd("call Mkview()") end, opts)
+vim.keymap.set('i', "<F2>", function() local key = vim.api.nvim_replace_termcodes("<C-o>za", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.cmd("call Mkview()") end, opts)
 
-  " close current level
-  inoremap <S-F2> <C-O>zc
-  nnoremap <S-F2> zc
-  onoremap <S-F2> <C-C>zc
-  vnoremap <S-F2> zf
+-- close current fold
+vim.keymap.set('n', "<f14>", function() vim.api.nvim_feedkeys('zc', 'n', true) vim.cmd("call Mkview()") end, opts)
+vim.keymap.set('i', "<f14>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zc", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.cmd("call Mkview()") end, opts)
 
-  " open current level
-  inoremap <C-F2> <C-O>zo
-  nnoremap <C-F2> zo
-  onoremap <C-F2> <C-C>zo
-  vnoremap <C-F2> zf
+-- open current fold
+vim.keymap.set('n', "<f26>", function() vim.api.nvim_feedkeys('zo', 'n', true) vim.cmd("call Mkview()") end, opts)
+vim.keymap.set('i', "<f26>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zo", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.cmd("call Mkview()") end, opts)
 
-  " toggle all levels of current fold
-  inoremap <F3> <C-O>zA
-  nnoremap <F3> zA
-  onoremap <F3> <C-C>zA
-  vnoremap <F3> zf
+-- toggle all folds at current line
+vim.keymap.set('n', "<F3>", function() vim.api.nvim_feedkeys('zA', 'n', true) vim.cmd("call Mkview()") end, opts)
+vim.keymap.set('i', "<F3>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zA", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.cmd("call Mkview()") end, opts)
 
-  " close all current levels
-  inoremap <S-F3> <C-O>zA
-  nnoremap <S-F3> zA
-  onoremap <S-F3> <C-C>zA
-  vnoremap <S-F3> zf
+-- close all folds at current line
+vim.keymap.set('n', "<f15>", function() vim.api.nvim_feedkeys('zC', 'n', true) vim.cmd("call Mkview()") end, opts)
+vim.keymap.set('i', "<f15>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zC", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.cmd("call Mkview()") end, opts)
 
-  " open all current levels
-  inoremap <C-F3> <C-O>zO
-  nnoremap <C-F3> zO
-  onoremap <C-F3> <C-C>zO
-  vnoremap <C-F3> zf
-]])
+-- open all folds at current line
+vim.keymap.set('n', "<f27>", function() vim.api.nvim_feedkeys('zO', 'n', true) vim.cmd("call Mkview()") end, opts)
+vim.keymap.set('i', "<f27>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zO", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.cmd("call Mkview()") end, opts)
 
