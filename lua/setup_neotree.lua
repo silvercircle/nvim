@@ -8,7 +8,7 @@ require("neo-tree").setup({
   add_blank_line_at_top = true,
   close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
   popup_border_style = "single",
-  enable_git_status = true,
+  enable_git_status = false,
   use_popups_for_input = false,
   enable_diagnostics = true,
   sort_case_insensitive = false, -- used when sorting files and directories in the tree

@@ -1,6 +1,6 @@
 -- setup command center mappings. Outsourced from setup_telescope.lua
 -- when this is in use, only vim_mappings_light is required for full keyboard configuration
-
+-- most of these mappings are also in vim_mappings_full.lua so command_center is optional.
 Command_center = require("command_center")
 local noremap = {noremap = true}
 local lsputil = require('lspconfig.util')
@@ -80,8 +80,14 @@ Command_center.add({
   },
   {
     desc = "Show favorite folders",
-    cmd = function() require "quickfavs".Quickfavs() end,
+    cmd = function() require "quickfavs".Quickfavs(false) end,
     keys = { "n", "<f12>",  },
+    category = "@Bookmarks"
+  },
+  {
+    desc = "Show favorite folders (rescan fav file)",
+    cmd = function() require "quickfavs".Quickfavs(true) end,
+    keys = { "n", "<S-f12>",  },
     category = "@Bookmarks"
   },
   -- LSP
@@ -103,42 +109,55 @@ Command_center.add({
     keys = { "n", "GR", noremap },
     category = "@LSP"
   },
+  {
+    desc = "LSP Jump to definition",
+    cmd = function() vim.lsp.buf.definition() end,
+    keys = { "n", "ld", noremap },
+    category = "@LSP"
+  },
+  {
+    desc = "LSP Jump to type definition",
+    cmd = function() vim.lsp.buf.type_definition() end,
+    keys = { "n", "lt", noremap },
+    category = "@LSP"
+  },
+
 -- Telescope LSP code navigation and diagnostics
   {
-    desc = "Jump to definition",
+    desc = "Jump to definition (Telescope)",
     cmd = function() require'telescope.builtin'.lsp_definitions({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}) end,
     keys = { "n", "td", noremap },
-    category = "@LSP"
+    category = "@LSP Telescope"
   },
   {
-    desc = "Show references",
+    desc = "Show references (Telescope)",
     cmd = function() require'telescope.builtin'.lsp_references({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}) end,
     keys = { "n", "tr", noremap },
-    category = "@LSP"
+    category = "@LSP Telescope"
   },
   {
-    desc = "Document symbols",
+    desc = "Document symbols (Telescope)",
     cmd = function() require'telescope.builtin'.lsp_document_symbols({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}) end,
     keys = { "n", "ts", noremap },
-    category = "@LSP"
+    category = "@LSP Telescope"
   },
   {
-    desc = "Dynamic workspace symbols",
+    desc = "Dynamic workspace symbols (Telescope)",
     cmd = function() require'telescope.builtin'.lsp_dynamic_workspace_symbols({winblend=0, fname_width=80,layout_config={height=0.6, width=0.9,preview_width=0.3}}) end,
     keys = { "n", "tds", noremap },
-    category = "@LSP"
+    category = "@LSP Telescope"
   },
   {
-    desc = "Workspace symbols",
+    desc = "Workspace symbols (Telescope)",
     cmd = function() require'telescope.builtin'.lsp_workspace_symbols({winblend=0, fname_width=80,layout_config={height=0.6, width=0.9,preview_width=0.3}}) end,
     keys = { "n", "tws", noremap },
-    category = "@LSP"
+    category = "@LSP Telescope"
   },
   {
-    desc = "Show implementations",
+    desc = "Show implementations (Telescope)",
     cmd = function() require'telescope.builtin'.lsp_implementations({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}) end,
     keys = { "n", "ti", noremap },
-    category = "@LSP"
+    category = "@LSP (Telescope)"
   },
   {
     desc = "Run diagnostics",
@@ -149,12 +168,6 @@ Command_center.add({
   {
     desc = "Shutdown LSP server",
     cmd = function() require "local_utils".StopLsp() end,
-    category = "@LSP"
-  },
-  {
-    desc = "Show type definition",
-    cmd = function() vim.lsp.buf.type_definition() end,
-    keys = { "n", "TT",  },
     category = "@LSP"
   },
   {
@@ -259,7 +272,7 @@ Command_center.add({
   -- Telescope pickers
   {
     desc = "Buffer list (Telescope)",
-    cmd = function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.3, sort_lastused=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end,
+    cmd = function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.4, sort_lastused=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end,
     keys = { "n", "<C-e>", noremap },
     category = "@Telescope"
   },
@@ -355,13 +368,13 @@ Command_center.add({
   },
   {
     desc = "Neotree buffer list",
-    cmd = "<CMD>Neotree buffers position=float<CR>",
+    cmd = "<CMD>Neotree buffers dir=%:p:h position=float<CR>",
     keys = { "n", "<C-t>", noremap },
     category = "@Neovim"
   },
   {
     desc = "Neotree Git status",
-    cmd = "<CMD>Neotree git_status position=float<CR>",
+    cmd = "<CMD>Neotree git_status dir=%:p:h position=float<CR>",
     keys = { "n", "<C-g>", noremap },
     category = "@Neovim"
   },
@@ -370,6 +383,31 @@ Command_center.add({
     cmd = "<CMD>PackerSync<CR>",
     keys = {  },
     category = "@Neovim"
-  }
+  },
+  {
+    desc = "Telekasten panel",
+    cmd = function() require('telekasten').panel() end,
+    keys = { "n", "<f7>", noremap },
+    category = "@Telekasten"
+  },
+  {
+    desc = "Telekasten find notes",
+    cmd = function() require('telekasten').find_notes() end,
+    keys = { "n", "<leader>zf", noremap },
+    category = "@Telekasten"
+  },
+  {
+    desc = "Telekasten find daily notes",
+    cmd = function() require('telekasten').find_daily_notes() end,
+    keys = { "n", "<leader>zd", noremap },
+    category = "@Telekasten"
+  },
+  {
+    desc = "Telekasten search notes",
+    cmd = function() require('telekasten').search_notes() end,
+    keys = { "n", "<leader>zs", noremap },
+    category = "@Telekasten"
+  },
 })
+
 

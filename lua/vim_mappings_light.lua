@@ -8,8 +8,13 @@ local opts = {noremap = true, silent = true}
 
 -- file tree
 if vim.g.features['neotree']['enable'] == true then
-  map('n', "<leader>r", "<CMD>Neotree reveal_force_cwd position=float<CR>", opts)    -- sync Neotree dir to current buffer
-  map('n', "<leader>,", '<CMD>Neotree toggle position=float dir=%:p:h<CR>', opts)              -- toggle the Neotree
+  if vim.g.features['sidebar']['enable'] == true then
+    map('n', "<leader>r", "<CMD>Neotree reveal_force_cwd position=float<CR>", opts)    -- sync Neotree dir to current buffer
+    map('n', "<leader>,", '<CMD>Neotree toggle position=float dir=%:p:h<CR>', opts)              -- toggle the Neotree
+  else
+    map('n', "<leader>r", "<CMD>Neotree reveal_force_cwd<CR>", opts)    -- sync Neotree dir to current buffer
+    map('n', "<leader>,", '<CMD>Neotree toggle dir=%:p:h<CR>', opts)              -- toggle the Neotree
+  end
 elseif vim.g.features['nvimtree']['enable'] == true then
   map('n', "<leader>,", '<CMD>NvimTreeToggle<CR>', opts)              -- toggle the Nvim-Tree
   map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)            -- sync Nvim-Tree with current 

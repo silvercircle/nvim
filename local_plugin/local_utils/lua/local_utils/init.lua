@@ -58,7 +58,7 @@ function M.StopLsp()
   end
   local pickers = require "telescope.pickers"
   local finders = require "telescope.finders"
-  local conf = require("telescope.config").values
+  local tconf = require("telescope.config").values
   local actions = require "telescope.actions"
   local action_state = require "telescope.actions.state"
 
@@ -74,7 +74,7 @@ function M.StopLsp()
       finder = finders.new_table {
         results = entries
       },
-      sorter = conf.generic_sorter(opts),
+      sorter = tconf.generic_sorter(opts),
       attach_mappings = function(prompt_bufnr, _)
         actions.select_default:replace(function()
           actions.close(prompt_bufnr)

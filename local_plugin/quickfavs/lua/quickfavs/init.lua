@@ -1,13 +1,12 @@
 local M = {}
 
 local conf = {
-  filename = vim.fn.stdpath("config") .. "/favs"
+  filename = vim.fn.stdpath("config") .. "/favs",
+  neotree = 'left'
 }
 
 function M.init()
   print("The filename is: " .. conf.filename)
-  local utils=require "local_utils"
-  print(utils.rpad("Affe", 20, ' '))
 end
 
 function M.setup(opts)
@@ -22,10 +21,6 @@ local function ReadFolderFavs(favfile)
   local utils = require('local_utils')
   -- local favs = {}
   local filename
-  if #favs > 0 then
-    print("Favs already read")
-    return true, favs
-  end
 
   local status, path = pcall(require, 'plenary.path')
   if status == false then
@@ -65,7 +60,7 @@ local function ReadFolderFavs(favfile)
   return true, favs
 end
 
-function M.Quickfavs()
+function M.Quickfavs(forcerescan)
   local max_width = 90
   local title_width = 30
   local status
@@ -84,10 +79,12 @@ function M.Quickfavs()
   local tconf = require("telescope.config").values
   local actions = require "telescope.actions"
   local action_state = require "telescope.actions.state"
-  local utils = require "telescope.utils"
+  local tutils = require "telescope.utils"
  --  local make_entry = require "telescope.make_entry"
 
-  status, favs = ReadFolderFavs(conf.filename)
+  if forcerescan == true or #favs == 0 then
+    status, favs = ReadFolderFavs(conf.filename)
+  end
   if status == false then
     vim.notify("Read favorite folders returned an error", 3)
     return
@@ -105,8 +102,8 @@ function M.Quickfavs()
       finder = finders.new_table {
         results = favs,
         entry_maker = function(entry)
-          local icon, hl_group = utils.get_devicons(entry.filename, false)
-          print(icon, hl_group)
+          local icon, hl_group = tutils.get_devicons(entry.filename, false)
+          print(hl_group)
           return {
             value = entry,
             display = function() return lutils.truncate(lutils.rpad(entry.type, 10, ' ') .. lutils.rpad(entry.title, title_width, ' ') .. "  " .. icon .. " " .. entry.filename, max_width) end,
@@ -134,7 +131,7 @@ function M.Quickfavs()
             if vim.fn.filereadable(name) ~= 0 then
               vim.cmd('e ' .. name)
             elseif vim.fn.isdirectory(name) ~= 0 then
-              vim.cmd("Neotree position=float dir=" .. name)
+              vim.cmd("Neotree position=" .. conf.neotree .. " dir=" .. name)
             end
           end
         end)

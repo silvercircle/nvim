@@ -123,20 +123,18 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
 })
 
 -- show the left-hand Neotree tree unless environment variable forbids it
---vim.api.nvim_create_autocmd({ "vimenter" }, {
---  pattern = "*",
---  callback = function()
---    local no_nerd = os.getenv("NVIM_NO_NERD")
---    if no_nerd == nil or no_nerd ~= "yes" then
---      --if vim.g.features['neotree']['enable'] == true then
---      --  vim.api.nvim_command("NeoTreeShow")
---      --end
---      vim.cmd([[SidebarNvimOpen]])
---      vim.cmd([[call Sidebar()]])
---    end
---  end,
---  group = agroup_enter,
---})
+vim.api.nvim_create_autocmd({ "vimenter" }, {
+  pattern = "*",
+  callback = function()
+    local no_nerd = os.getenv("NVIM_NO_NERD")
+    if no_nerd == nil or no_nerd ~= "yes" then
+      if vim.g.features['neotree']['enable'] == true then
+        vim.api.nvim_command("NeoTreeShow")
+      end
+    end
+  end,
+  group = agroup_enter,
+})
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = "mail",

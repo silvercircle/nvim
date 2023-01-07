@@ -70,7 +70,6 @@ return require("packer").startup(function(use)
     use { 'nvim-telescope/telescope.nvim', branch = '0.1.x' }
     use 'nvim-telescope/telescope-file-browser.nvim'
     use 'tom-anders/telescope-vim-bookmarks.nvim'
-    -- use 'LinArcX/telescope-command-palette.nvim'
     use 'FeiyouG/command_center.nvim'
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
   end
@@ -113,6 +112,10 @@ return require("packer").startup(function(use)
   end
   if vim.g.features['orgmode']['enable'] == true then
     use 'nvim-orgmode/orgmode'
+  end
+  if vim.g.features['telekasten']['enable'] == true then
+    use 'renerocksai/telekasten.nvim'
+    use 'renerocksai/calendar-vim'
   end
   if vim.g.features['sidebar']['enable'] then
     if vim.g.use_private_forks == true then

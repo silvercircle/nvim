@@ -207,6 +207,15 @@ else  -- otherwise, use the API (less pretty, but functional)
 end
 
 vim.cmd([[
+  nnoremap <leader>zf :lua require('telekasten').find_notes()<CR>
+  nnoremap <leader>zd :lua require('telekasten').find_daily_notes()<CR>
+  nnoremap <leader>zg :lua require('telekasten').search_notes()<CR>
+  nnoremap <leader>zz :lua require('telekasten').follow_link()<CR>
+  nnoremap <leader>zf :lua require('telekasten').find_notes()<CR>
+  nnoremap <leader>zd :lua require('telekasten').find_daily_notes()<CR>
+  nnoremap <leader>zg :lua require('telekasten').search_notes()<CR>
+  nnoremap <leader>zz :lua require('telekasten').follow_link()<CR>
+  nnoremap <f7> :lua require('telekasten').panel()<CR>
    " mappings for folding {{{
   " toggle this fold
   inoremap <F2> <C-O>za

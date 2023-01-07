@@ -16,7 +16,8 @@ vim.g.features = {
   mason = { enable = false, module = '' },
   cmp = { enable = true, module = 'setup_cmp' },                          -- cmp, including all its sources
                                                                           -- and luasnip
-  orgmode = { enable = true, module = 'setup_orgmode' },                  -- orgmode is a must-have
+  orgmode = { enable = false, module = 'setup_orgmode' },                  -- orgmode is a must-have
+  telekasten = { enable = true, module = 'setup_telekasten' },
   scrollbar = { enable = true, module = 'setup_scrollbar' },              -- scrollbar
   gitsigns = { enable = true, module = 'setup_gitsigns' },                -- gitsigns plugin
   indent_blankline = { enable = true, module = 'setup_indent_blankline' },-- indent guides
@@ -39,7 +40,7 @@ vim.g.features = {
   nvimtree = { enable = false, module = 'setup_nvim-tree' },              -- nvim-tree file explorer
   null_ls = { enable = false, module = 'setup_null_ls' },                 -- null-ls for linting, formatting and more lsp features
   todo = { enable = true, module = 'setup_todo' },
-  sidebar = { enable = true, module = 'setup_sidebar' }
+  sidebar = { enable = false, module = 'setup_sidebar' }
 }
 
 -- theme variant can be either cold or warm.
