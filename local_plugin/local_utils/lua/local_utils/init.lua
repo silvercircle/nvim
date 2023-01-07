@@ -42,6 +42,21 @@ function M.truncate(text, max_width)
   end
 end
 
+function M.getroot(fname)
+  local lsputil = require('lspconfig.util')
+  local path = lsputil.root_pattern(".git")(fname)
+  if path == nil then
+    vim.notify("Utils: " .. fname .. ": no git root found", 3)
+    return "."
+  else
+    return path
+  end
+end
+
+function M.getroot_current()
+  return M.getroot(vim.fn.expand("%:p:h"))
+end
+
 --- simple telescope picker to list active LSP servers. Allows to terminate a server on selection.
 function M.StopLsp()
   local entries = {}
