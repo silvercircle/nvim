@@ -83,6 +83,11 @@ function M.Quickfavs(forcerescan)
  --  local make_entry = require "telescope.make_entry"
 
   if forcerescan == true or #favs == 0 then
+    if forcerescan == true then
+      vim.notify("Force rescan favorites file requested", 3)
+    elseif #favs == 0 then
+      vim.notify("Reading favorites.", 3)
+    end
     status, favs = ReadFolderFavs(conf.filename)
   end
   if status == false then
