@@ -21,7 +21,10 @@ Telescope_dropdown_theme = function(opts)
     winblend = vim.g.float_winblend,
     prompt_title = opts.title ~= nil and opts.title or 'Prompt',
     previewer = false,
-    sort_lastused = true
+    sort_lastused = opts.sort_lastused,
+    sort_mru = opts.sort_mru,
+    ignore_current_buffer=opts.ignore_current_buffer,
+    show_all_buffers=opts.show_all_buffers
   })
 end
 
