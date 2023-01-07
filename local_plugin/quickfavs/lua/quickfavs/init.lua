@@ -135,6 +135,7 @@ function M.Quickfavs(forcerescan)
             vim.api.nvim_set_current_dir(selection.value.filename)
           end
         end)
+        map('i', '<c-q>', function(_) end)    -- remap this to nothing, it will otherwise produce an error
         actions.select_default:replace(function()
           -- local path = require("plenary.path")
           actions.close(prompt_bufnr)
