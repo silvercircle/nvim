@@ -1,6 +1,6 @@
 local M = {}
 
-local function msg(msg)
+local function debugnotify(msg)
   vim.notify("Quickfavs: " .. msg, 3)
 end
 
@@ -14,7 +14,7 @@ local conf = {
 }
 
 function M.init()
-  msg("The filename is: " .. conf.filename)
+  debugnotify("The filename is: " .. conf.filename)
 end
 
 function M.setup(opts)
@@ -32,7 +32,7 @@ local function ReadFolderFavs(favfile)
 
   local status, path = pcall(require, 'plenary.path')
   if status == false then
-    msg("A required plugin (plenary) is missing.")
+    debugnotify("A required plugin (plenary) is missing.")
     return false, {}
   end
   if favfile ~= nil then
@@ -41,12 +41,12 @@ local function ReadFolderFavs(favfile)
     filename = conf.filename
   end
   if vim.fn.filereadable(filename) == 0 then
-    msg("The given file (" .. filename .. ") does not exist")
+    debugnotify("The given file (" .. filename .. ") does not exist")
     return false, {}
   end
   local file = io.open(filename)
   if file == nil then
-    msg("Favorite file not found, should be in " .. filename)
+    debugnotify("Favorite file not found, should be in " .. filename)
     return false, {}
   end
   local lines = file:lines()
@@ -75,11 +75,11 @@ function M.Quickfavs(forcerescan)
   local lutils = require("local_utils")
 
   if conf.open_mode == 'neotree' and pcall(require, "neo-tree") == false then
-    msg("This feature requires the NeoTree plugin")
+    debugnotify("This feature requires the NeoTree plugin")
     return
   end
   if pcall(require, 'telescope') == false then
-    msg("This feature requires the Telecope plugin.")
+    debugnotify("This feature requires the Telecope plugin.")
     return
   end
   local pickers = require "telescope.pickers"
@@ -92,14 +92,14 @@ function M.Quickfavs(forcerescan)
 
   if forcerescan == true or #favs == 0 then
     if forcerescan == true then
-      msg("Force rescan favorites file requested")
+      debugnotify("Force rescan favorites file requested")
     elseif #favs == 0 then
-      msg("Reading favorites.")
+      debugnotify("Reading favorites.")
     end
     status, favs = ReadFolderFavs(conf.filename)
   end
   if status == false then
-    msg("Read favorite folders returned an error")
+    debugnotify("Read favorite folders returned an error")
     return
   end
   -- use telescope
@@ -158,7 +158,7 @@ function M.Quickfavs(forcerescan)
       end,
     }):find()
   end
-  favselector(Telescope_dropdown_theme{width=0.5, height=0.4, title="Select favorite (Enter=open in Neotree, <C-d> set as CWD)"})
+  favselector(Telescope_dropdown_theme{width=0.5, height=0.4, title="Select favorite (Enter = open in Neotree or Telescope, <C-d> = set as CWD)"})
 end
 
 return M
