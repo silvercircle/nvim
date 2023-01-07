@@ -1,11 +1,5 @@
 local M = {}
 
-local conf = {
-}
-
-function M.init()
-  print("Init in the local_utils plugin")
-end
 -- some library functions
 -- pad string left and right to length with fill as fillchar
 function M.pad(string, length, fill)
