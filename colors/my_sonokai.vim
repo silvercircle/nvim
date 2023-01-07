@@ -1338,7 +1338,7 @@ highlight!      CmpItemKindSnippet       guibg=NONE guifg=#E3E300
 
 " Glance plugin: https://github.com/DNLHC/glance.nvim
 call my_sonokai#highlight('GlancePreviewNormal', s:palette.fg, s:palette.black)
-call my_sonokai#highlight('GlancePreviewMatch', s:palette.fg, s:palette.selbg)
+call my_sonokai#highlight('GlancePreviewMatch', s:palette.yellow, s:palette.none)
 call my_sonokai#highlight('GlanceListMatch', s:palette.yellow, s:palette.none)
 
 call my_sonokai#highlight('NeoTreeNormalNC', s:palette.fg, s:palette.neotreebg)
