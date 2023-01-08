@@ -150,7 +150,7 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
     ignore_dirs = {},
   },
   git = {
-    enable = true,
+    enable = false,
     ignore = true,
     show_on_dirs = true,
     show_on_open_dirs = true,

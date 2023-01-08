@@ -100,7 +100,8 @@ require("scrollbar").setup({
 --    "Outline",
     "DressingSelect",
     "DressingInput",
-    "SidebarNvim"
+    "SidebarNvim",
+    "NvimTree"
   },
   autocmd = {
     render = {

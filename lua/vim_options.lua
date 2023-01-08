@@ -130,6 +130,9 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
       if vim.g.features['neotree']['enable'] == true then
         vim.api.nvim_command("NeoTreeShow")
       end
+      if vim.g.features['nvimtree']['enable'] == true then
+        require('nvim-tree').toggle(false, true)
+      end
     end
   end,
   group = agroup_enter,

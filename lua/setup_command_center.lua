@@ -125,13 +125,13 @@ Command_center.add({
 -- Telescope LSP code navigation and diagnostics
   {
     desc = "Jump to definition (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_definitions({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}) end,
+    cmd = function() require'telescope.builtin'.lsp_definitions(Telescope_vertical_dropdown_theme({layout_config={width=0.8}})) end,
     keys = { "n", "td", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Show references (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_references({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}) end,
+    cmd = function() require'telescope.builtin'.lsp_references(Telescope_vertical_dropdown_theme({layout_config={width=0.8}})) end,
     keys = { "n", "tr", noremap },
     category = "@LSP Telescope"
   },
@@ -143,13 +143,13 @@ Command_center.add({
   },
   {
     desc = "Dynamic workspace symbols (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_dynamic_workspace_symbols({winblend=0, fname_width=80,layout_config={height=0.6, width=0.9,preview_width=0.3}}) end,
+    cmd = function() require'telescope.builtin'.lsp_dynamic_workspace_symbols(Telescope_vertical_dropdown_theme({fname_width=150,layout_config={width=0.9}})) end,
     keys = { "n", "tds", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Workspace symbols (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_workspace_symbols({winblend=0, fname_width=80,layout_config={height=0.6, width=0.9,preview_width=0.3}}) end,
+    cmd = function() require'telescope.builtin'.lsp_workspace_symbols(Telescope_vertical_dropdown_theme({fname_width=150,layout_config={width=0.9}})) end,
     keys = { "n", "tws", noremap },
     category = "@LSP Telescope"
   },
@@ -271,7 +271,7 @@ Command_center.add({
   -- Telescope pickers
   {
     desc = "Buffer list (Telescope)",
-    cmd = function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.4, sort_lastused=true, sort_mru=true, show_all_buffers=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end,
+    cmd = function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.4, sort_lastused=true, sort_mru=true, show_all_buffers=false, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end,
     keys = { "n", "<C-e>", noremap },
     category = "@Telescope"
   },
