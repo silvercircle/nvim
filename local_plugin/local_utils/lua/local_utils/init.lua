@@ -1,4 +1,33 @@
+-- local utils
+-- can be used without setup, but you can use it to set some (few) options.
+
 local M = {}
+
+local default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble" }
+
+local conf = {
+  root_patterns = default_root_patterns,
+  debugmode = false,
+  ignore_git = false
+}
+
+--- output a debug message
+--- @param msg string - what's to be printed
+--- does nothing when conf.debugmode = false (default)
+function M.debug(msg)
+  if conf.debugmode then
+    print("Utils: " .. msg)
+  end
+end
+
+function M.setup(opts)
+  opts = opts or {}
+  conf.root_patterns = opts.root_patterns or default_root_patterns
+  conf.debugmode = opts.debug or false
+  if conf.debugmode then
+    print("Utils: conf is: ", vim.inspect(conf))
+  end
+end
 
 -- some library functions
 -- pad string left and right to length with fill as fillchar
@@ -42,27 +71,31 @@ function M.truncate(text, max_width)
   end
 end
 
--- find root (guesswork) for the file with the full path fname
--- @param fname: string (a fullpath filename)
--- @param pattern: varargs strings or table of strings: pattern that occur in a project
---  root directory. Full filenames and wildcards allowed. For example: .git, *.gpr, Cargo.toml are all
---  valid patterns. This uses the LSP utility library.
-function M.getroot(fname, pattern, ...)
+--- find root (guesswork) for the file with the full path fname
+--- tries a git root first, then uses known patterns to identify a potential project root
+--- patterns are in conf table.
+--- @param fname string (a fullpath filename)
+function M.getroot(fname)
   local lsputil = require('lspconfig.util')
-  local path = lsputil.root_pattern(pattern, ...)(fname)
+  -- try git root first
+  local path = lsputil.find_git_ancestor(fname)
   if path == nil then
-    vim.notify("Utils: " .. fname .. ": no root found", 3)
+    M.debug("No git root found for " .. fname .. " trying root patterns")
+    path = lsputil.root_pattern(conf.root_patterns)(fname)
+  end
+  if path == nil then
+    M.debug("No root found for " .. fname .." giving up")
     return "."
   else
+    M.debug("Found root path for " .. fname .. ": " .. path)
     return path
   end
 end
 
--- a helper function for M.getroot()
--- @param pattern: varargs string. see above
--- this always exands the filename for the current buffer.
-function M.getroot_current(pattern, ...)
-  return M.getroot(vim.fn.expand("%:p:h"), pattern, ...)
+--- a helper function for M.getroot()
+--- this always exands the filename for the current buffer.
+function M.getroot_current()
+  return M.getroot(vim.fn.expand("%:p:h"))
 end
 
 --- simple telescope picker to list active LSP servers. Allows to terminate a server on selection.
