@@ -1,5 +1,5 @@
 -- local utils
--- can be used without setup, but you can use it to set some (few) options.
+-- can be used without calling setup(), but you can use it to set some (few) options.
 
 local M = {}
 
@@ -8,6 +8,7 @@ local default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.to
 local conf = {
   root_patterns = default_root_patterns,
   debugmode = false,
+  -- experimental, try root patterns ONLY. not recommended, git_ancestor() is more relieable
   ignore_git = false
 }
 
@@ -24,6 +25,7 @@ function M.setup(opts)
   opts = opts or {}
   conf.root_patterns = opts.root_patterns or default_root_patterns
   conf.debugmode = opts.debug or false
+  conf.ignore_git = opts.ignore_git or false
   if conf.debugmode then
     print("Utils: conf is: ", vim.inspect(conf))
   end
@@ -78,9 +80,14 @@ end
 function M.getroot(fname)
   local lsputil = require('lspconfig.util')
   -- try git root first
-  local path = lsputil.find_git_ancestor(fname)
+  local path = nil
+  if conf.ignore_git == false then
+    path = lsputil.find_git_ancestor(fname)
+  end
   if path == nil then
-    M.debug("No git root found for " .. fname .. " trying root patterns")
+    if conf.ignore_git == false then
+      M.debug("No git root found for " .. fname .. " trying root patterns")
+    end
     path = lsputil.root_pattern(conf.root_patterns)(fname)
   end
   if path == nil then
