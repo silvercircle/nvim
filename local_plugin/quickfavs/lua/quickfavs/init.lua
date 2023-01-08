@@ -10,12 +10,13 @@ local conf = {
   neotree = 'left',
   -- open_mode can be neotree OR telescope
   -- for telescope, the file browser extension is needed
-  open_mode = 'telescope'
+  open_mode = 'telescope',
+  telescope_theme = Telescope_vertical_dropdown_theme
 }
 
 function M.setup(opts)
-  --local path =  require("plenary.path")
   opts = opts or {}
+  conf = vim.tbl_deep_extend('force', conf, opts)
 end
 
 local favs = {}
@@ -23,7 +24,6 @@ local favs = {}
 -- read favorite files and folders from the given file
 local function ReadFolderFavs(favfile)
   local utils = require('local_utils')
-  -- local favs = {}
   local filename
 
   local status, path = pcall(require, 'plenary.path')
@@ -64,13 +64,18 @@ local function ReadFolderFavs(favfile)
   return true, favs
 end
 
-function M.Quickfavs(forcerescan)
+function M.Quickfavs(forcerescan, openmode)
   local max_width = 90
   local title_width = 30
   local status
   local lutils = require("local_utils")
+  local openin = openmode or conf.open_mode
 
-  if conf.open_mode == 'neotree' and pcall(require, "neo-tree") == false then
+  if openin ~= 'neotree' and openin ~= 'telescope' then
+    debugnotify("Unsupported openmode: " .. openin)
+    return
+  end
+  if openin == 'neotree' and pcall(require, "neo-tree") == false then
     debugnotify("This feature requires the NeoTree plugin")
     return
   end
@@ -114,11 +119,10 @@ function M.Quickfavs(forcerescan)
           local icon, hl_group = tutils.get_devicons(entry.filename, false)
           return {
             value = entry,
-            display = function() return lutils.truncate(lutils.rpad(entry.type, 10, ' ') .. lutils.rpad(entry.title, title_width, ' ') .. "  " .. icon .. " " .. entry.filename, max_width) end,
-            ordinal = entry.title .. "  " .. entry.type,
-          },
-          {
-            { { 1, 3 }, hl_group }
+            display = function()
+              return lutils.truncate(lutils.rpad(entry.type, 10, ' ') .. lutils.rpad(entry.title, title_width, ' ') .. "  " .. icon .. " " .. entry.filename, max_width), { { { 44, 45 }, hl_group } }
+            end,
+            ordinal = entry.title .. "  " .. entry.type
           }
         end,
       },
@@ -143,10 +147,14 @@ function M.Quickfavs(forcerescan)
             if vim.fn.filereadable(name) ~= 0 then
               vim.cmd('e ' .. name)
             elseif vim.fn.isdirectory(name) ~= 0 then
-              if conf.open_mode == 'neotree' then
+              if openin == 'neotree' then
                 vim.cmd("Neotree position=" .. conf.neotree .. " dir=" .. name)
-              elseif conf.open_mode == 'telescope' then
-                require("telescope").extensions.file_browser.file_browser({path = name})
+              elseif openin == 'telescope' then
+                if conf.telescope_theme ~= 'default' then
+                  require("telescope").extensions.file_browser.file_browser(conf.telescope_theme({path = name}))
+                else
+                  require("telescope").extensions.file_browser.file_browser({path = name})
+                end
               end
             end
           end
