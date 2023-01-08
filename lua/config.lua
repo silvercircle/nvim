@@ -42,7 +42,6 @@ vim.g.features = {
   todo = { enable = true, module = 'setup_todo' },
   sidebar = { enable = false, module = 'setup_sidebar' }
 }
-vim.g.root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", ".git" }
 
 -- theme variant can be either cold or warm.
 -- cold has slight blue-ish tint in the background colors, while warm is more reddish

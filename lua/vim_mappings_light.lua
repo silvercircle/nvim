@@ -138,3 +138,4 @@ vim.keymap.set('i', "<f15>", function() local key = vim.api.nvim_replace_termcod
 vim.keymap.set('n', "<f27>", function() vim.api.nvim_feedkeys('zO', 'n', true)  end, opts)
 vim.keymap.set('i', "<f27>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zO", true, false, true) vim.api.nvim_feedkeys(key, 'i', false)  end, opts)
 
+
