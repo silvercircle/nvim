@@ -147,21 +147,12 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = "tex,markdown,text,telekasten",
+  pattern = "tex,markdown,text,telekasten,org,org,orgagenda,liquid",
   callback = function()
     vim.api.nvim_command(
-      "setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nwqt | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de"
+      "setlocal conceallevel=2 | setlocal concealcursor='nc' | setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nwqtc | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de"
     )
   end,
   group = agroup_files,
 })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = "html",
-  callback = function()
-    vim.api.nvim_command(
-      "setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nwqt | setlocal spell spelllang=en_us,de_de"
-    )
-  end,
-  group = agroup_files,
-})
