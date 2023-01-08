@@ -283,25 +283,25 @@ Command_center.add({
   },
   {
     desc = "Find files in current directory (Telescope)",
-    cmd = function() require'telescope.builtin'.find_files({hidden=true, cwd=vim.fn.expand('%:p:h'), layout_config={width=0.8, height=0.6,preview_width=0.7}}) end,
+    cmd = function() require'telescope.builtin'.find_files(Telescope_vertical_dropdown_theme({hidden=true, cwd=vim.fn.expand('%:p:h')})) end,
     keys = { "n", "<f20>", noremap },  --shift-f8
     category = "@Telescope"
   },
   {
     desc = "Find files from current project root",
-    cmd = function() require("telescope.builtin").find_files({cwd = require("local_utils").getroot_current()}) end,
+    cmd = function() require("telescope.builtin").find_files(Telescope_vertical_dropdown_theme({cwd = require("local_utils").getroot_current()})) end,
     keys = { "n", "<f8>", noremap },
     category = "@Telescope"
   },
   {
     desc = "File browser in the current project root",
-    cmd = function() require("telescope").extensions.file_browser.file_browser({hidden=true, path = require("local_utils").getroot_current()}) end,
+    cmd = function() require("telescope").extensions.file_browser.file_browser(Telescope_vertical_dropdown_theme({hidden=true, path = require("local_utils").getroot_current()})) end,
     keys = { "n", "<f32>", noremap },  -- ctrl-f8
     category = "@Telescope"
   },
   {
     desc = "Jumplist (Telescope)",
-    cmd = function() require'telescope.builtin'.jumplist({fname_width=70, show_line=false, layout_config={width=0.9, height=0.7, preview_width=0.5}}) end,
+    cmd = function() require'telescope.builtin'.jumplist(Telescope_vertical_dropdown_theme({fname_width=70, show_line=false, layout_config={preview_height=0.2}})) end,
     keys = { "n", "<A-Backspace>", noremap },
     category = "@Telescope"
   },

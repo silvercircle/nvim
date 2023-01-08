@@ -8,43 +8,45 @@ require('setup_command_center')
 
 -- private modified version of the dropdown theme with a square border
 Telescope_dropdown_theme = function(opts)
-  return themes.get_dropdown({
+  local lopts = opts or {}
+  local defaults = themes.get_dropdown({
     borderchars = {
       prompt = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
       results = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
       preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
     },
     layout_config = {
-      width = opts.width,
-      height = opts.height
+      width = lopts.width,
+      height = lopts.height
     },
-    winblend = vim.g.float_winblend,
-    prompt_title = opts.title ~= nil and opts.title or 'Prompt',
     previewer = false,
-    sort_lastused = opts.sort_lastused,
-    sort_mru = opts.sort_mru,
-    ignore_current_buffer=opts.ignore_current_buffer,
-    show_all_buffers=opts.show_all_buffers
+    winblend = vim.g.float_winblend,
+    --prompt_title = lopts.title ~= nil and lopts.title or 'Prompt',
+    --sort_lastused = lopts.sort_lastused,
+    --sort_mru = lopts.sort_mru,
+    --ignore_current_buffer=lopts.ignore_current_buffer,
+    --show_all_buffers=lopts.show_all_buffers
   })
+  return vim.tbl_deep_extend('force', defaults, lopts)
 end
 
--- and one with a preview (currently unused)
-Telescope_preview_dropdown_theme = function(opts)
-  return themes.get_dropdown({
+Telescope_vertical_dropdown_theme = function(opts)
+  local lopts = opts or {}
+  local defaults = themes.get_dropdown({
     borderchars = {
-      prompt = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
-      results = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
+      results = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
+      prompt = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
       preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
     },
+    layout_strategy='vertical',
     layout_config = {
-      width = opts.width,
-      height = opts.height,
-      preview_height=0.5
+      width = lopts.width or 0.7,
+      height = lopts.height or 0.9,
+      preview_height = lopts.preview_width or 0.3
     },
     winblend = vim.g.float_winblend,
-    prompt_title = opts.title ~= nil and opts.title or 'Prompt',
-    sort_lastused = true
   })
+  return vim.tbl_deep_extend('force', defaults, lopts)
 end
 
 -- custom theme for the command_center Telescope plugin
