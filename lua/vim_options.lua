@@ -107,7 +107,6 @@ o.conceallevel = 0
 o.clipboard = "unnamedplus"
 -- autogroups
 local agroup_enter = vim.api.nvim_create_augroup("enter", {})
-local agroup_files = vim.api.nvim_create_augroup("files", {})
 
 -- open a 20 lines terminal at the bottom on enter
 -- respect environment variable $NVIM_NO_TERM to skip the terminal
@@ -134,25 +133,5 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
     end
   end,
   group = agroup_enter,
-})
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = "mail",
-  callback = function()
-    vim.api.nvim_command(
-      "setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de"
-    )
-  end,
-  group = agroup_files,
-})
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = "tex,markdown,text,telekasten,org,org,orgagenda,liquid",
-  callback = function()
-    vim.api.nvim_command(
-      "setlocal conceallevel=2 | setlocal concealcursor='nc' | setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nwqtc | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de"
-    )
-  end,
-  group = agroup_files,
 })
 

@@ -85,7 +85,7 @@ plugin configuration might change. This configuration is built around:
 
 * [Lualine](https://github.com/nvim-lualine/lualine.nvim), a blazingly fast and customizable status- and 
   tab line.
-  
+
 * Various utilities, editorconfig, scrollbar, [gitsigns](https://github.com/lewis6991/gitsigns.nvim), 
   hlslens, [indent guides](https://github.com/lukas-reineke/indent-blankline.nvim), 
   [startify](https://github.com/mhinz/vim-startify) (a start screen), 
