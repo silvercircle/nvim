@@ -16,20 +16,17 @@ Telescope_dropdown_theme = function(opts)
       preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
     },
     layout_config = {
-      width = lopts.width,
-      height = lopts.height
+      width = lopts.width or 0.5,
+      height = lopts.height or 0.5
     },
     previewer = false,
     winblend = vim.g.float_winblend,
-    --prompt_title = lopts.title ~= nil and lopts.title or 'Prompt',
-    --sort_lastused = lopts.sort_lastused,
-    --sort_mru = lopts.sort_mru,
-    --ignore_current_buffer=lopts.ignore_current_buffer,
-    --show_all_buffers=lopts.show_all_buffers
   })
   return vim.tbl_deep_extend('force', defaults, lopts)
 end
 
+--- a dropdown theme with vertical layout strategy 
+--- @param opts table of valid telescope options
 Telescope_vertical_dropdown_theme = function(opts)
   local lopts = opts or {}
   local defaults = themes.get_dropdown({

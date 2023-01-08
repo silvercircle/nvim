@@ -4,6 +4,8 @@
 lua require('impatient_bootstrap')
 lua require('impatient')
 
+let g:editorconfig = v:false
+
 " Set configuration variables
 lua require('config')
 " load plugins (packer)
@@ -32,11 +34,7 @@ command AFAuto setlocal fo+=a | setlocal fo+=w | setlocal fo+=c | setlocal fo+=q
 map <C-f> <NOP>
 map <C-c> <NOP>
 
-if g:use_command_center == v:true
-  lua require('vim_mappings_light')
-else
-  lua require('vim_mappings_full')
-end
+lua require('vim_mappings_light')
 
 set guifont=Iosevka:h11.2:#e-subpixelantialias:#h-full
 
