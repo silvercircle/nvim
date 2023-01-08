@@ -706,6 +706,7 @@ call my_sonokai#highlight('IndentBlanklineContextChar', s:palette.bg4, s:palette
 call my_sonokai#highlight('IndentBlanklineChar', s:palette.bg1, s:palette.none, 'nocombine')
 highlight! link IndentBlanklineSpaceChar IndentBlanklineChar
 highlight! link IndentBlanklineSpaceCharBlankline IndentBlanklineChar
+" rainbow colors, supported but not in use.
 highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine
 highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine
 highlight IndentBlanklineIndent3 guifg=#98C379 gui=nocombine
@@ -1090,32 +1091,6 @@ highlight! link dartLibrary Red
 highlight! link dartMetadata OrangeItalic
 " }}}
 " syn_end }}}
-" syn_begin: c/cpp/objc/objcpp {{{
-" vim-cpp-enhanced-highlight: https://github.com/octol/vim-cpp-enhanced-highlight{{{
-highlight! link cLabel Red
-highlight! link cppSTLnamespace BlueItalic
-highlight! link cppSTLtype BlueItalic
-highlight! link cppAccess Red
-highlight! link cppStructure Red
-highlight! link cppSTLios BlueItalic
-highlight! link cppSTLiterator BlueItalic
-highlight! link cppSTLexception Red
-" }}}
-" vim-cpp-modern: https://github.com/bfrg/vim-cpp-modern{{{
-highlight! link cppSTLVariable BlueItalic
-" }}}
-" chromatica: https://github.com/arakashic/chromatica.nvim{{{
-highlight! link Member TSVariable
-highlight! link Variable TSVariable
-highlight! link Namespace TSNamespace
-highlight! link EnumConstant TSNumber
-highlight! link chromaticaException TSException
-highlight! link chromaticaCast TSLabel
-highlight! link OperatorOverload TSOperator
-highlight! link AccessQual TSOperator
-highlight! link Linkage TSOperator
-highlight! link AutoType TSType
-" }}}
 " vim-lsp-cxx-highlight https://github.com/jackguo380/vim-lsp-cxx-highlight{{{
 highlight! link LspCxxHlSkippedRegion Grey
 highlight! link LspCxxHlSkippedRegionBeginEnd TSKeyword
@@ -1290,12 +1265,6 @@ highlight! link gitcommitOnBranch Grey
 highlight! link gitcommitArrow Grey
 highlight! link gitcommitFile Green
 " syn_end }}}
-" syn_begin: dosini {{{
-call my_sonokai#highlight('dosiniHeader', s:palette.red, s:palette.none, 'bold')
-highlight! link dosiniLabel Blue
-highlight! link dosiniValue Green
-highlight! link dosiniNumber Green
-" syn_end }}}
 " syn_begin: help {{{
 call my_sonokai#highlight('helpNote', s:palette.purple, s:palette.none, 'bold')
 call my_sonokai#highlight('helpHeadline', s:palette.red, s:palette.none, 'bold')
@@ -1347,6 +1316,7 @@ call my_sonokai#highlight('GlancePreviewNormal', s:palette.fg, s:palette.black)
 call my_sonokai#highlight('GlancePreviewMatch', s:palette.yellow, s:palette.none)
 call my_sonokai#highlight('GlanceListMatch', s:palette.yellow, s:palette.none)
 
+" allow neotree and other addon panels have different backgrounds
 call my_sonokai#highlight('NeoTreeNormalNC', s:palette.fg, s:palette.neotreebg)
 call my_sonokai#highlight('NeoTreeNormal', s:palette.fg, s:palette.neotreebg)
 call my_sonokai#highlight('NeoTreeFloatBorder', s:palette.grey_dim, s:palette.neotreebg)
