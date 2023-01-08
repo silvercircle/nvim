@@ -101,7 +101,7 @@ augroup end
 " create a view (save folding state and cursor position)
 function Mkview()
   if expand('%') != '' && &buftype !~ 'nofile'
-    silent! mkview
+    silent! mkview!
   endif
 endfunction
 
@@ -109,7 +109,7 @@ augroup folds
   autocmd!
   " make a view before saving a file
   autocmd BufWritePre * :call Mkview()
-    
+
   " restore the view on load
   " views are created when saving or quitting a file
   autocmd BufRead *

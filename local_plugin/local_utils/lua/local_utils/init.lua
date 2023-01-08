@@ -112,7 +112,7 @@ end
 
 -- confirm buffer close when file is modified. May discard the file but always save the view.
 function M.BufClose()
-  local closecmd = "Kwbd"
+  local closecmd = "call Mkview() | Kwbd"
   local saveclosecmd = "update! | Kwbd"
 
   if vim.api.nvim_buf_get_option(0, "modified") == true then

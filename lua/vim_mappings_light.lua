@@ -110,27 +110,31 @@ else  -- otherwise, use the API (less pretty, but functional)
   )
 end
 
+vim.keymap.set('n', "<f4>", ":call Mkview()<CR>", opts)
+vim.keymap.set('i', "<f4>", "<c-o>:call Mkview()<CR>", opts)
+
 -- toggle current fold
-vim.keymap.set('n', "<F2>", function() vim.api.nvim_feedkeys('za', 'n', true) vim.cmd("call Mkview()") end, opts)
-vim.keymap.set('i', "<F2>", function() local key = vim.api.nvim_replace_termcodes("<C-o>za", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.cmd("call Mkview()") end, opts)
+vim.keymap.set('n', "<F2>", function() vim.api.nvim_feedkeys('za', 'n', true) vim.api.nvim_feedkeys("<f4>", 'n', true)  end, opts)
+vim.keymap.set('i', "<F2>", function() local key = vim.api.nvim_replace_termcodes("<C-o>za", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) end, opts)
+vim.keymap.set('v', "<F2>", function() vim.api.nvim_feedkeys('zf', 'v', true) end, opts)
 
 -- close current fold
-vim.keymap.set('n', "<f14>", function() vim.api.nvim_feedkeys('zc', 'n', true) vim.cmd("call Mkview()") end, opts)
-vim.keymap.set('i', "<f14>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zc", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.cmd("call Mkview()") end, opts)
+vim.keymap.set('n', "<f14>", function() vim.api.nvim_feedkeys('zc', 'n', true)  end, opts)
+vim.keymap.set('i', "<f14>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zc", true, false, true) vim.api.nvim_feedkeys(key, 'i', false)  end, opts)
 
 -- open current fold
-vim.keymap.set('n', "<f26>", function() vim.api.nvim_feedkeys('zo', 'n', true) vim.cmd("call Mkview()") end, opts)
-vim.keymap.set('i', "<f26>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zo", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.cmd("call Mkview()") end, opts)
+vim.keymap.set('n', "<f26>", function() vim.api.nvim_feedkeys('zo', 'n', true)  end, opts)
+vim.keymap.set('i', "<f26>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zo", true, false, true) vim.api.nvim_feedkeys(key, 'i', false)  end, opts)
 
 -- toggle all folds at current line
-vim.keymap.set('n', "<F3>", function() vim.api.nvim_feedkeys('zA', 'n', true) vim.cmd("call Mkview()") end, opts)
-vim.keymap.set('i', "<F3>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zA", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.cmd("call Mkview()") end, opts)
+vim.keymap.set('n', "<F3>", function() vim.api.nvim_feedkeys('zA', 'n', true)  end, opts)
+vim.keymap.set('i', "<F3>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zA", true, false, true) vim.api.nvim_feedkeys(key, 'i', false)  end, opts)
 
 -- close all folds at current line
-vim.keymap.set('n', "<f15>", function() vim.api.nvim_feedkeys('zC', 'n', true) vim.cmd("call Mkview()") end, opts)
-vim.keymap.set('i', "<f15>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zC", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.cmd("call Mkview()") end, opts)
+vim.keymap.set('n', "<f15>", function() vim.api.nvim_feedkeys('zC', 'n', true)  end, opts)
+vim.keymap.set('i', "<f15>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zC", true, false, true) vim.api.nvim_feedkeys(key, 'i', false)  end, opts)
 
 -- open all folds at current line
-vim.keymap.set('n', "<f27>", function() vim.api.nvim_feedkeys('zO', 'n', true) vim.cmd("call Mkview()") end, opts)
-vim.keymap.set('i', "<f27>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zO", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.cmd("call Mkview()") end, opts)
+vim.keymap.set('n', "<f27>", function() vim.api.nvim_feedkeys('zO', 'n', true)  end, opts)
+vim.keymap.set('i', "<f27>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zO", true, false, true) vim.api.nvim_feedkeys(key, 'i', false)  end, opts)
 
