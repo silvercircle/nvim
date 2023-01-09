@@ -922,7 +922,7 @@ call my_sonokai#highlight('mkdInlineURL', s:palette.blue, s:palette.none, 'under
 call my_sonokai#highlight('mkdItalic', s:palette.grey, s:palette.none, 'italic')
 highlight! link mkdCodeDelimiter Green
 highlight! link mkdBold Grey
-highlight! link mkdLink Red
+call my_sonokai#highlight('mkdLink', s:blue, s:palette.none, 'underline')
 highlight! link mkdHeading Grey
 highlight! link mkdListItem Red
 highlight! link mkdRule Purple
@@ -997,7 +997,7 @@ highlight! link texEnvArgName Green
 " syn_end }}}
 " syn_begin: html/markdown/javascriptreact/typescriptreact {{{
 " builtin: https://notabug.org/jorgesumle/vim-html-syntax{{{
-call my_sonokai#highlight('htmlH1', s:palette.red, s:palette.none, 'bold')
+call my_sonokai#highlight('htmlH1', s:palette.blue, s:palette.none, 'bold')
 call my_sonokai#highlight('htmlH2', s:palette.orange, s:palette.none, 'bold')
 call my_sonokai#highlight('htmlH3', s:palette.yellow, s:palette.none, 'bold')
 call my_sonokai#highlight('htmlH4', s:palette.green, s:palette.none, 'bold')
@@ -1325,3 +1325,6 @@ call my_sonokai#highlight('NeoTreeFloatBorder', s:palette.grey_dim, s:palette.ne
 "
 call my_sonokai#highlight('OrgTSHeadlineLevel1', s:blue, s:palette.none, 'bold')
 hi! link OrgTSHeadlineLevel2 OrgTSHeadlineLevel1
+
+" markdown (preservim/vim-markdown)
+

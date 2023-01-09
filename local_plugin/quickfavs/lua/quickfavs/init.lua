@@ -67,12 +67,15 @@ local function ReadFolderFavs(favfile)
   return true, favs
 end
 
-function M.Quickfavs(forcerescan, openmode)
+--- open a telescope picker with the favorite files and folders read from the favorite file
+-- @param forcerescan boolean: Force a rescan of the favorite file.
+-- 'telescope'
+function M.Quickfavs(forcerescan)
   local max_width = 120
   local title_width = 30
   local status
   local lutils = require("local_utils")
-  local openin = openmode or conf.open_mode
+  local openin = conf.open_mode
 
   if openin ~= 'neotree' and openin ~= 'telescope' then
     debugnotify("Unsupported openmode: " .. openin)

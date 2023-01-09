@@ -96,7 +96,7 @@ o.swapfile = false
 o.updatetime = 800
 o.updatecount = 0
 -- wait that many milliseconds for keq sequences to complete
-o.timeoutlen = 1000
+o.timeoutlen = 800
 o.cmdheight = 1
 o.scrolloff = 5
 o.undolevels = 200

@@ -35,7 +35,7 @@ vim.g.features = {
   noice = { enable = false, module = 'setup_noice' },                     -- use noice for notifications
   dressing = { enable = true, module = 'setup_dressing' },                -- use dressing for various UI improvements
   -- please use ONLY ONE of te following two. Using both wont hurt but will be a waste.
-  -- personally i prefer nvim-tree, but both plugins are fine. Matter of personal preference.
+  -- personally i prefer Neotree, but both plugins are fine. Matter of personal preference.
   neotree = { enable = true, module = 'setup_neotree' },                  -- neotree file explorer
   nvimtree = { enable = false, module = 'setup_nvim-tree' },              -- nvim-tree file explorer
   null_ls = { enable = false, module = 'setup_null_ls' },                 -- null-ls for linting, formatting and more lsp features
@@ -83,7 +83,8 @@ vim.g.lsp_server_bin = {
 -- forks of some plugins.
 -- Reason: I'm just experimenting with some plugins.
 -- This hack may go away without notice.
--- You REALLY should not use this and stick to the official plugins
+-- You REALLY should not use this and stick to the official plugins. It may
+-- break the config
 vim.g.use_private_forks = false
 if os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil then
   vim.g.use_private_forks = true

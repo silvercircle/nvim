@@ -99,9 +99,9 @@ vim.keymap.set({ "s" }, "<S-Tab>", function() require'luasnip'.jump(-1) end, { d
 
 -- if we have playgrund, use the special command to reveal the highlight group under the cursor
 if vim.g.features['treesitter_playground']['enable'] == true then
-  vim.keymap.set('n', "tsh", ":TSCaptureUnderCursor<CR>", opts)
+  vim.keymap.set('n', "hl", ":TSCaptureUnderCursor<CR>", opts)
 else  -- otherwise, use the API (less pretty, but functional)
-  vim.keymap.set("n", "tsh",
+  vim.keymap.set("n", "hl",
     function()
       local result = vim.treesitter.get_captures_at_cursor(0)
       print(vim.inspect(result))

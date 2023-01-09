@@ -68,13 +68,13 @@ Command_center.add({
   },
   {
     desc = "Show all bookmarks (Telescope)",
-    cmd = function() require('telescope').extensions.vim_bookmarks.all({hide_filename=false, width_text=80, layout_config={height=0.4, width=0.8,preview_width=0.3}}) end,
+    cmd = function() require('telescope').extensions.vim_bookmarks.all(Telescope_vertical_dropdown_theme({prompt_title="All Bookmarks", hide_filename=false, width_text=120})) end,
     keys = { "n", "<A-b>", noremap },
     category = "@Bookmarks"
   },
   {
     desc = "Show bookmarks in current file (Telescope)",
-    cmd = function() require('telescope').extensions.vim_bookmarks.current_file({layout_config={height=0.4, width=0.7}}) end,
+    cmd = function() require('telescope').extensions.vim_bookmarks.current_file(Telescope_vertical_dropdown_theme({prompt_title="File Bookmarks"})) end,
     keys = { "n", "<A-B>", noremap },
     category = "@Bookmarks"
   },
@@ -137,7 +137,7 @@ Command_center.add({
   },
   {
     desc = "Document symbols (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_document_symbols({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.6}}) end,
+    cmd = function() require'telescope.builtin'.lsp_document_symbols({layout_config={height=0.6, width=0.8,preview_width=0.6}}) end,
     keys = { "n", "ts", noremap },
     category = "@LSP Telescope"
   },
@@ -155,13 +155,13 @@ Command_center.add({
   },
   {
     desc = "Show implementations (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_implementations({winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}) end,
+    cmd = function() require'telescope.builtin'.lsp_implementations({layout_config={height=0.6, width=0.8,preview_width=0.5}}) end,
     keys = { "n", "ti", noremap },
     category = "@LSP (Telescope)"
   },
   {
     desc = "Run diagnostics",
-    cmd = function() require'telescope.builtin'.diagnostics({bufnr=0, winblend=20, layout_config={height=0.6, width=0.8,preview_width=0.5}}) end,
+    cmd = function() require'telescope.builtin'.diagnostics({bufnr=0, layout_config={height=0.6, width=0.8,preview_width=0.5}}) end,
     keys = { "n", "te", noremap },
     category = "@LSP"
   },
