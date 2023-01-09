@@ -4,6 +4,7 @@ local actions_fb = require("telescope").extensions.file_browser.actions
 local themes = require("telescope.themes")
 
 -- add all the commands and mappings to the command_center plugin.
+-- since this is a lot of code, it's outsourced but really belongs here.
 require('setup_command_center')
 
 -- private modified version of the dropdown theme with a square border
@@ -22,10 +23,16 @@ Telescope_dropdown_theme = function(opts)
     previewer = false,
     winblend = vim.g.float_winblend,
   })
+  if lopts.cwd ~= nil then
+    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.cwd
+  end
+  if lopts.path ~= nil then
+    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.path
+  end
   return vim.tbl_deep_extend('force', defaults, lopts)
 end
 
---- a dropdown theme with vertical layout strategy 
+--- a dropdown theme with vertical layout strategy
 --- @param opts table of valid telescope options
 Telescope_vertical_dropdown_theme = function(opts)
   local lopts = opts or {}
@@ -39,10 +46,17 @@ Telescope_vertical_dropdown_theme = function(opts)
     layout_config = {
       width = lopts.width or 0.7,
       height = lopts.height or 0.9,
-      preview_height = lopts.preview_width or 0.3
+      preview_height = lopts.preview_width or 0.3,
+      prompt_position='bottom'
     },
     winblend = vim.g.float_winblend,
   })
+  if lopts.cwd ~= nil then
+    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.cwd
+  end
+  if lopts.path ~= nil then
+    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.path
+  end
   return vim.tbl_deep_extend('force', defaults, lopts)
 end
 

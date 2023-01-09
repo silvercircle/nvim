@@ -283,19 +283,19 @@ Command_center.add({
   },
   {
     desc = "Find files in current directory (Telescope)",
-    cmd = function() require'telescope.builtin'.find_files(Telescope_vertical_dropdown_theme({hidden=true, cwd=vim.fn.expand('%:p:h')})) end,
+    cmd = function() require'telescope.builtin'.find_files(Telescope_vertical_dropdown_theme({hidden=true, prompt_title="Find Files", cwd=vim.fn.expand('%:p:h')})) end,
     keys = { "n", "<f20>", noremap },  --shift-f8
     category = "@Telescope"
   },
   {
     desc = "Find files from current project root",
-    cmd = function() require("telescope.builtin").find_files(Telescope_vertical_dropdown_theme({cwd = require("local_utils").getroot_current()})) end,
+    cmd = function() require("telescope.builtin").find_files(Telescope_vertical_dropdown_theme({prompt_title="Find Files", cwd = require("local_utils").getroot_current()})) end,
     keys = { "n", "<f8>", noremap },
     category = "@Telescope"
   },
   {
     desc = "File browser in the current project root",
-    cmd = function() require("telescope").extensions.file_browser.file_browser(Telescope_vertical_dropdown_theme({hidden=true, path = require("local_utils").getroot_current()})) end,
+    cmd = function() require("telescope").extensions.file_browser.file_browser(Telescope_vertical_dropdown_theme({prompt_title="File Browser", hidden=true, path = require("local_utils").getroot_current()})) end,
     keys = { "n", "<f32>", noremap },  -- ctrl-f8
     category = "@Telescope"
   },
@@ -331,7 +331,7 @@ Command_center.add({
   },
   {
     desc = "File Browser (Telescope)",
-    cmd = function() require('telescope').extensions.file_browser.file_browser({hidden=true, path=vim.fn.expand('%:p:h'), layout_config={width=0.8, preview_width=0.6 } }) end,
+    cmd = function() require('telescope').extensions.file_browser.file_browser(Telescope_vertical_dropdown_theme({hidden=true, prompt_title="File Browser", path=vim.fn.expand('%:p:h')})) end,
     keys = { "n", "<A-f>", noremap },
     category = "@Telescope"
   },
@@ -355,7 +355,7 @@ Command_center.add({
   },
   {
     desc = "Todo List",
-    cmd = "<CMD>TodoTelescope cwd=%:p:h<CR>",
+    cmd = function() require('telescope._extensions.todo-comments').exports.todo(Telescope_vertical_dropdown_theme({prompt_title="Todo Comments",cwd = require("local_utils").getroot_current(), hidden=true})) end,
     keys = { "n", "tdo", noremap },
     category = "@Neovim"
   },
