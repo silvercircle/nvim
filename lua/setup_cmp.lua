@@ -1,5 +1,4 @@
 -- nvim-cmp: completion support
-vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 -- helper function for cmp <TAB> mapping.
 local has_words_before = function()
@@ -74,6 +73,9 @@ cmp.setup({
       luasnip.lsp_expand(args.body)
     end,
   },
+  experimental = {
+    ghost_text = {hl_group = 'CmpGhostText'}
+  },
   window = {
     documentation = {
       -- border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' }, a rounded
@@ -130,9 +132,9 @@ cmp.setup({
   formatting = {
     format = function(entry, vim_item)
       -- Truncate the item if it is too long
+      vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
       vim_item.abbr = Truncate(vim_item.abbr, max_abbr_item_width)
         -- fancy icons and a name of kind
-      vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
       vim_item.kind = " " .. vim_item.kind_symbol .. " " .. vim_item.kind
       -- The 'menu' section: source, detail information (lsp, snippet), etc.
       -- set a name for each source (see the sources section below)
@@ -194,21 +196,21 @@ cmp.setup({
   },
   sorting = {
     comparators = {
-      cmp.config.compare.offset,
-      cmp.config.compare.exact,
-      cmp.config.compare.score,
---      function(...)
---        return cmp_helper.compare.prioritize_argument(...)
---      end,
---      function(...)
---        return cmp_helper.compare.deprioritize_underscore(...)
---      end,
-      cmp.config.compare.recently_used,
-      cmp.config.compare.locality,
-      cmp.config.compare.kind,
-      cmp.config.compare.sort_text,
-      cmp.config.compare.length,
-      cmp.config.compare.order
+--      cmp.config.compare.offset,
+--      cmp.config.compare.exact,
+--      cmp.config.compare.score,
+--      --function(...)
+--      --  return cmp_helper.compare.prioritize_argument(...)
+--      --end,
+--      --function(...)
+--      --  return cmp_helper.compare.deprioritize_underscore(...)
+--      --end,
+--      cmp.config.compare.recently_used,
+--      cmp.config.compare.locality,
+--      cmp.config.compare.kind,
+--      cmp.config.compare.sort_text,
+--      cmp.config.compare.length,
+--      cmp.config.compare.order
     }
   }
 })

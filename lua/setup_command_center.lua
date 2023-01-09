@@ -87,7 +87,7 @@ Command_center.add({
   {
     desc = "Show favorite folders (rescan fav file)",
     cmd = function() require "quickfavs".Quickfavs(true) end,
-    keys = { "n", "<S-f12>",  },
+    keys = { "n", "<f24>",  },
     category = "@Bookmarks"
   },
   -- LSP
@@ -126,13 +126,13 @@ Command_center.add({
   {
     desc = "Jump to definition (Telescope)",
     cmd = function() require'telescope.builtin'.lsp_definitions(Telescope_vertical_dropdown_theme({})) end,
-    keys = { "n", "td", noremap },
+    keys = { "n", "tde", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Show references (Telescope)",
     cmd = function() require'telescope.builtin'.lsp_references(Telescope_vertical_dropdown_theme({fname_width=120,layout_config={width=0.9}})) end,
-    keys = { "n", "tr", noremap },
+    keys = { "n", "tre", noremap },
     category = "@LSP Telescope"
   },
   {
@@ -301,7 +301,7 @@ Command_center.add({
   },
   {
     desc = "Jumplist (Telescope)",
-    cmd = function() require'telescope.builtin'.jumplist(Telescope_vertical_dropdown_theme({show_line=false, layout_config={preview_height=0.2}})) end,
+    cmd = function() require'telescope.builtin'.jumplist(Telescope_vertical_dropdown_theme({show_line=false, layout_config={preview_height=0.4}})) end,
     keys = { "n", "<A-Backspace>", noremap },
     category = "@Telescope"
   },
@@ -319,7 +319,7 @@ Command_center.add({
   },
   {
     desc = "Registers (Telescope)",
-    cmd = function() require'telescope.builtin'.registers(Telescope_dropdown_theme{title='Registers',width=0.6, height=0.7}) end,
+    cmd = function() require'telescope.builtin'.registers(Telescope_vertical_dropdown_theme{prompt_title='Registers',layout_config={width=0.6, height=0.7,preview_height=0.3}}) end,
     keys = { "n", "<C-x><C-r>", noremap },
     category = "@Telescope"
   },
@@ -393,6 +393,12 @@ Command_center.add({
     desc = "Packer Sync",
     cmd = "<CMD>PackerSync<CR>",
     keys = {  },
+    category = "@Neovim"
+  },
+  {
+    desc = "List all Highlight groups",
+    cmd = function() require('telescope.builtin').highlights() end,
+    keys = { "n", "thl", noremap },
     category = "@Neovim"
   },
   {

@@ -1,5 +1,6 @@
 -- setup telescope
 local actions = require("telescope.actions")
+local actionset = require("telescope.actions.set")
 local actions_fb = require("telescope").extensions.file_browser.actions
 local themes = require("telescope.themes")
 
@@ -48,7 +49,8 @@ Telescope_vertical_dropdown_theme = function(opts)
       width = lopts.width or 0.8,
       height = lopts.height or 0.9,
       preview_height = lopts.preview_width or 0.3,
-      prompt_position='bottom'
+      prompt_position='bottom',
+      scroll_speed = 2,
     },
     winblend = vim.g.float_winblend,
   })
@@ -121,7 +123,8 @@ require("telescope").setup({
   defaults = {
     layout_config = {
       width = 0.9,
-      height = 0.6
+      height = 0.6,
+      scroll_speed = 4
     },
     winblend = vim.g.float_winblend,
     -- square borders (just to be consistend with other UI elements like CMP)
@@ -134,6 +137,13 @@ require("telescope").setup({
         ["<C-x>"] = stopinsert(actions.select_horizontal),
         ["<C-v>"] = stopinsert(actions.select_vertical),
         ["<C-t>"] = stopinsert(actions.select_tab),
+        -- remap C-Up and C-Down to scroll the previewer by one line
+        ["<C-Up>"] = function(prompt_bufnr)
+          actionset.scroll_previewer(prompt_bufnr, -1)
+        end,
+        ["<C-Down>"] = function(prompt_bufnr)
+          actionset.scroll_previewer(prompt_bufnr, 1)
+        end
       },
     },
   },

@@ -35,7 +35,7 @@ endfunction
 " The default variant is "warm"
 if g:theme_variant == 'cold'
   let palette = {
-        \ 'black':      ['#18181c',   '232'],
+        \ 'black':      ['#121215',   '232'],
         \ 'bg_dim':     ['#222327',   '232'],
         \ 'bg0':        ['#2c2e34',   '235'],
         \ 'bg1':        ['#33353f',   '236'],
@@ -50,6 +50,7 @@ if g:theme_variant == 'cold'
         \ 'diff_blue':  ['#354157',   '17'],
         \ 'diff_yellow':['#4e432f',   '54'],
         \ 'fg':         ['#e2e2e3',   '250'],
+        \ 'fg_dim':     ['#959290',   '251'],
         \ 'red':        ['#cc2d4c',   '203'],
         \ 'palered':    ['#8b2d3c',   '203'],
         \ 'orange':     ['#c36630',   '215'],
@@ -67,9 +68,9 @@ if g:theme_variant == 'cold'
         \ }
 else
   let palette = {
-        \ 'black':      ['#1b1818',   '232'],
+        \ 'black':      ['#151212',   '232'],
         \ 'bg_dim':     ['#242020',   '232'],
-        \ 'bg0':        ['#322c2c',   '235'],
+        \ 'bg0':        ['#302c2e',   '235'],
         \ 'bg1':        ['#322a2a',   '236'],
         \ 'bg2':        ['#403936',   '236'],
         \ 'bg3':        ['#483e3b',   '237'],
@@ -82,6 +83,7 @@ else
         \ 'diff_blue':  ['#354157',   '17'],
         \ 'diff_yellow':['#4e432f',   '54'],
         \ 'fg':         ['#e5e2e0',   '250'],
+        \ 'fg_dim':     ['#959290',   '251'],
         \ 'red':        ['#cc2d4c',   '203'],
         \ 'palered':    ['#8b2d3c',   '203'],
         \ 'orange':     ['#c36630',   '215'],
@@ -123,7 +125,7 @@ let s:path = expand('<sfile>:p') " the path of this script
 let s:last_modified = '2022-12-23T08:46:17+0100'
 let g:sonokai_loaded_file_types = []
 if g:theme_variant == 'cold'
-  let s:darkbg = ['#111118', 237]
+  let s:darkbg = ['#111116', 237]
   let s:teal = ['#108080', 238]
   let s:blue = ['#5a6acf', 239]
   let s:darkpurple = ['#803090', 240]
@@ -139,7 +141,7 @@ if g:theme_variant == 'cold'
   let s:pmenubg = [ '#241a20', 156 ]
   let s:cmpbg = s:palette.bg4
 else
-  let s:darkbg = ['#181111', 237]
+  let s:darkbg = ['#161111', 237]
   let s:teal = ['#108080', 238]
   let s:blue = ['#5a6acf', 239]
   let s:darkpurple = ['#803090', 240]
@@ -180,7 +182,7 @@ call my_sonokai#highlight('ToolbarLine', s:palette.fg, s:palette.none)
 call my_sonokai#highlight('FoldColumn', s:palette.bg4, s:bg)
 call my_sonokai#highlight('SignColumn', s:palette.fg, s:palette.none)
 call my_sonokai#highlight('IncSearch', s:palette.yellow, s:darkpurple)
-call my_sonokai#highlight('Search', s:palette.yellow, s:blue)
+call my_sonokai#highlight('Search', s:palette.yellow, s:darkred)
 call my_sonokai#highlight('ColorColumn', s:palette.none, s:palette.bg1)
 call my_sonokai#highlight('Conceal', s:palette.grey_dim, s:palette.none)
 if s:configuration.cursor ==# 'auto'
@@ -678,8 +680,12 @@ if has('nvim')
 " }}}
 " nvim-telescope/telescope.nvim {{{
 call my_sonokai#highlight('TelescopeMatching', s:palette.green, s:palette.none, 'bold')
-call my_sonokai#highlight('TelescopeBorder', s:palette.grey_dim, s:palette.bg_dim, 'bold')
-call my_sonokai#highlight('TelescopeNormal', s:palette.fg, s:palette.bg_dim)
+"call my_sonokai#highlight('TelescopeBorder', s:palette.bg2, s:palette.bg_dim, 'bold')
+call my_sonokai#highlight('TelescopeBorder', s:palette.bg1, s:darkbg, 'bold')
+call my_sonokai#highlight('TelescopeNormal', s:palette.fg_dim, s:darkbg)
+"call my_sonokai#highlight('TelescopePromptNormal', s:palette.fg_dim, s:statuslinebg)
+call my_sonokai#highlight('TelescopeTitle', s:palette.yellow, s:palette.none)
+
 highlight! link TelescopePromptPrefix Blue
 highlight! link TelescopeSelection DiffAdd
 " }}}
@@ -1291,6 +1297,7 @@ hi link CmpItemMenuPath   CmpItemMenu
 
 call my_sonokai#highlight('CmpPmenu', s:palette.fg, s:palette.bg_dim)
 call my_sonokai#highlight('CmpPmenuBorder', s:palette.grey_dim, s:palette.bg_dim)
+call my_sonokai#highlight('CmpGhostText', s:palette.grey, s:palette.none)
 highlight! CmpItemAbbr      guifg=#d0b1d0
 " gray
 highlight! CmpItemAbbrDeprecated    guibg=NONE gui=strikethrough guifg=#808080
