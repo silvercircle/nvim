@@ -92,6 +92,7 @@ augroup filetypes
   autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
 augroup end
 
+
 " set filetype dependent background colors.
 augroup WinColors
   autocmd!

@@ -46,7 +46,6 @@ return require("packer").startup(function(use)
     use 'hrsh7th/cmp-emoji'
     use 'saadparwaiz1/cmp_luasnip'
     use 'hrsh7th/cmp-nvim-lsp-signature-help'
-    use 'uga-rosa/cmp-dictionary'
   end
   -- some generic plugins
   use 'tpope/vim-liquid'             -- markdown / liquid mode, mainly for jekyll pages
