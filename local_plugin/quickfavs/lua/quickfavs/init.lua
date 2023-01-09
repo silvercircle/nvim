@@ -31,6 +31,8 @@ local function ReadFolderFavs(favfile)
     debugnotify("A required plugin (plenary) is missing.")
     return false, {}
   end
+  local filetype = require('plenary.filetype')
+
   if favfile ~= nil then
     filename = favfile
   else
@@ -51,11 +53,12 @@ local function ReadFolderFavs(favfile)
       local elem = utils.string_split(line, '|')
       if #elem == 2 then
         local f = path:new(elem[2])
+        local ft = filetype.detect(f.filename)
         local e = f:expand()
         if vim.fn.isdirectory(e) == 1 then
-          table.insert(favs, { title = elem[1], filename = e, type = "@Dir" } )
+          table.insert(favs, { title = elem[1], filename = e, type = "@Dir", ft = ft or 'Unknown' } )
         elseif vim.fn.filereadable(e) == 1 then
-          table.insert(favs, { title = elem[1], filename = e, type = "@File" } )
+          table.insert(favs, { title = elem[1], filename = e, type = "@File", ft = ft or 'Unknown' } )
         end
       end
     end
@@ -65,7 +68,7 @@ local function ReadFolderFavs(favfile)
 end
 
 function M.Quickfavs(forcerescan, openmode)
-  local max_width = 90
+  local max_width = 120
   local title_width = 30
   local status
   local lutils = require("local_utils")
@@ -120,7 +123,7 @@ function M.Quickfavs(forcerescan, openmode)
           return {
             value = entry,
             display = function()
-              return lutils.truncate(lutils.rpad(entry.type, 10, ' ') .. lutils.rpad(entry.title, title_width, ' ') .. "  " .. icon .. " " .. entry.filename, max_width), { { { 44, 45 }, hl_group } }
+              return lutils.truncate(lutils.rpad(entry.type, 8, ' ') .. lutils.rpad(entry.title, title_width, ' ') .. "  " .. icon .. " " .. lutils.rpad(entry.filename, 50, ' ') .. ' ' .. entry.ft, max_width), { { { 42, 43 }, hl_group } }
             end,
             ordinal = entry.title .. "  " .. entry.type
           }
@@ -151,9 +154,9 @@ function M.Quickfavs(forcerescan, openmode)
                 vim.cmd("Neotree position=" .. conf.neotree .. " dir=" .. name)
               elseif openin == 'telescope' then
                 if conf.telescope_theme ~= 'default' then
-                  require("telescope").extensions.file_browser.file_browser(conf.telescope_theme({path = name}))
+                  require("telescope").extensions.file_browser.file_browser(conf.telescope_theme({path = name, prompt_title="Favorite Folder"}))
                 else
-                  require("telescope").extensions.file_browser.file_browser({path = name})
+                  require("telescope").extensions.file_browser.file_browser({prompt_title="Favorite Folder",path = name})
                 end
               end
             end
