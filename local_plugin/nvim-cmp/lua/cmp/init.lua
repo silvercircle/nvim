@@ -5,7 +5,7 @@ local feedkeys = require('cmp.utils.feedkeys')
 local autocmd = require('cmp.utils.autocmd')
 local keymap = require('cmp.utils.keymap')
 local misc = require('cmp.utils.misc')
-local async = require('cmp.utils.async')
+-- local async = require('cmp.utils.async')
 
 local cmp = {}
 
@@ -241,7 +241,7 @@ cmp.status = function()
       table.insert(kinds.invalid, s.name)
     end
   end
-
+  vim.api.nvim_echo({ { 'ASYNC InsertEnter is disabled - experimental version\n', 'Normal' } }, false, {})
   if #kinds.available > 0 then
     vim.api.nvim_echo({ { '\n', 'Normal' } }, false, {})
     vim.api.nvim_echo({ { '# ready source names\n', 'Special' } }, false, {})
@@ -314,7 +314,7 @@ end
 -- silvercircle@gmail.com
 --
 autocmd.subscribe({ 'InsertEnter' }, on_insert_enter)
-print("implemented async fix in CMP autocmd InsertEnter (upstream fix?): init.lua, line 322")
+autocmd.subscribe({ 'CmdlineEnter' }, on_insert_enter)
 
 -- autocmd.subscribe({ 'CmdlineEnter' }, async.debounce_next_tick(on_insert_enter))
 -- autocmd.subscribe({ 'InsertEnter' }, async.debounce_next_tick_by_keymap(on_insert_enter))
@@ -326,6 +326,7 @@ local on_text_changed = function()
   end
 end
 autocmd.subscribe({ 'TextChangedI', 'TextChangedP' }, on_text_changed)
+autocmd.subscribe('CmdlineChanged', on_text_changed)
 -- autocmd.subscribe('CmdlineChanged', async.debounce_next_tick(on_text_changed))
 
 autocmd.subscribe('CursorMovedI', function()
@@ -338,7 +339,7 @@ autocmd.subscribe('CursorMovedI', function()
 end)
 
 -- If make this asynchronous, the completion menu will not close when the command output is displayed.
-autocmd.subscribe({ 'InsertLeave' }, function()
+autocmd.subscribe({ 'InsertLeave', 'CmdlineLeave' }, function()
   cmp.core:reset()
   cmp.core.view:close()
 end)
