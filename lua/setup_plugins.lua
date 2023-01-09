@@ -44,6 +44,6 @@ for _, v in pairs(vim.g.features) do
 end
 
 if vim.g.use_private_forks == true then
-  vim.notify("Warning: Using private forks of some plugins", 3)
+  -- print("Warning: Using private forks of some plugins")
 end
 

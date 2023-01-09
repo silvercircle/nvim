@@ -43,6 +43,10 @@ vim.g.features = {
   sidebar = { enable = false, module = 'setup_sidebar' }
 }
 
+vim.g.config = {
+  telescope_fname_width = 140,
+  theme_variant = 'warm'
+}
 -- theme variant can be either cold or warm.
 -- cold has slight blue-ish tint in the background colors, while warm is more reddish
 -- the default is warm

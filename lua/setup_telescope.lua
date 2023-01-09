@@ -42,9 +42,10 @@ Telescope_vertical_dropdown_theme = function(opts)
       prompt = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
       preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
     },
+    fname_width = vim.g.config['telescope_fname_width'],
     layout_strategy='vertical',
     layout_config = {
-      width = lopts.width or 0.7,
+      width = lopts.width or 0.8,
       height = lopts.height or 0.9,
       preview_height = lopts.preview_width or 0.3,
       prompt_position='bottom'

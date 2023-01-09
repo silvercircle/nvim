@@ -125,13 +125,13 @@ Command_center.add({
 -- Telescope LSP code navigation and diagnostics
   {
     desc = "Jump to definition (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_definitions(Telescope_vertical_dropdown_theme({layout_config={width=0.8}})) end,
+    cmd = function() require'telescope.builtin'.lsp_definitions(Telescope_vertical_dropdown_theme({})) end,
     keys = { "n", "td", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Show references (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_references(Telescope_vertical_dropdown_theme({layout_config={width=0.8}})) end,
+    cmd = function() require'telescope.builtin'.lsp_references(Telescope_vertical_dropdown_theme({fname_width=120,layout_config={width=0.9}})) end,
     keys = { "n", "tr", noremap },
     category = "@LSP Telescope"
   },
@@ -143,13 +143,13 @@ Command_center.add({
   },
   {
     desc = "Dynamic workspace symbols (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_dynamic_workspace_symbols(Telescope_vertical_dropdown_theme({fname_width=150,layout_config={width=0.9}})) end,
+    cmd = function() require'telescope.builtin'.lsp_dynamic_workspace_symbols(Telescope_vertical_dropdown_theme({})) end,
     keys = { "n", "tds", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Workspace symbols (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_workspace_symbols(Telescope_vertical_dropdown_theme({fname_width=150,layout_config={width=0.9}})) end,
+    cmd = function() require'telescope.builtin'.lsp_workspace_symbols(Telescope_vertical_dropdown_theme({})) end,
     keys = { "n", "tws", noremap },
     category = "@LSP Telescope"
   },
@@ -301,7 +301,7 @@ Command_center.add({
   },
   {
     desc = "Jumplist (Telescope)",
-    cmd = function() require'telescope.builtin'.jumplist(Telescope_vertical_dropdown_theme({fname_width=70, show_line=false, layout_config={preview_height=0.2}})) end,
+    cmd = function() require'telescope.builtin'.jumplist(Telescope_vertical_dropdown_theme({show_line=false, layout_config={preview_height=0.2}})) end,
     keys = { "n", "<A-Backspace>", noremap },
     category = "@Telescope"
   },
@@ -337,13 +337,13 @@ Command_center.add({
   },
   {
     desc = "Fuzzy search in current buffer",
-    cmd = function() require'telescope.builtin'.current_buffer_fuzzy_find({layout_config={width=0.8, preview_width=0.4} }) end,
+    cmd = function() require'telescope.builtin'.current_buffer_fuzzy_find(Telescope_vertical_dropdown_theme({prompt_title="Fuzzy Find in current buffer"})) end,
     keys = { "n", "<C-x><C-f>", noremap },
     category = "@Telescope"
   },
   {
     desc = "Help tags (@Telescope)",
-    cmd = function() require'telescope.builtin'.help_tags({ winblend=20, layout_config={width=0.8, height=0.8, preview_width=0.7} }) end,
+    cmd = function() require'telescope.builtin'.help_tags({layout_config={width=0.8, height=0.8, preview_width=0.7} }) end,
     keys = { "n", "<A-h>", noremap },
     category = "@Telescope"
   },

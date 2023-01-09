@@ -80,6 +80,16 @@ map('n', "<A-Right>", "<c-w><Right>", opts)
 map('n', "<A-Down>", "<c-w><Down>", opts)
 map('n', "<A-Up>", "<c-w><Up>", opts)
 
+-- quickfix navigation
+map('n', "<C-f>c", ":cclose<CR>", opts)
+map('i', "<C-f>c", "<c-o>:cclose<CR>", opts)
+
+map('n', "<C-f>d", ":cnext<CR>", opts)
+map('i', "<C-f>d", "<c-o>:cnext<CR>", opts)
+
+map('n', "<C-f>u", ":cprev<CR>", opts)
+map('i', "<C-f>u", "<c-o>:cprev<CR>", opts)
+
 -- hlslens
 local kopts = {noremap = true, silent = true}
 
