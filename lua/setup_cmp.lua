@@ -16,7 +16,7 @@ local cmp_types = require("cmp.types.cmp")
 local max_abbr_item_width = 40
 local max_detail_item_width = 40
 
--- make the completion popup a little more fancy
+-- make the completion popup a little more fancy with lspkind. Now mandatory.
 local lspkind = require("lspkind")
 lspkind.init({
   -- defines how annotations are shown
@@ -94,7 +94,7 @@ cmp.setup({
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
 --    ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete({
-        reason = cmp.ContextReason.Auto,
+        reason = cmp.ContextReason.Manual,
       }), {"i", "c"}),
     ["<C-e>"] = cmp.config.disable,
     ["<Esc>"] = cmp.mapping.close(), -- ESC close complete popup. Feels more natural than <C-e>
@@ -131,8 +131,8 @@ cmp.setup({
   },
   formatting = {
     format = function(entry, vim_item)
-      -- Truncate the item if it is too long
       vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
+      -- Truncate the item if it is too long
       vim_item.abbr = Truncate(vim_item.abbr, max_abbr_item_width)
         -- fancy icons and a name of kind
       vim_item.kind = " " .. vim_item.kind_symbol .. " " .. vim_item.kind

@@ -348,6 +348,18 @@ Command_center.add({
     category = "@Telescope"
   },
   {
+    desc = "Live Grep (current directory)",
+    cmd = function() require("telescope.builtin").live_grep(Telescope_vertical_dropdown_theme({prompt_title="Live Grep Folder (current)", search_dirs={vim.fn.expand("%:p:h")}})) end,
+    keys = { "n", "<C-x>g", noremap },
+    category = "@Telescope"
+  },
+  {
+    desc = "Live Grep (project root)",
+    cmd = function() require("telescope.builtin").live_grep(Telescope_vertical_dropdown_theme({prompt_title="Live Grep Folder (project root)", search_dirs={ require("local_utils").getroot_current() }})) end,
+    keys = { "n", "<C-x><C-g>", noremap },
+    category = "@Telescope"
+  },
+  {
     desc = "Spell suggestions",
     cmd = function() require'telescope.builtin'.spell_suggest(Telescope_dropdown_theme{title='Spell suggestions', height=0.5,width=0.2}) end,
     keys = { "n", "<A-s>", noremap },

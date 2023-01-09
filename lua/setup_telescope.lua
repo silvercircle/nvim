@@ -48,12 +48,15 @@ Telescope_vertical_dropdown_theme = function(opts)
     layout_config = {
       width = lopts.width or 0.8,
       height = lopts.height or 0.9,
-      preview_height = lopts.preview_width or 0.3,
+      preview_height = lopts.preview_width or 0.4,
       prompt_position='bottom',
       scroll_speed = 2,
     },
     winblend = vim.g.float_winblend,
   })
+  if lopts.search_dirs ~= nil then
+    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.search_dirs[1]
+  end
   if lopts.cwd ~= nil then
     lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.cwd
   end
