@@ -100,6 +100,7 @@ function M.Quickfavs(forcerescan)
   if forcerescan == true or #favs == 0 then
     if forcerescan == true then
       debugnotify("Force rescan favorites file requested")
+      for k,_ in pairs(favs) do favs[k] = nil end
     elseif #favs == 0 then
       debugnotify("Reading favorites.")
     end
