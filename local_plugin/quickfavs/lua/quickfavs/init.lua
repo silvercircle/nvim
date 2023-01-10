@@ -66,7 +66,26 @@ local function ReadFolderFavs(favfile)
   io.close(file)
   return true, favs
 end
-
+local function open_entry(where, selection)
+  if selection.value.filename ~= nil and #selection.value.filename > 0 then
+    local name = selection.value.filename
+    --local f = path:new(selection.value.filename)
+    --local name = f:expand()
+    if vim.fn.filereadable(name) ~= 0 then
+      vim.cmd('e ' .. name)
+    elseif vim.fn.isdirectory(name) ~= 0 then
+      if where == 'neotree' then
+        vim.cmd("Neotree position=" .. conf.neotree .. " dir=" .. name)
+      elseif where == 'telescope' then
+        if conf.telescope_theme ~= 'default' then
+          require("telescope").extensions.file_browser.file_browser(conf.telescope_theme({path = name, prompt_title="Favorite Folder"}))
+        else
+          require("telescope").extensions.file_browser.file_browser({prompt_title="Favorite Folder",path = name})
+        end
+      end
+    end
+  end
+end
 --- open a telescope picker with the favorite files and folders read from the favorite file
 -- @param forcerescan boolean: Force a rescan of the favorite file.
 -- 'telescope'
@@ -143,34 +162,22 @@ function M.Quickfavs(forcerescan)
           end
         end)
         map('i', '<c-q>', function(_) end)    -- remap this to nothing, it will otherwise produce an error
+        map('i', '<C-n>', function(_)
+          actions.close(prompt_bufnr)
+          local selection = action_state.get_selected_entry()
+          open_entry('neotree', selection)
+        end)
         actions.select_default:replace(function()
           -- local path = require("plenary.path")
           actions.close(prompt_bufnr)
           local selection = action_state.get_selected_entry()
-          if selection.value.filename ~= nil and #selection.value.filename > 0 then
-            local name = selection.value.filename
-            --local f = path:new(selection.value.filename)
-            --local name = f:expand()
-            if vim.fn.filereadable(name) ~= 0 then
-              vim.cmd('e ' .. name)
-            elseif vim.fn.isdirectory(name) ~= 0 then
-              if openin == 'neotree' then
-                vim.cmd("Neotree position=" .. conf.neotree .. " dir=" .. name)
-              elseif openin == 'telescope' then
-                if conf.telescope_theme ~= 'default' then
-                  require("telescope").extensions.file_browser.file_browser(conf.telescope_theme({path = name, prompt_title="Favorite Folder"}))
-                else
-                  require("telescope").extensions.file_browser.file_browser({prompt_title="Favorite Folder",path = name})
-                end
-              end
-            end
-          end
+          open_entry('telescope', selection)
         end)
       return true
       end,
     }):find()
   end
-  favselector(Telescope_dropdown_theme{width=0.5, height=0.4, prompt_title="Select favorite (Enter = open in Neotree or Telescope, <C-d> = set as CWD)"})
+  favselector(Telescope_dropdown_theme{width=0.5, height=0.4, prompt_title="Select favorite (Enter = open in Telescope, <C-n> Open in Neotree, <C-d> = set as CWD)"})
 end
 
 return M
