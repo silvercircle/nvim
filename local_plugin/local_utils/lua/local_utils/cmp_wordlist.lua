@@ -19,6 +19,13 @@ local conf = {}
 
 local wordlist = {}
 local wordfiles = {}
+local havewords = {}
+
+function source.debugmsg(msg)
+  if conf.debug == true then
+    print(msg)
+  end
+end
 
 function source.new()
   return setmetatable({}, { __index = source })
@@ -63,15 +70,7 @@ function source:complete(params, callback)
 --    { label = 'January' },
 --    { label = 'February' },
 --    { label = 'March' },
---    { label = 'April' },
---    { label = 'May' },
---    { label = 'June' },
---    { label = 'July' },
---    { label = 'August' },
---    { label = 'September' },
---    { label = 'October' },
---    { label = 'November' },
---    { label = 'December' },
+--    [...]
 --  })
   callback(wordlist)
 end
@@ -84,9 +83,9 @@ function source:resolve(completion_item, callback)
   local item = {
     label = completion_item.label
   }
-  if completion_item.translation ~= nil then
-    item.label = completion_item.translation
-    item.detail = "Translates to " .. completion_item.translation
+  if completion_item['translation'] ~= nil then
+    item.label = completion_item['translation']
+    item.detail = "Translates to " .. completion_item['translation']
   end
   callback(item)
   item = nil
@@ -104,11 +103,6 @@ function source.setup(options)
   source:rebuild_list()
 end
 
-function source:print_conf()
-  print(vim.inspect(conf))
-  print(vim.inspect(conf.wordfiles))
-end
-
 function source.add_to_list(file)
   local utils = require("local_utils")
   if vim.fn.filereadable(file) then
@@ -119,9 +113,17 @@ function source.add_to_list(file)
         if #line > 0 then
           if string.find(line, "|") ~= nil then
             local elems = utils.string_split(line, "|")
-            table.insert(wordlist, { label = elems[1], translation = elems[2] })
+            source.debugmsg("attempt to inser: " .. elems[1])
+            if havewords[elems[1]] == nil then
+              table.insert(wordlist, { label = elems[1], translation = elems[2] })
+              havewords[elems[1]] = true
+            end
           else
-            table.insert(wordlist, { label = line  })
+            source.debugmsg("attempt to insert: " .. line)
+            if havewords[line] == nil then
+              table.insert(wordlist, { label = line  })
+              havewords[line] = true
+            end
           end
         end
       end
@@ -131,26 +133,25 @@ function source.add_to_list(file)
 end
 
 function source:rebuild_list()
-  
   local path = require("plenary.path")
-  for _,v in pairs(conf.wordfiles) do
-    local p = path:new(v)
-    if p:is_absolute() and p:is_file() then
-      table.insert(wordfiles, p:expand())
-    else
-      local final_path = path:new(vim.fn.stdpath("config"), p:expand())
-      table.insert(wordfiles, final_path:expand())
+  if #wordfiles == 0 then
+    for _,v in pairs(conf.wordfiles) do
+      local p = path:new(v)
+      if p:is_absolute() and p:is_file() then
+        table.insert(wordfiles, p:expand())
+      else
+        local final_path = path:new(vim.fn.stdpath("config"), p:expand())
+        table.insert(wordfiles, final_path:expand())
+      end
     end
   end
   for _,v in pairs(wordfiles) do
     source.add_to_list(v)
   end
-  if conf.debug == true then
-    print(vim.inspect(wordlist))
-  end
+  source.debugmsg(vim.inspect(havewords))
 end
 
----Register your source to nvim-cmp.
+-- Register your source to nvim-cmp.
 require('cmp').register_source('wordlist', source)
 
 return source
