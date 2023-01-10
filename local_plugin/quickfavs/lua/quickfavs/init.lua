@@ -170,7 +170,7 @@ function M.Quickfavs(forcerescan)
       end,
     }):find()
   end
-  favselector(Telescope_dropdown_theme{width=0.5, height=0.4, title="Select favorite (Enter = open in Neotree or Telescope, <C-d> = set as CWD)"})
+  favselector(Telescope_dropdown_theme{width=0.5, height=0.4, prompt_title="Select favorite (Enter = open in Neotree or Telescope, <C-d> = set as CWD)"})
 end
 
 return M

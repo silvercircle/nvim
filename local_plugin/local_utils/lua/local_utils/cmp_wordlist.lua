@@ -1,14 +1,33 @@
 -- simple cmp source for completing items from a word list.
+-- based on sample code in the documentation of the CMP plugin at:
+-- https://github.com/hrsh7th/nvim-cmp
+
+-- LICENSE: MIT
+
+local defaults = {
+  -- filenames from which the word list is built. They can be absolute filenames or are 
+  -- treated a relative to stdpath("config")
+  wordfiles = {
+    "wordlist.txt"
+  },
+  enabled = true,
+  debug = true
+}
 
 local source = {}
+local conf = {}
+
+local wordlist = {}
+local wordfiles = {}
+
+function source.new()
+  return setmetatable({}, { __index = source })
+end
 
 ---Return whether this source is available in the current context or not (optional).
 ---@return boolean
 function source:is_available()
   return true
-end
-function source:setup()
-  print("wordlistsource init")
 end
 
 ---Return the debug name of this source (optional).
@@ -40,20 +59,21 @@ end
 ---@param params cmp.SourceCompletionApiParams
 ---@param callback fun(response: lsp.CompletionResponse|nil)
 function source:complete(params, callback)
-  callback({
-    { label = 'January' },
-    { label = 'February' },
-    { label = 'March' },
-    { label = 'April' },
-    { label = 'May' },
-    { label = 'June' },
-    { label = 'July' },
-    { label = 'August' },
-    { label = 'September' },
-    { label = 'October' },
-    { label = 'November' },
-    { label = 'December' },
-  })
+--  callback({
+--    { label = 'January' },
+--    { label = 'February' },
+--    { label = 'March' },
+--    { label = 'April' },
+--    { label = 'May' },
+--    { label = 'June' },
+--    { label = 'July' },
+--    { label = 'August' },
+--    { label = 'September' },
+--    { label = 'October' },
+--    { label = 'November' },
+--    { label = 'December' },
+--  })
+  callback(wordlist)
 end
 
 ---Resolve completion item (optional). This is called right before the completion is about to be displayed.
@@ -61,7 +81,15 @@ end
 ---@param completion_item lsp.CompletionItem
 ---@param callback fun(completion_item: lsp.CompletionItem|nil)
 function source:resolve(completion_item, callback)
-  callback(completion_item)
+  local item = {
+    label = completion_item.label
+  }
+  if completion_item.translation ~= nil then
+    item.label = completion_item.translation
+    item.detail = "Translates to " .. completion_item.translation
+  end
+  callback(item)
+  item = nil
 end
 
 ---Executed after the item was selected.
@@ -69,6 +97,57 @@ end
 ---@param callback fun(completion_item: lsp.CompletionItem|nil)
 function source:execute(completion_item, callback)
   callback(completion_item)
+end
+
+function source.setup(options)
+  conf = vim.tbl_deep_extend('force', defaults, options)
+  source:rebuild_list()
+end
+
+function source:print_conf()
+  print(vim.inspect(conf))
+  print(vim.inspect(conf.wordfiles))
+end
+
+function source.add_to_list(file)
+  local utils = require("local_utils")
+  if vim.fn.filereadable(file) then
+    local f = io.open(file)
+    if f ~= nil then
+      local lines = f:lines()
+      for line in lines do
+        if #line > 0 then
+          if string.find(line, "|") ~= nil then
+            local elems = utils.string_split(line, "|")
+            table.insert(wordlist, { label = elems[1], translation = elems[2] })
+          else
+            table.insert(wordlist, { label = line  })
+          end
+        end
+      end
+      io.close(f)
+    end
+  end
+end
+
+function source:rebuild_list()
+  
+  local path = require("plenary.path")
+  for _,v in pairs(conf.wordfiles) do
+    local p = path:new(v)
+    if p:is_absolute() and p:is_file() then
+      table.insert(wordfiles, p:expand())
+    else
+      local final_path = path:new(vim.fn.stdpath("config"), p:expand())
+      table.insert(wordfiles, final_path:expand())
+    end
+  end
+  for _,v in pairs(wordfiles) do
+    source.add_to_list(v)
+  end
+  if conf.debug == true then
+    print(vim.inspect(wordlist))
+  end
 end
 
 ---Register your source to nvim-cmp.
