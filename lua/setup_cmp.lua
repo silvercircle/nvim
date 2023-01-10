@@ -90,8 +90,8 @@ cmp.setup({
   },
   mapping = {
     -- See ~/.vim/plugged/nvim-cmp/lua/cmp/config/mapping.lua
-    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Up>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-Down>"] = cmp.mapping.scroll_docs(4),
 --    ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete({
         reason = cmp.ContextReason.Manual,
@@ -100,10 +100,7 @@ cmp.setup({
     ["<Esc>"] = cmp.mapping.close(), -- ESC close complete popup. Feels more natural than <C-e>
     ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp_types.SelectBehavior.Select }),
     ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp_types.SelectBehavior.Select }),
-    --    ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp_types.SelectBehavior.Insert }),
-    --    ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp_types.SelectBehavior.Insert }),
     ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
-    ["<C-CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
     ["<Tab>"] = { -- see GH-880, GH-897
       i = function(fallback) -- see GH-231, GH-286
         if cmp.visible() then
@@ -131,10 +128,10 @@ cmp.setup({
   },
   formatting = {
     format = function(entry, vim_item)
-      vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
       -- Truncate the item if it is too long
       vim_item.abbr = Truncate(vim_item.abbr, max_abbr_item_width)
         -- fancy icons and a name of kind
+      vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
       vim_item.kind = " " .. vim_item.kind_symbol .. " " .. vim_item.kind
       -- The 'menu' section: source, detail information (lsp, snippet), etc.
       -- set a name for each source (see the sources section below)
@@ -153,12 +150,10 @@ cmp.setup({
       })[entry.source.name] -- default is CmpItemMenu
       -- detail information (optional)
       local cmp_item = entry:get_completion_item()
-
       if entry.source.name == "nvim_lsp" then
         -- Display which LSP servers this item came from.
         local lspserver_name = entry.source.source.client.name
         vim_item.menu = lspserver_name
-
         -- Some language servers provide details, e.g. type information.
         -- The details info hide the name of lsp server, but mostly we'll have one LSP
         -- per filetype, and we use special highlights so it's OK to hide it..
@@ -166,7 +161,6 @@ cmp.setup({
           if not cmp_item.detail then
             return nil
           end
-
           if lspserver_name == "pyright" and cmp_item.detail == "Auto-import" then
             local label = (cmp_item.labelDetails or {}).description
             return label and (" " .. Truncate(label, 20)) or nil
@@ -185,15 +179,12 @@ cmp.setup({
     end,
   },
   sources = {
-    -- Note: make sure you have proper plugins specified in plugins.vim
-    -- https://github.com/topics/nvim-cmp
-    { name = "nvim_lsp", priority = 110, keyword_length = 1, max_item_count = 40 },
+    { name = "nvim_lsp", priority = 110, group_index = 1, max_item_count = 40 },
     { name = "path", priority = 30 },
-    { name = "luasnip", priority = 120, keyword_length = 2 },
+    { name = "luasnip", priority = 120, group_index = 2, keyword_length = 2 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
-    -- { name = 'dictionary', priority = 100, keyword_length = 2 },
-    { name = 'wordlist', priority = 100, keyword_length = 2 },
-    { name = 'emoji', priority = 10, keyword_length = 2 }  -- cmp-emoji source
+    { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 2 },
+    { name = 'emoji', priority = 10 }  -- cmp-emoji source
   },
   sorting = {
     comparators = {
@@ -232,13 +223,5 @@ cmp.setup.cmdline(":", {
   }),
 })
 
--- require("cmp_dictionary").setup({
---   dic = {
---     ["*"] = { vim.api.nvim_list_runtime_paths()[1] .. "/spell/personal.dict" },
---   },
---   first_case_insensitive = true,
--- })
-
---print("calling wordlist setup")
 require("local_utils.cmp_wordlist").setup({debug = false})
 

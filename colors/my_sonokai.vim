@@ -407,7 +407,7 @@ endif
 call my_sonokai#highlight('RedSign', s:palette.red, s:palette.none)
 call my_sonokai#highlight('OrangeSign', s:palette.orange, s:palette.none)
 call my_sonokai#highlight('YellowSign', s:palette.yellow, s:palette.none)
-call my_sonokai#highlight('GreenSign', s:palette.green, s:palette.none)
+call my_sonokai#highlight('GreenSign', s:string, s:palette.none)
 call my_sonokai#highlight('BlueSign', s:palette.blue, s:palette.none)
 call my_sonokai#highlight('PurpleSign', s:palette.purple, s:palette.none)
 if s:configuration.diagnostic_text_highlight
@@ -691,10 +691,10 @@ highlight! link TelescopeSelection DiffAdd
 " }}}
 " lewis6991/gitsigns.nvim {{{
 highlight! link GitSignsAdd GreenSign
-highlight! link GitSignsChange BlueSign
-highlight! link GitSignsDelete RedSign
-highlight! link GitSignsAddNr Green
+highlight! link GitSignsAddNr GreenSign
+highlight! link GitSignsChange Blue
 highlight! link GitSignsChangeNr Blue
+highlight! link GitSignsDelete RedSign
 highlight! link GitSignsDeleteNr Red
 highlight! link GitSignsAddLn DiffAdd
 highlight! link GitSignsChangeLn DiffChange
