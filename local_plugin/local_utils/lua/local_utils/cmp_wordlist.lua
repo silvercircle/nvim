@@ -2,16 +2,39 @@
 -- based on sample code in the documentation of the CMP plugin at:
 -- https://github.com/hrsh7th/nvim-cmp
 
+-- requirements:
+-- * plenary
+-- * nvim-cmp
+--
 -- LICENSE: MIT
+
+--- a word list is a simple text file containing one word by line and optionally a translation term, separated
+--  by the separation character. This is | by default
+--  You can use it to complete long words or common abbreviations.
+--  examples:
+--
+--  mycoolword
+--  afk|away from keyboard
+--  nvim|Neovim
+--  averylongwordidonotwanttotypealways
+--
+--  and so on.
+--  When a translation term is present, it will be used for completion. Otherwise, the word itself will be
+--  inserted. A translation term will be shown as documentation float when CMP is active.
+--
+--  the word files are read at startup but you can refresh them by calling:
+--  require("cmp_wordlist").rebuild_list()
 
 local defaults = {
   -- filenames from which the word list is built. They can be absolute filenames or are 
   -- treated a relative to stdpath("config")
+  -- all these default values can be changed via setup()
   wordfiles = {
     "wordlist.txt"
   },
-  enabled = true,
-  debug = true
+  enabled = true,         -- this has currently no effect
+  debug = false,
+  separator = "|"         -- the character used to separate the word from its translation
 }
 
 local source = {}
@@ -20,6 +43,7 @@ local conf = {}
 local wordlist = {}
 local wordfiles = {}
 local havewords = {}
+local initial_list_built = false
 
 function source.debugmsg(msg)
   if conf.debug == true then
@@ -72,6 +96,10 @@ function source:complete(params, callback)
 --    { label = 'March' },
 --    [...]
 --  })
+  if initial_list_built == false then
+    source:rebuild_list()
+    initial_list_built = true
+  end
   callback(wordlist)
 end
 
@@ -85,7 +113,7 @@ function source:resolve(completion_item, callback)
   }
   if completion_item['translation'] ~= nil then
     item.label = completion_item['translation']
-    item.detail = "Translates to " .. completion_item['translation']
+    item.detail = "Translates to: " .. completion_item['translation']
   end
   callback(item)
   item = nil
@@ -100,26 +128,24 @@ end
 
 function source.setup(options)
   conf = vim.tbl_deep_extend('force', defaults, options)
-  source:rebuild_list()
 end
 
 function source.add_to_list(file)
   local utils = require("local_utils")
   if vim.fn.filereadable(file) then
+    source.debugmsg("Add words from: " .. file)
     local f = io.open(file)
     if f ~= nil then
       local lines = f:lines()
       for line in lines do
         if #line > 0 then
           if string.find(line, "|") ~= nil then
-            local elems = utils.string_split(line, "|")
-            source.debugmsg("attempt to inser: " .. elems[1])
+            local elems = utils.string_split(line, conf.separator)
             if havewords[elems[1]] == nil then
               table.insert(wordlist, { label = elems[1], translation = elems[2] })
               havewords[elems[1]] = true
             end
           else
-            source.debugmsg("attempt to insert: " .. line)
             if havewords[line] == nil then
               table.insert(wordlist, { label = line  })
               havewords[line] = true
@@ -133,6 +159,7 @@ function source.add_to_list(file)
 end
 
 function source:rebuild_list()
+  source.debugmsg("List rebuild, start")
   local path = require("plenary.path")
   if #wordfiles == 0 then
     for _,v in pairs(conf.wordfiles) do
@@ -148,7 +175,7 @@ function source:rebuild_list()
   for _,v in pairs(wordfiles) do
     source.add_to_list(v)
   end
-  source.debugmsg(vim.inspect(havewords))
+  source.debugmsg("List rebuilt, holds " .. #wordlist .. " items.")
 end
 
 -- Register your source to nvim-cmp.
