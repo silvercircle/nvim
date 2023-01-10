@@ -77,3 +77,5 @@ spell/en.utf-8.add
 spell/personal.dict
 plugin/packer_compiled.lua
 favs
+wordlist.txt
+

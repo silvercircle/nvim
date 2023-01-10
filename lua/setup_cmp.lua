@@ -239,5 +239,6 @@ cmp.setup.cmdline(":", {
 --   first_case_insensitive = true,
 -- })
 
-require("local_utils.cmp_wordlist").setup({})
+--print("calling wordlist setup")
+require("local_utils.cmp_wordlist").setup({debug = false})
 
