@@ -4,13 +4,14 @@ local function debugnotify(msg)
   vim.notify("Quickfavs: " .. msg, 3)
 end
 
+local neotreestatus, _ = pcall(require, "neo-tree")
+
 local conf = {
   -- the default filename
   filename = vim.fn.stdpath("config") .. "/favs",
   neotree = 'left',
   -- open_mode can be neotree OR telescope
   -- for telescope, the file browser extension is needed
-  open_mode = 'telescope',
   telescope_theme = Telescope_vertical_dropdown_theme
 }
 
@@ -94,16 +95,7 @@ function M.Quickfavs(forcerescan)
   local title_width = 30
   local status
   local lutils = require("local_utils")
-  local openin = conf.open_mode
 
-  if openin ~= 'neotree' and openin ~= 'telescope' then
-    debugnotify("Unsupported openmode: " .. openin)
-    return
-  end
-  if openin == 'neotree' and pcall(require, "neo-tree") == false then
-    debugnotify("This feature requires the NeoTree plugin")
-    return
-  end
   if pcall(require, 'telescope') == false then
     debugnotify("This feature requires the Telecope plugin.")
     return
@@ -165,7 +157,11 @@ function M.Quickfavs(forcerescan)
         map('i', '<C-n>', function(_)
           actions.close(prompt_bufnr)
           local selection = action_state.get_selected_entry()
-          open_entry('neotree', selection)
+          if neotreestatus == false then
+            vim.notify("This requires the Neotree plugin, which does not seem to be installed", 3)
+          else
+            open_entry('neotree', selection)
+          end
         end)
         actions.select_default:replace(function()
           -- local path = require("plenary.path")

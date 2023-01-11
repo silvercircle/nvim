@@ -9,7 +9,7 @@
 -- LICENSE: MIT
 
 --- a word list is a simple text file containing one word by line and optionally a translation term, separated
---  by the separation character. This is | by default
+--  by the separation character. By default, the pipe symbol (|) is used for separation.
 --  You can use it to complete long words or common abbreviations.
 --  examples:
 --
@@ -22,8 +22,9 @@
 --  When a translation term is present, it will be used for completion. Otherwise, the word itself will be
 --  inserted. A translation term will be shown as documentation float when CMP is active.
 --
---  the word files are read at startup but you can refresh them by calling:
---  require("cmp_wordlist").rebuild_list()
+--  the word files are lazily lead when completion is first invoked. It is possible to manually refresh them
+--  by callsing: require("cmp_wordlist").rebuild_list()
+--  TODO: file watcher for the wordlist
 
 local defaults = {
   -- filenames from which the word list is built. They can be absolute filenames or are 
@@ -96,6 +97,7 @@ function source:complete(params, callback)
 --    { label = 'March' },
 --    [...]
 --  })
+-- rebuild list on first completion attempt. don't jeopardize worthy startup time 😺
   if initial_list_built == false then
     source:rebuild_list()
     initial_list_built = true
@@ -141,15 +143,9 @@ function source.add_to_list(file)
         if #line > 0 then
           if string.find(line, "|") ~= nil then
             local elems = utils.string_split(line, conf.separator)
-            if havewords[elems[1]] == nil then
-              table.insert(wordlist, { label = elems[1], translation = elems[2] })
-              havewords[elems[1]] = true
-            end
+            table.insert(wordlist, { label = elems[1], translation = elems[2] })
           else
-            if havewords[line] == nil then
-              table.insert(wordlist, { label = line  })
-              havewords[line] = true
-            end
+            table.insert(wordlist, { label = line  })
           end
         end
       end
@@ -159,6 +155,9 @@ function source.add_to_list(file)
 end
 
 function source:rebuild_list()
+  if #wordlist > 0 then
+    for k,_ in pairs(wordlist) do wordlist[k] = nil end
+  end
   source.debugmsg("List rebuild, start")
   local path = require("plenary.path")
   if #wordfiles == 0 then
