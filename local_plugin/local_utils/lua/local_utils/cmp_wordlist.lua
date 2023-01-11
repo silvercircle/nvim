@@ -43,7 +43,6 @@ local conf = {}
 
 local wordlist = {}
 local wordfiles = {}
-local havewords = {}
 local initial_list_built = false
 
 function source.debugmsg(msg)
