@@ -58,7 +58,8 @@ o.wrap = false
 o.number = true
 o.numberwidth = 5
 if vim.fn.has('nvim-0.9') == 1 then
-  o.foldcolumn="2"
+  o.foldcolumn="1"
+  o.statuscolumn='%=%s%=%l %#FoldColumn#%{foldlevel(v:lnum) > 0 ? (foldlevel(v:lnum) > foldlevel(v:lnum - 1) ? (foldclosed(v:lnum) == -1 ? "-" : "+") : "│") : " " }%#IndentBlankLineChar#│'
 else
   o.foldcolumn="5"
 end
