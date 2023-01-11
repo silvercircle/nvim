@@ -227,7 +227,7 @@ require("neo-tree").setup({
   event_handlers = {
     {
       event = "neo_tree_window_after_open",
-      handler = function(arg)
+      handler = function(_)
         vim.cmd("silent! setlocal statuscolumn=")
       end
     }

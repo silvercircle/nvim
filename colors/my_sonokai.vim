@@ -212,7 +212,7 @@ call my_sonokai#highlight('DiffAdd', s:palette.none, s:palette.diff_green)
 call my_sonokai#highlight('DiffChange', s:palette.none, s:palette.diff_blue)
 call my_sonokai#highlight('DiffDelete', s:palette.none, s:palette.diff_red)
 call my_sonokai#highlight('DiffText', s:palette.bg0, s:palette.blue)
-call my_sonokai#highlight('Directory', s:palette.green, s:palette.none)
+call my_sonokai#highlight('Directory', s:blue, s:palette.none, 'bold')
 call my_sonokai#highlight('ErrorMsg', s:palette.red, s:palette.none, 'bold,underline')
 call my_sonokai#highlight('WarningMsg', s:palette.yellow, s:palette.none, 'bold')
 call my_sonokai#highlight('ModeMsg', s:palette.fg, s:palette.none, 'bold')
@@ -1160,7 +1160,7 @@ highlight! link scalaInterpolationBoundary Purple
 highlight! link scalaInterpolation Purple
 highlight! link scalaTypeOperator Red
 highlight! link scalaOperator Red
-highlight! link scalaKeywordModifier Red
+highlight! link scalaKeywordModifier TealBold
 " }}}
 " syn_end }}}
 " syn_begin: go {{{
@@ -1327,6 +1327,7 @@ call my_sonokai#highlight('GlanceListMatch', s:palette.yellow, s:palette.none)
 call my_sonokai#highlight('NeoTreeNormalNC', s:palette.fg, s:palette.neotreebg)
 call my_sonokai#highlight('NeoTreeNormal', s:palette.fg, s:palette.neotreebg)
 call my_sonokai#highlight('NeoTreeFloatBorder', s:palette.grey_dim, s:palette.neotreebg)
+call my_sonokai#highlight('NeoTreeFileNameOpened', s:palette.blue, s:palette.neotreebg, 'italic')
 
 " Org mode
 "

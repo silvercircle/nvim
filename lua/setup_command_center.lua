@@ -433,5 +433,5 @@ Command_center.add({
     cmd = function() require('telekasten').search_notes() end,
     keys = { "n", "<leader>zs", noremap },
     category = "@Telekasten"
-  },
+  }
 })

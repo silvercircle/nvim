@@ -45,7 +45,8 @@ vim.g.features = {
 
 vim.g.config = {
   telescope_fname_width = 140,
-  theme_variant = 'warm'
+  theme_variant = 'warm',
+  nightly = vim.has("nvim-0.9")
 }
 -- theme variant can be either cold or warm.
 -- cold has slight blue-ish tint in the background colors, while warm is more reddish
@@ -238,6 +239,12 @@ Truncate = function(text, max_width)
   else
     return text
   end
+end
+
+_G.fn = {}
+
+_G.fn.testfunction = function()
+  print("testfunction")
 end
 
 -- load the color theme
