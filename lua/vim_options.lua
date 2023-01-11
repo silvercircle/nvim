@@ -55,10 +55,16 @@ o.wrap = false
 -- would normally set 2 spaces after a period or question mark when
 -- reformatting / joining lines.
 --o.formatprg = 'par'
+-- gutter config. set numbers (5 digits max)
+-- set fillchars for folds
 o.number = true
 o.numberwidth = 5
+o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
 if vim.fn.has('nvim-0.9') == 1 then
-  o.foldcolumn="1"
+  -- on neovim 0.9 we can simulate a foldcolumn with a statusbar expression
+  -- this will result in a simulated single-colum folding guide without folding level numbers.
+  -- foldcolumn can be set to 0
+  o.foldcolumn="0"
   o.statuscolumn='%=%s%=%l %#FoldColumn#%{foldlevel(v:lnum) > 0 ? (foldlevel(v:lnum) > foldlevel(v:lnum - 1) ? (foldclosed(v:lnum) == -1 ? "-" : "+") : "│") : " " }%#IndentBlankLineChar#│'
 else
   o.foldcolumn="5"
