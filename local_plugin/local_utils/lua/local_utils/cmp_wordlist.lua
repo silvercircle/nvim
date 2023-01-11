@@ -90,12 +90,6 @@ end
 ---@param params cmp.SourceCompletionApiParams
 ---@param callback fun(response: lsp.CompletionResponse|nil)
 function source:complete(params, callback)
---  callback({
---    { label = 'January' },
---    { label = 'February' },
---    { label = 'March' },
---    [...]
---  })
 -- rebuild list on first completion attempt. don't jeopardize worthy startup time 😺
   if initial_list_built == false then
     source:rebuild_list()
