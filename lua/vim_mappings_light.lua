@@ -124,7 +124,7 @@ vim.keymap.set('n', "<f4>", ":call Mkview()<CR>", opts)
 vim.keymap.set('i', "<f4>", "<c-o>:call Mkview()<CR>", opts)
 
 -- toggle current fold
-vim.keymap.set('n', "<F2>", function() vim.api.nvim_feedkeys('za', 'n', true) vim.api.nvim_feedkeys("<f4>", 'n', true)  end, opts)
+vim.keymap.set('n', "<F2>", function() vim.api.nvim_feedkeys('za', 'n', true) end, opts)
 vim.keymap.set('i', "<F2>", function() local key = vim.api.nvim_replace_termcodes("<C-o>za", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) end, opts)
 vim.keymap.set('v', "<F2>", function() vim.api.nvim_feedkeys('zf', 'v', true) end, opts)
 

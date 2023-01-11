@@ -57,7 +57,11 @@ o.wrap = false
 --o.formatprg = 'par'
 o.number = true
 o.numberwidth = 5
-o.foldcolumn = "5"
+if vim.fn.has('nvim-0.9') == 1 then
+  o.foldcolumn="2"
+else
+  o.foldcolumn="5"
+end
 
 -- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 
 -- indentation-based folding.
@@ -80,7 +84,6 @@ o.foldnestmax = 5
 -- this keeps views small
 o.viewoptions = "folds,cursor"
 -- no ~ at blank lines
-vim.opt.fillchars = { eob = " " }
 o.completeopt = "menu,menuone,noinsert"
 -- coc and also CMP respect this settings for the maximum autocomplete-popup height
 o.pumheight = 15
@@ -105,6 +108,7 @@ o.sidescrolloff = 5
 o.sidescroll = 5
 o.conceallevel = 0
 o.clipboard = "unnamedplus"
+o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
 -- autogroups
 local agroup_enter = vim.api.nvim_create_augroup("enter", {})
 

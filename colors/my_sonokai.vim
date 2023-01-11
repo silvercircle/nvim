@@ -125,7 +125,7 @@ let s:path = expand('<sfile>:p') " the path of this script
 let s:last_modified = '2022-12-23T08:46:17+0100'
 let g:sonokai_loaded_file_types = []
 if g:theme_variant == 'cold'
-  let s:darkbg = ['#111116', 237]
+  let s:darkbg = ['#111115', 237]
   let s:teal = ['#108080', 238]
   let s:blue = ['#5a6acf', 239]
   let s:darkpurple = ['#803090', 240]
@@ -141,7 +141,7 @@ if g:theme_variant == 'cold'
   let s:pmenubg = [ '#241a20', 156 ]
   let s:cmpbg = s:palette.bg4
 else
-  let s:darkbg = ['#161111', 237]
+  let s:darkbg = ['#151111', 237]
   let s:teal = ['#108080', 238]
   let s:blue = ['#5a6acf', 239]
   let s:darkpurple = ['#803090', 240]
@@ -179,8 +179,8 @@ else
 endif
 call my_sonokai#highlight('Folded', s:palette.yellow, s:darkred, 'bold')
 call my_sonokai#highlight('ToolbarLine', s:palette.fg, s:palette.none)
-call my_sonokai#highlight('FoldColumn', s:palette.bg4, s:bg)
-call my_sonokai#highlight('SignColumn', s:palette.fg, s:palette.none)
+call my_sonokai#highlight('FoldColumn', s:palette.bg4, s:darkbg)
+call my_sonokai#highlight('SignColumn', s:palette.fg, s:darkbg)
 call my_sonokai#highlight('IncSearch', s:palette.yellow, s:darkpurple)
 call my_sonokai#highlight('Search', s:palette.yellow, s:darkred)
 call my_sonokai#highlight('ColorColumn', s:palette.none, s:palette.bg1)
@@ -202,7 +202,7 @@ else
   call my_sonokai#highlight('CursorLine', s:palette.none, s:palette.bg1)
   call my_sonokai#highlight('CursorColumn', s:palette.none, s:palette.bg1)
 endif
-call my_sonokai#highlight('LineNr', s:palette.grey_dim, s:palette.none)
+call my_sonokai#highlight('LineNr', s:palette.grey_dim, s:darkbg)
 if &diff
   call my_sonokai#highlight('CursorLineNr', s:palette.fg, s:palette.none, 'underline')
 else

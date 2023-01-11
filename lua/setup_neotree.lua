@@ -224,6 +224,14 @@ require("neo-tree").setup({
       },
     },
   },
+  event_handlers = {
+    {
+      event = "neo_tree_window_after_open",
+      handler = function(arg)
+        vim.cmd("silent! setlocal statuscolumn=")
+      end
+    }
+  },
   buffers = {
     follow_current_file = true, -- This will find and focus the file in the active buffer every
     -- time the current file is changed while the tree is open.

@@ -89,15 +89,15 @@ augroup filetypes
   autocmd FileType markdown,telekasten,liquid setlocal conceallevel=2 | setlocal concealcursor=nc
   autocmd FileType mail setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de
 "  autocmd FileType noice silent! setlocal signcolumn=no | silent!  setlocal foldcolumn=0 | silent! setlocal nonumber
-  autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=Outline
+  autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | setlocal statuscolumn= | silent! setlocal statusline=Outline | setlocal winhl=Normal:NeoTreeNormalNC
+  autocmd FileType startify silent! setlocal statuscolumn=
 augroup end
-
 
 " set filetype dependent background colors.
-augroup WinColors
-  autocmd!
-  autocmd FileType Outline setlocal winhl=Normal:NeoTreeNormalNC
-augroup end
+"augroup WinColors
+"  autocmd!
+"autocmd FileType Outline setlocal winhl=Normal:NeoTreeNormalNC
+"augroup end
 
 " create a view (save folding state and cursor position)
 function Mkview()
@@ -170,9 +170,10 @@ function! TermToggle(height)
           set signcolumn=yes
           set winfixheight
           set nocursorline
-          set winhl=Normal:NeoTreeNormalNC
+          set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC
           set filetype=terminal
           set statusline=Terminal
+          silent! set statuscolumn=
       endtry
       startinsert!
       let g:term_win = win_getid()
@@ -185,7 +186,6 @@ inoremap <A-t> <Esc>:call TermToggle(12)<CR>
 tnoremap <A-t> <C-\><C-n>:call TermToggle(12)<CR>
 " remap <ESC> to escape terminal mode
 tnoremap <Esc> <C-\><C-n>
-
+silent! set statuscolumn=%@SignCb@%=%s%=%T%#NumCb#%l\ %C%#IndentBlankLineChar#│\ 
 command! Jsonf :execute '%!python -c "import json,sys,collections,re; sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambda m:m.group().decode(\"unicode_escape\").encode(\"utf-8\"),json.dumps(json.load(sys.stdin, object_pairs_hook=collections.OrderedDict), indent=2)))"'
-
 

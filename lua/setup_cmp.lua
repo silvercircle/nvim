@@ -89,14 +89,12 @@ cmp.setup({
     },
   },
   mapping = {
-    -- See ~/.vim/plugged/nvim-cmp/lua/cmp/config/mapping.lua
     ["<C-Up>"] = cmp.mapping.scroll_docs(-4),
     ["<C-Down>"] = cmp.mapping.scroll_docs(4),
---    ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete({
         reason = cmp.ContextReason.Manual,
       }), {"i", "c"}),
-    ["<C-e>"] = cmp.config.disable,
+    ["<C-e>"] = cmp.mapping.abort(),
     ["<Esc>"] = cmp.mapping.close(), -- ESC close complete popup. Feels more natural than <C-e>
     ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp_types.SelectBehavior.Select }),
     ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp_types.SelectBehavior.Select }),
@@ -223,5 +221,5 @@ cmp.setup.cmdline(":", {
   }),
 })
 
-require("local_utils.cmp_wordlist").setup({debug = false})
+require("local_utils.cmp_wordlist").setup({debug = true})
 

@@ -10,17 +10,6 @@ parser_config.objc = {
     requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
   },
 }
---parser_config.scala = {
---  install_info = {
---  -- url can be Git repo or a local directory:
---    url = "https://github.com/eed3si9n/tree-sitter-scala",
---    branch = "fork-integration",
---    -- url = "/mnt/shared/data/code/treesitter-parsers/tree-sitter-scala", -- local path or git repo
---    files = {"src/parser.c", "src/scanner.c"},
---    requires_generate_from_grammar = false,
---  },
--- }
-
 local ft_to_parser = require"nvim-treesitter.parsers".filetype_to_parsername
 ft_to_parser.objcpp = 'objc'
 
