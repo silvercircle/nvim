@@ -46,7 +46,7 @@ vim.g.features = {
 vim.g.config = {
   telescope_fname_width = 140,
   theme_variant = 'warm',
-  nightly = vim.has("nvim-0.9")
+  nightly = vim.fn.has("nvim-0.9")
 }
 -- theme variant can be either cold or warm.
 -- cold has slight blue-ish tint in the background colors, while warm is more reddish

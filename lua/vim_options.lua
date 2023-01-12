@@ -61,11 +61,12 @@ o.number = true
 o.numberwidth = 5
 o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
 if vim.fn.has('nvim-0.9') == 1 then
-  -- on neovim 0.9 we can simulate a foldcolumn with a statusbar expression
-  -- this will result in a simulated single-colum folding guide without folding level numbers.
+  -- single-column fold guide, using a patched screen.c without the stupid numbers ;)
   -- foldcolumn can be set to 0
-  o.foldcolumn="0"
-  o.statuscolumn='%=%s%=%l %#FoldColumn#%{foldlevel(v:lnum) > 0 ? (foldlevel(v:lnum) > foldlevel(v:lnum - 1) ? (foldclosed(v:lnum) == -1 ? "-" : "+") : "│") : " " }%#IndentBlankLineChar#│'
+  o.foldcolumn="1"
+  o.statuscolumn='%=%s%=%T%l %C%#IndentBlankLineChar#│ '
+  -- this is a sub-optimal workaround ommiting %C and "simulating" the fold guide
+  -- o.statuscolumn='%=%s%=%l %#FoldColumn#%{foldlevel(v:lnum) > 0 ? (foldlevel(v:lnum) > foldlevel(v:lnum - 1) ? (foldclosed(v:lnum) == -1 ? "-" : "+") : "│") : " " }%#IndentBlankLineChar#│'
 else
   o.foldcolumn="5"
 end
@@ -115,7 +116,6 @@ o.sidescrolloff = 5
 o.sidescroll = 5
 o.conceallevel = 0
 o.clipboard = "unnamedplus"
-o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
 -- autogroups
 local agroup_enter = vim.api.nvim_create_augroup("enter", {})
 
