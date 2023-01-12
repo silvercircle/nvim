@@ -34,7 +34,8 @@ local defaults = {
     "wordlist.txt"
   },
   enabled = true,         -- this has currently no effect
-  debug = false,
+  debug = true,
+  read_on_setup = false,
   separator = "|"         -- the character used to separate the word from its translation
 }
 
@@ -123,6 +124,25 @@ end
 
 function source.setup(options)
   conf = vim.tbl_deep_extend('force', defaults, options)
+  if conf.read_on_setup == true then
+    source:rebuild_list()
+    initial_list_built = true
+  end
+end
+
+function source.onChange(cust, _, fname, status)
+  if not status.change then
+    --source.debugmsg("No status change, do nothing")
+    return
+  end
+  for _,v in pairs(wordfiles) do
+    if v['file'] == cust then
+      source.debugmsg("On Change event for: " .. fname .. ', restarting')
+      source:rebuild_list()
+      v['watch']:stop()
+      v['watch']:start(fname, {foo='bar'}, vim.schedule_wrap(function(...) source.onChange(cust, ...) end))
+    end
+  end
 end
 
 function source.add_to_list(file)
@@ -157,15 +177,21 @@ function source:rebuild_list()
     for _,v in pairs(conf.wordfiles) do
       local p = path:new(v)
       if p:is_absolute() and p:is_file() then
-        table.insert(wordfiles, p:expand())
+        if vim.fn.filereadable(p:expand()) then
+          local watch = vim.loop.new_fs_event()
+          watch:start(p:expand(), {}, vim.schedule_wrap(function(...) source.onChange(p:expand(), ...) end))
+          table.insert(wordfiles, { file=p:expand(), watch=watch })
+        end
       else
+        local watch = vim.loop.new_fs_event()
         local final_path = path:new(vim.fn.stdpath("config"), p:expand())
-        table.insert(wordfiles, final_path:expand())
+        watch:start(final_path:expand(), {}, vim.schedule_wrap(function(...) source.onChange(final_path:expand(), ...) end))
+        table.insert(wordfiles, { file=final_path:expand(), watch=watch } )
       end
     end
   end
   for _,v in pairs(wordfiles) do
-    source.add_to_list(v)
+    source.add_to_list(v.file)
   end
   source.debugmsg("List rebuilt, holds " .. #wordlist .. " items.")
 end
