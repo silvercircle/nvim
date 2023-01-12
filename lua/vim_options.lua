@@ -42,7 +42,6 @@ o.incsearch = true
 o.smarttab = true
 o.hlsearch = true
 o.backup = false
-o.undofile = false
 o.scrolloff = 3
 o.showmode = true
 o.showcmd = true
@@ -54,11 +53,10 @@ o.wrap = false
 -- This prevents the "2-spaces after end of sentence" rule. Basically, vim
 -- would normally set 2 spaces after a period or question mark when
 -- reformatting / joining lines.
---o.formatprg = 'par'
 -- gutter config. set numbers (5 digits max)
--- set fillchars for folds
 o.number = true
 o.numberwidth = 5
+-- set fillchars for folds
 o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
 if vim.fn.has('nvim-0.9') == 1 then
   -- single-column fold guide, using a patched screen.c without the stupid numbers ;)
@@ -110,12 +108,15 @@ o.updatecount = 0
 o.timeoutlen = 800
 o.cmdheight = 1
 o.scrolloff = 5
-o.undolevels = 200
+o.undolevels = 50
 o.scrolljump = 1
 o.sidescrolloff = 5
 o.sidescroll = 5
 o.conceallevel = 0
 o.clipboard = "unnamedplus"
+o.undodir = vim.fn.stdpath("data") .. "/undo/"
+o.undofile=true
+
 -- autogroups
 local agroup_enter = vim.api.nvim_create_augroup("enter", {})
 

@@ -36,6 +36,7 @@ local defaults = {
   enabled = true,         -- this has currently no effect
   debug = true,
   read_on_setup = false,
+  watch_files = false,    -- use libuv file watchers to re-scan changed wordfiles
   separator = "|"         -- the character used to separate the word from its translation
 }
 
@@ -138,6 +139,7 @@ function source.onChange(cust, _, fname, status)
   for _,v in pairs(wordfiles) do
     if v['file'] == cust then
       source.debugmsg("On Change event for: " .. fname .. ', restarting')
+      v['changed'] = true
       source:rebuild_list()
       v['watch']:stop()
       v['watch']:start(fname, {foo='bar'}, vim.schedule_wrap(function(...) source.onChange(cust, ...) end))
@@ -178,20 +180,29 @@ function source:rebuild_list()
       local p = path:new(v)
       if p:is_absolute() and p:is_file() then
         if vim.fn.filereadable(p:expand()) then
-          local watch = vim.loop.new_fs_event()
-          watch:start(p:expand(), {}, vim.schedule_wrap(function(...) source.onChange(p:expand(), ...) end))
-          table.insert(wordfiles, { file=p:expand(), watch=watch })
+          local watch = conf.watch_files == true and vim.loop.new_fs_event() or nil
+          if conf.watch_files == true and watch ~= nil then
+            watch:start(p:expand(), {}, vim.schedule_wrap(function(...) source.onChange(p:expand(), ...) end))
+            source.debugmsg("Starting file watcher for: ", p:expand())
+          end
+          table.insert(wordfiles, { file=p:expand(), watch=watch, changed = true })
         end
       else
-        local watch = vim.loop.new_fs_event()
         local final_path = path:new(vim.fn.stdpath("config"), p:expand())
-        watch:start(final_path:expand(), {}, vim.schedule_wrap(function(...) source.onChange(final_path:expand(), ...) end))
-        table.insert(wordfiles, { file=final_path:expand(), watch=watch } )
+        local watch = conf.watch_files == true and vim.loop.new_fs_event() or nil
+        if conf.watch_files == true and watch ~= nil then
+          watch:start(final_path:expand(), {}, vim.schedule_wrap(function(...) source.onChange(final_path:expand(), ...) end))
+          source.debugmsg("Starting file watcher for: " .. final_path:expand())
+        end
+        table.insert(wordfiles, { file=final_path:expand(), watch=watch, changed = true } )
       end
     end
   end
   for _,v in pairs(wordfiles) do
-    source.add_to_list(v.file)
+    if v.changed == true then
+      source.add_to_list(v.file)
+      v.changed = false
+    end
   end
   source.debugmsg("List rebuilt, holds " .. #wordlist .. " items.")
 end
