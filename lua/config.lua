@@ -16,7 +16,6 @@ vim.g.features = {
   mason = { enable = false, module = '' },
   cmp = { enable = true, module = 'setup_cmp' },                          -- cmp, including all its sources
                                                                           -- and luasnip
-  orgmode = { enable = false, module = 'setup_orgmode' },                  -- orgmode is a must-have
   telekasten = { enable = true, module = 'setup_telekasten' },
   scrollbar = { enable = true, module = 'setup_scrollbar' },              -- scrollbar
   gitsigns = { enable = true, module = 'setup_gitsigns' },                -- gitsigns plugin

@@ -62,11 +62,18 @@ if vim.fn.has('nvim-0.9') == 1 then
   -- single-column fold guide, using a patched screen.c without the stupid numbers ;)
   -- foldcolumn can be set to 0
   o.foldcolumn="1"
-  o.statuscolumn='%=%s%=%T%l %C%#IndentBlankLineChar#│ '
+  -- vim 0.9+ statuscolumn support. What this does:
+  -- * set a right aligned (%=) sign column (%s)
+  -- * followed by a right aligned absolute line number (%l)
+  -- followed by a space
+  -- followed by the fold gutter (foldlevel determines its width)
+  -- followed by a vertical separator highlighted in the IndentBlankLineChar highlight groupo
+o.statuscolumn='%=%s%=%l %C%#IndentBlankLineChar#│ '
+-- o.statuscolumn='%=%s%=%T%l %C%#IndentBlankLineChar#│ '
   -- this is a sub-optimal workaround ommiting %C and "simulating" the fold guide
   -- o.statuscolumn='%=%s%=%l %#FoldColumn#%{foldlevel(v:lnum) > 0 ? (foldlevel(v:lnum) > foldlevel(v:lnum - 1) ? (foldclosed(v:lnum) == -1 ? "-" : "+") : "│") : " " }%#IndentBlankLineChar#│'
 else
-  o.foldcolumn="5"
+o.foldcolumn="5"
 end
 
 -- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 
@@ -115,7 +122,8 @@ o.sidescroll = 5
 o.conceallevel = 0
 o.clipboard = "unnamedplus"
 o.undodir = vim.fn.stdpath("data") .. "/undo/"
-o.undofile=true
+-- set this to true if you want to have persistent undo
+o.undofile=false
 
 -- autogroups
 local agroup_enter = vim.api.nvim_create_augroup("enter", {})

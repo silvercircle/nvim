@@ -1,6 +1,6 @@
-require('lspsaga').init_lsp_saga({
+require('lspsaga').setup({
   code_action_lightbulb = { enable = false },
-  show_outline = {
+  outline = {
     win_width=36,
     auto_refresh = true,
     auto_preview = false

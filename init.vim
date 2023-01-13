@@ -74,6 +74,7 @@ else
 endif
 
 " show white spaces, but only trailing spaces, newlines and tabs
+" TAB is also disabled, because we use indent_blankline plugin for showing indentation guides
 set list listchars=tab:\ \ ,trail:▪,extends:>,precedes:<,eol:↴
 " a key mapping for the kwbd macro to close a buffer
 command C Kwbd
@@ -88,15 +89,9 @@ augroup filetypes
   autocmd FileType markdown,telekasten,liquid setlocal conceallevel=2 | setlocal concealcursor=nc
   autocmd FileType mail setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de
 "  autocmd FileType noice silent! setlocal signcolumn=no | silent!  setlocal foldcolumn=0 | silent! setlocal nonumber
-  autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=Outline | setlocal winhl=Normal:NeoTreeNormalNC
+  autocmd FileType Outline,lspsagaoutline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=Outline | setlocal winhl=Normal:NeoTreeNormalNC
   autocmd FileType startify silent! setlocal statuscolumn=
 augroup end
-
-" set filetype dependent background colors.
-"augroup WinColors
-"  autocmd!
-"autocmd FileType Outline setlocal winhl=Normal:NeoTreeNormalNC
-"augroup end
 
 " create a view (save folding state and cursor position)
 function Mkview()

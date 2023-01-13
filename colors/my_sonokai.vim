@@ -401,7 +401,7 @@ else
   call my_sonokai#highlight('OrangeItalic', s:palette.orange, s:palette.none)
   call my_sonokai#highlight('YellowItalic', s:palette.yellow, s:palette.none)
   call my_sonokai#highlight('GreenItalic', s:palette.green, s:palette.none)
-  call my_sonokai#highlight('BlueItalic', s:palette.blue, s:palette.none, 'bold')
+  call my_sonokai#highlight('BlueItalic', s:palette.blue, s:palette.none)
   call my_sonokai#highlight('PurpleItalic', s:palette.purple, s:palette.none)
 endif
 call my_sonokai#highlight('RedSign', s:palette.red, s:palette.none)
@@ -538,7 +538,7 @@ highlight! link TSMath Yellow
 highlight! link TSType DarkPurpleBold
 highlight! link TSTypeBuiltin BlueItalic
 highlight! link TSTypeDefinition Red
-highlight! link TSTypeQualifier Red
+highlight! link TSTypeQualifier BlueItalic
 highlight! link TSURI markdownUrl
 highlight! link TSVariable Fg
 highlight! link TSVariableBuiltin OrangeItalic
