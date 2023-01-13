@@ -122,11 +122,15 @@ end
 
 local ibl = require("indent_blankline")
 
-vim.keymap.set('n', "<f16>", ":IndentBlanklineRefresh<CR>", opts)
-vim.keymap.set('i', "<f16>", "<c-o>:IndentBlanklineRefresh<CR>", opts)
+-- shift-F4: refresh indent guides
+vim.keymap.set('n', "<f16>", function() ibl.refresh() end, opts)
+vim.keymap.set('i', "<f16>", function() ibl.refresh() end, opts)
+vim.keymap.set('v', "<f16>", function() ibl.refresh() end, opts)
 
-vim.keymap.set('n', "<f4>", ":call Mkview()<CR>:IndentBlanklineRefresh<CR>", opts)
-vim.keymap.set('i', "<f4>", "<c-o>:call Mkview()<CR><c-o>:IndentBlanklineRefresh<CR>", opts)
+--vim.keymap.set('n', "<f4>", ":call Mkview()<CR>", opts)
+--vim.keymap.set('i', "<f4>", "<c-o>:call Mkview()<CR>", opts)
+vim.keymap.set('n', "<f4>", function() vim.cmd("call Mkview()") end, opts)
+vim.keymap.set('i', "<f4>", function() vim.cmd("call Mkview()") end, opts)
 
 -- toggle current fold
 vim.keymap.set('n', "<F2>", function() vim.api.nvim_feedkeys('za', 'n', true) vim.api.nvim_input("<f16>") end, opts)

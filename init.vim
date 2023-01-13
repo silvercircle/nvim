@@ -74,8 +74,7 @@ else
 endif
 
 " show white spaces, but only trailing spaces, newlines and tabs
-set list listchars=tab:·\ ,trail:▪,extends:>,precedes:<,eol:↴
-
+set list listchars=tab:\ \ ,trail:▪,extends:>,precedes:<,eol:↴
 " a key mapping for the kwbd macro to close a buffer
 command C Kwbd
 
