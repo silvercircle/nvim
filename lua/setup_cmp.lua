@@ -221,5 +221,5 @@ cmp.setup.cmdline(":", {
   }),
 })
 
-require("local_utils.cmp_wordlist").setup({debug = true, read_on_setup = true, watch_files = true})
+require("cmp_wordlist").setup({ wordfiles={'wordlist.txt'}, debug = true, read_on_setup = true, watch_files = true})
 

@@ -268,7 +268,7 @@ Command_center.add({
   -- Telescope pickers
   {
     desc = "Buffer list (Telescope)",
-    cmd = function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.4, sort_lastused=true, sort_mru=true, show_all_buffers=false, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end,
+    cmd = function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.4, sort_lastused=true, sort_mru=true, show_all_buffers=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end,
     keys = { "n", "<C-e>", noremap },
     category = "@Telescope"
   },

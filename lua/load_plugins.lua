@@ -113,7 +113,13 @@ return require("packer").startup(function(use)
       use 'sidebar-nvim/sidebar.nvim'
     end
   end
-  use '~/.config/nvim/local_plugin/quickfavs'
+  if vim.g.use_private_forks == true then
+    use '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim'
+    use '/mnt/shared/data/code/neovim_plugins/cmp-wordlist.nvim'
+  else
+    use 'https://gitlab.com/silvercircle74/quickfavs.nvim'
+    use 'https://gitlab.com/silvercircle74/cmp-wordlist.nvim'
+  end
   use '~/.config/nvim/local_plugin/local_utils'
   use 'voldikss/vim-floaterm'
   use 'preservim/vim-markdown'
