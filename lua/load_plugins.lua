@@ -52,7 +52,9 @@ return require("packer").startup(function(use)
   use 'MunifTanjim/nui.nvim'
   use 'nvim-tree/nvim-web-devicons'
   use 'alaviss/nim.nvim'
-  use 'gpanders/editorconfig.nvim'
+  if vim.fn.has("nvim-9.8") > 0 then
+    use 'gpanders/editorconfig.nvim'
+  end
   use 'nvim-lua/plenary.nvim'
   use 'MattesGroeger/vim-bookmarks'
   use 'sharkdp/fd'

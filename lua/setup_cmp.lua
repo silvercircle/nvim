@@ -1,4 +1,5 @@
 -- nvim-cmp: completion support
+local cmp_helper = {}
 
 -- helper function for cmp <TAB> mapping.
 local has_words_before = function()
@@ -179,28 +180,28 @@ cmp.setup({
   sources = {
     { name = "nvim_lsp", priority = 110, group_index = 1, max_item_count = 40 },
     { name = "path", priority = 30 },
-    { name = "luasnip", priority = 120, group_index = 2, keyword_length = 2 },
+    { name = "luasnip", priority = 100, group_index = 1, keyword_length = 2 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
     { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 2 },
     { name = 'emoji', priority = 10 }  -- cmp-emoji source
   },
   sorting = {
     comparators = {
---      cmp.config.compare.offset,
---      cmp.config.compare.exact,
---      cmp.config.compare.score,
---      --function(...)
---      --  return cmp_helper.compare.prioritize_argument(...)
---      --end,
---      --function(...)
---      --  return cmp_helper.compare.deprioritize_underscore(...)
---      --end,
---      cmp.config.compare.recently_used,
---      cmp.config.compare.locality,
---      cmp.config.compare.kind,
---      cmp.config.compare.sort_text,
---      cmp.config.compare.length,
---      cmp.config.compare.order
+      cmp.config.compare.offset,
+      cmp.config.compare.exact,
+      cmp.config.compare.score,
+      function(...)
+        return cmp_helper.compare.prioritize_argument(...)
+      end,
+      function(...)
+        return cmp_helper.compare.deprioritize_underscore(...)
+      end,
+      cmp.config.compare.recently_used,
+      cmp.config.compare.locality,
+      cmp.config.compare.kind,
+      cmp.config.compare.sort_text,
+      cmp.config.compare.length,
+      cmp.config.compare.order
     }
   }
 })
@@ -220,6 +221,20 @@ cmp.setup.cmdline(":", {
     { name = "cmdline" },
   }),
 })
+ -- Custom sorting/ranking for completion items.
+cmp_helper.compare = {
+  -- Deprioritize items starting with underscores (private or protected)
+  deprioritize_underscore = function(lhs, rhs)
+    local l = (lhs.completion_item.label:find "^_+") and 1 or 0
+    local r = (rhs.completion_item.label:find "^_+") and 1 or 0
+    if l ~= r then return l < r end
+  end,
+  -- Prioritize items that ends with "= ..." (usually for argument completion).
+  prioritize_argument = function(lhs, rhs)
+    local l = (lhs.completion_item.label:find "=$") and 1 or 0
+    local r = (rhs.completion_item.label:find "=$") and 1 or 0
+    if l ~= r then return l > r end
+  end,
+}
 
 require("cmp_wordlist").setup({ wordfiles={'wordlist.txt'}, debug = true, read_on_setup = true, watch_files = true})
-

@@ -4,8 +4,6 @@
 lua require('impatient_bootstrap')
 lua require('impatient')
 
-let g:editorconfig = v:false
-
 " Set configuration variables
 lua require('config')
 " load plugins (packer)
