@@ -13,7 +13,7 @@ vim.g.features = {
   lsp = { enable = true, module = 'setup_lsp' },                          -- mason, lspconfig, fidget Glance
   -- mason is part of the lsp plugin group, but optional. it has no setup module of its own - setup_lsp.lua
   -- deals with mason
-  mason = { enable = true, module = '' },
+  mason = { enable = false, module = '' },
   cmp = { enable = true, module = 'setup_cmp' },                          -- cmp, including all its sources
                                                                           -- and luasnip
   telekasten = { enable = true, module = 'setup_telekasten' },

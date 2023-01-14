@@ -78,4 +78,6 @@ spell/personal.dict
 plugin/packer_compiled.lua
 favs
 wordlist.txt
+personal.txt
+cmp_wordlist_auto.txt
 

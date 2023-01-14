@@ -237,4 +237,10 @@ cmp_helper.compare = {
   end,
 }
 
-require("cmp_wordlist").setup({ wordfiles={'wordlist.txt'}, debug = true, read_on_setup = true, watch_files = true})
+require("cmp_wordlist").setup({
+  wordfiles={'wordlist.txt', "personal.txt" },
+  debug = true,
+  read_on_setup = false,
+  watch_files = true,
+  telescope_theme = Telescope_vertical_dropdown_theme
+})

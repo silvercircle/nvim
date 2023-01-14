@@ -241,7 +241,7 @@ Command_center.add({
   {
     -- open a float term with ranger in the project root.
     -- use the path of the current buffer to find the .git root. The LSP utils are useful here
-    desc = "FloatTerm lazygit",
+    desc = "FloatTerm Ranger",
     cmd = function() local path = lsputil.root_pattern(".git")(vim.fn.expand("%:p"))
       path = path or "."
       local cmd = "FloatermNew --name=RANGER --width=0.9 --height=0.9 ranger " .. path
