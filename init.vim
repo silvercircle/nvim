@@ -12,7 +12,8 @@ lua require('load_plugins')
 lua require('vim_options')
 " setup all default and optional plugins, based on g.features (see
 " config.lua)
-lua require('setup_plugins')
+lua require("setup_telescope")
+lua require('setup_default_plugins')
 
 run macros/justify.vim
 

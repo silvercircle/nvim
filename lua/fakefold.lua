@@ -56,9 +56,9 @@ _G.StatusColumn = {
       end
 
       if vim.fn.foldclosed(lnum) == -1 then
-        icon = Icons.misc.expanded
+        icon = "- " --Icons.misc.expanded
       else
-        icon = Icons.misc.collapsed
+        icon = "+ " --Icons.misc.collapsed
       end
 
       return icon
@@ -82,7 +82,7 @@ _G.StatusColumn = {
     },
     border      = {
       [[%#StatusColumnBorder#]], -- HL
-      [[▐]],
+      [[│]],
     },
     padding     = {
       [[%#StatusColumnBuffer#]], -- HL

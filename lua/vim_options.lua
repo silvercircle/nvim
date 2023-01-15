@@ -72,7 +72,7 @@ o.statuscolumn='%=%s%=%l %C%#IndentBlankLineChar#│ '
 -- this requires fakefold.lua
 -- o.statuscolumn='%s%=%{v:wrap ? "" : v:lnum} %#FoldColumn#%@v:lua.StatusColumn.handler.fold@%{v:lua.StatusColumn.display.fold()}%#StatusColumnBorder#│%#StatusColumnBuffer#'
 else
-o.foldcolumn="5"
+  o.foldcolumn="5"
 end
 
 -- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 
