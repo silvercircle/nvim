@@ -65,7 +65,8 @@
     enabled = true,
 
     -- Priority list of preferred vim.select implementations
-    backend = { "builtin", "nui", "telescope" },
+--    backend = { "builtin", "nui", "telescope" },
+    backend = { "builtin" },
 
     -- Trim trailing `:` from prompt
     trim_prompt = true,

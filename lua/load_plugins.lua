@@ -1,11 +1,16 @@
 vim.cmd([[packadd packer.nvim]])
 return require("packer").startup(function(use)
   use { 'wbthomason/packer.nvim', opt = true }
-  if vim.g.features["lualine"]['enable'] == true then
-    use 'nvim-lualine/lualine.nvim'
-  end
+  use 'nvim-lualine/lualine.nvim'
+  use 'noib3/nvim-cokeline'
   -- multiple cursors.
-  use { 'mg979/vim-visual-multi', branch = "master" }
+  use 'mg979/vim-visual-multi'
+  use { 'nvim-telescope/telescope.nvim', branch = '0.1.x' }
+  use 'nvim-telescope/telescope-file-browser.nvim'
+  use 'tom-anders/telescope-vim-bookmarks.nvim'
+  use 'FeiyouG/command_center.nvim'
+  use { 'nvim-telescope/telescope-fzf-native.nvim', run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
+
   if vim.g.features["lsp"]['enable'] == true then
     if vim.g.features['mason']['enable'] == true then
       use 'williamboman/mason.nvim'
@@ -22,7 +27,11 @@ return require("packer").startup(function(use)
     use 'dnlhc/glance.nvim'
     -- outline view depends on lsp. It is completely useless without.
     if vim.g.features['outline']['enable'] == true then
-      use 'silvercircle/symbols-outline.nvim'
+      if vim.g.use_private_forks == true then
+        use 'silvercircle/symbols-outline.nvim'
+      else
+        use 'simrat39/symbols-outline.nvim'
+      end
     end
     -- same for lspsaga
     if vim.g.features['lspsaga']['enable'] == true then
@@ -52,7 +61,7 @@ return require("packer").startup(function(use)
   use 'MunifTanjim/nui.nvim'
   use 'nvim-tree/nvim-web-devicons'
   use 'alaviss/nim.nvim'
-  if vim.fn.has("nvim-9.8") > 0 then
+  if vim.fn.has("nvim-0.9") == 0 then
     use 'gpanders/editorconfig.nvim'
   end
   use 'nvim-lua/plenary.nvim'
@@ -61,13 +70,9 @@ return require("packer").startup(function(use)
   use 'BurntSushi/ripgrep'
   use 'mhinz/vim-startify'
   use 'kevinhwang91/nvim-hlslens'
-  if vim.g.features["telescope"]['enable'] == true then
-    use { 'nvim-telescope/telescope.nvim', branch = '0.1.x' }
-    use 'nvim-telescope/telescope-file-browser.nvim'
-    use 'tom-anders/telescope-vim-bookmarks.nvim'
-    use 'FeiyouG/command_center.nvim'
-    use { 'nvim-telescope/telescope-fzf-native.nvim', run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
-  end
+  use 'lewis6991/gitsigns.nvim'
+  use 'lukas-reineke/indent-blankline.nvim'
+  use 'petertriho/nvim-scrollbar'
   -- filesystem tree. Only enable ONE of the following, either neo-tree or nvim-tree. I prefer the latter
   if vim.g.features['nvimtree']['enable'] == true then
     use 'nvim-tree/nvim-tree.lua'
@@ -83,18 +88,6 @@ return require("packer").startup(function(use)
       use 'nvim-treesitter/playground'
     end
   end
-  if vim.g.features["gitsigns"]['enable'] == true then
-    use 'lewis6991/gitsigns.nvim'
-  end
-  if vim.g.features["scrollbar"]['enable'] == true then
-    use 'petertriho/nvim-scrollbar'
-  end
-  if vim.g.features["indent_blankline"]['enable'] == true then
-    use 'lukas-reineke/indent-blankline.nvim'
-  end
-  if vim.g.features["cokeline"]['enable'] == true then
-    use { 'noib3/nvim-cokeline' }
-  end
   if vim.g.features['dressing']['enable'] == true then
     use 'stevearc/dressing.nvim'
   end
@@ -104,13 +97,6 @@ return require("packer").startup(function(use)
   if vim.g.features['telekasten']['enable'] == true then
     use 'renerocksai/telekasten.nvim'
     use 'renerocksai/calendar-vim'
-  end
-  if vim.g.features['sidebar']['enable'] then
-    if vim.g.use_private_forks == true then
-      use 'silvercircle/sidebar.nvim'
-    else
-      use 'sidebar-nvim/sidebar.nvim'
-    end
   end
   if vim.g.use_private_forks == true then
     use '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim'
@@ -122,5 +108,6 @@ return require("packer").startup(function(use)
   use '~/.config/nvim/local_plugin/local_utils'
   use 'voldikss/vim-floaterm'
   use 'preservim/vim-markdown'
+  use 'norcalli/nvim-colorizer.lua'
 end)
 

@@ -17,18 +17,12 @@ vim.g.features = {
   cmp = { enable = true, module = 'setup_cmp' },                          -- cmp, including all its sources
                                                                           -- and luasnip
   telekasten = { enable = true, module = 'setup_telekasten' },
-  scrollbar = { enable = true, module = 'setup_scrollbar' },              -- scrollbar
-  gitsigns = { enable = true, module = 'setup_gitsigns' },                -- gitsigns plugin
-  indent_blankline = { enable = true, module = 'setup_indent_blankline' },-- indent guides
-  cokeline = { enable = true, module = 'setup_cokeline' },                -- cokeline
                                                                           -- diables lualine bufferbar
   neodev = { enable = false, module = '' },                               -- neodev has no own module as it requires a working lsp
                                                                           -- config. So it's activated in setup_lsp.lua
   treesitter = { enable = true, module = 'setup_treesitter' },            -- use treesitter
   -- playground is a special case, it is configured in the treesitter module and has no setup module of its own
-  treesitter_playground = { enable = true, module = '' },
-  telescope = { enable = true, module = 'setup_telescope'},               -- use telescope (+ various extensions)
-  lualine = { enable = true, module = 'setup_lualine'},                   -- use lualine
+  treesitter_playground = { enable = false, module = '' },
   outline = { enable = true, module = 'setup_outline' },                  -- use symbols-outline plugin
   lspsaga = { enable = false, module = 'setup_lspsaga' },                 -- use lspsaga
   noice = { enable = false, module = 'setup_noice' },                     -- use noice for notifications
@@ -38,14 +32,14 @@ vim.g.features = {
   neotree = { enable = true, module = 'setup_neotree' },                  -- neotree file explorer
   nvimtree = { enable = false, module = 'setup_nvim-tree' },              -- nvim-tree file explorer
   null_ls = { enable = false, module = 'setup_null_ls' },                 -- null-ls for linting, formatting and more lsp features
-  todo = { enable = true, module = 'setup_todo' },
-  sidebar = { enable = false, module = 'setup_sidebar' }
+  todo = { enable = true, module = 'setup_todo' }
 }
 
 vim.g.config = {
   telescope_fname_width = 140,
   theme_variant = 'warm',
-  nightly = vim.fn.has("nvim-0.9")
+  nightly = vim.fn.has("nvim-0.9"),
+  use_cokeline = true
 }
 -- theme variant can be either cold or warm.
 -- cold has slight blue-ish tint in the background colors, while warm is more reddish
