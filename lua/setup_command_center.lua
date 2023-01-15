@@ -250,7 +250,7 @@ Command_center.add({
     keys = { "n", "<f18>", noremap },
     category = "@Neovim"
   },
-  
+
 
   -- text formatting
   {
@@ -423,6 +423,12 @@ Command_center.add({
     desc = "List all Highlight groups",
     cmd = function() require('telescope.builtin').highlights() end,
     keys = { "n", "thl", noremap },
+    category = "@Neovim"
+  },
+  {
+    desc = "Inspect Auto Word list",
+    cmd = function() require("cmp_wordlist").autolist() end,
+    keys = { "n", "<f36>", noremap },
     category = "@Neovim"
   },
   {

@@ -242,5 +242,5 @@ require("cmp_wordlist").setup({
   debug = true,
   read_on_setup = false,
   watch_files = true,
-  telescope_theme = Telescope_vertical_dropdown_theme
+  -- telescope_theme = Telescope_vertical_dropdown_theme
 })

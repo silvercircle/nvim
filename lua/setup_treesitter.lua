@@ -46,7 +46,7 @@ require("nvim-treesitter.configs").setup({
 --  },
   highlight = {
     enable = true,
-    disable = { "javascript", "help", "scala" },     -- FIXME: JavaScript parser is painfully slow. Help can be
+    disable = { "javascript", "help" },     -- FIXME: JavaScript parser is painfully slow. Help can be
                                             -- slow with large pages, and scala is a pain, because the parser is
                                             -- so complex because it has to support 2 very different syntaxes (scala3
                                             -- and older)..
