@@ -356,7 +356,7 @@ Command_center.add({
   {
     desc = "Help tags (@Telescope)",
     cmd = function() require'telescope.builtin'.help_tags({layout_config={width=0.8, height=0.8, preview_width=0.7} }) end,
-    keys = { "n", "<A-h>", noremap },
+    keys = { "n", "tht", noremap },
     category = "@Telescope"
   },
   {

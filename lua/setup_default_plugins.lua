@@ -361,3 +361,7 @@ require 'colorizer'.setup {
     mode = 'foreground';
   }
 }
+
+require('mini.move').setup()
+require('mini.pairs').setup()
+

@@ -1,0 +1,64 @@
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({
+  'nvim-lualine/lualine.nvim',
+  'noib3/nvim-cokeline',
+  -- multiple cursors.
+  'mg979/vim-visual-multi',
+  { 'nvim-telescope/telescope.nvim', branch = '0.1.x' },
+  'nvim-telescope/telescope-file-browser.nvim',
+  'tom-anders/telescope-vim-bookmarks.nvim',
+  'FeiyouG/command_center.nvim',
+  { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
+  'L3MON4D3/LuaSnip',
+  { dir='~/.config/nvim/local_plugin/nvim-cmp'},
+  'hrsh7th/cmp-cmdline',
+  'hrsh7th/cmp-nvim-lsp',
+  'hrsh7th/cmp-path',
+  'hrsh7th/cmp-emoji',
+  'saadparwaiz1/cmp_luasnip',
+  'hrsh7th/cmp-nvim-lsp-signature-help',
+  'neovim/nvim-lspconfig',
+  'onsails/lspkind-nvim',
+  'j-hui/fidget.nvim',
+  'dnlhc/glance.nvim',
+  'silvercircle/symbols-outline.nvim',
+   'tpope/vim-liquid',
+   'MunifTanjim/nui.nvim',
+   'nvim-tree/nvim-web-devicons',
+   'alaviss/nim.nvim',
+   'nvim-lua/plenary.nvim',
+   'MattesGroeger/vim-bookmarks',
+   'sharkdp/fd',
+   'BurntSushi/ripgrep',
+   'mhinz/vim-startify',
+   'kevinhwang91/nvim-hlslens',
+   'lewis6991/gitsigns.nvim',
+   'lukas-reineke/indent-blankline.nvim',
+   'petertriho/nvim-scrollbar',
+   'stevearc/dressing.nvim',
+   { 'nvim-neo-tree/neo-tree.nvim', branch = "main" },
+   'nvim-treesitter/nvim-treesitter',
+   'folke/todo-comments.nvim',
+   'renerocksai/telekasten.nvim',
+   'renerocksai/calendar-vim',
+   { dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim' },
+   { dir = '/mnt/shared/data/code/neovim_plugins/cmp-wordlist.nvim' },
+   { dir = '~/.config/nvim/local_plugin/local_utils' },
+   'voldikss/vim-floaterm',
+   'preservim/vim-markdown',
+   'norcalli/nvim-colorizer.lua',
+   'echasnovski/mini.move',
+   'echasnovski/mini.pairs'
+})

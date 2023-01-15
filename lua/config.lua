@@ -26,7 +26,6 @@ vim.g.features = {
   outline = { enable = true, module = 'setup_outline' },                  -- use symbols-outline plugin
   lspsaga = { enable = false, module = 'setup_lspsaga' },                 -- use lspsaga
   noice = { enable = false, module = 'setup_noice' },                     -- use noice for notifications
-  dressing = { enable = true, module = 'setup_dressing' },                -- use dressing for various UI improvements
   -- please use ONLY ONE of te following two. Using both wont hurt but will be a waste.
   -- personally i prefer Neotree, but both plugins are fine. Matter of personal preference.
   neotree = { enable = true, module = 'setup_neotree' },                  -- neotree file explorer

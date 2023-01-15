@@ -12,15 +12,13 @@ return require("packer").startup(function(use)
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
 
   if vim.g.features["lsp"]['enable'] == true then
+    -- mason is optional in this config. I do howevery strongly recommend to activate it as it handles
+    -- LSP server installation very nicely.
     if vim.g.features['mason']['enable'] == true then
       use 'williamboman/mason.nvim'
       use 'williamboman/mason-lspconfig.nvim'
     end
-    if vim.g.use_private_forks == true then
-      use '~/.config/nvim/local_plugin/my_nvim-lspconfig'
-    else
-      use 'neovim/nvim-lspconfig'
-    end
+    use 'neovim/nvim-lspconfig'
     use 'onsails/lspkind-nvim'
     -- the following two belong to the lsp group. They are useless without the LSP client
     use 'j-hui/fidget.nvim'
@@ -33,7 +31,6 @@ return require("packer").startup(function(use)
         use 'simrat39/symbols-outline.nvim'
       end
     end
-    -- same for lspsaga
     if vim.g.features['lspsaga']['enable'] == true then
       use 'glepnir/lspsaga.nvim'
     end
@@ -73,6 +70,7 @@ return require("packer").startup(function(use)
   use 'lewis6991/gitsigns.nvim'
   use 'lukas-reineke/indent-blankline.nvim'
   use 'petertriho/nvim-scrollbar'
+  use 'stevearc/dressing.nvim'
   -- filesystem tree. Only enable ONE of the following, either neo-tree or nvim-tree. I prefer the latter
   if vim.g.features['nvimtree']['enable'] == true then
     use 'nvim-tree/nvim-tree.lua'
@@ -87,9 +85,6 @@ return require("packer").startup(function(use)
     if vim.g.features['treesitter_playground']['enable'] == true then
       use 'nvim-treesitter/playground'
     end
-  end
-  if vim.g.features['dressing']['enable'] == true then
-    use 'stevearc/dressing.nvim'
   end
   if vim.g.features['todo']['enable'] == true then
     use 'folke/todo-comments.nvim'
@@ -109,5 +104,7 @@ return require("packer").startup(function(use)
   use 'voldikss/vim-floaterm'
   use 'preservim/vim-markdown'
   use 'norcalli/nvim-colorizer.lua'
+  use 'echasnovski/mini.move'
+  use 'echasnovski/mini.pairs'
 end)
 
