@@ -432,6 +432,12 @@ Command_center.add({
     category = "@Neovim"
   },
   {
+    desc = "Colorizer Toggle",
+    cmd = function() local c = require("colorizer") if c.is_buffer_attached(0) then c.detach_from_buffer(0) else c.attach_to_buffer(0) end end,
+    keys = { "n", "ct", noremap },
+    category = "@Neovim"
+  },
+  {
     desc = "Telekasten panel",
     cmd = function() require('telekasten').panel() end,
     keys = { "n", "<f7>", noremap },

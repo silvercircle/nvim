@@ -38,8 +38,15 @@ vim.g.config = {
   telescope_fname_width = 140,
   theme_variant = 'warm',
   nightly = vim.fn.has("nvim-0.9"),
-  use_cokeline = true
+  use_cokeline = true,
+  telescope_dropdown='bottom',
+  accent_color = '#7faf00',
+  alt_accent_color = '#00af7f'
 }
+
+vim.g.accent_color = vim.g.config.accent_color
+vim.g.alt_accent_color = vim.g.config.alt_accent_color
+
 -- theme variant can be either cold or warm.
 -- cold has slight blue-ish tint in the background colors, while warm is more reddish
 -- the default is warm
@@ -124,8 +131,8 @@ local LuaLineColors
 if vim.g.theme_variant == 'cold' then
   LuaLineColors = {
     white          = '#ffffff',
-    darkestgreen   = '#005f00',
-    brightgreen    = '#afdf00',
+    darkestgreen   = '#003f00',
+    brightgreen    =  vim.g.config.accent_color,
     darkestcyan    = '#005f5f',
     mediumcyan     = '#87dfff',
     darkestblue    = '#005f87',
@@ -143,8 +150,8 @@ if vim.g.theme_variant == 'cold' then
 else
   LuaLineColors = {
     white          = '#ffffff',
-    darkestgreen   = '#005f00',
-    brightgreen    = '#afdf00',
+    darkestgreen   = '#003f00',
+    brightgreen    = vim.g.config.accent_color,
     darkestcyan    = '#005f5f',
     mediumcyan     = '#87dfff',
     darkestblue    = '#005f87',
@@ -167,7 +174,7 @@ vim.g.statuslinebg = LuaLineColors.statuslinebg
 local cokeline_colors = {
   bg = LuaLineColors.statuslinebg,
 --  bg = '#202050',
-  focus_bg = '#afdf00',
+  focus_bg = vim.g.config.accent_color,
   fg = LuaLineColors.gray7,
   focus_fg = '#202020'
 }

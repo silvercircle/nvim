@@ -36,6 +36,8 @@ require("lazy").setup({
   'onsails/lspkind-nvim',
   'j-hui/fidget.nvim',
   'dnlhc/glance.nvim',
+  { 'williamboman/mason.nvim', cmd="Mason" },
+--  { 'williamboman/mason-lspconfig.nvim' },
   'silvercircle/symbols-outline.nvim',
   'tpope/vim-liquid',
   'MunifTanjim/nui.nvim',

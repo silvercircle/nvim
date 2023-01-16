@@ -307,8 +307,8 @@ require("scrollbar").setup({
 --    "Outline",
     "DressingSelect",
     "DressingInput",
-    "SidebarNvim",
-    "NvimTree"
+    "mason",
+    "lazy",
   },
   autocmd = {
     render = {
@@ -362,6 +362,15 @@ require 'colorizer'.setup {
   }
 }
 
+require("quickfavs").setup({
+ telescope_theme = Telescope_dropdown_theme,
+ file_browser_theme = {
+   theme = Telescope_vertical_dropdown_theme,
+   layout_config = {
+     preview_height = 0.4
+   }
+ }
+})
 require('mini.move').setup()
 -- require('mini.pairs').setup()
 

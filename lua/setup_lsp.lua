@@ -1,9 +1,9 @@
 -- set up lspconfig and mason
 
-if vim.g.features['mason']['enable'] == true then
+--if vim.g.features['mason']['enable'] == true then
   require("mason").setup()
-  require("mason-lspconfig").setup()
-end
+  -- require("mason-lspconfig").setup()
+--end
 local lspconfig = require("lspconfig")
 local util = require('lspconfig.util')
 
@@ -274,7 +274,6 @@ local lua_root_files = {
 
 lspconfig.sumneko_lua.setup {
   cmd = { vim.g.lsp_server_bin['sumneko_lua'] },
-  capabilities = capabilities,
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
   end,
@@ -289,29 +288,56 @@ lspconfig.sumneko_lua.setup {
     end
     return util.find_git_ancestor(fname)
   end,
+  single_file_support = true,
   settings = {
     Lua = {
       diagnostics = { globals = { "vim" } },
       runtime = {
         version = "LuaJIT", -- Lua 5.1/LuaJIT
       },
-      completion = { callSnippet = "Disable" },
-      workspace = {
-        maxPreload = 8000,
-        -- Add additional paths for lua packages
-        library = (function()
-          local library = {}
-          if vim.fn.has("mac") > 0 then
-            -- http://www.hammerspoon.org/Spoons/EmmyLua.html
-            -- Add a line `hs.loadSpoon('EmmyLua')` on the top in ~/.hammerspoon/init.lua
-            library[string.format("%s/.hammerspoon/Spoons/EmmyLua.spoon/annotations", os.getenv("HOME"))] = true
-          end
-          return library
-        end)(),
-      },
     },
   },
 }
+--lspconfig.sumneko_lua.setup {
+--  cmd = { vim.g.lsp_server_bin['sumneko_lua'] },
+--  capabilities = capabilities,
+--  on_attach = function(client, bufnr)
+--    on_attach(client, bufnr)
+--  end,
+--  root_dir = function(fname)
+--    local root = util.root_pattern(unpack(lua_root_files))(fname)
+--    if root and root ~= vim.env.HOME then
+--      return root
+--    end
+--    root = util.root_pattern 'lua/'(fname)
+--    if root then
+--      return root .. '/lua/'
+--    end
+--    return util.find_git_ancestor(fname)
+--  end,
+--  settings = {
+--    Lua = {
+--      diagnostics = { globals = { "vim" } },
+--      runtime = {
+--        version = "LuaJIT", -- Lua 5.1/LuaJIT
+--      },
+--      completion = { callSnippet = "Disable" },
+--      workspace = {
+--        maxPreload = 8000,
+--        -- Add additional paths for lua packages
+--        library = (function()
+--          local library = {}
+--          if vim.fn.has("mac") > 0 then
+--            -- http://www.hammerspoon.org/Spoons/EmmyLua.html
+--            -- Add a line `hs.loadSpoon('EmmyLua')` on the top in ~/.hammerspoon/init.lua
+--            library[string.format("%s/.hammerspoon/Spoons/EmmyLua.spoon/annotations", os.getenv("HOME"))] = true
+--          end
+--          return library
+--        end)(),
+--      },
+--    },
+--  },
+--}
 
 -------------------------
 -- LSP Handlers (general)

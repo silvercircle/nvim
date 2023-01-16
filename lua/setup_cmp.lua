@@ -67,7 +67,8 @@ lspkind.init({
 cmp.setup({
   enabled = true,
   completion = {
-    autocomplete = false
+    completeopt = 'menu,menuone,noselect',
+    autocomplete = { }
   },
   snippet = {
     expand = function(args)
@@ -242,5 +243,5 @@ require("cmp_wordlist").setup({
   debug = true,
   read_on_setup = false,
   watch_files = true,
-  -- telescope_theme = Telescope_vertical_dropdown_theme
+  telescope_theme = Telescope_dropdown_theme
 })

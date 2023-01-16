@@ -125,7 +125,7 @@ let s:path = expand('<sfile>:p') " the path of this script
 let s:last_modified = '2022-12-23T08:46:17+0100'
 let g:sonokai_loaded_file_types = []
 if g:theme_variant == 'cold'
-  let s:darkbg = ['#111115', 237]
+  let s:darkbg = ['#101013', 237]
   let s:teal = ['#108080', 238]
   let s:blue = ['#5a6acf', 239]
   let s:darkpurple = ['#803090', 240]
@@ -139,9 +139,10 @@ if g:theme_variant == 'cold'
   let s:palette.fg = [ '#a5a0b5', 1 ]
   let s:palette.grey = [ '#707070', 2 ]
   let s:pmenubg = [ '#241a20', 156 ]
-  let s:cmpbg = s:palette.bg4
+  let s:accent = [ g:accent_color, 209 ]
+
 else
-  let s:darkbg = ['#151111', 237]
+  let s:darkbg = ['#131010', 237]
   let s:teal = ['#108080', 238]
   let s:blue = ['#5a6acf', 239]
   let s:darkpurple = ['#803090', 240]
@@ -155,7 +156,7 @@ else
   let s:palette.fg = [ '#a5a0b5', 1 ]
   let s:palette.grey = [ '#707070', 2 ]
   let s:pmenubg = [ '#241a20', 156 ]
-  let s:cmpbg = s:palette.bg4
+  let s:accent = [ g:accent_color, 209 ]
 endif
 
 if !(exists('g:colors_name') && g:colors_name ==# 'my_sonokai' && s:configuration.better_performance)
@@ -680,11 +681,13 @@ if has('nvim')
 " }}}
 " nvim-telescope/telescope.nvim {{{
 call my_sonokai#highlight('TelescopeMatching', s:palette.green, s:palette.none, 'bold')
-"call my_sonokai#highlight('TelescopeBorder', s:palette.bg2, s:palette.bg_dim, 'bold')
-call my_sonokai#highlight('TelescopeBorder', s:palette.bg1, s:darkbg, 'bold')
-call my_sonokai#highlight('TelescopeNormal', s:palette.fg_dim, s:darkbg)
+"call my_sonokai#highlight('TelescopeBorder', s:palette.bg1, s:darkbg, 'bold')
+call my_sonokai#highlight('TelescopeBorder', s:accent, s:palette.black)
+call my_sonokai#highlight('TelescopePromptBorder', s:accent, s:palette.bg_dim)
+call my_sonokai#highlight('TelescopePromptNormal', s:accent, s:palette.bg_dim, 'bold')
+call my_sonokai#highlight('TelescopeNormal', s:palette.fg_dim, s:palette.black)
 "call my_sonokai#highlight('TelescopePromptNormal', s:palette.fg_dim, s:statuslinebg)
-call my_sonokai#highlight('TelescopeTitle', s:palette.yellow, s:palette.none)
+call my_sonokai#highlight('TelescopeTitle', s:palette.black, s:accent, 'bold')
 
 highlight! link TelescopePromptPrefix Blue
 highlight! link TelescopeSelection DiffAdd
