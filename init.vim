@@ -1,6 +1,3 @@
-" This REQUIRES Neovim version 0.8.0 or later. I suggest 0.8.2 as minimum. Might work with earlier
-" versions, but this has not been tested or verified.
-
 " Impatient is only necessary when using packer
 " lua require('impatient_bootstrap')
 " lua require('impatient')
