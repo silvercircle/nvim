@@ -378,6 +378,12 @@ Command_center.add({
     category = "@Telescope"
   },
   {
+    desc = "Tags list (Telescope)",
+    cmd = function() require'telescope.builtin'.tags(Telescope_vertical_dropdown_theme({prompt_title="Tags", cwd = require("local_utils").getroot_current()})) end,
+    keys = { "n", "<leader>t",  },
+    category = "@Telescope"
+  },
+  {
     desc = "Todo List",
     cmd = function() require('telescope._extensions.todo-comments').exports.todo(Telescope_vertical_dropdown_theme({prompt_title="Todo Comments",cwd = require("local_utils").getroot_current(), hidden=true})) end,
     keys = { "n", "tdo", noremap },

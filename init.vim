@@ -60,7 +60,7 @@ if exists("g:neovide")
     let g:neovide_transparency = 1
     let g:neovide_floating_blur_amount_x = 0
     let g:neovide_floating_blur_amount_y = 0
-    hi Normal guibg=#10141E
+"    hi Normal guibg=#10141E
     " system clipboard support - support Ctrl-V, Ctrl-V etc in all modes,
     " including the command line.
 

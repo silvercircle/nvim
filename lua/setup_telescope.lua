@@ -28,6 +28,7 @@ Telescope_dropdown_theme = function(opts)
   local defaults = themes.get_dropdown({
     borderchars = vim.g.config.telescope_dropdown == 'bottom' and border_layout_bottom_vertical or border_layout_top_center,
     layout_config = {
+      anchor = "N",
       width = lopts.width or 0.5,
       height = lopts.height or 0.5,
       prompt_position=vim.g.config.telescope_dropdown,
