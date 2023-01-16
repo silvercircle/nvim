@@ -301,13 +301,13 @@ Command_center.add({
   },
   {
     desc = "Find files from current project root",
-    cmd = function() require("telescope.builtin").find_files(Telescope_vertical_dropdown_theme({prompt_title="Find Files", cwd = require("local_utils").getroot_current()})) end,
+    cmd = function() require("telescope.builtin").find_files(Telescope_vertical_dropdown_theme({path_display={absolute=true},prompt_title="Find Files", cwd = require("local_utils").getroot_current()})) end,
     keys = { "n", "<f8>", noremap },
     category = "@Telescope"
   },
   {
     desc = "File browser in the current project root",
-    cmd = function() require("telescope").extensions.file_browser.file_browser(Telescope_vertical_dropdown_theme({prompt_title="File Browser", hidden=true, path = require("local_utils").getroot_current()})) end,
+    cmd = function() require("telescope").extensions.file_browser.file_browser(Telescope_vertical_dropdown_theme({grouped=true, prompt_title="File Browser", hidden=true, path = require("local_utils").getroot_current()})) end,
     keys = { "n", "<f32>", noremap },  -- ctrl-f8
     category = "@Telescope"
   },

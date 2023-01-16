@@ -32,7 +32,7 @@ require("lazy").setup({
   'saadparwaiz1/cmp_luasnip',
   'hrsh7th/cmp-nvim-lsp-signature-help',
   -- lsp
-  'neovim/nvim-lspconfig',
+  { 'neovim/nvim-lspconfig' },
   'onsails/lspkind-nvim',
   'j-hui/fidget.nvim',
   'dnlhc/glance.nvim',

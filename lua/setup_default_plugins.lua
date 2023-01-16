@@ -230,7 +230,7 @@ require("scrollbar").setup({
       priority = 0,
       color = nil,
       color_nr = nil,
-      highlight = "Folded",
+      highlight = "WarningMsg",
     },
     Search = {
       text = { "●" },
@@ -309,6 +309,8 @@ require("scrollbar").setup({
     "DressingInput",
     "mason",
     "lazy",
+    "startify",
+    "lspinfo"
   },
   autocmd = {
     render = {
