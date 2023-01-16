@@ -177,7 +177,7 @@ if s:configuration.show_eob
 else
   call my_sonokai#highlight('EndOfBuffer', s:palette.bg0, s:palette.none)
 endif
-call my_sonokai#highlight('Folded', s:palette.yellow, s:pmenubg)
+call my_sonokai#highlight('Folded', s:darkpurple, s:palette.bg1)
 call my_sonokai#highlight('ToolbarLine', s:palette.fg, s:palette.none)
 call my_sonokai#highlight('FoldColumn', s:palette.bg4, s:darkbg)
 call my_sonokai#highlight('SignColumn', s:palette.fg, s:darkbg)

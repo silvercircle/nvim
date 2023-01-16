@@ -363,5 +363,5 @@ require 'colorizer'.setup {
 }
 
 require('mini.move').setup()
-require('mini.pairs').setup()
+-- require('mini.pairs').setup()
 

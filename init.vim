@@ -1,14 +1,17 @@
 " This REQUIRES Neovim version 0.8.0 or later. I suggest 0.8.2 as minimum. Might work with earlier
 " versions, but this has not been tested or verified.
 
-"lua require('impatient_bootstrap')
-"lua require('impatient')
+" Impatient is only necessary when using packer
+" lua require('impatient_bootstrap')
+" lua require('impatient')
 
 " Set configuration variables
 lua require('config')
+
 " load plugins (packer)
 " lua require('load_plugins')
-" OR load plugins with lazy
+
+" OR load plugins with lazy. DO NOT use both.
 lua require('load_lazy')
 
 " exec "source " . expand("<sfile>:h") . '/plugin/packer_compiled.lua'
