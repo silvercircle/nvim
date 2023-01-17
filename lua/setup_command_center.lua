@@ -154,6 +154,18 @@ Command_center.add({
     category = "@LSP Telescope"
   },
   {
+    desc = "Mini Document references (Telescope)",
+    cmd = function() require'telescope.builtin'.lsp_references(Telescope_vertical_dropdown_theme({prompt_prefix="$>",prompt_title="Symbol References",layout_config={height=0.8, width=50,preview_height=0.22}})) end,
+    keys = { "n", "<A-r>", noremap },
+    category = "@LSP Telescope"
+  },
+  {
+    desc = "Mini Document references (insert) (Telescope)",
+    cmd = function() require'telescope.builtin'.lsp_references(Telescope_vertical_dropdown_theme({prompt_prefix="@>",prompt_title="Symbol References",layout_config={height=0.8, width=50,preview_height=0.22}})) end,
+    keys = { "i", "<A-r>", noremap },
+    category = "@LSP Telescope"
+  },
+  {
     desc = "Dynamic workspace symbols (Telescope)",
     cmd = function() require'telescope.builtin'.lsp_dynamic_workspace_symbols(Telescope_vertical_dropdown_theme({})) end,
     keys = { "n", "tds", noremap },
@@ -296,13 +308,19 @@ Command_center.add({
   {
     desc = "Buffer list (Telescope)",
     cmd = function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.4, sort_lastused=true, sort_mru=true, show_all_buffers=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end,
-    keys = { "n", "<C-e>", noremap },
+    keys = {
+      {"n", "<C-e>", noremap },
+      {"i", "<C-e>", noremap }
+    },
     category = "@Telescope"
   },
   {
     desc = "Recent files (Telescope)",
     cmd = function() require'telescope.builtin'.oldfiles(Telescope_dropdown_theme({title='Old files', width=0.6, height=0.5})) end,
-    keys = { "n", "<C-p>", noremap },
+    keys = {
+      { "n", "<C-p>", noremap },
+      { "i", "<C-p>", noremap }
+    },
     category = "@Telescope"
   },
   {
@@ -409,7 +427,7 @@ Command_center.add({
   },
   {
     desc = "Command Palette (Insert Mode)",
-    cmd = function() require("telescope").extensions.command_center.command_center({prompt_prefix='@>', mode='i' }) end,
+    cmd = function() require("telescope").extensions.command_center.command_center({mode='i' }) end,
     keys = { "i", "<A-p>", noremap },
     category = "@Neovim"
   },

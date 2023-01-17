@@ -65,5 +65,4 @@ require("lazy").setup({
   'preservim/vim-markdown',
   'norcalli/nvim-colorizer.lua',
   'echasnovski/mini.move',
---'echasnovski/mini.pairs'
 })

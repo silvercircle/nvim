@@ -208,6 +208,13 @@ require("telescope").setup({
           ["<CR>"] = function(prompt_bufnr) select_insertmode(prompt_bufnr) end
         }
       }
+    },
+    lsp_references = {
+      mappings = {
+        i = {
+          ["<CR>"] = function(prompt_bufnr) select_insertmode(prompt_bufnr) end
+        }
+      }
     }
   },
   extensions = {
