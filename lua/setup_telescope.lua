@@ -9,6 +9,7 @@ local themes = require("telescope.themes")
 -- since this is a lot of code, it's outsourced but really belongs here.
 require('setup_command_center')
 
+local insert_mode_prefix = "#>"
 
 local border_layout_bottom_vertical = {
   results = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
@@ -123,6 +124,23 @@ local function stopinsert(callback)
   end
 end
 
+--- very ugly hack. Basically the same as above: Allow restoring of views (loadview) when selecting
+--- files from a telescope picker.
+--- This however, keeps the editor in insert mode if the picker was launched from insert mode with
+--- "#>" as prompt_prefix
+local function stopinsert_ins(callback)
+  return function(prompt_bufnr)
+    local current = actionstate.get_current_picker(prompt_bufnr)
+    vim.cmd.stopinsert()
+    vim.schedule(function()
+      callback(prompt_bufnr)
+    end)
+    if current.prompt_prefix == insert_mode_prefix then
+      vim.schedule(function() vim.api.nvim_input("i") end)
+    end
+  end
+end
+
 local function stopinsert_fb(callback, callback_dir)
   return function(prompt_bufnr)
     local entry = require("telescope.actions.state").get_selected_entry()
@@ -137,17 +155,18 @@ end
 local function close_insertmode(prompt_bufnr)
   local current = actionstate.get_current_picker(prompt_bufnr)
   actions.close(prompt_bufnr)
-  if current.prompt_prefix == "@>" then
+  if current.prompt_prefix == insert_mode_prefix then
     vim.api.nvim_input("i")
   end
 end
 
 local function select_insertmode(prompt_bufnr)
+  print("select insertmode")
   local current = actionstate.get_current_picker(prompt_bufnr)
-  actionset.select(prompt_bufnr)
   if current.prompt_prefix == "@>" then
     vim.api.nvim_input("i")
   end
+  stopinsert(actions.select_default(prompt_bufnr))
 end
 
 require("telescope").setup({
@@ -212,7 +231,7 @@ require("telescope").setup({
     lsp_references = {
       mappings = {
         i = {
-          ["<CR>"] = function(prompt_bufnr) select_insertmode(prompt_bufnr) end
+          ["<CR>"] = stopinsert_ins(actions.select_default)
         }
       }
     }

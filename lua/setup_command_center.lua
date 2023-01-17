@@ -143,25 +143,25 @@ Command_center.add({
   },
   {
     desc = "Mini Document symbols (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_document_symbols(Telescope_vertical_dropdown_theme({prompt_prefix="$>",prompt_title="Document Symbols",layout_config={height=0.8, width=50,preview_height=0.22}})) end,
+    cmd = function() require'telescope.builtin'.lsp_document_symbols(Telescope_vertical_dropdown_theme({layout_config={height=0.8, width=50,preview_height=10}})) end,
     keys = { "n", "<A-o>", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Mini Document symbols (insert) (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_document_symbols(Telescope_vertical_dropdown_theme({prompt_prefix="@>",prompt_title="Document Symbols",layout_config={height=0.8, width=50,preview_height=0.22}})) end,
+    cmd = function() require'telescope.builtin'.lsp_document_symbols(Telescope_vertical_dropdown_theme({prompt_prefix="#>",layout_config={height=0.8, width=50,preview_height=10}})) end,
     keys = { "i", "<A-o>", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Mini Document references (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_references(Telescope_vertical_dropdown_theme({prompt_prefix="$>",prompt_title="Symbol References",layout_config={height=0.8, width=50,preview_height=0.22}})) end,
+    cmd = function() require'telescope.builtin'.lsp_references(Telescope_vertical_dropdown_theme({path_display={truncate=9},show_line=false,layout_config={height=0.8, width=50,preview_height=10}})) end,
     keys = { "n", "<A-r>", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Mini Document references (insert) (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_references(Telescope_vertical_dropdown_theme({prompt_prefix="@>",prompt_title="Symbol References",layout_config={height=0.8, width=50,preview_height=0.22}})) end,
+    cmd = function() require'telescope.builtin'.lsp_references(Telescope_vertical_dropdown_theme({path_display={truncate=9},show_line=false,prompt_prefix="#>",layout_config={height=0.8, width=50,preview_height=10}})) end,
     keys = { "i", "<A-r>", noremap },
     category = "@LSP Telescope"
   },
