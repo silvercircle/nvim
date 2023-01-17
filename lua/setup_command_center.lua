@@ -142,6 +142,18 @@ Command_center.add({
     category = "@LSP Telescope"
   },
   {
+    desc = "Mini Document symbols (Telescope)",
+    cmd = function() require'telescope.builtin'.lsp_document_symbols(Telescope_vertical_dropdown_theme({prompt_prefix="$>",prompt_title="Document Symbols",layout_config={height=0.8, width=50,preview_height=0.22}})) end,
+    keys = { "n", "<A-o>", noremap },
+    category = "@LSP Telescope"
+  },
+  {
+    desc = "Mini Document symbols (insert) (Telescope)",
+    cmd = function() require'telescope.builtin'.lsp_document_symbols(Telescope_vertical_dropdown_theme({prompt_prefix="@>",prompt_title="Document Symbols",layout_config={height=0.8, width=50,preview_height=0.22}})) end,
+    keys = { "i", "<A-o>", noremap },
+    category = "@LSP Telescope"
+  },
+  {
     desc = "Dynamic workspace symbols (Telescope)",
     cmd = function() require'telescope.builtin'.lsp_dynamic_workspace_symbols(Telescope_vertical_dropdown_theme({})) end,
     keys = { "n", "tds", noremap },

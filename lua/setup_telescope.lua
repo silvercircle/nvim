@@ -1,6 +1,7 @@
 -- setup telescope
 local actions = require("telescope.actions")
 local actionset = require("telescope.actions.set")
+local actionstate = require("telescope.actions.state")
 local actions_fb = require("telescope").extensions.file_browser.actions
 local themes = require("telescope.themes")
 
@@ -133,6 +134,14 @@ local function stopinsert_fb(callback, callback_dir)
   end
 end
 
+local function close_insertmode(prompt_bufnr)
+  local current = actionstate.get_current_picker(prompt_bufnr)
+  actions.close(prompt_bufnr)
+  if current.prompt_prefix == "@>" then
+    vim.api.nvim_input("i")
+  end
+end
+
 require("telescope").setup({
   defaults = {
     layout_config = {
@@ -172,6 +181,25 @@ require("telescope").setup({
         i = {
           ['<c-d>'] = actions.delete_buffer
         },
+      }
+    },
+    lsp_document_symbols = {
+      mappings = {
+        i = {
+          ['<CR>'] = function(prompt_bufnr)
+            local current = actionstate.get_current_picker(prompt_bufnr)
+            -- print(vim.inspect(current))
+            -- print(vim.inspect(current))
+            actionset.select(prompt_bufnr)
+            if current.prompt_prefix == "@>" then
+              vim.api.nvim_input("i")
+            end
+          end,
+          ['<C-c>'] = function(prompt_bufnr) close_insertmode(prompt_bufnr) end
+        },
+        n = {
+          ['<esc>'] = function(prompt_bufnr) close_insertmode(prompt_bufnr) end
+        }
       }
     }
   },
