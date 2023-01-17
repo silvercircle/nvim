@@ -409,7 +409,7 @@ Command_center.add({
   },
   {
     desc = "Command Palette (Insert Mode)",
-    cmd = function() require("telescope").extensions.command_center.command_center({ mode='i' }) end,
+    cmd = function() require("telescope").extensions.command_center.command_center({prompt_prefix='@>', mode='i' }) end,
     keys = { "i", "<A-p>", noremap },
     category = "@Neovim"
   },

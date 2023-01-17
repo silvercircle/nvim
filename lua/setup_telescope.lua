@@ -142,6 +142,14 @@ local function close_insertmode(prompt_bufnr)
   end
 end
 
+local function select_insertmode(prompt_bufnr)
+  local current = actionstate.get_current_picker(prompt_bufnr)
+  actionset.select(prompt_bufnr)
+  if current.prompt_prefix == "@>" then
+    vim.api.nvim_input("i")
+  end
+end
+
 require("telescope").setup({
   defaults = {
     layout_config = {
@@ -156,7 +164,7 @@ require("telescope").setup({
     disable_devicons = false,
     mappings = {
       i = {
-        ["<CR>"] = stopinsert(actions.select_default),
+        ["<CR>"] =  stopinsert(actions.select_default),
         ["<C-x>"] = stopinsert(actions.select_horizontal),
         ["<C-v>"] = stopinsert(actions.select_vertical),
         ["<C-t>"] = stopinsert(actions.select_tab),
@@ -166,9 +174,13 @@ require("telescope").setup({
         end,
         ["<C-Down>"] = function(prompt_bufnr)
           actionset.scroll_previewer(prompt_bufnr, 1)
-        end
+        end,
+        ['<C-c>'] = function(prompt_bufnr) close_insertmode(prompt_bufnr) end
       },
-    },
+      n = {
+        ['<esc>'] = function(prompt_bufnr) close_insertmode(prompt_bufnr) end
+      }
+    }
   },
   pickers = {
     buffers = {
@@ -186,19 +198,14 @@ require("telescope").setup({
     lsp_document_symbols = {
       mappings = {
         i = {
-          ['<CR>'] = function(prompt_bufnr)
-            local current = actionstate.get_current_picker(prompt_bufnr)
-            -- print(vim.inspect(current))
-            -- print(vim.inspect(current))
-            actionset.select(prompt_bufnr)
-            if current.prompt_prefix == "@>" then
-              vim.api.nvim_input("i")
-            end
-          end,
-          ['<C-c>'] = function(prompt_bufnr) close_insertmode(prompt_bufnr) end
-        },
-        n = {
-          ['<esc>'] = function(prompt_bufnr) close_insertmode(prompt_bufnr) end
+          ["<CR>"] = function(prompt_bufnr) select_insertmode(prompt_bufnr) end
+        }
+      }
+    },
+    command_center = {
+      mappings = {
+        i = {
+          ["<CR>"] = function(prompt_bufnr) select_insertmode(prompt_bufnr) end
         }
       }
     }
