@@ -124,10 +124,23 @@ local function stopinsert(callback)
   end
 end
 
+-- same as above, but for the file browser extension
+local function stopinsert_fb(callback, callback_dir)
+  return function(prompt_bufnr)
+    local entry = require("telescope.actions.state").get_selected_entry()
+    if entry and not entry.Path:is_dir() then
+      stopinsert(callback)(prompt_bufnr)
+    elseif callback_dir then
+      callback_dir(prompt_bufnr)
+    end
+  end
+end
+
 --- very ugly hack. Basically the same as above: Allow restoring of views (loadview) when selecting
 --- files from a telescope picker.
 --- This however, keeps the editor in insert mode if the picker was launched from insert mode with
 --- "#>" as prompt_prefix
+--- TODO: find a better, less hack-ish way.
 local function stopinsert_ins(callback)
   return function(prompt_bufnr)
     local current = actionstate.get_current_picker(prompt_bufnr)
@@ -137,17 +150,6 @@ local function stopinsert_ins(callback)
     end)
     if current.prompt_prefix == insert_mode_prefix then
       vim.schedule(function() vim.api.nvim_input("i") end)
-    end
-  end
-end
-
-local function stopinsert_fb(callback, callback_dir)
-  return function(prompt_bufnr)
-    local entry = require("telescope.actions.state").get_selected_entry()
-    if entry and not entry.Path:is_dir() then
-      stopinsert(callback)(prompt_bufnr)
-    elseif callback_dir then
-      callback_dir(prompt_bufnr)
     end
   end
 end
@@ -183,17 +185,14 @@ require("telescope").setup({
     disable_devicons = false,
     mappings = {
       i = {
-        ["<CR>"] =  stopinsert(actions.select_default),
+        ["<CR>"] = stopinsert_ins(actions.select_default),
+        -- ["<CR>"] =  stopinsert(actions.select_default),
         ["<C-x>"] = stopinsert(actions.select_horizontal),
         ["<C-v>"] = stopinsert(actions.select_vertical),
         ["<C-t>"] = stopinsert(actions.select_tab),
         -- remap C-Up and C-Down to scroll the previewer by one line
-        ["<C-Up>"] = function(prompt_bufnr)
-          actionset.scroll_previewer(prompt_bufnr, -1)
-        end,
-        ["<C-Down>"] = function(prompt_bufnr)
-          actionset.scroll_previewer(prompt_bufnr, 1)
-        end,
+        ["<C-Up>"] = function(prompt_bufnr) actionset.scroll_previewer(prompt_bufnr, -1) end,
+        ["<C-Down>"] = function(prompt_bufnr) actionset.scroll_previewer(prompt_bufnr, 1) end,
         ['<C-c>'] = function(prompt_bufnr) close_insertmode(prompt_bufnr) end
       },
       n = {
@@ -214,13 +213,13 @@ require("telescope").setup({
         },
       }
     },
-    lsp_document_symbols = {
-      mappings = {
-        i = {
-          ["<CR>"] = function(prompt_bufnr) select_insertmode(prompt_bufnr) end
-        }
-      }
-    },
+--    lsp_document_symbols = {
+--      mappings = {
+--        i = {
+--          ["<CR>"] = stopinsert_ins(actions.select_default)
+--        }
+--      }
+--    },
     command_center = {
       mappings = {
         i = {
@@ -228,13 +227,20 @@ require("telescope").setup({
         }
       }
     },
-    lsp_references = {
-      mappings = {
-        i = {
-          ["<CR>"] = stopinsert_ins(actions.select_default)
-        }
-      }
-    }
+--    lsp_references = {
+--      mappings = {
+--        i = {
+--          ["<CR>"] = stopinsert_ins(actions.select_default)
+--        }
+--      }
+--    },
+--    treesitter = {
+--      mappings = {
+--        i = {
+--          ["<CR>"] = stopinsert_ins(actions.select_default)
+--        }
+--      }
+--    }
   },
   extensions = {
     -- command center is a command palette plugin. Pretty much like Ctrl-P in sublime text

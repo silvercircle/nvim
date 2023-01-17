@@ -166,6 +166,18 @@ Command_center.add({
     category = "@LSP Telescope"
   },
   {
+    desc = "Document Treesitter",
+    cmd = function() require'telescope.builtin'.treesitter(Telescope_vertical_dropdown_theme({layout_config={height=0.8, width=50,preview_height=10}})) end,
+    keys = { "n", "<A-t>", noremap },
+    category = "@LSP Telescope"
+  },
+  {
+    desc = "Document Treesitter (insert)",
+    cmd = function() require'telescope.builtin'.treesitter(Telescope_vertical_dropdown_theme({prompt_prefix="#>",layout_config={height=0.8, width=50,preview_height=10}})) end,
+    keys = { "i", "<A-t>", noremap },
+    category = "@LSP Telescope"
+  },
+  {
     desc = "Dynamic workspace symbols (Telescope)",
     cmd = function() require'telescope.builtin'.lsp_dynamic_workspace_symbols(Telescope_vertical_dropdown_theme({})) end,
     keys = { "n", "tds", noremap },

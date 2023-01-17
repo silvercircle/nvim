@@ -178,9 +178,9 @@ function! TermToggle(height)
 endfunction
 
 " Alt-t toggles the term in a 12 row split below
-nnoremap <A-t> :call TermToggle(12)<CR>
-inoremap <A-t> <Esc>:call TermToggle(12)<CR>
-tnoremap <A-t> <C-\><C-n>:call TermToggle(12)<CR>
+nnoremap <f11> :call TermToggle(12)<CR>
+inoremap <f11> <Esc>:call TermToggle(12)<CR>
+tnoremap <f11> <C-\><C-n>:call TermToggle(12)<CR>
 " remap <ESC> to escape terminal mode
 tnoremap <Esc> <C-\><C-n>
 " silent! set statuscolumn=%@SignCb@%=%s%=%T%#NumCb#%l\ %C%#IndentBlankLineChar#│\ 
