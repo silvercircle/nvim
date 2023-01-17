@@ -163,14 +163,14 @@ require("indent_blankline").setup({
   show_foldtext = false,
   -- „rainbow style“ indent guides - if you want it, uncomment it. the highlight groups are already
   -- defined in the my_sonokai scheme.
---  char_highlight_list = {
---    "IndentBlanklineIndent1",
---    "IndentBlanklineIndent2",
---    "IndentBlanklineIndent3",
---    "IndentBlanklineIndent4",
---    "IndentBlanklineIndent5",
---    "IndentBlanklineIndent6",
---  },
+  char_highlight_list = {
+    "IndentBlanklineIndent1",
+    "IndentBlanklineIndent2",
+    "IndentBlanklineIndent3",
+    "IndentBlanklineIndent4",
+    "IndentBlanklineIndent5",
+    "IndentBlanklineIndent6",
+  }
 })
 
 require("gitsigns").setup({

@@ -716,12 +716,12 @@ call my_sonokai#highlight('IndentBlanklineChar', s:palette.bg1, s:palette.none, 
 highlight! link IndentBlanklineSpaceChar IndentBlanklineChar
 highlight! link IndentBlanklineSpaceCharBlankline IndentBlanklineChar
 " rainbow colors, supported but not in use.
-highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine
-highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine
-highlight IndentBlanklineIndent3 guifg=#98C379 gui=nocombine
-highlight IndentBlanklineIndent4 guifg=#56B6C2 gui=nocombine
-highlight IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine
-highlight IndentBlanklineIndent6 guifg=#C678DD gui=nocombine
+highlight IndentBlanklineIndent1 guifg=#401C15 gui=nocombine
+highlight IndentBlanklineIndent2 guifg=#15401B gui=nocombine
+highlight IndentBlanklineIndent3 guifg=#583329 gui=nocombine
+highlight IndentBlanklineIndent4 guifg=#163642 gui=nocombine
+highlight IndentBlanklineIndent5 guifg=#112F6F gui=nocombine
+highlight IndentBlanklineIndent6 guifg=#56186D gui=nocombine
 " }}}
 " }}}
 " rcarriga/nvim-notify {{{

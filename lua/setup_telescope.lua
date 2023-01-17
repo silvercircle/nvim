@@ -213,34 +213,13 @@ require("telescope").setup({
         },
       }
     },
---    lsp_document_symbols = {
---      mappings = {
---        i = {
---          ["<CR>"] = stopinsert_ins(actions.select_default)
---        }
---      }
---    },
     command_center = {
       mappings = {
         i = {
           ["<CR>"] = function(prompt_bufnr) select_insertmode(prompt_bufnr) end
         }
       }
-    },
---    lsp_references = {
---      mappings = {
---        i = {
---          ["<CR>"] = stopinsert_ins(actions.select_default)
---        }
---      }
---    },
---    treesitter = {
---      mappings = {
---        i = {
---          ["<CR>"] = stopinsert_ins(actions.select_default)
---        }
---      }
---    }
+    }
   },
   extensions = {
     -- command center is a command palette plugin. Pretty much like Ctrl-P in sublime text
