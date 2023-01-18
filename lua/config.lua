@@ -11,19 +11,12 @@
 -- forks of some plugins. 
 vim.g.features = {
   lsp = { enable = true, module = 'setup_lsp' },                          -- mason, lspconfig, fidget Glance
-  -- mason is part of the lsp plugin group, but optional. it has no setup module of its own - setup_lsp.lua
-  -- deals with mason
-  mason = { enable = false, module = '' },
   cmp = { enable = true, module = 'setup_cmp' },                          -- cmp, including all its sources
                                                                           -- and luasnip
   telekasten = { enable = true, module = 'setup_telekasten' },
                                                                           -- diables lualine bufferbar
-  neodev = { enable = false, module = '' },                               -- neodev has no own module as it requires a working lsp
                                                                           -- config. So it's activated in setup_lsp.lua
   treesitter = { enable = true, module = 'setup_treesitter' },            -- use treesitter
-  -- playground is a special case, it is configured in the treesitter module and has no setup module of its own
-  treesitter_playground = { enable = false, module = '' },
-  outline = { enable = true, module = 'setup_outline' },                  -- use symbols-outline plugin
   lspsaga = { enable = false, module = 'setup_lspsaga' },                 -- use lspsaga
   noice = { enable = false, module = 'setup_noice' },                     -- use noice for notifications
   -- please use ONLY ONE of te following two. Using both wont hurt but will be a waste.
@@ -46,7 +39,11 @@ vim.g.config = {
   minipicker_width = 50,
   minipicker_preview_height = 10,
   minipicker_iprefix = "#>",
-  minipicker_anchor = "N"
+  minipicker_anchor = "N",
+  -- submodules
+  mason = true,                   -- setup in setup_lsp.lua
+  neodev = false,                 -- setup in setup_lsp.lua
+  treesitter_playground = true,   -- no setup required, optional
 }
 
 vim.g.accent_color = vim.g.config.accent_color

@@ -11,7 +11,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({
+local plugins_default = {
   'nvim-lualine/lualine.nvim',
   'noib3/nvim-cokeline',
   -- multiple cursors.
@@ -24,7 +24,6 @@ require("lazy").setup({
   { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
   'L3MON4D3/LuaSnip',
   -- cmp + various sources
-  { dir='~/.config/nvim/local_plugin/nvim-cmp'},
   'hrsh7th/cmp-cmdline',
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/cmp-path',
@@ -38,7 +37,6 @@ require("lazy").setup({
   'dnlhc/glance.nvim',
   { 'williamboman/mason.nvim', cmd="Mason" },
 --  { 'williamboman/mason-lspconfig.nvim' },
-  'silvercircle/symbols-outline.nvim',
   'tpope/vim-liquid',
   'MunifTanjim/nui.nvim',
   'nvim-tree/nvim-web-devicons',
@@ -58,11 +56,37 @@ require("lazy").setup({
   'folke/todo-comments.nvim',
   'renerocksai/telekasten.nvim',
   'renerocksai/calendar-vim',
-  { dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim' },
-  { dir = '/mnt/shared/data/code/neovim_plugins/cmp-wordlist.nvim' },
   { dir = '~/.config/nvim/local_plugin/local_utils' },
   'voldikss/vim-floaterm',
   'preservim/vim-markdown',
   'norcalli/nvim-colorizer.lua',
   'echasnovski/mini.move',
-})
+}
+
+-- for experimental purpose, I use some private forks.
+local plugins_private = {
+  { dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim' },
+  { dir = '/mnt/shared/data/code/neovim_plugins/cmp-wordlist.nvim' },
+  { 'silvercircle/symbols-outline.nvim' },
+  { dir='~/.config/nvim/local_plugin/nvim-cmp' }
+}
+
+local plugins_official = {
+  'simrat39/symbols-outline.nvim',
+  'hrsh7th/nvim-cmp',
+  'https://gitlab.com/silvercircle74/cmp-wordlist.nvim',
+  'https://gitlab.com/silvercircle74/quickfavs.nvim'
+}
+
+--- use private forks of some plugins, not recommended. this is normally disabled
+if vim.g.use_private_forks == true then
+  for _,v in ipairs(plugins_private) do
+    table.insert(plugins_default, v)
+  end
+else
+  for _,v in ipairs(plugins_official) do
+    table.insert(plugins_default, v)
+  end
+end
+
+require("lazy").setup(plugins_default)

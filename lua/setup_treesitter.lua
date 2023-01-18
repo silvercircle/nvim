@@ -18,7 +18,7 @@ require("nvim-treesitter.configs").setup({
   -- NOTE: Problem parsers: JavaScript is slow, scala lacks Scala3 syntax.
   ensure_installed = { "c", "cpp", "lua", "vim", "python", "rust", "dart", "go", "c_sharp" },
   playground = {
-    enable = vim.g.features['treesitter_playground']['enable'],
+    enable = vim.g.config.treesitter_playground,
     disable = {},
     updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
     persist_queries = false, -- Whether the query persists across vim sessions

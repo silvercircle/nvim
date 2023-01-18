@@ -103,7 +103,7 @@ vim.keymap.set({ "s" }, "<C-i>", function() require'luasnip'.jump(1) end, { desc
 vim.keymap.set({ "s" }, "<S-Tab>", function() require'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
 
 -- if we have playgrund, use the special command to reveal the highlight group under the cursor
-if vim.g.features['treesitter_playground']['enable'] == true then
+if vim.g.config.treesitter_playground == true then
   vim.keymap.set('n', "hl", ":TSCaptureUnderCursor<CR>", opts)
 else  -- otherwise, use the API (less pretty, but functional)
   vim.keymap.set("n", "hl",
