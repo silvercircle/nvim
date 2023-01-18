@@ -117,12 +117,12 @@ end
 
 -- the following is ALL related to folding and there are no command center equivalents
 
-local ibl = require("indent_blankline")
-
--- shift-F4: refresh indent guides
-vim.keymap.set('n', "<f16>", function() ibl.refresh() end, opts)
-vim.keymap.set('i', "<f16>", function() ibl.refresh() end, opts)
-vim.keymap.set('v', "<f16>", function() ibl.refresh() end, opts)
+-- local ibl = require("indent_blankline")
+-- 
+-- -- shift-F4: refresh indent guides
+-- vim.keymap.set('n', "<f16>", function() ibl.refresh() end, opts)
+-- vim.keymap.set('i', "<f16>", function() ibl.refresh() end, opts)
+-- vim.keymap.set('v', "<f16>", function() ibl.refresh() end, opts)
 
 vim.keymap.set('n', "<f4>", function() vim.cmd("call Mkview()") end, opts)
 vim.keymap.set('i', "<f4>", function() vim.cmd("call Mkview()") end, opts)

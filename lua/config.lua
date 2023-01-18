@@ -41,7 +41,12 @@ vim.g.config = {
   use_cokeline = true,
   telescope_dropdown='bottom',
   accent_color = '#7faf00',
-  alt_accent_color = '#00af7f'
+  alt_accent_color = '#00af7f',
+  minipicker_height = 0.8,
+  minipicker_width = 50,
+  minipicker_preview_height = 10,
+  minipicker_iprefix = "#>",
+  minipicker_anchor = "N"
 }
 
 vim.g.accent_color = vim.g.config.accent_color
