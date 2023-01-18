@@ -10,12 +10,11 @@
 -- NOTE: the environment variable NVIM_USE_PRIVATE_FORKS must be set (to anything) in order to use the private
 -- forks of some plugins. 
 vim.g.features = {
-  lsp = { enable = true, module = 'setup_lsp' },                          -- mason, lspconfig, fidget Glance
+  lsp = { enable = true, module = 'setup_lsp' },                          -- mason, lspconfig, fidget Glance,
+                                                                          -- symbols-outline
   cmp = { enable = true, module = 'setup_cmp' },                          -- cmp, including all its sources
                                                                           -- and luasnip
   telekasten = { enable = true, module = 'setup_telekasten' },
-                                                                          -- diables lualine bufferbar
-                                                                          -- config. So it's activated in setup_lsp.lua
   treesitter = { enable = true, module = 'setup_treesitter' },            -- use treesitter
   lspsaga = { enable = false, module = 'setup_lspsaga' },                 -- use lspsaga
   noice = { enable = false, module = 'setup_noice' },                     -- use noice for notifications

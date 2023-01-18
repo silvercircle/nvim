@@ -483,7 +483,7 @@ Command_center.add({
   {
     desc = "Inspect Auto Word list",
     cmd = function() require("cmp_wordlist").autolist() end,
-    keys = { "n", "zal", noremap },
+    keys = { "n", "<leader>zw", noremap },
     category = "@Neovim"
   },
   {
