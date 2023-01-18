@@ -11,7 +11,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local plugins_default = {
+local plugins = {
   'nvim-lualine/lualine.nvim',
   'noib3/nvim-cokeline',
   -- multiple cursors.
@@ -51,16 +51,21 @@ local plugins_default = {
   'lukas-reineke/indent-blankline.nvim',
   'petertriho/nvim-scrollbar',
   'stevearc/dressing.nvim',
-  { 'nvim-neo-tree/neo-tree.nvim', branch = "main" },
   'nvim-treesitter/nvim-treesitter',
-  'folke/todo-comments.nvim',
-  'renerocksai/telekasten.nvim',
-  'renerocksai/calendar-vim',
   { dir = '~/.config/nvim/local_plugin/local_utils' },
   'voldikss/vim-floaterm',
   'preservim/vim-markdown',
   'norcalli/nvim-colorizer.lua',
   'echasnovski/mini.move',
+}
+
+local plugins_optional = {
+  { 'nvim-neo-tree/neo-tree.nvim', branch = "main", cond = vim.g.features['neotree']['enable'] == true},
+  { 'renerocksai/telekasten.nvim', cond = vim.g.features['telekasten']['enable'] == true },
+  { 'renerocksai/calendar-vim', cond = vim.g.features['telekasten']['enable'] },
+  { 'folke/todo-comments.nvim', cond = vim.g.features['todo']['enable'] == true },
+  { 'nvim-tree/nvim-tree.lua', cond = vim.g.features['nvimtree']['enable'] == true },
+  { 'jose-elias-alvarez/null-ls.nvim', cond = vim.g.features['null_ls']['enable'] == true }
 }
 
 -- for experimental purpose, I use some private forks.
@@ -78,15 +83,20 @@ local plugins_official = {
   'https://gitlab.com/silvercircle74/quickfavs.nvim'
 }
 
+for _,v in ipairs(plugins_optional) do
+  table.insert(plugins, v)
+end
+
 --- use private forks of some plugins, not recommended. this is normally disabled
 if vim.g.use_private_forks == true then
   for _,v in ipairs(plugins_private) do
-    table.insert(plugins_default, v)
+    table.insert(plugins, v)
   end
 else
   for _,v in ipairs(plugins_official) do
-    table.insert(plugins_default, v)
+    table.insert(plugins, v)
   end
 end
 
-require("lazy").setup(plugins_default)
+require("lazy").setup(plugins)
+

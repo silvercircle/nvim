@@ -3,19 +3,23 @@
 " lua require('impatient')
 
 " Set configuration variables
-lua require('config')
+lua << EOB
+require('config')
 
-" load plugins (packer)
-" lua require('load_packer')
+-- load plugins (packer)
+-- lua require('load_packer')
 
-" OR load plugins with lazy. DO NOT use both.
-lua require('load_lazy')
+-- OR load plugins with lazy. DO NOT use both.
+require('load_lazy')
 
-lua require('vim_options')
-" setup all default and optional plugins, based on g.features (see config.lua)
-lua require("setup_telescope")
-lua require('setup_dressing')
-lua require('setup_default_plugins')
+require('vim_options')
+-- setup all default and optional plugins, based on g.features (see config.lua)
+require("setup_lsp")
+require("setup_cmp")
+require("setup_telescope")
+require('setup_dressing')
+require('setup_default_plugins')
+EOB
 
 run macros/justify.vim
 

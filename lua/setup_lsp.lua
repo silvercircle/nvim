@@ -1,18 +1,14 @@
 -- set up lspconfig and mason
 
---if vim.g.features['mason']['enable'] == true then
-  require("mason").setup()
-  -- require("mason-lspconfig").setup()
---end
+require("mason").setup()
 local lspconfig = require("lspconfig")
 local util = require('lspconfig.util')
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-if vim.g.features['cmp']['enable'] == true then
-  local cmp_nvim_lsp = require("cmp_nvim_lsp")
-  capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-end
+local cmp_nvim_lsp = require("cmp_nvim_lsp")
+capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+
 -- Customize LSP behavior via on_attach
 local on_attach = function(client, _)
   -- Activate LSP signature on attach.

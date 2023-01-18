@@ -136,11 +136,11 @@ vim.keymap.set('n', "<F2>", function() vim.api.nvim_feedkeys('za', 'n', true) vi
 vim.keymap.set('i', "<F2>", function() local key = vim.api.nvim_replace_termcodes("<C-o>za", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
 vim.keymap.set('v', "<F2>", function() vim.api.nvim_feedkeys('zf', 'v', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
 
--- close current fold
+-- close current fold (Shift-F2)
 vim.keymap.set('n', "<f14>", function() vim.api.nvim_feedkeys('zc', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
 vim.keymap.set('i', "<f14>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zc", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
 
--- open current fold
+-- open current fold (Ctrl-F2)
 vim.keymap.set('n', "<f26>", function() vim.api.nvim_feedkeys('zo', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
 vim.keymap.set('i', "<f26>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zo", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
 
@@ -148,11 +148,11 @@ vim.keymap.set('i', "<f26>", function() local key = vim.api.nvim_replace_termcod
 vim.keymap.set('n', "<F3>", function() vim.api.nvim_feedkeys('zA', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
 vim.keymap.set('i', "<F3>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zA", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
 
--- close all folds at current line
+-- close all folds at current line (Shift-F3)
 vim.keymap.set('n', "<f15>", function() vim.api.nvim_feedkeys('zC', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
 vim.keymap.set('i', "<f16>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zC", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
 
--- open all folds at current line
+-- open all folds at current line (Ctrl-F3)
 vim.keymap.set('n', "<f27>", function() vim.api.nvim_feedkeys('zO', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
 vim.keymap.set('i', "<f27>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zO", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
 

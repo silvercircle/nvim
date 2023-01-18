@@ -9,11 +9,11 @@
 
 -- NOTE: the environment variable NVIM_USE_PRIVATE_FORKS must be set (to anything) in order to use the private
 -- forks of some plugins. 
+
+-- the following features are optional modules
+-- by default lsp, cmp, telescope, gitsigns, scrollbar and indent-blankline are always enabled
+
 vim.g.features = {
-  lsp = { enable = true, module = 'setup_lsp' },                          -- mason, lspconfig, fidget Glance,
-                                                                          -- symbols-outline
-  cmp = { enable = true, module = 'setup_cmp' },                          -- cmp, including all its sources
-                                                                          -- and luasnip
   telekasten = { enable = true, module = 'setup_telekasten' },
   treesitter = { enable = true, module = 'setup_treesitter' },            -- use treesitter
   lspsaga = { enable = false, module = 'setup_lspsaga' },                 -- use lspsaga
