@@ -73,7 +73,8 @@ local plugins_private = {
   { dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim' },
   { dir = '/mnt/shared/data/code/neovim_plugins/cmp-wordlist.nvim' },
   { 'silvercircle/symbols-outline.nvim' },
-  { dir='~/.config/nvim/local_plugin/nvim-cmp' }
+  { dir = '/mnt/shared/data/code/neovim_plugins/nvim-cmp' },
+--  { dir='~/.config/nvim/local_plugin/nvim-cmp' }
 }
 
 local plugins_official = {
@@ -99,4 +100,3 @@ else
 end
 
 require("lazy").setup(plugins)
-
