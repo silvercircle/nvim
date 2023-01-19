@@ -240,11 +240,5 @@ Truncate = function(text, max_width)
   end
 end
 
-_G.fn = {}
-
-_G.fn.testfunction = function()
-  print("testfunction")
-end
-
 -- load the color theme
 vim.cmd [[silent! colorscheme my_sonokai]]

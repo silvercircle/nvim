@@ -144,6 +144,7 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
 vim.api.nvim_create_autocmd({ "vimenter" }, {
   pattern = "*",
   callback = function()
+    vim.cmd("stopinsert")
     local no_nerd = os.getenv("NVIM_NO_NERD")
     if no_nerd == nil or no_nerd ~= "yes" then
       if vim.g.features['neotree']['enable'] == true then
