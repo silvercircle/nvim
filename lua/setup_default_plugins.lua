@@ -115,7 +115,7 @@ require("lualine").setup({
 -- setup cokeline plugin. It provides a buffer line (aka tab-bar)
 --local sidebar_or_tree = vim.g.features['sidebar']['enable'] == true and true or false
 local sidebar_or_tree = false
-local treename = vim.g.features['neotree']['enable'] and 'neo-tree' or 'NvimTree'
+local treename = 'neo-tree' -- vim.g.features['neotree']['enable'] and 'neo-tree' or 'NvimTree'
 
 require('cokeline').setup({
   -- Cokeline_theme() is defined in config.lua
@@ -350,14 +350,6 @@ require("hlslens").setup({
     require("scrollbar.handlers.search").handler.show(plist.start_pos)
   end
 })
-
--- setup all optional features according to vim.g.features (see config.lua)
-for _, v in pairs(vim.g.features) do
-  -- the plugin has a setup module associated
-  if v['enable'] == true and #v['module'] > 0 then
-    require(v['module'])
-  end
-end
 
 require 'colorizer'.setup {
   'css';

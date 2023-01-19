@@ -34,14 +34,19 @@ local plugins = {
       'onsails/lspkind-nvim',
       'j-hui/fidget.nvim',
       'dnlhc/glance.nvim',
-      { 'williamboman/mason.nvim', cmd="Mason" },
+      { 'williamboman/mason.nvim', cmd = "Mason" },
+      { 'jose-elias-alvarez/null-ls.nvim', cond = vim.g.config.null_ls == true,
+        config = function()
+          require("setup_null_ls")
+        end
+      }
     }
   },
 --  { 'williamboman/mason-lspconfig.nvim' },
-  {'tpope/vim-liquid', ft="liquid" },
+  {'tpope/vim-liquid', ft = "liquid" },
   {'MunifTanjim/nui.nvim', lazy = true },
   'nvim-tree/nvim-web-devicons',
-  { 'alaviss/nim.nvim', ft="nim" },
+  { 'alaviss/nim.nvim', ft = "nim" },
   'nvim-lua/plenary.nvim',
   'MattesGroeger/vim-bookmarks',
   'sharkdp/fd',
@@ -55,18 +60,16 @@ local plugins = {
   'nvim-treesitter/nvim-treesitter',
   { dir = '~/.config/nvim/local_plugin/local_utils' },
   { 'voldikss/vim-floaterm', cmd = {"FloatermNew", "FloatermToggle"} },
-  { 'preservim/vim-markdown', ft="markdown" },
+  { 'preservim/vim-markdown', ft = "markdown" },
   { 'norcalli/nvim-colorizer.lua' },
-  'echasnovski/mini.move'
-}
-
-local plugins_optional = {
+  'echasnovski/mini.move',
   {
-    {'nvim-neo-tree/neo-tree.nvim', branch = "main", cmd="NeoTreeShow",
-      config = function()
-        require("setup_neotree")
-      end
-    },
+    'nvim-neo-tree/neo-tree.nvim', branch = "main", cmd="NeoTreeShow",
+    config = function()
+      require("setup_neotree")
+    end
+  },
+  {
     'renerocksai/telekasten.nvim', lazy = true,
     dependencies = {
       { 'renerocksai/calendar-vim' },
@@ -75,21 +78,30 @@ local plugins_optional = {
       require("setup_telekasten")
     end
   },
-  { 'folke/todo-comments.nvim', cond = vim.g.features['todo']['enable'] == true },
-  { 'jose-elias-alvarez/null-ls.nvim', cond = vim.g.features['null_ls']['enable'] == true },
+  {
+    'folke/todo-comments.nvim', lazy = true,
+    config = function()
+      require("setup_todo")
+    end
+  },
   { 'nvim-treesitter/playground', cond = vim.g.config.treesitter_playground == true },
   {
-    'glepnir/lspsaga.nvim', lazy=true, cmd="Lspsaga",
-    config=function()
+    'glepnir/lspsaga.nvim', lazy = true, cmd = "Lspsaga",
+    config = function()
       require("setup_lspsaga")
     end
   },
   { 'folke/neodev.nvim', cond = vim.g.config.neodev == true },
-  { 'folke/noice.nvim', cond = vim.g.features.noice['enable'] == true }
-
+  {
+    'folke/noice.nvim', cond = vim.g.config.noice == true,
+    config = function()
+      require("setup_noice")
+    end
+  }
 }
 
--- for experimental purpose, I use some private forks.
+-- for experimental purpose, I use some private forks and local repos.
+-- plugins_official (see below) contains the same stuff..
 local plugins_private = {
   { dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim' },
   {
@@ -98,6 +110,7 @@ local plugins_private = {
       require("setup_outline")
     end
   },
+  -- CMP and all its extensions
   {
     dir = '/mnt/shared/data/code/neovim_plugins/nvim-cmp',
     lazy = true,
@@ -108,10 +121,20 @@ local plugins_private = {
       'hrsh7th/cmp-emoji',
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp-signature-help',
-      { dir = '/mnt/shared/data/code/neovim_plugins/cmp-wordlist.nvim' }
+      {
+        dir = '/mnt/shared/data/code/neovim_plugins/cmp-wordlist.nvim',
+        config = function()
+          require("cmp_wordlist").setup({
+            wordfiles={'wordlist.txt', "personal.txt" },
+            debug = true,
+            read_on_setup = false,
+            watch_files = true,
+            telescope_theme = Telescope_dropdown_theme
+          })
+        end
+      }
     }
   },
---  { dir='~/.config/nvim/local_plugin/nvim-cmp' }
 }
 
 local plugins_official = {
@@ -121,6 +144,7 @@ local plugins_official = {
       require("setup_outline")
     end
   },
+  -- cmp and 
   { 'hrsh7th/nvim-cmp',
     lazy = true,
     dependencies = {
@@ -130,15 +154,21 @@ local plugins_official = {
       'hrsh7th/cmp-emoji',
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp-signature-help',
-      'https://gitlab.com/silvercircle74/cmp-wordlist.nvim'
+      {'https://gitlab.com/silvercircle74/cmp-wordlist.nvim',
+        config = function()
+          require("cmp_wordlist").setup({
+            wordfiles={'wordlist.txt', "personal.txt" },
+            debug = true,
+            read_on_setup = false,
+            watch_files = true,
+            telescope_theme = Telescope_vertical_dropdown_theme
+          })
+        end
+      }
     }
   },
   'https://gitlab.com/silvercircle74/quickfavs.nvim'
 }
-
-for _,v in ipairs(plugins_optional) do
-  table.insert(plugins, v)
-end
 
 --- use private forks of some plugins, not recommended. this is normally disabled
 if vim.g.use_private_forks == true then

@@ -13,15 +13,6 @@
 -- the following features are optional modules
 -- by default lsp, cmp, telescope, gitsigns, scrollbar and indent-blankline are always enabled
 
-vim.g.features = {
-  noice = { enable = false, module = 'setup_noice' },                     -- use noice for notifications
-  -- please use ONLY ONE of te following two. Using both wont hurt but will be a waste.
-  -- personally i prefer Neotree, but both plugins are fine. Matter of personal preference.
-  neotree = { enable = true, module = '' },                               -- setup is done in lazyload
-  null_ls = { enable = false, module = 'setup_null_ls' },                 -- null-ls for linting, formatting and more lsp features
-  todo = { enable = true, module = 'setup_todo' }
-}
-
 local env_plain = os.getenv("NVIM_PLAIN")
 
 vim.g.config = {
@@ -39,6 +30,7 @@ vim.g.config = {
   minipicker_anchor = "N",
   -- submodules
   mason = true,                   -- setup in setup_lsp.lua
+  null_ls = false,
   neodev = false,                 -- setup in setup_lsp.lua
   treesitter_playground = false,  -- no setup required, optional
   treesitter = true,               -- default plugin
