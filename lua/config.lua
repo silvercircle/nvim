@@ -14,12 +14,10 @@
 -- by default lsp, cmp, telescope, gitsigns, scrollbar and indent-blankline are always enabled
 
 vim.g.features = {
-  telekasten = { enable = true, module = 'setup_telekasten' },
-  lspsaga = { enable = false, module = 'setup_lspsaga' },
   noice = { enable = false, module = 'setup_noice' },                     -- use noice for notifications
   -- please use ONLY ONE of te following two. Using both wont hurt but will be a waste.
   -- personally i prefer Neotree, but both plugins are fine. Matter of personal preference.
-  neotree = { enable = true, module = 'setup_neotree' },                  -- neotree file explorer
+  neotree = { enable = true, module = '' },                               -- setup is done in lazyload
   null_ls = { enable = false, module = 'setup_null_ls' },                 -- null-ls for linting, formatting and more lsp features
   todo = { enable = true, module = 'setup_todo' }
 }

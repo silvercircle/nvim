@@ -28,16 +28,18 @@ local plugins = {
     }
   },
   'L3MON4D3/LuaSnip',
-  -- cmp + various sources
   -- lsp
-  { 'neovim/nvim-lspconfig' },
-  'onsails/lspkind-nvim',
-  'j-hui/fidget.nvim',
-  'dnlhc/glance.nvim',
-  { 'williamboman/mason.nvim', cmd="Mason" },
+  { 'neovim/nvim-lspconfig',
+    dependencies = {
+      'onsails/lspkind-nvim',
+      'j-hui/fidget.nvim',
+      'dnlhc/glance.nvim',
+      { 'williamboman/mason.nvim', cmd="Mason" },
+    }
+  },
 --  { 'williamboman/mason-lspconfig.nvim' },
   {'tpope/vim-liquid', ft="liquid" },
-  'MunifTanjim/nui.nvim',
+  {'MunifTanjim/nui.nvim', lazy = true },
   'nvim-tree/nvim-web-devicons',
   { 'alaviss/nim.nvim', ft="nim" },
   'nvim-lua/plenary.nvim',
@@ -52,20 +54,36 @@ local plugins = {
   'stevearc/dressing.nvim',
   'nvim-treesitter/nvim-treesitter',
   { dir = '~/.config/nvim/local_plugin/local_utils' },
-  'voldikss/vim-floaterm',
+  { 'voldikss/vim-floaterm', cmd = {"FloatermNew", "FloatermToggle"} },
   { 'preservim/vim-markdown', ft="markdown" },
-  'norcalli/nvim-colorizer.lua',
-  'echasnovski/mini.move',
+  { 'norcalli/nvim-colorizer.lua' },
+  'echasnovski/mini.move'
 }
 
 local plugins_optional = {
-  { 'nvim-neo-tree/neo-tree.nvim', branch = "main", cond = vim.g.features['neotree']['enable'] == true},
-  { 'renerocksai/telekasten.nvim', cond = vim.g.features['telekasten']['enable'] == true },
-  { 'renerocksai/calendar-vim', cond = vim.g.features['telekasten']['enable'] },
+  {
+    {'nvim-neo-tree/neo-tree.nvim', branch = "main", cmd="NeoTreeShow",
+      config = function()
+        require("setup_neotree")
+      end
+    },
+    'renerocksai/telekasten.nvim', lazy = true,
+    dependencies = {
+      { 'renerocksai/calendar-vim' },
+    },
+    config = function()
+      require("setup_telekasten")
+    end
+  },
   { 'folke/todo-comments.nvim', cond = vim.g.features['todo']['enable'] == true },
   { 'jose-elias-alvarez/null-ls.nvim', cond = vim.g.features['null_ls']['enable'] == true },
   { 'nvim-treesitter/playground', cond = vim.g.config.treesitter_playground == true },
-  { 'glepnir/lspsaga.nvim', cond = vim.g.features.lspsaga['enable'] == true },
+  {
+    'glepnir/lspsaga.nvim', lazy=true, cmd="Lspsaga",
+    config=function()
+      require("setup_lspsaga")
+    end
+  },
   { 'folke/neodev.nvim', cond = vim.g.config.neodev == true },
   { 'folke/noice.nvim', cond = vim.g.features.noice['enable'] == true }
 
@@ -74,7 +92,12 @@ local plugins_optional = {
 -- for experimental purpose, I use some private forks.
 local plugins_private = {
   { dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim' },
-  { 'silvercircle/symbols-outline.nvim' },
+  {
+    'silvercircle/symbols-outline.nvim', cmd = "SymbolsOutline",
+    config = function()
+      require("setup_outline")
+    end
+  },
   {
     dir = '/mnt/shared/data/code/neovim_plugins/nvim-cmp',
     lazy = true,
@@ -92,7 +115,12 @@ local plugins_private = {
 }
 
 local plugins_official = {
-  'simrat39/symbols-outline.nvim',
+  {
+    'simrat39/symbols-outline.nvim', cmd = "SymbolsOutline",
+    config = function()
+      require("setup_outline")
+    end
+  },
   { 'hrsh7th/nvim-cmp',
     lazy = true,
     dependencies = {
