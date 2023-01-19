@@ -17,19 +17,18 @@ local plugins = {
   -- multiple cursors.
   'mg979/vim-visual-multi',
   -- telescope + extensions, mandatory
-  { 'nvim-telescope/telescope.nvim', branch = '0.1.x' },
-  'nvim-telescope/telescope-file-browser.nvim',
-  'tom-anders/telescope-vim-bookmarks.nvim',
-  'FeiyouG/command_center.nvim',
-  { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
+  {
+    'nvim-telescope/telescope.nvim', branch = '0.1.x',
+    lazy = true,
+    dependencies = {
+      'nvim-telescope/telescope-file-browser.nvim',
+      'tom-anders/telescope-vim-bookmarks.nvim',
+      'FeiyouG/command_center.nvim',
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
+    }
+  },
   'L3MON4D3/LuaSnip',
   -- cmp + various sources
-  'hrsh7th/cmp-cmdline',
-  'hrsh7th/cmp-nvim-lsp',
-  'hrsh7th/cmp-path',
-  'hrsh7th/cmp-emoji',
-  'saadparwaiz1/cmp_luasnip',
-  'hrsh7th/cmp-nvim-lsp-signature-help',
   -- lsp
   { 'neovim/nvim-lspconfig' },
   'onsails/lspkind-nvim',
@@ -37,10 +36,10 @@ local plugins = {
   'dnlhc/glance.nvim',
   { 'williamboman/mason.nvim', cmd="Mason" },
 --  { 'williamboman/mason-lspconfig.nvim' },
-  'tpope/vim-liquid',
+  {'tpope/vim-liquid', ft="liquid" },
   'MunifTanjim/nui.nvim',
   'nvim-tree/nvim-web-devicons',
-  'alaviss/nim.nvim',
+  { 'alaviss/nim.nvim', ft="nim" },
   'nvim-lua/plenary.nvim',
   'MattesGroeger/vim-bookmarks',
   'sharkdp/fd',
@@ -54,7 +53,7 @@ local plugins = {
   'nvim-treesitter/nvim-treesitter',
   { dir = '~/.config/nvim/local_plugin/local_utils' },
   'voldikss/vim-floaterm',
-  'preservim/vim-markdown',
+  { 'preservim/vim-markdown', ft="markdown" },
   'norcalli/nvim-colorizer.lua',
   'echasnovski/mini.move',
 }
@@ -75,16 +74,37 @@ local plugins_optional = {
 -- for experimental purpose, I use some private forks.
 local plugins_private = {
   { dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim' },
-  { dir = '/mnt/shared/data/code/neovim_plugins/cmp-wordlist.nvim' },
   { 'silvercircle/symbols-outline.nvim' },
-  { dir = '/mnt/shared/data/code/neovim_plugins/nvim-cmp' },
+  {
+    dir = '/mnt/shared/data/code/neovim_plugins/nvim-cmp',
+    lazy = true,
+    dependencies = {
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-emoji',
+      'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
+      { dir = '/mnt/shared/data/code/neovim_plugins/cmp-wordlist.nvim' }
+    }
+  },
 --  { dir='~/.config/nvim/local_plugin/nvim-cmp' }
 }
 
 local plugins_official = {
   'simrat39/symbols-outline.nvim',
-  'hrsh7th/nvim-cmp',
-  'https://gitlab.com/silvercircle74/cmp-wordlist.nvim',
+  { 'hrsh7th/nvim-cmp',
+    lazy = true,
+    dependencies = {
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-emoji',
+      'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
+      'https://gitlab.com/silvercircle74/cmp-wordlist.nvim'
+    }
+  },
   'https://gitlab.com/silvercircle74/quickfavs.nvim'
 }
 

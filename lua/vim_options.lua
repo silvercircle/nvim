@@ -132,8 +132,7 @@ local agroup_enter = vim.api.nvim_create_augroup("enter", {})
 vim.api.nvim_create_autocmd({ "vimenter" }, {
   pattern = "*",
   callback = function()
-    local no_term = os.getenv("NVIM_NO_TERM")
-    if no_term == nil or no_term ~= "yes" then
+    if vim.g.config.plain == false then
       vim.api.nvim_command("call TermToggle(12) | wincmd p")
     end
   end,
@@ -145,8 +144,7 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
   pattern = "*",
   callback = function()
     vim.cmd("stopinsert")
-    local no_nerd = os.getenv("NVIM_NO_NERD")
-    if no_nerd == nil or no_nerd ~= "yes" then
+    if vim.g.config.plain == false then
       if vim.g.features['neotree']['enable'] == true then
         vim.api.nvim_command("NeoTreeShow")
       end

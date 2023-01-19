@@ -24,6 +24,8 @@ vim.g.features = {
   todo = { enable = true, module = 'setup_todo' }
 }
 
+local env_plain = os.getenv("NVIM_PLAIN")
+
 vim.g.config = {
   telescope_fname_width = 140,
   theme_variant = 'warm',
@@ -41,7 +43,8 @@ vim.g.config = {
   mason = true,                   -- setup in setup_lsp.lua
   neodev = false,                 -- setup in setup_lsp.lua
   treesitter_playground = false,  -- no setup required, optional
-  treesitter = true               -- default plugin
+  treesitter = true,               -- default plugin
+  plain = env_plain ~= nil and true or false
 }
 
 vim.g.accent_color = vim.g.config.accent_color
