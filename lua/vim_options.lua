@@ -82,7 +82,7 @@ end
 -- https://github.com/nvim-treesitter/nvim-treesitter/issues/2918
 -- for now, I disabled treesitter-based folding
 
-if vim.g.features['treesitter']['enable'] == true then
+if vim.g.config.treesitter == true then
   o.foldmethod = "expr"
   o.foldexpr = "nvim_treesitter#foldexpr()"
 else
@@ -100,7 +100,7 @@ o.completeopt = "menu,menuone,noinsert"
 -- coc and also CMP respect this settings for the maximum autocomplete-popup height
 o.pumheight = 15
 -- allow two signcolumns, the first will be occupied by git signs
-o.signcolumn = "yes:2"
+o.signcolumn = "yes:3"
 -- set &dictionary to allow auto-complete with coc-dictionary
 vim.opt.dictionary:append(vim.fn.stdpath("data") .. "/dict")
 -- do not use swap files.
@@ -149,9 +149,9 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
       if vim.g.features['neotree']['enable'] == true then
         vim.api.nvim_command("NeoTreeShow")
       end
-      if vim.g.features['nvimtree']['enable'] == true then
-        require('nvim-tree').toggle(false, true)
-      end
+      -- if vim.g.features['nvimtree']['enable'] == true then
+      --  require('nvim-tree').toggle(false, true)
+      --end
     end
   end,
   group = agroup_enter,

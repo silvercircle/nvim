@@ -532,3 +532,6 @@ local outline_opts = {
 }
 require("symbols-outline").setup(outline_opts)
 
+if vim.g.config.neodev == true then
+  require("neodev").setup({})
+end

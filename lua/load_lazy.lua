@@ -64,8 +64,12 @@ local plugins_optional = {
   { 'renerocksai/telekasten.nvim', cond = vim.g.features['telekasten']['enable'] == true },
   { 'renerocksai/calendar-vim', cond = vim.g.features['telekasten']['enable'] },
   { 'folke/todo-comments.nvim', cond = vim.g.features['todo']['enable'] == true },
-  { 'nvim-tree/nvim-tree.lua', cond = vim.g.features['nvimtree']['enable'] == true },
-  { 'jose-elias-alvarez/null-ls.nvim', cond = vim.g.features['null_ls']['enable'] == true }
+  { 'jose-elias-alvarez/null-ls.nvim', cond = vim.g.features['null_ls']['enable'] == true },
+  { 'nvim-treesitter/playground', cond = vim.g.config.treesitter_playground == true },
+  { 'glepnir/lspsaga.nvim', cond = vim.g.features.lspsaga['enable'] == true },
+  { 'folke/neodev.nvim', cond = vim.g.config.neodev == true },
+  { 'folke/noice.nvim', cond = vim.g.features.noice['enable'] == true }
+
 }
 
 -- for experimental purpose, I use some private forks.

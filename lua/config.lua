@@ -15,13 +15,11 @@
 
 vim.g.features = {
   telekasten = { enable = true, module = 'setup_telekasten' },
-  treesitter = { enable = true, module = 'setup_treesitter' },            -- use treesitter
-  lspsaga = { enable = false, module = 'setup_lspsaga' },                 -- use lspsaga
+  lspsaga = { enable = false, module = 'setup_lspsaga' },
   noice = { enable = false, module = 'setup_noice' },                     -- use noice for notifications
   -- please use ONLY ONE of te following two. Using both wont hurt but will be a waste.
   -- personally i prefer Neotree, but both plugins are fine. Matter of personal preference.
   neotree = { enable = true, module = 'setup_neotree' },                  -- neotree file explorer
-  nvimtree = { enable = false, module = 'setup_nvim-tree' },              -- nvim-tree file explorer
   null_ls = { enable = false, module = 'setup_null_ls' },                 -- null-ls for linting, formatting and more lsp features
   todo = { enable = true, module = 'setup_todo' }
 }
@@ -42,7 +40,8 @@ vim.g.config = {
   -- submodules
   mason = true,                   -- setup in setup_lsp.lua
   neodev = false,                 -- setup in setup_lsp.lua
-  treesitter_playground = true,   -- no setup required, optional
+  treesitter_playground = false,  -- no setup required, optional
+  treesitter = true               -- default plugin
 }
 
 vim.g.accent_color = vim.g.config.accent_color

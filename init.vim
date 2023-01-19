@@ -1,5 +1,5 @@
 " Impatient is only necessary when using packer
-" lua require('impatient_bootstrap')
+" lua require('_deprecated/impatient_bootstrap')
 " lua require('impatient')
 
 " Set configuration variables
@@ -7,13 +7,14 @@ lua << EOB
 require('config')
 
 -- load plugins (packer)
--- lua require('load_packer')
+-- lua require('_deprecated/load_packer')
 
 -- OR load plugins with lazy. DO NOT use both.
 require('load_lazy')
 
 require('vim_options')
 -- setup all default and optional plugins, based on g.features (see config.lua)
+require("setup_treesitter")
 require("setup_lsp")
 require("setup_cmp")
 require("setup_telescope")
