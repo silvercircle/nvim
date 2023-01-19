@@ -1339,3 +1339,7 @@ hi! link OrgTSHeadlineLevel2 OrgTSHeadlineLevel1
 
 " markdown (preservim/vim-markdown)
 
+" Lazy
+"
+hi! link LazyNoCond RedBold
+
