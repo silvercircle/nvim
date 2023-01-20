@@ -27,6 +27,11 @@ local plugins = {
       { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
     }
   },
+  {'nvim-treesitter/nvim-treesitter',
+    config = function()
+      require("setup_treesitter")
+    end
+  },
   'L3MON4D3/LuaSnip',
   -- lsp
   { 'neovim/nvim-lspconfig',
@@ -62,7 +67,6 @@ local plugins = {
   'lukas-reineke/indent-blankline.nvim',
   'petertriho/nvim-scrollbar',
   'stevearc/dressing.nvim',
-  'nvim-treesitter/nvim-treesitter',
   { dir = '~/.config/nvim/local_plugin/local_utils' },
   { 'voldikss/vim-floaterm', cmd = {"FloatermNew", "FloatermToggle"} },
   { 'preservim/vim-markdown', ft = "markdown" },
@@ -75,13 +79,13 @@ local plugins = {
     end
   },
   {
-    'renerocksai/telekasten.nvim', lazy = true,
+    'renerocksai/telekasten.nvim', lazy = true, ft={"telekasten", "markdown"},
     dependencies = {
       { 'renerocksai/calendar-vim' },
     },
-    --config = function()
-    --  require("setup_telekasten")
-    --end
+    config = function()
+      require("setup_telekasten")
+    end
   },
   {
     'folke/todo-comments.nvim',

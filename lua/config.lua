@@ -28,24 +28,17 @@ vim.g.config = {
   minipicker_preview_height = 10,
   minipicker_iprefix = "#>",
   minipicker_anchor = "N",
-  -- submodules
+  -- some optional plugins
   mason = true,                   -- setup in setup_lsp.lua
-  null_ls = false,
+  null_ls = false,                -- setup by lazy loader
   neodev = false,                 -- setup in setup_lsp.lua
   treesitter_playground = false,  -- no setup required, optional
-  treesitter = true,               -- default plugin
   plain = env_plain ~= nil and true or false
 }
 
-vim.g.accent_color = vim.g.config.accent_color
-vim.g.alt_accent_color = vim.g.config.alt_accent_color
-
--- theme variant can be either cold or warm.
--- cold has slight blue-ish tint in the background colors, while warm is more reddish
--- the default is warm
-vim.g.theme_variant = 'warm'
-
--- vim.g.theme_variant = 'cold'
+vim.g.theme = {
+  variant = "warm"     -- "warm" gives a slight red-ish ting, "cold" a more blue-ish
+}
 
 local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'
 local localbin = vim.fn.getenv('HOME') .. '/.local/bin/'

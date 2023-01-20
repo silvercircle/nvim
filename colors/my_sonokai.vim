@@ -33,7 +33,7 @@ function! my_sonokai#get_configuration()
 endfunction
 
 " The default variant is "warm"
-if g:theme_variant == 'cold'
+if g:theme['variant'] == 'cold'
   let palette = {
         \ 'black':      ['#121215',   '232'],
         \ 'bg_dim':     ['#222327',   '232'],
@@ -124,7 +124,7 @@ let s:palette = palette
 let s:path = expand('<sfile>:p') " the path of this script
 let s:last_modified = '2022-12-23T08:46:17+0100'
 let g:sonokai_loaded_file_types = []
-if g:theme_variant == 'cold'
+if g:theme['variant'] == 'cold'
   let s:darkbg = ['#101013', 237]
   let s:teal = ['#108080', 238]
   let s:blue = ['#5a6acf', 239]
@@ -139,7 +139,7 @@ if g:theme_variant == 'cold'
   let s:palette.fg = [ '#a5a0b5', 1 ]
   let s:palette.grey = [ '#707070', 2 ]
   let s:pmenubg = [ '#241a20', 156 ]
-  let s:accent = [ g:accent_color, 209 ]
+  let s:accent = [ g:config['accent_color'], 209 ]
 
 else
   let s:darkbg = ['#131010', 237]
@@ -156,7 +156,7 @@ else
   let s:palette.fg = [ '#a5a0b5', 1 ]
   let s:palette.grey = [ '#707070', 2 ]
   let s:pmenubg = [ '#241a20', 156 ]
-  let s:accent = [ g:accent_color, 209 ]
+  let s:accent = [ g:config['accent_color'], 209 ]
 endif
 
 if !(exists('g:colors_name') && g:colors_name ==# 'my_sonokai' && s:configuration.better_performance)
