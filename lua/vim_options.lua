@@ -54,7 +54,7 @@ o.wrap = false
 -- would normally set 2 spaces after a period or question mark when
 -- reformatting / joining lines.
 -- gutter config. set numbers (5 digits max)
-o.number = true
+o.relativenumber = true
 o.numberwidth = 5
 -- set fillchars for folds
 o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
@@ -68,7 +68,7 @@ if vim.fn.has('nvim-0.9') == 1 then
   -- followed by a space
   -- followed by the fold gutter (foldlevel determines its width)
   -- followed by a vertical separator highlighted in the IndentBlankLineChar highlight groupo
-o.statuscolumn='%s%=%l %C%#IndentBlankLineChar#│ '
+o.statuscolumn='%s%=%r %C%#IndentBlankLineChar#│ '
 -- this requires fakefold.lua
 -- o.statuscolumn='%s%=%{v:wrap ? "" : v:lnum} %#FoldColumn#%@v:lua.StatusColumn.handler.fold@%{v:lua.StatusColumn.display.fold()}%#StatusColumnBorder#│%#StatusColumnBuffer#'
 else
