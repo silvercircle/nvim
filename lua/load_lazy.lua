@@ -34,13 +34,18 @@ local plugins = {
       'onsails/lspkind-nvim',
       'j-hui/fidget.nvim',
       'dnlhc/glance.nvim',
-      { 'williamboman/mason.nvim', cmd = "Mason" },
       { 'jose-elias-alvarez/null-ls.nvim', cond = vim.g.config.null_ls == true,
         config = function()
           require("setup_null_ls")
         end
       }
     }
+  },
+  {
+    'williamboman/mason.nvim', cmd = "Mason",
+    config = function()
+      require("mason").setup()
+    end
   },
 --  { 'williamboman/mason-lspconfig.nvim' },
   {'tpope/vim-liquid', ft = "liquid" },
@@ -74,12 +79,12 @@ local plugins = {
     dependencies = {
       { 'renerocksai/calendar-vim' },
     },
-    config = function()
-      require("setup_telekasten")
-    end
+    --config = function()
+    --  require("setup_telekasten")
+    --end
   },
   {
-    'folke/todo-comments.nvim', lazy = true,
+    'folke/todo-comments.nvim',
     config = function()
       require("setup_todo")
     end

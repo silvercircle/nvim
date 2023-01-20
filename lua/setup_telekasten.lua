@@ -91,7 +91,7 @@ require("telekasten").setup({
 
   -- tag list theme:
   -- get_cursor: small tag list at cursor; ivy and dropdown like above
-  show_tags_theme = "Telescope_dropdown_theme",
+  show_tags_theme = "get_cursor",
 
   -- when linking to a note in subdir/, create a [[subdir/title]] link
   -- instead of a [[title only]] link

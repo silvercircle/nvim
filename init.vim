@@ -16,6 +16,7 @@ require('vim_options')
 -- setup telescope as early as possible. it contains some globals (custom themes)
 -- that might be needed by other setup modules
 require("setup_telescope")
+require("setup_telekasten")
 -- setup all mandatory plugins
 require("setup_treesitter")
 require("setup_lsp")

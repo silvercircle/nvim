@@ -8,7 +8,7 @@
 -- To add or remove a plugin, just change its enable status
 
 -- NOTE: the environment variable NVIM_USE_PRIVATE_FORKS must be set (to anything) in order to use the private
--- forks of some plugins. 
+-- forks of some plugins.
 
 -- the following features are optional modules
 -- by default lsp, cmp, telescope, gitsigns, scrollbar and indent-blankline are always enabled
@@ -80,8 +80,8 @@ vim.g.lsp_server_bin = {
 -- forks of some plugins.
 -- Reason: I'm just experimenting with some plugins.
 -- This hack may go away without notice.
--- You REALLY should not use this and stick to the official plugins. It may
--- break the config
+
+-- You REALLY should not use this and stick to the official plugins. It may break the config
 vim.g.use_private_forks = false
 if os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil then
   vim.g.use_private_forks = true
