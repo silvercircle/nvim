@@ -61,7 +61,7 @@ Telescope_vertical_dropdown_theme = function(opts)
     fname_width = vim.g.config['telescope_fname_width'],
     sorting_strategy = "ascending",
     layout_strategy = "vertical",
-    path_display={absolute = true},
+    path_display={smart = true},
     layout_config = {
       width = lopts.width or 0.8,
       height = lopts.height or 0.9,

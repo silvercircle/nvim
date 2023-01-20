@@ -10,30 +10,34 @@
 -- NOTE: the environment variable NVIM_USE_PRIVATE_FORKS must be set (to anything) in order to use the private
 -- forks of some plugins.
 
--- the following features are optional modules
--- by default lsp, cmp, telescope, gitsigns, scrollbar and indent-blankline are always enabled
-
+-- when NVIM_PLAIN is set (to whatever value), the editor will start plain without a neotree and 
+-- terminal split.
 local env_plain = os.getenv("NVIM_PLAIN")
+
+-- this is the global config table. Since the migration to lazy, the features table is gone and
+-- no longer needed. load_lazy.lua handles all the plugin loading and deals with optional plugins.
 
 vim.g.config = {
   telescope_fname_width = 140,
-  theme_variant = 'warm',
-  nightly = vim.fn.has("nvim-0.9"),
-  use_cokeline = true,
+  nightly = vim.fn.has("nvim-0.9"),             -- TODO: fix this when 0.9 goes release
+  use_cokeline = true,                          -- when false, lualine handles the bufferline
   telescope_dropdown='bottom',
   accent_color = '#7faf00',
   alt_accent_color = '#00af7f',
+  -- the minipicker is the small telescope picker used for references, symbols and
+  -- treesitter-symbols. It also works in insert mode.
   minipicker_height = 0.8,
   minipicker_width = 50,
   minipicker_preview_height = 10,
   minipicker_iprefix = "#>",
   minipicker_anchor = "N",
   -- some optional plugins
-  mason = true,                   -- setup in setup_lsp.lua
-  null_ls = false,                -- setup by lazy loader
-  neodev = false,                 -- setup in setup_lsp.lua
-  treesitter_playground = false,  -- no setup required, optional
-  plain = env_plain ~= nil and true or false
+  mason = true,                                 -- on demand, setup in setup_lsp.lua
+  null_ls = false,                              -- setup by lazy loader
+  neodev = false,                               -- setup by lazy loader
+  treesitter_playground = false,                -- no setup required, optional, handled by setup_treesitter
+  plain = env_plain ~= nil and true or false,
+  use_rainbow_indentguides = false              -- for indent-blankline: rainbow-colorize indent guides
 }
 
 vim.g.theme = {

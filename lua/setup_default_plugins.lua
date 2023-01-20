@@ -65,7 +65,7 @@ require("lualine").setup({
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", "neo-tree", 'terminal', 'NvimTree', 'qf', 'lspsagaoutline'},
+      statusline = { "Outline", "neo-tree", 'terminal', 'Treesitter', 'qf', 'lspsagaoutline'},
       winbar = {},
       tabline = {},
     },
@@ -163,14 +163,14 @@ require("indent_blankline").setup({
   show_foldtext = false,
   -- „rainbow style“ indent guides - if you want it, uncomment it. the highlight groups are already
   -- defined in the my_sonokai scheme.
-  char_highlight_list = {
+  char_highlight_list = vim.g.config.use_rainbow_indentguides == true and {
     "IndentBlanklineIndent1",
     "IndentBlanklineIndent2",
     "IndentBlanklineIndent3",
     "IndentBlanklineIndent4",
     "IndentBlanklineIndent5",
     "IndentBlanklineIndent6",
-  },
+  } or {},
   filetype_exclude = {
     "startify"
   }
