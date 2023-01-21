@@ -38,7 +38,7 @@ command HTToggle if &fo =~ 't' | setlocal fo-=t | else | setlocal fo+=t | endif
 command AFManual setlocal fo-=a | setlocal fo-=w | setlocal fo-=c | setlocal fo-=q | setlocal fo-=t | setlocal fo-=l
 command AFAuto setlocal fo+=a | setlocal fo+=w | setlocal fo+=c | setlocal fo+=q | setlocal fo+=t | setlocal fo+=l
 
-map <C-f> <NOP>
+" map <C-f> <NOP>
 map <C-c> <NOP>
 
 lua require('vim_mappings_light')

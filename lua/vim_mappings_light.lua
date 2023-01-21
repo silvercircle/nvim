@@ -18,34 +18,34 @@ map('n', "<leader>,", '<CMD>Neotree toggle dir=%:p:h<CR>', opts)              --
 --  map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)            -- sync Nvim-Tree with current 
 --end
 
-map('n', '<C-Tab>', ':bnext<CR>', opts)
-map('n', '<leader><Tab>', ":bnext<CR>", opts)
+map('n', '<C-Tab>', '<CMD>bnext<CR>', opts)
+map('n', '<leader><Tab>', "<CMD>bnext<CR>", opts)
 
 -- map some keys to toggle formatting options
 -- the vimscript functions are defined in the init.vim
-map('i', "<C-f><C-a>", '<c-o>:AFToggle<CR>', opts)
-map('n', "<C-f><C-a>", ':AFToggle<CR>', opts)
+map('i', "<C-f><C-a>", '<c-o><CMD>AFToggle<CR>', opts)
+map('n', "<C-f><C-a>", '<CMD>AFToggle<CR>', opts)
 
-map('i', "<C-f><C-c>", '<c-o>:CFToggle<CR>', opts)
-map('n', "<C-f><C-c>", ':CFToggle<CR>', opts)
+map('i', "<C-f><C-d>", '<c-o><CMD>CFToggle<CR>', opts)
+map('n', "<C-f><C-d>", '<CMD>CFToggle<CR>', opts)
 
-map('i', "<C-f><C-w>", '<c-o>:HWToggle<CR>', opts)
-map('n', "<C-f><C-w>", ':HWToggle<CR>', opts)
+map('i', "<C-f><C-w>", '<c-o><CMD>HWToggle<CR>', opts)
+map('n', "<C-f><C-w>", '<CMD>HWToggle<CR>', opts)
 
-map('i', "<C-f><C-t>", '<c-o>:HTToggle<CR>', opts)
-map('n', "<C-f><C-t>", ':HTToggle<CR>', opts)
+map('i', "<C-f><C-t>", '<c-o><CMD>HTToggle<CR>', opts)
+map('n', "<C-f><C-t>", '<CMD>HTToggle<CR>', opts)
 
-map('i', "<C-f>1", '<c-o>:AutowrapOn<CR>', opts)
-map('n', "<C-f>1", ':AutowrapOn<CR>', opts)
+map('i', "<C-f>1", '<c-o><CMD>AutowrapOn<CR>', opts)
+map('n', "<C-f>1", '<CMD>AutowrapOn<CR>', opts)
 
-map('i', "<C-f>2", '<c-o>:AutowrapOff<CR>', opts)
-map('n', "<C-f>2", ':AutowrapOff<CR>', opts)
+map('i', "<C-f>2", '<c-o><CMD>AutowrapOff<CR>', opts)
+map('n', "<C-f>2", '<CMD>AutowrapOff<CR>', opts)
 
-map('i', "<C-f>f", '<c-o>:AFManual<CR>', opts)
-map('n', "<C-f>f", ':AFManual<CR>', opts)
+map('i', "<C-f>f", '<c-o><CMD>AFManual<CR>', opts)
+map('n', "<C-f>f", '<CMD>AFManual<CR>', opts)
 
-map('i', "<C-f>a", '<c-o>:AFAuto<CR>', opts)
-map('n', "<C-f>a", ':AFAuto<CR>', opts)
+map('i', "<C-f>a", '<c-o><CMD>AFAuto<CR>', opts)
+map('n', "<C-f>a", '<CMD>AFAuto<CR>', opts)
 
 map('v', "<leader>V", ':!fmt -110<CR>', opts)
 map('v', "<leader>y", ':!fmt -85<CR>', opts)
