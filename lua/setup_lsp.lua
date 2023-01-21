@@ -254,6 +254,7 @@ lspconfig.pyright.setup({
   cmd = { vim.g.lsp_server_bin['pyright'], '--stdio' },
   on_attach = on_attach
 })
+
 local lua_root_files = {
   '.luarc.json',
   '.luarc.jsonc',

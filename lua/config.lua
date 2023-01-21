@@ -22,8 +22,10 @@ vim.g.config = {
   nightly = vim.fn.has("nvim-0.9"),             -- TODO: fix this when 0.9 goes release
   use_cokeline = true,                          -- when false, lualine handles the bufferline
   telescope_dropdown='bottom',
-  accent_color = '#7faf00',
-  alt_accent_color = '#00af7f',
+  -- accent color is used for important highlights like the currently selected tab (buffer) 
+  -- and more.
+  accent_color = '#6fbf00',
+  alt_accent_color = '#bd2f4f',
   -- the minipicker is the small telescope picker used for references, symbols and
   -- treesitter-symbols. It also works in insert mode.
   minipicker_height = 0.8,
@@ -41,7 +43,8 @@ vim.g.config = {
 }
 
 vim.g.theme = {
-  variant = "warm"     -- "warm" gives a slight red-ish ting, "cold" a more blue-ish
+  variant = "warm",     -- "warm" gives a slight red-ish tint for some backgrounds. "cold" a more blue-ish
+  desaturate = true     -- true: desaturate some colors to get a more "pastel" look with less intense colors
 }
 
 local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'
@@ -78,7 +81,7 @@ vim.g.lsp_server_bin = {
 -- Reason: I'm just experimenting with some plugins.
 -- This hack may go away without notice.
 
--- You REALLY should not use this and stick to the official plugins. It may break the config
+-- You REALLY should not use this and stick to the official plugins.
 vim.g.use_private_forks = false
 if os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil then
   vim.g.use_private_forks = true
@@ -118,7 +121,7 @@ vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' 
 
 local LuaLineColors
 
-if vim.g.theme_variant == 'cold' then
+if vim.g.theme.variant == 'cold' then
   LuaLineColors = {
     white          = '#ffffff',
     darkestgreen   = '#003f00',
@@ -127,7 +130,7 @@ if vim.g.theme_variant == 'cold' then
     mediumcyan     = '#87dfff',
     darkestblue    = '#005f87',
     darkred        = '#870000',
-    brightred      = '#df0000',
+    brightred      = vim.g.config.alt_accent_color,
     brightorange   = '#ff8700',
     gray1          = '#262626',
     gray2          = '#303030',
@@ -146,7 +149,7 @@ else
     mediumcyan     = '#87dfff',
     darkestblue    = '#005f87',
     darkred        = '#870000',
-    brightred      = '#df0000',
+    brightred      = vim.g.config.alt_accent_color,
     brightorange   = '#ff8700',
     gray1          = '#262626',
     gray2          = '#303030',
@@ -180,7 +183,6 @@ function Lualine_internal_theme()
     insert = {
       a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' },
       b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
-      -- c = { fg = LuaLineColors.mediumcyan, bg = LuaLineColors.darkestblue },
       c = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
     },
     visual = { a = { fg = LuaLineColors.darkred, bg = LuaLineColors.brightorange, gui = 'bold' } },

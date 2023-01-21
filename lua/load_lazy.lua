@@ -1,4 +1,5 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+-- bootstrap lazy
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -66,7 +67,11 @@ local plugins = {
   'lewis6991/gitsigns.nvim',
   'lukas-reineke/indent-blankline.nvim',
   'petertriho/nvim-scrollbar',
-  'stevearc/dressing.nvim',
+  { 'stevearc/dressing.nvim',
+    config = function()
+      require("setup_dressing")
+    end
+  },
   { dir = '~/.config/nvim/local_plugin/local_utils' },
   { 'voldikss/vim-floaterm', cmd = {"FloatermNew", "FloatermToggle"} },
   { 'preservim/vim-markdown', ft = "markdown" },

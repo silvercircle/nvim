@@ -32,6 +32,18 @@ function! my_sonokai#get_configuration()
         \ }
 endfunction
 
+if g:theme['desaturate'] == v:true
+  let s:orange = ['#ab6a6c', 215]
+  let s:string = ['#40804f', 231]
+  let s:blue =   ['#5a6acf', 239]
+  let s:purple = ['#b070b0', 241]
+else
+  let s:string = ['#10801f', 231]
+  let s:orange = ['#c36630', 215]
+  let s:blue =   ['#4a4adf', 239]
+  let s:purple = ['#c030c0', 241]
+endif
+
 " The default variant is "warm"
 if g:theme['variant'] == 'cold'
   let palette = {
@@ -45,7 +57,7 @@ if g:theme['variant'] == 'cold'
         \ 'bg_red':     ['#ff6077',   '203'],
         \ 'diff_red':   ['#55393d',   '52'],
         \ 'bg_green':   ['#a7df78',   '107'],
-        \ 'diff_green': ['#394634',   '22'],
+        \ 'diff_green': ['#697664',   '22'],
         \ 'bg_blue':    ['#85d3f2',   '110'],
         \ 'diff_blue':  ['#354157',   '17'],
         \ 'diff_yellow':['#4e432f',   '54'],
@@ -53,7 +65,7 @@ if g:theme['variant'] == 'cold'
         \ 'fg_dim':     ['#959290',   '251'],
         \ 'red':        ['#cc2d4c',   '203'],
         \ 'palered':    ['#8b2d3c',   '203'],
-        \ 'orange':     ['#c36630',   '215'],
+        \ 'orange':     s:orange,
         \ 'yellow':     ['#e7c664',   '179'],
         \ 'darkyellow': ['#a78624',   '180'],
         \ 'green':      ['#9ed072',   '107'],
@@ -78,7 +90,7 @@ else
         \ 'bg_red':     ['#ff6077',   '203'],
         \ 'diff_red':   ['#55393d',   '52'],
         \ 'bg_green':   ['#a7df78',   '107'],
-        \ 'diff_green': ['#394634',   '22'],
+        \ 'diff_green': ['#697664',   '22'],
         \ 'bg_blue':    ['#85d3f2',   '110'],
         \ 'diff_blue':  ['#354157',   '17'],
         \ 'diff_yellow':['#4e432f',   '54'],
@@ -86,7 +98,7 @@ else
         \ 'fg_dim':     ['#959290',   '251'],
         \ 'red':        ['#cc2d4c',   '203'],
         \ 'palered':    ['#8b2d3c',   '203'],
-        \ 'orange':     ['#c36630',   '215'],
+        \ 'orange':     s:orange,
         \ 'yellow':     ['#e7c664',   '179'],
         \ 'darkyellow': ['#a78624',   '180'],
         \ 'green':      ['#9ed072',   '107'],
@@ -127,13 +139,10 @@ let g:sonokai_loaded_file_types = []
 if g:theme['variant'] == 'cold'
   let s:darkbg = ['#101013', 237]
   let s:teal = ['#108080', 238]
-  let s:blue = ['#5a6acf', 239]
   let s:darkpurple = ['#803090', 240]
-  let s:purple = ['#c030c0', 241]
   let s:darkred = ['#601010', 249]
   let s:darkestred = ['#161616', 249]
   let s:darkestblue = ['#10101a', 247]
-  let s:string = ['#10801f', 231]
   let s:bg = ['#141414', 0]
   let s:statuslinebg = [ g:statuslinebg, 208 ]
   let s:palette.fg = [ '#a5a0b5', 1 ]
@@ -144,13 +153,10 @@ if g:theme['variant'] == 'cold'
 else
   let s:darkbg = ['#131010', 237]
   let s:teal = ['#108080', 238]
-  let s:blue = ['#5a6acf', 239]
   let s:darkpurple = ['#803090', 240]
-  let s:purple = ['#c030c0', 241]
   let s:darkred = ['#601010', 249]
   let s:darkestred = ['#161616', 249]
   let s:darkestblue = ['#10101a', 247]
-  let s:string = ['#10801f', 231]
   let s:bg = ['#161414', 0]
   let s:statuslinebg = [ g:statuslinebg, 208 ]
   let s:palette.fg = [ '#a5a0b5', 1 ]
@@ -352,7 +358,7 @@ call my_sonokai#highlight('SpecialChar', s:palette.purple, s:palette.none)
 call my_sonokai#highlight('Boolean', s:palette.palered, s:palette.none)
 call my_sonokai#highlight('String', s:string, s:palette.none)
 call my_sonokai#highlight('Character', s:palette.yellow, s:palette.none)
-call my_sonokai#highlight('Number', s:palette.purple, s:palette.none, 'bold')
+call my_sonokai#highlight('Number', s:purple, s:palette.none, 'bold')
 call my_sonokai#highlight('Float', s:palette.purple, s:palette.none)
 call my_sonokai#highlight('Function', s:teal, s:palette.none, 'bold')
 call my_sonokai#highlight('Operator', s:palette.red, s:palette.none, 'bold')
@@ -517,7 +523,7 @@ highlight! link TSLabel Red
 highlight! link TSMethod TealBold
 highlight! link TSNamespace DarkPurpleBold
 highlight! link TSNone Fg
-highlight! link TSNumber PurpleBold
+highlight! link TSNumber Number
 highlight! link TSOperator RedBold
 highlight! link TSParameter Fg
 highlight! link TSParameterReference Fg
@@ -690,7 +696,7 @@ call my_sonokai#highlight('TelescopeNormal', s:palette.fg_dim, s:palette.black)
 call my_sonokai#highlight('TelescopeTitle', s:palette.black, s:accent, 'bold')
 
 highlight! link TelescopePromptPrefix Blue
-highlight! link TelescopeSelection DiffAdd
+highlight! link TelescopeSelection Visual
 " }}}
 " lewis6991/gitsigns.nvim {{{
 highlight! link GitSignsAdd GreenSign

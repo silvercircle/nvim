@@ -19,7 +19,6 @@ require("setup_telescope")
 -- setup all mandatory plugins
 require("setup_lsp")
 require("setup_cmp")
-require('setup_dressing')
 require('setup_default_plugins')
 EOB
 
