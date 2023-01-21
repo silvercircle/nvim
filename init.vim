@@ -40,6 +40,7 @@ command AFAuto setlocal fo+=a | setlocal fo+=w | setlocal fo+=c | setlocal fo+=q
 
 " map <C-f> <NOP>
 map <C-c> <NOP>
+imap <C-c> <NOP>
 
 lua require('vim_mappings_light')
 
@@ -182,9 +183,9 @@ function! TermToggle(height)
 endfunction
 
 " Alt-t toggles the term in a 12 row split below
-nnoremap <f11> :call TermToggle(12)<CR>
-inoremap <f11> <Esc>:call TermToggle(12)<CR>
-tnoremap <f11> <C-\><C-n>:call TermToggle(12)<CR>
+nnoremap <f11> <CMD>call TermToggle(12)<CR>
+inoremap <f11> <Esc><CMD>call TermToggle(12)<CR>
+tnoremap <f11> <C-\><C-n><CMD>call TermToggle(12)<CR>
 " remap <ESC> to escape terminal mode
 tnoremap <Esc> <C-\><C-n>
 " silent! set statuscolumn=%@SignCb@%=%s%=%T%#NumCb#%l\ %C%#IndentBlankLineChar#│\ 

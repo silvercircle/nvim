@@ -26,8 +26,8 @@ map('n', '<leader><Tab>', "<CMD>bnext<CR>", opts)
 map('i', "<C-f><C-a>", '<c-o><CMD>AFToggle<CR>', opts)
 map('n', "<C-f><C-a>", '<CMD>AFToggle<CR>', opts)
 
-map('i', "<C-f><C-d>", '<c-o><CMD>CFToggle<CR>', opts)
-map('n', "<C-f><C-d>", '<CMD>CFToggle<CR>', opts)
+map('i', "<C-f><C-c>", '<c-o><CMD>CFToggle<CR>', opts)
+map('n', "<C-f><C-c>", '<CMD>CFToggle<CR>', opts)
 
 map('i', "<C-f><C-w>", '<c-o><CMD>HWToggle<CR>', opts)
 map('n', "<C-f><C-w>", '<CMD>HWToggle<CR>', opts)
@@ -54,8 +54,8 @@ map('n', "<leader>v", "}kV{j", opts)        -- select current paragraph
 
 -- Ctrl-x Ctrl-s save the file if modified (use update command). Also,
 -- create a view to save state
-map('i', "<C-x><C-s>", '<c-o>:update!<CR>', opts)
-map('n', "<C-x><C-s>", ':update!<CR>', opts)
+map('i', "<C-x><C-s>", '<c-o><CMD>update!<CR>', opts)
+map('n', "<C-x><C-s>", '<CMD>update!<CR>', opts)
 
 -- Ctrl-x Ctrl-c close the file, do NOT save it(!) but create the view to save folding state and
 -- cursor position. if g.confirm_actions['buffer_close'] is true then a warning message and a 
@@ -63,8 +63,8 @@ map('n', "<C-x><C-s>", ':update!<CR>', opts)
 map('n', "<C-x><C-c>", ':lua require("local_utils").BufClose()<CR>', opts)
 
 -- switch off highlighted search results
-map('n', "<f5>", ':nohl<CR>', opts)
-map('i', "<f5>", '<c-o>:nohl<CR>', opts)
+map('n', "<f5>", '<CMD>nohl<CR>', opts)
+map('i', "<f5>", '<c-o><CMD>nohl<CR>', opts)
 
 -- various
 map('i', "<C-y>-", "—", opts)        -- emdash
@@ -79,14 +79,14 @@ map('n', "<A-Down>", "<c-w><Down>", opts)
 map('n', "<A-Up>", "<c-w><Up>", opts)
 
 -- quickfix navigation
-map('n', "<C-f>c", ":cclose<CR>", opts)
-map('i', "<C-f>c", "<c-o>:cclose<CR>", opts)
+map('n', "<C-f>c", "<CMD>cclose<CR>", opts)
+map('i', "<C-f>c", "<c-o><CMD>cclose<CR>", opts)
 
-map('n', "<C-f>d", ":cnext<CR>", opts)
-map('i', "<C-f>d", "<c-o>:cnext<CR>", opts)
+map('n', "<C-f>d", "<CMD>cnext<CR>", opts)
+map('i', "<C-f>d", "<c-o><CMD>cnext<CR>", opts)
 
-map('n', "<C-f>u", ":cprev<CR>", opts)
-map('i', "<C-f>u", "<c-o>:cprev<CR>", opts)
+map('n', "<C-f>u", "<CMD>cprev<CR>", opts)
+map('i', "<C-f>u", "<c-o><CMD>cprev<CR>", opts)
 
 -- hlslens
 local kopts = {noremap = true, silent = true}
