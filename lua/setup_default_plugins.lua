@@ -172,7 +172,8 @@ require("indent_blankline").setup({
     "IndentBlanklineIndent6",
   } or {},
   filetype_exclude = {
-    "startify"
+    "startify",
+    "help"
   }
 })
 
@@ -369,4 +370,9 @@ require("quickfavs").setup({
  }
 })
 require('mini.move').setup()
+
+require('editorconfig').properties.textwidth = function(bufnr, val, opts)
+  -- print("editorconfig textwidth to " .. val .. " for " .. bufnr)
+  vim.api.nvim_buf_set_option(bufnr, "textwidth", tonumber(val))
+end
 

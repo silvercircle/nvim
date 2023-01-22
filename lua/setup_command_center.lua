@@ -5,6 +5,7 @@ Command_center = require("command_center")
 local noremap = {noremap = true}
 local lsputil = require('lspconfig.util')
 
+-- this is a helper for mini pickers like references and symbols.
 local minipicker_layout = {
   height = vim.g.config.minipicker_height,
   width = vim.g.config.minipicker_width,

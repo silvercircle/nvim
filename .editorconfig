@@ -12,6 +12,7 @@ charset = utf-8
 [*.{js,py,css,scss,nim,lua,vim}]
 indent_style = space
 indent_size = 2
+textwidth=128
 
 # Tab indentation (no size specified)
 [Makefile]

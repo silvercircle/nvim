@@ -183,7 +183,7 @@ cmp.setup({
     { name = "path", priority = 30 },
     { name = "luasnip", priority = 100, group_index = 1, keyword_length = 2 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
-    { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 2 },
+    { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 3 },
     { name = 'emoji', priority = 10 }  -- cmp-emoji source
   },
   sorting = {
