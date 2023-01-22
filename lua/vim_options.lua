@@ -70,7 +70,7 @@ if vim.fn.has('nvim-0.9') == 1 then
 --o.statuscolumn="%s%=%r %C%#IndentBlankLineChar#│ "
 --print("set to " .. vim.g.config.statuscol_normal)
 --o.statuscolumn = vim.g.config.statuscol_normal
-Set_statuscol('normal')
+Set_statuscol(Statuscol_current)
 -- this requires fakefold.lua
 -- o.statuscolumn='%s%=%{v:wrap ? "" : v:lnum} %#FoldColumn#%@v:lua.StatusColumn.handler.fold@%{v:lua.StatusColumn.display.fold()}%#StatusColumnBorder#│%#StatusColumnBuffer#'
 else

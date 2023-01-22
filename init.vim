@@ -98,8 +98,9 @@ augroup filetypes
   autocmd FileType Treesitter silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal nonumber | setlocal norelativenumber | silent setlocal statuscolumn= | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC
   autocmd FileType Outline,lspsagaoutline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=Outline | setlocal winhl=Normal:NeoTreeNormalNC
   autocmd FileType alpha silent! setlocal statuscolumn=
-  autocmd InsertEnter * lua Set_statuscol('rel')
-  autocmd InsertLeave * lua Set_statuscol('normal')
+  " this might be nice, but too annoying. I prefer manual toggle (<C-l><C-l>)
+  " autocmd InsertEnter * lua Set_statuscol('rel')
+  " autocmd InsertLeave * lua Set_statuscol('normal')
 augroup end
 
 " create a view (save folding state and cursor position)
