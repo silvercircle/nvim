@@ -163,7 +163,6 @@ local function close_insertmode(prompt_bufnr)
 end
 
 local function select_insertmode(prompt_bufnr)
-  print("select insertmode")
   local current = actionstate.get_current_picker(prompt_bufnr)
   if current.prompt_prefix == "@>" then
     vim.api.nvim_input("i")

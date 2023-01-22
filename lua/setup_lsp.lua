@@ -293,6 +293,8 @@ lspconfig.sumneko_lua.setup {
   },
 }
 
+require("lsp.jdtls")
+
 -------------------------
 -- LSP Handlers (general)
 -------------------------

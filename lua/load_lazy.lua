@@ -127,8 +127,8 @@ local plugins = {
     config = function ()
       if vim.g.config.plain == false then
         local theme = require("alpha.themes.startify")
-        local handle = io.popen("fortune science politics|cowsay -W 100")
-        local result = {"", "", ""}
+        local handle = io.popen("fortune science politics|cowsay -W 120")
+        local result = {"",""}
         if handle ~= nil then
           local lines = handle:lines()
           for line in lines do
@@ -140,7 +140,8 @@ local plugins = {
         require'alpha'.setup(theme.config)
       end
     end
-  }
+  },
+  --"folke/which-key.nvim"
 }
 
 -- for experimental purpose, I use some private forks and local repos.
@@ -191,7 +192,7 @@ local plugins_private = {
           })
         end
       },
-      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-buffer'
     },
     config = function()
       require("setup_cmp")
@@ -206,7 +207,7 @@ local plugins_official = {
       require("setup_outline")
     end
   },
-  -- cmp and 
+  -- cmp and all its helpers
   { 'hrsh7th/nvim-cmp',
     lazy = true,
     event = { "InsertEnter", "CmdLineEnter" },
@@ -227,7 +228,8 @@ local plugins_official = {
             telescope_theme = Telescope_vertical_dropdown_theme
           })
         end
-      }
+      },
+      'hrsh7th/cmp-buffer'
     },
     config = function()
       require("setup_cmp")

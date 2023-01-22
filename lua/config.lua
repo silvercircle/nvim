@@ -78,8 +78,10 @@ vim.g.lsp_server_bin = {
   tsserver = masonbinpath .. 'typescript-language-server',
   html = masonbinpath .. 'vscode-html-language-server',
   yamlls = masonbinpath .. 'yaml-language-server',
-  als = masonbinpath .. 'ada_language_server'
+  als = masonbinpath .. 'ada_language_server',
+  jdtls = masonbinpath .. 'jdtls'
 }
+
 
 -- ugly but working hack. If $NVIM_USE_PRIVATE_FORKS is set (to anything), we will use private
 -- forks of some plugins.
