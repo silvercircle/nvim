@@ -20,22 +20,30 @@ local plugins = {
   -- telescope + extensions, mandatory
   {
     'nvim-telescope/telescope.nvim', branch = '0.1.x',
-    lazy = true,
     dependencies = {
       'nvim-telescope/telescope-file-browser.nvim',
       'tom-anders/telescope-vim-bookmarks.nvim',
-      'FeiyouG/command_center.nvim',
+      { 'FeiyouG/command_center.nvim' },
       { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
-    }
+    },
+    config = function()
+      -- require("setup_telescope")
+    end
   },
   {'nvim-treesitter/nvim-treesitter',
     config = function()
       require("setup_treesitter")
     end
   },
-  'L3MON4D3/LuaSnip',
+  { 'L3MON4D3/LuaSnip',
+    lazy = true,
+    config = function()
+      require("luasnip.loaders.from_snipmate").lazy_load()
+    end
+  },
   -- lsp
   { 'neovim/nvim-lspconfig',
+    lazy = true,
     dependencies = {
       'onsails/lspkind-nvim',
       'j-hui/fidget.nvim',
@@ -45,11 +53,14 @@ local plugins = {
           require("setup_null_ls")
         end
       }
-    }
+    },
+    config = function()
+      require("setup_lsp")
+    end
   },
   {
     'williamboman/mason.nvim', cmd = "Mason",
-    config = function()
+    config =function()
       require("mason").setup()
     end
   },
@@ -62,7 +73,6 @@ local plugins = {
   'MattesGroeger/vim-bookmarks',
   'sharkdp/fd',
   'BurntSushi/ripgrep',
-  'mhinz/vim-startify',
   'kevinhwang91/nvim-hlslens',
   'lewis6991/gitsigns.nvim',
   'lukas-reineke/indent-blankline.nvim',
@@ -111,13 +121,46 @@ local plugins = {
     config = function()
       require("setup_noice")
     end
+  },
+  { 'goolord/alpha-nvim',
+    cond = vim.g.config.plain == false,
+    config = function ()
+      if vim.g.config.plain == false then
+        local theme = require("alpha.themes.startify")
+        local handle = io.popen("fortune science politics|cowsay -W 100")
+        local result = {"", "", ""}
+        if handle ~= nil then
+          local lines = handle:lines()
+          for line in lines do
+            table.insert(result, line)
+          end
+          handle:close()
+          theme.section.header.val = result
+        end
+        require'alpha'.setup(theme.config)
+      end
+    end
   }
 }
 
 -- for experimental purpose, I use some private forks and local repos.
 -- plugins_official (see below) contains the same stuff..
 local plugins_private = {
-  { dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim' },
+  {
+    dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim',
+    lazy = true,
+    config = function()
+      require("quickfavs").setup({
+       telescope_theme = Telescope_dropdown_theme,
+       file_browser_theme = {
+         theme = Telescope_vertical_dropdown_theme,
+         layout_config = {
+           preview_height = 0.4
+         }
+       }
+      })
+    end
+  },
   {
     'silvercircle/symbols-outline.nvim', cmd = "SymbolsOutline",
     config = function()
@@ -128,6 +171,7 @@ local plugins_private = {
   {
     dir = '/mnt/shared/data/code/neovim_plugins/nvim-cmp',
     lazy = true,
+    event = { "InsertEnter", "CmdLineEnter" },
     dependencies = {
       'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-nvim-lsp',
@@ -146,9 +190,13 @@ local plugins_private = {
             telescope_theme = Telescope_dropdown_theme
           })
         end
-      }
-    }
-  },
+      },
+      'hrsh7th/cmp-buffer',
+    },
+    config = function()
+      require("setup_cmp")
+    end
+  }
 }
 
 local plugins_official = {
@@ -161,6 +209,7 @@ local plugins_official = {
   -- cmp and 
   { 'hrsh7th/nvim-cmp',
     lazy = true,
+    event = { "InsertEnter", "CmdLineEnter" },
     dependencies = {
       'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-nvim-lsp',
@@ -179,7 +228,10 @@ local plugins_official = {
           })
         end
       }
-    }
+    },
+    config = function()
+      require("setup_cmp")
+    end
   },
   'https://gitlab.com/silvercircle74/quickfavs.nvim'
 }
@@ -196,3 +248,4 @@ else
 end
 
 require("lazy").setup(plugins)
+

@@ -172,7 +172,7 @@ require("indent_blankline").setup({
     "IndentBlanklineIndent6",
   } or {},
   filetype_exclude = {
-    "startify",
+    "alpha",
     "help"
   }
 })
@@ -313,7 +313,7 @@ require("scrollbar").setup({
     "DressingInput",
     "mason",
     "lazy",
-    "startify",
+    "alpha",
     "lspinfo"
   },
   autocmd = {
@@ -360,19 +360,11 @@ require 'colorizer'.setup {
   }
 }
 
-require("quickfavs").setup({
- telescope_theme = Telescope_dropdown_theme,
- file_browser_theme = {
-   theme = Telescope_vertical_dropdown_theme,
-   layout_config = {
-     preview_height = 0.4
-   }
- }
-})
 require('mini.move').setup()
 
 require('editorconfig').properties.textwidth = function(bufnr, val, opts)
   -- print("editorconfig textwidth to " .. val .. " for " .. bufnr)
   vim.api.nvim_buf_set_option(bufnr, "textwidth", tonumber(val))
 end
+
 

@@ -17,8 +17,8 @@ require('vim_options')
 -- that might be needed by other setup modules
 require("setup_telescope")
 -- setup all mandatory plugins
-require("setup_lsp")
-require("setup_cmp")
+-- require("setup_lsp")
+-- require("setup_cmp")
 require('setup_default_plugins')
 EOB
 
@@ -97,7 +97,9 @@ augroup filetypes
   autocmd FileType mail setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de
   autocmd FileType Treesitter silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal nonumber | setlocal norelativenumber | silent setlocal statuscolumn= | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC
   autocmd FileType Outline,lspsagaoutline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=Outline | setlocal winhl=Normal:NeoTreeNormalNC
-  autocmd FileType startify silent! setlocal statuscolumn=
+  autocmd FileType alpha silent! setlocal statuscolumn=
+  autocmd InsertEnter * lua Set_statuscol('rel')
+  autocmd InsertLeave * lua Set_statuscol('normal')
 augroup end
 
 " create a view (save folding state and cursor position)

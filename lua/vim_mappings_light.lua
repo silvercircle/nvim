@@ -159,4 +159,12 @@ vim.keymap.set('i', "<f16>", function() local key = vim.api.nvim_replace_termcod
 vim.keymap.set('n', "<f27>", function() vim.api.nvim_feedkeys('zO', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
 vim.keymap.set('i', "<f27>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zO", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
 
+map('n', "<C-S-Left>", "<C-o>", opts)
+map('n', "<C-S-Right>", "<C-i>", opts)
+map('i', "<C-S-Left>", "<c-o><C-o>", opts)
+map('i', "<C-S-Right>", "<c-o><C-i>", opts)
+
+map('n', "<f23>", "<CMD>Lazy<CR>", opts)
+vim.keymap.set('n', "<C-l><C-l>", function() Toggle_statuscol() end, opts)
+vim.keymap.set('i', "<C-l><C-l>", function() Toggle_statuscol() end, opts)
 

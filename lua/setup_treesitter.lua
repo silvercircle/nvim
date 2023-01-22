@@ -16,7 +16,7 @@ ft_to_parser.objcpp = 'objc'
 require("nvim-treesitter.configs").setup({
   auto_install = false,
   -- NOTE: Problem parsers: JavaScript is slow, scala lacks Scala3 syntax.
-  ensure_installed = { "c", "cpp", "lua", "vim", "python", "rust", "dart", "go", "c_sharp" },
+  ensure_installed = { "c", "cpp", "lua", "vim", "python", "rust", "dart", "go", "c_sharp", "scala" },
   playground = {
     enable = vim.g.config.treesitter_playground,
     disable = {},

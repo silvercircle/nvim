@@ -1,6 +1,9 @@
 -- nvim-cmp: completion support
 local cmp_helper = {}
 
+local cmp_buffer_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true }
+local cmp_buffer = require('cmp_buffer')
+
 -- helper function for cmp <TAB> mapping.
 local has_words_before = function()
   if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
@@ -11,7 +14,7 @@ local has_words_before = function()
 end
 
 local luasnip = require("luasnip")
-require("luasnip.loaders.from_snipmate").load()
+
 local cmp = require("cmp")
 local cmp_types = require("cmp.types.cmp")
 local max_abbr_item_width = 40
@@ -184,10 +187,29 @@ cmp.setup({
     { name = "luasnip", priority = 100, group_index = 1, keyword_length = 2 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
     { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 3 },
-    { name = 'emoji', priority = 10 }  -- cmp-emoji source
+    { name = 'emoji', priority = 10 },  -- cmp-emoji source
+    { name = 'buffer',
+      option = {
+        max_indexed_line_length = 1024,
+        get_bufnrs = function()
+          local buf = vim.api.nvim_get_current_buf()
+          local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+          local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+          if cmp_buffer_allowed[ft] == nil then
+            print("cmp_buffer: filetype " .. ft .. " not allowed")
+            return {}
+          end
+          if byte_size > 1024 * 500 then -- 300kb
+            return {}
+          end
+          return { buf }
+        end
+      }
+    }
   },
   sorting = {
     comparators = {
+      -- function(...) return cmp_buffer:compare_locality(...) end,
       cmp.config.compare.offset,
       cmp.config.compare.exact,
       cmp.config.compare.score,

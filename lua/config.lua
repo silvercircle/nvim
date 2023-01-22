@@ -24,7 +24,7 @@ vim.g.config = {
   telescope_dropdown='bottom',
   -- accent color is used for important highlights like the currently selected tab (buffer) 
   -- and more.
-  accent_color = '#6fbf00',
+  accent_color = '#dbaf00',
   alt_accent_color = '#bd2f4f',
   -- the minipicker is the small telescope picker used for references, symbols and
   -- treesitter-symbols. It also works in insert mode.
@@ -39,8 +39,13 @@ vim.g.config = {
   neodev = false,                               -- setup by lazy loader
   treesitter_playground = false,                -- no setup required, optional, handled by setup_treesitter
   plain = env_plain ~= nil and true or false,
-  use_rainbow_indentguides = false              -- for indent-blankline: rainbow-colorize indent guides
+  use_rainbow_indentguides = false,             -- for indent-blankline: rainbow-colorize indent guides
+  statuscol_normal = '%s%#LineNr#%=%{printf("%4d", v:lnum)} %C%#IndentBlankLineChar#│ ',
+  statuscol_rel = '%s%#LineNr#%=%{printf("%4d", v:relnum)} %C%#IndentBlankLineChar#│ ',
+  statuscol_default = 'normal'
 }
+
+Statuscol_current = 'normal'
 
 vim.g.theme = {
   variant = "warm",     -- "warm" gives a slight red-ish tint for some backgrounds. "cold" a more blue-ish
@@ -131,7 +136,7 @@ if vim.g.theme.variant == 'cold' then
     darkestblue    = '#005f87',
     darkred        = '#870000',
     brightred      = vim.g.config.alt_accent_color,
-    brightorange   = '#ff8700',
+    brightorange   = '#2f47df',
     gray1          = '#262626',
     gray2          = '#303030',
     gray4          = '#585858',
@@ -150,7 +155,7 @@ else
     darkestblue    = '#005f87',
     darkred        = '#870000',
     brightred      = vim.g.config.alt_accent_color,
-    brightorange   = '#ff8700',
+    brightorange   = '#2f47df',
     gray1          = '#262626',
     gray2          = '#303030',
     gray4          = '#585858',
@@ -185,7 +190,7 @@ function Lualine_internal_theme()
       b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
       c = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
     },
-    visual = { a = { fg = LuaLineColors.darkred, bg = LuaLineColors.brightorange, gui = 'bold' } },
+    visual = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightorange, gui = 'bold' } },
     replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' } },
     inactive = {
       a = { fg = LuaLineColors.gray4, bg = LuaLineColors.statuslinebg, gui = 'bold' },
@@ -234,3 +239,33 @@ end
 
 -- load the color theme
 vim.cmd [[silent! colorscheme my_sonokai]]
+
+function Set_statuscol(mode)
+  if mode == 'normal' then
+    Statuscol_current = 'normal'
+    vim.o.statuscolumn = vim.g.config.statuscol_normal
+    vim.o.relativenumber = false
+    vim.o.numberwidth=5
+    vim.o.number = true
+    return
+  elseif mode == 'rel' then
+    Statuscol_current = 'rel'
+    vim.o.statuscolumn = vim.g.config.statuscol_rel
+    vim.o.relativenumber = true
+    vim.o.numberwidth=5
+    vim.o.number = false
+    return
+  end
+end
+
+function Toggle_statuscol()
+  if Statuscol_current == 'normal' then
+    Set_statuscol('rel')
+    return
+  end
+  if Statuscol_current == 'rel' then
+    Set_statuscol('normal')
+    return
+  end
+end
+
