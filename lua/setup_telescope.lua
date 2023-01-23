@@ -3,112 +3,13 @@ local actions = require("telescope.actions")
 local actionset = require("telescope.actions.set")
 local actionstate = require("telescope.actions.state")
 local actions_fb = require("telescope").extensions.file_browser.actions
-local themes = require("telescope.themes")
+-- local themes = require("telescope.themes")
 
 -- add all the commands and mappings to the command_center plugin.
 -- since this is a lot of code, it's outsourced but really belongs here.
-require('setup_command_center')
+local command_center = require('command_center')
 
 local insert_mode_prefix = "#>"
-
-local border_layout_bottom_vertical = {
-  results = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
-  prompt = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
-  preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
-}
-
-local border_layout_top_center = {
-  prompt = {"─", "│", "─", "│", '┌', '┐', "│", "│"},
-  results = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
-  -- results = {"─", "│", "─", "│", '┌', '┐', "┘", "└"},
-  preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
-}
-
--- private modified version of the dropdown theme with a square border
-Telescope_dropdown_theme = function(opts)
-  local lopts = opts or {}
-  local defaults = themes.get_dropdown({
-    borderchars = vim.g.config.telescope_dropdown == 'bottom' and border_layout_bottom_vertical or border_layout_top_center,
-    layout_config = {
-      anchor = "N",
-      width = lopts.width or 0.5,
-      height = lopts.height or 0.5,
-      prompt_position=vim.g.config.telescope_dropdown,
-    },
-    layout_strategy=vim.g.config.telescope_dropdown == 'bottom' and 'vertical' or 'center',
-    previewer = false,
-    winblend = vim.g.float_winblend,
-  })
-  if lopts.cwd ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.cwd
-  end
-  if lopts.path ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.path
-  end
-  return vim.tbl_deep_extend('force', defaults, lopts)
-end
-
---- a dropdown theme with vertical layout strategy
---- @param opts table of valid telescope options
-Telescope_vertical_dropdown_theme = function(opts)
-  local lopts = opts or {}
-  local defaults = themes.get_dropdown({
-    borderchars = {
-      results = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
-      prompt = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
-      preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
-    },
-    fname_width = vim.g.config['telescope_fname_width'],
-    sorting_strategy = "ascending",
-    layout_strategy = "vertical",
-    path_display={smart = true},
-    layout_config = {
-      width = lopts.width or 0.8,
-      height = lopts.height or 0.9,
-      preview_height = lopts.preview_width or 0.4,
-      prompt_position='bottom',
-      scroll_speed = 2,
-    },
-    winblend = vim.g.float_winblend,
-  })
-  if lopts.search_dirs ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.search_dirs[1]
-  end
-  if lopts.cwd ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.cwd
-  end
-  if lopts.path ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.path
-  end
-  return vim.tbl_deep_extend('force', defaults, lopts)
-end
-
--- custom theme for the command_center Telescope plugin
--- reason: I have square borders everywhere
-local function command_center_theme(opts)
-  opts = opts or {}
-  local theme_opts = {
-    theme = "command_center",
-    results_title = false,
-    sorting_strategy = "ascending",
-    layout_strategy=vim.g.config.telescope_dropdown == 'bottom' and 'vertical' or 'center',
-    layout_config = {
-      preview_cutoff = 0,
-      anchor = "N",
-      prompt_position = vim.g.config.telescope_dropdown,
-      width = function(_, max_columns, _)
-        return math.min(max_columns, opts.max_width)
-      end,
-      height = function(_, _, max_lines)
-        -- Max 20 lines, smaller if have less than 20 entries in total
-        return math.min(max_lines, opts.num_items + 4, 20)
-      end,
-    },
-    border = true,
-    borderchars = vim.g.config.telescope_dropdown == 'bottom' and border_layout_bottom_vertical or border_layout_top_center,
-  }
-  return vim.tbl_deep_extend("force", theme_opts, opts)
-end
 
 -- the following two functions are helpers for Telescope to workaround a bug
 -- with creating/restoring views via autocmd when picking files via telescope.
@@ -227,18 +128,18 @@ require("telescope").setup({
     -- Specify what components are shown in telescope prompt;
     -- Order matters, and components may repeat
       components = {
-        Command_center.component.DESC,
-        Command_center.component.KEYS,
-        Command_center.component.CMD,
-        Command_center.component.CATEGORY,
+        command_center.component.DESC,
+        command_center.component.KEYS,
+        command_center.component.CMD,
+        command_center.component.CATEGORY,
       },
       -- Spcify by what components the commands is sorted
       -- Order does not matter
       sort_by = {
-        Command_center.component.DESC,
-        Command_center.component.KEYS,
-        Command_center.component.CMD,
-        Command_center.component.CATEGORY,
+        command_center.component.DESC,
+        command_center.component.KEYS,
+        command_center.component.CMD,
+        command_center.component.CATEGORY,
       },
       -- Change the separator used to separate each component
       separator = " ",
@@ -248,7 +149,7 @@ require("telescope").setup({
       -- Default title to Telescope prompt
       prompt_title = "Command Palette",
         -- can be any builtin or custom telescope theme
-      theme = command_center_theme
+      theme = Command_center_theme
     },
     fzf = {
       fuzzy = true, -- false will only do exact matching
@@ -277,5 +178,5 @@ require("telescope").setup({
 require("telescope").load_extension("file_browser")
 require("telescope").load_extension("vim_bookmarks")
 require("telescope").load_extension("fzf")
-require("telescope").load_extension("command_center")
+-- require("telescope").load_extension("command_center")
 

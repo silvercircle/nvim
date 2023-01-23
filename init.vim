@@ -15,10 +15,7 @@ require('load_lazy')
 require('vim_options')
 -- setup telescope as early as possible. it contains some globals (custom themes)
 -- that might be needed by other setup modules
-require("setup_telescope")
--- setup all mandatory plugins
--- require("setup_lsp")
--- require("setup_cmp")
+-- require("setup_telescope")
 require('setup_default_plugins')
 EOB
 

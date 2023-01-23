@@ -20,14 +20,20 @@ local plugins = {
   -- telescope + extensions, mandatory
   {
     'nvim-telescope/telescope.nvim', branch = '0.1.x',
+    lazy = true,
+    keys = { "<C-p>", "<A-p>", "<C-e>" },
     dependencies = {
       'nvim-telescope/telescope-file-browser.nvim',
       'tom-anders/telescope-vim-bookmarks.nvim',
-      { 'FeiyouG/command_center.nvim' },
-      { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" }
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
+      { 'FeiyouG/command_center.nvim',
+        config = function()
+          require("setup_command_center")
+        end
+      }
     },
     config = function()
-      -- require("setup_telescope")
+      require("setup_telescope")
     end
   },
   {'nvim-treesitter/nvim-treesitter',

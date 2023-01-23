@@ -1,7 +1,7 @@
 -- nvim-cmp: completion support
 local cmp_helper = {}
 
-local cmp_buffer_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true }
+local cmp_buffer_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true }
 local cmp_buffer = require('cmp_buffer')
 
 -- helper function for cmp <TAB> mapping.
