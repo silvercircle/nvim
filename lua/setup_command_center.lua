@@ -439,12 +439,6 @@ Command_center.add({
     category = "@Neovim"
   },
   {
-    desc = "Quit Neovim",
-    cmd = function() require "local_utils".Quitapp() end,
-    keys = { "n", "<A-q>", noremap },
-    category = "@Neovim"
-  },
-  {
     desc = "Command Palette (Insert Mode)",
     cmd = function() require("telescope").extensions.command_center.command_center({mode = 'i'}) end,
     keys = { "i", "<A-p>", noremap },

@@ -58,9 +58,9 @@ map('i', "<C-x><C-s>", '<c-o><CMD>update!<CR>', opts)
 map('n', "<C-x><C-s>", '<CMD>update!<CR>', opts)
 
 -- Ctrl-x Ctrl-c close the file, do NOT save it(!) but create the view to save folding state and
--- cursor position. if g.confirm_actions['buffer_close'] is true then a warning message and a 
+-- cursor position. if g.confirm_actions['buffer_close'] is true then a warning message and a
 -- selection dialog will appear..
-map('n', "<C-x><C-c>", ':lua require("local_utils").BufClose()<CR>', opts)
+map('n', "<C-x><C-c>", '<CMD>lua require("local_utils").BufClose()<CR>', opts)
 
 -- switch off highlighted search results
 map('n', "<f5>", '<CMD>nohl<CR>', opts)
@@ -70,7 +70,7 @@ map('i', "<f5>", '<c-o><CMD>nohl<CR>', opts)
 map('i', "<C-y>-", "—", opts)        -- emdash
 map('i', "<C-y>\"", "„”", opts)       -- typographic quotes („”)
 -- close window
-map('n', "<A-w>", ":close<CR>", opts)
+map('n', "<A-w>", "<CMD>close<CR>", opts)
 
 -- move left/right/up/down split window
 map('n', "<A-Left>", "<c-w><Left>", opts)
@@ -176,4 +176,5 @@ map('i', "<C-S-Right>", "<c-o><C-i>", opts)
 map('n', "<f23>", "<CMD>Lazy<CR>", opts)
 vim.keymap.set('n', "<C-l><C-l>", function() Toggle_statuscol() end, opts)
 vim.keymap.set('i', "<C-l><C-l>", function() Toggle_statuscol() end, opts)
+vim.keymap.set('n', "<A-q>", function() require "local_utils".Quitapp() end, opts)
 
