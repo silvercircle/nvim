@@ -338,8 +338,7 @@ Command_center.add({
     desc = "Recent files (Telescope)",
     cmd = function() require'telescope.builtin'.oldfiles(Telescope_dropdown_theme({title='Old files', width=0.6, height=0.5})) end,
     keys = {
-      { "n", "<C-p>", noremap },
-      { "i", "<C-p>", noremap }
+      { "n", "<C-p>", noremap }
     },
     category = "@Telescope"
   },

@@ -286,11 +286,14 @@ lspconfig.sumneko_lua.setup {
   settings = {
     Lua = {
       diagnostics = { globals = { "vim" } },
+      hint = {
+        enable = true
+      },
       runtime = {
         version = "LuaJIT", -- Lua 5.1/LuaJIT
-      },
-    },
-  },
+      }
+    }
+  }
 }
 
 require("lsp.jdtls")

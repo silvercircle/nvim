@@ -184,12 +184,12 @@ if s:configuration.show_eob
 else
   call my_sonokai#highlight('EndOfBuffer', s:palette.bg0, s:palette.none)
 endif
-call my_sonokai#highlight('Folded', s:darkpurple, s:palette.bg1)
+call my_sonokai#highlight('Folded', s:palette.fg, s:palette.diff_blue)
 call my_sonokai#highlight('ToolbarLine', s:palette.fg, s:palette.none)
 call my_sonokai#highlight('FoldColumn', s:palette.bg4, s:darkbg)
 call my_sonokai#highlight('SignColumn', s:palette.fg, s:darkbg)
-call my_sonokai#highlight('IncSearch', s:palette.yellow, s:darkpurple)
-call my_sonokai#highlight('Search', s:palette.yellow, s:darkred)
+call my_sonokai#highlight('IncSearch', s:palette.yellow, s:darkred)
+call my_sonokai#highlight('Search', s:palette.black, s:palette.diff_green)
 call my_sonokai#highlight('ColorColumn', s:palette.none, s:palette.bg1)
 call my_sonokai#highlight('Conceal', s:palette.grey_dim, s:palette.none)
 if s:configuration.cursor ==# 'auto'
@@ -206,7 +206,7 @@ if &diff
   call my_sonokai#highlight('CursorLine', s:palette.none, s:palette.none, 'underline')
   call my_sonokai#highlight('CursorColumn', s:palette.none, s:palette.none, 'bold')
 else
-  call my_sonokai#highlight('CursorLine', s:palette.none, s:palette.bg1)
+  call my_sonokai#highlight('CursorLine', s:palette.none, s:palette.bg_dim)
   call my_sonokai#highlight('CursorColumn', s:palette.none, s:palette.bg1)
 endif
 call my_sonokai#highlight('LineNr', s:palette.grey_dim, s:darkbg)
