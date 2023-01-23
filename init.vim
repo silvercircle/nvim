@@ -163,6 +163,7 @@ function! TermToggle(height)
   else
       belowright new
       exec "resize " . a:height
+      set winfixheight
       try
           exec "buffer " . g:term_buf
       catch
