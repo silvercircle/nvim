@@ -82,11 +82,11 @@ map('n', "<A-Up>", "<c-w><Up>", opts)
 map('n', "<C-f>c", "<CMD>cclose<CR>", opts)
 map('i', "<C-f>c", "<c-o><CMD>cclose<CR>", opts)
 
-map('n', "<C-f>d", "<CMD>cnext<CR>", opts)
-map('i', "<C-f>d", "<c-o><CMD>cnext<CR>", opts)
+map('n', "<C-S-Down>", "<CMD>cnext<CR>", opts)
+map('i', "<C-S-Down>", "<c-o><CMD>cnext<CR>", opts)
 
-map('n', "<C-f>u", "<CMD>cprev<CR>", opts)
-map('i', "<C-f>u", "<c-o><CMD>cprev<CR>", opts)
+map('n', "<C-S-Up>", "<CMD>cprev<CR>", opts)
+map('i', "<C-S-Up>", "<c-o><CMD>cprev<CR>", opts)
 
 -- hlslens
 
@@ -103,6 +103,16 @@ vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]]
 
 vim.keymap.set({ "s" }, "<C-i>", function() require'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
 vim.keymap.set({ "s" }, "<S-Tab>", function() require'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
+
+-- run `:nohlsearch` and export results to quickfix
+vim.keymap.set({'n', 'x'}, '<Leader>#', function()
+    vim.schedule(function()
+        if require('hlslens').exportLastSearchToQuickfix() then
+            vim.cmd('cw')
+        end
+    end)
+    return ':noh<CR>'
+end, {expr = true})
 
 -- if we have playgrund, use the special command to reveal the highlight group under the cursor
 if vim.g.config.treesitter_playground == true then

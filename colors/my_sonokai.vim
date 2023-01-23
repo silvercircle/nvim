@@ -206,7 +206,7 @@ if &diff
   call my_sonokai#highlight('CursorLine', s:palette.none, s:palette.none, 'underline')
   call my_sonokai#highlight('CursorColumn', s:palette.none, s:palette.none, 'bold')
 else
-  call my_sonokai#highlight('CursorLine', s:palette.none, s:palette.bg_dim)
+  call my_sonokai#highlight('CursorLine', s:palette.none, s:palette.bg0)
   call my_sonokai#highlight('CursorColumn', s:palette.none, s:palette.bg1)
 endif
 call my_sonokai#highlight('LineNr', s:palette.grey_dim, s:darkbg)
@@ -1337,6 +1337,8 @@ call my_sonokai#highlight('NeoTreeNormalNC', s:palette.fg, s:palette.neotreebg)
 call my_sonokai#highlight('NeoTreeNormal', s:palette.fg, s:palette.neotreebg)
 call my_sonokai#highlight('NeoTreeFloatBorder', s:palette.grey_dim, s:palette.neotreebg)
 call my_sonokai#highlight('NeoTreeFileNameOpened', s:palette.blue, s:palette.neotreebg, 'italic')
+
+hi! link NeoTreeCursorLine Visual
 
 " Org mode
 "

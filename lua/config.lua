@@ -40,8 +40,12 @@ vim.g.config = {
   treesitter_playground = false,                -- no setup required, optional, handled by setup_treesitter
   plain = env_plain ~= nil and true or false,
   use_rainbow_indentguides = false,             -- for indent-blankline: rainbow-colorize indent guides
-  statuscol_normal = '%s%#LineNr#%=%{printf("%4d", v:lnum)} %C%#IndentBlankLineChar#│ ',
-  statuscol_rel = '%s%#LineNr#%=%{printf("%4d", v:relnum)} %C%#IndentBlankLineChar#│ ',
+  --statuscol_normal = '%s%#LineNr#%=%{printf("%4d", v:lnum)} %C%#IndentBlankLineChar#│ ',
+  --the same as above with highlighting the current line number
+  statuscol_normal = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%5d",v:lnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%5d", v:lnum) : ""} %C%#IndentBlankLineChar#│ ',
+  --statuscol_rel = '%s%#LineNr#%=%{printf("%4d", v:relnum)} %C%#IndentBlankLineChar#│ ',
+  --again, with highlighting relative number
+  statuscol_rel = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%5d",v:relnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%5d", v:relnum) : ""} %C%#IndentBlankLineChar#│ ',
   statuscol_default = 'normal'
 }
 

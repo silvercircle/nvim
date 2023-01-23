@@ -15,7 +15,8 @@ o.ttyfast = true
 -- no scrollbar on the left side. Ever. Because it's stupid :)
 o.virtualedit = "all"
 o.equalalways = false
-vim.opt.guicursor:append({ "i:block-iCursor" })
+-- vim.opt.guicursor:append({ "i:block-iCursor" })
+vim.opt.guicursor = "a:block-Cursor"
 o.autoindent = true
 o.copyindent = true
 o.shiftwidth = 4

@@ -109,12 +109,6 @@ local plugins = {
     end
   },
   { 'nvim-treesitter/playground', cond = vim.g.config.treesitter_playground == true },
-  {
-    'glepnir/lspsaga.nvim', lazy = true, cmd = "Lspsaga",
-    config = function()
-      require("setup_lspsaga")
-    end
-  },
   { 'folke/neodev.nvim', cond = vim.g.config.neodev == true },
   {
     'folke/noice.nvim', cond = vim.g.config.noice == true,
@@ -127,7 +121,7 @@ local plugins = {
     config = function ()
       if vim.g.config.plain == false then
         local theme = require("alpha.themes.startify")
-        local handle = io.popen("fortune science politics|cowsay -W 120")
+        local handle = io.popen("fortune science politics -s -n500 | cowsay -W 120")
         local result = {"",""}
         if handle ~= nil then
           local lines = handle:lines()
@@ -168,6 +162,12 @@ local plugins_private = {
       require("setup_outline")
     end
   },
+  {
+    'silvercircle/lspsaga.nvim', lazy = true, cmd = "Lspsaga",
+    config = function()
+      require("setup_lspsaga")
+    end
+  },
   -- CMP and all its extensions
   {
     dir = '/mnt/shared/data/code/neovim_plugins/nvim-cmp',
@@ -185,7 +185,7 @@ local plugins_private = {
         config = function()
           require("cmp_wordlist").setup({
             wordfiles={'wordlist.txt', "personal.txt" },
-            debug = true,
+            debug = false,
             read_on_setup = false,
             watch_files = true,
             telescope_theme = Telescope_dropdown_theme
@@ -207,6 +207,12 @@ local plugins_official = {
       require("setup_outline")
     end
   },
+  {
+    'glepnir/lspsaga.nvim', lazy = true, cmd = "Lspsaga",
+    config = function()
+      require("setup_lspsaga")
+    end
+  },
   -- cmp and all its helpers
   { 'hrsh7th/nvim-cmp',
     lazy = true,
@@ -222,7 +228,7 @@ local plugins_official = {
         config = function()
           require("cmp_wordlist").setup({
             wordfiles={'wordlist.txt', "personal.txt" },
-            debug = true,
+            debug = false,
             read_on_setup = false,
             watch_files = true,
             telescope_theme = Telescope_vertical_dropdown_theme
