@@ -686,7 +686,7 @@ highlight! link BookmarkAnnotationLine DiffAdd
 if has('nvim')
 " }}}
 " nvim-telescope/telescope.nvim {{{
-call my_sonokai#highlight('TelescopeMatching', s:palette.green, s:palette.none, 'bold')
+call my_sonokai#highlight('TelescopeMatching', s:palette.palered, s:palette.none, 'bold')
 "call my_sonokai#highlight('TelescopeBorder', s:palette.bg1, s:darkbg, 'bold')
 call my_sonokai#highlight('TelescopeBorder', s:accent, s:palette.bg_dim)
 call my_sonokai#highlight('TelescopePromptBorder', s:accent, s:palette.bg_dim)
