@@ -181,8 +181,8 @@ vim.keymap.set({'n', 'i'}, "<C-e>", function() require'telescope.builtin'.buffer
 vim.keymap.set('n', "<C-p>", function() require'telescope.builtin'.oldfiles(Telescope_dropdown_theme({title='Old files', width=0.6, height=0.5})) end, opts)
 vim.keymap.set('n', "<A-p>", function() require("telescope").extensions.command_center.command_center({mode = 'n'}) end, opts)
 
-vim.keymap.set('n', "<A-1>", function() FindbufbyType('neo-tree') end, opts)
-vim.keymap.set('n', "<A-2>", function() vim.fn.win_gotoid(1000) end, opts)
-vim.keymap.set('n', "<A-3>", function() if FindbufbyType('Outline') == false then vim.cmd("SymbolsOutlineOpen") end end, opts)
-vim.keymap.set('n', "<A-4>", function() if FindbufbyType('terminal') == false then print("no terminal") end end, opts)
+vim.keymap.set({'n', 'i', 't'}, "<A-1>", function() FindbufbyType('neo-tree') end, opts)
+vim.keymap.set({'n', 'i', 't'}, "<A-2>", function() vim.fn.win_gotoid(1000) end, opts)
+vim.keymap.set({'n', 'i', 't'}, "<A-3>", function() if FindbufbyType('Outline') == false then vim.cmd("SymbolsOutlineOpen") end end, opts)
+vim.keymap.set({'n', 'i', 't'}, "<A-4>", function() if FindbufbyType('terminal') == false then vim.api.nvim_input("<f11>") end end, opts)
 

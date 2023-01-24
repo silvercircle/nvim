@@ -355,7 +355,7 @@ end
 -- custom theme for the command_center Telescope plugin
 -- reason: I have square borders everywhere
 function Command_center_theme(opts)
-  lopts = opts or {}
+  local lopts = opts or {}
   local defaults = require('telescope.themes').get_dropdown({
     borderchars = vim.g.config.cpalette_dropdown == 'bottom' and border_layout_prompt_bottom or border_layout_prompt_top,
     layout_config = {

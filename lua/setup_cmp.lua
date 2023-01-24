@@ -2,7 +2,7 @@
 local cmp_helper = {}
 
 local cmp_buffer_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true }
-local cmp_buffer = require('cmp_buffer')
+-- local cmp_buffer = require('cmp_buffer')
 
 -- helper function for cmp <TAB> mapping.
 local has_words_before = function()

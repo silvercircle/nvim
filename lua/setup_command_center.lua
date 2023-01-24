@@ -12,12 +12,6 @@ local minipicker_layout = {
   preview_height = vim.g.config.minipicker_preview_height,
   anchor = vim.g.config.minipicker_anchor
 }
-local minipicker_layout_wider = {
-  height = vim.g.config.minipicker_height,
-  width = vim.g.config.minipicker_width + 20,
-  preview_height = vim.g.config.minipicker_preview_height,
-  anchor = vim.g.config.minipicker_anchor
-}
 
 Command_center.add({
   {
