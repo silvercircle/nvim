@@ -332,23 +332,6 @@ Command_center.add({
   },
   -- Telescope pickers
   {
-    desc = "Buffer list (Telescope)",
-    cmd = function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.4, sort_lastused=true, sort_mru=true, show_all_buffers=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end,
-    keys = {
-      {"n", "<C-e>", noremap },
-      {"i", "<C-e>", noremap }
-    },
-    category = "@Telescope"
-  },
-  {
-    desc = "Recent files (Telescope)",
-    cmd = function() require'telescope.builtin'.oldfiles(Telescope_dropdown_theme({title='Old files', width=0.6, height=0.5})) end,
-    keys = {
-      { "n", "<C-p>", noremap }
-    },
-    category = "@Telescope"
-  },
-  {
     desc = "Find files in current directory (Telescope)",
     cmd = function() require'telescope.builtin'.find_files(Telescope_vertical_dropdown_theme({hidden=true, prompt_title="Find Files", cwd=vim.fn.expand('%:p:h')})) end,
     keys = { "n", "<f20>", noremap },  --shift-f8
@@ -442,18 +425,6 @@ Command_center.add({
     desc = "Todo List",
     cmd = function() require('telescope._extensions.todo-comments').exports.todo(Telescope_vertical_dropdown_theme({prompt_title="Todo Comments",cwd = require("local_utils").getroot_current(), hidden=true})) end,
     keys = { "n", "tdo", noremap },
-    category = "@Neovim"
-  },
-  {
-    desc = "Command Palette (Insert Mode)",
-    cmd = function() require("telescope").extensions.command_center.command_center({mode = 'i'}) end,
-    keys = { "i", "<A-p>", noremap },
-    category = "@Neovim"
-  },
-  {
-    desc = "Command Palette (Normal Mode)",
-    cmd = function() require("telescope").extensions.command_center.command_center({mode = 'n'}) end,
-    keys = { "n", "<A-p>", noremap },
     category = "@Neovim"
   },
   {
