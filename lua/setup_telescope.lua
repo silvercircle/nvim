@@ -86,7 +86,6 @@ require("telescope").setup({
     mappings = {
       i = {
         ["<CR>"] = stopinsert_ins(actions.select_default),
-        -- ["<CR>"] =  stopinsert(actions.select_default),
         ["<C-x>"] = stopinsert(actions.select_horizontal),
         ["<C-v>"] = stopinsert(actions.select_vertical),
         ["<C-t>"] = stopinsert(actions.select_tab),
@@ -155,7 +154,7 @@ require("telescope").setup({
       -- Default title to Telescope prompt
       prompt_title = "Command Palette",
         -- can be any builtin or custom telescope theme
-      theme = Command_center_theme
+      theme = require("local_utils").command_center_theme
     },
     fzf = {
       fuzzy = true, -- false will only do exact matching

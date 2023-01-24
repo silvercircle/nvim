@@ -296,6 +296,7 @@ lspconfig.sumneko_lua.setup {
   }
 }
 
+-- outsourced because it's too big
 require("lsp.jdtls")
 
 -------------------------

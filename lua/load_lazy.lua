@@ -27,6 +27,7 @@ local plugins = {
       { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
       { 'FeiyouG/command_center.nvim',
         lazy = true,
+        event = { "UIEnter" },
         config = function()
           require("setup_command_center")
         end
@@ -141,8 +142,7 @@ local plugins = {
         require'alpha'.setup(theme.config)
       end
     end
-  },
-  "folke/which-key.nvim",
+  }
 }
 
 -- for experimental purpose, I use some private forks and local repos.

@@ -38,6 +38,7 @@ vim.g.config = {
   mason = true,                                 -- on demand, setup in setup_lsp.lua
   null_ls = false,                              -- setup by lazy loader
   neodev = false,                               -- setup by lazy loader
+  treesitter = true,
   treesitter_playground = false,                -- no setup required, optional, handled by setup_treesitter
   plain = env_plain ~= nil and true or false,
   use_rainbow_indentguides = false,             -- for indent-blankline: rainbow-colorize indent guides
@@ -50,7 +51,7 @@ vim.g.config = {
   statuscol_default = 'normal'
 }
 
-Statuscol_current = 'normal'
+Statuscol_current = vim.g.config.statuscol_default
 
 vim.g.theme = {
   variant = "warm",     -- "warm" gives a slight red-ish tint for some backgrounds. "cold" a more blue-ish
@@ -276,106 +277,6 @@ function Toggle_statuscol()
   end
 end
 
------------------------------------------------------------------
---- TELESCOPE stuff, some global themes that are needed elsewhere
------------------------------------------------------------------
-
-local border_layout_prompt_top = {
-  results = {"─", "│", "─", "│", '├', '┤', '┘', '└'},
-  prompt =  {"─", "│", "─", "│", '┌', '┐', "┘", "└"},
-  preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
-}
-
-local border_layout_prompt_bottom = {
-  prompt  = {"─", "│", "─", "│", '┌', '┐', '┘', '└'},
-  results = {"─", "│", "─", "│", '┌', '┐', '┤', '├'},
-  preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
-}
-
--- private modified version of the dropdown theme with a square border
-Telescope_dropdown_theme = function(opts)
-  local lopts = opts or {}
-  local defaults = require('telescope.themes').get_dropdown({
-    -- borderchars = vim.g.config.telescope_dropdown == 'bottom' and border_layout_bottom_vertical or border_layout_top_center,
-    borderchars = vim.g.config.telescope_dropdown == 'bottom' and border_layout_prompt_bottom or border_layout_prompt_top,
-    layout_config = {
-      anchor = "N",
-      width = lopts.width or 0.5,
-      height = lopts.height or 0.5,
-      prompt_position=vim.g.config.telescope_dropdown,
-    },
-    -- layout_strategy=vim.g.config.telescope_dropdown == 'bottom' and 'vertical' or 'center',
-    previewer = false,
-    winblend = vim.g.float_winblend,
-  })
-  if lopts.cwd ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.cwd
-  end
-  if lopts.path ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.path
-  end
-  return vim.tbl_deep_extend('force', defaults, lopts)
-end
-
---- a dropdown theme with vertical layout strategy
---- @param opts table of valid telescope options
-Telescope_vertical_dropdown_theme = function(opts)
-  local lopts = opts or {}
-  local defaults = require('telescope.themes').get_dropdown({
-    borderchars = {
-      results = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
-      prompt = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
-      preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
-    },
-    fname_width = vim.g.config['telescope_fname_width'],
-    sorting_strategy = "ascending",
-    layout_strategy = "vertical",
-    path_display={smart = true},
-    layout_config = {
-      width = lopts.width or 0.8,
-      height = lopts.height or 0.9,
-      preview_height = lopts.preview_width or 0.4,
-      prompt_position='bottom',
-      scroll_speed = 2,
-    },
-    winblend = vim.g.float_winblend,
-  })
-  if lopts.search_dirs ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.search_dirs[1]
-  end
-  if lopts.cwd ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.cwd
-  end
-  if lopts.path ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.path
-  end
-  return vim.tbl_deep_extend('force', defaults, lopts)
-end
-
--- custom theme for the command_center Telescope plugin
--- reason: I have square borders everywhere
-function Command_center_theme(opts)
-  local lopts = opts or {}
-  local defaults = require('telescope.themes').get_dropdown({
-    borderchars = vim.g.config.cpalette_dropdown == 'bottom' and border_layout_prompt_bottom or border_layout_prompt_top,
-    layout_config = {
-      anchor = "N",
-      width = lopts.width or 0.6,
-      height = lopts.height or 0.4,
-      prompt_position = vim.g.config.cpalette_dropdown,
-    },
-    -- layout_strategy=vim.g.config.telescope_dropdown == 'bottom' and 'vertical' or 'center',
-    previewer = false,
-    winblend = vim.g.float_winblend,
-  })
-  if lopts.cwd ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.cwd
-  end
-  if lopts.path ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.path
-  end
-  return vim.tbl_deep_extend('force', defaults, lopts)
-end
 
 function FindbufbyType(type)
   local ls = vim.api.nvim_list_bufs()
@@ -383,7 +284,7 @@ function FindbufbyType(type)
     if vim.api.nvim_buf_is_valid(buf) then
       local filetype = vim.api.nvim_buf_get_option(buf, "filetype")
       if filetype == type then
-        winid = vim.fn.win_findbuf(buf)
+        local winid = vim.fn.win_findbuf(buf)
         if winid[1] ~= nil then
           vim.fn.win_gotoid(winid[1])
           return true
@@ -393,3 +294,4 @@ function FindbufbyType(type)
   end
   return false
 end
+
