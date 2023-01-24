@@ -206,9 +206,3 @@ if executable('rg')
     set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
-
-function Findbufbytype(name)
-  let wins = win_findbuf(bufnr(a:name))
-  call win_gotoid(wins[0])
-endfunction
-

@@ -377,3 +377,19 @@ function Command_center_theme(opts)
   return vim.tbl_deep_extend('force', defaults, lopts)
 end
 
+function FindbufbyType(type)
+  local ls = vim.api.nvim_list_bufs()
+  for _, buf in pairs(ls) do
+    if vim.api.nvim_buf_is_valid(buf) then
+      local filetype = vim.api.nvim_buf_get_option(buf, "filetype")
+      if filetype == type then
+        winid = vim.fn.win_findbuf(buf)
+        if winid[1] ~= nil then
+          vim.fn.win_gotoid(winid[1])
+          return true
+        end
+      end
+    end
+  end
+  return false
+end

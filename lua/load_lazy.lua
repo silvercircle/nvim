@@ -50,6 +50,7 @@ local plugins = {
   -- lsp
   { 'neovim/nvim-lspconfig',
     lazy = true,
+    event = { "UIEnter" },
     dependencies = {
       'onsails/lspkind-nvim',
       'j-hui/fidget.nvim',
@@ -163,7 +164,7 @@ local plugins_private = {
     end
   },
   {
-    'silvercircle/symbols-outline.nvim', cmd = "SymbolsOutline",
+    'silvercircle/symbols-outline.nvim', cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
     config = function()
       require("setup_outline")
     end
@@ -197,7 +198,7 @@ local plugins_private = {
 
 local plugins_official = {
   {
-    'simrat39/symbols-outline.nvim', cmd = "SymbolsOutline",
+    'simrat39/symbols-outline.nvim', cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
     config = function()
       require("setup_outline")
     end
