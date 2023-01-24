@@ -212,6 +212,7 @@ Command_center.add({
   {
     desc = "Shutdown LSP server",
     cmd = function() require "local_utils".StopLsp() end,
+    keys = { "n", "lss", noremap },
     category = "@LSP"
   },
   {

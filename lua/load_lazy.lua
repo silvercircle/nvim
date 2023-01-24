@@ -243,3 +243,5 @@ end
 
 require("lazy").setup(plugins)
 
+Telescope_dropdown_theme = require("local_utils").Telescope_dropdown_theme
+Telescope_vertical_dropdown_theme = require("local_utils").Telescope_vertical_dropdown_theme

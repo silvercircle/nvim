@@ -11,10 +11,6 @@ require('config')
 
 -- OR load plugins with lazy. DO NOT use both.
 require('load_lazy')
-
-Telescope_dropdown_theme = require("local_utils").Telescope_dropdown_theme
-Telescope_vertical_dropdown_theme = require("local_utils").Telescope_vertical_dropdown_theme
-
 require('vim_options')
 -- setup telescope as early as possible. it contains some globals (custom themes)
 -- that might be needed by other setup modules
