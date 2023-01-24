@@ -314,7 +314,8 @@ require("scrollbar").setup({
     "mason",
     "lazy",
     "alpha",
-    "lspinfo"
+    "lspinfo",
+    "aerial"
   },
   autocmd = {
     render = {

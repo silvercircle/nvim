@@ -20,13 +20,13 @@ local plugins = {
   -- telescope + extensions, mandatory
   {
     'nvim-telescope/telescope.nvim', branch = '0.1.x',
-    lazy = true,
-    keys = { "<C-p>", "<A-p>", "<C-e>" },
     dependencies = {
       'nvim-telescope/telescope-file-browser.nvim',
       'tom-anders/telescope-vim-bookmarks.nvim',
       { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
       { 'FeiyouG/command_center.nvim',
+        lazy = true,
+        cond = not vim.g.config.plain,
         config = function()
           require("setup_command_center")
         end
@@ -141,7 +141,7 @@ local plugins = {
       end
     end
   },
-  --"folke/which-key.nvim"
+  "folke/which-key.nvim",
 }
 
 -- for experimental purpose, I use some private forks and local repos.
@@ -186,18 +186,7 @@ local plugins_private = {
       'hrsh7th/cmp-emoji',
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp-signature-help',
-      {
-        dir = '/mnt/shared/data/code/neovim_plugins/cmp-wordlist.nvim',
-        config = function()
-          require("cmp_wordlist").setup({
-            wordfiles={'wordlist.txt', "personal.txt" },
-            debug = false,
-            read_on_setup = false,
-            watch_files = true,
-            telescope_theme = Telescope_dropdown_theme
-          })
-        end
-      },
+      { dir = '/mnt/shared/data/code/neovim_plugins/cmp-wordlist.nvim' },
       'hrsh7th/cmp-buffer'
     },
     config = function()
@@ -230,17 +219,7 @@ local plugins_official = {
       'hrsh7th/cmp-emoji',
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp-signature-help',
-      {'https://gitlab.com/silvercircle74/cmp-wordlist.nvim',
-        config = function()
-          require("cmp_wordlist").setup({
-            wordfiles={'wordlist.txt', "personal.txt" },
-            debug = false,
-            read_on_setup = false,
-            watch_files = true,
-            telescope_theme = Telescope_vertical_dropdown_theme
-          })
-        end
-      },
+      {'https://gitlab.com/silvercircle74/cmp-wordlist.nvim' },
       'hrsh7th/cmp-buffer'
     },
     config = function()

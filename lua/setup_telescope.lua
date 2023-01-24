@@ -122,6 +122,12 @@ require("telescope").setup({
     }
   },
   extensions = {
+    aerial = {
+      -- Display symbols as <root>.<parent>.<symbol>
+      show_nesting = {
+        ['_'] = true, -- This key will be the default
+      }
+    },
     -- command center is a command palette plugin. Pretty much like Ctrl-P in sublime text
     -- the actual commands are setup in setup_command_center.lua
     command_center = {

@@ -94,11 +94,10 @@ cmp.setup({
     },
   },
   mapping = {
-    ["<C-Up>"] = cmp.mapping.scroll_docs(-4),
-    ["<C-Down>"] = cmp.mapping.scroll_docs(4),
-    ["<C-Space>"] = cmp.mapping(cmp.mapping.complete({
-        reason = cmp.ContextReason.Manual,
-      }), {"i", "c"}),
+--    ["<C-Space>"] = cmp.mapping(cmp.mapping.complete({
+--        reason = cmp.ContextReason.Manual,
+--      }), {"i", "c"}),
+    ["<C-Space>"] = cmp.mapping.complete({reason = cmp.ContextReason.Auto}),
     ["<C-e>"] = cmp.mapping.abort(),
     ["<Esc>"] = cmp.mapping.close(), -- ESC close complete popup. Feels more natural than <C-e>
     ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp_types.SelectBehavior.Select }),
@@ -128,6 +127,8 @@ cmp.setup({
         end
       end,
     },
+    ["<C-Up>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-Down>"] = cmp.mapping.scroll_docs(4),
   },
   formatting = {
     format = function(entry, vim_item)
@@ -196,7 +197,6 @@ cmp.setup({
           local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
           local ft = vim.api.nvim_buf_get_option(buf, "filetype")
           if cmp_buffer_allowed[ft] == nil then
-            print("cmp_buffer: filetype " .. ft .. " not allowed")
             return {}
           end
           if byte_size > 1024 * 300 then -- 300kb
@@ -259,4 +259,12 @@ cmp_helper.compare = {
     if l ~= r then return l > r end
   end,
 }
+
+require("cmp_wordlist").setup({
+  wordfiles={'wordlist.txt', "personal.txt" },
+  debug = false,
+  read_on_setup = false,
+  watch_files = true,
+  telescope_theme = Telescope_dropdown_theme
+})
 
