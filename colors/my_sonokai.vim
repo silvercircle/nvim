@@ -687,14 +687,13 @@ if has('nvim')
 " }}}
 " nvim-telescope/telescope.nvim {{{
 call my_sonokai#highlight('TelescopeMatching', s:palette.palered, s:palette.none, 'bold')
-"call my_sonokai#highlight('TelescopeBorder', s:palette.bg1, s:darkbg, 'bold')
 call my_sonokai#highlight('TelescopeBorder', s:accent, s:palette.bg_dim)
 call my_sonokai#highlight('TelescopePromptBorder', s:accent, s:palette.bg_dim)
 call my_sonokai#highlight('TelescopePromptNormal', s:accent, s:palette.bg_dim, 'bold')
 call my_sonokai#highlight('TelescopeNormal', s:palette.fg_dim, s:palette.bg_dim)
-"call my_sonokai#highlight('TelescopePromptNormal', s:palette.fg_dim, s:statuslinebg)
 call my_sonokai#highlight('TelescopeTitle', s:palette.black, s:accent, 'bold')
 
+highlight! link TelescopeResultsLineNr Yellow
 highlight! link TelescopePromptPrefix Blue
 highlight! link TelescopeSelection Visual
 " }}}
