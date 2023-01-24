@@ -21,7 +21,8 @@ vim.g.config = {
   telescope_fname_width = 140,
   nightly = vim.fn.has("nvim-0.9"),             -- TODO: fix this when 0.9 goes release
   use_cokeline = true,                          -- when false, lualine handles the bufferline
-  telescope_dropdown='bottom',
+  telescope_dropdown='bottom',                  -- position for the input box in the dropdown theme. 'bottom' or 'top'
+  cpalette_dropdown = 'top',                    -- same for the command palette
   -- accent color is used for important highlights like the currently selected tab (buffer) 
   -- and more.
   accent_color = '#dbaf00',
@@ -279,18 +280,15 @@ end
 --- TELESCOPE stuff, some global themes that are needed elsewhere
 -----------------------------------------------------------------
 
-local border_layout_bottom_vertical = {
-  results = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
-  prompt = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
+local border_layout_prompt_top = {
+  results = {"─", "│", "─", "│", '├', '┤', '┘', '└'},
+  prompt =  {"─", "│", "─", "│", '┌', '┐', "┘", "└"},
   preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
 }
 
-local border_layout_top_center = {
-  results = {"─", "│", "─", "│", '┌', '┐', "┤", "├"},
-
-  prompt =  {"─", "│", "─", "│", "├", "┤", "┘", "└"},
-
-  -- results = {"─", "│", "─", "│", '┌', '┐', "┘", "└"},
+local border_layout_prompt_bottom = {
+  prompt  = {"─", "│", "─", "│", '┌', '┐', '┘', '└'},
+  results = {"─", "│", "─", "│", '┌', '┐', '┤', '├'},
   preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
 }
 
@@ -299,7 +297,7 @@ Telescope_dropdown_theme = function(opts)
   local lopts = opts or {}
   local defaults = require('telescope.themes').get_dropdown({
     -- borderchars = vim.g.config.telescope_dropdown == 'bottom' and border_layout_bottom_vertical or border_layout_top_center,
-    borderchars = border_layout_top_center,
+    borderchars = vim.g.config.telescope_dropdown == 'bottom' and border_layout_prompt_bottom or border_layout_prompt_top,
     layout_config = {
       anchor = "N",
       width = lopts.width or 0.5,
@@ -359,13 +357,12 @@ end
 function Command_center_theme(opts)
   lopts = opts or {}
   local defaults = require('telescope.themes').get_dropdown({
-    -- borderchars = vim.g.config.telescope_dropdown == 'bottom' and border_layout_bottom_vertical or border_layout_top_center,
-    borderchars = border_layout_top_center,
+    borderchars = vim.g.config.cpalette_dropdown == 'bottom' and border_layout_prompt_bottom or border_layout_prompt_top,
     layout_config = {
       anchor = "N",
       width = lopts.width or 0.6,
       height = lopts.height or 0.4,
-      prompt_position=vim.g.config.telescope_dropdown,
+      prompt_position = vim.g.config.cpalette_dropdown,
     },
     -- layout_strategy=vim.g.config.telescope_dropdown == 'bottom' and 'vertical' or 'center',
     previewer = false,
@@ -379,5 +376,4 @@ function Command_center_theme(opts)
   end
   return vim.tbl_deep_extend('force', defaults, lopts)
 end
-
 

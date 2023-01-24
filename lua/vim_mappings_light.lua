@@ -54,13 +54,13 @@ map('n', "<leader>v", "}kV{j", opts)        -- select current paragraph
 
 -- Ctrl-x Ctrl-s save the file if modified (use update command). Also,
 -- create a view to save state
-map('i', "<C-x><C-s>", '<c-o><CMD>update!<CR>', opts)
-map('n', "<C-x><C-s>", '<CMD>update!<CR>', opts)
+map('i', "<C-s><C-s>", '<c-o><CMD>update!<CR>', opts)
+map('n', "<C-s><C-s>", '<CMD>update!<CR>', opts)
 
 -- Ctrl-x Ctrl-c close the file, do NOT save it(!) but create the view to save folding state and
 -- cursor position. if g.confirm_actions['buffer_close'] is true then a warning message and a
 -- selection dialog will appear..
-map('n', "<C-x><C-c>", '<CMD>lua require("local_utils").BufClose()<CR>', opts)
+map('n', "<C-s><C-c>", '<CMD>lua require("local_utils").BufClose()<CR>', opts)
 
 -- switch off highlighted search results
 map('n', "<f5>", '<CMD>nohl<CR>', opts)

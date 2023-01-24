@@ -96,6 +96,7 @@ augroup filetypes
   autocmd FileType Outline,lspsagaoutline,aerial silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=Outline | setlocal winhl=Normal:NeoTreeNormalNC
   autocmd FileType alpha silent! setlocal statuscolumn=
   autocmd FileType DressingSelect,Outline,neo-tree setlocal winhl=CursorLine:Visual | hi Cursor blend=100
+  autocmd FileType DressingInput hi Cursor blend=0
   autocmd WinEnter *
     \  if &filetype == 'DressingSelect' || &filetype == 'Outline' || &filetype == 'neo-tree' || &filetype == 'aerial'
     \|   setlocal winhl=CursorLine:Visual,AerialLine:Visual
@@ -205,3 +206,4 @@ if executable('rg')
     set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
+
