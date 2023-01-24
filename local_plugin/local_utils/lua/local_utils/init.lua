@@ -235,5 +235,105 @@ function M.Quitapp()
   end
 end
 
+-----------------------------------------------------------------
+--- TELESCOPE stuff, some global themes that are needed elsewhere
+-----------------------------------------------------------------
+
+local border_layout_prompt_top = {
+  results = {"─", "│", "─", "│", '├', '┤', '┘', '└'},
+  prompt =  {"─", "│", "─", "│", '┌', '┐', "┘", "└"},
+  preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+}
+
+local border_layout_prompt_bottom = {
+  prompt  = {"─", "│", "─", "│", '┌', '┐', '┘', '└'},
+  results = {"─", "│", "─", "│", '┌', '┐', '┤', '├'},
+  preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+}
+
+-- private modified version of the dropdown theme with a square border
+function M.Telescope_dropdown_theme(opts)
+  local lopts = opts or {}
+  local defaults = require('telescope.themes').get_dropdown({
+    -- borderchars = vim.g.config.telescope_dropdown == 'bottom' and border_layout_bottom_vertical or border_layout_top_center,
+    borderchars = vim.g.config.telescope_dropdown == 'bottom' and border_layout_prompt_bottom or border_layout_prompt_top,
+    layout_config = {
+      anchor = "N",
+      width = lopts.width or 0.5,
+      height = lopts.height or 0.5,
+      prompt_position=vim.g.config.telescope_dropdown,
+    },
+    -- layout_strategy=vim.g.config.telescope_dropdown == 'bottom' and 'vertical' or 'center',
+    previewer = false,
+    winblend = vim.g.float_winblend,
+  })
+  if lopts.cwd ~= nil then
+    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.cwd
+  end
+  if lopts.path ~= nil then
+    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.path
+  end
+  return vim.tbl_deep_extend('force', defaults, lopts)
+end
+
+--- a dropdown theme with vertical layout strategy
+--- @param opts table of valid telescope options
+function M.Telescope_vertical_dropdown_theme(opts)
+  local lopts = opts or {}
+  local defaults = require('telescope.themes').get_dropdown({
+    borderchars = {
+      results = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
+      prompt = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
+      preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+    },
+    fname_width = vim.g.config['telescope_fname_width'],
+    sorting_strategy = "ascending",
+    layout_strategy = "vertical",
+    path_display={smart = true},
+    layout_config = {
+      width = lopts.width or 0.8,
+      height = lopts.height or 0.9,
+      preview_height = lopts.preview_width or 0.4,
+      prompt_position='bottom',
+      scroll_speed = 2,
+    },
+    winblend = vim.g.float_winblend,
+  })
+  if lopts.search_dirs ~= nil then
+    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.search_dirs[1]
+  end
+  if lopts.cwd ~= nil then
+    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.cwd
+  end
+  if lopts.path ~= nil then
+    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.path
+  end
+  return vim.tbl_deep_extend('force', defaults, lopts)
+end
+
+-- custom theme for the command_center Telescope plugin
+-- reason: I have square borders everywhere
+function M.command_center_theme(opts)
+  local lopts = opts or {}
+  local defaults = require('telescope.themes').get_dropdown({
+    borderchars = vim.g.config.cpalette_dropdown == 'bottom' and border_layout_prompt_bottom or border_layout_prompt_top,
+    layout_config = {
+      anchor = "N",
+      width = lopts.width or 0.6,
+      height = lopts.height or 0.4,
+      prompt_position = vim.g.config.cpalette_dropdown,
+    },
+    -- layout_strategy=vim.g.config.telescope_dropdown == 'bottom' and 'vertical' or 'center',
+    previewer = false,
+    winblend = vim.g.float_winblend,
+  })
+  if lopts.cwd ~= nil then
+    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.cwd
+  end
+  if lopts.path ~= nil then
+    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.path
+  end
+  return vim.tbl_deep_extend('force', defaults, lopts)
+end
 return M
 
