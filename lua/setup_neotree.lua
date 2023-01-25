@@ -58,14 +58,14 @@ require("neo-tree").setup({
     --                       true  : |/    a    \/    b    \/    c    \|
     --                       false : |     a    \/    b    \/    c     |
     highlight_tab = "StatusLine",
-    highlight_tab_active = "StatusLine",
+    highlight_tab_active = "Accent",
     highlight_background = "StatusLine",
     highlight_separator = "StatusLine",
-    highlight_separator_active = "StatusLine",
+    highlight_separator_active = "Accent",
   },
   default_component_configs = {
     container = {
-      enable_character_fade = true,
+      enable_character_fade = false,
     },
     indent = {
       indent_size = 2,
@@ -190,7 +190,8 @@ require("neo-tree").setup({
         --"*/src/*/tsconfig.json",
       },
       always_show = { -- remains visible even if other settings would normally hide it
-        --".gitignored",
+        ".gitignore",
+        ".editorconfig"
       },
       never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
         --".DS_Store",

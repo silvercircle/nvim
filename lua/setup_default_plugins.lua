@@ -65,7 +65,7 @@ require("lualine").setup({
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", "neo-tree", 'terminal', 'Treesitter', 'qf', 'lspsagaoutline'},
+      statusline = { "Outline", "neo-tree", 'terminal', 'Treesitter', 'qf', 'NvimTree'},
       winbar = {},
       tabline = {},
     },
@@ -115,7 +115,7 @@ require("lualine").setup({
 -- setup cokeline plugin. It provides a buffer line (aka tab-bar)
 --local sidebar_or_tree = vim.g.features['sidebar']['enable'] == true and true or false
 local sidebar_or_tree = false
-local treename = 'neo-tree' -- vim.g.features['neotree']['enable'] and 'neo-tree' or 'NvimTree'
+local treename = vim.g.config.nvim_tree == true and 'NvimTree' or 'neo-tree'
 
 require('cokeline').setup({
   -- Cokeline_theme() is defined in config.lua
@@ -315,7 +315,7 @@ require("scrollbar").setup({
     "lazy",
     "alpha",
     "lspinfo",
-    "aerial"
+    "NvimTree"
   },
   autocmd = {
     render = {

@@ -48,7 +48,8 @@ vim.g.config = {
   --statuscol_rel = '%s%#LineNr#%=%{printf("%4d", v:relnum)} %C%#IndentBlankLineChar#│ ',
   --again, with highlighting relative number
   statuscol_rel = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:relnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:relnum) : ""} %C%#IndentBlankLineChar#│ ',
-  statuscol_default = 'normal'
+  statuscol_default = 'normal',
+  nvim_tree = true
 }
 
 Statuscol_current = vim.g.config.statuscol_default

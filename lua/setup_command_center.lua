@@ -4,6 +4,7 @@
 Command_center = require("command_center")
 local noremap = {noremap = true}
 local lsputil = require('lspconfig.util')
+local lutils = require("local_utils")
 
 -- this is a helper for mini pickers like references and symbols.
 local minipicker_layout = {
@@ -211,7 +212,7 @@ Command_center.add({
   },
   {
     desc = "Shutdown LSP server",
-    cmd = function() require "local_utils".StopLsp() end,
+    cmd = function() lutils.StopLsp() end,
     keys = { "n", "lss", noremap },
     category = "@LSP"
   },
@@ -334,13 +335,13 @@ Command_center.add({
   },
   {
     desc = "Find files from current project root",
-    cmd = function() require("telescope.builtin").find_files(Telescope_vertical_dropdown_theme({prompt_title="Find Files", cwd = require("local_utils").getroot_current()})) end,
+    cmd = function() require("telescope.builtin").find_files(Telescope_vertical_dropdown_theme({prompt_title="Find Files", cwd = lutils.getroot_current()})) end,
     keys = { "n", "<f8>", noremap },
     category = "@Telescope"
   },
   {
     desc = "File browser in the current project root",
-    cmd = function() require("telescope").extensions.file_browser.file_browser(Telescope_vertical_dropdown_theme({prompt_title="File Browser", hidden=true, path = require("local_utils").getroot_current()})) end,
+    cmd = function() require("telescope").extensions.file_browser.file_browser(Telescope_vertical_dropdown_theme({prompt_title="File Browser", hidden=true, path = lutils.getroot_current()})) end,
     keys = { "n", "<f32>", noremap },  -- ctrl-f8
     category = "@Telescope"
   },
@@ -400,7 +401,7 @@ Command_center.add({
   },
   {
     desc = "Live Grep (project root)",
-    cmd = function() require("telescope.builtin").live_grep(Telescope_vertical_dropdown_theme({prompt_title="Live Grep Folder (project root)", search_dirs={ require("local_utils").getroot_current() }})) end,
+    cmd = function() require("telescope.builtin").live_grep(Telescope_vertical_dropdown_theme({prompt_title="Live Grep Folder (project root)", search_dirs={ lutils.getroot_current() }})) end,
     keys = { "n", "<C-x><C-g>", noremap },
     category = "@Telescope"
   },
@@ -412,13 +413,13 @@ Command_center.add({
   },
   {
     desc = "Tags list (Telescope)",
-    cmd = function() require'telescope.builtin'.tags(Telescope_vertical_dropdown_theme({prompt_title="Tags", cwd = require("local_utils").getroot_current()})) end,
+    cmd = function() require'telescope.builtin'.tags(Telescope_vertical_dropdown_theme({prompt_title="Tags", cwd = lutils.getroot_current()})) end,
     keys = { "n", "<leader>t",  },
     category = "@Telescope"
   },
   {
     desc = "Todo List",
-    cmd = function() require('telescope._extensions.todo-comments').exports.todo(Telescope_vertical_dropdown_theme({prompt_title="Todo Comments",cwd = require("local_utils").getroot_current(), hidden=true})) end,
+    cmd = function() require('telescope._extensions.todo-comments').exports.todo(Telescope_vertical_dropdown_theme({prompt_title="Todo Comments",cwd = lutils.getroot_current(), hidden=true})) end,
     keys = { "n", "tdo", noremap },
     category = "@Neovim"
   },

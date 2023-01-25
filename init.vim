@@ -92,17 +92,17 @@ augroup filetypes
   autocmd FileType markdown,telekasten,liquid setlocal conceallevel=2 | setlocal concealcursor=nc | setlocal formatexpr=
   autocmd FileType mail setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de
   autocmd FileType Treesitter silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal nonumber | setlocal norelativenumber | silent setlocal statuscolumn= | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC
-  autocmd FileType Outline,lspsagaoutline,aerial silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=Outline | setlocal winhl=Normal:NeoTreeNormalNC
+  autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=Outline | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi Cursor blend=100
   autocmd FileType alpha silent! setlocal statuscolumn=
-  autocmd FileType DressingSelect,Outline,neo-tree setlocal winhl=CursorLine:Visual | hi Cursor blend=100
+  autocmd FileType DressingSelect,neo-tree setlocal winhl=CursorLine:Visual | hi Cursor blend=100
   autocmd FileType DressingInput hi Cursor blend=0
   autocmd WinEnter *
-    \  if &filetype == 'DressingSelect' || &filetype == 'Outline' || &filetype == 'neo-tree' || &filetype == 'aerial'
-    \|   setlocal winhl=CursorLine:Visual,AerialLine:Visual
+    \  if &filetype == 'DressingSelect' || &filetype == 'Outline' || &filetype == 'neo-tree' || &filetype == 'NvimTree'
+    \|   setlocal winhl=CursorLine:Visual,Normal:NeoTreeNormalNC
     \|   hi Cursor blend=100
     \| endif
   autocmd WinLeave *
-    \  if &filetype == 'DressingSelect' || &filetype == 'Outline' || &filetype == 'neo-tree' || &filetype == 'aerial'
+    \  if &filetype == 'DressingSelect' || &filetype == 'Outline' || &filetype == 'neo-tree' || &filetype == 'NvimTree'
     \|   hi Cursor blend=0
     \| endif
 
@@ -183,7 +183,7 @@ function! TermToggle(height)
           set nocursorline
           set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC
           set filetype=terminal
-          set statusline=Terminal
+          setlocal statusline=Terminal
           silent! set statuscolumn=
       endtry
       startinsert!

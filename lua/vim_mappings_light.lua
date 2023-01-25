@@ -5,18 +5,17 @@
 
 local map = vim.api.nvim_set_keymap
 local opts = {noremap = true, silent = true}
+local utils = require("local_utils")
 
 -- file tree
-map('n', "<leader>r", "<CMD>Neotree reveal_force_cwd<CR>", opts)    -- sync Neotree dir to current buffer
-map('n', "<leader>,", '<CMD>Neotree toggle dir=%:p:h<CR>', opts)              -- toggle the Neotree
-
---if vim.g.features['neotree']['enable'] == true then
---  map('n', "<leader>r", "<CMD>Neotree reveal_force_cwd<CR>", opts)    -- sync Neotree dir to current buffer
---  map('n', "<leader>,", '<CMD>Neotree toggle dir=%:p:h<CR>', opts)              -- toggle the Neotree
---elseif vim.g.features['nvimtree']['enable'] == true then
---  map('n', "<leader>,", '<CMD>NvimTreeToggle<CR>', opts)              -- toggle the Nvim-Tree
---  map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)            -- sync Nvim-Tree with current 
---end
+if vim.g.config.nvim_tree == false then
+  map('n', "<leader>r", "<CMD>Neotree reveal_force_cwd<CR>", opts)    -- sync Neotree dir to current buffer
+  map('n', "<leader>,", '<CMD>Neotree toggle dir=%:p:h<CR>', opts)              -- toggle the Neotree
+else
+  map('n', "<leader>,", '<CMD>NvimTreeToggle<CR>', opts)              -- toggle the Nvim-Tree
+  map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)            -- sync Nvim-Tree with current
+  vim.keymap.set('n', "<leader>R", function() require("nvim-tree.api").tree.change_root(utils.getroot_current()) end, opts)
+end
 
 map('n', '<C-Tab>', '<CMD>bnext<CR>', opts)
 map('n', '<leader><Tab>', "<CMD>bnext<CR>", opts)
@@ -182,7 +181,11 @@ vim.keymap.set('n', "<C-p>", function() require'telescope.builtin'.oldfiles(Tele
 vim.keymap.set('n', "<A-p>", function() require("telescope").extensions.command_center.command_center({mode = 'n'}) end, opts)
 
 -- quick-focus the four main areas
-vim.keymap.set({'n', 'i', 't'}, "<A-1>", function() FindbufbyType('neo-tree') end, opts)      -- Neotree
+if vim.g.config.nvim_tree == true then
+  vim.keymap.set({'n', 'i', 't'}, "<A-1>", function() FindbufbyType('NvimTree') end, opts)      -- Nvim-tree
+else
+  vim.keymap.set({'n', 'i', 't'}, "<A-1>", function() FindbufbyType('neo-tree') end, opts)      -- Neotree
+end
 vim.keymap.set({'n', 'i', 't'}, "<A-2>", function() vim.fn.win_gotoid(1000) end, opts)        -- main window
 vim.keymap.set({'n', 'i', 't'}, "<A-3>", function() if FindbufbyType('Outline') == false then vim.cmd("SymbolsOutlineOpen") end end, opts) -- Outline
 vim.keymap.set({'n', 'i', 't'}, "<A-4>", function() if FindbufbyType('terminal') == false then vim.api.nvim_input("<f11>") end end, opts)  -- Terminal

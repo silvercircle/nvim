@@ -102,6 +102,12 @@ local plugins = {
     end
   },
   {
+    'nvim-tree/nvim-tree.lua', cmd="",
+    config = function()
+      require("setup_nvim-tree")
+    end
+  },
+  {
     'renerocksai/telekasten.nvim', lazy = true, ft={"telekasten", "markdown"},
     dependencies = {
       { 'renerocksai/calendar-vim' },

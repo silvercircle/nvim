@@ -148,10 +148,11 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
   callback = function()
     vim.cmd("stopinsert")
     if vim.g.config.plain == false then
-      vim.api.nvim_command("NeoTreeShow")
-      -- if vim.g.features['nvimtree']['enable'] == true then
-      --  require('nvim-tree').toggle(false, true)
-      --end
+      if vim.g.config.nvim_tree == true then
+        require('nvim-tree').toggle(false, true)
+      else
+        vim.api.nvim_command("NeoTreeShow")
+      end
     end
   end,
   group = agroup_enter,
