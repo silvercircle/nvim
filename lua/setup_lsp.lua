@@ -203,7 +203,7 @@ local lua_root_files = {
 }
 
 lspconfig.sumneko_lua.setup {
-  cmd = { vim.g.lsp_server_bin['sumneko_lua'] },
+  cmd = { vim.g.lsp_server_bin['sumneko_lua'], "--loglevel=trace", '--logpath=' .. vim.fn.stdpath("data") },
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
   end,
@@ -228,6 +228,9 @@ lspconfig.sumneko_lua.setup {
       },
       runtime = {
         version = "LuaJIT", -- Lua 5.1/LuaJIT
+      },
+      telemetry = {
+        enable = false
       }
     }
   }

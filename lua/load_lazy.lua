@@ -142,6 +142,19 @@ local plugins = {
         require'alpha'.setup(theme.config)
       end
     end
+  },
+  { 'mfussenegger/nvim-dap',
+    lazy = true,
+    dependencies = {
+      { 'rcarriga/nvim-dap-ui',
+        config = function()
+          require("dap.nvim_dap_ui")
+        end
+      }
+    },
+    config = function()
+      require("dap.nvim_dap")
+    end
   }
 }
 
