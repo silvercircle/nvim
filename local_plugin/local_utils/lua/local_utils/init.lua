@@ -122,7 +122,6 @@ function M.StopLsp()
   local lspselector = function(opts)
     opts = opts or {}
     pickers.new(opts, {
-      prompt_title = "Active LSP servers",
       layout_config = {
         horizontal = {
           prompt_position = "bottom"
@@ -147,7 +146,7 @@ function M.StopLsp()
       end,
     }):find()
   end
-  lspselector(Telescope_dropdown_theme{width=0.4, height=0.2, title="Active LSP clients (Enter = terminate, ESC cancels)"})
+  lspselector(Telescope_dropdown_theme{width=0.4, height=0.2, prompt_title="Active LSP clients (Enter = terminate, ESC cancels)"})
 end
 
 -- confirm buffer close when file is modified. May discard the file but always save the view.
