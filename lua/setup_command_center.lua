@@ -5,6 +5,8 @@ Command_center = require("command_center")
 local noremap = {noremap = true}
 local lsputil = require('lspconfig.util')
 local lutils = require("local_utils")
+local _t = require("telescope")
+local _tb = require("telescope.builtin")
 
 -- this is a helper for mini pickers like references and symbols.
 local minipicker_layout = {
@@ -77,13 +79,13 @@ Command_center.add({
   },
   {
     desc = "Show all bookmarks (Telescope)",
-    cmd = function() require('telescope').extensions.vim_bookmarks.all(Telescope_vertical_dropdown_theme({prompt_title="All Bookmarks", hide_filename=false, width_text=120})) end,
+    cmd = function() _t.extensions.vim_bookmarks.all(Telescope_vertical_dropdown_theme({prompt_title="All Bookmarks", hide_filename=false, width_text=120})) end,
     keys = { "n", "<A-b>", noremap },
     category = "@Bookmarks"
   },
   {
     desc = "Show bookmarks in current file (Telescope)",
-    cmd = function() require('telescope').extensions.vim_bookmarks.current_file(Telescope_vertical_dropdown_theme({prompt_title="File Bookmarks"})) end,
+    cmd = function() _t.extensions.vim_bookmarks.current_file(Telescope_vertical_dropdown_theme({prompt_title="File Bookmarks"})) end,
     keys = { "n", "<A-B>", noremap },
     category = "@Bookmarks"
   },
@@ -134,79 +136,79 @@ Command_center.add({
 -- Telescope LSP code navigation and diagnostics
   {
     desc = "Jump to definition (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_definitions(Telescope_vertical_dropdown_theme({})) end,
+    cmd = function() _tb.lsp_definitions(Telescope_vertical_dropdown_theme({})) end,
     keys = { "n", "tde", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Show references (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_references(Telescope_vertical_dropdown_theme({fname_width=120,layout_config={width=0.9}})) end,
+    cmd = function() _tb.lsp_references(Telescope_vertical_dropdown_theme({fname_width=120,layout_config={width=0.9}})) end,
     keys = { "n", "tre", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Document symbols (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_document_symbols({layout_config={height=0.6, width=0.8,preview_width=0.6}}) end,
+    cmd = function() _tb.lsp_document_symbols({layout_config={height=0.6, width=0.8,preview_width=0.6}}) end,
     keys = { "n", "ts", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Mini Document symbols",
-    cmd = function() require'telescope.builtin'.lsp_document_symbols(Telescope_vertical_dropdown_theme({layout_config=minipicker_layout})) end,
+    cmd = function() _tb.lsp_document_symbols(Telescope_vertical_dropdown_theme({layout_config=minipicker_layout})) end,
     keys = { "n", "<A-o>", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Mini Document symbols (i)",
-    cmd = function() require'telescope.builtin'.lsp_document_symbols(Telescope_vertical_dropdown_theme({prompt_prefix=vim.g.config.minipicker_iprefix, layout_config=minipicker_layout})) end,
+    cmd = function() _tb.lsp_document_symbols(Telescope_vertical_dropdown_theme({prompt_prefix=vim.g.config.minipicker_iprefix, layout_config=minipicker_layout})) end,
     keys = { "i", "<A-o>", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Mini Document references",
-    cmd = function() require'telescope.builtin'.lsp_references(Telescope_vertical_dropdown_theme({path_display={truncate=9},show_line=false,layout_config=minipicker_layout})) end,
+    cmd = function() _tb.lsp_references(Telescope_vertical_dropdown_theme({path_display={truncate=9},show_line=false,layout_config=minipicker_layout})) end,
     keys = { "n", "<A-r>", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Mini Document references (i)",
-    cmd = function() require'telescope.builtin'.lsp_references(Telescope_vertical_dropdown_theme({path_display={truncate=9},show_line=false, prompt_prefix=vim.g.config.minipicker_iprefix, layout_config=minipicker_layout})) end,
+    cmd = function() _tb.lsp_references(Telescope_vertical_dropdown_theme({path_display={truncate=9},show_line=false, prompt_prefix=vim.g.config.minipicker_iprefix, layout_config=minipicker_layout})) end,
     keys = { "i", "<A-r>", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Mini Document Treesitter",
-    cmd = function() require'telescope.builtin'.treesitter(Telescope_vertical_dropdown_theme({layout_config=minipicker_layout})) end,
+    cmd = function() _tb.treesitter(Telescope_vertical_dropdown_theme({layout_config=minipicker_layout})) end,
     keys = { "n", "<A-t>", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Mini Document Treesitter (i)",
-    cmd = function() require'telescope.builtin'.treesitter(Telescope_vertical_dropdown_theme({prompt_prefix = vim.g.config.minipicker_iprefix, layout_config=minipicker_layout})) end,
+    cmd = function() _tb.treesitter(Telescope_vertical_dropdown_theme({prompt_prefix = vim.g.config.minipicker_iprefix, layout_config=minipicker_layout})) end,
     keys = { "i", "<A-t>", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Dynamic workspace symbols (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_dynamic_workspace_symbols(Telescope_vertical_dropdown_theme({})) end,
+    cmd = function() _tb.lsp_dynamic_workspace_symbols(Telescope_vertical_dropdown_theme({})) end,
     keys = { "n", "tds", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Workspace symbols (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_workspace_symbols(Telescope_vertical_dropdown_theme({})) end,
+    cmd = function() _tb.lsp_workspace_symbols(Telescope_vertical_dropdown_theme({})) end,
     keys = { "n", "tws", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Show implementations (Telescope)",
-    cmd = function() require'telescope.builtin'.lsp_implementations({layout_config={height=0.6, width=0.8,preview_width=0.5}}) end,
+    cmd = function() _tb.lsp_implementations({layout_config={height=0.6, width=0.8,preview_width=0.5}}) end,
     keys = { "n", "ti", noremap },
     category = "@LSP (Telescope)"
   },
   {
     desc = "Run diagnostics",
-    cmd = function() require'telescope.builtin'.diagnostics({bufnr=0, layout_config={height=0.6, width=0.8,preview_width=0.5}}) end,
+    cmd = function() _tb.diagnostics({bufnr=0, layout_config={height=0.6, width=0.8,preview_width=0.5}}) end,
     keys = { "n", "te", noremap },
     category = "@LSP"
   },
@@ -262,13 +264,13 @@ Command_center.add({
   -- GIT
   {
     desc = "GIT status (Telescope)",
-    cmd = function() require'telescope.builtin'.git_status({layout_config={height=0.8, width=0.8}}) end,
+    cmd = function() _tb.git_status({layout_config={height=0.8, width=0.8}}) end,
     keys = { "n", "tgs", noremap },
     category = "@GIT"
   },
   {
     desc = "GIT commits (Telescope)",
-    cmd = function() require'telescope.builtin'.git_commits({layout_config={height=0.8, width=0.8}}) end,
+    cmd = function() _tb.git_commits({layout_config={height=0.8, width=0.8}}) end,
     keys = { "n", "tgc", noremap },
     category = "@GIT"
   },
@@ -329,91 +331,91 @@ Command_center.add({
   -- Telescope pickers
   {
     desc = "Find files in current directory (Telescope)",
-    cmd = function() require'telescope.builtin'.find_files(Telescope_vertical_dropdown_theme({hidden=true, prompt_title="Find Files", cwd=vim.fn.expand('%:p:h')})) end,
+    cmd = function() _tb.find_files(Telescope_vertical_dropdown_theme({hidden=true, prompt_title="Find Files", cwd=vim.fn.expand('%:p:h')})) end,
     keys = { "n", "<f20>", noremap },  --shift-f8
     category = "@Telescope"
   },
   {
     desc = "Find files from current project root",
-    cmd = function() require("telescope.builtin").find_files(Telescope_vertical_dropdown_theme({prompt_title="Find Files", cwd = lutils.getroot_current()})) end,
+    cmd = function() _tb.find_files(Telescope_vertical_dropdown_theme({prompt_title="Find Files", cwd = lutils.getroot_current()})) end,
     keys = { "n", "<f8>", noremap },
     category = "@Telescope"
   },
   {
     desc = "File browser in the current project root",
-    cmd = function() require("telescope").extensions.file_browser.file_browser(Telescope_vertical_dropdown_theme({prompt_title="File Browser", hidden=true, path = lutils.getroot_current()})) end,
+    cmd = function() _t.extensions.file_browser.file_browser(Telescope_vertical_dropdown_theme({prompt_title="File Browser", hidden=true, path = lutils.getroot_current()})) end,
     keys = { "n", "<f32>", noremap },  -- ctrl-f8
     category = "@Telescope"
   },
   {
     desc = "Jumplist (Telescope)",
-    cmd = function() require'telescope.builtin'.jumplist(Telescope_vertical_dropdown_theme({show_line=false, layout_config={preview_height=0.4}})) end,
+    cmd = function() _tb.jumplist(Telescope_vertical_dropdown_theme({show_line=false, layout_config={preview_height=0.4}})) end,
     keys = { "n", "<A-Backspace>", noremap },
     category = "@Telescope"
   },
   {
     desc = "Command history (Telescope)",
-    cmd = function() require'telescope.builtin'.command_history(Telescope_dropdown_theme{title='Command history', width=0.4, height=0.7}) end,
+    cmd = function() _tb.command_history(Telescope_dropdown_theme{title='Command history', width=0.4, height=0.7}) end,
     keys = { "n", "<A-C>", noremap },
     category = "@Telescope"
   },
   {
     desc = "Command list (Telescope)",
-    cmd = function() require'telescope.builtin'.commands(Telescope_dropdown_theme{title='Commands', width=0.6, height=0.7}) end,
+    cmd = function() _tb.commands(Telescope_dropdown_theme{title='Commands', width=0.6, height=0.7}) end,
     keys = { "n", "<A-c>", noremap },
     category = "@Telescope"
   },
   {
     desc = "Registers (Telescope)",
-    cmd = function() require'telescope.builtin'.registers(Telescope_vertical_dropdown_theme{prompt_title='Registers',layout_config={width=0.6, height=0.7,preview_height=0.3}}) end,
+    cmd = function() _tb.registers(Telescope_vertical_dropdown_theme{prompt_title='Registers',layout_config={width=0.6, height=0.7,preview_height=0.3}}) end,
     keys = { "n", "<C-x><C-r>", noremap },
     category = "@Telescope"
   },
   {
     desc = "Keymaps (Telescope",
-    cmd = function() require'telescope.builtin'.keymaps({layout_config={width=0.8, height=0.7}}) end,
+    cmd = function() _tb.keymaps({layout_config={width=0.8, height=0.7}}) end,
     keys = { "n", "<C-x><C-k>", noremap },
     category = "@Telescope"
   },
   {
     desc = "File Browser (Telescope)",
-    cmd = function() require('telescope').extensions.file_browser.file_browser(Telescope_vertical_dropdown_theme({hidden=true, prompt_title="File Browser", path=vim.fn.expand('%:p:h')})) end,
+    cmd = function() _t.extensions.file_browser.file_browser(Telescope_vertical_dropdown_theme({hidden=true, prompt_title="File Browser", path=vim.fn.expand('%:p:h')})) end,
     keys = { "n", "<A-f>", noremap },
     category = "@Telescope"
   },
   {
     desc = "Fuzzy search in current buffer",
-    cmd = function() require'telescope.builtin'.current_buffer_fuzzy_find(Telescope_vertical_dropdown_theme({prompt_title="Fuzzy Find in current buffer"})) end,
+    cmd = function() _tb.current_buffer_fuzzy_find(Telescope_vertical_dropdown_theme({prompt_title="Fuzzy Find in current buffer"})) end,
     keys = { "n", "<C-x><C-f>", noremap },
     category = "@Telescope"
   },
   {
     desc = "Help tags (@Telescope)",
-    cmd = function() require'telescope.builtin'.help_tags({layout_config={width=0.8, height=0.8, preview_width=0.7} }) end,
+    cmd = function() _tb.help_tags({layout_config={width=0.8, height=0.8, preview_width=0.7} }) end,
     keys = { "n", "tht", noremap },
     category = "@Telescope"
   },
   {
     desc = "Live Grep (current directory)",
-    cmd = function() require("telescope.builtin").live_grep(Telescope_vertical_dropdown_theme({prompt_title="Live Grep Folder (current)", search_dirs={vim.fn.expand("%:p:h")}})) end,
+    cmd = function() _tb.live_grep(Telescope_vertical_dropdown_theme({prompt_title="Live Grep Folder (current)", search_dirs={vim.fn.expand("%:p:h")}})) end,
     keys = { "n", "<C-x>g", noremap },
     category = "@Telescope"
   },
   {
     desc = "Live Grep (project root)",
-    cmd = function() require("telescope.builtin").live_grep(Telescope_vertical_dropdown_theme({prompt_title="Live Grep Folder (project root)", search_dirs={ lutils.getroot_current() }})) end,
+    cmd = function() _tb.live_grep(Telescope_vertical_dropdown_theme({prompt_title="Live Grep Folder (project root)", search_dirs={ lutils.getroot_current() }})) end,
     keys = { "n", "<C-x><C-g>", noremap },
     category = "@Telescope"
   },
   {
     desc = "Spell suggestions",
-    cmd = function() require'telescope.builtin'.spell_suggest(Telescope_dropdown_theme{title='Spell suggestions', height=0.5,width=0.2}) end,
+    cmd = function() _tb.spell_suggest(Telescope_dropdown_theme{title='Spell suggestions', height=0.5,width=0.2}) end,
     keys = { "n", "<A-s>", noremap },
     category = "@Telescope"
   },
   {
     desc = "Tags list (Telescope)",
-    cmd = function() require'telescope.builtin'.tags(Telescope_vertical_dropdown_theme({prompt_title="Tags", cwd = lutils.getroot_current()})) end,
+    cmd = function() _tb.tags(Telescope_vertical_dropdown_theme({prompt_title="Tags", cwd = lutils.getroot_current()})) end,
     keys = { "n", "<leader>t",  },
     category = "@Telescope"
   },
@@ -443,7 +445,7 @@ Command_center.add({
   },
   {
     desc = "List all Highlight groups",
-    cmd = function() require('telescope.builtin').highlights() end,
+    cmd = function() _tb.highlights() end,
     keys = { "n", "thl", noremap },
     category = "@Neovim"
   },
