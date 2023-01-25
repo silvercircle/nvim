@@ -806,30 +806,6 @@ highlight! link diffFile Purple
 highlight! link diffLine Grey
 highlight! link diffIndexLine Purple
 " }}}
-" }}}
-" syn_begin: packer {{{
-" https://github.com/wbthomason/packer.nvim
-highlight! link packerSuccess Green
-highlight! link packerFail Red
-highlight! link packerStatusSuccess Fg
-highlight! link packerStatusFail Fg
-highlight! link packerWorking Yellow
-highlight! link packerString Yellow
-highlight! link packerPackageNotLoaded Grey
-highlight! link packerRelDate Grey
-highlight! link packerPackageName Blue
-highlight! link packerOutput Orange
-highlight! link packerHash Blue
-highlight! link packerTimeTrivial Blue
-highlight! link packerTimeHigh Red
-highlight! link packerTimeMedium Yellow
-highlight! link packerTimeLow Green
-" syn_end }}}
-" syn_begin: dirvish {{{
-" https://github.com/justinmk/vim-dirvish
-highlight! link DirvishPathTail Blue
-highlight! link DirvishArg Yellow
-" syn_end }}}
 " syn_begin: NvimTree {{{
 " https://github.com/kyazdani42/nvim-tree.lua
 call my_sonokai#highlight('NvimTreeNormal', s:palette.fg, s:palette.neotreebg)
@@ -857,47 +833,6 @@ highlight! link NvimTreeLspDiagnosticsError RedSign
 highlight! link NvimTreeLspDiagnosticsWarning YellowSign
 highlight! link NvimTreeLspDiagnosticsInformation BlueSign
 highlight! link NvimTreeLspDiagnosticsHint GreenSign
-" syn_end }}}
-" syn_begin: startify/quickmenu {{{
-" https://github.com/mhinz/vim-startify
-" https://github.com/skywind3000/quickmenu.vim
-highlight! link StartifyBracket Grey
-highlight! link StartifyFile Green
-highlight! link StartifyNumber Red
-highlight! link StartifyPath Grey
-highlight! link StartifySlash Grey
-highlight! link StartifySection Blue
-highlight! link StartifyHeader Purple
-highlight! link StartifySpecial Grey
-" syn_end }}}
-" syn_begin: quickmenu {{{
-" https://github.com/skywind3000/quickmenu.vim
-highlight! link QuickmenuOption Green
-highlight! link QuickmenuNumber Orange
-highlight! link QuickmenuBracket Grey
-highlight! link QuickmenuHelp Blue
-highlight! link QuickmenuSpecial Grey
-highlight! link QuickmenuHeader Purple
-" syn_end }}}
-" syn_begin: undotree {{{
-" https://github.com/mbbill/undotree
-call my_sonokai#highlight('UndotreeSavedBig', s:palette.red, s:palette.none, 'bold')
-highlight! link UndotreeNode Blue
-highlight! link UndotreeNodeCurrent Purple
-highlight! link UndotreeSeq Green
-highlight! link UndotreeCurrent Blue
-highlight! link UndotreeNext Yellow
-highlight! link UndotreeTimeStamp Grey
-highlight! link UndotreeHead Purple
-highlight! link UndotreeBranch Blue
-highlight! link UndotreeSavedSmall Red
-" syn_end }}}
-" syn_begin: dashboard {{{
-" https://github.com/glepnir/dashboard-nvim
-highlight! link DashboardHeader Blue
-highlight! link DashboardCenter Green
-highlight! link DashboardShortcut Red
-highlight! link DashboardFooter Yellow
 " syn_end }}}
 " syn_begin: markdown {{{
 " builtin: {{{

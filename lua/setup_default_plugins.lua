@@ -86,7 +86,8 @@ require("lualine").setup({
       "encoding",
       {
         -- show unicode for character under cursor in hex and decimal
-        "%05B - %06b",
+        -- "%05B - %06b",
+        "%05B",
         fmt = function(str)
           return string.format("U:0x%s", str)
         end,
