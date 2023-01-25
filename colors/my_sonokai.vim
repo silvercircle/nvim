@@ -178,6 +178,8 @@ call my_sonokai#highlight("Braces", s:palette.red, s:palette.none)
 call my_sonokai#highlight('ScrollView', s:teal, s:blue)
 
 call my_sonokai#highlight('Normal', s:palette.fg, s:bg)
+call my_sonokai#highlight('Accent', s:palette.black, s:accent)
+
 call my_sonokai#highlight('Terminal', s:palette.fg, s:palette.neotreebg)
 if s:configuration.show_eob
   call my_sonokai#highlight('EndOfBuffer', s:palette.bg4, s:palette.none)
@@ -830,20 +832,17 @@ highlight! link DirvishArg Yellow
 " syn_end }}}
 " syn_begin: NvimTree {{{
 " https://github.com/kyazdani42/nvim-tree.lua
-if !s:configuration.transparent_background
-  call sonokai#highlight('NvimTreeNormal', s:palette.fg, s:palette.bg_dim)
-  call sonokai#highlight('NvimTreeEndOfBuffer', s:palette.bg_dim, s:palette.bg_dim)
-  call sonokai#highlight('NvimTreeVertSplit', s:palette.bg0, s:palette.bg0)
-  call sonokai#highlight('NvimTreeCursorLine', s:palette.none, s:palette.bg0)
-endif
+call my_sonokai#highlight('NvimTreeNormal', s:palette.fg, s:palette.neotreebg)
+call my_sonokai#highlight('NvimTreeEndOfBuffer', s:palette.bg_dim, s:palette.bg_dim)
+call my_sonokai#highlight('NvimTreeVertSplit', s:palette.bg0, s:palette.bg0)
 highlight! link NvimTreeSymlink Fg
-highlight! link NvimTreeFolderName Green
-highlight! link NvimTreeRootFolder Grey
+highlight! link NvimTreeFolderName BlueBold
+highlight! link NvimTreeRootFolder Yellow
 highlight! link NvimTreeFolderIcon Blue
 highlight! link NvimTreeEmptyFolderName Green
-highlight! link NvimTreeOpenedFolderName Green
+highlight! link NvimTreeOpenedFolderName BlueBold
 highlight! link NvimTreeExecFile Fg
-highlight! link NvimTreeOpenedFile Fg
+highlight! link NvimTreeOpenedFile PurpleBold
 highlight! link NvimTreeSpecialFile Fg
 highlight! link NvimTreeImageFile Fg
 highlight! link NvimTreeMarkdownFile Fg
