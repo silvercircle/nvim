@@ -113,7 +113,7 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
   update_focused_file = {
     enable = false,
     debounce_delay = 50,
-    update_root = true,
+    update_root = false,
     ignore_list = {},
   },
   ignore_ft_on_setup = {},
@@ -150,7 +150,7 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
     ignore_dirs = {},
   },
   git = {
-    enable = false,
+    enable = true,
     ignore = true,
     show_on_dirs = true,
     show_on_open_dirs = true,

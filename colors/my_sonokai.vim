@@ -204,7 +204,7 @@ highlight! link vCursor Cursor
 highlight! link iCursor Cursor
 highlight! link lCursor Cursor
 highlight! link CursorIM Cursor
-call my_sonokai#highlight('FocusedSymbol', s:palette.yellow, s:palette.bg0, 'bold')
+call my_sonokai#highlight('FocusedSymbol', s:palette.yellow, s:palette.none, 'bold')
 if &diff
   call my_sonokai#highlight('CursorLine', s:palette.none, s:palette.none, 'underline')
   call my_sonokai#highlight('CursorColumn', s:palette.none, s:palette.none, 'bold')

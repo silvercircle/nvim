@@ -15,6 +15,7 @@ else
   map('n', "<leader>,", '<CMD>NvimTreeToggle<CR>', opts)              -- toggle the Nvim-Tree
   map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)            -- sync Nvim-Tree with current
   vim.keymap.set('n', "<leader>R", function() require("nvim-tree.api").tree.change_root(utils.getroot_current()) end, opts)
+  vim.keymap.set('n', "<leader>nr", function() require("nvim-tree.api").tree.change_root(vim.fn.expand("%:p:h")) end, opts)
 end
 
 map('n', '<C-Tab>', '<CMD>bnext<CR>', opts)
@@ -190,3 +191,8 @@ vim.keymap.set({'n', 'i', 't'}, "<A-2>", function() vim.fn.win_gotoid(1000) end,
 vim.keymap.set({'n', 'i', 't'}, "<A-3>", function() if FindbufbyType('Outline') == false then vim.cmd("SymbolsOutlineOpen") end end, opts) -- Outline
 vim.keymap.set({'n', 'i', 't'}, "<A-4>", function() if FindbufbyType('terminal') == false then vim.api.nvim_input("<f11>") end end, opts)  -- Terminal
 
+map('n', "<f11>", "<CMD>call TermToggle(12)<CR>", opts)
+map('i', "<f11>", "<Esc><CMD>call TermToggle(12)<CR>", opts)
+map('t', "<f11>", "<C-\\><C-n><CMD>call TermToggle(12)<CR>", opts)
+
+-- remap <f11> <C-\><C-n><CMD>call TermToggle(12)<CR>

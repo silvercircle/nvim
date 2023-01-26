@@ -5,16 +5,10 @@
 " Set configuration variables
 lua << EOB
 require('config')
-
--- load plugins (packer)
 -- lua require('_deprecated/load_packer')
-
 -- OR load plugins with lazy. DO NOT use both.
 require('load_lazy')
 require('vim_options')
--- setup telescope as early as possible. it contains some globals (custom themes)
--- that might be needed by other setup modules
--- require("setup_telescope")
 require('setup_default_plugins')
 EOB
 
@@ -96,6 +90,7 @@ augroup filetypes
   autocmd FileType alpha silent! setlocal statuscolumn=
   autocmd FileType DressingSelect,neo-tree setlocal winhl=CursorLine:Visual | hi Cursor blend=100
   autocmd FileType DressingInput hi Cursor blend=0
+  autocmd CmdlineEnter * hi Cursor blend=0
   autocmd WinEnter *
     \  if &filetype == 'DressingSelect' || &filetype == 'Outline' || &filetype == 'neo-tree' || &filetype == 'NvimTree'
     \|   setlocal winhl=CursorLine:Visual,Normal:NeoTreeNormalNC
@@ -191,13 +186,6 @@ function! TermToggle(height)
   endif
 endfunction
 
-" Alt-t toggles the term in a 12 row split below
-nnoremap <f11> <CMD>call TermToggle(12)<CR>
-inoremap <f11> <Esc><CMD>call TermToggle(12)<CR>
-tnoremap <f11> <C-\><C-n><CMD>call TermToggle(12)<CR>
-" remap <ESC> to escape terminal mode
-tnoremap <Esc> <C-\><C-n>
-" silent! set statuscolumn=%@SignCb@%=%s%=%T%#NumCb#%l\ %C%#IndentBlankLineChar#│\ 
 command! Jsonf :execute '%!python -c "import json,sys,collections,re; sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambda m:m.group().decode(\"unicode_escape\").encode(\"utf-8\"),json.dumps(json.load(sys.stdin, object_pairs_hook=collections.OrderedDict), indent=2)))"'
 " see https://jackdevries.com/post/vimRipgrep
 if executable('rg')

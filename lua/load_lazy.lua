@@ -183,7 +183,7 @@ local plugins_private = {
     end
   },
   {
-    'silvercircle/symbols-outline.nvim', cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
+    dir = '/mnt/shared/data/code/neovim_plugins/symbols-outline.nvim', cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
     config = function()
       require("setup_outline")
     end

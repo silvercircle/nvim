@@ -142,8 +142,9 @@ require('cokeline').setup({
   },
   components = {
     { text = ' ' },
+    -- { text = function(buffer) return buffer.is_focused and '' or ' ' end },
     -- { text = function(buffer) return (buffer.index ~= 1 and buffer.is_focused == false) and '│ ' or ' ' end },
-    --{ text = function(buffer) return buffer.is_focused and (buffer.index == 1 and '' or '') or ' ' end },
+    -- { text = function(buffer) return buffer.is_focused and (buffer.index == 1 and '' or '') or ' ' end },
     {
       text = function(buffer) return buffer.devicon.icon end,
       fg = function(buffer) return buffer.devicon.color end
@@ -158,7 +159,7 @@ require('cokeline').setup({
        fg = function(buffer) return buffer.is_modified and Cokeline_theme().unsaved or nil end,
     },
     { text = ' ' }
-    --{ text = function(buffer) return buffer.is_focused and '' or ' ' end }
+    -- { text = function(buffer) return buffer.is_focused and '' or ' ' end }
   }
 })
 
