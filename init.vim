@@ -12,6 +12,8 @@ require('vim_options')
 require('setup_default_plugins')
 EOB
 
+set guicursor=i:block-iCursor,v:block-vCursor,n-c:block-nCursor
+
 run macros/justify.vim
 
 command AutowrapOn setlocal fo+=w | setlocal fo+=w
@@ -86,19 +88,19 @@ augroup filetypes
   autocmd FileType markdown,telekasten,liquid setlocal conceallevel=2 | setlocal concealcursor=nc | setlocal formatexpr=
   autocmd FileType mail setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de
   autocmd FileType Treesitter silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal nonumber | setlocal norelativenumber | silent setlocal statuscolumn= | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC
-  autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=Outline | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi Cursor blend=100
+  autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=Outline | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=100
   autocmd FileType alpha silent! setlocal statuscolumn=
-  autocmd FileType DressingSelect,neo-tree setlocal winhl=CursorLine:Visual | hi Cursor blend=100
-  autocmd FileType DressingInput hi Cursor blend=0
-  autocmd CmdlineEnter * hi Cursor blend=0
+  autocmd FileType DressingSelect,neo-tree setlocal winhl=CursorLine:Visual | hi nCursor blend=100
+  autocmd FileType DressingInput hi nCursor blend=0
+  autocmd CmdlineEnter * hi nCursor blend=0
   autocmd WinEnter *
     \  if &filetype == 'DressingSelect' || &filetype == 'Outline' || &filetype == 'neo-tree' || &filetype == 'NvimTree'
     \|   setlocal winhl=CursorLine:Visual,Normal:NeoTreeNormalNC
-    \|   hi Cursor blend=100
+    \|   hi nCursor blend=100
     \| endif
   autocmd WinLeave *
     \  if &filetype == 'DressingSelect' || &filetype == 'Outline' || &filetype == 'neo-tree' || &filetype == 'NvimTree'
-    \|   hi Cursor blend=0
+    \|   hi nCursor blend=0
     \| endif
 
   " this might be nice, but too annoying. I prefer manual toggle (<C-l><C-l>)
