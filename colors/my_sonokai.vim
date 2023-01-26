@@ -149,7 +149,7 @@ if g:theme['variant'] == 'cold'
   let s:palette.grey = [ '#707070', 2 ]
   let s:pmenubg = [ '#241a20', 156 ]
   let s:accent = [ g:config['accent_color'], 209 ]
-
+  let s:tablinebg = [ g:cokeline_colors['bg'], 214]
 else
   let s:darkbg = ['#131010', 237]
   let s:teal = ['#108080', 238]
@@ -163,6 +163,7 @@ else
   let s:palette.grey = [ '#707070', 2 ]
   let s:pmenubg = [ '#241a20', 156 ]
   let s:accent = [ g:config['accent_color'], 209 ]
+  let s:tablinebg = [ g:cokeline_colors['bg'], 214]
 endif
 
 if !(exists('g:colors_name') && g:colors_name ==# 'my_sonokai' && s:configuration.better_performance)
@@ -249,23 +250,13 @@ else
   call my_sonokai#highlight('SpellLocal', s:palette.blue, s:palette.none, 'undercurl', s:palette.blue)
   call my_sonokai#highlight('SpellRare', s:palette.purple, s:palette.none, 'undercurl', s:palette.purple)
 endif
-if s:configuration.transparent_background == 2
-  call my_sonokai#highlight('StatusLine', s:palette.fg, s:statuslinebg)
-  call my_sonokai#highlight('StatusLineTerm', s:palette.fg, s:palette.none)
-  call my_sonokai#highlight('StatusLineNC', s:palette.grey, s:statuslinebg)
-  call my_sonokai#highlight('StatusLineTermNC', s:palette.grey, s:palette.none)
-  call my_sonokai#highlight('TabLine', s:palette.fg, s:palette.bg4)
-  call my_sonokai#highlight('TabLineFill', s:palette.grey, s:palette.none)
-  call my_sonokai#highlight('TabLineSel', s:palette.bg0, s:palette.bg_red)
-else
-  call my_sonokai#highlight('StatusLine', s:palette.fg, s:statuslinebg)
-  call my_sonokai#highlight('StatusLineTerm', s:palette.fg, s:palette.bg3)
-  call my_sonokai#highlight('StatusLineNC', s:palette.grey, s:statuslinebg)
-  call my_sonokai#highlight('StatusLineTermNC', s:palette.grey, s:palette.bg1)
-  call my_sonokai#highlight('TabLine', s:palette.fg, s:palette.bg4)
-  call my_sonokai#highlight('TabLineFill', s:palette.grey, s:palette.bg1)
-  call my_sonokai#highlight('TabLineSel', s:palette.bg0, s:palette.bg_red)
-endif
+call my_sonokai#highlight('StatusLine', s:palette.fg, s:statuslinebg)
+call my_sonokai#highlight('StatusLineTerm', s:palette.fg, s:palette.none)
+call my_sonokai#highlight('StatusLineNC', s:palette.grey, s:statuslinebg)
+call my_sonokai#highlight('StatusLineTermNC', s:palette.grey, s:palette.none)
+call my_sonokai#highlight('TabLine', s:palette.fg, s:palette.bg4)
+call my_sonokai#highlight('TabLineFill', s:palette.grey, s:tablinebg)
+call my_sonokai#highlight('TabLineSel', s:palette.bg0, s:palette.bg_red)
 call my_sonokai#highlight('VertSplit', s:statuslinebg, s:palette.neotreebg)
 highlight! link WinSeparator VertSplit
 

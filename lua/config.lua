@@ -25,7 +25,7 @@ vim.g.config = {
   cpalette_dropdown = 'top',                    -- same for the command palette
   -- accent color is used for important highlights like the currently selected tab (buffer) 
   -- and more.
-  accent_color = '#dbaf00',
+  accent_color = '#cbaf00',
   alt_accent_color = '#bd2f4f',
   -- the minipicker is the small telescope picker used for references, symbols and
   -- treesitter-symbols. It also works in insert mode.
@@ -49,7 +49,8 @@ vim.g.config = {
   --again, with highlighting relative number
   statuscol_rel = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:relnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:relnum) : ""} %C%#IndentBlankLineChar#│ ',
   statuscol_default = 'normal',
-  nvim_tree = true
+  nvim_tree = true,
+  cokeline_filename_width = 25             -- max filename length on cokeline tabs
 }
 
 Statuscol_current = vim.g.config.statuscol_default
@@ -126,7 +127,6 @@ g.outline_width = 36     -- split width for symbols-outline
 g.float_winblend = 0
 
 -- some tweaks
-vim.g.cokeline_filename_width = 20             -- max filename length on cokeline tabs
 vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' for the integrated theme 
                                                -- or any valid lualine theme name (e.g. 'dracula')
 
@@ -179,9 +179,9 @@ end
 vim.g.statuslinebg = LuaLineColors.statuslinebg
 
 -- cokeline colors for the buffer line
-local cokeline_colors = {
+vim.g.cokeline_colors = {
+  --bg = LuaLineColors.statuslinebg,
   bg = LuaLineColors.statuslinebg,
---  bg = '#202050',
   focus_bg = vim.g.config.accent_color,
   fg = LuaLineColors.gray7,
   focus_fg = '#202020'
@@ -214,8 +214,8 @@ end
 function Cokeline_theme()
   return {
     hl = {
-      fg = function(buffer) return buffer.is_focused and cokeline_colors.focus_fg or cokeline_colors.fg end,
-      bg = function(buffer) return buffer.is_focused and cokeline_colors.focus_bg or cokeline_colors.bg end
+      fg = function(buffer) return buffer.is_focused and vim.g.cokeline_colors.focus_fg or vim.g.cokeline_colors.fg end,
+      bg = function(buffer) return buffer.is_focused and vim.g.cokeline_colors.focus_bg or vim.g.cokeline_colors.bg end
     },
     unsaved = '#ff6060' -- the unsaved indicator on the tab
   }

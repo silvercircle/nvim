@@ -58,18 +58,21 @@ local function theme()
   end
 end
 
+local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
+
 require("lualine").setup({
   options = {
     icons_enabled = true,
     theme = theme(),
-    component_separators = { left = "", right = "" },
-    section_separators = { left = "", right = "" },
+    component_separators = "│", -- {left = "", right = "" },
+    section_separators = { left = '', right = '' },
+    -- section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", "neo-tree", 'terminal', 'Treesitter', 'qf', 'NvimTree'},
+      statusline = { "Outline", "neo-tree", 'terminal', 'Treesitter', 'qf'},
       winbar = {},
       tabline = {},
     },
-    ignore_focus = {'NvimTree'},
+    -- ignore_focus = {'NvimTree'},
     always_divide_middle = true,
     globalstatus = false,
     refresh = {
@@ -111,11 +114,11 @@ require("lualine").setup({
   winbar = {},
   --  lualine_a = { { saga_symbols} }
   inactive_winbar = {},
-  extensions = {},
+  extensions = {my_extension},
 })
+
 -- setup cokeline plugin. It provides a buffer line (aka tab-bar)
 --local sidebar_or_tree = vim.g.features['sidebar']['enable'] == true and true or false
-local sidebar_or_tree = false
 local treename = vim.g.config.nvim_tree == true and 'NvimTree' or 'neo-tree'
 
 require('cokeline').setup({
@@ -128,23 +131,25 @@ require('cokeline').setup({
   sidebar = {
     -- filetype = 'neo-tree',
     -- filetype = 'SidebarNvim',
-    filetype = sidebar_or_tree == true and 'SidebarNvim' or treename,
+    filetype = treename,
     components = {
       {
-        text = sidebar_or_tree == true and '  Side Bar' or '  File Explorer',
+        text = '  File Explorer',
         bg = vim.g.cokeline_bg,
         style = 'bold',
       },
     }
   },
   components = {
-    { text = function(buffer) return (buffer.index ~= 1) and '▏' or ' ' end, },
+    { text = ' ' },
+    -- { text = function(buffer) return (buffer.index ~= 1 and buffer.is_focused == false) and '│ ' or ' ' end },
+    --{ text = function(buffer) return buffer.is_focused and (buffer.index == 1 and '' or '') or ' ' end },
     {
       text = function(buffer) return buffer.devicon.icon end,
       fg = function(buffer) return buffer.devicon.color end
     },
     {
-      text = function(buffer) return Truncate(buffer.filename, vim.g.cokeline_filename_width) end,
+      text = function(buffer) return Truncate(buffer.filename, vim.g.config.cokeline_filename_width) end,
       style = function(buffer) return buffer.is_focused and 'bold' or nil end
     },
     { text = ' ' },
@@ -152,7 +157,8 @@ require('cokeline').setup({
        text = function(buffer) return buffer.is_modified and '●' or '' end,
        fg = function(buffer) return buffer.is_modified and Cokeline_theme().unsaved or nil end,
     },
-    { text = '  ' }
+    { text = ' ' }
+    --{ text = function(buffer) return buffer.is_focused and '' or ' ' end }
   }
 })
 

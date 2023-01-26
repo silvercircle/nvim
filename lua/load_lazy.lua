@@ -74,7 +74,7 @@ local plugins = {
   },
 --  { 'williamboman/mason-lspconfig.nvim' },
   {'tpope/vim-liquid', ft = "liquid" },
-  {'MunifTanjim/nui.nvim', lazy = true },
+  -- {'MunifTanjim/nui.nvim', lazy = true },
   'nvim-tree/nvim-web-devicons',
   { 'alaviss/nim.nvim', ft = "nim" },
   'nvim-lua/plenary.nvim',
@@ -95,12 +95,12 @@ local plugins = {
   { 'preservim/vim-markdown', ft = "markdown" },
   { 'norcalli/nvim-colorizer.lua' },
   'echasnovski/mini.move',
-  {
-    'nvim-neo-tree/neo-tree.nvim', branch = "main", cmd="NeoTreeShow",
-    config = function()
-      require("setup_neotree")
-    end
-  },
+ -- {
+ --   'nvim-neo-tree/neo-tree.nvim', branch = "main", cmd="NeoTreeShow",
+ --   config = function()
+ --     require("setup_neotree")
+ --   end
+ -- },
   {
     'nvim-tree/nvim-tree.lua', cmd="",
     config = function()
