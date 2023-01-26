@@ -195,14 +195,11 @@ call my_sonokai#highlight('IncSearch', s:palette.yellow, s:darkred)
 call my_sonokai#highlight('Search', s:palette.black, s:palette.diff_green)
 call my_sonokai#highlight('ColorColumn', s:palette.none, s:palette.bg1)
 call my_sonokai#highlight('Conceal', s:palette.grey_dim, s:palette.none)
-if s:configuration.cursor ==# 'auto'
-  call my_sonokai#highlight('Cursor', s:palette.none, s:palette.none, 'reverse')
-else
-  call my_sonokai#highlight('Cursor', s:palette.bg0, s:palette[s:configuration.cursor])
-endif
-highlight! link vCursor Cursor
-highlight! link iCursor Cursor
-highlight! link lCursor Cursor
+call my_sonokai#highlight('Cursor', s:palette.fg, s:palette.fg)
+call my_sonokai#highlight('nCursor', s:palette.fg, s:palette.fg)
+call my_sonokai#highlight('vCursor', s:palette.yellow, s:palette.yellow)
+call my_sonokai#highlight('iCursor', s:palette.red, s:palette.red)
+
 highlight! link CursorIM Cursor
 call my_sonokai#highlight('FocusedSymbol', s:palette.yellow, s:palette.none, 'bold')
 if &diff

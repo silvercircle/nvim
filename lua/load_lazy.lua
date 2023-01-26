@@ -29,17 +29,17 @@ local plugins = {
         lazy = true,
         event = { "UIEnter" },
         config = function()
-          require("setup_command_center")
+          require("plugins.command_center")
         end
       }
     },
     config = function()
-      require("setup_telescope")
+      require("plugins.telescope")
     end
   },
   {'nvim-treesitter/nvim-treesitter',
     config = function()
-      require("setup_treesitter")
+      require("plugins.treesitter")
     end
   },
   { 'L3MON4D3/LuaSnip',
@@ -58,12 +58,12 @@ local plugins = {
       'dnlhc/glance.nvim',
       { 'jose-elias-alvarez/null-ls.nvim', cond = vim.g.config.null_ls == true,
         config = function()
-          require("setup_null_ls")
+          require("plugins.null_ls")
         end
       }
     },
     config = function()
-      require("setup_lsp")
+      require("plugins.lsp")
     end
   },
   {
@@ -87,7 +87,7 @@ local plugins = {
   'petertriho/nvim-scrollbar',
   { 'stevearc/dressing.nvim',
     config = function()
-      require("setup_dressing")
+      require("plugins.dressing")
     end
   },
   { dir = '~/.config/nvim/local_plugin/local_utils' },
@@ -104,7 +104,7 @@ local plugins = {
   {
     'nvim-tree/nvim-tree.lua', cmd="",
     config = function()
-      require("setup_nvim-tree")
+      require("plugins.nvim-tree")
     end
   },
   {
@@ -113,13 +113,13 @@ local plugins = {
       { 'renerocksai/calendar-vim' },
     },
     config = function()
-      require("setup_telekasten")
+      require("plugins.telekasten")
     end
   },
   {
     'folke/todo-comments.nvim',
     config = function()
-      require("setup_todo")
+      require("plugins.todo")
     end
   },
   { 'nvim-treesitter/playground', cond = vim.g.config.treesitter_playground == true },
@@ -127,7 +127,7 @@ local plugins = {
   {
     'folke/noice.nvim', cond = vim.g.config.noice == true,
     config = function()
-      require("setup_noice")
+      require("plugins.noice")
     end
   },
   { 'goolord/alpha-nvim',
@@ -185,13 +185,13 @@ local plugins_private = {
   {
     dir = '/mnt/shared/data/code/neovim_plugins/symbols-outline.nvim', cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
     config = function()
-      require("setup_outline")
+      require("plugins.symbols_outline")
     end
   },
   {
     'silvercircle/lspsaga.nvim', lazy = true, cmd = "Lspsaga",
     config = function()
-      require("setup_lspsaga")
+      require("plugins.lspsaga")
     end
   },
   -- CMP and all its extensions
@@ -210,7 +210,7 @@ local plugins_private = {
       'hrsh7th/cmp-buffer'
     },
     config = function()
-      require("setup_cmp")
+      require("plugins.cmp")
     end
   }
 }
@@ -219,13 +219,13 @@ local plugins_official = {
   {
     'simrat39/symbols-outline.nvim', cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
     config = function()
-      require("setup_outline")
+      require("plugins.symbols_outline")
     end
   },
   {
     'glepnir/lspsaga.nvim', lazy = true, cmd = "Lspsaga",
     config = function()
-      require("setup_lspsaga")
+      require("plugins.lspsaga")
     end
   },
   -- cmp and all its helpers
@@ -243,7 +243,7 @@ local plugins_official = {
       'hrsh7th/cmp-buffer'
     },
     config = function()
-      require("setup_cmp")
+      require("plugins.cmp")
     end
   },
   'https://gitlab.com/silvercircle74/quickfavs.nvim'
