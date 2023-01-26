@@ -1,8 +1,7 @@
 -- nvim-cmp: completion support
 local cmp_helper = {}
-
+-- file types that allow buffer indexing for the cmp_buffer source
 local cmp_buffer_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true }
--- local cmp_buffer = require('cmp_buffer')
 
 -- helper function for cmp <TAB> mapping.
 local has_words_before = function()
@@ -94,10 +93,10 @@ cmp.setup({
     },
   },
   mapping = {
---    ["<C-Space>"] = cmp.mapping(cmp.mapping.complete({
---        reason = cmp.ContextReason.Manual,
---      }), {"i", "c"}),
-    ["<C-Space>"] = cmp.mapping.complete({reason = cmp.ContextReason.Auto}),
+    ["<C-Space>"] = cmp.mapping(cmp.mapping.complete({
+        reason = cmp.ContextReason.Manual,
+      }), {"i", "c"}),
+    -- ["<C-Space>"] = cmp.mapping.complete({reason = cmp.ContextReason.Auto}),
     ["<C-e>"] = cmp.mapping.abort(),
     ["<Esc>"] = cmp.mapping.close(), -- ESC close complete popup. Feels more natural than <C-e>
     ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp_types.SelectBehavior.Select }),
@@ -267,4 +266,6 @@ require("cmp_wordlist").setup({
   watch_files = true,
   telescope_theme = Telescope_dropdown_theme
 })
+
+vim.cmd("doautocmd CmdLineEnter")
 

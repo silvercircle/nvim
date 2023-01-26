@@ -1,7 +1,7 @@
 -- setup command center mappings. Outsourced from setup_telescope.lua
 -- when this is in use, only vim_mappings_light is required for full keyboard configuration
 -- most of these mappings are also in vim_mappings_full.lua so command_center is optional.
-Command_center = require("command_center")
+local command_center = require("command_center")
 local noremap = {noremap = true}
 local lsputil = require('lspconfig.util')
 local lutils = require("local_utils")
@@ -16,7 +16,7 @@ local minipicker_layout = {
   anchor = vim.g.config.minipicker_anchor
 }
 
-Command_center.add({
+command_center.add({
   {
     desc = "Bookmark Toggle",
     cmd = "<Plug>BookmarkToggle",
@@ -298,8 +298,6 @@ Command_center.add({
     keys = { "n", "<f18>", noremap },
     category = "@Neovim"
   },
-
-
   -- text formatting
   {
     -- select and format the current paragraph

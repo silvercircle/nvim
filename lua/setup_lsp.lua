@@ -203,10 +203,10 @@ local lua_root_files = {
 }
 
 lspconfig.sumneko_lua.setup {
-  cmd = { vim.g.lsp_server_bin['sumneko_lua'], "--loglevel=trace", '--logpath=' .. vim.fn.stdpath("data") },
-  on_attach = function(client, bufnr)
-    on_attach(client, bufnr)
-  end,
+  cmd = { vim.g.lsp_server_bin['sumneko_lua'], '--logpath=' .. vim.fn.stdpath("data") },
+  --on_attach = function(client, bufnr)
+  --  on_attach(client, bufnr)
+  --end,
   root_dir = function(fname)
     local root = util.root_pattern(unpack(lua_root_files))(fname)
     if root and root ~= vim.env.HOME then
@@ -219,6 +219,7 @@ lspconfig.sumneko_lua.setup {
     return util.find_git_ancestor(fname)
   end,
   single_file_support = true,
+  log_level = vim.lsp.protocol.MessageType.Warning,
   new_folder_restart = true,
   settings = {
     Lua = {
@@ -245,9 +246,6 @@ lspconfig.sumneko_lua.setup {
 -------------------------
 
 do
-  -- :help lsp-method
-  -- :help lsp-handler
-  -- :help lsp-handler-configuration
   local lsp_handlers_hover = vim.lsp.with(vim.lsp.handlers.hover, {
     border = "single",
   })
