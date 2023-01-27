@@ -37,11 +37,13 @@ if g:theme['desaturate'] == v:true
   let s:string = ['#40804f', 231]
   let s:blue =   ['#5a6acf', 239]
   let s:purple = ['#b070b0', 241]
+  let s:teal =   ['#407070', 238]
 else
   let s:string = ['#10801f', 231]
   let s:orange = ['#c36630', 215]
   let s:blue =   ['#4a4adf', 239]
   let s:purple = ['#c030c0', 241]
+  let s:teal =   ['#108080', 238]
 endif
 
 " The default variant is "warm"
@@ -138,7 +140,6 @@ let s:last_modified = '2022-12-23T08:46:17+0100'
 let g:sonokai_loaded_file_types = []
 if g:theme['variant'] == 'cold'
   let s:darkbg = ['#101013', 237]
-  let s:teal = ['#108080', 238]
   let s:darkpurple = ['#803090', 240]
   let s:darkred = ['#601010', 249]
   let s:darkestred = ['#161616', 249]
@@ -152,7 +153,6 @@ if g:theme['variant'] == 'cold'
   let s:tablinebg = [ g:cokeline_colors['bg'], 214]
 else
   let s:darkbg = ['#131010', 237]
-  let s:teal = ['#108080', 238]
   let s:darkpurple = ['#803090', 240]
   let s:darkred = ['#601010', 249]
   let s:darkestred = ['#161616', 249]

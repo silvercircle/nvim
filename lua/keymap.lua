@@ -174,8 +174,7 @@ map('i', "<C-S-Left>", "<c-o><C-o>", opts)
 map('i', "<C-S-Right>", "<c-o><C-i>", opts)
 
 map('n', "<f23>", "<CMD>Lazy<CR>", opts)
-vim.keymap.set('n', "<C-l><C-l>", function() Toggle_statuscol() end, opts)
-vim.keymap.set('i', "<C-l><C-l>", function() Toggle_statuscol() end, opts)
+vim.keymap.set({'n', 'i'}, "<C-l><C-l>", function() Toggle_statuscol() end, opts)
 vim.keymap.set('n', "<A-q>", function() require "local_utils".Quitapp() end, opts)
 vim.keymap.set({'n', 'i'}, "<C-e>", function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.4, sort_lastused=true, sort_mru=true, show_all_buffers=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end, opts)
 vim.keymap.set('n', "<C-p>", function() require'telescope.builtin'.oldfiles(Telescope_dropdown_theme({title='Old files', width=0.6, height=0.5})) end, opts)
@@ -191,9 +190,9 @@ vim.keymap.set({'n', 'i', 't'}, "<A-2>", function() vim.fn.win_gotoid(1000) end,
 vim.keymap.set({'n', 'i', 't'}, "<A-3>", function() if FindbufbyType('Outline') == false then vim.cmd("SymbolsOutlineOpen") end end, opts) -- Outline
 vim.keymap.set({'n', 'i', 't'}, "<A-4>", function() if FindbufbyType('terminal') == false then vim.api.nvim_input("<f11>") end end, opts)  -- Terminal
 
+-- terminal mappings
 map('n', "<f11>", "<CMD>call TermToggle(12)<CR>", opts)
 map('i', "<f11>", "<Esc><CMD>call TermToggle(12)<CR>", opts)
 map('t', "<f11>", "<C-\\><C-n><CMD>call TermToggle(12)<CR>", opts)
 map('t', "<Esc>", "<C-\\><C-n>", opts)
 
--- remap <f11> <C-\><C-n><CMD>call TermToggle(12)<CR>
