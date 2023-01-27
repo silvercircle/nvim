@@ -27,7 +27,7 @@ local plugins = {
       { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
       { 'FeiyouG/command_center.nvim',
         lazy = true,
---        event = { "UIEnter" },
+        event = { "UIEnter" },
         config = function()
           require("plugins.command_center")
         end
@@ -162,6 +162,15 @@ local plugins = {
     },
     config = function()
       require("dap.nvim_dap")
+    end
+  },
+  { 'jackMort/ChatGPT.nvim',
+    cmd = "ChatGPT",
+    dependencies = {
+      "MunifTanjim/nui.nvim"
+    },
+    config = function()
+      require("plugins.chatgpt")
     end
   }
 }

@@ -347,8 +347,14 @@ command_center.add({
   },
   {
     desc = "Jumplist (Telescope)",
-    cmd = function() _tb.jumplist(Telescope_vertical_dropdown_theme({show_line=false, layout_config={preview_height=0.4}})) end,
-    keys = { "n", "<A-Backspace>", noremap },
+    cmd = function() _tb.jumplist(Telescope_vertical_dropdown_theme({show_line=false, layout_config={width=80, preview_height=0.3}})) end,
+    keys = {"n", "<A-Backspace>", noremap },
+    category = "@Telescope"
+  },
+  {
+    desc = "Jumplist (Telescope) (i)",
+    cmd = function() _tb.jumplist(Telescope_vertical_dropdown_theme({prompt_prefix=vim.g.config.minipicker_iprefix, show_line=false, layout_config={width=80, preview_height=0.3}})) end,
+    keys = {"i", "<A-Backspace>", noremap },
     category = "@Telescope"
   },
   {

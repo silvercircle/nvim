@@ -182,13 +182,13 @@ vim.keymap.set('n', "<A-p>", function() require("telescope").extensions.command_
 
 -- quick-focus the four main areas
 if vim.g.config.nvim_tree == true then
-  vim.keymap.set({'n', 'i', 't'}, "<A-1>", function() FindbufbyType('NvimTree') end, opts)      -- Nvim-tree
+  vim.keymap.set({'n', 'i', 't', 'v'}, "<A-1>", function() FindbufbyType('NvimTree') end, opts)      -- Nvim-tree
 else
-  vim.keymap.set({'n', 'i', 't'}, "<A-1>", function() FindbufbyType('neo-tree') end, opts)      -- Neotree
+  vim.keymap.set({'n', 'i', 't', 'v'}, "<A-1>", function() FindbufbyType('neo-tree') end, opts)      -- Neotree
 end
-vim.keymap.set({'n', 'i', 't'}, "<A-2>", function() vim.fn.win_gotoid(1000) end, opts)        -- main window
-vim.keymap.set({'n', 'i', 't'}, "<A-3>", function() if FindbufbyType('Outline') == false then vim.cmd("SymbolsOutlineOpen") end end, opts) -- Outline
-vim.keymap.set({'n', 'i', 't'}, "<A-4>", function() if FindbufbyType('terminal') == false then vim.api.nvim_input("<f11>") end end, opts)  -- Terminal
+vim.keymap.set({'n', 'i', 't', 'v'}, "<A-2>", function() vim.fn.win_gotoid(1000) end, opts)        -- main window
+vim.keymap.set({'n', 'i', 't', 'v'}, "<A-3>", function() if FindbufbyType('Outline') == false then vim.cmd("SymbolsOutlineOpen") end end, opts) -- Outline
+vim.keymap.set({'n', 'i', 't', 'v'}, "<A-4>", function() if FindbufbyType('terminal') == false then vim.api.nvim_input("<f11>") end end, opts)  -- Terminal
 
 -- terminal mappings
 map('n', "<f11>", "<CMD>call TermToggle(12)<CR>", opts)
