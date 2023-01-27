@@ -12,9 +12,23 @@ even when the command palette is not (yet) loaded.
 `Alt-Cursorkey` is used to navigate windows, so `A-Left` goes to the left window, `A-Down` to the split 
 below the current and so on.
 
-
 Key notation is in the Vim format without angle brackets. So `leader n` means to hit the leader key 
-followed by n, `C-n` means `Ctrl-n` and so on.
+followed by `n`, `C-n` means `Ctrl-n` and so on.
+
+Some keymaps use the notation of a `root directory`. This is defined as the project root directory for 
+the active buffer. To find it, various utility functions are used for a *best guess* approach. If the 
+file is under **GIT** version control, then the `GIT root` will be used. If it is not, a pattern approach 
+similar to LSP config will be used to find typical project root patterns. Note that this might fail and 
+return `nil` in which case the directory of the active buffer will be used.
+
+## File pickers (Telescope)
+
+| key             | modes | meaning                                                 |
+|-----------------|:-----:|---------------------------------------------------------|
+|C-p              | n     | Select recent file (Telescope oldfiles)                 |
+|C-e              | n,i   | Select buffer (loaded or unloaded, Telescope buffers)   |
+|F8               | n     | Find files in the `root` directory of the active buffer |
+
 
 ## Keys related to Nvim-Tree or Neotree
 
@@ -28,7 +42,7 @@ followed by n, `C-n` means `Ctrl-n` and so on.
 ## keys related to the terminal frame
 
 The terminal split is always opened below the current one. This works as toggle, if it's open, it will be 
-closed.
+closed. See the [README](README.md) of how to avoid opening a terminal on startup.
 
 | key             | modes | meaning                                                 |
 |-----------------|:-----:|---------------------------------------------------------|
@@ -46,3 +60,14 @@ the main editor area. There are quick navigation keys to focus these frames as f
 | A-2             | n,i,t,v | Focus the main text area |
 | A-3             | n,i,t,v | Open or Focus the symbol outline tree (when available)|
 | A-4             | n,i,t,v | Open or focus the terminal|
+
+Note that this also works when the editor was started in plain mode without an active file tree and 
+terminal split.
+
+## Various navigation helpers
+
+| key             |  modes  | meaning                                                 |
+|-----------------|:-------:|---------------------------------------------------------|
+| A-Backspace     | n,i,t,v | Focus the left frame (file tree) |
+| A-2             | n,i,t,v | Focus the main text area |
+
