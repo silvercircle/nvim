@@ -113,7 +113,7 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
   update_focused_file = {
     enable = false,
     debounce_delay = 50,
-    update_root = false,
+    update_root = true,
     ignore_list = {},
   },
   ignore_ft_on_setup = {},

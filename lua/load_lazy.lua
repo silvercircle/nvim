@@ -86,6 +86,8 @@ local plugins = {
   'lukas-reineke/indent-blankline.nvim',
   'petertriho/nvim-scrollbar',
   { 'stevearc/dressing.nvim',
+    lazy = true,
+    event = { "UIEnter" },
     config = function()
       require("plugins.dressing")
     end

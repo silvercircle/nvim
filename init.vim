@@ -9,7 +9,7 @@ require('config')
 -- OR load plugins with lazy. DO NOT use both.
 require('load_lazy')
 require('vim_options')
-require('setup_default_plugins')
+require('plugins.default')
 EOB
 
 set guicursor=i:block-iCursor,v:block-vCursor,n-c:block-nCursor
@@ -33,9 +33,9 @@ command AFAuto setlocal fo+=a | setlocal fo+=w | setlocal fo+=c | setlocal fo+=q
 map <C-c> <NOP>
 imap <C-c> <NOP>
 
-lua require('vim_mappings_light')
+lua require('keymap')
 
-set guifont=Iosevka:h11.2:#e-subpixelantialias:#h-full
+set guifont=Iosevka:h11:#e-subpixelantialias:#h-full
 
 " enable plugin-based filetyp identification, syntax highlighting
 filetype on
