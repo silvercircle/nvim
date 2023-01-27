@@ -30,4 +30,7 @@ will work and CMP will be loaded when you first enter *InsertMode*.
 For the description and configuration options, see [this file](keymap.md). There are many custom keyboard 
 commands available.
 
+## CMP completion
+
+`autocompletion` is, by default, disabled in this config.
 

@@ -1,10 +1,10 @@
 
 # Custom key mappings
 
-There are many custom keymappings in this config. The majority is defined in `plugins/command_center` 
+There are many custom keymappings in this config. The majority is defined in `plugins/command_center.lua` 
 forming a command palette which can be activated by `A-p`. This is similar to the command palette known 
 in other editors. It shows keymappings and command descriptions, is divided into categories and 
-searchable.
+searchable like any other Telescope picker.
 
 Some essential commands are defined in `keymap.lua`, particularly those that should always be available 
 even when the command palette is not (yet) loaded.
@@ -28,7 +28,7 @@ return `nil` in which case the directory of the active buffer will be used.
 |C-p              | n     | Select recent file (Telescope oldfiles)                 |
 |C-e              | n,i   | Select buffer (loaded or unloaded, Telescope buffers)   |
 |F8               | n     | Find files in the `root` directory of the active buffer |
-
+|F5               | n,i   | clear search highlights (also those from hlslens |
 
 ## Keys related to Nvim-Tree or Neotree
 
@@ -68,6 +68,13 @@ terminal split.
 
 | key             |  modes  | meaning                                                 |
 |-----------------|:-------:|---------------------------------------------------------|
-| A-Backspace     | n,i,t,v | Focus the left frame (file tree) |
-| A-2             | n,i,t,v | Focus the main text area |
+| A-Backspace     | n,i     | Activate the jumplist (recent edit locations)    |
+| A-S-Left        | n,i     | Go back to previous edit location (like C-o)     |
+| A-S-Right       | n,i     | Go to next edit location (like C-i)              |
 
+## CMP (completion) mapping.
+
+These mappings are defined in `lua/plugins/cmp.lua` which contains all cmp-related configuration. 
+Standard keybindings are used to activate manual completion (`C-Space`) and select completion suggestions 
+(`Tab`).
+

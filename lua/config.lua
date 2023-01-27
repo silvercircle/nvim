@@ -50,8 +50,10 @@ vim.g.config = {
   statuscol_rel = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:relnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:relnum) : ""} %C%#IndentBlankLineChar#│ ',
   statuscol_default = 'normal',
   nvim_tree = true,
-  cokeline_filename_width = 25             -- max filename length on cokeline tabs
+  cokeline_filename_width = 25,             -- max filename length on cokeline tabs
+  cmp_autocomplete = true
 }
+
 
 Statuscol_current = vim.g.config.statuscol_default
 
@@ -296,4 +298,5 @@ function FindbufbyType(type)
   end
   return false
 end
+
 
