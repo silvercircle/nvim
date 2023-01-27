@@ -40,7 +40,7 @@ vim.g.config = {
   neodev = false,                               -- setup by lazy loader
   treesitter = true,
   treesitter_playground = false,                -- no setup required, optional, handled by setup_treesitter
-  plain = env_plain ~= nil and true or false,
+  plain = (env_plain ~= nil or vim.g.want_plain == true) and true or false,
   use_rainbow_indentguides = false,             -- for indent-blankline: rainbow-colorize indent guides
   --statuscol_normal = '%s%#LineNr#%=%{printf("%4d", v:lnum)} %C%#IndentBlankLineChar#│ ',
   --the same as above with highlighting the current line number

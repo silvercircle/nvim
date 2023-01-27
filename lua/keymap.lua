@@ -12,7 +12,7 @@ if vim.g.config.nvim_tree == false then
   map('n', "<leader>r", "<CMD>Neotree reveal_force_cwd<CR>", opts)    -- sync Neotree dir to current buffer
   map('n', "<leader>,", '<CMD>Neotree toggle dir=%:p:h<CR>', opts)              -- toggle the Neotree
 else
-  map('n', "<leader>,", '<CMD>NvimTreeToggle<CR>', opts)              -- toggle the Nvim-Tree
+  vim.keymap.set('n', "<leader>,", function() require("nvim-tree.api").tree.toggle() end, opts)              -- toggle the Nvim-Tree
   map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)            -- sync Nvim-Tree with current
   vim.keymap.set('n', "<leader>R", function() require("nvim-tree.api").tree.change_root(utils.getroot_current()) end, opts)
   vim.keymap.set('n', "<leader>nr", function() require("nvim-tree.api").tree.change_root(vim.fn.expand("%:p:h")) end, opts)
@@ -194,5 +194,6 @@ vim.keymap.set({'n', 'i', 't'}, "<A-4>", function() if FindbufbyType('terminal')
 map('n', "<f11>", "<CMD>call TermToggle(12)<CR>", opts)
 map('i', "<f11>", "<Esc><CMD>call TermToggle(12)<CR>", opts)
 map('t', "<f11>", "<C-\\><C-n><CMD>call TermToggle(12)<CR>", opts)
+map('t', "<Esc>", "<C-\\><C-n>", opts)
 
 -- remap <f11> <C-\><C-n><CMD>call TermToggle(12)<CR>
