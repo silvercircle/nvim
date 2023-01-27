@@ -150,8 +150,6 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
     if vim.g.config.plain == false then
       if vim.g.config.nvim_tree == true then
         require('nvim-tree.api').tree.toggle({focus = false})
-        -- nvim-tree will grab focus, so take it back.
-        vim.schedule(function() vim.cmd("wincmd p") end)
       else
         vim.api.nvim_command("NeoTreeShow")
       end

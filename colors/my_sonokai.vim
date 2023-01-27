@@ -37,7 +37,7 @@ if g:theme['desaturate'] == v:true
   let s:string = ['#40804f', 231]
   let s:blue =   ['#5a6acf', 239]
   let s:purple = ['#b070b0', 241]
-  let s:teal =   ['#407070', 238]
+  let s:teal =   ['#408080', 238]
 else
   let s:string = ['#10801f', 231]
   let s:orange = ['#c36630', 215]
