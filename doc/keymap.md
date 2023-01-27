@@ -42,7 +42,7 @@ return `nil` in which case the directory of the active buffer will be used.
 ## keys related to the terminal frame
 
 The terminal split is always opened below the current one. This works as toggle, if it's open, it will be 
-closed. See the [README](README.md) of how to avoid opening a terminal on startup.
+closed. See the [docs](doc/configuration.md) of how to avoid opening a terminal on startup.
 
 | key             | modes | meaning                                                 |
 |-----------------|:-----:|---------------------------------------------------------|
