@@ -16,7 +16,7 @@ This will start Neovim without an UI (`--headless`) install all the plugins usin
 then quit. Usually, this should complete without errors unless your system lacks prerequisites like a 
 working GIT installation.
 
-Note that this is **ONLY** required for a fresh install. Once all plugins are started, you can launch 
+Note that this is **ONLY** required for a fresh install. Once all plugins are installed, you can launch 
 Neovim normally without parameters.
 
 ## Configuring LSP

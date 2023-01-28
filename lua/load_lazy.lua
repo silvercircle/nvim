@@ -200,7 +200,7 @@ local plugins_private = {
     end
   },
   {
-    'silvercircle/lspsaga.nvim', lazy = true, cmd = "Lspsaga",
+    'glepnir/lspsaga.nvim', lazy = true, cmd = "Lspsaga",
     config = function()
       require("plugins.lspsaga")
     end

@@ -160,7 +160,7 @@ function M.BufClose()
       vim.ui.select({ 'Save and Close', 'Close and discard', 'Cancel Operation' }, {
       prompt = 'Close modified buffer?',
         format_item = function(item)
-          return M.pad(item, 44, ' ')
+          return M.pad(item, 46, ' ')
         end,
       },
       function(choice)
@@ -200,7 +200,7 @@ function M.Quitapp()
         prompt = 'Exit (no modified buffers)',
         border="single",
         format_item = function(item)
-          return M.pad(item, 44, ' ')
+          return M.pad(item, 46, ' ')
         end,
       },
       function(choice)
@@ -218,7 +218,7 @@ function M.Quitapp()
     vim.ui.select({ 'Save all modified buffers and exit', 'Discard all modified buffers and exit', 'Cancel operation' }, {
       prompt = 'Exit (all unsaved changes are lost)',
         format_item = function(item)
-          return M.pad(item, 44, ' ')
+          return M.pad(item, 46, ' ')
         end,
       },
       function(choice)

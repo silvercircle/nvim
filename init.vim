@@ -11,7 +11,14 @@ require('load_lazy')
 require('vim_options')
 require('plugins.default')
 EOB
+  if exists('g:neoray')
+  NeoraySet Transparency 1
+  NeoraySet CursorAnimTime 0
+  NeoraySet ContextMenu true
+  NeoraySet WindowSize 240x65
+endif
 
+set guifont=Iosevka\ Term:h11.2
 set guicursor=i:block-iCursor,v:block-vCursor,n-c:block-nCursor
 
 run macros/justify.vim
@@ -35,7 +42,6 @@ imap <C-c> <NOP>
 
 lua require('keymap')
 
-set guifont=Iosevka:h11:#e-subpixelantialias:#h-full
 
 " enable plugin-based filetyp identification, syntax highlighting
 filetype on
