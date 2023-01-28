@@ -3,20 +3,17 @@
 " lua require('impatient')
 
 " Set configuration variables
+let g:vim_markdown_folding_disabled = 1
+
 lua << EOB
 require('config')
+
 -- lua require('_deprecated/load_packer')
 -- OR load plugins with lazy. DO NOT use both.
 require('load_lazy')
 require('vim_options')
 require('plugins.default')
 EOB
-  if exists('g:neoray')
-  NeoraySet Transparency 1
-  NeoraySet CursorAnimTime 0
-  NeoraySet ContextMenu true
-  NeoraySet WindowSize 240x65
-endif
 
 set guifont=Iosevka\ Term:h11.2
 set guicursor=i:block-iCursor,v:block-vCursor,n-c:block-nCursor

@@ -267,5 +267,5 @@ require("cmp_wordlist").setup({
   telescope_theme = Telescope_dropdown_theme
 })
 
-vim.cmd("doautocmd CmdLineEnter")
+-- vim.cmd("doautocmd CmdLineEnter")
 

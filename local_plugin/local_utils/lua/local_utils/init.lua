@@ -3,7 +3,7 @@
 
 local M = {}
 
-local default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble" }
+local default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", ".vscode" }
 
 local conf = {
   root_patterns = default_root_patterns,

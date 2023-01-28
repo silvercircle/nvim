@@ -161,15 +161,17 @@ local plugins = {
     config = function ()
       if vim.g.config.plain == false then
         local theme = require("alpha.themes.startify")
-        local handle = io.popen("fortune science politics -s -n500 | cowsay -W 120")
-        local result = {"",""}
-        if handle ~= nil then
-          local lines = handle:lines()
-          for line in lines do
-            table.insert(result, line)
+        if vim.fn.has("linux") > 0 and vim.g.config.fortunecookie == true then
+          local handle = io.popen("fortune science politics -s -n500 | cowsay -W 120")
+          local result = {"",""}
+          if handle ~= nil then
+            local lines = handle:lines()
+            for line in lines do
+              table.insert(result, line)
+            end
+            handle:close()
+            theme.section.header.val = result
           end
-          handle:close()
-          theme.section.header.val = result
         end
         require'alpha'.setup(theme.config)
       end

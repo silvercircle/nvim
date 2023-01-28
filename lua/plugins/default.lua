@@ -168,7 +168,7 @@ require("indent_blankline").setup({
   show_current_context = false,
   show_current_context_start = false,
   show_end_of_line = true,
-  show_foldtext = false,
+  show_foldtext = false,      -- FIX: important to properly refresh indent guides in folds after expanding them
   -- „rainbow style“ indent guides - if you want it, uncomment it. the highlight groups are already
   -- defined in the my_sonokai scheme.
   char_highlight_list = vim.g.config.use_rainbow_indentguides == true and {

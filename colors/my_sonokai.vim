@@ -200,7 +200,7 @@ call my_sonokai#highlight('nCursor', s:palette.fg, s:palette.fg)
 call my_sonokai#highlight('iCursor', s:palette.yellow, s:palette.yellow)
 call my_sonokai#highlight('vCursor', s:palette.red, s:palette.red)
 
-highlight! link CursorIM Cursor
+highlight! link CursorIM iCursor
 call my_sonokai#highlight('FocusedSymbol', s:palette.yellow, s:palette.none, 'bold')
 if &diff
   call my_sonokai#highlight('CursorLine', s:palette.none, s:palette.none, 'underline')
@@ -227,7 +227,8 @@ call my_sonokai#highlight('MoreMsg', s:palette.blue, s:palette.none, 'bold')
 call my_sonokai#highlight('MatchParen', s:palette.yellow, s:darkred)
 call my_sonokai#highlight('NonText', s:palette.bg4, s:palette.none)
 call my_sonokai#highlight('Whitespace', s:palette.green, s:palette.none)
-call my_sonokai#highlight('SpecialKey', s:palette.bg4, s:palette.none)
+call my_sonokai#highlight('ExtraWhitespace', s:palette.green, s:palette.none)
+call my_sonokai#highlight('SpecialKey', s:palette.green, s:palette.none)
 call my_sonokai#highlight('Pmenu', s:palette.fg, s:pmenubg)
 call my_sonokai#highlight('PmenuSbar', s:palette.none, s:palette.bg2)
 call my_sonokai#highlight('PmenuSel', s:palette.yellow, s:blue)
@@ -236,17 +237,10 @@ call my_sonokai#highlight('PmenuThumb', s:palette.none, s:palette.grey)
 call my_sonokai#highlight('NormalFloat', s:palette.fg, s:palette.bg_dim)
 call my_sonokai#highlight('FloatBorder', s:palette.grey_dim, s:palette.bg_dim)
 call my_sonokai#highlight('Question', s:palette.yellow, s:palette.none)
-if s:configuration.spell_foreground ==# 'none'
-  call my_sonokai#highlight('SpellBad', s:palette.none, s:palette.none, 'undercurl', s:palette.red)
-  call my_sonokai#highlight('SpellCap', s:palette.none, s:palette.none, 'undercurl', s:palette.yellow)
-  call my_sonokai#highlight('SpellLocal', s:palette.none, s:palette.none, 'undercurl', s:palette.blue)
-  call my_sonokai#highlight('SpellRare', s:palette.none, s:palette.none, 'undercurl', s:palette.purple)
-else
-  call my_sonokai#highlight('SpellBad', s:palette.red, s:palette.none, 'undercurl', s:palette.red)
-  call my_sonokai#highlight('SpellCap', s:palette.yellow, s:palette.none, 'undercurl', s:palette.yellow)
-  call my_sonokai#highlight('SpellLocal', s:palette.blue, s:palette.none, 'undercurl', s:palette.blue)
-  call my_sonokai#highlight('SpellRare', s:palette.purple, s:palette.none, 'undercurl', s:palette.purple)
-endif
+call my_sonokai#highlight('SpellBad', s:palette.none, s:palette.none, 'undercurl', s:palette.red)
+call my_sonokai#highlight('SpellCap', s:palette.none, s:palette.none, 'undercurl', s:palette.yellow)
+call my_sonokai#highlight('SpellLocal', s:palette.none, s:palette.none, 'undercurl', s:palette.blue)
+call my_sonokai#highlight('SpellRare', s:palette.none, s:palette.none, 'undercurl', s:palette.purple)
 call my_sonokai#highlight('StatusLine', s:palette.fg, s:statuslinebg)
 call my_sonokai#highlight('StatusLineTerm', s:palette.fg, s:palette.none)
 call my_sonokai#highlight('StatusLineNC', s:palette.grey, s:statuslinebg)
@@ -646,20 +640,6 @@ highlight! link CurrentWordTwins CurrentWord
 " itchyny/vim-cursorword {{{
 highlight! link CursorWord0 CurrentWord
 highlight! link CursorWord1 CurrentWord
-" }}}
-" Yggdroot/indentLine {{{
-let g:indentLine_color_gui = s:palette.grey_dim[0]
-let g:indentLine_color_term = s:palette.grey_dim[1]
-" }}}
-" nathanaelkane/vim-indent-guides {{{
-if get(g:, 'indent_guides_auto_colors', 1) == 0
-  call my_sonokai#highlight('IndentGuidesOdd', s:palette.bg0, s:palette.bg1)
-  call my_sonokai#highlight('IndentGuidesEven', s:palette.bg0, s:palette.bg2)
-endif
-" }}}
-" unblevable/quick-scope {{{
-call my_sonokai#highlight('QuickScopePrimary', s:palette.green, s:palette.none, 'underline')
-call my_sonokai#highlight('QuickScopeSecondary', s:palette.blue, s:palette.none, 'underline')
 " }}}
 " APZelos/blamer.nvim {{{
 highlight! link Blamer Grey
