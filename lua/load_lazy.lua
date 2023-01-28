@@ -48,6 +48,24 @@ local plugins = {
       require("luasnip.loaders.from_snipmate").lazy_load()
     end
   },
+  -- cmp and all its helpers
+  { 'hrsh7th/nvim-cmp',
+    lazy = true,
+    event = { "InsertEnter", "CmdLineEnter" },
+    dependencies = {
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-emoji',
+      'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
+      {'https://gitlab.com/silvercircle74/cmp-wordlist.nvim' },
+      'hrsh7th/cmp-buffer'
+    },
+    config = function()
+      require("plugins.cmp")
+    end
+  },
   -- lsp
   { 'neovim/nvim-lspconfig',
     lazy = true,
@@ -107,6 +125,12 @@ local plugins = {
     'nvim-tree/nvim-tree.lua', cmd="",
     config = function()
       require("plugins.nvim-tree")
+    end
+  },
+  {
+    'glepnir/lspsaga.nvim', lazy = true, cmd = "Lspsaga",
+    config = function()
+      require("plugins.lspsaga")
     end
   },
   {
@@ -199,31 +223,25 @@ local plugins_private = {
       require("plugins.symbols_outline")
     end
   },
-  {
-    'glepnir/lspsaga.nvim', lazy = true, cmd = "Lspsaga",
-    config = function()
-      require("plugins.lspsaga")
-    end
-  },
-  -- CMP and all its extensions
-  {
-    dir = '/mnt/shared/data/code/neovim_plugins/nvim-cmp',
-    lazy = true,
-    event = { "InsertEnter", "CmdLineEnter" },
-    dependencies = {
-      'hrsh7th/cmp-cmdline',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-emoji',
-      'saadparwaiz1/cmp_luasnip',
-      'hrsh7th/cmp-nvim-lsp-signature-help',
-      { dir = '/mnt/shared/data/code/neovim_plugins/cmp-wordlist.nvim' },
-      'hrsh7th/cmp-buffer'
-    },
-    config = function()
-      require("plugins.cmp")
-    end
-  }
+--  -- CMP and all its extensions
+--  {
+--    dir = '/mnt/shared/data/code/neovim_plugins/nvim-cmp',
+--    lazy = true,
+--    event = { "InsertEnter", "CmdLineEnter" },
+--    dependencies = {
+--      'hrsh7th/cmp-cmdline',
+--      'hrsh7th/cmp-nvim-lsp',
+--      'hrsh7th/cmp-path',
+--      'hrsh7th/cmp-emoji',
+--      'saadparwaiz1/cmp_luasnip',
+--      'hrsh7th/cmp-nvim-lsp-signature-help',
+--      { dir = '/mnt/shared/data/code/neovim_plugins/cmp-wordlist.nvim' },
+--      'hrsh7th/cmp-buffer'
+--    },
+--    config = function()
+--      require("plugins.cmp")
+--    end
+--  }
 }
 
 local plugins_official = {
@@ -233,31 +251,39 @@ local plugins_official = {
       require("plugins.symbols_outline")
     end
   },
+--  -- cmp and all its helpers
+--  { 'hrsh7th/nvim-cmp',
+--    lazy = true,
+--    event = { "InsertEnter", "CmdLineEnter" },
+--    dependencies = {
+--      'hrsh7th/cmp-cmdline',
+--      'hrsh7th/cmp-nvim-lsp',
+--      'hrsh7th/cmp-path',
+--      'hrsh7th/cmp-emoji',
+--      'saadparwaiz1/cmp_luasnip',
+--      'hrsh7th/cmp-nvim-lsp-signature-help',
+--      {'https://gitlab.com/silvercircle74/cmp-wordlist.nvim' },
+--      'hrsh7th/cmp-buffer'
+--    },
+--    config = function()
+--      require("plugins.cmp")
+--    end
+--  },
   {
-    'glepnir/lspsaga.nvim', lazy = true, cmd = "Lspsaga",
-    config = function()
-      require("plugins.lspsaga")
-    end
-  },
-  -- cmp and all its helpers
-  { 'hrsh7th/nvim-cmp',
+    dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim',
     lazy = true,
-    event = { "InsertEnter", "CmdLineEnter" },
-    dependencies = {
-      'hrsh7th/cmp-cmdline',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-emoji',
-      'saadparwaiz1/cmp_luasnip',
-      'hrsh7th/cmp-nvim-lsp-signature-help',
-      {'https://gitlab.com/silvercircle74/cmp-wordlist.nvim' },
-      'hrsh7th/cmp-buffer'
-    },
     config = function()
-      require("plugins.cmp")
+      require("quickfavs").setup({
+       telescope_theme = Telescope_dropdown_theme,
+       file_browser_theme = {
+         theme = Telescope_vertical_dropdown_theme,
+         layout_config = {
+           preview_height = 0.4
+         }
+       }
+      })
     end
   },
-  'https://gitlab.com/silvercircle74/quickfavs.nvim'
 }
 
 --- use private forks of some plugins, not recommended. this is normally disabled
