@@ -39,7 +39,6 @@ imap <C-c> <NOP>
 
 lua require('keymap')
 
-
 " enable plugin-based filetyp identification, syntax highlighting
 filetype on
 syntax on

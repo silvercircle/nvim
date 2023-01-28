@@ -57,8 +57,12 @@ o.wrap = false
 -- gutter config. set numbers (5 digits max)
 o.numberwidth = 5
 -- set fillchars for folds
-o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
 if vim.fn.has('nvim-0.9') == 1 then
+  if vim.g.use_private_forks == true then
+    o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]
+  else
+    o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
+  end
   -- single-column fold guide, using a patched screen.c without the stupid numbers ;)
   -- foldcolumn can be set to 0
   o.foldcolumn="1"
@@ -71,20 +75,18 @@ if vim.fn.has('nvim-0.9') == 1 then
 --o.statuscolumn="%s%=%r %C%#IndentBlankLineChar#│ "
 --print("set to " .. vim.g.config.statuscol_normal)
 --o.statuscolumn = vim.g.config.statuscol_normal
-Set_statuscol(Statuscol_current)
+  Set_statuscol(Statuscol_current)
 -- this requires fakefold.lua
 -- o.statuscolumn='%s%=%{v:wrap ? "" : v:lnum} %#FoldColumn#%@v:lua.StatusColumn.handler.fold@%{v:lua.StatusColumn.display.fold()}%#StatusColumnBorder#│%#StatusColumnBuffer#'
 else
+  o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
   o.foldcolumn="5"
+  o.number = true
 end
 
 -- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 
 -- indentation-based folding.
 --
--- FIXME: Treesitter indent(folding) still has a HUGE memory leak, see:
--- https://github.com/nvim-treesitter/nvim-treesitter/issues/2918
--- for now, I disabled treesitter-based folding
-
 if vim.g.config.treesitter == true then
   o.foldmethod = "expr"
   o.foldexpr = "nvim_treesitter#foldexpr()"
