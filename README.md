@@ -12,10 +12,6 @@ two branches with different setups.
   snippet handling. It is  relatively stable but a bit outdated and depends heavily on NodeJS and NPM 
   (due to Coc). It is currently unmaintained, but should work ok.
 
-- The `minimal` branch. This is a fast-moving unstable testing environment not meant to be used for a 
-  production configuration. It's unstable at times and might disable important plugins for testing 
-  purposes. This is where most development happens and snapshots are frequently merged into `main`.
-
 All branches use lots of Telescope stuff and Tree-Sitter for syntax highlighting. **The minimum required 
 Neovim version is 0.8**.
 
@@ -25,15 +21,11 @@ These dotfiles are likely **not to work out of the box**. They are heavily custo
 and some things won't work on Windows and probably not on macOS. These problems should, however, be easy 
 to fix, particularly in `lua/config.lua`.
 
-The main branch (LSP) is modular and it is fairly easy to disable certain features. See `config.lua` for 
-more information. It is advised to run a `PackerSync` after adding or removing features. When removing 
-features, some things may break until you perform a `PackerSync`.
+The main branch (LSP) is modular and uses the Lazy plugin manger to load almost all plugins lazily when 
+they are needed. This leads to fast startup times.
 
-You can switch by checking out either `main` or `coc`, but since the plugin configuration is vastly 
-different, a **PackerSync** is required after switching branches. I use only packer for plugin setup, so 
-it will keep your `~/.local/share/nvim/site` directory tidied up and remove unused plugins. The first 
-start after switching the config branch will throw a lot of errors, but after syncing all plugins, all 
-should be fine again.
+The coc branch is still based on Packer so the two can actually exist in parallel without overwriting 
+their plugin configuration.
 
 ## LSP Config (main branch)
 
@@ -91,7 +83,7 @@ plugin configuration might change. This configuration is built around:
   [startify](https://github.com/mhinz/vim-startify) (a start screen), 
   [neodev](https://github.com/folke/neodev.nvim) to help with Lua development on Neovim and more.
 
-* [Neotree](https://github.com/nvim-neo-tree/neo-tree.nvim) - a file system browser like NERDTree, but 
+* [Nvim-Tree](https://github.com/nvim-tree/nvim-tree.luam) - a file system browser like NERDTree, but 
   much faster and written in Lua.
 
 Nim support is manually installed via nimlsp.
@@ -125,5 +117,5 @@ It is a customized variant of the [Sonokai theme](https://github.com/sainnhe/son
 
 ![Screenshot](https://i.imgur.com/oz21okb.png)
 
-[Screenshot 2](https://i.imgur.com/lXvfJQk.png)
+![Screenshot 2](https://i.imgur.com/lXvfJQk.png)
 

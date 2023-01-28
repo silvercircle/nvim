@@ -197,8 +197,8 @@ call my_sonokai#highlight('ColorColumn', s:palette.none, s:palette.bg1)
 call my_sonokai#highlight('Conceal', s:palette.grey_dim, s:palette.none)
 call my_sonokai#highlight('Cursor', s:palette.fg, s:palette.fg)
 call my_sonokai#highlight('nCursor', s:palette.fg, s:palette.fg)
-call my_sonokai#highlight('vCursor', s:palette.yellow, s:palette.yellow)
-call my_sonokai#highlight('iCursor', s:palette.red, s:palette.red)
+call my_sonokai#highlight('iCursor', s:palette.yellow, s:palette.yellow)
+call my_sonokai#highlight('vCursor', s:palette.red, s:palette.red)
 
 highlight! link CursorIM Cursor
 call my_sonokai#highlight('FocusedSymbol', s:palette.yellow, s:palette.none, 'bold')

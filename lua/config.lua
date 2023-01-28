@@ -51,7 +51,7 @@ vim.g.config = {
   statuscol_default = 'normal',
   nvim_tree = true,
   cokeline_filename_width = 25,             -- max filename length on cokeline tabs
-  cmp_autocomplete = true
+  cmp_autocomplete = false
 }
 
 
@@ -126,7 +126,6 @@ g.loaded_gzip = 1
 
 g.filetree_width = 44    -- width for the neotree and nvim-tree plugins
 g.outline_width = 36     -- split width for symbols-outline
-g.float_winblend = 0
 
 -- some tweaks
 vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' for the integrated theme 
@@ -281,7 +280,6 @@ function Toggle_statuscol()
   end
 end
 
-
 function FindbufbyType(type)
   local ls = vim.api.nvim_list_bufs()
   for _, buf in pairs(ls) do
@@ -298,5 +296,4 @@ function FindbufbyType(type)
   end
   return false
 end
-
 

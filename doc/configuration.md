@@ -5,6 +5,20 @@ These `dotfiles` are targeted at software development, mainly with LSP and CMP a
 Many Plugins are optional and not loaded on startup for quick startup time. This happens all under 
 control of the [lazy plugin manager](https://github.com/folke/lazy.nvim) and should not require additional configuration.
 
+## First start
+
+After cloning the repo to `~/.config/nvim` (or the equivalent on Windows or macOS), you should start nvim 
+for the first time with the command:
+```
+nvim --headless -c 'Lazy! sync' +qa
+```
+This will start Neovim without an UI (`--headless`) install all the plugins using the plugin manager and 
+then quit. Usually, this should complete without errors unless your system lacks prerequisites like a 
+working GIT installation.
+
+Note that this is **ONLY** required for a fresh install. Once all plugins are started, you can launch 
+Neovim normally without parameters.
+
 ## Configuring LSP
 
 This will need most of your attention. The configuration is built with **manual LSP server installation** in 
@@ -32,5 +46,8 @@ commands available.
 
 ## CMP completion
 
-`autocompletion` is, by default, disabled in this config.
+CMP `autocompletion` is, by default, disabled in this config. Manual completion is available with `C-Space` 
+in Insert mode and the command line. Autocomplete can be enabled by setting 
+`vim.g.config.cmp_autocomplete` to true in `config.lua`. For everything else cmp-related, tweaking the 
+settings in file `lua/plugins/cmp.lua` is the only available method.
 
