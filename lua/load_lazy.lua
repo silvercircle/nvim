@@ -161,7 +161,7 @@ local plugins = {
     config = function ()
       if vim.g.config.plain == false then
         local theme = require("alpha.themes.startify")
-        if vim.fn.has("linux") > 0 and vim.g.config.fortunecookie == true then
+        if vim.fn.has("linux") > 0 and #vim.g.config.fortunecookie > 0 then
           local handle = io.popen("fortune science politics -s -n500 | cowsay -W 120")
           local result = {"",""}
           if handle ~= nil then
