@@ -120,6 +120,11 @@ augroup folds
   autocmd!
   " make a view before saving a file
   autocmd BufWritePre * :call Mkview()
+  " always save the view when leaving the buf. (vim.g.config.force_mkview)
+  autocmd BufWinLeave *
+  \   if g:config['mkview_on_leave'] == v:true && expand('%') != '' && &buftype !~ 'nofile'
+  \|    silent! mkview!
+  \|  endif
   " restore the view on load
   " views are created when saving or quitting a file
   autocmd BufRead *

@@ -132,7 +132,9 @@ end
 local ibl = require("indent_blankline")
 
 local function schedule_mkview()
-  vim.api.nvim_input("<f4>")
+  if vim.g.config.mkview_on_fold == true then
+    vim.api.nvim_input("<f4>")
+  end
 end
 --
 -- shift-F4: refresh indent guides

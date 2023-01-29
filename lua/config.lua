@@ -52,9 +52,12 @@ vim.g.config = {
   nvim_tree = true,
   cokeline_filename_width = 25,               -- max filename length on cokeline tabs
   cmp_autocomplete = false,
-  fortunecookie = "fortune science politics -s -n500 | cowsay -W 120"  -- display a fortune cookie on start screen.
+  fortunecookie = "fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
                                               -- needs fortune and cowsay installed.
                                               -- set this to "" or false if your start screen throws errors.
+  mkview_on_leave = true,                     -- set to true if you want to save views on BufWinLeave
+                                              -- when false, views are only written on write/update or manually (f4)
+  mkview_on_fold = false                      -- create a view when using the folding keys (f2/f3)
 }
 
 Statuscol_current = vim.g.config.statuscol_default
