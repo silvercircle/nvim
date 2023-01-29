@@ -5,6 +5,13 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
+local on_diagnostic_refresh = function(_, _, ctx)
+  local ns = vim.lsp.diagnostic.get_namespace(ctx.client_id)
+  local bufnr = vim.api.nvim_get_current_buf()
+  vim.diagnostic.reset(ns, bufnr)
+  return true
+end
+
 -- Customize LSP behavior via on_attach
 local on_attach = function(client, _)
   -- Activate LSP signature on attach.
@@ -221,6 +228,9 @@ lspconfig.sumneko_lua.setup {
   single_file_support = true,
   log_level = vim.lsp.protocol.MessageType.Warning,
   new_folder_restart = true,
+  handlers = {
+    ['workspace/diagnostic/refresh'] = on_diagnostic_refresh
+  },
   settings = {
     Lua = {
       diagnostics = { globals = { "vim" } },

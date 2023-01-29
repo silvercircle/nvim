@@ -19,6 +19,14 @@ working GIT installation.
 Note that this is **ONLY** required for a fresh install. Once all plugins are installed, you can launch 
 Neovim normally without parameters.
 
+## Review settings
+
+Please take some time and review the basic settings. They're all found in `lua/config.lua` and 
+`lua/options.lua`. The first file holds non-Vim specific settings like theme options and such while 
+`options.lua` defines vim options and some auto commands. Also relevant is `init.vim` which is still not 
+100% Lua, bust mostly contains auto commands and a few legacy vimscript functions. Custom keymappings are 
+all in `lua/keymap.lua` and `lua/plugins/command_center.lua`.
+
 ## Configuring LSP
 
 This will need most of your attention. The configuration is built with **manual LSP server installation** in 

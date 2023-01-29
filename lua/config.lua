@@ -50,10 +50,10 @@ vim.g.config = {
   statuscol_rel = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:relnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:relnum) : ""} %C%#IndentBlankLineChar#│ ',
   statuscol_default = 'normal',
   nvim_tree = true,
-  cokeline_filename_width = 25,             -- max filename length on cokeline tabs
+  cokeline_filename_width = 25,               -- max filename length on cokeline tabs
   cmp_autocomplete = false,
   fortunecookie = "fortune science politics -s -n500 | cowsay -W 120"  -- display a fortune cookie on start screen.
-                                            -- needs fortune and cowsay installed.
+                                              -- needs fortune and cowsay installed.
                                               -- set this to "" or false if your start screen throws errors.
 }
 

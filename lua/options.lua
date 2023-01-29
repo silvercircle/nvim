@@ -152,7 +152,8 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
     if vim.g.config.plain == false then
       if vim.g.config.nvim_tree == true then
         require('nvim-tree.api').tree.toggle({focus = false})
-        vim.schedule(function() vim.fn.win_gotoid(1000) end)
+        vim.schedule(function() vim.cmd("wincmd p") end )
+        -- vim.schedule(function() vim.fn.win_gotoid(1000) end)
       else
         vim.api.nvim_command("NeoTreeShow")
       end

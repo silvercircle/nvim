@@ -11,7 +11,7 @@ require('config')
 -- lua require('_deprecated/load_packer')
 -- OR load plugins with lazy. DO NOT use both.
 require('load_lazy')
-require('vim_options')
+require('options')
 require('plugins.default')
 EOB
 
