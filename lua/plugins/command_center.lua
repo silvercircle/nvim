@@ -264,13 +264,13 @@ command_center.add({
   -- GIT
   {
     desc = "GIT status (Telescope)",
-    cmd = function() _tb.git_status({layout_config={height=0.8, width=0.8}}) end,
+    cmd = function() _tb.git_status({path = lsputil.root_pattern(".git")(vim.fn.expand("%:p")), layout_config={height=0.8, width=0.8}}) end,
     keys = { "n", "tgs", noremap },
     category = "@GIT"
   },
   {
     desc = "GIT commits (Telescope)",
-    cmd = function() _tb.git_commits({layout_config={height=0.8, width=0.8}}) end,
+    cmd = function() _tb.git_commits({path = lsputil.root_pattern(".git")(vim.fn.expand("%:p")), layout_config={height=0.8, width=0.8}}) end,
     keys = { "n", "tgc", noremap },
     category = "@GIT"
   },
