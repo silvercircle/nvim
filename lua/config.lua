@@ -57,7 +57,6 @@ vim.g.config = {
                                               -- set this to "" or false if your start screen throws errors.
 }
 
-
 Statuscol_current = vim.g.config.statuscol_default
 
 vim.g.theme = {

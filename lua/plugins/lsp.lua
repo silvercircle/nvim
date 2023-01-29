@@ -210,6 +210,7 @@ local lua_root_files = {
 }
 
 lspconfig.sumneko_lua.setup {
+  on_attach = on_attach,
   cmd = { vim.g.lsp_server_bin['sumneko_lua'], '--logpath=' .. vim.fn.stdpath("data") },
   --on_attach = function(client, bufnr)
   --  on_attach(client, bufnr)

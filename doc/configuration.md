@@ -37,10 +37,11 @@ servers and is used in `plugins/lsp.lua` to setup LSP servers.
 ## Plain mode
 
 For those who prefer a clean environment (or for quick-editing single files) the plain mode is available. 
-When active, certain plugins like the **file tree** are not loaded on startup. They are still available, but 
-they do not clutter the UI by default. The same applies to the terminal split. The plain mode starts 
-faster and offers a clean UI with just a single window. Most features (like CMP completion, LSP, 
-Tree-sitter, Mason etc.) are still available and will be activated on demand.
+When active, certain plugins like the **file tree** are not loaded on startup. They are still available, 
+but they do not clutter the UI by default and do not take time on startup. The same applies to the 
+terminal split. The plain mode starts faster and offers a clean UI with just a single window. Most 
+features (like CMP completion, LSP, Tree-sitter, Mason etc.) are still available and will be activated on 
+demand.
 
 To start plain mode, there are two options: Set the environment variable `NVIM_PLAIN` or start with `--cmd "let g:want_plain=v:true"`
 on the command line. The content of the environment variable does not matter, it can be set to anything. 

@@ -77,4 +77,4 @@ terminal split.
 These mappings are defined in `lua/plugins/cmp.lua` which contains all cmp-related configuration. 
 Standard keybindings are used to activate manual completion (`C-Space`) and select completion suggestions 
 (`Tab`).
-
+
