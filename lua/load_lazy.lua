@@ -115,12 +115,6 @@ local plugins = {
   { 'preservim/vim-markdown', ft = "markdown" },
   { 'norcalli/nvim-colorizer.lua' },
   'echasnovski/mini.move',
- -- {
- --   'nvim-neo-tree/neo-tree.nvim', branch = "main", cmd="NeoTreeShow",
- --   config = function()
- --     require("setup_neotree")
- --   end
- -- },
   {
     'nvim-tree/nvim-tree.lua', cmd="",
     config = function()

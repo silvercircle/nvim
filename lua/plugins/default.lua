@@ -118,9 +118,9 @@ require("lualine").setup({
 })
 
 -- setup cokeline plugin. It provides a buffer line (aka tab-bar)
---local sidebar_or_tree = vim.g.features['sidebar']['enable'] == true and true or false
-local treename = vim.g.config.nvim_tree == true and 'NvimTree' or 'neo-tree'
-
+-- local sidebar_or_tree = vim.g.features['sidebar']['enable'] == true and true or false
+-- local treename = vim.g.config.nvim_tree == true and 'NvimTree' or 'neo-tree'
+local treename = 'NvimTree'
 require('cokeline').setup({
   -- Cokeline_theme() is defined in config.lua
   buffers = {
