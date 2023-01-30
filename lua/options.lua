@@ -170,7 +170,11 @@ vim.api.nvim_create_autocmd( { 'bufwritepre' }, {
 
 vim.api.nvim_create_autocmd( { 'bufwinleave' }, {
   pattern = "*",
-  callback = function() MK_view() end,
+  callback = function()
+    if vim.g.config.mkview_on_leave == true then
+      MK_view()
+    end
+  end,
   group = agroup_views
 })
 

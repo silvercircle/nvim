@@ -1,16 +1,11 @@
-" Impatient is only necessary when using packer
-" lua require('_deprecated/impatient_bootstrap')
-" lua require('impatient')
-
 " Set configuration variables
 let g:vim_markdown_folding_disabled = 1
 
 lua << EOB
 require('config')
 
--- lua require('_deprecated/load_packer')
--- OR load plugins with lazy. DO NOT use both.
 require('load_lazy')
+require('globals')
 require('options')
 require('plugins.default')
 EOB
