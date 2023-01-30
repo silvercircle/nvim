@@ -55,16 +55,6 @@ if exists("g:neovide")
     let g:neovide_transparency = 1
     let g:neovide_floating_blur_amount_x = 0
     let g:neovide_floating_blur_amount_y = 0
-"    hi Normal guibg=#10141E
-    " system clipboard support - support Ctrl-V, Ctrl-V etc in all modes,
-    " including the command line.
-
-    nnoremap <C-v> "+p
-    inoremap <S-Insert> "+p
-    nnoremap <S-Insert> "+p
-    inoremap <c-v> <c-r>+
-    inoremap <S-Insert> <c-r>+
-    cnoremap <c-v> <c-r>+
 endif
 
 " a key mapping for the kwbd macro to close a buffer
@@ -98,32 +88,6 @@ augroup filetypes
   " this might be nice, but too annoying. I prefer manual toggle (<C-l><C-l>)
   " autocmd InsertEnter * lua Set_statuscol('rel')
   " autocmd InsertLeave * lua Set_statuscol('normal')
-augroup end
-" create a view (save folding state and cursor position)
-function Mkview()
-  if expand('%') != '' && &buftype !~ 'nofile'
-    silent! mkview!
-  endif
-endfunction
-
-augroup folds
-  autocmd!
-  " make a view before saving a file
-  autocmd BufWritePre * :call Mkview()
-  " always save the view when leaving the buf. (vim.g.config.mkview_on_leave)
-  autocmd BufWinLeave *
-  \   if g:config['mkview_on_leave'] == v:true && expand('%') != '' && &buftype !~ 'nofile'
-  \|    silent! mkview!
-  \|  endif
-  " restore the view on load
-  " views are created depending on settings:
-  " 1. always when saving
-  " 2. when leaving a buffer (config.mkview_on_leave must be set
-  " 3. manually (mapped to f4)
-  autocmd BufRead *
-  \   if expand('%') != '' && &buftype !~ 'nofile'
-  \|    silent! loadview
-  \|  endif
 augroup end
 
 " This is for adding fortune cookies. User will be prompted for a section

@@ -224,12 +224,6 @@ command_center.add({
     keys = { "n", "<leader>.", noremap },
     category = "@LSP"
   },
-  {
-    desc = "Signature help",
-    cmd = function() vim.lsp.buf.signature_help() end,
-    keys = { "i", "<C-p>", noremap  },
-    category = "@LSP"
-  },
   -- LSP Diagnostics
   {
     desc = "Show diagnostic popup",

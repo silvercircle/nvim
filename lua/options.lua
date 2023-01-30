@@ -56,7 +56,6 @@ o.wrap = false
 -- reformatting / joining lines.
 -- gutter config. set numbers (5 digits max)
 o.numberwidth = 5
--- vim.opt.listchars:append('tab:  ,trail:▪,extends:>,precedes:<,eol:↴')
 vim.opt.listchars = {tab = '  ', trail = '▪', extends = '>', precedes = '<', eol = '↴' }
 vim.opt.list = true
 
@@ -135,6 +134,8 @@ o.undofile=false
 
 -- autogroups
 local agroup_enter = vim.api.nvim_create_augroup("enter", {})
+local agroup_views = vim.api.nvim_create_augroup("views", {})
+
 
 -- open a 20 lines terminal at the bottom on enter
 -- respect environment variable $NVIM_NO_TERM to skip the terminal
@@ -159,5 +160,27 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
     end
   end,
   group = agroup_enter,
+})
+
+vim.api.nvim_create_autocmd( { 'bufwritepre' }, {
+  pattern = "*",
+  callback = function() MK_view() end,
+  group = agroup_views
+})
+
+vim.api.nvim_create_autocmd( { 'bufwinleave' }, {
+  pattern = "*",
+  callback = function() MK_view() end,
+  group = agroup_views
+})
+
+vim.api.nvim_create_autocmd( { 'bufread' }, {
+  pattern = "*",
+  callback = function()
+    if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then
+      vim.cmd("silent! loadview")
+    end
+  end,
+  group = agroup_views
 })
 

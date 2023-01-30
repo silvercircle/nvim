@@ -136,14 +136,17 @@ local function schedule_mkview()
     vim.api.nvim_input("<f4>")
   end
 end
+
+vim.keymap.set('i', "<f13>", function() vim.lsp.buf.signature_help() end, opts) -- shift-f1
+vim.keymap.set('i', "<f1>", function() vim.lsp.buf.hover() end, opts)
 --
 -- shift-F4: refresh indent guides
 vim.keymap.set('n', "<f16>", function() ibl.refresh() end, opts)
 vim.keymap.set('i', "<f16>", function() ibl.refresh() end, opts)
 vim.keymap.set('v', "<f16>", function() ibl.refresh() end, opts)
 
-vim.keymap.set('n', "<f4>", function() vim.cmd("call Mkview()") end, opts)
-vim.keymap.set('i', "<f4>", function() vim.cmd("call Mkview()") end, opts)
+vim.keymap.set('n', "<f4>", function() MK_view() end, opts)
+vim.keymap.set('i', "<f4>", function() MK_view() end, opts)
 
 -- toggle current fold
 vim.keymap.set('n', "<F2>", function() vim.api.nvim_feedkeys('za', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)

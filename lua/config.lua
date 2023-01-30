@@ -255,6 +255,12 @@ Truncate = function(text, max_width)
   end
 end
 
+function MK_view()
+  if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then
+    vim.cmd("silent! mkview!")
+  end
+end
+
 -- load the color theme
 vim.cmd [[silent! colorscheme my_sonokai]]
 
