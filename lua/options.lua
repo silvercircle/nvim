@@ -151,7 +151,7 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
     vim.cmd("stopinsert")
     if vim.g.config.plain == false then
       require('nvim-tree.api').tree.toggle({focus = false})
-      vim.schedule(function() vim.cmd("wincmd p") end )
+      -- vim.schedule(function() vim.cmd("wincmd p") end )
     end
   end,
   group = agroup_enter,
