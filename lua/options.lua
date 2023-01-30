@@ -56,7 +56,11 @@ o.wrap = false
 -- reformatting / joining lines.
 -- gutter config. set numbers (5 digits max)
 o.numberwidth = 5
--- set fillchars for folds
+-- vim.opt.listchars:append('tab:  ,trail:▪,extends:>,precedes:<,eol:↴')
+vim.opt.listchars = {tab = '  ', trail = '▪', extends = '>', precedes = '<', eol = '↴' }
+vim.opt.list = true
+
+-- statuscolumn stuff
 if vim.fn.has('nvim-0.9') == 1 then
   if vim.g.use_private_forks == true then
     o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]

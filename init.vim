@@ -65,18 +65,8 @@ if exists("g:neovide")
     inoremap <c-v> <c-r>+
     inoremap <S-Insert> <c-r>+
     cnoremap <c-v> <c-r>+
-    let g:NERDTreeWinSize=40
-else
-    if $NVIM_NERD_WIDTH != ''
-        let g:NERDTreeWinSize=$NVIM_NERD_WIDTH
-    else
-        let g:NERDTreeWinSize=40
-    endif
 endif
 
-" show white spaces, but only trailing spaces, newlines and tabs
-" TAB is also disabled, because we use indent_blankline plugin for showing indentation guides
-set list listchars=tab:\ \ ,trail:▪,extends:>,precedes:<,eol:↴
 " a key mapping for the kwbd macro to close a buffer
 command C Kwbd
 
@@ -126,7 +116,10 @@ augroup folds
   \|    silent! mkview!
   \|  endif
   " restore the view on load
-  " views are created when saving or quitting a file
+  " views are created depending on settings:
+  " 1. always when saving
+  " 2. when leaving a buffer (config.mkview_on_leave must be set
+  " 3. manually (mapped to f4)
   autocmd BufRead *
   \   if expand('%') != '' && &buftype !~ 'nofile'
   \|    silent! loadview
