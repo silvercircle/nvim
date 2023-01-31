@@ -28,7 +28,6 @@ return `nil` in which case the directory of the active buffer will be used.
 |C-p              | n     | Select recent file (Telescope oldfiles)                 |
 |C-e              | n,i   | Select buffer (loaded or unloaded, Telescope buffers)   |
 |F8               | n     | Find files in the `root` directory of the active buffer |
-|F5               | n,i   | clear search highlights (also those from hlslens |
 
 ## Keys related to Nvim-Tree or Neotree
 
@@ -42,7 +41,7 @@ return `nil` in which case the directory of the active buffer will be used.
 ## keys related to the terminal frame
 
 The terminal split is always opened below the current one. This works as toggle, if it's open, it will be 
-closed. See the [docs](doc/configuration.md) of how to avoid opening a terminal on startup.
+closed. See the [docs](configuration.md) of how to avoid opening a terminal on startup.
 
 | key             | modes | meaning                                                 |
 |-----------------|:-----:|---------------------------------------------------------|
@@ -71,6 +70,23 @@ terminal split.
 | A-Backspace     | n,i     | Activate the jumplist (recent edit locations)    |
 | A-S-Left        | n,i     | Go back to previous edit location (like C-o)     |
 | A-S-Right       | n,i     | Go to next edit location (like C-i)              |
+
+## Quickfix mapping
+
+| key             |  modes  | meaning                                                 |
+|-----------------|:-------:|---------------------------------------------------------|
+| A-S-Down        | n,i     | Next quickfix location                           |
+| A-S-Up          | n,i     | Previous quickfix location                       |
+| C-f c           | n,i     | Close quickfix split                             |
+
+## Various keys
+
+| key             |  modes  | meaning                                                 |
+|-----------------|:-------:|---------------------------------------------------------|
+| F1              | i       | LSP Symbol hover information                     |
+| S-F1            | i       | LSP parameter (signature) help                   |
+| F4              | n,i     | Save a view of the current file (persistent folds)|
+| F5              | n,i     | clear search highlights (also those from hlslens |
 
 ## CMP (completion) mapping.
 

@@ -60,4 +60,4 @@ in Insert mode and the command line. Autocomplete can be enabled by setting
 `vim.g.config.cmp_autocomplete` to true in `config.lua`. For everything else cmp-related, tweaking the 
 settings in file `lua/plugins/cmp.lua` is the only available method.
 
-## 
+
