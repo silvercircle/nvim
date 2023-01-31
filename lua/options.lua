@@ -2,6 +2,7 @@
 -- set vim options and autocommands. No plugins involved
 
 local o = vim.o
+local autocmd = vim.api.nvim_create_autocmd
 
 o.shada = "'500,<50,s10,h,f1,%20"
 o.termguicolors = true
@@ -139,7 +140,7 @@ local agroup_views = vim.api.nvim_create_augroup("views", {})
 
 -- open a 20 lines terminal at the bottom on enter
 -- respect environment variable $NVIM_NO_TERM to skip the terminal
-vim.api.nvim_create_autocmd({ "vimenter" }, {
+autocmd({ "vimenter" }, {
   pattern = "*",
   callback = function()
     if vim.g.config.plain == false then
@@ -150,7 +151,7 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
 })
 
 -- show the left-hand Neotree tree unless environment variable forbids it
-vim.api.nvim_create_autocmd({ "vimenter" }, {
+autocmd({ "vimenter" }, {
   pattern = "*",
   callback = function()
     vim.cmd("stopinsert")
@@ -162,13 +163,13 @@ vim.api.nvim_create_autocmd({ "vimenter" }, {
   group = agroup_enter,
 })
 
-vim.api.nvim_create_autocmd( { 'bufwritepre' }, {
+autocmd( { 'bufwritepre' }, {
   pattern = "*",
   callback = function() MK_view() end,
   group = agroup_views
 })
 
-vim.api.nvim_create_autocmd( { 'bufwinleave' }, {
+autocmd( { 'bufwinleave' }, {
   pattern = "*",
   callback = function()
     if vim.g.config.mkview_on_leave == true then
@@ -178,7 +179,7 @@ vim.api.nvim_create_autocmd( { 'bufwinleave' }, {
   group = agroup_views
 })
 
-vim.api.nvim_create_autocmd( { 'bufread' }, {
+autocmd( { 'bufread' }, {
   pattern = "*",
   callback = function()
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then

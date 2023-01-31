@@ -4,6 +4,8 @@
 -- The majority of the more complex mappings for LSP are in setup_command_center.lua
 
 local map = vim.api.nvim_set_keymap
+local kms = vim.keymap.set
+
 local opts = {noremap = true, silent = true}
 local utils = require("local_utils")
 
@@ -12,40 +14,26 @@ local utils = require("local_utils")
 --  map('n', "<leader>r", "<CMD>Neotree reveal_force_cwd<CR>", opts)    -- sync Neotree dir to current buffer
 --  map('n', "<leader>,", '<CMD>Neotree toggle dir=%:p:h<CR>', opts)              -- toggle the Neotree
 --else
-vim.keymap.set('n', "<leader>,", function() require("nvim-tree.api").tree.toggle() end, opts)              -- toggle the Nvim-Tree
 map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)            -- sync Nvim-Tree with current
-vim.keymap.set('n', "<leader>R", function() require("nvim-tree.api").tree.change_root(utils.getroot_current()) end, opts)
-vim.keymap.set('n', "<leader>nr", function() require("nvim-tree.api").tree.change_root(vim.fn.expand("%:p:h")) end, opts)
+
+kms('n', "<leader>,", function() require("nvim-tree.api").tree.toggle() end, opts)              -- toggle the Nvim-Tree
+kms('n', "<leader>R", function() require("nvim-tree.api").tree.change_root(utils.getroot_current()) end, opts)
+kms('n', "<leader>nr", function() require("nvim-tree.api").tree.change_root(vim.fn.expand("%:p:h")) end, opts)
 --end
 
 map('n', '<C-Tab>', '<CMD>bnext<CR>', opts)
 map('n', '<leader><Tab>', "<CMD>bnext<CR>", opts)
 
--- map some keys to toggle formatting options
--- the vimscript functions are defined in the init.vim
-map('i', "<C-f><C-a>", '<c-o><CMD>AFToggle<CR>', opts)
-map('n', "<C-f><C-a>", '<CMD>AFToggle<CR>', opts)
+kms({ 'i', 'n' }, "<C-f><C-a>", function() Toggle_fo('a') end, opts)
+kms({ 'i', 'n' }, "<C-f><C-c>", function() Toggle_fo('c') end, opts)
+kms({ 'i', 'n' }, "<C-f><C-w>", function() Toggle_fo('w') end, opts)
+kms({ 'i', 'n' }, "<C-f><C-t>", function() Toggle_fo('t') end, opts)
 
-map('i', "<C-f><C-c>", '<c-o><CMD>CFToggle<CR>', opts)
-map('n', "<C-f><C-c>", '<CMD>CFToggle<CR>', opts)
+kms({ 'i', 'n' }, "<C-f>1", function() Set_fo('w') Set_fo('a') end, opts)
+kms({ 'i', 'n' }, "<C-f>2", function() Clear_fo('w') Clear_fo('a') end, opts)
 
-map('i', "<C-f><C-w>", '<c-o><CMD>HWToggle<CR>', opts)
-map('n', "<C-f><C-w>", '<CMD>HWToggle<CR>', opts)
-
-map('i', "<C-f><C-t>", '<c-o><CMD>HTToggle<CR>', opts)
-map('n', "<C-f><C-t>", '<CMD>HTToggle<CR>', opts)
-
-map('i', "<C-f>1", '<c-o><CMD>AutowrapOn<CR>', opts)
-map('n', "<C-f>1", '<CMD>AutowrapOn<CR>', opts)
-
-map('i', "<C-f>2", '<c-o><CMD>AutowrapOff<CR>', opts)
-map('n', "<C-f>2", '<CMD>AutowrapOff<CR>', opts)
-
-map('i', "<C-f>f", '<c-o><CMD>AFManual<CR>', opts)
-map('n', "<C-f>f", '<CMD>AFManual<CR>', opts)
-
-map('i', "<C-f>a", '<c-o><CMD>AFAuto<CR>', opts)
-map('n', "<C-f>a", '<CMD>AFAuto<CR>', opts)
+kms({ 'i', 'n' }, "<C-f>f", function() Clear_fo('w') Clear_fo('a') Clear_fo('c') Clear_fo('q') Clear_fo('t') Clear_fo('l') end, opts)
+kms({ 'i', 'n' }, "<C-f>a", function() Set_fo('w') Set_fo('a') Set_fo('c') Set_fo('q') Set_fo('t') Set_fo('l') end, opts)
 
 map('v', "<leader>V", ':!fmt -110<CR>', opts)
 map('v', "<leader>y", ':!fmt -85<CR>', opts)
@@ -137,41 +125,41 @@ local function schedule_mkview()
   end
 end
 
-vim.keymap.set('i', "<f13>", function() vim.lsp.buf.signature_help() end, opts) -- shift-f1
-vim.keymap.set('i', "<f1>", function() vim.lsp.buf.hover() end, opts)
+kms('i', "<f13>", function() vim.lsp.buf.signature_help() end, opts) -- shift-f1
+kms('i', "<f1>", function() vim.lsp.buf.hover() end, opts)
 --
 -- shift-F4: refresh indent guides
-vim.keymap.set('n', "<f16>", function() ibl.refresh() end, opts)
-vim.keymap.set('i', "<f16>", function() ibl.refresh() end, opts)
-vim.keymap.set('v', "<f16>", function() ibl.refresh() end, opts)
+kms('n', "<f16>", function() ibl.refresh() end, opts)
+kms('i', "<f16>", function() ibl.refresh() end, opts)
+kms('v', "<f16>", function() ibl.refresh() end, opts)
 
-vim.keymap.set('n', "<f4>", function() MK_view() end, opts)
-vim.keymap.set('i', "<f4>", function() MK_view() end, opts)
+kms('n', "<f4>", function() MK_view() end, opts)
+kms('i', "<f4>", function() MK_view() end, opts)
 
 -- toggle current fold
-vim.keymap.set('n', "<F2>", function() vim.api.nvim_feedkeys('za', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
-vim.keymap.set('i', "<F2>", function() local key = vim.api.nvim_replace_termcodes("<C-o>za", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
-vim.keymap.set('v', "<F2>", function() vim.api.nvim_feedkeys('zf', 'v', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
+kms('n', "<F2>", function() vim.api.nvim_feedkeys('za', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
+kms('i', "<F2>", function() local key = vim.api.nvim_replace_termcodes("<C-o>za", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
+kms('v', "<F2>", function() vim.api.nvim_feedkeys('zf', 'v', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
 
 -- close current fold (Shift-F2)
-vim.keymap.set('n', "<f14>", function() vim.api.nvim_feedkeys('zc', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
-vim.keymap.set('i', "<f14>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zc", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
+kms('n', "<f14>", function() vim.api.nvim_feedkeys('zc', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
+kms('i', "<f14>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zc", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
 
 -- open current fold (Ctrl-F2)
-vim.keymap.set('n', "<f26>", function() vim.api.nvim_feedkeys('zo', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
-vim.keymap.set('i', "<f26>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zo", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
+kms('n', "<f26>", function() vim.api.nvim_feedkeys('zo', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
+kms('i', "<f26>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zo", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
 
 -- toggle all folds at current line
-vim.keymap.set('n', "<F3>", function() vim.api.nvim_feedkeys('zA', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
-vim.keymap.set('i', "<F3>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zA", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
+kms('n', "<F3>", function() vim.api.nvim_feedkeys('zA', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
+kms('i', "<F3>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zA", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
 
 -- close all folds at current line (Shift-F3)
-vim.keymap.set('n', "<f15>", function() vim.api.nvim_feedkeys('zC', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
-vim.keymap.set('i', "<f15>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zC", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
+kms('n', "<f15>", function() vim.api.nvim_feedkeys('zC', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
+kms('i', "<f15>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zC", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
 
 -- open all folds at current line (Ctrl-F3)
-vim.keymap.set('n', "<f27>", function() vim.api.nvim_feedkeys('zO', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
-vim.keymap.set('i', "<f27>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zO", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
+kms('n', "<f27>", function() vim.api.nvim_feedkeys('zO', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
+kms('i', "<f27>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zO", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
 
 map('n', "<C-S-Left>", "<C-o>", opts)
 map('n', "<C-S-Right>", "<C-i>", opts)
@@ -179,18 +167,19 @@ map('i', "<C-S-Left>", "<c-o><C-o>", opts)
 map('i', "<C-S-Right>", "<c-o><C-i>", opts)
 
 map('n', "<f23>", "<CMD>Lazy<CR>", opts)
-vim.keymap.set({'n', 'i'}, "<C-l><C-l>", function() Toggle_statuscol() end, opts)
-vim.keymap.set('n', "<A-q>", function() require "local_utils".Quitapp() end, opts)
-vim.keymap.set({'n', 'i'}, "<C-e>", function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.4, sort_lastused=true, sort_mru=true, show_all_buffers=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end, opts)
-vim.keymap.set('n', "<C-p>", function() require'telescope.builtin'.oldfiles(Telescope_dropdown_theme({title='Old files', width=0.6, height=0.5})) end, opts)
-vim.keymap.set('n', "<A-p>", function() require("telescope").extensions.command_center.command_center({mode = 'n'}) end, opts)
+
+kms({'n', 'i'}, "<C-l><C-l>", function() Toggle_statuscol() end, opts)
+kms('n', "<A-q>", function() require "local_utils".Quitapp() end, opts)
+kms({'n', 'i'}, "<C-e>", function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.4, sort_lastused=true, sort_mru=true, show_all_buffers=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end, opts)
+kms('n', "<C-p>", function() require'telescope.builtin'.oldfiles(Telescope_dropdown_theme({title='Old files', width=0.6, height=0.5})) end, opts)
+kms('n', "<A-p>", function() require("telescope").extensions.command_center.command_center({mode = 'n'}) end, opts)
 
 -- quick-focus the four main areas
-vim.keymap.set({'n', 'i', 't', 'v'}, "<A-1>", function() FindbufbyType('NvimTree') end, opts)      -- Nvim-tree
---vim.keymap.set({'n', 'i', 't', 'v'}, "<A-1>", function() FindbufbyType('neo-tree') end, opts)      -- Neotree
-vim.keymap.set({'n', 'i', 't', 'v'}, "<A-2>", function() vim.fn.win_gotoid(1000) end, opts)        -- main window
-vim.keymap.set({'n', 'i', 't', 'v'}, "<A-3>", function() if FindbufbyType('Outline') == false then vim.cmd("SymbolsOutlineOpen") end end, opts) -- Outline
-vim.keymap.set({'n', 'i', 't', 'v'}, "<A-4>", function() if FindbufbyType('terminal') == false then vim.api.nvim_input("<f11>") end end, opts)  -- Terminal
+kms({'n', 'i', 't', 'v'}, "<A-1>", function() FindbufbyType('NvimTree') end, opts)      -- Nvim-tree
+--kms({'n', 'i', 't', 'v'}, "<A-1>", function() FindbufbyType('neo-tree') end, opts)      -- Neotree
+kms({'n', 'i', 't', 'v'}, "<A-2>", function() vim.fn.win_gotoid(1000) end, opts)        -- main window
+kms({'n', 'i', 't', 'v'}, "<A-3>", function() if FindbufbyType('Outline') == false then vim.cmd("SymbolsOutlineOpen") end end, opts) -- Outline
+kms({'n', 'i', 't', 'v'}, "<A-4>", function() if FindbufbyType('terminal') == false then vim.api.nvim_input("<f11>") end end, opts)  -- Terminal
 
 -- terminal mappings
 map('n', "<f11>", "<CMD>call TermToggle(12)<CR>", opts)

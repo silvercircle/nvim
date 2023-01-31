@@ -15,19 +15,6 @@ set guifont=Iosevka:h11:#e-subpixelantialias:#h-full
 
 run macros/justify.vim
 
-command AutowrapOn setlocal fo+=w | setlocal fo+=w
-command AutowrapOff setlocal fo-=a | setlocal fo-=w
-
-" toggle formatting options (a = auto, w = hard/soft wrap, t = use textwidth for wrapping, c = wrap comments)
-command AFToggle if &fo =~ 'a' | setlocal fo-=a | else | setlocal fo+=a | endif
-command CFToggle if &fo =~ 'c' | setlocal fo-=c | else | setlocal fo+=c | endif
-command HWToggle if &fo =~ 'w' | setlocal fo-=w | else | setlocal fo+=w | endif
-command HTToggle if &fo =~ 't' | setlocal fo-=t | else | setlocal fo+=t | endif
-
-" quickly enable/disable automatic formatting modes.
-command AFManual setlocal fo-=a | setlocal fo-=w | setlocal fo-=c | setlocal fo-=q | setlocal fo-=t | setlocal fo-=l
-command AFAuto setlocal fo+=a | setlocal fo+=w | setlocal fo+=c | setlocal fo+=q | setlocal fo+=t | setlocal fo+=l
-
 " map <C-f> <NOP>
 map <C-c> <NOP>
 imap <C-c> <NOP>

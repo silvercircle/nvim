@@ -61,5 +61,21 @@ function MK_view()
   end
 end
 
+function Set_fo(fo)
+  vim.opt_local.formatoptions:append(fo)
+end
+
+function Clear_fo(fo)
+  vim.opt_local.formatoptions:remove(fo)
+end
+
+function Toggle_fo(fo)
+  if vim.opt_local.formatoptions:get()[fo] == true then
+    Clear_fo(fo)
+  else
+    Set_fo(fo)
+  end
+end
+
 Telescope_dropdown_theme = require("local_utils").Telescope_dropdown_theme
 Telescope_vertical_dropdown_theme = require("local_utils").Telescope_vertical_dropdown_theme
