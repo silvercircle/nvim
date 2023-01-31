@@ -79,3 +79,11 @@ snippet cmdcenter
    keys = { "$3", "$4", $5 },
    category = "$6"
  }
+snippet autocmd
+ autocmd( { $1 }, {
+   pattern = $2,
+   callback = function()
+   	 $3
+   end,
+   group = $4
+ })

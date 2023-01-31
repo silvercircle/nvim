@@ -20,7 +20,6 @@ imap <C-c> <NOP>
 
 lua require('keymap')
 
-" enable plugin-based filetyp identification, syntax highlighting
 filetype on
 syntax on
 filetype plugin indent on
@@ -41,21 +40,12 @@ endif
 " a key mapping for the kwbd macro to close a buffer
 command C Kwbd
 
-" filetype related autocmds
 augroup filetypes
   autocmd!
   autocmd FileType ada,d,nim,objc,objcpp,javascript,scala syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
   autocmd FileType lua syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\+]'
   autocmd FileType vim,nim,python,lua,json,html,css,dart,go setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal fo-=c
   autocmd FileType tex,markdown,text,telekasten,liquid,org setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nwqtc | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de
-  autocmd FileType markdown,telekasten,liquid setlocal conceallevel=2 | setlocal concealcursor=nc | setlocal formatexpr=
-  autocmd FileType mail setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de
-  autocmd FileType Treesitter silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal nonumber | setlocal norelativenumber | silent setlocal statuscolumn= | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC
-  autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=Outline | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=100
-  autocmd FileType alpha silent! setlocal statuscolumn=
-  " this might be nice, but too annoying. I prefer manual toggle (<C-l><C-l>)
-  " autocmd InsertEnter * lua Set_statuscol('rel')
-  " autocmd InsertLeave * lua Set_statuscol('normal')
 augroup end
 
 " This is for adding fortune cookies. User will be prompted for a section

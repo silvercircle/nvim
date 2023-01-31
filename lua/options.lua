@@ -135,42 +135,34 @@ o.undodir = vim.fn.stdpath("data") .. "/undo/"
 o.undofile=false
 
 -- autogroups
-local agroup_enter = vim.api.nvim_create_augroup("enter", {} )
 local agroup_views = vim.api.nvim_create_augroup("views", {} )
 local agroup_hl = vim.api.nvim_create_augroup("hl", {} )
 
--- open a 20 lines terminal at the bottom on enter
--- respect environment variable $NVIM_NO_TERM to skip the terminal
-autocmd({ "vimenter" }, {
-  pattern = "*",
-  callback = function()
-    if vim.g.config.plain == false then
-      vim.api.nvim_command("call TermToggle(12) | wincmd p")
-    end
-  end,
-  group = agroup_enter,
-})
-
--- show the left-hand Neotree tree unless environment variable forbids it
+-- on vimenter show a terminal split and a left-hand nvim-tree file explorer. Unless the
+-- environment variable or command line option forbids it for better startup performance and
+-- a clean UI
 autocmd({ "vimenter" }, {
   pattern = "*",
   callback = function()
     vim.cmd("stopinsert")
     if vim.g.config.plain == false then
       require('nvim-tree.api').tree.toggle({focus = false})
+      vim.api.nvim_command("call TermToggle(12) | wincmd p")
+      vim.schedule(function() vim.cmd.stopinsert() end )
       -- focus grabbing bug was fixed in nvim-tree
       -- vim.schedule(function() vim.cmd("wincmd p") end )
     end
   end,
-  group = agroup_enter,
 })
 
+-- create a view to save folds when saving the file
 autocmd( { 'bufwritepre' }, {
   pattern = "*",
   callback = function() globals.mkview() end,
   group = agroup_views
 })
 
+-- when config.mkview_on_leave is true, create a view when a buffer loses focus
 autocmd( { 'bufwinleave' }, {
   pattern = "*",
   callback = function()
@@ -181,12 +173,53 @@ autocmd( { 'bufwinleave' }, {
   group = agroup_views
 })
 
+-- restore view when reading a file
 autocmd( { 'bufread' }, {
   pattern = "*",
   callback = function()
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then
       vim.cmd("silent! loadview")
     end
+  end,
+  group = agroup_views
+})
+
+autocmd( { 'FileType' }, {
+  pattern = 'alpha',
+  callback = function()
+     vim.cmd("silent! setlocal statuscolumn=")
+  end,
+  group = agroup_views
+})
+
+autocmd( { 'FileType' }, {
+  pattern = 'Outline',
+  callback = function()
+    vim.cmd("silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=Outline | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=100")
+  end,
+  group = agroup_views
+})
+
+autocmd( { 'FileType' }, {
+  pattern = "Treesitter",
+  callback = function()
+    vim.cmd("silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal nonumber | setlocal norelativenumber | silent setlocal statuscolumn= | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC")
+  end,
+  group = agroup_views
+})
+
+autocmd( { 'FileType' }, {
+  pattern = 'mail',
+  callback = function()
+    vim.cmd("setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
+  end,
+  group = agroup_views
+})
+
+autocmd( { 'FileType' }, {
+  pattern = { 'markdown', 'telekasten', 'liquid' },
+  callback = function()
+    vim.cmd("setlocal conceallevel=2 | setlocal concealcursor=nc | setlocal formatexpr=")
   end,
   group = agroup_views
 })
@@ -235,17 +268,4 @@ autocmd( { 'WinLeave' }, {
   end,
   group = agroup_hl
 })
-
---  autocmd FileType DressingSelect setlocal winhl=CursorLine:Visual | hi nCursor blend=100
---  autocmd FileType DressingInput hi nCursor blend=0
---  autocmd CmdlineEnter * hi nCursor blend=0
---  autocmd WinEnter *
---    \  if &filetype == 'DressingSelect' || &filetype == 'Outline' || &filetype == 'neo-tree' || &filetype == 'NvimTree'
---    \|   setlocal winhl=CursorLine:Visual,Normal:NeoTreeNormalNC
---    \|   hi nCursor blend=100
---    \| endif
---  autocmd WinLeave *
---    \  if &filetype == 'DressingSelect' || &filetype == 'Outline' || &filetype == 'neo-tree' || &filetype == 'NvimTree'
---    \|   hi nCursor blend=0
---    \| endif
 
