@@ -225,7 +225,7 @@ autocmd( { 'FileType' }, {
 })
 
 autocmd( { 'FileType' }, {
-  pattern = "DressgingSelect",
+  pattern = "DressingSelect",
   callback = function()
     vim.cmd("setlocal winhl=CursorLine:Visual | hi nCursor blend=100")
   end,
