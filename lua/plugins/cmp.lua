@@ -18,6 +18,7 @@ local cmp = require("cmp")
 local cmp_types = require("cmp.types.cmp")
 local max_abbr_item_width = 40
 local max_detail_item_width = 40
+local globals = require("globals")
 
 -- make the completion popup a little more fancy with lspkind. Now mandatory.
 local lspkind = require("lspkind")
@@ -132,7 +133,7 @@ cmp.setup({
   formatting = {
     format = function(entry, vim_item)
       -- Truncate the item if it is too long
-      vim_item.abbr = Truncate(vim_item.abbr, max_abbr_item_width)
+      vim_item.abbr = globals.truncate(vim_item.abbr, max_abbr_item_width)
         -- fancy icons and a name of kind
       vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
       vim_item.kind = " " .. vim_item.kind_symbol .. " " .. vim_item.kind
@@ -166,9 +167,9 @@ cmp.setup({
           end
           if lspserver_name == "pyright" and cmp_item.detail == "Auto-import" then
             local label = (cmp_item.labelDetails or {}).description
-            return label and (" " .. Truncate(label, 20)) or nil
+            return label and (" " .. globals.truncate(label, 20)) or nil
           else
-            return Truncate(cmp_item.detail, max_detail_item_width)
+            return globals.truncate(cmp_item.detail, max_detail_item_width)
           end
         end)(cmp_item)
         if detail_txt then

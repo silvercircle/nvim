@@ -53,19 +53,6 @@ augroup filetypes
   autocmd FileType Treesitter silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal nonumber | setlocal norelativenumber | silent setlocal statuscolumn= | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC
   autocmd FileType Outline silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=Outline | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=100
   autocmd FileType alpha silent! setlocal statuscolumn=
-  autocmd FileType DressingSelect,neo-tree setlocal winhl=CursorLine:Visual | hi nCursor blend=100
-  autocmd FileType DressingInput hi nCursor blend=0
-  autocmd CmdlineEnter * hi nCursor blend=0
-  autocmd WinEnter *
-    \  if &filetype == 'DressingSelect' || &filetype == 'Outline' || &filetype == 'neo-tree' || &filetype == 'NvimTree'
-    \|   setlocal winhl=CursorLine:Visual,Normal:NeoTreeNormalNC
-    \|   hi nCursor blend=100
-    \| endif
-  autocmd WinLeave *
-    \  if &filetype == 'DressingSelect' || &filetype == 'Outline' || &filetype == 'neo-tree' || &filetype == 'NvimTree'
-    \|   hi nCursor blend=0
-    \| endif
-
   " this might be nice, but too annoying. I prefer manual toggle (<C-l><C-l>)
   " autocmd InsertEnter * lua Set_statuscol('rel')
   " autocmd InsertLeave * lua Set_statuscol('normal')

@@ -135,9 +135,9 @@ o.undodir = vim.fn.stdpath("data") .. "/undo/"
 o.undofile=false
 
 -- autogroups
-local agroup_enter = vim.api.nvim_create_augroup("enter", {})
-local agroup_views = vim.api.nvim_create_augroup("views", {})
-
+local agroup_enter = vim.api.nvim_create_augroup("enter", {} )
+local agroup_views = vim.api.nvim_create_augroup("views", {} )
+local agroup_hl = vim.api.nvim_create_augroup("hl", {} )
 
 -- open a 20 lines terminal at the bottom on enter
 -- respect environment variable $NVIM_NO_TERM to skip the terminal
@@ -158,6 +158,7 @@ autocmd({ "vimenter" }, {
     vim.cmd("stopinsert")
     if vim.g.config.plain == false then
       require('nvim-tree.api').tree.toggle({focus = false})
+      -- focus grabbing bug was fixed in nvim-tree
       -- vim.schedule(function() vim.cmd("wincmd p") end )
     end
   end,
@@ -189,4 +190,62 @@ autocmd( { 'bufread' }, {
   end,
   group = agroup_views
 })
+
+autocmd( { 'FileType' }, {
+  pattern = "DressgingSelect",
+  callback = function()
+    vim.cmd("setlocal winhl=CursorLine:Visual | hi nCursor blend=100")
+  end,
+  group = agroup_hl
+})
+autocmd( { 'FileType' } , {
+  pattern = "DressgingInput",
+  callback = function()
+    vim.cmd("hi nCursor blend=0")
+  end,
+  group = agroup_hl
+})
+
+autocmd( { 'CmdLineEnter' }, {
+  pattern = '*',
+  callback = function()
+    vim.cmd("hi nCursor blend = 0")
+  end,
+  group = agroup_hl
+})
+
+autocmd( { 'WinEnter' }, {
+  pattern = '*',
+  callback = function()
+    local filetype = vim.bo.filetype
+    if filetype == "DressingSelect" or filetype == "Outline" or filetype =="NvimTree" then
+      vim.cmd("setlocal winhl=CursorLine:Visual,Normal:NeoTreeNormalNC | hi nCursor blend=100")
+    end
+  end,
+  group = agroup_hl
+})
+
+autocmd( { 'WinLeave' }, {
+  pattern = '*',
+  callback = function()
+    local filetype = vim.bo.filetype
+    if filetype == "DressingSelect" or filetype == "Outline" or filetype =="NvimTree" then
+      vim.cmd("hi nCursor blend=0")
+    end
+  end,
+  group = agroup_hl
+})
+
+--  autocmd FileType DressingSelect setlocal winhl=CursorLine:Visual | hi nCursor blend=100
+--  autocmd FileType DressingInput hi nCursor blend=0
+--  autocmd CmdlineEnter * hi nCursor blend=0
+--  autocmd WinEnter *
+--    \  if &filetype == 'DressingSelect' || &filetype == 'Outline' || &filetype == 'neo-tree' || &filetype == 'NvimTree'
+--    \|   setlocal winhl=CursorLine:Visual,Normal:NeoTreeNormalNC
+--    \|   hi nCursor blend=100
+--    \| endif
+--  autocmd WinLeave *
+--    \  if &filetype == 'DressingSelect' || &filetype == 'Outline' || &filetype == 'neo-tree' || &filetype == 'NvimTree'
+--    \|   hi nCursor blend=0
+--    \| endif
 
