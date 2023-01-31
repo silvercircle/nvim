@@ -8,6 +8,7 @@ local kms = vim.keymap.set
 
 local opts = {noremap = true, silent = true}
 local utils = require("local_utils")
+local globals = require("globals")
 
 -- file tree
 --if vim.g.config.nvim_tree == false then
@@ -24,16 +25,16 @@ kms('n', "<leader>nr", function() require("nvim-tree.api").tree.change_root(vim.
 map('n', '<C-Tab>', '<CMD>bnext<CR>', opts)
 map('n', '<leader><Tab>', "<CMD>bnext<CR>", opts)
 
-kms({ 'i', 'n' }, "<C-f><C-a>", function() Toggle_fo('a') end, opts)
-kms({ 'i', 'n' }, "<C-f><C-c>", function() Toggle_fo('c') end, opts)
-kms({ 'i', 'n' }, "<C-f><C-w>", function() Toggle_fo('w') end, opts)
-kms({ 'i', 'n' }, "<C-f><C-t>", function() Toggle_fo('t') end, opts)
+kms({ 'i', 'n' }, "<C-f><C-a>", function() globals.toggle_fo('a') end, opts)
+kms({ 'i', 'n' }, "<C-f><C-c>", function() globals.toggle_fo('c') end, opts)
+kms({ 'i', 'n' }, "<C-f><C-w>", function() globals.toggle_fo('w') end, opts)
+kms({ 'i', 'n' }, "<C-f><C-t>", function() globals.toggle_fo('t') end, opts)
 
-kms({ 'i', 'n' }, "<C-f>1", function() Set_fo('w') Set_fo('a') end, opts)
-kms({ 'i', 'n' }, "<C-f>2", function() Clear_fo('w') Clear_fo('a') end, opts)
+kms({ 'i', 'n' }, "<C-f>1", function() globals.set_fo('w') globals.set_fo('a') end, opts)
+kms({ 'i', 'n' }, "<C-f>2", function() globals.clear_fo('w') globals.clear_fo('a') end, opts)
 
-kms({ 'i', 'n' }, "<C-f>f", function() Clear_fo('w') Clear_fo('a') Clear_fo('c') Clear_fo('q') Clear_fo('t') Clear_fo('l') end, opts)
-kms({ 'i', 'n' }, "<C-f>a", function() Set_fo('w') Set_fo('a') Set_fo('c') Set_fo('q') Set_fo('t') Set_fo('l') end, opts)
+kms({ 'i', 'n' }, "<C-f>f", function() globals.clear_fo('w') globals.clear_fo('a') globals.clear_fo('c') globals.clear_fo('q') globals.clear_fo('t') globals.clear_fo('l') end, opts)
+kms({ 'i', 'n' }, "<C-f>a", function() globals.set_fo('w') globals.set_fo('a') globals.set_fo('c') globals.set_fo('q') globals.set_fo('t') globals.set_fo('l') end, opts)
 
 map('v', "<leader>V", ':!fmt -110<CR>', opts)
 map('v', "<leader>y", ':!fmt -85<CR>', opts)
@@ -133,8 +134,8 @@ kms('n', "<f16>", function() ibl.refresh() end, opts)
 kms('i', "<f16>", function() ibl.refresh() end, opts)
 kms('v', "<f16>", function() ibl.refresh() end, opts)
 
-kms('n', "<f4>", function() MK_view() end, opts)
-kms('i', "<f4>", function() MK_view() end, opts)
+kms('n', "<f4>", function() globals.mkview() end, opts)
+kms('i', "<f4>", function() globals.mkview() end, opts)
 
 -- toggle current fold
 kms('n', "<F2>", function() vim.api.nvim_feedkeys('za', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
@@ -168,18 +169,18 @@ map('i', "<C-S-Right>", "<c-o><C-i>", opts)
 
 map('n', "<f23>", "<CMD>Lazy<CR>", opts)
 
-kms({'n', 'i'}, "<C-l><C-l>", function() Toggle_statuscol() end, opts)
+kms({'n', 'i'}, "<C-l><C-l>", function() globals.toggle_statuscol() end, opts)
 kms('n', "<A-q>", function() require "local_utils".Quitapp() end, opts)
 kms({'n', 'i'}, "<C-e>", function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.4, sort_lastused=true, sort_mru=true, show_all_buffers=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end, opts)
 kms('n', "<C-p>", function() require'telescope.builtin'.oldfiles(Telescope_dropdown_theme({title='Old files', width=0.6, height=0.5})) end, opts)
 kms('n', "<A-p>", function() require("telescope").extensions.command_center.command_center({mode = 'n'}) end, opts)
 
 -- quick-focus the four main areas
-kms({'n', 'i', 't', 'v'}, "<A-1>", function() FindbufbyType('NvimTree') end, opts)      -- Nvim-tree
+kms({'n', 'i', 't', 'v'}, "<A-1>", function() globals.findbufbyType('NvimTree') end, opts)      -- Nvim-tree
 --kms({'n', 'i', 't', 'v'}, "<A-1>", function() FindbufbyType('neo-tree') end, opts)      -- Neotree
 kms({'n', 'i', 't', 'v'}, "<A-2>", function() vim.fn.win_gotoid(1000) end, opts)        -- main window
-kms({'n', 'i', 't', 'v'}, "<A-3>", function() if FindbufbyType('Outline') == false then vim.cmd("SymbolsOutlineOpen") end end, opts) -- Outline
-kms({'n', 'i', 't', 'v'}, "<A-4>", function() if FindbufbyType('terminal') == false then vim.api.nvim_input("<f11>") end end, opts)  -- Terminal
+kms({'n', 'i', 't', 'v'}, "<A-3>", function() if globals.findbufbyType('Outline') == false then vim.cmd("SymbolsOutlineOpen") end end, opts) -- Outline
+kms({'n', 'i', 't', 'v'}, "<A-4>", function() if globals.findbufbyType('terminal') == false then vim.api.nvim_input("<f11>") end end, opts)  -- Terminal
 
 -- terminal mappings
 map('n', "<f11>", "<CMD>call TermToggle(12)<CR>", opts)

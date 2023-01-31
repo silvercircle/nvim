@@ -1,3 +1,5 @@
+local globals = require("globals")
+
 -- devicons for lua plugins (e.g. Telescope, neotree, nvim-tree among others  need them)
 require("nvim-web-devicons").setup({
   override = {
@@ -150,7 +152,7 @@ require('cokeline').setup({
       fg = function(buffer) return buffer.devicon.color end
     },
     {
-      text = function(buffer) return Truncate(buffer.filename, vim.g.config.cokeline_filename_width) end,
+      text = function(buffer) return globals.truncate(buffer.filename, vim.g.config.cokeline_filename_width) end,
       style = function(buffer) return buffer.is_focused and 'bold' or nil end
     },
     { text = ' ' },

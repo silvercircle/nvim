@@ -1,14 +1,17 @@
+local M = {}
 
-function Set_statuscol(mode)
+M.statuscol_current = 'normal'
+
+function M.set_statuscol(mode)
   if mode == 'normal' then
-    Statuscol_current = 'normal'
+    M.statuscol_current = 'normal'
     vim.o.statuscolumn = vim.g.config.statuscol_normal
     vim.o.relativenumber = false
     vim.o.numberwidth=5
     vim.o.number = true
     return
   elseif mode == 'rel' then
-    Statuscol_current = 'rel'
+    M.statuscol_current = 'rel'
     vim.o.statuscolumn = vim.g.config.statuscol_rel
     vim.o.relativenumber = true
     vim.o.numberwidth=5
@@ -17,18 +20,18 @@ function Set_statuscol(mode)
   end
 end
 
-function Toggle_statuscol()
-  if Statuscol_current == 'normal' then
-    Set_statuscol('rel')
+function M.toggle_statuscol()
+  if M.statuscol_current == 'normal' then
+    M.set_statuscol('rel')
     return
   end
-  if Statuscol_current == 'rel' then
-    Set_statuscol('normal')
+  if M.statuscol_current == 'rel' then
+    M.set_statuscol('normal')
     return
   end
 end
 
-function FindbufbyType(type)
+function M.findbufbyType(type)
   local ls = vim.api.nvim_list_bufs()
   for _, buf in pairs(ls) do
     if vim.api.nvim_buf_is_valid(buf) then
@@ -45,7 +48,7 @@ function FindbufbyType(type)
   return false
 end
 
-Truncate = function(text, max_width)
+function M.truncate(text, max_width)
   if #text > max_width then
     return string.sub(text, 1, max_width) .. "…"
   else
@@ -55,27 +58,26 @@ end
 
 --- global function to create a view
 
-function MK_view()
+function M.mkview()
   if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then
     vim.cmd("silent! mkview!")
   end
 end
 
-function Set_fo(fo)
+function M.set_fo(fo)
   vim.opt_local.formatoptions:append(fo)
 end
 
-function Clear_fo(fo)
+function M.clear_fo(fo)
   vim.opt_local.formatoptions:remove(fo)
 end
 
-function Toggle_fo(fo)
+function M.toggle_fo(fo)
   if vim.opt_local.formatoptions:get()[fo] == true then
-    Clear_fo(fo)
+    M.clear_fo(fo)
   else
-    Set_fo(fo)
+    M.set_fo(fo)
   end
 end
 
-Telescope_dropdown_theme = require("local_utils").Telescope_dropdown_theme
-Telescope_vertical_dropdown_theme = require("local_utils").Telescope_vertical_dropdown_theme
+return M

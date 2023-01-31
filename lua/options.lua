@@ -3,6 +3,7 @@
 
 local o = vim.o
 local autocmd = vim.api.nvim_create_autocmd
+local globals = require("globals")
 
 o.shada = "'500,<50,s10,h,f1,%20"
 o.termguicolors = true
@@ -79,7 +80,7 @@ if vim.fn.has('nvim-0.9') == 1 then
 --o.statuscolumn="%s%=%r %C%#IndentBlankLineChar#│ "
 --print("set to " .. vim.g.config.statuscol_normal)
 --o.statuscolumn = vim.g.config.statuscol_normal
-  Set_statuscol(Statuscol_current)
+  globals.set_statuscol(globals.statuscol_current)
 -- this requires fakefold.lua
 -- o.statuscolumn='%s%=%{v:wrap ? "" : v:lnum} %#FoldColumn#%@v:lua.StatusColumn.handler.fold@%{v:lua.StatusColumn.display.fold()}%#StatusColumnBorder#│%#StatusColumnBuffer#'
 else
@@ -165,7 +166,7 @@ autocmd({ "vimenter" }, {
 
 autocmd( { 'bufwritepre' }, {
   pattern = "*",
-  callback = function() MK_view() end,
+  callback = function() globals.mkview() end,
   group = agroup_views
 })
 
@@ -173,7 +174,7 @@ autocmd( { 'bufwinleave' }, {
   pattern = "*",
   callback = function()
     if vim.g.config.mkview_on_leave == true then
-      MK_view()
+      globals.mkview()
     end
   end,
   group = agroup_views

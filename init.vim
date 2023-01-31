@@ -5,7 +5,6 @@ lua << EOB
 require('config')
 
 require('load_lazy')
-require('globals')
 require('options')
 require('plugins.default')
 EOB

@@ -10,12 +10,14 @@
 -- NOTE: the environment variable NVIM_USE_PRIVATE_FORKS must be set (to anything) in order to use the private
 -- forks of some plugins.
 
--- when NVIM_PLAIN is set (to whatever value), the editor will start plain without a neotree and 
+-- when NVIM_PLAIN is set (to whatever value), the editor will start plain without a neotree and
 -- terminal split.
 local env_plain = os.getenv("NVIM_PLAIN")
 
 -- this is the global config table. Since the migration to lazy, the features table is gone and
 -- no longer needed. load_lazy.lua handles all the plugin loading and deals with optional plugins.
+
+local globals = require("globals")
 
 vim.g.config = {
   telescope_fname_width = 140,
@@ -23,7 +25,7 @@ vim.g.config = {
   use_cokeline = true,                          -- when false, lualine handles the bufferline
   telescope_dropdown='bottom',                  -- position for the input box in the dropdown theme. 'bottom' or 'top'
   cpalette_dropdown = 'top',                    -- same for the command palette
-  -- accent color is used for important highlights like the currently selected tab (buffer) 
+  -- accent color is used for important highlights like the currently selected tab (buffer)
   -- and more.
   accent_color = '#cbaf00',
   alt_accent_color = '#bd2f4f',
@@ -62,7 +64,7 @@ vim.g.config = {
   mkview_on_fold = false                      -- always create a view when using the folding keys (f2/f3)
 }
 
-Statuscol_current = vim.g.config.statuscol_default
+globals.statuscol_current = vim.g.config.statuscol_default
 
 vim.g.theme = {
   variant = "warm",     -- "warm" gives a slight red-ish tint for some backgrounds. "cold" a more blue-ish
@@ -136,10 +138,10 @@ g.filetree_width = 44    -- width for the neotree and nvim-tree plugins
 g.outline_width = 36     -- split width for symbols-outline
 
 -- some tweaks
-vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' for the integrated theme 
+vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' for the integrated theme
                                                -- or any valid lualine theme name (e.g. 'dracula')
 
--- this color table is used when g.lualine_theme is set to 'internal'. otherwise, the variable can specify 
+-- this color table is used when g.lualine_theme is set to 'internal'. otherwise, the variable can specify
 -- a builtin lualine theme (e.g. 'dracula')
 -- the internal theme is designed to blend into the global color scheme.
 
