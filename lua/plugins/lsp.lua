@@ -199,6 +199,16 @@ lspconfig.pyright.setup({
   on_attach = on_attach
 })
 
+lspconfig.marksman.setup({
+  cmd ={ vim.g.lsp_server_bin['marksman'] },
+  filetypes = { 'markdown' },
+  root_dir = function(fname)
+    local root_files = { '.marksman.toml' }
+    return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname)
+  end,
+  single_file_support = true,
+})
+
 local lua_root_files = {
   '.luarc.json',
   '.luarc.jsonc',
@@ -212,9 +222,6 @@ local lua_root_files = {
 lspconfig.sumneko_lua.setup {
   on_attach = on_attach,
   cmd = { vim.g.lsp_server_bin['sumneko_lua'], '--logpath=' .. vim.fn.stdpath("data") },
-  --on_attach = function(client, bufnr)
-  --  on_attach(client, bufnr)
-  --end,
   root_dir = function(fname)
     local root = util.root_pattern(unpack(lua_root_files))(fname)
     if root and root ~= vim.env.HOME then

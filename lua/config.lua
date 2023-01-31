@@ -97,7 +97,8 @@ vim.g.lsp_server_bin = {
   yamlls = masonbinpath .. 'yaml-language-server',
   als = masonbinpath .. 'ada_language_server',
   jdtls = masonbinpath .. 'jdtls',
-  csharp_ls = homepath .. '/.dotnet/tools/csharp-ls'
+  csharp_ls = homepath .. '/.dotnet/tools/csharp-ls',
+  marksman = masonbinpath .. 'marksman'
 }
 
 
