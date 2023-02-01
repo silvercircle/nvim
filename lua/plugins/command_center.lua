@@ -292,21 +292,6 @@ command_center.add({
     keys = { "n", "<f18>", noremap },
     category = "@Neovim"
   },
-  -- text formatting
-  {
-    -- select and format the current paragraph
-    desc = "Format paragraph",
-    cmd = "}kV{jgq",
-    keys = { "n", "<A-C-w>", noremap },
-    category = "@Formatting"
-  },
-  {
-    -- select the current paragraph
-    desc = "Select paragraph",
-    cmd = "}kV{j",
-    keys = { "n", "<leader>v", noremap },
-    category = "@Formatting"
-  },
   -- lsp formatters, this requires the null-ls plugin
   {
     desc = "LSP Format document",

@@ -31,6 +31,9 @@ function M.toggle_statuscol()
   end
 end
 
+--- find a buffer with type and focus its primary window split
+--- @param type string: buffer type (e.g. "NvimTree"
+--- @return boolean false=buffer has no window
 function M.findbufbyType(type)
   local ls = vim.api.nvim_list_bufs()
   for _, buf in pairs(ls) do
@@ -57,13 +60,14 @@ function M.truncate(text, max_width)
 end
 
 --- global function to create a view
-
+--- this creates a view using mkview unless the buffer has no file name or is not a file at all.
 function M.mkview()
   if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then
     vim.cmd("silent! mkview!")
   end
 end
 
+-- functions to set/clear/toggle formatoptions
 function M.set_fo(fo)
   vim.opt_local.formatoptions:append(fo)
 end
