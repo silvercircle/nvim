@@ -13,11 +13,6 @@ set guicursor=i:block-iCursor,v:block-vCursor,n-c:block-nCursor
 set guifont=Iosevka:h11:#e-subpixelantialias:#h-full
 
 run macros/justify.vim
-
-" map <C-f> <NOP>
-map <C-c> <NOP>
-imap <C-c> <NOP>
-
 lua require('keymap')
 
 filetype on

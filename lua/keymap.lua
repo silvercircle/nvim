@@ -10,6 +10,8 @@ local opts = {noremap = true, silent = true}
 local utils = require("local_utils")
 local globals = require("globals")
 
+kms({ 'n', 'i' },  "<C-c>", "<NOP>", opts)
+
 -- file tree
 --if vim.g.config.nvim_tree == false then
 --  map('n', "<leader>r", "<CMD>Neotree reveal_force_cwd<CR>", opts)    -- sync Neotree dir to current buffer
