@@ -92,7 +92,7 @@ terminal split.
 
 | key             |  modes  | meaning                                                 |
 |-----------------|:-------:|---------------------------------------------------------|
-| A-C-w           | i       | Format paragraph to current text width. Use soft line breaks|
+| A-C-w           | i,n     | Format paragraph to current text width. Use soft line breaks|
 
 ## CMP (completion) mapping.
 
