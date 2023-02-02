@@ -144,11 +144,10 @@ local agroup_hl = vim.api.nvim_create_augroup("hl", {} )
 autocmd({ "vimenter" }, {
   pattern = "*",
   callback = function()
-    vim.cmd("stopinsert")
     if vim.g.config.plain == false then
       require('nvim-tree.api').tree.toggle({focus = false})
       vim.api.nvim_command("call TermToggle(12) | wincmd p")
-      vim.schedule(function() vim.cmd.stopinsert() end )
+      -- vim.schedule(function() vim.cmd.stopinsert() end )
       -- focus grabbing bug was fixed in nvim-tree
       -- vim.schedule(function() vim.cmd("wincmd p") end )
     end

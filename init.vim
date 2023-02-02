@@ -1,5 +1,6 @@
 " Set configuration variables
 let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_frontmatter = 1
 
 lua << EOB
 require('config')
@@ -98,7 +99,7 @@ function! TermToggle(height)
           setlocal statusline=Terminal
           silent! set statuscolumn=
       endtry
-      startinsert!
+      " startinsert!
       let g:term_win = win_getid()
   endif
 endfunction
