@@ -2,6 +2,8 @@ local M = {}
 
 M.statuscol_current = 'normal'
 
+--- set the statuscol to either normal or relative line numbers
+--- @param mode string: allowed values: 'normal' or 'rel'
 function M.set_statuscol(mode)
   if mode == 'normal' then
     M.statuscol_current = 'normal'

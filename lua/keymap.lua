@@ -41,6 +41,7 @@ kms({ 'i', 'n' }, "<C-f>a", function() globals.set_fo('w') globals.set_fo('a') g
 map('v', "<leader>V", ':!fmt -110<CR>', opts)
 map('v', "<leader>y", ':!fmt -85<CR>', opts)
 
+-- format a paragraph, different in normal and insert modes
 kms('n', "<A-C-w>", function() vim.api.nvim_feedkeys("}kV{jgq", 'i', true) end, opts)
 kms('i', "<A-C-w>", function() local key = vim.api.nvim_replace_termcodes("<C-o>}<C-o>V{jgq", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) end, opts)
 

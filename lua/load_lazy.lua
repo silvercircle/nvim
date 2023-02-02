@@ -29,12 +29,12 @@ local plugins = {
         lazy = true,
         event = { "UIEnter" },
         config = function()
-          require("plugins.command_center")
+          require("plugins.command_center_setup")
         end
       }
     },
     config = function()
-      require("plugins.telescope")
+      require("plugins.telescope_setup")
     end
   },
   {'nvim-treesitter/nvim-treesitter',
@@ -133,7 +133,7 @@ local plugins = {
       { 'renerocksai/calendar-vim' },
     },
     config = function()
-      require("plugins.telekasten")
+      require("plugins.telekasten_setup")
     end
   },
   {
@@ -182,15 +182,6 @@ local plugins = {
     },
     config = function()
       require("dap.nvim_dap")
-    end
-  },
-  { 'jackMort/ChatGPT.nvim',
-    cmd = "ChatGPT",
-    dependencies = {
-      "MunifTanjim/nui.nvim"
-    },
-    config = function()
-      require("plugins.chatgpt")
     end
   }
 }

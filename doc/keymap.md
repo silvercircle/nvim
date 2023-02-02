@@ -88,6 +88,12 @@ terminal split.
 | F4              | n,i     | Save a view of the current file (persistent folds)|
 | F5              | n,i     | clear search highlights (also those from hlslens |
 
+## Format paragraph
+
+| key             |  modes  | meaning                                                 |
+|-----------------|:-------:|---------------------------------------------------------|
+| A-C-w           | i       | Format paragraph to current text width. Use soft line breaks|
+
 ## CMP (completion) mapping.
 
 These mappings are defined in `lua/plugins/cmp.lua` which contains all cmp-related configuration. 
