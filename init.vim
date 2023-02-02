@@ -8,28 +8,20 @@ require('config')
 require('load_lazy')
 require('options')
 require('plugins.default')
+require('keymap')
 EOB
 
 set guicursor=i:block-iCursor,v:block-vCursor,n-c:block-nCursor
 set guifont=Iosevka:h11:#e-subpixelantialias:#h-full
 
 run macros/justify.vim
-lua require('keymap')
-
 filetype on
 syntax on
 filetype plugin indent on
 set noshowmode
 
 if exists('g:neoray')
-  NeoraySet CursorAnimTime 0
-  NeoraySet Transparency   1
-  NeoraySet TargetTPS      120
-  NeoraySet ContextMenu    TRUE
-  NeoraySet BoxDrawing     TRUE
-  NeoraySet ImageViewer    TRUE
-  NeoraySet WindowSize     240x62
-  NeoraySet WindowState    centered
+  run gui/neoray.vim
 endif
 " a key mapping for the kwbd macro to close a buffer
 command C Kwbd
