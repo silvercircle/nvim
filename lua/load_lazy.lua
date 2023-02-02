@@ -58,6 +58,7 @@ local plugins = {
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-emoji',
       'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-nvim-lsp-signature-help',
       {'https://gitlab.com/silvercircle74/cmp-wordlist.nvim' },
       'hrsh7th/cmp-buffer'
@@ -92,7 +93,6 @@ local plugins = {
   },
 --  { 'williamboman/mason-lspconfig.nvim' },
   {'tpope/vim-liquid', ft = "liquid" },
-  -- {'MunifTanjim/nui.nvim', lazy = true },
   'nvim-tree/nvim-web-devicons',
   { 'alaviss/nim.nvim', ft = "nim" },
   'nvim-lua/plenary.nvim',
@@ -143,7 +143,7 @@ local plugins = {
     end
   },
   { 'nvim-treesitter/playground', cond = vim.g.config.treesitter_playground == true },
-  { 'folke/neodev.nvim', cond = vim.g.config.neodev == true },
+  -- { 'folke/neodev.nvim', cond = vim.g.config.neodev == true },
   {
     'folke/noice.nvim', cond = vim.g.config.noice == true,
     config = function()

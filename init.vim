@@ -19,11 +19,9 @@ lua require('keymap')
 filetype on
 syntax on
 filetype plugin indent on
-" keep the command line clean, MODE is always visible on the status line.
 set noshowmode
 
 if exists('g:neoray')
-  set guifont=Go_Mono:h11
   NeoraySet CursorAnimTime 0
   NeoraySet Transparency   1
   NeoraySet TargetTPS      120
