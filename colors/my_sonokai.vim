@@ -777,7 +777,7 @@ highlight! link diffIndexLine Purple
 " syn_begin: NvimTree {{{
 " https://github.com/kyazdani42/nvim-tree.lua
 call my_sonokai#highlight('NvimTreeNormal', s:palette.fg, s:palette.neotreebg)
-call my_sonokai#highlight('NvimTreeEndOfBuffer', s:palette.bg_dim, s:palette.bg_dim)
+call my_sonokai#highlight('NvimTreeEndOfBuffer', s:palette.bg_dim, s:palette.neotreebg)
 call my_sonokai#highlight('NvimTreeVertSplit', s:palette.bg0, s:palette.bg0)
 highlight! link NvimTreeSymlink Fg
 highlight! link NvimTreeFolderName BlueBold

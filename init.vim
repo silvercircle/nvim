@@ -68,11 +68,13 @@ let g:term_buf = 0
 let g:term_win = 0
 function! TermToggle(height)
   if win_gotoid(g:term_win)
+      setlocal statusline=Terminal
       hide
   else
       belowright new
       exec "resize " . a:height
       set winfixheight
+      setlocal statusline=Terminal
       try
           exec "buffer " . g:term_buf
       catch
@@ -86,7 +88,6 @@ function! TermToggle(height)
           set nocursorline
           set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC
           set filetype=terminal
-          setlocal statusline=Terminal
           silent! set statuscolumn=
       endtry
       " startinsert!

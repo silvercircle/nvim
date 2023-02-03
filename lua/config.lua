@@ -13,11 +13,10 @@
 -- when NVIM_PLAIN is set (to whatever value), the editor will start plain without a neotree and
 -- terminal split.
 local env_plain = os.getenv("NVIM_PLAIN")
+local globals = require("globals")
 
 -- this is the global config table. Since the migration to lazy, the features table is gone and
 -- no longer needed. load_lazy.lua handles all the plugin loading and deals with optional plugins.
-
-local globals = require("globals")
 
 vim.g.config = {
   telescope_fname_width = 140,

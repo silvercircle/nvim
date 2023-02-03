@@ -32,7 +32,9 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
       custom_only = false,
       list = {
         { key = "u", action = "dir_up" },
-        { key = "<C-Enter>", action = "cd" }
+        { key = "<C-Enter>", action = "cd" },
+        { key = "<C-p>", action = "dir_up" },
+        { key = "<C-e>", action = "edit" }
       },
     },
     float = {
