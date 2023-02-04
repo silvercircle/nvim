@@ -5,20 +5,19 @@ M.statuscol_current = 'normal'
 --- set the statuscol to either normal or relative line numbers
 --- @param mode string: allowed values: 'normal' or 'rel'
 function M.set_statuscol(mode)
+  if mode ~= nil and mode ~= 'normal' and mode ~= 'rel' then
+    return
+  end
+  M.statuscol_current = mode
+  vim.o.statuscolumn = vim.g.config["statuscol_" .. mode ]
   if mode == 'normal' then
-    M.statuscol_current = 'normal'
-    vim.o.statuscolumn = vim.g.config.statuscol_normal
     vim.o.relativenumber = false
     vim.o.numberwidth=5
     vim.o.number = true
-    return
-  elseif mode == 'rel' then
-    M.statuscol_current = 'rel'
-    vim.o.statuscolumn = vim.g.config.statuscol_rel
+  else
     vim.o.relativenumber = true
     vim.o.numberwidth=5
     vim.o.number = false
-    return
   end
 end
 

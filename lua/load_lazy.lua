@@ -26,7 +26,7 @@ local plugins = {
       'tom-anders/telescope-vim-bookmarks.nvim',
       { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
       { 'FeiyouG/command_center.nvim',
-        lazy = true,
+        cond = not vim.g.config.plain,
         event = { "UIEnter" },
         config = function()
           require("plugins.command_center_setup")
@@ -155,7 +155,7 @@ local plugins = {
     config = function ()
       if vim.g.config.plain == false then
         local theme = require("alpha.themes.startify")
-        if vim.fn.has("linux") > 0 and #vim.g.config.fortunecookie > 0 then
+        if vim.fn.has("linux") > 0 and (vim.g.config.fortunecookie ~= false and #vim.g.config.fortunecookie > 0) then
           local handle = io.popen("fortune science politics -s -n500 | cowsay -W 120")
           local result = {"",""}
           if handle ~= nil then
