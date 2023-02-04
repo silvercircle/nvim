@@ -5,7 +5,7 @@ local o = vim.o
 local autocmd = vim.api.nvim_create_autocmd
 local globals = require("globals")
 
-o.shada = "'500,<50,s10,h,f1,%20"
+o.shada = "!,'500,<50,s10,h,f1,%20"
 o.termguicolors = true
 o.background = "dark"
 o.cursorline = true
@@ -17,8 +17,7 @@ o.ttyfast = true
 -- no scrollbar on the left side. Ever. Because it's stupid :)
 o.virtualedit = "all"
 o.equalalways = false
--- vim.opt.guicursor:append({ "i:block-iCursor" })
-vim.opt.guicursor = "a:block-Cursor"
+vim.opt.guicursor="i:block-iCursor,v:block-vCursor,n-c:block-nCursor"
 o.autoindent = true
 o.copyindent = true
 o.shiftwidth = 4
@@ -192,7 +191,7 @@ autocmd( { 'FileType' }, {
 })
 
 autocmd( { 'FileType' }, {
-  pattern = 'Outline',
+  pattern = { 'Outline', 'tagbar' },
   callback = function()
     vim.cmd("silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=Outline | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=100")
   end,

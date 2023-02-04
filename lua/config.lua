@@ -60,7 +60,8 @@ vim.g.config = {
                                               -- set this to "" or false if your start screen throws errors.
   mkview_on_leave = true,                     -- set to true if you want to save views on BufWinLeave
                                               -- when false, views are only written on write/update or manually (f4)
-  mkview_on_fold = false                      -- always create a view when using the folding keys (f2/f3)
+  mkview_on_fold = false,                     -- always create a view when using the folding keys (f2/f3)
+  use_winbar = true
 }
 
 globals.statuscol_current = vim.g.config.statuscol_default

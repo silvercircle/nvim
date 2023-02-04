@@ -1,4 +1,5 @@
 local globals = require("globals")
+local navic = require('nvim-navic')
 
 -- devicons for lua plugins (e.g. Telescope, neotree, nvim-tree among others  need them)
 require("nvim-web-devicons").setup({
@@ -29,15 +30,6 @@ local function getWordsV2()
   end
 end
 
--- -- lspsaga plugin: display the current symbol context in the winbar or
--- local sagastatus, saga = pcall(require, "lspsaga.symbolwinbar")
--- local function getsagasymbol()
---   if sagastatus == true then
---     return saga.get_symbol_node()
---   end
---   return ''
--- end
-
 local function actual_tabline()
   if vim.g.config.use_cokeline == true then
     return {}
@@ -51,6 +43,15 @@ local function actual_tabline()
   end
 end
 
+local function full_filename()
+  return vim.fn.expand("%")
+end
+
+local function win_pad()
+  local length = vim.api.nvim_win_get_width(0) - #full_filename() - 4
+  print("the length is: " .. length)
+  return string.rep(' ', length)
+end
 -- the internal theme is defined in config.lua
 local function theme()
   if vim.g.lualine_theme == 'internal' then
@@ -70,8 +71,8 @@ require("lualine").setup({
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", "neo-tree", 'terminal', 'Treesitter', 'qf'},
-      winbar = {},
+      statusline = { "Outline", 'terminal', 'Treesitter', 'qf'},
+      winbar = { 'terminal', 'Treesitter', 'qf', 'NvimTree'},
       tabline = {},
     },
     -- ignore_focus = {'NvimTree'},
@@ -113,9 +114,27 @@ require("lualine").setup({
     lualine_z = {},
   },
   tabline = actual_tabline(),
-  winbar = {},
-  --  lualine_a = { { saga_symbols} }
-  inactive_winbar = {},
+  winbar = vim.g.config.use_winbar == true and {
+    lualine_a = {
+      {
+        navic.get_location,
+        separator = { right ="", left = "" },
+        padding = 2,
+        color = 'Visual'
+      }
+    },
+    lualine_z = {
+      {
+        full_filename,
+        separator = { left ="", right = "" },
+        color = 'Visual' -- { fg = 'Visual', bg = 'Visual' }
+      }
+    }
+  } or {},
+  inactive_winbar = vim.g.config.use_winbar == true and {
+    lualine_x = { { win_pad, color = 'Normal' } },
+    lualine_z = { { full_filename, color = 'Normal' } }
+  } or {},
   extensions = {my_extension},
 })
 

@@ -1,5 +1,10 @@
 local lspconfig = require("lspconfig")
 local util = require('lspconfig.util')
+local navic
+if vim.g.config.use_winbar == true then
+  navic = require('nvim-navic')
+end
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -13,10 +18,10 @@ local on_diagnostic_refresh = function(_, _, ctx)
 end
 
 -- Customize LSP behavior via on_attach
-local on_attach = function(client, _)
-  -- Activate LSP signature on attach.
-  -- on_attach_lsp_signature(client, bufnr)
-
+local on_attach = function(client, bufnr)
+  if vim.g.config.use_winbar == true then
+    navic.attach(client, bufnr)
+  end
   -- Disable specific LSP capabilities: see nvim-lspconfig#1891
   if client.name == "sumneko_lua" and client.server_capabilities then
     client.server_capabilities.documentFormattingProvider = false

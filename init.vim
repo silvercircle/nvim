@@ -1,6 +1,7 @@
 " Set configuration variables
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
+let g:tagbar_position = 'rightbelow vertical'
 
 lua << EOB
 require('config')
@@ -11,7 +12,6 @@ require('plugins.default')
 require('keymap')
 EOB
 
-set guicursor=i:block-iCursor,v:block-vCursor,n-c:block-nCursor
 set guifont=Iosevka:h11:#e-subpixelantialias:#h-full
 
 run macros/justify.vim
