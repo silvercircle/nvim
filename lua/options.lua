@@ -153,6 +153,11 @@ autocmd({ "vimenter" }, {
   end,
 })
 
+autocmd( { 'UIEnter' }, {
+  pattern = "*",
+  callback = function() vim.g.ui_entered = true end
+})
+
 -- create a view to save folds when saving the file
 autocmd( { 'bufwritepre' }, {
   pattern = "*",

@@ -12,7 +12,6 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
--- local luasnip = require("luasnip")
 local snippy = require("snippy")
 
 local cmp = require("cmp")
@@ -191,7 +190,6 @@ cmp.setup({
   sources = {
     { name = "nvim_lsp", priority = 110, group_index = 1, max_item_count = 40 },
     { name = "path", priority = 30 },
-    -- { name = "luasnip", priority = 100, group_index = 1, keyword_length = 2 },
     { name = "snippy", priority = 100, group_index = 1, keyword_length = 2 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
     { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 3 },
@@ -238,7 +236,6 @@ cmp.setup({
 })
 
 -- Command line completion
-
 cmp.setup.cmdline("/", {
   mapping = cmp.mapping.preset.cmdline(),
   sources = { { name = "buffer" } },

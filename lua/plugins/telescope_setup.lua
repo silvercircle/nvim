@@ -178,4 +178,5 @@ require("telescope").setup({
 require("telescope").load_extension("file_browser")
 require("telescope").load_extension("vim_bookmarks")
 require("telescope").load_extension("fzf")
+require("telescope").load_extension("command_center")
 

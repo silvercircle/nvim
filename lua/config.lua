@@ -66,6 +66,8 @@ vim.g.config = {
 
 globals.statuscol_current = vim.g.config.statuscol_default
 
+vim.g.ui_entered = false
+
 vim.g.theme = {
   variant = "warm",     -- "warm" gives a slight red-ish tint for some backgrounds. "cold" a more blue-ish
   desaturate = true     -- true: desaturate some colors to get a more "pastel" look with less intense colors
