@@ -54,6 +54,7 @@ lspconfig.texlab.setup({
 })
 
 lspconfig.nimls.setup({
+  on_attach = on_attach,
   cmd = { vim.g.lsp_server_bin['nimls'] },
   filetypes = { 'nim' },
   root_dir = function(fname)
@@ -68,6 +69,7 @@ lspconfig.clangd.setup({
 })
 
 lspconfig.als.setup({
+  on_attach = on_attach,
   cmd = { vim.g.lsp_server_bin['als'] },
   filetypes = { 'ada' },
   root_dir = util.root_pattern('Makefile', '.git', '*.gpr', '*.adc'),
@@ -137,6 +139,7 @@ lspconfig.phpactor.setup({
 })
 
 lspconfig.gopls.setup({
+  on_attach = on_attach,
   cmd = { vim.g.lsp_server_bin['gopls'] },
   capabilities = capabilities,
   single_file_support = true,
@@ -159,6 +162,7 @@ lspconfig.serve_d.setup({
 })
 
 lspconfig.yamlls.setup({
+  on_attach = on_attach,
   cmd = { vim.g.lsp_server_bin['yamlls'], '--stdio' },
   filetypes = { 'yaml', 'yaml.docker-compose' },
   root_dir = util.find_git_ancestor,
@@ -170,6 +174,7 @@ lspconfig.yamlls.setup({
 })
 
 lspconfig.csharp_ls.setup({
+  on_attach = on_attach,
   cmd = { vim.g.lsp_server_bin['csharp_ls'] },
     root_dir = util.root_pattern('*.sln', '*.csproj', '*.fsproj', '.git'),
     filetypes = { 'cs' },
@@ -180,6 +185,7 @@ lspconfig.csharp_ls.setup({
 
 -- metals = scala language server.
 lspconfig.metals.setup({
+  on_attach = on_attach,
   cmd = { vim.g.lsp_server_bin['metals'] },
   filetypes = { 'scala' },
   root_dir = util.root_pattern('build.sbt', 'build.sc', 'build.gradle', 'pom.xml'),
@@ -205,6 +211,7 @@ lspconfig.pyright.setup({
 })
 
 lspconfig.marksman.setup({
+  on_attach = on_attach,
   cmd ={ vim.g.lsp_server_bin['marksman'] },
   filetypes = { 'markdown' },
   root_dir = function(fname)

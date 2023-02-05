@@ -124,8 +124,9 @@ require("lualine").setup({
     lualine_a = {
       {
         navic.get_location,
-        separator = { right ="", left = "" },
-        color = 'Folded',
+        -- separator = { right ="", left = "" },
+        separator = "",
+        color = 'WinBarContext',
         fmt = function(string)
           if #string > 0 then
             return string.format("Context: %s", string)
@@ -138,8 +139,9 @@ require("lualine").setup({
     lualine_z = {
       {
         full_filename,
-        separator = { left ="", right = "" },
-        color = 'Folded'
+        -- separator = { left ="", right = "" },
+        separator = "",
+        color = 'WinBarFilename'
       }
     }
   } or {},
