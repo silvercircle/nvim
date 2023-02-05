@@ -42,12 +42,13 @@ local plugins = {
       require("plugins.treesitter")
     end
   },
-  { 'L3MON4D3/LuaSnip',
-    lazy = true,
-    config = function()
-      require("luasnip.loaders.from_snipmate").lazy_load()
-    end
-  },
+  { 'dcampos/nvim-snippy', lazy=true },
+--  { 'L3MON4D3/LuaSnip',
+--    lazy = true,
+--    config = function()
+--      require("luasnip.loaders.from_snipmate").lazy_load()
+--    end
+--  },
   -- cmp and all its helpers
   { 'hrsh7th/nvim-cmp',
     lazy = true,
@@ -57,7 +58,8 @@ local plugins = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-emoji',
-      'saadparwaiz1/cmp_luasnip',
+      'dcampos/cmp-snippy',
+--      'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-nvim-lsp-signature-help',
       {'https://gitlab.com/silvercircle74/cmp-wordlist.nvim' },

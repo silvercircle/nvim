@@ -12,7 +12,8 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local luasnip = require("luasnip")
+-- local luasnip = require("luasnip")
+local snippy = require("snippy")
 
 local cmp = require("cmp")
 local cmp_types = require("cmp.types.cmp")
@@ -75,7 +76,8 @@ cmp.setup({
   },
   snippet = {
     expand = function(args)
-      luasnip.lsp_expand(args.body)
+      -- luasnip.lsp_expand(args.body)
+      snippy.expand_snippet(args.body)
     end,
   },
   experimental = {
@@ -107,8 +109,10 @@ cmp.setup({
       i = function(fallback) -- see GH-231, GH-286
         if cmp.visible() then
           cmp.select_next_item()
-        elseif luasnip.expand_or_jumpable() then
-          vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
+        -- elseif luasnip.expand_or_jumpable() then
+        elseif snippy.can_expand_or_advance() then
+          --vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
+          vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(snippy-expand-or-advance)", true, true, true), "")
         elseif has_words_before() then
           cmp.complete()
         else
@@ -120,8 +124,10 @@ cmp.setup({
       i = function(fallback)
         if cmp.visible() then
           cmp.select_prev_item()
-        elseif luasnip.jumpable(-1) then
-          vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
+        -- elseif luasnip.jumpable(-1) then
+        elseif snippy.can_jump(-1) then
+          -- vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
+          vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(snippy-previous)", true, true, true), "")
         else
           fallback()
         end
@@ -185,7 +191,8 @@ cmp.setup({
   sources = {
     { name = "nvim_lsp", priority = 110, group_index = 1, max_item_count = 40 },
     { name = "path", priority = 30 },
-    { name = "luasnip", priority = 100, group_index = 1, keyword_length = 2 },
+    -- { name = "luasnip", priority = 100, group_index = 1, keyword_length = 2 },
+    { name = "snippy", priority = 100, group_index = 1, keyword_length = 2 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
     { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 3 },
     { name = 'emoji', priority = 10 },        -- cmp-emoji source
