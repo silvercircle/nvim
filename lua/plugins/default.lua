@@ -53,6 +53,10 @@ local function win_pad()
   return string.rep(' ', length)
 end
 
+local function indentstats()
+  return string.format("%d:%d:%d %s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.softtabstop, vim.bo.expandtab == true and 'y' or 'n')
+end
+
 -- the internal theme is defined in config.lua
 local function theme()
   if vim.g.lualine_theme == 'internal' then
@@ -90,6 +94,7 @@ require("lualine").setup({
     lualine_b = { "branch", "diff", "diagnostics" },
     lualine_c = { "filename", "searchcount" },
     lualine_x = {
+      { indentstats },
       "encoding",
       {
         -- show unicode for character under cursor in hex and decimal
@@ -97,7 +102,7 @@ require("lualine").setup({
         "%05B",
         fmt = function(str)
           return string.format("U:0x%s", str)
-        end,
+        end
       },
       "fileformat",
       "filetype",
@@ -117,11 +122,17 @@ require("lualine").setup({
   tabline = actual_tabline(),
   winbar = vim.g.config.use_winbar == true and {
     lualine_a = {
-      { 'Context', color = 'Folded' },
       {
         navic.get_location,
         separator = { right ="", left = "" },
-        color = 'Folded'
+        color = 'Folded',
+        fmt = function(string)
+          if #string > 0 then
+            return string.format("Context: %s", string)
+          else
+            return ""
+          end
+        end
       }
     },
     lualine_z = {

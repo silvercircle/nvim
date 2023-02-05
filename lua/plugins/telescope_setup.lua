@@ -78,6 +78,7 @@ require("telescope").setup({
       height = 0.6,
       scroll_speed = 4
     },
+    scroll_strategy = 'limit',
     winblend = vim.g.float_winblend,
     -- square borders (just to be consistend with other UI elements like CMP)
     borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
