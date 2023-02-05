@@ -5,7 +5,7 @@ local o = vim.o
 local autocmd = vim.api.nvim_create_autocmd
 local globals = require("globals")
 
-o.shada = "!,'500,<50,s10,h,f1,%20"
+o.shada = "!,'200,<20,s10,h,f1,%20,:500,rterm://"
 o.termguicolors = true
 o.background = "dark"
 o.cursorline = true

@@ -1,5 +1,6 @@
 local globals = require("globals")
 local navic = require('nvim-navic')
+Context = 'Context '
 
 -- devicons for lua plugins (e.g. Telescope, neotree, nvim-tree among others  need them)
 require("nvim-web-devicons").setup({
@@ -49,9 +50,9 @@ end
 
 local function win_pad()
   local length = vim.api.nvim_win_get_width(0) - #full_filename() - 4
-  print("the length is: " .. length)
   return string.rep(' ', length)
 end
+
 -- the internal theme is defined in config.lua
 local function theme()
   if vim.g.lualine_theme == 'internal' then
@@ -72,7 +73,7 @@ require("lualine").setup({
     -- section_separators = { left = "", right = "" },
     disabled_filetypes = {
       statusline = { "Outline", 'terminal', 'Treesitter', 'qf'},
-      winbar = { 'terminal', 'Treesitter', 'qf', 'NvimTree'},
+      winbar = { 'Outline', 'terminal', 'Treesitter', 'qf', 'NvimTree'},
       tabline = {},
     },
     -- ignore_focus = {'NvimTree'},
@@ -116,18 +117,18 @@ require("lualine").setup({
   tabline = actual_tabline(),
   winbar = vim.g.config.use_winbar == true and {
     lualine_a = {
+      { 'Context', color = 'Folded' },
       {
         navic.get_location,
         separator = { right ="", left = "" },
-        padding = 2,
-        color = 'Visual'
+        color = 'Folded'
       }
     },
     lualine_z = {
       {
         full_filename,
         separator = { left ="", right = "" },
-        color = 'Visual' -- { fg = 'Visual', bg = 'Visual' }
+        color = 'Folded'
       }
     }
   } or {},
