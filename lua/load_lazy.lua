@@ -26,8 +26,7 @@ local plugins = {
       'tom-anders/telescope-vim-bookmarks.nvim',
       { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
       { 'FeiyouG/command_center.nvim',
-        cond = not vim.g.config.plain,
-        event = { "UIEnter" },
+        -- event = { 'UIEnter' },
         config = function()
           require("plugins.command_center_setup")
         end
@@ -178,6 +177,12 @@ local plugins = {
     },
     config = function()
       require("dap.nvim_dap")
+    end
+  },
+  {
+    'mrjones2014/legendary.nvim',
+    config = function()
+      require("plugins.legendary")
     end
   }
 }

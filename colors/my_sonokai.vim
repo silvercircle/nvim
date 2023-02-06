@@ -1245,6 +1245,7 @@ hi! link NeoTreeCursorLine Visual
 
 call my_sonokai#highlight('WinBarFilename', s:teal, s:statuslinebg)
 call my_sonokai#highlight('WinBarContext', s:palette.darkyellow, s:statuslinebg, 'bold')
+hi! link WinBarNC StatusLineNC
 " Org mode
 "
 call my_sonokai#highlight('OrgTSHeadlineLevel1', s:blue, s:palette.none, 'bold')

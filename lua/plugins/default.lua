@@ -142,12 +142,13 @@ require("lualine").setup({
         -- separator = { left ="", right = "" },
         separator = "",
         color = 'WinBarFilename'
-      }
+      },
+      'tabs'
     }
   } or {},
   inactive_winbar = vim.g.config.use_winbar == true and {
-    lualine_x = { { win_pad, color = 'Normal' } },
-    lualine_z = { { full_filename, color = 'Normal' } }
+    -- lualine_x = { { win_pad, color = 'Normal' } },
+    lualine_z = { { full_filename, color = 'WinBarNC' }, 'tabs' }
   } or {},
   extensions = {my_extension},
 })

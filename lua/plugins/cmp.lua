@@ -75,7 +75,6 @@ cmp.setup({
   },
   snippet = {
     expand = function(args)
-      -- luasnip.lsp_expand(args.body)
       snippy.expand_snippet(args.body)
     end,
   },
@@ -108,9 +107,7 @@ cmp.setup({
       i = function(fallback) -- see GH-231, GH-286
         if cmp.visible() then
           cmp.select_next_item()
-        -- elseif luasnip.expand_or_jumpable() then
         elseif snippy.can_expand_or_advance() then
-          --vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
           vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(snippy-expand-or-advance)", true, true, true), "")
         elseif has_words_before() then
           cmp.complete()
@@ -123,9 +120,7 @@ cmp.setup({
       i = function(fallback)
         if cmp.visible() then
           cmp.select_prev_item()
-        -- elseif luasnip.jumpable(-1) then
         elseif snippy.can_jump(-1) then
-          -- vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
           vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(snippy-previous)", true, true, true), "")
         else
           fallback()
