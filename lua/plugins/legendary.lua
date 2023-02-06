@@ -1,35 +1,126 @@
- require('legendary').setup({
+local lutils = require("local_utils")
+local _t = require("telescope")
+local _tb = require("telescope.builtin")
+local lsputil = require('lspconfig.util')
+
+require('legendary').setup({
+  include_builtin = true,
+  select_prompt = ' legendary ',
+  item_type_bias = 'group',
   keymaps = {
-    -- map keys to a command
-    { '<leader>ff', ':Telescope find_files', description = 'Find files' },
-    -- map keys to a function
-    {
-      '<leader>h',
-      function()
-        print('hello world!')
-      end,
-      description = 'Say hello',
-    },
-    -- keymaps have opts.silent = true by default, but you can override it
-    { '<leader>s', ':SomeCommand<CR>', description = 'Non-silent keymap', opts = { silent = false } },
-    -- create keymaps with different implementations per-mode
-    {
-      '<leader>c',
-      { n = ':LinewiseCommentToggle<CR>', x = ":'<,'>BlockwiseCommentToggle<CR>" },
-      description = 'Toggle comment',
-    },
-    -- create item groups to create sub-menus in the finder
-    -- note that only keymaps, commands, and functions
-    -- can be added to item groups
     {
       -- groups with same itemgroup will be merged
-      itemgroup = 'short ID',
-      description = 'A submenu of items...',
+      itemgroup = 'GIT',
+      description = 'Git commands',
       icon = '',
       keymaps = {
-        -- more keymaps here
+        {
+          'tgs',
+          function() _tb.git_status({cwd = lsputil.root_pattern(".git")(vim.fn.expand("%:p")), layout_config={height=0.8, width=0.8}}) end,
+          description = "GIT status (Telescope)",
+        },
+        {
+          'tgc',
+          function() _tb.git_commits({cwd = lsputil.root_pattern(".git")(vim.fn.expand("%:p")), layout_config={height=0.8, width=0.8}}) end,
+          description = "GIT commits (Telescope)",
+        },
+        {
+          '<f6>',
+          -- open a float term with lazygit.
+          -- use the path of the current buffer to find the .git root. The LSP utils are useful here
+          function() local path = lsputil.root_pattern(".git")(vim.fn.expand("%:p"))
+            path = path or "."
+            local cmd = "FloatermNew --name=GIT --width=0.9 --height=0.9 lazygit --path=" .. path
+            vim.cmd(cmd)
+          end,
+          description = "FloatTerm lazygit",
+        },
+        {
+          '<leader>h',
+          function()
+            print('hello world in submenu!')
+          end,
+          description = 'Say hello in submenu',
+        }
       },
     },
+    {
+      itemgroup = 'Bookmarks',
+      description = 'Bookmark plugin commands',
+      icon = '',
+      keymaps = {
+        {
+          '<leader>bt',
+          "<Plug>BookmarkToggle",
+          description = "Bookmark Toggle",
+        },
+        {
+          '<leader>by',
+          "<Plug>BookmarkAnnotate",
+          description = "Bookmark Annotate",
+        },
+        {
+          '<leader>ba',
+          "<Plug>BookmarkShowAll",
+          description = "Bookmarks show all",
+        },
+        {
+          '<leader>bn',
+          "<Plug>BookmarkNext",
+          description = "Bookmark next",
+        },
+        {
+          '<leader>bp',
+          "<Plug>BookmarkPrev",
+          description = "Bookmark previous",
+        },
+        {
+          '<leader>bd',
+          "<Plug>BookmarkClear",
+          description = "Bookmark delete",
+        },
+        {
+          '<leader>bx',
+          "<Plug>BookmarkClearAll",
+          description = "Bookmark delete All",
+        },
+        {
+          '<leader>bb',
+          "<Plug>BookmarkMoveDown",
+          description = "Bookmark move down",
+        },
+        {
+          '<leader>bu',
+          "<Plug>BookmarkMoveUp",
+          description = "Bookmark move up",
+        },
+        {
+          '<leader>bm',
+          "<Plug>BookmarkMoveToLine",
+          description = "Bookmark move to line",
+        },
+        {
+          '<A-b>',
+          function() _t.extensions.vim_bookmarks.all(Telescope_vertical_dropdown_theme({prompt_title="All Bookmarks", hide_filename=false, width_text=120})) end,
+          description = "Show all bookmarks (Telescope)",
+        },
+        {
+          '<A-B',
+          function() _t.extensions.vim_bookmarks.current_file(Telescope_vertical_dropdown_theme({prompt_title="File Bookmarks"})) end,
+          description = "Show bookmarks in current file (Telescope)",
+        },
+        {
+          '<f12>',
+          function() require "quickfavs".Quickfavs(false) end,
+          description = "Show favorite folders",
+        },
+        {
+          '<f24>',
+          function() require "quickfavs".Quickfavs(true) end,
+          description = "Show favorite folders (rescan fav file)",
+        },
+      }
+    }
   },
   commands = {
     -- easily create user commands
@@ -39,16 +130,7 @@
         print('hello world!')
       end,
       description = 'Say hello as a command',
-    },
-    {
-      -- groups with same itemgroup will be merged
-      itemgroup = 'short ID',
-      -- don't need to copy the other group data because
-      -- it will be merged with the one from the keymaps table
-      commands = {
-        -- more commands here
-      },
-    },
+    }
   },
   funcs = {
     -- Make arbitrary Lua functions that can be executed via the item finder
@@ -67,14 +149,5 @@
         -- more funcs here
       },
     },
-  },
-  autocmds = {
-    -- Create autocmds and augroups
-    { 'BufWritePre', vim.lsp.buf.format, description = 'Format on save' },
-    {
-      name = 'MyAugroup',
-      clear = true,
-      -- autocmds here
-    },
-  },
+  }
 })

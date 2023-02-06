@@ -26,9 +26,11 @@ local plugins = {
       'tom-anders/telescope-vim-bookmarks.nvim',
       { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
       { 'FeiyouG/command_center.nvim',
-        -- event = { 'UIEnter' },
+        event = { 'UIEnter' },
         config = function()
-          require("plugins.command_center_setup")
+          if vim.g.config.plain ~= true then
+            require("plugins.command_center_setup")
+          end
         end
       }
     },
@@ -99,7 +101,6 @@ local plugins = {
   'lukas-reineke/indent-blankline.nvim',
   'petertriho/nvim-scrollbar',
   { 'stevearc/dressing.nvim',
-    lazy = true,
     event = { "UIEnter" },
     config = function()
       require("plugins.dressing")
@@ -111,17 +112,18 @@ local plugins = {
   { 'norcalli/nvim-colorizer.lua' },
   'echasnovski/mini.move',
   {
-    'nvim-tree/nvim-tree.lua', cmd="",
+    'nvim-tree/nvim-tree.lua',
+    lazy = true,
     config = function()
       require("plugins.nvim-tree")
     end
   },
-  {
-    'glepnir/lspsaga.nvim', lazy = true, cmd = "Lspsaga",
-    config = function()
-      require("plugins.lspsaga")
-    end
-  },
+--  {
+--    'glepnir/lspsaga.nvim', lazy = true, cmd = "Lspsaga",
+--    config = function()
+--      require("plugins.lspsaga")
+--    end
+--  },
   {
     'renerocksai/telekasten.nvim', lazy = true, ft={"telekasten", "markdown"},
     dependencies = {
@@ -139,12 +141,12 @@ local plugins = {
   },
   { 'nvim-treesitter/playground', cond = vim.g.config.treesitter_playground == true },
   -- { 'folke/neodev.nvim', cond = vim.g.config.neodev == true },
-  {
-    'folke/noice.nvim', cond = vim.g.config.noice == true,
-    config = function()
-      require("plugins.noice")
-    end
-  },
+--  {
+--    'folke/noice.nvim', cond = vim.g.config.noice == true,
+--    config = function()
+--      require("plugins.noice")
+--    end
+--  },
   { 'goolord/alpha-nvim',
     cond = vim.g.config.plain == false,
     config = function ()
@@ -181,10 +183,20 @@ local plugins = {
   },
   {
     'mrjones2014/legendary.nvim',
+    lazy = true,
+    cmd = { "Legendary" },
     config = function()
       require("plugins.legendary")
     end
   }
+--  {
+--    'ldelossa/nvim-ide',
+--    lazy = true,
+--    event = { "UIEnter" },
+--    config = function()
+--      require("plugins.ide")
+--    end
+--  }
 }
 
 -- for experimental purpose, I use some private forks and local repos.
@@ -209,6 +221,25 @@ local plugins_private = {
     dir = '/mnt/shared/data/code/neovim_plugins/symbols-outline.nvim', cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
     config = function()
       require("plugins.symbols_outline")
+    end
+  },
+  {
+    dir = '/mnt/shared/data/code/neovim_plugins/JABS.nvim', cmd = { "JABSOpen", "JABSDocked" },
+    config = function()
+      require("jabs").setup({
+        symbols = {
+          current = "C", -- default 
+          split = "S", -- default 
+          alternate = "A", -- default 
+          hidden = "H", -- default ﬘
+          locked = "L", -- default 
+          ro = "R", -- default 
+          edited = "E", -- default 
+          terminal = "T", -- default 
+          default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
+          terminal_symbol = ">_" -- Filetype icon for a terminal split. Default 
+        }
+      })
     end
   },
 --  -- CMP and all its extensions
