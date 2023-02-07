@@ -61,12 +61,11 @@ vim.g.config = {
   mkview_on_leave = true,                     -- set to true if you want to save views on BufWinLeave
                                               -- when false, views are only written on write/update or manually (f4)
   mkview_on_fold = false,                     -- always create a view when using the folding keys (f2/f3)
-  use_winbar = true
+  use_winbar = true,
+  main_winid = 1000                        -- this is normally 1000 for the first window. It's updated in UIEnter autocmd
 }
 
 globals.statuscol_current = vim.g.config.statuscol_default
-
-vim.g.ui_entered = false
 
 vim.g.theme = {
   variant = "warm",     -- "warm" gives a slight red-ish tint for some backgrounds. "cold" a more blue-ish

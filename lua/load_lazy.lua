@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
   'nvim-lualine/lualine.nvim',
-  'noib3/nvim-cokeline',
+  { 'silvercircle/nvim-cokeline', branch = "mine" },
   -- multiple cursors.
   'mg979/vim-visual-multi',
   -- telescope + extensions, mandatory

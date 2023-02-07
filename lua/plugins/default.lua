@@ -76,8 +76,8 @@ require("lualine").setup({
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", 'terminal', 'Treesitter', 'qf', 'filetree' },
-      winbar = { 'Outline', 'terminal', 'Treesitter', 'qf', 'NvimTree', 'alpha', 'filetree'},
+      statusline = { "Outline", 'terminal', 'Treesitter', 'qf', 'BufList' },
+      winbar = { 'Outline', 'terminal', 'Treesitter', 'qf', 'NvimTree', 'alpha', 'BufList'},
       tabline = {},
     },
     -- ignore_focus = {'NvimTree'},
@@ -165,8 +165,6 @@ require('cokeline').setup({
   default_hl = Cokeline_theme().hl,
   -- header for the neo-tree sidebar
   sidebar = {
-    -- filetype = 'neo-tree',
-    -- filetype = 'SidebarNvim',
     filetype = treename,
     components = {
       {
@@ -359,7 +357,8 @@ require("scrollbar").setup({
     "lazy",
     "alpha",
     "lspinfo",
-    "NvimTree"
+    "NvimTree",
+    "BufList"
   },
   autocmd = {
     render = {

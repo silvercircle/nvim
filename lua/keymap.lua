@@ -187,6 +187,7 @@ kms({'n', 'i', 't', 'v'}, "<A-1>", function() globals.findbufbyType('NvimTree') 
 kms({'n', 'i', 't', 'v'}, "<A-2>", function() vim.fn.win_gotoid(1000) end, opts)        -- main window
 kms({'n', 'i', 't', 'v'}, "<A-3>", function() if globals.findbufbyType('Outline') == false then vim.cmd("SymbolsOutlineOpen") end end, opts) -- Outline
 kms({'n', 'i', 't', 'v'}, "<A-4>", function() if globals.findbufbyType('terminal') == false then vim.api.nvim_input("<f11>") end end, opts)  -- Terminal
+kms({'n', 'i', 't', 'v'}, "<A-5>", function() globals.findbufbyType('BufList') end, opts)  -- Terminal
 
 -- terminal mappings
 map('n', "<f11>", "<CMD>call TermToggle(12)<CR>", opts)

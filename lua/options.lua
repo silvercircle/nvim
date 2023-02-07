@@ -153,9 +153,10 @@ autocmd({ "vimenter" }, {
   end,
 })
 
-autocmd( { 'UIEnter' }, {
-  pattern = "*",
-  callback = function() vim.g.ui_entered = true end
+autocmd({ 'UIEnter' }, {
+  callback = function()
+    vim.g.config.main_winid = vim.fn.win_getid()
+  end
 })
 
 -- create a view to save folds when saving the file
@@ -196,7 +197,7 @@ autocmd( { 'FileType' }, {
 })
 
 autocmd( { 'FileType' }, {
-  pattern = { 'Outline', 'tagbar', 'filetree' },
+  pattern = { 'Outline', 'tagbar'},
   callback = function()
     vim.cmd("silent! setlocal colorcolumn=36 | silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=Outline | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=100")
   end,
@@ -270,7 +271,7 @@ autocmd( { 'WinEnter' }, {
   pattern = '*',
   callback = function()
     local filetype = vim.bo.filetype
-    if filetype == "DressingSelect" or filetype == "Outline" or filetype =="NvimTree" then
+    if filetype == "DressingSelect" or filetype == "Outline" or filetype =="NvimTree" or filetype == 'BufList' then
       vim.cmd("setlocal winhl=CursorLine:Visual,Normal:NeoTreeNormalNC | hi nCursor blend=100")
     end
   end,
@@ -281,7 +282,7 @@ autocmd( { 'WinLeave' }, {
   pattern = '*',
   callback = function()
     local filetype = vim.bo.filetype
-    if filetype == "DressingSelect" or filetype == "Outline" or filetype =="NvimTree" then
+    if filetype == "DressingSelect" or filetype == "Outline" or filetype =="NvimTree" or filetype == 'BufList' then
       vim.cmd("hi nCursor blend=0")
     end
   end,
