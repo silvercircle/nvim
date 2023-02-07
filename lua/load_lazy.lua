@@ -168,6 +168,13 @@ local plugins = {
       end
     end
   },
+--  {
+--    "startup-nvim/startup.nvim",
+--    cond = vim.g.config.plain == false,
+--    config = function()
+--      require"startup".setup({theme = "startify"})
+--    end
+--  },
   { 'mfussenegger/nvim-dap',
     lazy = true,
     dependencies = {
@@ -189,14 +196,6 @@ local plugins = {
       require("plugins.legendary")
     end
   }
---  {
---    'ldelossa/nvim-ide',
---    lazy = true,
---    event = { "UIEnter" },
---    config = function()
---      require("plugins.ide")
---    end
---  }
 }
 
 -- for experimental purpose, I use some private forks and local repos.
@@ -224,7 +223,7 @@ local plugins_private = {
     end
   },
   {
-    dir = '/mnt/shared/data/code/neovim_plugins/JABS.nvim', cmd = { "JABSOpen", "JABSDocked" },
+    dir = '/mnt/shared/data/code/neovim_plugins/JABS.nvim', branch = "mine", cmd = { "JABSOpen", "JABSDocked" },
     config = function()
       require("jabs").setup({
         symbols = {
@@ -234,7 +233,7 @@ local plugins_private = {
           hidden = "H", -- default ﬘
           locked = "L", -- default 
           ro = "R", -- default 
-          edited = "E", -- default 
+          edited = "*", -- default 
           terminal = "T", -- default 
           default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
           terminal_symbol = ">_" -- Filetype icon for a terminal split. Default 

@@ -156,6 +156,7 @@ autocmd({ "vimenter" }, {
 autocmd({ 'UIEnter' }, {
   callback = function()
     vim.g.config.main_winid = vim.fn.win_getid()
+    require("jabs").open(true)
   end
 })
 
@@ -189,7 +190,7 @@ autocmd( { 'bufread' }, {
 })
 
 autocmd( { 'FileType' }, {
-  pattern = 'alpha',
+  pattern = { 'alpha', 'startup' },
   callback = function()
      vim.cmd("silent! setlocal statuscolumn=")
   end,

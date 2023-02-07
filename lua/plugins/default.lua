@@ -160,7 +160,7 @@ local treename = 'NvimTree'
 require('cokeline').setup({
   -- Cokeline_theme() is defined in config.lua
   buffers = {
-    filter_visible = function(buffer) return not(buffer['type'] == 'terminal' and true or false) end
+    filter_visible = function(buffer) return not(buffer['type'] == 'terminal' or buffer['type'] == 'nofile') and true or false end
   },
   default_hl = Cokeline_theme().hl,
   -- header for the neo-tree sidebar
@@ -355,7 +355,7 @@ require("scrollbar").setup({
     "DressingInput",
     "mason",
     "lazy",
-    "alpha",
+    "startup",
     "lspinfo",
     "NvimTree",
     "BufList"
