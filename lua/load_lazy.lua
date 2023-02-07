@@ -149,6 +149,7 @@ local plugins = {
 --  },
   { 'goolord/alpha-nvim',
     cond = vim.g.config.plain == false,
+    pin = true,
     config = function ()
       if vim.g.config.plain == false then
         local theme = require("alpha.themes.startify")
@@ -168,13 +169,6 @@ local plugins = {
       end
     end
   },
---  {
---    "startup-nvim/startup.nvim",
---    cond = vim.g.config.plain == false,
---    config = function()
---      require"startup".setup({theme = "startify"})
---    end
---  },
   { 'mfussenegger/nvim-dap',
     lazy = true,
     dependencies = {

@@ -94,11 +94,14 @@ function M.toggle_fo(fo)
   end
 end
 
---- split the file tree horizontally to about 1/3 of its height.
-function M.splittree(bufnr)
+--- split the file tree horizontally
+--- @param _factor number: percentage to split, must be 0 < _factor < 1
+--- @return number: the window id
+function M.splittree(_factor)
+  local factor = (_factor ~= nil and _factor > 0 and _factor < 1) and _factor or 0.33
   local winid = M.findwinbyBufType("NvimTree")
   if #winid > 0 then
-    local splitheight = vim.fn.winheight(winid[1]) * 0.33
+    local splitheight = vim.fn.winheight(winid[1]) * factor
     vim.fn.win_gotoid(winid[1])
     vim.cmd("below " .. splitheight .. " sp")
     M.winid_bufferlist = vim.fn.win_getid()

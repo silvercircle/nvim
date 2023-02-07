@@ -355,7 +355,7 @@ require("scrollbar").setup({
     "DressingInput",
     "mason",
     "lazy",
-    "startup",
+    "alpha",
     "lspinfo",
     "NvimTree",
     "BufList"
