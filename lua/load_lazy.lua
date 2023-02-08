@@ -14,7 +14,6 @@ vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
   'nvim-lualine/lualine.nvim',
-  { 'silvercircle/nvim-cokeline', branch = "mine" },
   -- multiple cursors.
   'mg979/vim-visual-multi',
   -- telescope + extensions, mandatory
@@ -195,6 +194,7 @@ local plugins = {
 -- for experimental purpose, I use some private forks and local repos.
 -- plugins_official (see below) contains the same stuff..
 local plugins_private = {
+  { dir = '/mnt/shared/data/code/neovim_plugins/nvim-cokeline', branch = "mine" },
   {
     dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim',
     lazy = true,
@@ -238,30 +238,13 @@ local plugins_private = {
 }
 
 local plugins_official = {
+  'noib3/nvim-cokeline',
   {
     'simrat39/symbols-outline.nvim', cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
     config = function()
       require("plugins.symbols_outline")
     end
   },
---  -- cmp and all its helpers
---  { 'hrsh7th/nvim-cmp',
---    lazy = true,
---    event = { "InsertEnter", "CmdLineEnter" },
---    dependencies = {
---      'hrsh7th/cmp-cmdline',
---      'hrsh7th/cmp-nvim-lsp',
---      'hrsh7th/cmp-path',
---      'hrsh7th/cmp-emoji',
---      'saadparwaiz1/cmp_luasnip',
---      'hrsh7th/cmp-nvim-lsp-signature-help',
---      {'https://gitlab.com/silvercircle74/cmp-wordlist.nvim' },
---      'hrsh7th/cmp-buffer'
---    },
---    config = function()
---      require("plugins.cmp")
---    end
---  },
   {
     dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim',
     lazy = true,
