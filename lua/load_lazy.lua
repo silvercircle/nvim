@@ -105,7 +105,6 @@ local plugins = {
       require("plugins.dressing")
     end
   },
-  { dir = '~/.config/nvim/local_plugin/local_utils' },
   { 'voldikss/vim-floaterm', cmd = {"FloatermNew", "FloatermToggle"} },
   { 'preservim/vim-markdown', ft = "markdown" },
   { 'norcalli/nvim-colorizer.lua' },
