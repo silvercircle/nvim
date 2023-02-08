@@ -3,6 +3,7 @@
 --- Originally written by @matbme (GitHub)
 --- LICENSE GPL V3
 --- modified for my personal Neovim configuration by Alex S (@silvercircle at GitHub)
+--- repository at: https://gitlab.com/silvercircle74/nvim
 
 local M = {}
 local api = vim.api
@@ -179,11 +180,6 @@ function M.setup(c)
     end
 end
 
---[[*******************************************************
-    ******************** BEGIN UTILS **********************
-    *******************************************************]]
---
-
 local function iter2array(...)
     local arr = {}
     for v in ... do
@@ -197,7 +193,7 @@ end
 local function getBufferHandleFromLine(line)
   if M.is_docked == true then
 --    print("Len = " .. #line .. "  " .. string.sub(line, #line - 4, #line))
-    return assert(tonumber(string.sub(line, 1, 5)))
+    return assert(tonumber(string.sub(line, 1, 4)))
   else
     local handle = iter2array(string.gmatch(line, "[^%s]+"))[2]
     return assert(tonumber(handle))
@@ -391,7 +387,7 @@ function M.selBufNum(win, opt, count)
 end
 
 -- Preview buffer
-function M.previewBuf()
+function M.previeeBuf()
     local buf = getBufferHandleFromLine(vim.api.nvim_get_current_line())
 
     -- Create the buffer for preview window
@@ -412,15 +408,6 @@ function M.previewBuf()
         [[:lua require'jabs'.closePreviewBuf()<CR>]],
         { nowait = true, noremap = true, silent = true }
     )
-
-    -- Or close preview when cursor leaves window
-    api.nvim_create_autocmd({ "WinLeave" }, {
-        group = "JABS",
-        callback = function()
-            M.closePreviewBuf()
-            return true
-        end,
-    })
 end
 
 function M.closePreviewBuf()
@@ -609,11 +596,6 @@ function M.setKeymaps(win, buf)
 end
 
 function M.close()
-    if M.is_docked == false then
-      api.nvim_clear_autocmds {
-          group = "JABS",
-      }
-    end
     -- If JABS is closed using :q the window and buffer indicator variables
     -- are not reset, so we need to take this into account
     -- if that's the case, the win is already closed and the M.main_win is
@@ -625,23 +607,6 @@ function M.close()
     api.nvim_set_current_win(M.back_win)
     M.main_win = nil
     M.main_buf = nil
-end
-
--- Set autocmds for JABS window
-function M.set_autocmds()
-    api.nvim_create_augroup("JABS", { clear = true })
-
-    api.nvim_create_autocmd({ "WinEnter" }, {
-        group = "JABS",
-        callback = function()
-            if api.nvim_get_current_win() ~= M.main_win and M.prev_win == nil then
-                if M.is_docked == false then
-                  M.close()
-                end
-                return true
-            end
-        end,
-    })
 end
 
 function M.set_autocmds_docked()
@@ -722,11 +687,7 @@ function M.open(_mode, _width)
         if M.main_win ~= 0 then
             M.refresh(M.main_buf)
             M.setKeymaps(M.back_win, M.main_buf)
-            if M.is_docked then
-              M.set_autocmds_docked()
-            else
-              M.set_autocmds()
-            end
+            M.set_autocmds_docked()
         end
     else
         if M.is_docked == false then
@@ -735,6 +696,8 @@ function M.open(_mode, _width)
     end
 end
 
+--- handles refresh for the docked bufferlist
+--- parse buffer list (ls) and refresh the buffer
 function M.autorefresh()
   if M.main_buf == nil then
     return
