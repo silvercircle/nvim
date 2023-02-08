@@ -151,23 +151,23 @@ autocmd({ "vimenter" }, {
 autocmd({ 'UIEnter' }, {
   callback = function()
     vim.g.config.main_winid = vim.fn.win_getid()
+    require("local_utils.blist").setup({
+      symbols = {
+        current = "C", -- default 
+        split = "S", -- default 
+        alternate = "A", -- default 
+        hidden = "H", -- default ﬘
+        locked = "L", -- default 
+        ro = "R", -- default 
+        edited = "*", -- default 
+        terminal = "T", -- default 
+        default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
+        terminal_symbol = ">_" -- Filetype icon for a terminal split. Default 
+      }
+    })
     if vim.g.config.plain == false then
       require('nvim-tree.api').tree.toggle({focus = false})
       vim.api.nvim_command("call TermToggle(12) | wincmd p")
-      require("local_utils.blist").setup({
-        symbols = {
-          current = "C", -- default 
-          split = "S", -- default 
-          alternate = "A", -- default 
-          hidden = "H", -- default ﬘
-          locked = "L", -- default 
-          ro = "R", -- default 
-          edited = "*", -- default 
-          terminal = "T", -- default 
-          default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
-          terminal_symbol = ">_" -- Filetype icon for a terminal split. Default 
-        }
-      })
       require("local_utils.blist").open(true)
     end
   end

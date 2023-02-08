@@ -1,3 +1,9 @@
+--- a buffer list and switch utility
+--- based on the JABS plugin at: https://github.com/matbme/JABS.nvim
+--- Originally written by @matbme (GitHub)
+--- LICENSE GPL V3
+--- modified for my personal Neovim configuration by Alex S (@silvercircle at GitHub)
+
 local M = {}
 local api = vim.api
 
@@ -702,7 +708,7 @@ function M.open(_mode, _width)
           M.main_win = api.nvim_open_win(M.main_buf, 1, M.win_conf)
         else
           M.is_docked = true
-          M.main_win = require("globals").splittree()
+          M.main_win = require("globals").splittree(0.33)
           if M.main_win == 0 then
             print("Could not find split")
             M.close()
