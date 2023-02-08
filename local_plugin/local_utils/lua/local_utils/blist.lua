@@ -541,35 +541,35 @@ function M.setKeymaps(win, buf)
         buf,
         "n",
         M.keymap_conf.jump,
-        string.format([[:<C-U>lua require'jabs'.selBufNum(%s, 'window', vim.v.count)<CR>]], win),
+        string.format([[:<C-U>lua require'local_utils.blist'.selBufNum(%s, 'window', vim.v.count)<CR>]], win),
         { nowait = true, noremap = true, silent = true }
     )
     api.nvim_buf_set_keymap(
         buf,
         "n",
         M.keymap_conf.h_split,
-        string.format([[:<C-U>lua require'jabs'.selBufNum(%s, 'hsplit', vim.v.count)<CR>]], win),
+        string.format([[:<C-U>lua require'local_utils.blist'.selBufNum(%s, 'hsplit', vim.v.count)<CR>]], win),
         { nowait = true, noremap = true, silent = true }
     )
     api.nvim_buf_set_keymap(
         buf,
         "n",
         M.keymap_conf.v_split,
-        string.format([[:<C-U>lua require'jabs'.selBufNum(%s, 'vsplit', vim.v.count)<CR>]], win),
+        string.format([[:<C-U>lua require'local_utils.blist'.selBufNum(%s, 'vsplit', vim.v.count)<CR>]], win),
         { nowait = true, noremap = true, silent = true }
     )
     api.nvim_buf_set_keymap(
         buf,
         "n",
         M.keymap_conf.close,
-        string.format([[:lua require'jabs'.closeBufNum(%s)<CR>]], win),
+        string.format([[:lua require'local_utils.blist'.closeBufNum(%s)<CR>]], win),
         { nowait = true, noremap = true, silent = true }
     )
     api.nvim_buf_set_keymap(
         buf,
         "n",
         M.keymap_conf.preview,
-        string.format([[:lua require'jabs'.previewBuf()<CR>]], win),
+        string.format([[:lua require'local_utils.blist'.previewBuf()<CR>]], win),
         { nowait = true, noremap = true, silent = true }
     )
 
@@ -578,14 +578,14 @@ function M.setKeymaps(win, buf)
         buf,
         "n",
         "q",
-        ':lua require"jabs".close()<CR>',
+        ':lua require"local_utils.blist".close()<CR>',
         { nowait = true, noremap = true, silent = true }
     )
     api.nvim_buf_set_keymap(
         buf,
         "n",
         "<Esc>",
-        ':lua require"jabs".close()<CR>',
+        ':lua require"local_utils.blist".close()<CR>',
         { nowait = true, noremap = true, silent = true }
     )
     api.nvim_buf_set_keymap(buf, "n", "<Tab>", "j", { nowait = true, noremap = true, silent = true })
