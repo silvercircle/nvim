@@ -187,6 +187,14 @@ local plugins = {
     config = function()
       require("plugins.legendary")
     end
+  },
+  {
+    'ibhagwan/fzf-lua',
+    lazy = true,
+    cmd = { "FzfLua" },
+    config = function()
+      require("plugins.fzf")
+    end
   }
 }
 

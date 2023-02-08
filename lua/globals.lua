@@ -94,9 +94,9 @@ function M.toggle_fo(fo)
   end
 end
 
---- split the file tree horizontally
---- @param _factor number:  if _factor is betweeen 0 and 1 it is interpreted as percentage
---  of the window to split. Otherwise as an absolute number.
+-- split the file tree horizontally
+--- @param _factor number:  if _factor is betweeen 0 and 1 it is interpreted as percentage 
+--  of the window to split. Otherwise as an absolute number. The default is set to 1/3 (0.33)
 --- @return number: the window id
 function M.splittree(_factor)
   local factor = (_factor ~= nil and _factor > 0) and _factor or 0.33
@@ -119,6 +119,4 @@ function M.splittree(_factor)
   end
   return 0
 end
-
-local foo = M.spli
 return M
