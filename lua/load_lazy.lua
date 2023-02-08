@@ -215,26 +215,7 @@ local plugins_private = {
     config = function()
       require("plugins.symbols_outline")
     end
-  },
-  {
-    dir = '/mnt/shared/data/code/neovim_plugins/JABS.nvim', branch = "mine", cmd = { "JABSOpen", "JABSDocked" },
-    config = function()
-      require("jabs").setup({
-        symbols = {
-          current = "C", -- default 
-          split = "S", -- default 
-          alternate = "A", -- default 
-          hidden = "H", -- default ﬘
-          locked = "L", -- default 
-          ro = "R", -- default 
-          edited = "*", -- default 
-          terminal = "T", -- default 
-          default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
-          terminal_symbol = ">_" -- Filetype icon for a terminal split. Default 
-        }
-      })
-    end
-  },
+  }
 --  -- CMP and all its extensions
 --  {
 --    dir = '/mnt/shared/data/code/neovim_plugins/nvim-cmp',
