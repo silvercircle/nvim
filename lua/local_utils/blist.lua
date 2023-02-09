@@ -647,7 +647,11 @@ function M.refresh(buf)
 
     -- Disable modifiable when done
     api.nvim_buf_set_option(buf, "modifiable", false)
-    vim.schedule(function() api.nvim_win_set_cursor(M.main_win, { M.current_line, 1 } ) end)
+    vim.schedule(function()
+      if M.current_line <= api.nvim_buf_line_count(M.main_buf) then
+        api.nvim_win_set_cursor(M.main_win, { M.current_line, 1 } )
+      end
+    end)
 end
 
 -- Floating buffer list

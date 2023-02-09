@@ -21,7 +21,7 @@ local plugins = {
     'nvim-telescope/telescope.nvim', branch = '0.1.x',
     lazy = true,
     dependencies = {
-      'nvim-telescope/telescope-file-browser.nvim',
+      -- 'nvim-telescope/telescope-file-browser.nvim',
       'tom-anders/telescope-vim-bookmarks.nvim',
       { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
       { 'FeiyouG/command_center.nvim',

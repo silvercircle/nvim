@@ -1,5 +1,5 @@
 local actions = require "fzf-lua.actions"
-require'fzf-lua'.setup {
+require'fzf-lua'.setup({
   -- fzf_bin         = 'sk',            -- use skim instead of fzf?
                                         -- https://github.com/lotabout/skim
   global_resume      = true,            -- enable global `resume`?
@@ -22,7 +22,7 @@ require'fzf-lua'.setup {
     -- to manually draw the border characters around the preview
     -- window, can be set to 'false' to remove all borders or to
     -- 'none', 'single', 'double', 'thicc' or 'rounded' (default)
-    border = 'single',
+    border = 'thicc',
     --border           = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
     fullscreen       = false,           -- start fullscreen?
    preview = {
@@ -39,7 +39,7 @@ require'fzf-lua'.setup {
       -- Only used with the builtin previewer:
       title          = true,            -- preview border title (file/buf)?
       title_align    = "left",          -- left|center|right, title alignment
-      scrollbar      = 'float',         -- `false` or string:'float|border'
+      scrollbar      = 'float',        -- `false` or string:'float|border'
                                         -- float:  in-window floating border
                                         -- border: in-border chars (see below)
       scrolloff      = '-2',            -- float scrollbar offset from right
@@ -58,7 +58,7 @@ require'fzf-lua'.setup {
         list              = false,
         foldenable        = false,
         foldmethod        = 'manual',
-      },
+      }
     },
     on_create = function()
       -- called once upon creation of the fzf main window
@@ -141,6 +141,7 @@ require'fzf-lua'.setup {
     ['--height']      = '100%',
     ['--layout']      = 'reverse',
     ['--border']      = 'none',
+    ['--color']       = 'hl:' .. vim.g.config.accent_color
   },
   -- fzf '--color=' options (optional)
   --[[ fzf_colors = {
@@ -582,4 +583,5 @@ require'fzf-lua'.setup {
   -- uncomment if your terminal/font does not support unicode character
   -- 'EN SPACE' (U+2002), the below sets it to 'NBSP' (U+00A0) instead
   -- nbsp = '\xc2\xa0',
-}
+})
+

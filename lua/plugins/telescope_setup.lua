@@ -2,7 +2,7 @@
 local actions = require("telescope.actions")
 local actionset = require("telescope.actions.set")
 local actionstate = require("telescope.actions.state")
-local actions_fb = require("telescope").extensions.file_browser.actions
+-- local actions_fb = require("telescope").extensions.file_browser.actions
 -- local themes = require("telescope.themes")
 
 -- add all the commands and mappings to the command_center plugin.
@@ -26,16 +26,16 @@ local function stopinsert(callback)
 end
 
 -- same as above, but for the file browser extension
-local function stopinsert_fb(callback, callback_dir)
-  return function(prompt_bufnr)
-    local entry = require("telescope.actions.state").get_selected_entry()
-    if entry and not entry.Path:is_dir() then
-      stopinsert(callback)(prompt_bufnr)
-    elseif callback_dir then
-      callback_dir(prompt_bufnr)
-    end
-  end
-end
+--local function stopinsert_fb(callback, callback_dir)
+--  return function(prompt_bufnr)
+--    local entry = require("telescope.actions.state").get_selected_entry()
+--    if entry and not entry.Path:is_dir() then
+--      stopinsert(callback)(prompt_bufnr)
+--    elseif callback_dir then
+--      callback_dir(prompt_bufnr)
+--    end
+--  end
+--end
 
 --- very ugly hack. Basically the same as above: Allow restoring of views (loadview) when selecting
 --- files from a telescope picker.
@@ -162,21 +162,20 @@ require("telescope").setup({
       filetypes = { "png", "webp", "jpg", "jpeg" },
       find_cmd = "rg", -- find command (defaults to `fd`)
     },
-    file_browser = {
-      mappings = {
-        i = {
-          ["<CR>"] = stopinsert_fb(actions.select_default, actions.select_default),
-          ["<C-x>"] = stopinsert_fb(actions.select_horizontal),
-          ["<C-v>"] = stopinsert_fb(actions.select_vertical),
-          ["<C-t>"] = stopinsert_fb(actions.select_tab, actions_fb.change_cwd),
-        },
-      },
-    },
+--    file_browser = {
+--      mappings = {
+--        i = {
+--          ["<CR>"] = stopinsert_fb(actions.select_default, actions.select_default),
+--          ["<C-x>"] = stopinsert_fb(actions.select_horizontal),
+--          ["<C-v>"] = stopinsert_fb(actions.select_vertical),
+--          ["<C-t>"] = stopinsert_fb(actions.select_tab, actions_fb.change_cwd),
+--        },
+--      },
+--    },
   },
 })
 -- finally, load the extensions
-require("telescope").load_extension("file_browser")
+-- require("telescope").load_extension("file_browser")
 require("telescope").load_extension("vim_bookmarks")
 require("telescope").load_extension("fzf")
--- require("telescope").load_extension("command_center")
 

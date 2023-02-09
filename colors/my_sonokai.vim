@@ -666,6 +666,10 @@ call my_sonokai#highlight('TelescopeTitle', s:palette.black, s:accent, 'bold')
 highlight! link TelescopeResultsLineNr Yellow
 highlight! link TelescopePromptPrefix Blue
 highlight! link TelescopeSelection Visual
+
+hi! link FzfLuaNormal TelescopeNormal
+hi! link FzfLuaBorder TelescopeBorder
+hi! link FzfLuaSearch TelescopeMatching
 " }}}
 " lewis6991/gitsigns.nvim {{{
 highlight! link GitSignsAdd GreenSign
