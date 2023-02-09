@@ -25,7 +25,7 @@ require("nvim-web-devicons").setup({
 local function getWordsV2()
   local wc = vim.fn.wordcount()
   if wc["visual_words"] then -- text is selected in visual mode
-    return wc["visual_words"] .. " Words (Selection)"
+    return wc["visual_words"] .. " Words/" .. wc['visual_chars'] .. " Chars (Vis)"
   else -- all of the document
     return wc["words"] .. " Words"
   end
