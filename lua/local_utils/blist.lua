@@ -657,7 +657,7 @@ end
 -- Floating buffer list
 function M.open(_mode, _width)
     local mode = _mode or false
-    local width = _width or 44
+    local width = _width or vim.g.config.filetree_width
 
     local ls_result = api.nvim_exec(M.sort_mru and ":ls t" or ":ls", true)
     M.bopen = iter2array(string.gmatch(ls_result, "([^\n]+)"))

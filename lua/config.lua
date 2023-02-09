@@ -35,6 +35,9 @@ vim.g.config = {
   minipicker_preview_height = 10,
   minipicker_iprefix = "#>",
   minipicker_anchor = "N",
+  filetree_width = 44,                          -- width for the neotree and nvim-tree plugins
+  outline_width = 36,                           -- split width for symbols-outline
+
   -- some optional plugins
   mason = true,                                 -- on demand, setup in setup_lsp.lua
   null_ls = false,                              -- setup by lazy loader
@@ -134,9 +137,6 @@ g.loaded_tar = 1
 
 g.loaded_gzipPlugin= 1
 g.loaded_gzip = 1
-
-g.filetree_width = 44    -- width for the neotree and nvim-tree plugins
-g.outline_width = 36     -- split width for symbols-outline
 
 -- some tweaks
 vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' for the integrated theme
