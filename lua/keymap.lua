@@ -195,3 +195,5 @@ map('i', "<f11>", "<Esc><CMD>call TermToggle(12)<CR>", opts)
 map('t', "<f11>", "<C-\\><C-n><CMD>call TermToggle(12)<CR>", opts)
 map('t', "<Esc>", "<C-\\><C-n>", opts)
 
+map('n', "<f32>", "<CMD>RnvimrToggle<CR>", opts)
+

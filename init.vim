@@ -3,6 +3,18 @@ let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
 let g:tagbar_position = 'rightbelow vertical'
 
+let g:rnvimr_enable_picker = 1
+let g:rnvimr_draw_border = 1
+" Customize the initial layout
+let g:rnvimr_layout = {
+            \ 'relative': 'editor',
+            \ 'width': float2nr(round(0.8 * &columns)),
+            \ 'height': float2nr(round(0.8 * &lines)),
+            \ 'col': float2nr(round(0.1 * &columns)),
+            \ 'row': float2nr(round(0.1 * &lines)),
+            \ 'style': 'minimal'
+            \ }
+
 lua << EOB
 require('config')
 

@@ -628,6 +628,8 @@ end
 function M.refresh(buf)
     local empty = {}
     M.win_conf.width = api.nvim_win_get_width(M.main_win)
+    M.win_conf.height = api.nvim_win_get_height(M.main_win)
+
     api.nvim_buf_clear_namespace(buf, -1, 0, -1)
     for _ = 1, #M.bopen + 1 do
         empty[#empty + 1] = string.rep(" ", M.win_conf.width)

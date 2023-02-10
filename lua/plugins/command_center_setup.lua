@@ -15,6 +15,7 @@ local minipicker_layout = {
   preview_height = vim.g.config.minipicker_preview_height,
   anchor = vim.g.config.minipicker_anchor
 }
+local fzf_vertical_winops = {width=0.6,preview={layout='vertical',vertical="up:30%"}}
 
 command_center.add({
   {
@@ -319,12 +320,6 @@ command_center.add({
     category = "@Telescope"
   },
   {
-    desc = "File browser in the current project root",
-    cmd = function() _t.extensions.file_browser.file_browser(Telescope_vertical_dropdown_theme({prompt_title="File Browser", hidden=true, path = lutils.getroot_current()})) end,
-    keys = { "n", "<f32>", noremap },  -- ctrl-f8
-    category = "@Telescope"
-  },
-  {
     desc = "Jumplist (Telescope)",
     cmd = function() _tb.jumplist(Telescope_vertical_dropdown_theme({show_line=false, layout_config={width=80, preview_height=0.3}})) end,
     keys = {"n", "<A-Backspace>", noremap },
@@ -473,5 +468,17 @@ command_center.add({
     cmd = function() require('telekasten').search_notes() end,
     keys = { "n", "<leader>zs", noremap },
     category = "@Telekasten"
+  },
+  {
+    desc = "FZF live grep current directory",
+    cmd = function() require("fzf-lua").live_grep({cwd=vim.fn.expand("%:p:h"), winopts=fzf_vertical_winops}) end,
+    keys = { "n", "<f9>", noremap },
+    category = "@FZF"
+  },
+  {
+    desc = "FZF live grep project root",
+    cmd = function() require("fzf-lua").live_grep({cwd=require("local_utils").getroot_current(), winopts=fzf_vertical_winops}) end,
+    keys = { "n", "<f21>", noremap },
+    category = "@FZF"
   }
 })

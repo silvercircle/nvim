@@ -195,13 +195,14 @@ local plugins = {
     config = function()
       require("plugins.fzf")
     end
-  }
+  },
+  { 'kevinhwang91/rnvimr', lazy=true, cmd={"RnvimrToggle"} }
 }
 
 -- for experimental purpose, I use some private forks and local repos.
 -- plugins_official (see below) contains the same stuff..
 local plugins_private = {
-  { dir = '/mnt/shared/data/code/neovim_plugins/nvim-cokeline', branch = "mine" },
+  { 'silvercircle/nvim-cokeline', branch = "mine" },
   {
     dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim',
     lazy = true,
@@ -218,7 +219,7 @@ local plugins_private = {
     end
   },
   {
-    dir = '/mnt/shared/data/code/neovim_plugins/symbols-outline.nvim', cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
+    'silvercircle/symbols-outline.nvim', branch = "mine", cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
     config = function()
       require("plugins.symbols_outline")
     end
