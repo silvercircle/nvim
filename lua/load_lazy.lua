@@ -69,7 +69,7 @@ local plugins = {
     dependencies = {
       'onsails/lspkind-nvim',
       'j-hui/fidget.nvim',
-      'SmiteshP/nvim-navic',
+      {'SmiteshP/nvim-navic',lazy=true },
       'dnlhc/glance.nvim',
       { 'jose-elias-alvarez/null-ls.nvim', cond = vim.g.config.null_ls == true,
         config = function()

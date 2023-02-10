@@ -1,5 +1,8 @@
 local globals = require("globals")
-local navic = require('nvim-navic')
+local navic
+if vim.g.config.use_winbar then
+  navic = require('nvim-navic')
+end
 Context = 'Context '
 
 -- devicons for lua plugins (e.g. Telescope, neotree, nvim-tree among others  need them)

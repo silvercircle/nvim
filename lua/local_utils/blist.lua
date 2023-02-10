@@ -615,7 +615,7 @@ function M.set_autocmds_docked()
   end
   M.autocmds_set = true
   api.nvim_create_augroup("JABSDocked", { clear = true })
-  api.nvim_create_autocmd( { "BufRead", "BufWinEnter", "BufWipeout", "BufModifiedSet", "BufWritePost" }, {
+  api.nvim_create_autocmd( { "BufRead", "BufWinEnter", "BufWipeout", "BufModifiedSet", "BufWritePost", "WinResized" }, {
     group = "JABSDocked",
     callback = function()
       if M.main_buf ~= nil then
@@ -627,6 +627,7 @@ end
 
 function M.refresh(buf)
     local empty = {}
+    M.win_conf.width = api.nvim_win_get_width(M.main_win)
     api.nvim_buf_clear_namespace(buf, -1, 0, -1)
     for _ = 1, #M.bopen + 1 do
         empty[#empty + 1] = string.rep(" ", M.win_conf.width)
