@@ -614,9 +614,9 @@ function M.set_autocmds()
     return
   end
   M.autocmds_set = true
-  api.nvim_create_augroup("JABSDocked", { clear = true })
+  api.nvim_create_augroup("BLISTDocked", { clear = true })
   api.nvim_create_autocmd( { "BufRead", "BufWinEnter", "BufWipeout", "BufModifiedSet", "BufWritePost", "WinResized" }, {
-    group = "JABSDocked",
+    group = "BLISTDocked",
     callback = function()
       if M.main_buf ~= nil then
         vim.schedule(function() M.autorefresh() end)
