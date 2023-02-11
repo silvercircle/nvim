@@ -71,15 +71,17 @@ function M.setup(c)
         ["#h"] = c.highlight.alternate or "Keyword",
         ["#"] = c.highlight.alternate or "WarningMsg",
         ["h"] = c.highlight.hidden or "Normal",
+        ["u"] = c.highlight.unloaded or "Comment"
     }
 
     -- Buffer info symbols
     M.bufinfo = {
-        ["%a"] = c.symbols.current or "",
+        ["%a"] = c.symbols.current or "",
         ["#a"] = c.symbols.split or "",
         ["a"] = c.symbols.split or "",
         ["#h"] = c.symbols.alternate or "",
-        ["h"] = c.symbols.hidden or "﬘",
+        ["h"] = c.symbols.hidden or "﬘",
+        ["u"] = c.symbols.unloaded or "﬘",
         ["-"] = c.symbols.locked or "",
         ["="] = c.symbols.ro or "",
         ["+"] = c.symbols.edited or "",
@@ -222,6 +224,9 @@ local function getFileSymbol(filename)
 end
 
 local function getBufferIcon(flags)
+    if flags == "" then
+      flags = "u"
+    end
     flags = flags ~= "" and flags or "h"
 
     -- if flags do not end with a or h extract trailing char (-> -, =, +, R, F)
@@ -510,20 +515,18 @@ function M.parseLs_docked(buf)
         local modified_icon = M.bufinfo[modified] or " "
 
         -- format preLine and postLine
-        local preLine = string.format("%3d %s %s ", handle, modified_icon, fn_symbol)
-        local postLine = string.format("%s", icon)
-
-        -- some symbols magic, they increase the string.len by more
-        -- than 1 and this is a magic trick to get the extra width
-        -- local extra_width = #preLine + #string.gsub(preLine, "[\128-\191]", "")
+        local preLine = string.format("%4d%s%s ", handle, modified_icon, fn_symbol)
+        local preLine_len = #preLine:gsub("[\128-\191]", "")
+        local postLine = string.format(" %s", icon)
+        local postLine_len = #postLine:gsub("[\128-\191]", "")
 
         -- determine filename field length and format filename
-        local filename_max_length = M.win_conf.width - #preLine - #postLine + 1
+        local filename_max_length = M.win_conf.width - preLine_len - postLine_len
         --local filename_str = Path:new(filename):shorten(1)
         --filename_str = lutils.rpad(filename_str, filename_max_length +1, ' ')
         -- concat final line for the buffer
-        local filename_str = formatFilename(filename, filename_max_length - 1)
-        local line = preLine .. filename_str .. "  " .. postLine
+        local filename_str = formatFilename(filename, filename_max_length)
+        local line = preLine .. filename_str .. postLine
         -- set line and highligh
         api.nvim_buf_set_lines(buf, i, i + 1, true, { line })
         api.nvim_buf_add_highlight(buf, -1, icon_hl, i, 0, -1)

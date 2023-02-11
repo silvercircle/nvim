@@ -70,18 +70,8 @@ if vim.fn.has('nvim-0.9') == 1 then
   -- single-column fold guide, using a patched screen.c without the stupid numbers ;)
   -- foldcolumn can be set to 0
   o.foldcolumn="1"
-  -- vim 0.9+ statuscolumn support. What this does:
-  -- * set a right aligned (%=) sign column (%s)
-  -- * followed by a right aligned absolute line number (%l)
-  -- followed by a space
-  -- followed by the fold gutter (foldlevel determines its width)
-  -- followed by a vertical separator highlighted in the IndentBlankLineChar highlight groupo
---o.statuscolumn="%s%=%r %C%#IndentBlankLineChar#│ "
---print("set to " .. vim.g.config.statuscol_normal)
---o.statuscolumn = vim.g.config.statuscol_normal
+  -- statuscolumns are defined in vim.g.config (config.lua)
   globals.set_statuscol(globals.statuscol_current)
--- this requires fakefold.lua
--- o.statuscolumn='%s%=%{v:wrap ? "" : v:lnum} %#FoldColumn#%@v:lua.StatusColumn.handler.fold@%{v:lua.StatusColumn.display.fold()}%#StatusColumnBorder#│%#StatusColumnBuffer#'
 else
   o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
   o.foldcolumn="5"
@@ -145,16 +135,17 @@ autocmd({ 'UIEnter' }, {
     vim.g.config.main_winid = vim.fn.win_getid()
     require("local_utils.blist").setup({
       symbols = {
-        current = "C", -- default 
-        split = "S", -- default 
-        alternate = "A", -- default 
-        hidden = "H", -- default ﬘
-        locked = "L", -- default 
-        ro = "R", -- default 
+--        current = "C", -- default 
+--        split = "S", -- default 
+--        alternate = "A", -- default 
+        hidden = "+", -- default ﬘
+        unloaded = "-",
+--        locked = "L", -- default 
+--        ro = "R", -- default 
         edited = "*", -- default 
-        terminal = "T", -- default 
-        default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
-        terminal_symbol = ">_" -- Filetype icon for a terminal split. Default 
+--        terminal = "T", -- default 
+--        default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
+--        terminal_symbol = ">_" -- Filetype icon for a terminal split. Default 
       }
     })
     if vim.g.config.plain == false then
