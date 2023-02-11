@@ -137,17 +137,9 @@ o.undofile=false
 local agroup_views = vim.api.nvim_create_augroup("views", {} )
 local agroup_hl = vim.api.nvim_create_augroup("hl", {} )
 
--- on vimenter show a terminal split and a left-hand nvim-tree file explorer. Unless the
+-- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
 -- environment variable or command line option forbids it for better startup performance and
 -- a clean UI
-autocmd({ "vimenter" }, {
-  pattern = "*",
-  callback = function()
-    if vim.g.config.plain == false then
-    end
-  end,
-})
-
 autocmd({ 'UIEnter' }, {
   callback = function()
     vim.g.config.main_winid = vim.fn.win_getid()

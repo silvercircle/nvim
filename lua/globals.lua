@@ -94,6 +94,16 @@ function M.toggle_fo(fo)
   end
 end
 
+function M.toggle_wrap()
+  if vim.opt_local.wrap._value == true then
+    vim.opt_local.wrap = false
+    vim.opt_local.linebreak = false
+  else
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true
+  end
+end
+
 -- split the file tree horizontally
 --- @param _factor number:  if _factor is betweeen 0 and 1 it is interpreted as percentage 
 --  of the window to split. Otherwise as an absolute number. The default is set to 1/3 (0.33)

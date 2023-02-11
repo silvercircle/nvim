@@ -196,4 +196,4 @@ map('t', "<f11>", "<C-\\><C-n><CMD>call TermToggle(12)<CR>", opts)
 map('t', "<Esc>", "<C-\\><C-n>", opts)
 
 map('n', "<f32>", "<CMD>RnvimrToggle<CR>", opts)
-
+kms('n', "<leader>wr", function() globals.toggle_wrap() end, opts)
