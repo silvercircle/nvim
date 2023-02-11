@@ -19,7 +19,17 @@ kms({ 'n', 'i' },  "<C-c>", "<NOP>", opts)
 --else
 map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)            -- sync Nvim-Tree with current
 
-kms('n', "<leader>,", function() require("nvim-tree.api").tree.toggle() end, opts)              -- toggle the Nvim-Tree
+kms('n', "<leader>,",
+  function()
+    -- when the buflist is open (which means, the tree is also open), close it.
+    -- we do NOT auto-open the buflist when activating the tree. Use Alt-5 for quickly
+    -- creating (and switching to) a buffer list
+    if globals.findbufbyType("BufList") ~= false then
+      require("local_utils.blist").close()
+    end
+    require("nvim-tree.api").tree.toggle()
+  end, opts)              -- toggle the Nvim-Tree
+
 kms('n', "<leader>R", function() require("nvim-tree.api").tree.change_root(utils.getroot_current()) end, opts)
 kms('n', "<leader>nr", function() require("nvim-tree.api").tree.change_root(vim.fn.expand("%:p:h")) end, opts)
 --end

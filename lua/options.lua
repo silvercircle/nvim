@@ -210,6 +210,7 @@ autocmd( { 'FileType' }, {
   group = agroup_views
 })
 
+-- this is for the treesitter tree split view (tsp command)
 autocmd( { 'FileType' }, {
   pattern = "Treesitter",
   callback = function()
