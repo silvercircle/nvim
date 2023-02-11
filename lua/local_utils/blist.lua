@@ -596,11 +596,8 @@ function M.setKeymaps(win, buf)
 end
 
 function M.close()
-    -- If JABS is closed using :q the window and buffer indicator variables
-    -- are not reset, so we need to take this into account
-    -- if that's the case, the win is already closed and the M.main_win is
-    -- invalid but does not equeal nvim_get_current_win anymore.
-    if api.nvim_get_current_win() == M.main_win then
+    -- close the window if it's the active float or in docked (split) state
+    if api.nvim_get_current_win() == M.main_win or M.is_docked == true then
         api.nvim_win_close(M.main_win, false)
     end
     api.nvim_buf_delete(M.main_buf, {})
@@ -609,7 +606,7 @@ function M.close()
     M.main_buf = nil
 end
 
-function M.set_autocmds_docked()
+function M.set_autocmds()
   if M.autocmds_set == true then
     return
   end
@@ -694,7 +691,7 @@ function M.open(_mode, _width)
         if M.main_win ~= 0 then
             M.refresh(M.main_buf)
             M.setKeymaps(M.back_win, M.main_buf)
-            M.set_autocmds_docked()
+            M.set_autocmds()
         end
     else
         if M.is_docked == false then

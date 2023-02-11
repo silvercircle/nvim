@@ -247,16 +247,20 @@ lspconfig.sumneko_lua.setup {
   end,
   single_file_support = true,
   log_level = vim.lsp.protocol.MessageType.Warning,
-  new_folder_restart = true,
-  handlers = {
-    ['workspace/diagnostic/refresh'] = on_diagnostic_refresh
-  },
+  -- new_folder_restart = true,
+  --handlers = {
+  --  ['workspace/diagnostic/refresh'] = on_diagnostic_refresh
+  --},
   settings = {
     Lua = {
       diagnostics = { globals = { "vim" } },
       hint = {
         enable = true
       },
+      --workspace = {
+      --  -- Make the server aware of Neovim runtime files
+      --  library = vim.api.nvim_get_runtime_file("", true),
+      --},
       runtime = {
         version = "LuaJIT", -- Lua 5.1/LuaJIT
       },
