@@ -231,9 +231,9 @@ local lua_root_files = {
   'selene.yml',
 }
 
-lspconfig.sumneko_lua.setup {
+lspconfig.lua_ls.setup {
   on_attach = on_attach,
-  cmd = { vim.g.lsp_server_bin['sumneko_lua'], '--logpath=' .. vim.fn.stdpath("data") },
+  cmd = { vim.g.lsp_server_bin['lua_ls'], '--logpath=' .. vim.fn.stdpath("data") },
   root_dir = function(fname)
     local root = util.root_pattern(unpack(lua_root_files))(fname)
     if root and root ~= vim.env.HOME then
