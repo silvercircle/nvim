@@ -83,9 +83,11 @@ map('n', "<A-Right>", "<c-w><Right>", opts)
 map('n', "<A-Down>", "<c-w><Down>", opts)
 map('n', "<A-Up>", "<c-w><Up>", opts)
 
--- quickfix navigation
+-- quickfix/loclist navigation
 map('n', "<C-f>c", "<CMD>cclose<CR>", opts)
 map('i', "<C-f>c", "<c-o><CMD>cclose<CR>", opts)
+map('n', "<C-f>l", "<CMD>lclose<CR>", opts)
+map('i', "<C-f>l", "<c-o><CMD>lclose<CR>", opts)
 
 map('n', "<C-S-Down>", "<CMD>cnext<CR>", opts)
 map('i', "<C-S-Down>", "<c-o><CMD>cnext<CR>", opts)
@@ -93,6 +95,11 @@ map('i', "<C-S-Down>", "<c-o><CMD>cnext<CR>", opts)
 map('n', "<C-S-Up>", "<CMD>cprev<CR>", opts)
 map('i', "<C-S-Up>", "<c-o><CMD>cprev<CR>", opts)
 
+map('n', "<C-S-PageDown>", "<CMD>lnext<CR>", opts)
+map('i', "<C-S-PageDown>", "<c-o><CMD>lnext<CR>", opts)
+
+map('n', "<C-S-PageUp>", "<CMD>lprev<CR>", opts)
+map('i', "<C-S-PageUp>", "<c-o><CMD>lprev<CR>", opts)
 -- hlslens
 
 vim.api.nvim_set_keymap('n', 'n',

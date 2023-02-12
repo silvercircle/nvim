@@ -134,6 +134,12 @@ command_center.add({
     category = "@LSP"
   },
   {
+    desc = "LSP Diagnostics",
+    cmd = function() vim.diagnostic.setloclist() end,
+    keys = { "n", "le", noremap },
+    category = "@LSP"
+  },
+  {
     desc = "LSP Jump to type definition",
     cmd = function() vim.lsp.buf.type_definition() end,
     keys = { "n", "lt", noremap },
