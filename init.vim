@@ -79,12 +79,15 @@ command Fixq call Fixflowed()
 let g:term_buf = 0
 let g:term_win = 0
 function! TermToggle(height)
+  
+  let height = g:config['termheight']
+
   if win_gotoid(g:term_win)
       setlocal statusline=Terminal
       hide
   else
       belowright new
-      exec "resize " . a:height
+      exec "resize " . height
       set winfixheight
       setlocal statusline=Terminal
       try

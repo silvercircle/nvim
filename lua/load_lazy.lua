@@ -138,13 +138,6 @@ local plugins = {
     end
   },
   { 'nvim-treesitter/playground', cond = vim.g.config.treesitter_playground == true },
-  -- { 'folke/neodev.nvim', cond = vim.g.config.neodev == true },
---  {
---    'folke/noice.nvim', cond = vim.g.config.noice == true,
---    config = function()
---      require("plugins.noice")
---    end
---  },
   { 'goolord/alpha-nvim',
     cond = vim.g.config.plain == false,
     pin = true,

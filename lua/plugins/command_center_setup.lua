@@ -128,6 +128,12 @@ command_center.add({
     category = "@LSP"
   },
   {
+    desc = "LSP References",
+    cmd = function() vim.lsp.buf.references() end,
+    keys = { "n", "lr", noremap },
+    category = "@LSP"
+  },
+  {
     desc = "LSP Jump to type definition",
     cmd = function() vim.lsp.buf.type_definition() end,
     keys = { "n", "lt", noremap },
