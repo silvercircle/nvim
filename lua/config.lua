@@ -1,12 +1,5 @@
 -- configuration variables
 
--- table of features. You can set a feature to false and then restart vim. Ideally you should run
--- a PackerSync to clean up the plugin folder. This is mandatory when changing features from false to
--- true in order to install potentially missing plugins.
-
--- I currently do not use optional or conditional packer features. That might change at some point.
--- To add or remove a plugin, just change its enable status
-
 -- NOTE: the environment variable NVIM_USE_PRIVATE_FORKS must be set (to anything) in order to use the private
 -- forks of some plugins.
 
@@ -80,31 +73,32 @@ local localbin = vim.fn.getenv('HOME') .. '/.local/bin/'
 local homepath = vim.fn.getenv('HOME')
 
 -- this table holds full path information for lsp server binaries. They can be installed with mason or
--- manually. setup_lsp.lua does all the work. Mason and mason-lspconfig are optional. They allow easy installation
--- and upgrading of your lsp servers, but if you do this manually, nvim-lspconfig alone is enough.
+-- manually. plugins/lsp.lua does all the real work. Mason and mason-lspconfig are optional.
+-- They allow easy installation and upgrading of your lsp servers, but if you do this manually, 
+-- nvim-lspconfig alone is enough for a working LSP setup.
 
 vim.g.lsp_server_bin = {
-  phpactor = '/usr/local/bin/phpactor',
-  rust_analyzer = masonbinpath .. 'rust-analyzer',
-  gopls = localbin .. 'gopls',
-  nimls = homepath .. '/.nimble/bin/nimlsp',
-  texlab = localbin .. 'texlab',
-  clangd = '/usr/bin/clangd',
-  dartls = '/opt/flutter/bin/dart',
-  vimlsp = masonbinpath .. 'vim-language-server',
-  omnisharp = masonbinpath .. 'omnisharp',
-  metals = '/home/alex/.local/share/coursier/bin/metals',
-  pyright = masonbinpath .. 'pyright-langserver',
-  lua_ls = masonbinpath .. 'lua-language-server',
-  serve_d = localbin .. 'serve-d',
-  cssls = masonbinpath .. 'vscode-css-language-server',
-  tsserver = masonbinpath .. 'typescript-language-server',
-  html = masonbinpath .. 'vscode-html-language-server',
-  yamlls = masonbinpath .. 'yaml-language-server',
-  als = masonbinpath .. 'ada_language_server',
-  jdtls = masonbinpath .. 'jdtls',
-  csharp_ls = homepath .. '/.dotnet/tools/csharp-ls',
-  marksman = masonbinpath .. 'marksman'
+  phpactor      =   '/usr/local/bin/phpactor',
+  rust_analyzer =   masonbinpath .. 'rust-analyzer',
+  gopls         =   localbin .. 'gopls',
+  nimls         =   homepath .. '/.nimble/bin/nimlsp',
+  texlab        =   localbin .. 'texlab',
+  clangd        =   '/usr/bin/clangd',
+  dartls        =   '/opt/flutter/bin/dart',
+  vimlsp        =   masonbinpath .. 'vim-language-server',
+  omnisharp     =   masonbinpath .. 'omnisharp',
+  metals        =   '/home/alex/.local/share/coursier/bin/metals',
+  pyright       =   masonbinpath .. 'pyright-langserver',
+  lua_ls        =   masonbinpath .. 'lua-language-server',
+  serve_d       =   localbin .. 'serve-d',
+  cssls         =   masonbinpath .. 'vscode-css-language-server',
+  tsserver      =   masonbinpath .. 'typescript-language-server',
+  html          =   masonbinpath .. 'vscode-html-language-server',
+  yamlls        =   masonbinpath .. 'yaml-language-server',
+  als           =   masonbinpath .. 'ada_language_server',
+  jdtls         =   masonbinpath .. 'jdtls',
+  csharp_ls     =   homepath .. '/.dotnet/tools/csharp-ls',
+  marksman      =   masonbinpath .. 'marksman'
 }
 
 
