@@ -356,8 +356,8 @@ command_center.add({
     category = "@Telescope"
   },
   {
-    desc = "Registers (Telescope)",
-    cmd = function() _tb.registers(Telescope_vertical_dropdown_theme{prompt_title='Registers',layout_config={width=0.6, height=0.7,preview_height=0.3}}) end,
+    desc = "Registers (Fzf)",
+    cmd = function() require("fzf-lua").registers({winopts=fzf_vertical_winops}) end,
     keys = { "n", "<C-x><C-r>", noremap },
     category = "@Telescope"
   },
@@ -455,6 +455,18 @@ command_center.add({
     desc = "Treesitter tree",
     cmd = function() vim.treesitter.show_tree({ command = 'rightbelow 36vnew|set ft=Treesitter' }) vim.o.statuscolumn="" end,
     keys = { "n", "tsp", noremap },
+    category = "@Neovim"
+  },
+  {
+    desc = "Fzf Quickfix list",
+    cmd = function() require("fzf-lua").quickfix({winopts=fzf_vertical_winops}) end,
+    keys = { "n", "qfl", noremap },
+    category = "@Neovim"
+  },
+  {
+    desc = "Fzf Location list",
+    cmd = function() require("fzf-lua").loclist({winopts=fzf_vertical_winops}) end,
+    keys = { "n", "lll", noremap },
     category = "@Neovim"
   },
   {

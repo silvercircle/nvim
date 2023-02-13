@@ -102,7 +102,6 @@ vim.g.lsp_server_bin = {
   marksman      =   masonbinpath .. 'marksman'
 }
 
-
 -- ugly but working hack. If $NVIM_USE_PRIVATE_FORKS is set (to anything), we will use private
 -- forks of some plugins.
 -- Reason: I'm just experimenting with some plugins.

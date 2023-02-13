@@ -57,7 +57,7 @@ local function win_pad()
 end
 
 local function indentstats()
-  return string.format("%d:%d:%d %s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.softtabstop, vim.bo.expandtab == true and 'y' or 'n')
+  return string.format("%d:%d/%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n')
 end
 
 -- the internal theme is defined in config.lua
