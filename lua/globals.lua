@@ -77,15 +77,22 @@ function M.mkview()
   end
 end
 
--- functions to set/clear/toggle formatoptions
+--- set one formatoptions
+--- @param fo string a valid format option see :help fo-table
 function M.set_fo(fo)
   vim.opt_local.formatoptions:append(fo)
 end
 
+--- clear a format option
+--- @param fo string a valid format option see :help fo-table
 function M.clear_fo(fo)
   vim.opt_local.formatoptions:remove(fo)
 end
 
+--- toggle a format option(s)
+--- this can only toggle A SINGLE format option
+--- e.g. toggle_fo('t')
+--- @param fo string ONE formatoption to toggle
 function M.toggle_fo(fo)
   if vim.opt_local.formatoptions:get()[fo] == true then
     M.clear_fo(fo)
@@ -94,6 +101,7 @@ function M.toggle_fo(fo)
   end
 end
 
+--- toggle the status of wrap between wrap and nowrap
 function M.toggle_wrap()
   if vim.opt_local.wrap._value == true then
     vim.opt_local.wrap = false

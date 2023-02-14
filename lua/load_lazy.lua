@@ -140,7 +140,7 @@ local plugins = {
   { 'nvim-treesitter/playground', cond = vim.g.config.treesitter_playground == true },
   { 'goolord/alpha-nvim',
     cond = vim.g.config.plain == false,
-    pin = true,
+--    pin = true,
     config = function ()
       if vim.g.config.plain == false then
         local theme = require("alpha.themes.startify")

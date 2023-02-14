@@ -80,7 +80,11 @@ let g:term_buf = 0
 let g:term_win = 0
 function! TermToggle(height)
   
-  let height = g:config['termheight']
+  if a:height == 0
+    let height = g:config['termheight']
+  else
+    let height = a:height
+  endif
 
   if win_gotoid(g:term_win)
       setlocal statusline=Terminal
