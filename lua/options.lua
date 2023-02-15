@@ -96,6 +96,7 @@ o.foldnestmax = 5
 o.viewoptions = "folds,cursor"
 -- no ~ at blank lines
 o.completeopt = "menu,menuone,noinsert"
+o.complete=""
 -- coc and also CMP respect this settings for the maximum autocomplete-popup height
 o.pumheight = 15
 -- allow two signcolumns, the first will be occupied by git signs
@@ -135,17 +136,17 @@ autocmd({ 'UIEnter' }, {
     vim.g.config.main_winid = vim.fn.win_getid()
     require("local_utils.blist").setup({
       symbols = {
---        current = "C", -- default 
---        split = "S", -- default 
---        alternate = "A", -- default 
-        hidden = "+", -- default ﬘
+        current = "+", -- default 
+        split = "s", -- default 
+        alternate = "a", -- default 
+        hidden = "~", -- default ﬘
         unloaded = "-",
---        locked = "L", -- default 
---        ro = "R", -- default 
+        locked = "L", -- default 
+        ro = "r", -- default 
         edited = "*", -- default 
---        terminal = "T", -- default 
+        terminal = "t", -- default 
 --        default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
---        terminal_symbol = ">_" -- Filetype icon for a terminal split. Default 
+        terminal_symbol = ">" -- Filetype icon for a terminal split. Default 
       }
     })
     if vim.g.config.plain == false then

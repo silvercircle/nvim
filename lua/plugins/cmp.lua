@@ -70,7 +70,6 @@ lspkind.init({
 cmp.setup({
   enabled = true,
   completion = {
-    completeopt = 'menu,menuone,noselect',
     autocomplete = vim.g.config.cmp_autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or { }
   },
   snippet = {

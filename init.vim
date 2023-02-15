@@ -24,7 +24,7 @@ require('plugins.default')
 require('keymap')
 EOB
 
-set guifont=Iosevka:h11:#e-subpixelantialias:#h-full
+set guifont=Iosevka\ Mayukai\ Sonata\ Medium:h11:#e-subpixelantialias:#h-full
 
 run macros/justify.vim
 filetype on

@@ -463,19 +463,20 @@ function M.parseLs(buf)
             fn_symbol, fn_symbol_hl = getFileSymbol(filename)
         end
         local icon, icon_hl = getBufferIcon(flags)
+        if #icon == 1 then
+          icon = ' ' .. icon
+        end
         local modified_icon = M.bufinfo[modified] or " "
 
         -- format preLine and postLine
         local preLine = string.format("%4d%s%s ", handle, modified_icon, fn_symbol)
         local preLine_len = #preLine:gsub("[\128-\191]", "")
         local postLine = string.format(" %s", icon)
-        local postLine_len = #postLine:gsub("[\128-\191]", "")
+        --local postLine_len = #postLine:gsub("[\128-\191]", "")
+        local postLine_len = #postLine
 
         -- determine filename field length and format filename
-        local filename_max_length = M.win_conf.width - preLine_len - postLine_len
-        --local filename_str = Path:new(filename):shorten(1)
-        --filename_str = lutils.rpad(filename_str, filename_max_length +1, ' ')
-        -- concat final line for the buffer
+        local filename_max_length = M.win_conf.width - preLine_len - 3
         local filename_str = formatFilename(filename, filename_max_length)
         local line = preLine .. filename_str .. postLine
         -- set line and highligh
