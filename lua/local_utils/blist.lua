@@ -552,8 +552,10 @@ end
 
 function M.close()
     -- close the window if it's the active float or in docked (split) state
-    if api.nvim_get_current_win() == M.main_win or M.is_docked == true then
-        api.nvim_win_close(M.main_win, false)
+    if vim.api.nvim_win_is_valid(M.main_win) then
+      if api.nvim_get_current_win() == M.main_win or M.is_docked == true then
+          api.nvim_win_close(M.main_win, false)
+      end
     end
     api.nvim_buf_delete(M.main_buf, {})
     api.nvim_set_current_win(M.back_win)
@@ -579,8 +581,12 @@ end
 
 function M.refresh(buf)
     local empty = {}
-    M.win_conf.width = api.nvim_win_get_width(M.main_win)
-    M.win_conf.height = api.nvim_win_get_height(M.main_win)
+    if vim.api.nvim_win_is_valid(M.main_win) then
+      M.win_conf.width = api.nvim_win_get_width(M.main_win)
+      M.win_conf.height = api.nvim_win_get_height(M.main_win)
+    else
+      return
+    end
 
     api.nvim_buf_clear_namespace(buf, -1, 0, -1)
     for _ = 1, #M.bopen + 1 do

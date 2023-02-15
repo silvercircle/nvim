@@ -75,7 +75,7 @@ local plugins = {
         config = function()
           require("plugins.null_ls")
         end
-      }
+      },
     },
     config = function()
       require("plugins.lsp")
@@ -189,9 +189,15 @@ local plugins = {
       require("plugins.fzf")
     end
   },
-  { 'kevinhwang91/rnvimr', lazy=true, cmd={"RnvimrToggle"} }
+  { 'kevinhwang91/rnvimr', lazy=true, cmd={"RnvimrToggle"} },
+  {
+    "smjonas/inc-rename.nvim",
+    cmd = { "IncRename" },
+    config = function()
+      require("inc_rename").setup()
+    end
+  }
 }
-
 -- for experimental purpose, I use some private forks and local repos.
 -- plugins_official (see below) contains the same stuff..
 local plugins_private = {
