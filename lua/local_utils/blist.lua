@@ -443,56 +443,7 @@ function M.closeBufNum(win)
     vim.wo.relativenumber = false
 end
 
--- Parse ls string
 function M.parseLs(buf)
-    for i, ls_line in ipairs(M.bopen) do
-        -- extract data from ls string
-        local match_cmd = '(%d+)%s+([^%s]*)%s+([^%s]?)%s+"(.*)"'
-        if not M.sort_mru then
-            match_cmd = match_cmd .. "%s*line%s(%d+)"
-        else
-            -- dummy so we get '' as result for linenr
-            match_cmd = match_cmd .. "(%d*)"
-        end
-        local buffer_handle, flags, modified, filename, linenr = string.match(ls_line, match_cmd)
-        if flags == "%a" then
-          M.current_line = i
-        end
-        -- get symbol and icon
-        local fn_symbol, fn_symbol_hl = "", nil
-        if M.use_devicons then
-            fn_symbol, fn_symbol_hl = getFileSymbol(filename)
-        end
-        local icon, icon_hl = getBufferIcon(flags)
-        local modified_icon = M.bufinfo[modified] or " "
-
-
-        -- format preLine and postLine
-        local preLine = string.format("%s %3d %s %s ", icon, buffer_handle, modified_icon, fn_symbol)
-        local postLine = linenr ~= "" and string.format(" %4d ", linenr) or ""
-
-        -- some symbols magic, they increase the string.len by more
-        -- than 1 and this is a magic trick to get the extra width
-        local extra_width = #preLine + #postLine - #string.gsub(preLine .. postLine, "[\128-\191]", "")
-
-        -- determine filename field length and format filename
-        local filename_max_length = M.win_conf.width - #preLine - #postLine + extra_width
-        local filename_str = formatFilename(filename, filename_max_length)
-
-        -- concat final line for the buffer
-        local line = preLine .. filename_str .. postLine
-
-        -- set line and highligh
-        api.nvim_buf_set_lines(buf, i, i + 1, true, { line })
-        api.nvim_buf_add_highlight(buf, -1, icon_hl, i, 0, -1)
-        if fn_symbol_hl and fn_symbol ~= "" then
-            local pos = string.find(line, fn_symbol, 1, true)
-            api.nvim_buf_add_highlight(buf, -1, fn_symbol_hl, i, pos, pos + string.len(fn_symbol))
-        end
-    end
-end
-
-function M.parseLs_docked(buf)
     for i, ls_line in ipairs(M.bopen) do
         -- extract data from ls string
         local match_cmd = '(%d+)%s+([^%s]*)%s+([^%s]?)%s+"(.*)"'
@@ -638,11 +589,8 @@ function M.refresh(buf)
     api.nvim_buf_set_option(buf, "modifiable", true)
     api.nvim_buf_set_lines(buf, 0, -1, false, empty)
     empty = nil
-    if M.is_docked == true then
-      M.parseLs_docked(buf)
-    else
-      M.parseLs(buf)
-    end
+    M.parseLs(buf)
+
     -- Draw title
     local title = "Open buffers:"
     api.nvim_buf_set_text(buf, 0, 1, 0, title:len() + 1, { title })
