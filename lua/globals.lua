@@ -2,6 +2,7 @@ local M = {}
 
 M.statuscol_current = 'normal'
 M.winid_bufferlist = 0
+M.main_winid = 0
 
 --- set the statuscol to either normal or relative line numbers
 --- @param mode string: allowed values: 'normal' or 'rel'

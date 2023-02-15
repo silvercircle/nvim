@@ -201,10 +201,11 @@ kms('n', "<A-p>", function() require("telescope").extensions.command_center.comm
 -- quick-focus the four main areas
 kms({'n', 'i', 't', 'v'}, "<A-1>", function() globals.findbufbyType('NvimTree') end, opts)      -- Nvim-tree
 --kms({'n', 'i', 't', 'v'}, "<A-1>", function() FindbufbyType('neo-tree') end, opts)      -- Neotree
-kms({'n', 'i', 't', 'v'}, "<A-2>", function() vim.fn.win_gotoid(1000) end, opts)        -- main window
+kms({'n', 'i', 't', 'v'}, "<A-2>", function() vim.fn.win_gotoid(globals.main_winid) end, opts)        -- main window
 kms({'n', 'i', 't', 'v'}, "<A-3>", function() if globals.findbufbyType('Outline') == false then vim.cmd("SymbolsOutlineOpen") end end, opts) -- Outline
 kms({'n', 'i', 't', 'v'}, "<A-4>", function() if globals.findbufbyType('terminal') == false then vim.api.nvim_input("<f11>") end end, opts)  -- Terminal
 kms({'n', 'i', 't', 'v'}, "<A-5>", function() if globals.findbufbyType('BufList') == false then require("local_utils.blist").open(true) end end, opts)  -- Buffer List
+kms({'n', 'i', 't', 'v'}, "<A-0>", function() globals.main_winid = vim.fn.win_getid() print("Main window id set to: " .. globals.main_winid) end, opts)  -- Buffer List
 
 -- terminal mappings
 map('n', "<f11>", "<CMD>call TermToggle(12)<CR>", opts)

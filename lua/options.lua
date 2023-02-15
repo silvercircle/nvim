@@ -133,7 +133,7 @@ local agroup_hl = vim.api.nvim_create_augroup("hl", {} )
 -- a clean UI
 autocmd({ 'UIEnter' }, {
   callback = function()
-    vim.g.config.main_winid = vim.fn.win_getid()
+    globals.main_winid = vim.fn.win_getid()
     require("local_utils.blist").setup({
       symbols = {
         current = "+", -- default 
