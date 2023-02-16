@@ -12,23 +12,13 @@
 
 function! my_sonokai#get_configuration()
   return {
-        \ 'style': get(g:, 'sonokai_style', 'default'),
         \ 'colors_override': get(g:, 'sonokai_colors_override', {}),
-        \ 'transparent_background': get(g:, 'sonokai_transparent_background', 0),
         \ 'dim_inactive_windows': get(g:, 'sonokai_dim_inactive_windows', 0),
         \ 'disable_italic_comment': get(g:, 'sonokai_disable_italic_comment', 0),
-        \ 'enable_italic': get(g:, 'sonokai_enable_italic', 0),
-        \ 'cursor': get(g:, 'sonokai_cursor', 'auto'),
-        \ 'menu_selection_background': get(g:, 'sonokai_menu_selection_background', 'blue'),
-        \ 'spell_foreground': get(g:, 'sonokai_spell_foreground', 'none'),
-        \ 'show_eob': get(g:, 'sonokai_show_eob', 1),
-        \ 'current_word': get(g:, 'sonokai_current_word', get(g:, 'sonokai_transparent_background', 0) == 0 ? 'grey background' : 'bold'),
-        \ 'lightline_disable_bold': get(g:, 'sonokai_lightline_disable_bold', 0),
         \ 'diagnostic_text_highlight': get(g:, 'sonokai_diagnostic_text_highlight', 0),
         \ 'diagnostic_line_highlight': get(g:, 'sonokai_diagnostic_line_highlight', 0),
         \ 'diagnostic_virtual_text': get(g:, 'sonokai_diagnostic_virtual_text', 'grey'),
         \ 'disable_terminal_colors': get(g:, 'sonokai_disable_terminal_colors', 0),
-        \ 'better_performance': get(g:, 'sonokai_better_performance', 0),
         \ }
 endfunction
 
@@ -166,13 +156,6 @@ else
   let s:tablinebg = [ g:cokeline_colors['bg'], 214]
 endif
 
-if !(exists('g:colors_name') && g:colors_name ==# 'my_sonokai' && s:configuration.better_performance)
-  highlight clear
-  if exists('syntax_on')
-    syntax reset
-  endif
-endif
-
 let g:colors_name = 'my_sonokai'
 
 call my_sonokai#highlight("Braces", s:palette.red, s:palette.none)
@@ -182,11 +165,7 @@ call my_sonokai#highlight('Normal', s:palette.fg, s:bg)
 call my_sonokai#highlight('Accent', s:palette.black, s:accent)
 
 call my_sonokai#highlight('Terminal', s:palette.fg, s:palette.neotreebg)
-if s:configuration.show_eob
-  call my_sonokai#highlight('EndOfBuffer', s:palette.bg4, s:palette.none)
-else
-  call my_sonokai#highlight('EndOfBuffer', s:palette.bg0, s:palette.none)
-endif
+call my_sonokai#highlight('EndOfBuffer', s:palette.bg4, s:palette.none)
 call my_sonokai#highlight('Folded', s:palette.fg, s:palette.diff_blue)
 call my_sonokai#highlight('ToolbarLine', s:palette.fg, s:palette.none)
 call my_sonokai#highlight('FoldColumn', s:palette.bg4, s:darkbg)
@@ -311,19 +290,11 @@ highlight! link healthError Red
 highlight! link healthSuccess Green
 highlight! link healthWarning Yellow
 " Syntax: {{{
-if s:configuration.enable_italic
-  call my_sonokai#highlight('Type', s:palette.blue, s:palette.none, 'italic')
-  call my_sonokai#highlight('Structure', s:palette.blue, s:palette.none, 'italic')
-  call my_sonokai#highlight('StorageClass', s:palette.blue, s:palette.none, 'italic')
-  call my_sonokai#highlight('Identifier', s:palette.orange, s:palette.none, 'italic')
-  call my_sonokai#highlight('Constant', s:palette.orange, s:palette.none, 'italic')
-else
-  call my_sonokai#highlight('Type', s:darkpurple, s:palette.none, 'bold')
-  call my_sonokai#highlight('Structure', s:darkpurple, s:palette.none, 'bold')
-  call my_sonokai#highlight('StorageClass', s:purple, s:palette.none, 'bold')
-  call my_sonokai#highlight('Identifier', s:palette.orange, s:palette.none)
-  call my_sonokai#highlight('Constant', s:palette.orange, s:palette.none)
-endif
+call my_sonokai#highlight('Type', s:darkpurple, s:palette.none, 'bold')
+call my_sonokai#highlight('Structure', s:darkpurple, s:palette.none, 'bold')
+call my_sonokai#highlight('StorageClass', s:purple, s:palette.none, 'bold')
+call my_sonokai#highlight('Identifier', s:palette.orange, s:palette.none)
+call my_sonokai#highlight('Constant', s:palette.orange, s:palette.none)
 call my_sonokai#highlight('PreProc', s:palette.darkyellow, s:palette.none, 'bold')
 call my_sonokai#highlight('PreCondit', s:palette.darkyellow, s:palette.none, 'bold')
 call my_sonokai#highlight('Include', s:palette.green, s:palette.none)
@@ -438,14 +409,6 @@ call my_sonokai#highlight('ErrorFloat', s:palette.red, s:palette.none) " was pal
 call my_sonokai#highlight('WarningFloat', s:palette.yellow, s:palette.none)
 call my_sonokai#highlight('InfoFloat', s:palette.blue, s:palette.none)
 call my_sonokai#highlight('HintFloat', s:palette.green, s:palette.none)
-if &diff
-  call my_sonokai#highlight('CurrentWord', s:palette.bg0, s:palette.green)
-elseif s:configuration.current_word ==# 'grey background'
-  call my_sonokai#highlight('CurrentWord', s:palette.none, s:palette.bg2)
-else
-  call my_sonokai#highlight('CurrentWord', s:palette.none, s:palette.none, s:configuration.current_word)
-endif
-" }}}
 " Definition
 let s:terminal = {
       \ 'black':           s:palette.black,
@@ -633,10 +596,6 @@ let g:VM_Mono_hl = 'VMCursor'
 let g:VM_Extend_hl = 'Visual'
 let g:VM_Cursor_hl = 'VMCursor'
 let g:VM_Insert_hl = 'VMCursor'
-" }}}
-" dominikduda/vim_current_word {{{
-highlight! link CurrentWordTwins CurrentWord
-" }}}
 " itchyny/vim-cursorword {{{
 highlight! link CursorWord0 CurrentWord
 highlight! link CursorWord1 CurrentWord
