@@ -26,7 +26,7 @@ require'fzf-lua'.setup({
     --border           = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
     fullscreen       = false,           -- start fullscreen?
    preview = {
-      -- default     = 'bat',           -- override the default previewer?
+      default        = 'builtin',       -- override the default previewer?
                                         -- default uses the 'builtin' previewer
       border         = 'border',        -- border|noborder, applies only to
                                         -- native fzf previewers (bat/cat/git/etc)
@@ -49,7 +49,7 @@ require'fzf-lua'.setup({
       delay          = 100,             -- delay(ms) displaying the preview
                                         -- prevents lag on fast scrolling
       winopts = {                       -- builtin previewer window options
-        number            = true,
+        number            = false,
         relativenumber    = false,
         cursorline        = true,
         cursorlineopt     = 'both',
@@ -167,7 +167,7 @@ require'fzf-lua'.setup({
     bat = {
       cmd             = "bat",
       args            = "--style=numbers,changes --color always",
-      theme           = 'Coldark-Dark', -- bat preview theme (bat --list-themes)
+      theme           = 'gruvbox-dark', -- bat preview theme (bat --list-themes)
       config          = nil,            -- nil uses $BAT_CONFIG_PATH
     },
     head = {
@@ -540,7 +540,7 @@ require'fzf-lua'.setup({
     file_icons        = true,
     git_icons         = false,
     diag_icons        = true,
-    icon_padding      = '',     -- add padding for wide diagnostics signs
+    icon_padding      = ' ',     -- add padding for wide diagnostics signs
     -- by default icons and highlights are extracted from 'DiagnosticSignXXX'
     -- and highlighted by a highlight group of the same name (which is usually
     -- set by your colorscheme, for more info see:
@@ -579,7 +579,7 @@ require'fzf-lua'.setup({
   },
   -- padding can help kitty term users with
   -- double-width icon rendering
-  file_icon_padding = '',
+  file_icon_padding = vim.g.config.iconpad,
   -- uncomment if your terminal/font does not support unicode character
   -- 'EN SPACE' (U+2002), the below sets it to 'NBSP' (U+00A0) instead
   -- nbsp = '\xc2\xa0',

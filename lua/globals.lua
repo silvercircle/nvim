@@ -64,9 +64,13 @@ function M.findbufbyType(type)
   return false
 end
 
-function M.truncate(text, max_width)
-  if #text > max_width then
-    return string.sub(text, 1, max_width) .. "…"
+--- truncate a string to a maximum length, appending ellipses when necessary
+--- @param text string:       the string to truncate
+--- @param max_length number: the maximum length
+--- @return string:           the truncated text
+function M.truncate(text, max_length)
+  if #text > max_length then
+    return string.sub(text, 1, max_length) .. "…"
   else
     return text
   end

@@ -351,21 +351,12 @@ call my_sonokai#highlight('RedBold', s:palette.red, s:palette.none, 'bold')
 call my_sonokai#highlight('Teal', s:teal, s:palette.none)
 call my_sonokai#highlight('TealBold', s:teal, s:palette.none, 'bold')
 
-if s:configuration.enable_italic
-  call my_sonokai#highlight('RedItalic', s:palette.red, s:palette.none, 'italic')
-  call my_sonokai#highlight('OrangeItalic', s:palette.orange, s:palette.none, 'italic')
-  call my_sonokai#highlight('YellowItalic', s:palette.yellow, s:palette.none, 'italic')
-  call my_sonokai#highlight('GreenItalic', s:palette.green, s:palette.none, 'italic')
-  call my_sonokai#highlight('BlueItalic', s:palette.blue, s:palette.none, 'italic')
-  call my_sonokai#highlight('PurpleItalic', s:palette.purple, s:palette.none, 'italic')
-else
-  call my_sonokai#highlight('RedItalic', s:palette.red, s:palette.none)
-  call my_sonokai#highlight('OrangeItalic', s:palette.orange, s:palette.none)
-  call my_sonokai#highlight('YellowItalic', s:palette.yellow, s:palette.none)
-  call my_sonokai#highlight('GreenItalic', s:palette.green, s:palette.none)
-  call my_sonokai#highlight('BlueItalic', s:palette.blue, s:palette.none)
-  call my_sonokai#highlight('PurpleItalic', s:palette.purple, s:palette.none)
-endif
+call my_sonokai#highlight('RedItalic', s:palette.red, s:palette.none)
+call my_sonokai#highlight('OrangeItalic', s:palette.orange, s:palette.none)
+call my_sonokai#highlight('YellowItalic', s:palette.yellow, s:palette.none)
+call my_sonokai#highlight('GreenItalic', s:palette.green, s:palette.none)
+call my_sonokai#highlight('BlueItalic', s:palette.blue, s:palette.none)
+call my_sonokai#highlight('PurpleItalic', s:palette.purple, s:palette.none)
 call my_sonokai#highlight('RedSign', s:palette.red, s:palette.none)
 call my_sonokai#highlight('OrangeSign', s:palette.orange, s:palette.none)
 call my_sonokai#highlight('YellowSign', s:palette.yellow, s:palette.none)
@@ -968,14 +959,6 @@ highlight! link dartTypeDef Red
 highlight! link dartClassDecl Red
 highlight! link dartLibrary Red
 highlight! link dartMetadata OrangeItalic
-" }}}
-" syn_end }}}
-" vim-lsp-cxx-highlight https://github.com/jackguo380/vim-lsp-cxx-highlight{{{
-highlight! link LspCxxHlSkippedRegion Grey
-highlight! link LspCxxHlSkippedRegionBeginEnd TSKeyword
-highlight! link LspCxxHlGroupEnumConstant OrangeItalic
-highlight! link LspCxxHlGroupNamespace TSNamespace
-highlight! link LspCxxHlGroupMemberVariable TSVariable
 " }}}
 " syn_end }}}
 " syn_begin: objc {{{
