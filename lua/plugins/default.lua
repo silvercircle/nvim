@@ -51,11 +51,6 @@ local function full_filename()
   return vim.fn.expand("%")
 end
 
-local function win_pad()
-  local length = vim.api.nvim_win_get_width(0) - #full_filename() - 4
-  return string.rep(' ', length)
-end
-
 local function indentstats()
   return string.format("%d:%d/%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n')
 end
@@ -186,6 +181,7 @@ require('cokeline').setup({
       text = function(buffer) return buffer.devicon.icon end,
       fg = function(buffer) return buffer.devicon.color end
     },
+    { text = ' ' },
     {
       text = function(buffer) return globals.truncate(buffer.filename, vim.g.config.cokeline_filename_width) end,
       style = function(buffer) return buffer.is_focused and 'bold' or nil end
@@ -351,8 +347,6 @@ require("scrollbar").setup({
   excluded_filetypes = {
     "prompt",
     "TelescopePrompt",
-    "noice",
-    "neo-tree",
 --    "Outline",
     "DressingSelect",
     "DressingInput",
@@ -361,7 +355,9 @@ require("scrollbar").setup({
     "alpha",
     "lspinfo",
     "NvimTree",
-    "BufList"
+    "BufList",
+    "cmp_menu",
+    "cmp_docs"
   },
   autocmd = {
     render = {

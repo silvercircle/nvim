@@ -13,12 +13,7 @@ local globals = require("globals")
 kms({ 'n', 'i' },  "<C-c>", "<NOP>", opts)
 
 -- file tree
---if vim.g.config.nvim_tree == false then
---  map('n', "<leader>r", "<CMD>Neotree reveal_force_cwd<CR>", opts)    -- sync Neotree dir to current buffer
---  map('n', "<leader>,", '<CMD>Neotree toggle dir=%:p:h<CR>', opts)              -- toggle the Neotree
---else
 map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)            -- sync Nvim-Tree with current
-
 kms('n', "<leader>,",
   function()
     -- when the buflist is open (which means, the tree is also open), close it.
@@ -113,11 +108,11 @@ vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], 
 vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], opts)
 vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], opts)
 
-vim.keymap.set({ "s" }, "<C-i>", function() require'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
-vim.keymap.set({ "s" }, "<S-Tab>", function() require'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
+kms({ "s" }, "<C-i>", function() require'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
+kms({ "s" }, "<S-Tab>", function() require'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
 
 -- run `:nohlsearch` and export results to quickfix
-vim.keymap.set({'n', 'x'}, '<Leader>#', function()
+kms({'n', 'x'}, '<Leader>#', function()
     vim.schedule(function()
         if require('hlslens').exportLastSearchToQuickfix() then
             vim.cmd('cw')
@@ -128,9 +123,9 @@ end, {expr = true})
 
 -- if we have playgrund, use the special command to reveal the highlight group under the cursor
 if vim.g.config.treesitter_playground == true then
-  vim.keymap.set('n', "hl", ":TSCaptureUnderCursor<CR>", opts)
+  kms('n', "hl", ":TSCaptureUnderCursor<CR>", opts)
 else  -- otherwise, use the API (less pretty, but functional)
-  vim.keymap.set("n", "hl",
+  kms("n", "hl",
     function()
       local result = vim.treesitter.get_captures_at_cursor(0)
       print(vim.inspect(result))
@@ -200,7 +195,6 @@ kms('n', "<A-p>", function() require("telescope").extensions.command_center.comm
 
 -- quick-focus the four main areas
 kms({'n', 'i', 't', 'v'}, "<A-1>", function() globals.findbufbyType('NvimTree') end, opts)      -- Nvim-tree
---kms({'n', 'i', 't', 'v'}, "<A-1>", function() FindbufbyType('neo-tree') end, opts)      -- Neotree
 kms({'n', 'i', 't', 'v'}, "<A-2>", function() vim.fn.win_gotoid(globals.main_winid) end, opts)        -- main window
 kms({'n', 'i', 't', 'v'}, "<A-3>", function() if globals.findbufbyType('Outline') == false then vim.cmd("SymbolsOutlineOpen") end end, opts) -- Outline
 kms({'n', 'i', 't', 'v'}, "<A-4>", function() if globals.findbufbyType('terminal') == false then vim.api.nvim_input("<f11>") end end, opts)  -- Terminal
