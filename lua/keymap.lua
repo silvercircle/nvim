@@ -72,12 +72,6 @@ map('i', "<C-y>\"", "„”", opts)       -- typographic quotes („”)
 -- close window
 map('n', "<A-w>", "<CMD>close<CR>", opts)
 
--- move left/right/up/down split window
-map('n', "<A-Left>", "<c-w><Left>", opts)
-map('n', "<A-Right>", "<c-w><Right>", opts)
-map('n', "<A-Down>", "<c-w><Down>", opts)
-map('n', "<A-Up>", "<c-w><Up>", opts)
-
 -- quickfix/loclist navigation
 kms('n', "<C-f>c", function() globals.close_qf_or_loc() end, opts)
 kms('i', "<C-f>c", function() globals.close_qf_or_loc() end, opts)
@@ -178,10 +172,17 @@ kms('i', "<f15>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zC
 kms('n', "<f27>", function() vim.api.nvim_feedkeys('zO', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
 kms('i', "<f27>", function() local key = vim.api.nvim_replace_termcodes("<C-o>zO", true, false, true) vim.api.nvim_feedkeys(key, 'i', false) vim.schedule(schedule_mkview) end, opts)
 
+-- jump list
 map('n', "<C-S-Left>", "<C-o>", opts)
 map('n', "<C-S-Right>", "<C-i>", opts)
 map('i', "<C-S-Left>", "<c-o><C-o>", opts)
 map('i', "<C-S-Right>", "<c-o><C-i>", opts)
+
+-- change list
+map('n', "<A-Left>", "g;", opts)
+map('n', "<A-Right>", "g,", opts)
+map('i', "<A-Left>", "<C-o>g;", opts)
+map('i', "<A-Right>", "<C-o>g,", opts)
 
 map('n', "<f23>", "<CMD>Lazy<CR>", opts)
 

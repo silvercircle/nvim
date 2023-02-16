@@ -150,7 +150,7 @@ function M.close_qf_or_loc()
   local winid = M.findwinbyBufType("qf")
   if #winid > 0 then
     for i,_ in pairs(winid) do
-      if winid[i] > 0 then
+      if winid[i] > 0 and vim.api.nvim_win_is_valid(winid[i]) then
         vim.api.nvim_win_close(winid[i], {})
       end
     end

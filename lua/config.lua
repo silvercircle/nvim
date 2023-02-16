@@ -49,7 +49,7 @@ vim.g.config = {
   nvim_tree = true,
   cokeline_filename_width = 25,               -- max filename length on cokeline tabs
   cmp_autocomplete = false,                   -- false means only manual complete <C-Space>. Set to true for autocomplete
-  cmp_autocomplete_kwlen = 3,                 -- keyword length, cmp_autocomplete must be true for this to take effect
+  cmp_autocomplete_kwlen = 1,                 -- keyword length, cmp_autocomplete must be true for this to take effect
                                               -- (complete while typing)
   fortunecookie = false,                      --"fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
                                               -- needs fortune and cowsay installed.
