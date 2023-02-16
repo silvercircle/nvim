@@ -1,3 +1,5 @@
+--- global functions for my Neovim configuration
+--- use with require("globals")
 local M = {}
 
 M.statuscol_current = 'normal'
@@ -138,4 +140,17 @@ function M.splittree(_factor)
   end
   return 0
 end
+
+--- close all quickfix windows
+function M.close_qf_or_loc()
+  local winid = M.findwinbyBufType("qf")
+  if #winid > 0 then
+    for i,_ in pairs(winid) do
+      if winid[i] > 0 then
+        vim.api.nvim_win_close(winid[i], {})
+      end
+    end
+  end
+end
+
 return M

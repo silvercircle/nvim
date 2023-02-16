@@ -79,10 +79,8 @@ map('n', "<A-Down>", "<c-w><Down>", opts)
 map('n', "<A-Up>", "<c-w><Up>", opts)
 
 -- quickfix/loclist navigation
-map('n', "<C-f>c", "<CMD>cclose<CR>", opts)
-map('i', "<C-f>c", "<c-o><CMD>cclose<CR>", opts)
-map('n', "<C-f>l", "<CMD>lclose<CR>", opts)
-map('i', "<C-f>l", "<c-o><CMD>lclose<CR>", opts)
+kms('n', "<C-f>c", function() globals.close_qf_or_loc() end, opts)
+kms('i', "<C-f>c", function() globals.close_qf_or_loc() end, opts)
 
 map('n', "<C-S-Down>", "<CMD>cnext<CR>", opts)
 map('i', "<C-S-Down>", "<c-o><CMD>cnext<CR>", opts)
