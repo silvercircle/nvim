@@ -181,7 +181,7 @@ require('cokeline').setup({
       text = function(buffer) return buffer.devicon.icon end,
       fg = function(buffer) return buffer.devicon.color end
     },
-    { text = ' ' },
+    { text = vim.g.config.iconpad },
     {
       text = function(buffer) return globals.truncate(buffer.filename, vim.g.config.cokeline_filename_width) end,
       style = function(buffer) return buffer.is_focused and 'bold' or nil end

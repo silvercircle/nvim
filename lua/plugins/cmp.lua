@@ -68,9 +68,11 @@ lspkind.init({
 })
 
 cmp.setup({
+  preselect = cmp.PreselectMode.Item,
   enabled = true,
   completion = {
-    autocomplete = vim.g.config.cmp_autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or { }
+    autocomplete = vim.g.config.cmp_autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or { },
+    keyword_length = vim.g.config.cmp_autocomplete_kwlen,
   },
   snippet = {
     expand = function(args)
@@ -135,7 +137,7 @@ cmp.setup({
       vim_item.abbr = globals.truncate(vim_item.abbr, max_abbr_item_width)
         -- fancy icons and a name of kind
       vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
-      vim_item.kind = " " .. vim_item.kind_symbol .. " " .. vim_item.kind
+      vim_item.kind = " " .. vim_item.kind_symbol .. " " .. vim.g.config.iconpad .. vim_item.kind
       -- The 'menu' section: source, detail information (lsp, snippet), etc.
       -- set a name for each source (see the sources section below)
       vim_item.menu = ({

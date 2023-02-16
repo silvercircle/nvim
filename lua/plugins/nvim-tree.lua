@@ -72,7 +72,7 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
     icons = {
       webdev_colors = true,
       git_placement = "after",
-      padding = "  ",
+      padding = " " .. vim.g.config.iconpad,
       symlink_arrow = " ➛ ",
       show = {
         file = true,

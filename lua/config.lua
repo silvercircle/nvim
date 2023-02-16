@@ -49,8 +49,9 @@ vim.g.config = {
   nvim_tree = true,
   cokeline_filename_width = 25,               -- max filename length on cokeline tabs
   cmp_autocomplete = false,                   -- false means only manual complete <C-Space>. Set to true for autocomplete
+  cmp_autocomplete_kwlen = 3,                 -- keyword length, cmp_autocomplete must be true for this to take effect
                                               -- (complete while typing)
-  fortunecookie = false, --"fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
+  fortunecookie = false,                      --"fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
                                               -- needs fortune and cowsay installed.
                                               -- set to false or an empty string to disable
                                               -- set this to "" or false if your start screen throws errors.
@@ -59,7 +60,8 @@ vim.g.config = {
   mkview_on_fold = false,                     -- always create a view when using the folding keys (f2/f3)
   use_winbar = true,
   main_winid = 1000,                          -- this is normally 1000 for the first window. It's updated in UIEnter autocmd
-  termheight = 12
+  termheight = 12,
+  iconpad = ' '                               -- additional padding for devicons.
 }
 
 globals.statuscol_current = vim.g.config.statuscol_default
