@@ -46,7 +46,7 @@ require("nvim-treesitter.configs").setup({
 --  },
   highlight = {
     enable = true,
-    disable = { "javascript", "help" }      -- FIXME: JavaScript parser is painfully slow. Help can be
+    disable = { "help" }      -- FIXME: JavaScript parser is painfully slow. Help can be
                                             -- slow with large pages.
   },
   indent = {
