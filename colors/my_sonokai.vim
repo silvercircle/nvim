@@ -53,7 +53,7 @@ if g:theme['variant'] == 'cold'
         \ 'bg_blue':    ['#85d3f2',   '110'],
         \ 'diff_blue':  ['#354157',   '17'],
         \ 'diff_yellow':['#4e432f',   '54'],
-        \ 'fg':         ['#e2e2e3',   '250'],
+        \ 'fg':         ['#d2c2c0',   '250'],
         \ 'fg_dim':     ['#959290',   '251'],
         \ 'red':        ['#cc2d4c',   '203'],
         \ 'palered':    ['#8b2d3c',   '203'],
@@ -86,7 +86,7 @@ else
         \ 'bg_blue':    ['#85d3f2',   '110'],
         \ 'diff_blue':  ['#354157',   '17'],
         \ 'diff_yellow':['#4e432f',   '54'],
-        \ 'fg':         ['#e5e2e0',   '250'],
+        \ 'fg':         ['#d2c2c0',   '250'],
         \ 'fg_dim':     ['#959290',   '251'],
         \ 'red':        ['#cc2d4c',   '203'],
         \ 'palered':    ['#8b2d3c',   '203'],
@@ -136,7 +136,7 @@ if g:theme['variant'] == 'cold'
   let s:darkestblue = ['#10101a', 247]
   let s:bg = ['#141414', 0]
   let s:statuslinebg = [ g:statuslinebg, 208 ]
-  let s:palette.fg = [ '#a5a0b5', 1 ]
+  let s:palette.fg = [ '#a2a0ac', 1 ]
   let s:palette.grey = [ '#707070', 2 ]
   let s:pmenubg = [ '#241a20', 156 ]
   let s:accent = [ g:config['accent_color'], 209 ]
@@ -149,7 +149,7 @@ else
   let s:darkestblue = ['#10101a', 247]
   let s:bg = ['#161414', 0]
   let s:statuslinebg = [ g:statuslinebg, 208 ]
-  let s:palette.fg = [ '#a5a0b5', 1 ]
+  let s:palette.fg = [ '#aaa0a5', 1 ]
   let s:palette.grey = [ '#707070', 2 ]
   let s:pmenubg = [ '#241a20', 156 ]
   let s:accent = [ g:config['accent_color'], 209 ]
@@ -401,35 +401,6 @@ call my_sonokai#highlight('WarningFloat', s:palette.yellow, s:palette.none)
 call my_sonokai#highlight('InfoFloat', s:palette.blue, s:palette.none)
 call my_sonokai#highlight('HintFloat', s:palette.green, s:palette.none)
 " Definition
-let s:terminal = {
-      \ 'black':           s:palette.black,
-      \ 'red':             s:palette.red,
-      \ 'yellow':          s:palette.yellow,
-      \ 'green':           s:palette.green,
-      \ 'cyan':            s:palette.orange,
-      \ 'blue':            s:palette.blue,
-      \ 'purple':          s:palette.purple,
-      \ 'white':           s:palette.fg,
-      \ 'bright_black':    s:palette.grey,
-      \ }
-" Implementation: {{{
-let g:terminal_color_0 = s:terminal.black[0]
-let g:terminal_color_1 = s:terminal.red[0]
-let g:terminal_color_2 = s:terminal.green[0]
-let g:terminal_color_3 = s:terminal.yellow[0]
-let g:terminal_color_4 = s:terminal.blue[0]
-let g:terminal_color_5 = s:terminal.purple[0]
-let g:terminal_color_6 = s:terminal.cyan[0]
-let g:terminal_color_7 = s:terminal.white[0]
-let g:terminal_color_8 = s:terminal.bright_black[0]
-let g:terminal_color_9 = s:terminal.red[0]
-let g:terminal_color_10 = s:terminal.green[0]
-let g:terminal_color_11 = s:terminal.yellow[0]
-let g:terminal_color_12 = s:terminal.blue[0]
-let g:terminal_color_13 = s:terminal.purple[0]
-let g:terminal_color_14 = s:terminal.cyan[0]
-let g:terminal_color_15 = s:terminal.white[0]
-" Plugins: {{{
 " nvim-treesitter/nvim-treesitter {{{
 call my_sonokai#highlight('TSStrong', s:palette.none, s:palette.none, 'bold')
 call my_sonokai#highlight('TSEmphasis', s:palette.none, s:palette.none, 'italic')
@@ -672,48 +643,6 @@ highlight! link NotifyTRACETitle Purple
 " }}}
 " b0o/incline.nvim {{{
 call my_sonokai#highlight('InclineNormalNC', s:palette.grey, s:palette.bg2)
-" }}}
-" echasnovski/mini.nvim {{{
-call my_sonokai#highlight('MiniIndentscopePrefix', s:palette.none, s:palette.none, 'nocombine')
-call my_sonokai#highlight('MiniJump2dSpot', s:palette.red, s:palette.none, 'bold,nocombine')
-call my_sonokai#highlight('MiniStarterCurrent', s:palette.none, s:palette.none, 'nocombine')
-call my_sonokai#highlight('MiniStatuslineDevinfo', s:palette.fg, s:palette.bg3)
-call my_sonokai#highlight('MiniStatuslineFileinfo', s:palette.fg, s:palette.bg3)
-call my_sonokai#highlight('MiniStatuslineFilename', s:palette.grey, s:palette.bg1)
-call my_sonokai#highlight('MiniStatuslineModeInactive', s:palette.grey, s:palette.bg1)
-call my_sonokai#highlight('MiniStatuslineModeCommand', s:palette.bg0, s:palette.yellow, 'bold')
-call my_sonokai#highlight('MiniStatuslineModeInsert', s:palette.bg0, s:palette.bg_green, 'bold')
-call my_sonokai#highlight('MiniStatuslineModeNormal', s:palette.bg0, s:palette.bg_blue, 'bold')
-call my_sonokai#highlight('MiniStatuslineModeOther', s:palette.bg0, s:palette.purple, 'bold')
-call my_sonokai#highlight('MiniStatuslineModeReplace', s:palette.bg0, s:palette.orange, 'bold')
-call my_sonokai#highlight('MiniStatuslineModeVisual', s:palette.bg0, s:palette.bg_red, 'bold')
-call my_sonokai#highlight('MiniTablineCurrent', s:palette.fg, s:palette.bg4)
-call my_sonokai#highlight('MiniTablineHidden', s:palette.grey, s:palette.bg2)
-call my_sonokai#highlight('MiniTablineModifiedCurrent', s:palette.blue, s:palette.bg4)
-call my_sonokai#highlight('MiniTablineModifiedHidden', s:palette.grey, s:palette.bg2)
-call my_sonokai#highlight('MiniTablineModifiedVisible', s:palette.blue, s:palette.bg2)
-call my_sonokai#highlight('MiniTablineTabpagesection', s:palette.bg0, s:palette.blue, 'bold')
-call my_sonokai#highlight('MiniTablineVisible', s:palette.fg, s:palette.bg2)
-call my_sonokai#highlight('MiniTestEmphasis', s:palette.none, s:palette.none, 'bold')
-call my_sonokai#highlight('MiniTestFail', s:palette.red, s:palette.none, 'bold')
-call my_sonokai#highlight('MiniTestPass', s:palette.green, s:palette.none, 'bold')
-call my_sonokai#highlight('MiniTrailspace', s:palette.none, s:palette.red)
-highlight! link MiniStarterItemBullet Grey
-highlight! link MiniStarterItemPrefix Yellow
-highlight! link MiniStarterQuery Blue
-highlight! link MiniCompletionActiveParameter LspSignatureActiveParameter
-highlight! link MiniCursorword CurrentWord
-highlight! link MiniCursorwordCurrent CurrentWord
-highlight! link MiniIndentscopeSymbol Grey
-highlight! link MiniJump Search
-highlight! link MiniStarterFooter Yellow
-highlight! link MiniStarterHeader Purple
-highlight! link MiniStarterInactive Comment
-highlight! link MiniStarterItem Normal
-highlight! link MiniStarterSection Title
-highlight! link MiniSurround IncSearch
-highlight! link MiniTablineFill TabLineFill
-" }}}
 endif
 " }}}
 " Extended File Types: {{{

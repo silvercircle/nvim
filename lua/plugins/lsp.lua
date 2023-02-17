@@ -281,6 +281,8 @@ lspconfig.lua_ls.setup {
 
 do
   local on_references = vim.lsp.handlers["textDocument/references"]
+  local on_definition = vim.lsp.handlers["textDocument/definition"]
+  
   local lsp_handlers_hover = vim.lsp.with(vim.lsp.handlers.hover, {
     border = "single",
   })
@@ -292,6 +294,11 @@ do
   end
   vim.lsp.handlers["textDocument/references"] = vim.lsp.with(
     on_references, {
+      loclist = true,
+    }
+  )
+  vim.lsp.handlers["textDocument/definition"] = vim.lsp.with(
+    on_definition, {
       loclist = true,
     }
   )

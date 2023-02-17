@@ -41,15 +41,23 @@ end
 --- @return table: a list of windows displaying the buffer or an empty list if none has been found
 function M.findwinbyBufType(type)
   local ls = vim.api.nvim_list_bufs()
-  for _, buf in pairs(ls) do
-    if vim.api.nvim_buf_is_valid(buf) then
-      local filetype = vim.api.nvim_buf_get_option(buf, "filetype")
+  local win_ids = {}
+  for i = 1, #ls, 1 do
+    if vim.api.nvim_buf_is_valid(ls[i]) then
+      local filetype = vim.api.nvim_buf_get_option(ls[i], "filetype")
       if filetype == type then
-        return vim.fn.win_findbuf(buf)
+        local wins = vim.fn.win_findbuf(ls[i])
+        if wins == 1 then
+          table.insert(win_ids, wins[1])
+        else
+          for j = 1, #wins, 1 do
+            table.insert(win_ids, wins[j])
+          end
+        end
       end
     end
   end
-  return {}
+  return win_ids
 end
 
 --- find a buffer with type and focus its primary window split
