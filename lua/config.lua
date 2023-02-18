@@ -20,17 +20,16 @@ vim.g.config = {
   },
   telescope_dropdown='bottom',                  -- position for the input box in the dropdown theme. 'bottom' or 'top'
   cpalette_dropdown = 'top',                    -- same for the command palette
-  -- accent color is used for important highlights like the currently selected tab (buffer)
-  -- and more.
-  accent_color = '#cbaf00',
-  alt_accent_color = '#bd2f4f',
   -- the minipicker is the small telescope picker used for references, symbols and
   -- treesitter-symbols. It also works in insert mode.
-  minipicker_height = 0.8,
-  minipicker_width = 50,
-  minipicker_preview_height = 10,
+  -- 
+  minipicker_layout = {
+    height = 0.8,
+    width = 50,
+    preview_height =10,
+    anchor = "N"
+  },
   minipicker_iprefix = "#>",
-  minipicker_anchor = "N",
   filetree_width = 44,                          -- width for the neotree and nvim-tree plugins
   outline_width = 36,                           -- split width for symbols-outline
 
@@ -72,7 +71,11 @@ globals.statuscol_current = vim.g.config.statuscol_default
 vim.g.theme = {
   variant = "warm",     -- "warm" gives a slight red-ish tint for some backgrounds. "cold" a more blue-ish
   desaturate = true,    -- true: desaturate some colors to get a more "pastel" look with less intense colors
-  string = 'yellow'    -- yellow strings, default is green. Respects desaturate
+  string = 'yellow',    -- yellow strings, default is green. Respects desaturate
+  -- accent color is used for important highlights like the currently selected tab (buffer)
+  -- and more.
+  accent_color = '#cbaf00',
+  alt_accent_color = '#bd2f4f',
 }
 
 local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'
@@ -152,12 +155,12 @@ if vim.g.theme.variant == 'cold' then
   LuaLineColors = {
     white          = '#ffffff',
     darkestgreen   = '#003f00',
-    brightgreen    =  vim.g.config.accent_color,
+    brightgreen    =  vim.g.theme.accent_color,
     darkestcyan    = '#005f5f',
     mediumcyan     = '#87dfff',
     darkestblue    = '#005f87',
     darkred        = '#870000',
-    brightred      = vim.g.config.alt_accent_color,
+    brightred      = vim.g.theme.alt_accent_color,
     brightorange   = '#2f47df',
     gray1          = '#262626',
     gray2          = '#303030',
@@ -171,12 +174,12 @@ else
   LuaLineColors = {
     white          = '#ffffff',
     darkestgreen   = '#003f00',
-    brightgreen    = vim.g.config.accent_color,
+    brightgreen    = vim.g.theme.accent_color,
     darkestcyan    = '#005f5f',
     mediumcyan     = '#87dfff',
     darkestblue    = '#005f87',
     darkred        = '#870000',
-    brightred      = vim.g.config.alt_accent_color,
+    brightred      = vim.g.theme.alt_accent_color,
     brightorange   = '#2f47df',
     gray1          = '#262626',
     gray2          = '#303030',
@@ -194,7 +197,7 @@ vim.g.statuslinebg = LuaLineColors.statuslinebg
 vim.g.cokeline_colors = {
   --bg = LuaLineColors.statuslinebg,
   bg = LuaLineColors.statuslinebg,
-  focus_bg = vim.g.config.accent_color,
+  focus_bg = vim.g.theme.accent_color,
   fg = LuaLineColors.gray7,
   focus_fg = '#202020'
 }

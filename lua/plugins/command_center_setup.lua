@@ -9,12 +9,6 @@ local _t = require("telescope")
 local _tb = require("telescope.builtin")
 
 -- this is a helper for mini pickers like references and symbols.
-local minipicker_layout = {
-  height = vim.g.config.minipicker_height,
-  width = vim.g.config.minipicker_width,
-  preview_height = vim.g.config.minipicker_preview_height,
-  anchor = vim.g.config.minipicker_anchor
-}
 local fzf_vertical_winops = {width=0.6,preview={layout='vertical',vertical="up:30%"}}
 
 command_center.add({
@@ -167,37 +161,37 @@ command_center.add({
   },
   {
     desc = "Mini Document symbols",
-    cmd = function() _tb.lsp_document_symbols(Telescope_vertical_dropdown_theme({layout_config=minipicker_layout})) end,
+    cmd = function() _tb.lsp_document_symbols(Telescope_vertical_dropdown_theme({layout_config=vim.g.config.minipicker_layout})) end,
     keys = { "n", "<A-o>", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Mini Document symbols (i)",
-    cmd = function() _tb.lsp_document_symbols(Telescope_vertical_dropdown_theme({prompt_prefix=vim.g.config.minipicker_iprefix, layout_config=minipicker_layout})) end,
+    cmd = function() _tb.lsp_document_symbols(Telescope_vertical_dropdown_theme({prompt_prefix=vim.g.config.minipicker_iprefix, layout_config=vim.g.config.minipicker_layout})) end,
     keys = { "i", "<A-o>", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Mini Document references",
-    cmd = function() _tb.lsp_references(Telescope_vertical_dropdown_theme({path_display={truncate=9},show_line=false,layout_config=minipicker_layout})) end,
+    cmd = function() _tb.lsp_references(Telescope_vertical_dropdown_theme({path_display={truncate=9},show_line=false,layout_config=vim.g.config.minipicker_layout})) end,
     keys = { "n", "<A-r>", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Mini Document references (i)",
-    cmd = function() _tb.lsp_references(Telescope_vertical_dropdown_theme({path_display={truncate=9},show_line=false, prompt_prefix=vim.g.config.minipicker_iprefix, layout_config=minipicker_layout})) end,
+    cmd = function() _tb.lsp_references(Telescope_vertical_dropdown_theme({path_display={truncate=9},show_line=false, prompt_prefix=vim.g.config.minipicker_iprefix, layout_config=vim.g.config.minipicker_layout})) end,
     keys = { "i", "<A-r>", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Mini Document Treesitter",
-    cmd = function() _tb.treesitter(Telescope_vertical_dropdown_theme({layout_config=minipicker_layout})) end,
+    cmd = function() _tb.treesitter(Telescope_vertical_dropdown_theme({layout_config=vim.g.config.minipicker_layout})) end,
     keys = { "n", "<A-t>", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Mini Document Treesitter (i)",
-    cmd = function() _tb.treesitter(Telescope_vertical_dropdown_theme({prompt_prefix = vim.g.config.minipicker_iprefix, layout_config=minipicker_layout})) end,
+    cmd = function() _tb.treesitter(Telescope_vertical_dropdown_theme({prompt_prefix = vim.g.config.minipicker_iprefix, layout_config=vim.g.config.minipicker_layout})) end,
     keys = { "i", "<A-t>", noremap },
     category = "@LSP Telescope"
   },

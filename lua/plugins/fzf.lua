@@ -141,7 +141,7 @@ require'fzf-lua'.setup({
     ['--height']      = '100%',
     ['--layout']      = 'reverse',
     ['--border']      = 'none',
-    ['--color']       = 'hl:' .. vim.g.config.accent_color
+    ['--color']       = 'hl:' .. vim.g.theme.accent_color
   },
   -- fzf '--color=' options (optional)
   --[[ fzf_colors = {

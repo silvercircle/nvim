@@ -147,7 +147,7 @@ if g:theme['variant'] == 'cold'
   let s:palette.fg = [ '#a2a0ac', 1 ]
   let s:palette.grey = [ '#707070', 2 ]
   let s:pmenubg = [ '#241a20', 156 ]
-  let s:accent = [ g:config['accent_color'], 209 ]
+  let s:accent = [ g:theme['accent_color'], 209 ]
   let s:tablinebg = [ g:cokeline_colors['bg'], 214]
 else
   let s:darkbg = ['#131010', 237]
@@ -160,7 +160,7 @@ else
   let s:palette.fg = [ '#aaa0a5', 1 ]
   let s:palette.grey = [ '#707070', 2 ]
   let s:pmenubg = [ '#241a20', 156 ]
-  let s:accent = [ g:config['accent_color'], 209 ]
+  let s:accent = [ g:theme['accent_color'], 209 ]
   let s:tablinebg = [ g:cokeline_colors['bg'], 214]
 endif
 
