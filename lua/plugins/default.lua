@@ -3,7 +3,6 @@ local navic
 if vim.g.config.use_winbar then
   navic = require('nvim-navic')
 end
-Context = 'Context '
 
 -- devicons for lua plugins (e.g. Telescope, neotree, nvim-tree among others  need them)
 require("nvim-web-devicons").setup({
@@ -35,7 +34,7 @@ local function getWordsV2()
 end
 
 local function actual_tabline()
-  if vim.g.config.use_cokeline == true then
+  if vim.g.config.cokeline.enabled == true then
     return {}
   else return {
     lualine_a = { { "buffers", mode = 2 } },
@@ -93,7 +92,6 @@ require("lualine").setup({
     lualine_c = { "filename", "searchcount" },
     lualine_x = {
       { indentstats },
-      "encoding",
       {
         -- show unicode for character under cursor in hex and decimal
         -- "%05B - %06b",
@@ -102,8 +100,9 @@ require("lualine").setup({
           return string.format("U:0x%s", str)
         end
       },
-      "fileformat",
       "filetype",
+      "fileformat",
+      "encoding"
     },
     lualine_y = { "progress" },
     -- word counter via custom function
@@ -186,9 +185,8 @@ require('cokeline').setup({
       text = function(buffer) return globals.truncate(buffer.filename, vim.g.config.cokeline_filename_width) end,
       style = function(buffer) return buffer.is_focused and 'bold' or nil end
     },
-    { text = ' ' },
     {
-       text = function(buffer) return buffer.is_modified and '●' or '' end,
+       text = function(buffer) return buffer.is_modified and ' ●' or (vim.g.config.cokeline.show_close == true and  '' or '') end,
        fg = function(buffer) return buffer.is_modified and Cokeline_theme().unsaved or nil end,
     },
     { text = ' ' }

@@ -24,12 +24,20 @@ endfunction
 
 if g:theme['desaturate'] == v:true
   let s:orange = ['#ab6a6c', 215]
-  let s:string = ['#40804f', 231]
+  if g:theme['string'] == 'yellow'
+    let s:string = ['#a0a050', 231]
+  else
+    let s:string = ['#40804f', 231]
+  endif
   let s:blue =   ['#5a6acf', 239]
   let s:purple = ['#b070b0', 241]
   let s:teal =   ['#408080', 238]
 else
-  let s:string = ['#10801f', 231]
+  if g:theme['string'] == 'yellow'
+    let s:string = ['#cccc60', 231]
+  else
+    let s:string = ['#10801f', 231]
+  endif
   let s:orange = ['#c36630', 215]
   let s:blue =   ['#4a4adf', 239]
   let s:purple = ['#c030c0', 241]
@@ -697,7 +705,7 @@ call my_sonokai#highlight('markdownUrl', s:palette.blue, s:palette.none, 'underl
 call my_sonokai#highlight('markdownItalic', s:palette.none, s:palette.none, 'italic')
 call my_sonokai#highlight('markdownBold', s:palette.none, s:palette.none, 'bold')
 call my_sonokai#highlight('markdownItalicDelimiter', s:palette.grey, s:palette.none, 'italic')
-highlight! link markdownCode Green
+highlight! link markdownCode Purple
 highlight! link markdownCodeBlock Green
 highlight! link markdownCodeDelimiter Green
 highlight! link markdownBlockquote Grey

@@ -14,7 +14,10 @@ local globals = require("globals")
 vim.g.config = {
   telescope_fname_width = 140,
   nightly = vim.fn.has("nvim-0.9"),             -- TODO: fix this when 0.9 goes release
-  use_cokeline = true,                          -- when false, lualine handles the bufferline
+  cokeline = {
+    enabled = true,                             -- when false, lualine handles the bufferline
+    show_close = false                          -- showa close button on the tabs
+  },
   telescope_dropdown='bottom',                  -- position for the input box in the dropdown theme. 'bottom' or 'top'
   cpalette_dropdown = 'top',                    -- same for the command palette
   -- accent color is used for important highlights like the currently selected tab (buffer)
@@ -68,7 +71,8 @@ globals.statuscol_current = vim.g.config.statuscol_default
 
 vim.g.theme = {
   variant = "warm",     -- "warm" gives a slight red-ish tint for some backgrounds. "cold" a more blue-ish
-  desaturate = true     -- true: desaturate some colors to get a more "pastel" look with less intense colors
+  desaturate = true,    -- true: desaturate some colors to get a more "pastel" look with less intense colors
+  string = 'yellow'    -- yellow strings, default is green. Respects desaturate
 }
 
 local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'
@@ -235,7 +239,7 @@ g.mapleader = ','
 -- sonokai theme
 g.sonokai_menu_selection_background='red'
 g.sonokai_transparent_background=1
-g.sonokai_disable_italic_comment=0
+g.sonokai_disable_italic_comment=1
 g.sonokai_cursor = "auto"
 g.sonokai_diagnostic_text_highlight=0
 g.sonokai_diagnostic_line_highlight=0
