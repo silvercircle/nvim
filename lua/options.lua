@@ -5,7 +5,7 @@ local o = vim.o
 local autocmd = vim.api.nvim_create_autocmd
 local globals = require("globals")
 
-o.shada = "!,'200,<20,s10,h,f1,%20,:500,rterm://"
+o.shada = "!,'200,<20,s10,h,f1,%20,:500,rterm://,rOUTLINE,rNvimTree_1,rMERGE_MSG"
 o.termguicolors = true
 o.background = "dark"
 o.cursorline = true
@@ -153,6 +153,9 @@ autocmd({ 'UIEnter' }, {
       require('nvim-tree.api').tree.toggle({focus = false})
       vim.api.nvim_command("call TermToggle(12) | wincmd p")
       require("local_utils.blist").open(true)
+      if vim.g.config.use_glances == true then
+        require("local_utils.usplit").open(true)
+      end
     end
   end
 })

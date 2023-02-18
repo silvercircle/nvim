@@ -136,8 +136,8 @@ local function schedule_mkview()
   end
 end
 
-kms('i', "<f13>", function() vim.lsp.buf.signature_help() end, opts) -- shift-f1
-kms('i', "<f1>", function() vim.lsp.buf.hover() end, opts)
+kms({'i', 'n'}, "<f13>", function() vim.lsp.buf.signature_help() end, opts) -- shift-f1
+kms({'i', 'n'}, "<f1>", function() vim.lsp.buf.hover() end, opts)
 --
 -- shift-F4: refresh indent guides
 kms('n', "<f16>", function() ibl.refresh() end, opts)
@@ -198,7 +198,15 @@ kms({'n', 'i', 't', 'v'}, "<A-2>", function() vim.fn.win_gotoid(globals.main_win
 kms({'n', 'i', 't', 'v'}, "<A-3>", function() if globals.findbufbyType('Outline') == false then vim.cmd("SymbolsOutlineOpen") end end, opts) -- Outline
 kms({'n', 'i', 't', 'v'}, "<A-4>", function() if globals.findbufbyType('terminal') == false then vim.api.nvim_input("<f11>") end end, opts)  -- Terminal
 kms({'n', 'i', 't', 'v'}, "<A-5>", function() if globals.findbufbyType('BufList') == false then require("local_utils.blist").open(true) end end, opts)  -- Buffer List
-kms({'n', 'i', 't', 'v'}, "<A-0>", function() globals.main_winid = vim.fn.win_getid() print("Main window id set to: " .. globals.main_winid) end, opts)  -- Buffer List
+kms({'n', 'i', 't', 'v'}, "<A-0>", function() globals.main_winid = vim.fn.win_getid() end, opts)  -- Buffer List
+kms({'n', 'i', 't', 'v'}, "<A-9>", function()
+  local uspl = require("local_utils.usplit")
+  if uspl.winid == nil then
+    uspl.open(true)
+  else
+    vim.fn.win_gotoid(uspl.winid)
+  end
+end, opts)  -- Buffer List
 
 -- terminal mappings
 map('n', "<f11>", "<CMD>call TermToggle(12)<CR>", opts)

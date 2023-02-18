@@ -43,7 +43,7 @@ local plugins = {
       vim.treesitter.set_query("javascript", "injections", "")
       vim.treesitter.set_query("typescript", "injections", "")
       -- vim.treesitter.set_query("tsx", "injections", "")
-      vim.treesitter.set_query("lua", "injections", "")
+      -- vim.treesitter.set_query("lua", "injections", "")
     end
   },
   'dcampos/nvim-snippy',

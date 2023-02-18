@@ -65,6 +65,6 @@ require("nvim-treesitter.configs").setup({
       "typescriptreact",
       "vue",
       "xml",
-    },
-  },
+    }
+  }
 })

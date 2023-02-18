@@ -73,8 +73,8 @@ require("lualine").setup({
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", 'terminal', 'Treesitter', 'qf', 'BufList' },
-      winbar = { 'Outline', 'terminal', 'Treesitter', 'qf', 'NvimTree', 'alpha', 'BufList'},
+      statusline = { "Outline", 'terminal', 'Treesitter', 'qf', 'BufList', 'sysmon' },
+      winbar = { 'Outline', 'terminal', 'Treesitter', 'qf', 'NvimTree', 'alpha', 'BufList', 'sysmon'},
       tabline = {},
     },
     -- ignore_focus = {'NvimTree'},

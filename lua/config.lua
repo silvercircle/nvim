@@ -63,7 +63,8 @@ vim.g.config = {
   use_winbar = true,
   main_winid = 1000,                          -- this is normally 1000 for the first window. It's updated in UIEnter autocmd
   termheight = 12,
-  iconpad = ' '                               -- additional padding for devicons.
+  iconpad = ' ',                              -- additional padding for devicons.
+  use_glances = true
 }
 
 globals.statuscol_current = vim.g.config.statuscol_default
