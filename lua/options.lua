@@ -146,7 +146,9 @@ autocmd({ 'UIEnter' }, {
     if vim.g.config.plain == false then
       require('nvim-tree.api').tree.toggle({focus = false})
       vim.api.nvim_command("call TermToggle(12) | wincmd p")
-      require("local_utils.blist").open(true)
+      if vim.g.config.use_bufferlist == true then
+        require("local_utils.blist").open(true)
+      end
       if vim.g.config.use_glances == true then
         require("local_utils.usplit").open(true)
       end

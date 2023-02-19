@@ -22,7 +22,6 @@ vim.g.config = {
   cpalette_dropdown = 'top',                    -- same for the command palette
   -- the minipicker is the small telescope picker used for references, symbols and
   -- treesitter-symbols. It also works in insert mode.
-  -- 
   minipicker_layout = {
     height = 0.8,
     width = 50,
@@ -34,12 +33,11 @@ vim.g.config = {
     max_detail_item_width = 40,                 -- item detail field maxium width
     -- the following lists file types that are allowed to use the cmp_buffer source
     buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true },
-    buffer_maxsize = 1024 * 300                 -- maximum buffer size allowed to use cmp_buffer source. 300kB 
+    buffer_maxsize = 1024 * 300                 -- PERF: maximum buffer size allowed to use cmp_buffer source. 300kB
   },
   minipicker_iprefix = "#>",
-  filetree_width = 44,                          -- width for the neotree and nvim-tree plugins
-  outline_width = 36,                           -- split width for symbols-outline
-
+  filetree_width = 44,                          -- width nvim-tree plugin (file tree)
+  outline_width = 36,                           -- split width for symbols-outline window (right sidebar)
   -- some optional plugins
   mason = true,                                 -- on demand, setup in setup_lsp.lua
   null_ls = false,                              -- setup by lazy loader
@@ -71,7 +69,8 @@ vim.g.config = {
   main_winid = 1000,                          -- this is normally 1000 for the first window. It's updated in UIEnter autocmd
   termheight = 12,
   iconpad = ' ',                              -- additional padding for devicons.
-  use_glances = true
+  use_glances = true,                         -- open glances system monitor in a split next to terminal
+  use_bufferlist = true                       -- split the left sidebar (nvim-tree) to show a list of buffers
 }
 
 globals.statuscol_current = vim.g.config.statuscol_default
