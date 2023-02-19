@@ -1,7 +1,6 @@
 " Set configuration variables
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
-let g:tagbar_position = 'rightbelow vertical'
 
 let g:rnvimr_enable_picker = 1
 let g:rnvimr_draw_border = 1

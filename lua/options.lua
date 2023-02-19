@@ -14,14 +14,13 @@ o.wildmenu = true
 vim.opt.wildoptions:append("pum")
 o.wildmode = "list:longest,full"
 o.ttyfast = true
--- no scrollbar on the left side. Ever. Because it's stupid :)
 o.virtualedit = "all"
 o.equalalways = false
 vim.opt.guicursor="i:block-iCursor,v:block-vCursor,n-c:block-nCursor"
 o.autoindent = true
 o.copyindent = true
 o.shiftwidth = 4
-o.helpheight = 45
+o.helpheight = 40
 o.backspace = "indent,eol,start"
 o.tabstop = 4
 o.textwidth = 76
@@ -52,9 +51,6 @@ o.wildmenu = true
 o.ruler = true
 o.tm = 500
 o.wrap = false
--- This prevents the "2-spaces after end of sentence" rule. Basically, vim
--- would normally set 2 spaces after a period or question mark when
--- reformatting / joining lines.
 -- gutter config. set numbers (5 digits max)
 o.numberwidth = 5
 vim.opt.listchars = {tab = '  ', trail = '▪', extends = '>', precedes = '<', eol = '↴' }
@@ -68,7 +64,6 @@ if vim.fn.has('nvim-0.9') == 1 then
     o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
   end
   -- single-column fold guide, using a patched screen.c without the stupid numbers ;)
-  -- foldcolumn can be set to 0
   o.foldcolumn="1"
   -- statuscolumns are defined in vim.g.config (config.lua)
   globals.set_statuscol(globals.statuscol_current)
@@ -80,7 +75,6 @@ end
 
 -- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 
 -- indentation-based folding.
---
 if vim.g.config.treesitter == true then
   o.foldmethod = "expr"
   o.foldexpr = "nvim_treesitter#foldexpr()"
