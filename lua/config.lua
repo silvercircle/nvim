@@ -29,6 +29,13 @@ vim.g.config = {
     preview_height =10,
     anchor = "N"
   },
+  cmp = {
+    max_abbr_item_width = 40,                   -- item name width (maximum for truncate())
+    max_detail_item_width = 40,                 -- item detail field maxium width
+    -- the following lists file types that are allowed to use the cmp_buffer source
+    buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true },
+    buffer_maxsize = 1024 * 300                 -- maximum buffer size allowed to use cmp_buffer source. 300kB 
+  },
   minipicker_iprefix = "#>",
   filetree_width = 44,                          -- width for the neotree and nvim-tree plugins
   outline_width = 36,                           -- split width for symbols-outline

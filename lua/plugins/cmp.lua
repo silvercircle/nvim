@@ -1,7 +1,6 @@
 -- nvim-cmp: completion support
 local cmp_helper = {}
 -- file types that allow buffer indexing for the cmp_buffer source
-local cmp_buffer_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true }
 
 -- helper function for cmp <TAB> mapping.
 local has_words_before = function()
@@ -16,8 +15,6 @@ local snippy = require("snippy")
 
 local cmp = require("cmp")
 local cmp_types = require("cmp.types.cmp")
-local max_abbr_item_width = 40
-local max_detail_item_width = 40
 local globals = require("globals")
 
 -- make the completion popup a little more fancy with lspkind. Now mandatory.
@@ -134,7 +131,7 @@ cmp.setup({
   formatting = {
     format = function(entry, vim_item)
       -- Truncate the item if it is too long
-      vim_item.abbr = globals.truncate(vim_item.abbr, max_abbr_item_width)
+      vim_item.abbr = globals.truncate(vim_item.abbr, vim.g.config.cmp.max_abbr_item_width)
         -- fancy icons and a name of kind
       vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
       vim_item.kind = " " .. vim_item.kind_symbol .. " " .. vim.g.config.iconpad .. vim_item.kind
@@ -170,7 +167,7 @@ cmp.setup({
             local label = (cmp_item.labelDetails or {}).description
             return label and (" " .. globals.truncate(label, 20)) or nil
           else
-            return globals.truncate(cmp_item.detail, max_detail_item_width)
+            return globals.truncate(cmp_item.detail, vim.g.config.cmp.max_detail_item_width)
           end
         end)(cmp_item)
         if detail_txt then
@@ -198,10 +195,10 @@ cmp.setup({
           local buf = vim.api.nvim_get_current_buf()
           local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
           local ft = vim.api.nvim_buf_get_option(buf, "filetype")
-          if cmp_buffer_allowed[ft] == nil then
+          if vim.g.config.cmp.buffer_ft_allowed[ft] == nil then
             return {}
           end
-          if byte_size > 1024 * 300 then -- 300kb
+          if byte_size > vim.g.config.cmp.buffer_maxsize then -- 300kb
             return {}
           end
           return { buf }
