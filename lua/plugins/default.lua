@@ -56,10 +56,10 @@ end
 
 -- the internal theme is defined in config.lua
 local function theme()
-  if vim.g.lualine_theme == 'internal' then
+  if vim.g.theme.lualine == 'internal' then
     return Lualine_internal_theme()
   else
-    return vim.g.lualine_theme
+    return vim.g.theme.lualine
   end
 end
 

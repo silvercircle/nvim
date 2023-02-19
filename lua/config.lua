@@ -86,6 +86,7 @@ vim.g.theme = {
   -- and more.
   accent_color = '#cbaf00',
   alt_accent_color = '#bd2f4f',
+  lualine = 'internal'  -- use 'internal' for the integrated theme or any valid lualine theme name
 }
 
 local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'
@@ -94,7 +95,7 @@ local homepath = vim.fn.getenv('HOME')
 
 -- this table holds full path information for lsp server binaries. They can be installed with mason or
 -- manually. plugins/lsp.lua does all the real work. Mason and mason-lspconfig are optional.
--- They allow easy installation and upgrading of your lsp servers, but if you do this manually, 
+-- They allow easy installation and upgrading of your lsp servers, but if you do this manually,
 -- nvim-lspconfig alone is enough for a working LSP setup.
 
 vim.g.lsp_server_bin = {
@@ -150,10 +151,6 @@ g.loaded_tar = 1
 
 g.loaded_gzipPlugin= 1
 g.loaded_gzip = 1
-
--- some tweaks
-vim.g.lualine_theme = 'internal'               -- lualine theme, use 'internal' for the integrated theme
-                                               -- or any valid lualine theme name (e.g. 'dracula')
 
 -- this color table is used when g.lualine_theme is set to 'internal'. otherwise, the variable can specify
 -- a builtin lualine theme (e.g. 'dracula')
