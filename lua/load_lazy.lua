@@ -196,8 +196,16 @@ local plugins = {
   { 'kevinhwang91/rnvimr', lazy=true, cmd={"RnvimrToggle"} },
   {
     "smjonas/inc-rename.nvim",
+    event = { "BufRead" },
     config = function()
       require("inc_rename").setup()
+    end
+  },
+  {
+    'lukas-reineke/virt-column.nvim',
+    event = { "BufRead" },
+    config = function()
+      require("virt-column").setup({ char = "│"})
     end
   }
 }

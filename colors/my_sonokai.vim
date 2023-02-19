@@ -1139,4 +1139,4 @@ hi! link OrgTSHeadlineLevel2 OrgTSHeadlineLevel1
 " Lazy
 "
 hi! link LazyNoCond RedBold
-
+hi! link VirtColumn IndentBlankLineChar

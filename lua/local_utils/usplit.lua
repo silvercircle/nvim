@@ -3,12 +3,16 @@ local globals = require("globals")
 local M = {}
 M.winid = nil
 
+-- this opens a split next to the terminal split and launches an instance of glances
+-- system monitor in it. See: https://nicolargo.github.io/glances/
+
 function M.open(_width)
   local width = _width or vim.g.config.sysmon.width
   local wid = globals.findwinbyBufType("terminal")
-  local curwin = vim.api.nvim_get_current_win()
+  local curwin = vim.api.nvim_get_current_win()     -- remember active win for going back
 
-  if #wid > 0 then
+  -- glances must be executable otherwise do nothing
+  if #wid > 0 and vim.fn.executable("glances") > 0 then
     vim.fn.win_gotoid(wid[1])
     vim.cmd("rightbelow " .. width .. " vsplit|terminal glances --disable-plugin all --enable-plugin cpu,mem,network,load,system,uptime --time 3")
     M.winid = vim.fn.win_getid()

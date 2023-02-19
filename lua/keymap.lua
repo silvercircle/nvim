@@ -6,6 +6,7 @@
 local map = vim.api.nvim_set_keymap
 local kms = vim.keymap.set
 
+local ibl = require("indent_blankline")
 local opts = {noremap = true, silent = true}
 local utils = require("local_utils")
 local globals = require("globals")
@@ -105,12 +106,12 @@ kms({ "s" }, "<S-Tab>", function() require'luasnip'.jump(-1) end, { desc = "LuaS
 
 -- run `:nohlsearch` and export results to quickfix
 kms({'n', 'x'}, '<Leader>#', function()
-    vim.schedule(function()
-        if require('hlslens').exportLastSearchToQuickfix() then
-            vim.cmd('cw')
-        end
-    end)
-    return ':noh<CR>'
+  vim.schedule(function()
+    if require('hlslens').exportLastSearchToQuickfix() then
+      vim.cmd('cw')
+    end
+  end)
+  return ':noh<CR>'
 end, {expr = true})
 
 -- if we have playgrund, use the special command to reveal the highlight group under the cursor
@@ -127,8 +128,6 @@ else  -- otherwise, use the API (less pretty, but functional)
 end
 
 -- the following is ALL related to folding and there are no command center equivalents
-
-local ibl = require("indent_blankline")
 
 local function schedule_mkview()
   if vim.g.config.mkview_on_fold == true then
@@ -216,6 +215,6 @@ map('t', "<Esc>", "<C-\\><C-n>", opts)
 
 map('n', "<f32>", "<CMD>RnvimrToggle<CR>", opts)
 kms('n', "<leader>wr", function() globals.toggle_wrap() end, opts)
-vim.keymap.set("n", "<leader>rn", function()
+vim.keymap.set("n", "ren", function()
   return ":IncRename " .. vim.fn.expand("<cword>")
 end, { expr = true })
