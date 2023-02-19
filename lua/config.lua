@@ -69,7 +69,10 @@ vim.g.config = {
   main_winid = 1000,                          -- this is normally 1000 for the first window. It's updated in UIEnter autocmd
   termheight = 12,
   iconpad = ' ',                              -- additional padding for devicons.
-  use_glances = true,                         -- open glances system monitor in a split next to terminal
+  sysmon = {
+    width = 50,
+    enable = true
+  },
   use_bufferlist = true                       -- split the left sidebar (nvim-tree) to show a list of buffers
 }
 
@@ -260,6 +263,9 @@ g.VM_Extend_hl = 'DiffAdd'
 g.VM_Cursor_hl = 'Visual'
 g.VM_Insert_hl = 'DiffChange'
 
+
+Telescope_dropdown_theme = require("local_utils").Telescope_dropdown_theme
+Telescope_vertical_dropdown_theme = require("local_utils").Telescope_vertical_dropdown_theme
 -- load the color theme
 vim.cmd [[silent! colorscheme my_sonokai]]
 

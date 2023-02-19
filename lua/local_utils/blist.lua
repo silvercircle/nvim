@@ -625,11 +625,6 @@ function M.open(_mode, _width)
   local ls_result = api.nvim_exec(M.sort_mru and ":ls t" or ":ls", true)
   M.bopen = iter2array(string.gmatch(ls_result, "([^\n]+)"))
 
-  if #M.bopen == 0 then
-    print("No buffer in list....")
-    return
-  end
-
   M.back_win = api.nvim_get_current_win()
   -- Create the buffer for the window
   if not M.main_buf and not M.main_win then

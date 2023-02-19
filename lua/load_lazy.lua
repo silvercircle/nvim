@@ -196,7 +196,6 @@ local plugins = {
   { 'kevinhwang91/rnvimr', lazy=true, cmd={"RnvimrToggle"} },
   {
     "smjonas/inc-rename.nvim",
-    cmd = { "IncRename" },
     config = function()
       require("inc_rename").setup()
     end
@@ -285,6 +284,3 @@ else
 end
 
 require("lazy").setup(plugins)
-
-Telescope_dropdown_theme = require("local_utils").Telescope_dropdown_theme
-Telescope_vertical_dropdown_theme = require("local_utils").Telescope_vertical_dropdown_theme

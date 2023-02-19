@@ -1,4 +1,3 @@
-
 -- set vim options and autocommands. No plugins involved
 
 local o = vim.o
@@ -20,7 +19,7 @@ vim.opt.guicursor="i:block-iCursor,v:block-vCursor,n-c:block-nCursor"
 o.autoindent = true
 o.copyindent = true
 o.shiftwidth = 4
-o.helpheight = 40
+o.helpheight = 35
 o.backspace = "indent,eol,start"
 o.tabstop = 4
 o.textwidth = 76
@@ -149,8 +148,8 @@ autocmd({ 'UIEnter' }, {
       if vim.g.config.use_bufferlist == true then
         require("local_utils.blist").open(true)
       end
-      if vim.g.config.use_glances == true then
-        require("local_utils.usplit").open(true)
+      if vim.g.config.sysmon.enable == true then
+        require("local_utils.usplit").open(vim.g.config.sysmon.width)
       end
     end
   end
