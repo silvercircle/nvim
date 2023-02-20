@@ -139,12 +139,9 @@ kms({'i', 'n'}, "<f13>", function() vim.lsp.buf.signature_help() end, opts) -- s
 kms({'i', 'n'}, "<f1>", function() vim.lsp.buf.hover() end, opts)
 --
 -- shift-F4: refresh indent guides
-kms('n', "<f16>", function() ibl.refresh() end, opts)
-kms('i', "<f16>", function() ibl.refresh() end, opts)
-kms('v', "<f16>", function() ibl.refresh() end, opts)
-
-kms('n', "<f4>", function() globals.mkview() end, opts)
-kms('i', "<f4>", function() globals.mkview() end, opts)
+kms({ 'n', 'i', 'v' }, "<f16>", function() ibl.refresh() end, opts)
+kms({ 'n', 'i'}, "<f4>", function() globals.mkview() end, opts)
+kms({ 'n', 'i', 'v' }, "<f28>", function() vim.schedule(function() vim.cmd("set fdm=expr") globals.mkview() end) end, opts)
 
 -- toggle current fold
 kms('n', "<F2>", function() vim.api.nvim_feedkeys('za', 'n', true) vim.api.nvim_input("<f16>") vim.schedule(schedule_mkview) end, opts)
@@ -186,6 +183,7 @@ map('i', "<A-Right>", "<C-o>g,", opts)
 map('n', "<f23>", "<CMD>Lazy<CR>", opts)
 
 kms({'n', 'i'}, "<C-l><C-l>", function() globals.toggle_statuscol() end, opts)
+kms({'n', 'i'}, "<C-l><C-k>", function() globals.toggle_colorcolumn() end, opts)
 kms('n', "<A-q>", function() require "local_utils".Quitapp() end, opts)
 kms({'n', 'i'}, "<C-e>", function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.4, sort_lastused=true, sort_mru=true, show_all_buffers=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end, opts)
 kms('n', "<C-p>", function() require'telescope.builtin'.oldfiles(Telescope_dropdown_theme({title='Old files', width=0.6, height=0.5})) end, opts)

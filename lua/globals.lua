@@ -25,6 +25,8 @@ function M.set_statuscol(mode)
   end
 end
 
+-- toggle statuscolum between absolute and relative line numbers
+-- by default, it is mapped to <C-l><C-l>
 function M.toggle_statuscol()
   if M.statuscol_current == 'normal' then
     M.set_statuscol('rel')
@@ -33,6 +35,25 @@ function M.toggle_statuscol()
   if M.statuscol_current == 'rel' then
     M.set_statuscol('normal')
     return
+  end
+end
+
+-- toggle the right colorcolumn value (right margin).
+-- this can be different, depending on filetype. The relevant table is in vim.g.config.colorcolumn.
+-- by default, this is mapped to <C-l><C-k>
+function M.toggle_colorcolumn()
+  if vim.opt_local.colorcolumn._value ~= "" then
+    vim.opt_local.colorcolumn = ""
+  else
+    local filetype = vim.bo.filetype
+    for _,v in pairs(vim.g.config.colorcolumns) do
+      print(vim.inspect(v))
+      if string.find(v.filetype, filetype) then
+        vim.opt_local.colorcolumn = v.value
+        return
+      end
+    end
+    vim.opt_local.colorcolumn = vim.g.config.colorcolumns.all.value
   end
 end
 

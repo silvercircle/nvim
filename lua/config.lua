@@ -73,7 +73,19 @@ vim.g.config = {
     width = 50,
     enable = true
   },
-  use_bufferlist = true                       -- split the left sidebar (nvim-tree) to show a list of buffers
+  use_bufferlist = true,                       -- split the left sidebar (nvim-tree) to show a list of buffers
+  -- this is a table of filetype <> colorcolumns associations. it's used by globals.toggle_colorcolumn()
+  -- to figure out where the color column for the given filetype should be.
+  colorcolumns = {
+    all = {
+      filetype ="all",
+      value = "100"
+    },
+    text = {
+      filetype = "tex,markdown,liquid,telekasten",
+      value = "107"
+    }
+  }
 }
 
 globals.statuscol_current = vim.g.config.statuscol_default

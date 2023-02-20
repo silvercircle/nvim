@@ -200,13 +200,6 @@ local plugins = {
     config = function()
       require("inc_rename").setup()
     end
-  },
-  {
-    'lukas-reineke/virt-column.nvim',
-    event = { "BufRead" },
-    config = function()
-      require("virt-column").setup({ char = "│"})
-    end
   }
 }
 -- for experimental purpose, I use some private forks and local repos.
