@@ -145,11 +145,11 @@ autocmd({ 'UIEnter' }, {
     if vim.g.config.plain == false then
       require('nvim-tree.api').tree.toggle({focus = false})
       vim.api.nvim_command("call TermToggle(12) | wincmd p")
-      if vim.g.config.use_bufferlist == true then
-        require("local_utils.blist").open(true)
-      end
       if vim.g.config.sysmon.enable == true then
         require("local_utils.usplit").open(vim.g.config.sysmon.width)
+      end
+      if vim.g.config.use_bufferlist == true then
+        require("local_utils.blist").open(true)
       end
     end
   end
@@ -188,6 +188,18 @@ autocmd( { 'FileType' }, {
   pattern = { 'alpha' },
   callback = function()
      vim.cmd("silent! setlocal statuscolumn=")
+  end,
+  group = agroup_views
+})
+
+autocmd( { 'FileType' }, {
+  pattern = { 'qf' },
+  callback = function()
+    if #globals.findwinbyBufType("sysmon") > 0 then
+      vim.cmd("setlocal statuscolumn= | setlocal signcolumn=no | wincmd J")
+    else
+      vim.cmd("setlocal statuscolumn= | setlocal signcolumn=no")
+    end
   end,
   group = agroup_views
 })

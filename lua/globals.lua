@@ -47,7 +47,6 @@ function M.toggle_colorcolumn()
   else
     local filetype = vim.bo.filetype
     for _,v in pairs(vim.g.config.colorcolumns) do
-      print(vim.inspect(v))
       if string.find(v.filetype, filetype) then
         vim.opt_local.colorcolumn = v.value
         return
