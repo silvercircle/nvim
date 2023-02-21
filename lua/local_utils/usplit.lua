@@ -18,7 +18,7 @@ function M.open(_width)
     M.winid = vim.fn.win_getid()
     vim.api.nvim_win_set_option(M.winid, "list", false)
     vim.api.nvim_win_set_option(M.winid, "statusline", "System Monitor")
-    vim.cmd("set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0")
+    vim.cmd("set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn=")
     vim.fn.win_gotoid(curwin)
   end
 end

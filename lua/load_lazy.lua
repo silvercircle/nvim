@@ -46,7 +46,22 @@ local plugins = {
       -- vim.treesitter.set_query("lua", "injections", "")
     end
   },
-  'dcampos/nvim-snippy',
+  {'dcampos/nvim-snippy',
+    lazy=true,
+    config=function()
+      require('snippy').setup({
+         mappings = {
+             is = {
+                 ['<Tab>'] = 'expand_or_advance',
+                 ['<S-Tab>'] = 'previous',
+             },
+             nx = {
+                 ['<leader>x'] = 'cut_text',
+             },
+         },
+      })
+    end
+  },
   -- cmp and all its helpers
   { 'hrsh7th/nvim-cmp',
     lazy = true,

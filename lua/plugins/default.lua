@@ -408,4 +408,3 @@ require('editorconfig').properties.textwidth = function(bufnr, val, _)
   vim.api.nvim_buf_set_option(bufnr, "textwidth", tonumber(val))
 end
 
-
