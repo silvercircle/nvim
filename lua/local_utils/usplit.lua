@@ -14,7 +14,7 @@ function M.open(_width)
   -- glances must be executable otherwise do nothing
   if #wid > 0 and vim.fn.executable("glances") > 0 then
     vim.fn.win_gotoid(wid[1])
-    vim.cmd("rightbelow " .. width .. " vsplit|terminal glances --disable-plugin all --enable-plugin cpu,mem,network,load,system,uptime --time 3")
+    vim.cmd("rightbelow " .. width .. " vsplit|terminal glances --disable-plugin all --disable-bg --enable-plugin cpu,mem,network,load,system,uptime --time 3")
     M.winid = vim.fn.win_getid()
     vim.api.nvim_win_set_option(M.winid, "list", false)
     vim.api.nvim_win_set_option(M.winid, "statusline", "System Monitor")

@@ -213,6 +213,6 @@ map('t', "<Esc>", "<C-\\><C-n>", opts)
 
 map('n', "<f32>", "<CMD>RnvimrToggle<CR>", opts)
 kms('n', "<leader>wr", function() globals.toggle_wrap() end, opts)
-vim.keymap.set("n", "ren", function()
+kms("n", "ren", function()
   return ":IncRename " .. vim.fn.expand("<cword>")
 end, { expr = true })

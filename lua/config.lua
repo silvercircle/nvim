@@ -84,6 +84,10 @@ vim.g.config = {
     text = {
       filetype = "tex,markdown,liquid,telekasten",
       value = "107"
+    },
+    mail = {
+      filetype = "mail",
+      value = "76"
     }
   }
 }
