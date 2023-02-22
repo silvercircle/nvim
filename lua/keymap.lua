@@ -199,11 +199,19 @@ kms({'n', 'i', 't', 'v'}, "<A-0>", function() globals.main_winid = vim.fn.win_ge
 kms({'n', 'i', 't', 'v'}, "<A-9>", function()
   local uspl = require("local_utils.usplit")
   if uspl.winid == nil then
-    uspl.open(true)
+    uspl.open(vim.g.config.sysmon.width)
   else
     vim.fn.win_gotoid(uspl.winid)
   end
 end, opts)  -- Buffer List
+
+kms({'n', 'i', 't', 'v'}, "<A-8>", function()
+  if globals.findbufbyType("qf") == false then
+    vim.cmd("copen")
+  else
+    vim.fn.win_gotoid(globals.findwinbyBufType("qf")[1])
+  end
+end, opts)  -- open or activate quickfix
 
 -- terminal mappings
 map('n', "<f11>", "<CMD>call TermToggle(12)<CR>", opts)

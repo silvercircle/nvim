@@ -572,9 +572,14 @@ function M.set_autocmds()
   end
   M.autocmds_set = true
   api.nvim_create_augroup("BLISTDocked", { clear = true })
-  api.nvim_create_autocmd({ "BufRead", "BufWinEnter", "BufWipeout", "BufModifiedSet", "BufWritePost", "WinResized" }, {
+  api.nvim_create_autocmd({ "BufRead", "BufWinEnter", "BufModifiedSet", "BufWritePost", "WinResized", "WinClosed" }, {
     group = "BLISTDocked",
     callback = function()
+      if M.main_win ~= nil and vim.api.nvim_win_is_valid(M.main_win) == false then
+        M.close()
+        -- window must have gone
+        M.main_win = nil
+      end
       if M.main_buf ~= nil then
         vim.schedule(function()
           M.autorefresh()

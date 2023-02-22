@@ -293,7 +293,7 @@ do
   end
   vim.lsp.handlers["textDocument/references"] = vim.lsp.with(
     on_references, {
-      loclist = true,
+      -- loclist = true,
     }
   )
   vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
