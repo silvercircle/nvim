@@ -192,9 +192,11 @@ function M.close_qf_or_loc()
   end
 end
 
+--- opens a terminal split at the bottom. May also open the sysmon and weather
+--- splits
+--- @param _height number: height of the terminal split to open.
 function M.termToggle(_height)
   local height = _height or M.term.height
-
   if M.term.visible == true then
     require("local_utils.usplit").close()
     require("local_utils.wsplit").close()
@@ -205,7 +207,7 @@ function M.termToggle(_height)
     return
   end
   vim.fn.win_gotoid(vim.g.config.main_winid)
-  vim.cmd("belowright " .. height .. " sp|terminal NOCOW=1 && $SHELL")
+  vim.cmd("belowright " .. height .. " sp|terminal export NOCOW=1 && $SHELL")
   M.term.winid = vim.fn.win_getid()
   M.term.bufid = vim.api.nvim_get_current_buf()
   vim.cmd("setlocal statusline=Terminal | setlocal statuscolumn= | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=yes | set winfixheight | set nocursorline | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC")
@@ -218,6 +220,5 @@ function M.termToggle(_height)
     require("local_utils.wsplit").open()
   end
 end
-
 
 return M

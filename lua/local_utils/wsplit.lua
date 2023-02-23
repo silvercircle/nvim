@@ -74,6 +74,10 @@ function M.refresh()
   local name = vim.fn.expand(M.weatherfile)
   local results = {}
 
+  if M.bufid == nil or M.winid == nil then
+    return
+  end
+
   if M.winid ~= nil and vim.api.nvim_win_is_valid(M.winid) then
     M.win_width = vim.api.nvim_win_get_width(M.winid)
     M.win_height = vim.api.nvim_win_get_height(M.winid)
@@ -93,26 +97,26 @@ function M.refresh()
         index = index + 1
       end
       io.close(file)
+      vim.api.nvim_buf_set_option(M.bufid, "modifiable", true)
+      table.insert(lines, M.prepare_line(results['26'], results['28'], 1))
+      table.insert(lines, M.prepare_line(results['27'], "API: " .. results['37'], 1))
+      table.insert(lines, "  ")
+      table.insert(lines, M.prepare_line("Temp: " .. results['3'],    "Feels: " .. results['16'], 0))
+      table.insert(lines, M.prepare_line("Min:  " .. results['29'],   "Max:   " .. results['30'], 0))
+      table.insert(lines, M.prepare_line("Dew:  " .. results['17'],   results['21'] .. "      ", 0))
+      table.insert(lines, "  ")
+      table.insert(lines, M.prepare_line("" .. results['25'] .. " at " .. results['20'], "Vis:   " .. results['22'], 1))
+      table.insert(lines, M.prepare_line("Pressure: " .. results['19'], results['18'], 1))
+      table.insert(lines, M.prepare_line("Sunrise: " .. results['23'], "Sunset: " .. results['24'], 1))
+      table.insert(lines, "  ")
+      table.insert(lines, M.prepare_line(results['31'], "", 1))
+
+      vim.api.nvim_buf_set_lines(M.bufid, 0, -1, false, lines)
+
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Debug", 0, 0, -1)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Keyword", 1, 0, -1)
+      vim.api.nvim_buf_set_option(M.bufid, "modifiable", false)
     end
-    vim.api.nvim_buf_set_option(M.bufid, "modifiable", true)
-    table.insert(lines, M.prepare_line(results['26'], results['28'], 1))
-    table.insert(lines, M.prepare_line(results['27'], "API: " .. results['37'], 1))
-    table.insert(lines, "  ")
-    table.insert(lines, M.prepare_line("Temp: " .. results['3'],    "Feels: " .. results['16'], 0))
-    table.insert(lines, M.prepare_line("Min:  " .. results['29'],   "Max:   " .. results['30'], 0))
-    table.insert(lines, M.prepare_line("Dew:  " .. results['17'],   results['21'] .. "      ", 0))
-    table.insert(lines, "  ")
-    table.insert(lines, M.prepare_line("" .. results['25'] .. " at " .. results['20'], "Vis:   " .. results['22'], 1))
-    table.insert(lines, M.prepare_line("Pressure: " .. results['19'], results['18'], 1))
-    table.insert(lines, M.prepare_line("Sunrise: " .. results['23'], "Sunset: " .. results['24'], 1))
-    table.insert(lines, "  ")
-    table.insert(lines, M.prepare_line(results['31'], "", 1))
-
-    vim.api.nvim_buf_set_lines(M.bufid, 0, -1, false, lines)
-
-    vim.api.nvim_buf_add_highlight(M.bufid, -1, "Debug", 0, 0, -1)
-    vim.api.nvim_buf_add_highlight(M.bufid, -1, "Keyword", 1, 0, -1)
-    vim.api.nvim_buf_set_option(M.bufid, "modifiable", false)
   end
 
 end
