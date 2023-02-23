@@ -10,6 +10,15 @@ M.autocmds_valid = nil
 M.autocmds_valid = nil    -- auto command was set
 M.weatherfile = "~/.weather/weather"
 
+M.conditions = {
+  VC = {
+    c = "Partly Cloudy",
+    a = "Clear",
+    e = "Cloudy",
+    j = "Rain"
+  }
+}
+
 function M.setup_auto()
   if M.autocmds_valid == true then
     return
@@ -104,12 +113,13 @@ function M.refresh()
       table.insert(lines, M.prepare_line("Temp: " .. results['3'],    "Feels: " .. results['16'], 0))
       table.insert(lines, M.prepare_line("Min:  " .. results['29'],   "Max:   " .. results['30'], 0))
       table.insert(lines, M.prepare_line("Dew:  " .. results['17'],   results['21'] .. "      ", 0))
-      table.insert(lines, "  ")
+      table.insert(lines, M.prepare_line("", results['31'], 1))
       table.insert(lines, M.prepare_line("" .. results['25'] .. " at " .. results['20'], "Vis:   " .. results['22'], 1))
       table.insert(lines, M.prepare_line("Pressure: " .. results['19'], results['18'], 1))
       table.insert(lines, M.prepare_line("Sunrise: " .. results['23'], "Sunset: " .. results['24'], 1))
+      local cond = M.conditions[results['37']][results['2']]
       table.insert(lines, "  ")
-      table.insert(lines, M.prepare_line(results['31'], "", 1))
+      table.insert(lines, M.prepare_line("Tomorrow: " .. cond, results['5'] .. "°C/" .. results['6'] .. "°C", 1))
 
       vim.api.nvim_buf_set_lines(M.bufid, 0, -1, false, lines)
 
