@@ -6,6 +6,13 @@ M.statuscol_current = 'normal'
 M.winid_bufferlist = 0
 M.main_winid = 0
 
+M.term = {
+  bufid = nil,
+  winid = nil,
+  height = 12,
+  visible = false
+}
+
 --- set the statuscol to either normal or relative line numbers
 --- @param mode string: allowed values: 'normal' or 'rel'
 function M.set_statuscol(mode)
@@ -184,5 +191,33 @@ function M.close_qf_or_loc()
     end
   end
 end
+
+function M.termToggle(_height)
+  local height = _height or M.term.height
+
+  if M.term.visible == true then
+    require("local_utils.usplit").close()
+    require("local_utils.wsplit").close()
+    vim.api.nvim_win_hide(M.term.winid)
+    M.term.visible = false
+    M.term.bufid = nil
+    M.term.winid = nil
+    return
+  end
+  vim.fn.win_gotoid(vim.g.config.main_winid)
+  vim.cmd("belowright " .. height .. " sp|terminal NOCOW=1 && $SHELL")
+  M.term.winid = vim.fn.win_getid()
+  M.term.bufid = vim.api.nvim_get_current_buf()
+  vim.cmd("setlocal statusline=Terminal | setlocal statuscolumn= | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=yes | set winfixheight | set nocursorline | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC")
+  M.term.visible = true
+
+  if vim.g.config.sysmon.enable == true then
+    require("local_utils.usplit").open(vim.g.config.sysmon.width)
+  end
+  if vim.g.config.weather.enable == true then
+    require("local_utils.wsplit").open()
+  end
+end
+
 
 return M

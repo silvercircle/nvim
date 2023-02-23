@@ -73,48 +73,6 @@ endfunction
 
 command Fixq call Fixflowed()
 
-" terminal stuff
-
-let g:term_buf = 0
-let g:term_win = 0
-function! TermToggle(height)
-  
-  if a:height == 0
-    let height = g:config['termheight']
-  else
-    let height = a:height
-  endif
-
-  if win_gotoid(g:term_win)
-      setlocal statusline=Terminal
-      lua require("local_utils.usplit").close()
-      lua require("local_utils.wsplit").close()
-      hide
-  else
-      belowright new
-      exec "resize " . height
-      set winfixheight
-      setlocal statusline=Terminal
-      try
-          exec "buffer " . g:term_buf
-      catch
-          call termopen($SHELL, {"detach": 0})
-          let g:term_buf = bufnr("")
-          set nonumber
-          set norelativenumber
-          set foldcolumn=0
-          set signcolumn=yes
-          set winfixheight
-          set nocursorline
-          set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC
-          set filetype=terminal
-          silent! set statuscolumn=
-      endtry
-      " startinsert!
-      let g:term_win = win_getid()
-  endif
-endfunction
-
 command! Jsonf :execute '%!python -c "import json,sys,collections,re; sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambda m:m.group().decode(\"unicode_escape\").encode(\"utf-8\"),json.dumps(json.load(sys.stdin, object_pairs_hook=collections.OrderedDict), indent=2)))"'
 " see https://jackdevries.com/post/vimRipgrep
 if executable('rg')

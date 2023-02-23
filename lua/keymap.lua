@@ -223,9 +223,8 @@ kms({'n', 'i', 't', 'v'}, "<A-7>", function()
 end, opts)  -- open or activate quickfix
 
 -- terminal mappings
-map('n', "<f11>", "<CMD>call TermToggle(12)<CR>", opts)
-map('i', "<f11>", "<Esc><CMD>call TermToggle(12)<CR>", opts)
-map('t', "<f11>", "<C-\\><C-n><CMD>call TermToggle(12)<CR>", opts)
+kms({'n', 'i', 't'}, "<f11>", function() globals.termToggle(12) end, opts)
+--map('t', "<f11>", "<C-\\><C-n><CMD>call TermToggle(12)<CR>", opts)
 map('t', "<Esc>", "<C-\\><C-n>", opts)
 
 map('n', "<f32>", "<CMD>RnvimrToggle<CR>", opts)

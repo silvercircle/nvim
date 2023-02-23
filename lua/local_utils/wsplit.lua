@@ -80,8 +80,8 @@ function M.refresh()
   else
     return
   end
-
   vim.api.nvim_buf_clear_namespace(M.bufid, -1, 0, -1)
+
   if vim.fn.filereadable(name) then
     local lines = {}
     local file = io.open(name)
