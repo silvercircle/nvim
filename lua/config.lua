@@ -70,8 +70,13 @@ vim.g.config = {
   termheight = 11,
   iconpad = ' ',                              -- additional padding for devicons.
   sysmon = {
-    width = 50,
+    width = 60,
     enable = true
+  },
+  weather = {
+    width = 40,
+    enable = true,
+    interval = 2000
   },
   use_bufferlist = true,                       -- split the left sidebar (nvim-tree) to show a list of buffers
   -- this is a table of filetype <> colorcolumns associations. it's used by globals.toggle_colorcolumn()
@@ -135,7 +140,8 @@ vim.g.lsp_server_bin = {
   als           =   masonbinpath .. 'ada_language_server',
   jdtls         =   masonbinpath .. 'jdtls',
   csharp_ls     =   homepath .. '/.dotnet/tools/csharp-ls',
-  marksman      =   masonbinpath .. 'marksman'
+  marksman      =   masonbinpath .. 'marksman',
+  lemminx       =   masonbinpath .. 'lemminx'
 }
 
 -- ugly but working hack. If $NVIM_USE_PRIVATE_FORKS is set (to anything), we will use private

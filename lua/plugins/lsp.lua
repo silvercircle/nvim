@@ -221,6 +221,14 @@ lspconfig.marksman.setup({
   single_file_support = true,
 })
 
+lspconfig.lemminx.setup({
+  on_attach = on_attach,
+  cmd = { vim.g.lsp_server_bin['lemminx'] },
+  filetypes = { 'xml', 'xsd', 'xsl', 'xslt', 'svg' },
+  root_dir = util.find_git_ancestor,
+  single_file_support = true
+})
+
 local lua_root_files = {
   '.luarc.json',
   '.luarc.jsonc',
@@ -272,7 +280,7 @@ lspconfig.lua_ls.setup {
 }
 
 -- outsourced because it's too big
--- require("lsp.jdtls")
+require("lsp.jdtls")
 -- require("lsp.omnisharp")
 
 -------------------------
