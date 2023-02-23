@@ -206,6 +206,15 @@ kms({'n', 'i', 't', 'v'}, "<A-9>", function()
 end, opts)  -- Buffer List
 
 kms({'n', 'i', 't', 'v'}, "<A-8>", function()
+  local wspl = require("local_utils.wsplit")
+  if wspl.winid == nil then
+    wspl.open()
+  else
+    vim.fn.win_gotoid(wspl.winid)
+  end
+end, opts)  -- Buffer List
+
+kms({'n', 'i', 't', 'v'}, "<A-7>", function()
   if globals.findbufbyType("qf") == false then
     vim.cmd("copen")
   else

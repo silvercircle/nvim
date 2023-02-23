@@ -27,6 +27,12 @@ function M.setup_auto()
   })
 end
 
+function M.close()
+  if M.winid ~= nil then
+    vim.api.nvim_win_close(M.winid, {force=true})
+  end
+end
+
 --- this opens a split next to the terminal split and launches an instance of glances
 --- system monitor in it. See: https://nicolargo.github.io/glances/
 --- @param _width number: the width of the split. Default is vim.g.config.sysmon.width
@@ -44,7 +50,7 @@ function M.open(_width)
     M.bufid = vim.api.nvim_get_current_buf()
     vim.api.nvim_win_set_option(M.winid, "list", false)
     vim.api.nvim_win_set_option(M.winid, "statusline", "System Monitor")
-    vim.cmd("set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn=")
+    vim.cmd("set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn= | setlocal nocursorline")
     vim.fn.win_gotoid(curwin)
   end
   M.setup_auto()

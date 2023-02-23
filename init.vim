@@ -87,6 +87,8 @@ function! TermToggle(height)
 
   if win_gotoid(g:term_win)
       setlocal statusline=Terminal
+      lua require("local_utils.usplit").close()
+      lua require("local_utils.wsplit").close()
       hide
   else
       belowright new

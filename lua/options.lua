@@ -149,7 +149,7 @@ autocmd({ 'UIEnter' }, {
         require("local_utils.usplit").open(vim.g.config.sysmon.width)
       end
       if vim.g.config.weather.enable == true then
-        require("local_utils.wsplit").open(vim.g.config.weather.width)
+        require("local_utils.wsplit").open()
       end
       if vim.g.config.use_bufferlist == true then
         require("local_utils.blist").open(true)
