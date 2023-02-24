@@ -105,6 +105,9 @@ function M.close()
   if M.winid ~= nil then
     vim.api.nvim_win_close(M.winid, {force=true})
   end
+  if M.watch ~= nil then
+    vim.loop.fs_event_stop(M.watch)
+  end
 end
 
 local function temp_to_hl(temp)
