@@ -355,7 +355,9 @@ require("scrollbar").setup({
     "NvimTree",
     "BufList",
     "cmp_menu",
-    "cmp_docs"
+    "cmp_docs",
+    "weather",
+    "sysmon"
   },
   autocmd = {
     render = {

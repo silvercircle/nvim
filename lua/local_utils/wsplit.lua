@@ -6,6 +6,7 @@ M.bufid = nil             -- buffer id
 M.win_width = nil
 M.win_height = nil
 M.autocmds_valid = nil
+M.watch = nil
 
 M.autocmds_valid = nil    -- auto command was set
 M.weatherfile = "~/.weather/weather"
@@ -15,7 +16,10 @@ M.conditions = {
     c = "Partly Cloudy",
     a = "Clear",
     e = "Cloudy",
-    j = "Rain"
+    j = "Rain",
+    o = "Snow",
+    g = "Showers",
+    k = "Thunderstorm"
   }
 }
 
@@ -41,9 +45,25 @@ function M.setup_auto()
   })
 end
 
+local function onChange(cust, _, filename, status)
+  if not status.change then
+    --source.debugmsg("No status change, do nothing")
+    return
+  end
+  print("On change event received for " .. cust)
+  if M.watch ~= nil then
+    vim.loop.fs_event_stop(M.watch)
+  end
+  M.refresh()
+  if M.watch ~= nil then
+    vim.loop.fs_event_start(M.watch, M.weatherfile, {}, vim.schedule_wrap(function(...) onChange(cust, ...) end))
+  end
+end
+
 function M.open()
   local wid = globals.findwinbyBufType("terminal")
   local curwin = vim.api.nvim_get_current_win()     -- remember active win for going back
+  M.weatherfile = vim.fn.expand(M.weatherfile)
 
   -- glances must be executable otherwise do nothing
   -- also, a terminal split must be present.
@@ -61,16 +81,24 @@ function M.open()
   end
   M.setup_auto()
   M.refresh()
-  vim.fn.timer_start(vim.g.config.weather.interval, function() M.refresh() end)
+  if M.watch == nil then
+    M.watch = vim.loop.new_fs_event()
+  end
+  if M.watch ~= nil then
+    if vim.fn.filereadable(M.weatherfile) then
+      vim.loop.fs_event_start(M.watch, M.weatherfile, {}, vim.schedule_wrap(function(...) onChange(M.weatherfile, ...) end))
+    end
+  end
+  -- vim.fn.timer_start(vim.g.config.weather.interval, function() M.refresh() end)
 end
 
 function M.prepare_line(_left, _right, correct)
-  local format = "%-" .. M.win_width / 2 .. "s"
+  local format = "%-" .. math.floor(M.win_width / 2) .. "s"
   local left = string.format(format, _left)
-  format = "%-" .. M.win_width / 2 - 5 .. "s"
+  format = "%-15s"
   local right = string.format(format, _right)
-  local pad = string.rep(" ", M.win_width / 2 - #right - correct)
-  return " " .. string.format(format, left) .. pad .. right .. " "
+  local pad = string.rep(" ", M.win_width - 2 - #right - #left + correct)
+  return " " .. left .. pad .. right .. " "
 end
 
 function M.close()
@@ -79,8 +107,44 @@ function M.close()
   end
 end
 
+local function temp_to_hl(temp)
+  local t = tonumber(string.gsub(temp, "°C", ""), 10)
+  if t <= 0 then
+    return "Purple"
+  elseif t <= 5 then
+    return "Blue"
+  elseif t > 0 and t < 10 then
+    return "Green"
+  elseif t >= 10 and t <= 20 then
+    return "Yellow"
+  elseif t > 20 and t <= 27 then
+    return "Orange"
+  elseif t > 27 and t < 35 then
+    return "PaleRed"
+  else
+    return "Red"
+  end
+end
+
+local function wind_to_hl(wind)
+  local w = tonumber(string.gsub(wind, "km/h", ""), 10)
+  if w < 5 then
+    return "Green"
+  elseif w < 10 then
+    return "Yellow"
+  elseif w < 25 then
+    return "Orange"
+  elseif w < 50 then
+    return "PaleRed"
+  elseif w < 70 then
+    return "Red"
+  else
+    return "Purple"
+  end
+end
+
 function M.refresh()
-  local name = vim.fn.expand(M.weatherfile)
+  local name = M.weatherfile
   local results = {}
 
   if M.bufid == nil or M.winid == nil then
@@ -99,6 +163,7 @@ function M.refresh()
     local lines = {}
     local file = io.open(name)
     local index = 1
+    local hl
     if file ~= nil then
       local l = file:lines()
       for line in l do
@@ -110,21 +175,39 @@ function M.refresh()
       table.insert(lines, M.prepare_line(results['26'], results['28'], 1))
       table.insert(lines, M.prepare_line(results['27'], "API: " .. results['37'], 1))
       table.insert(lines, "  ")
-      table.insert(lines, M.prepare_line("Temp: " .. results['3'],    "Feels: " .. results['16'], 0))
-      table.insert(lines, M.prepare_line("Min:  " .. results['29'],   "Max:   " .. results['30'], 0))
-      table.insert(lines, M.prepare_line("Dew:  " .. results['17'],   results['21'] .. "      ", 0))
+      table.insert(lines, M.prepare_line("Temp: " .. results['3'],    "Feels: " .. results['16'], 2))
+      table.insert(lines, M.prepare_line("Min:  " .. results['29'],   "Max:   " .. results['30'], 2))
+      table.insert(lines, M.prepare_line("Dew:  " .. results['17'],   results['21'] .. "      ", 2))
       table.insert(lines, M.prepare_line("", results['31'], 1))
-      table.insert(lines, M.prepare_line("" .. results['25'] .. " at " .. results['20'], "Vis:   " .. results['22'], 1))
+      table.insert(lines, M.prepare_line(" " .. results['25'] .. " at " .. results['20'] .. "  ", " Vis: " .. results['22'], 2))
       table.insert(lines, M.prepare_line("Pressure: " .. results['19'], results['18'], 1))
       table.insert(lines, M.prepare_line("Sunrise: " .. results['23'], "Sunset: " .. results['24'], 1))
-      local cond = M.conditions[results['37']][results['2']]
+      local cond = M.conditions[results['37']][results['4']]
+      if cond == nil then
+        cond = "N/A"
+      end
       table.insert(lines, "  ")
-      table.insert(lines, M.prepare_line("Tomorrow: " .. cond, results['5'] .. "°C/" .. results['6'] .. "°C", 1))
+      table.insert(lines, M.prepare_line("Tomorrow: " .. cond, "    " .. results['5'] .. "°C "  .. results['6'] .. "°C", 2))
 
       vim.api.nvim_buf_set_lines(M.bufid, 0, -1, false, lines)
 
       vim.api.nvim_buf_add_highlight(M.bufid, -1, "Debug", 0, 0, -1)
       vim.api.nvim_buf_add_highlight(M.bufid, -1, "Keyword", 1, 0, -1)
+      -- temp
+      hl = temp_to_hl(results['3'])
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 3, 0, 20)
+      hl = temp_to_hl(results['16'])
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 3, 20, -1)
+
+      hl = temp_to_hl(results['29'])
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 4, 0, 20)
+      hl = temp_to_hl(results['30'])
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 4, 20, -1)
+      hl = temp_to_hl(results['17'])
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 5, 0, 20)
+
+      hl = wind_to_hl(results['20'])
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 7, 0, 25)
       vim.api.nvim_buf_set_option(M.bufid, "modifiable", false)
     end
   end

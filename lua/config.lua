@@ -74,7 +74,7 @@ vim.g.config = {
     enable = true
   },
   weather = {
-    width = 40,
+    width = 42,
     enable = true,
     interval = 60000
   },
