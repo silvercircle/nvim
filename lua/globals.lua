@@ -217,7 +217,7 @@ function M.termToggle(_height)
     require("local_utils.usplit").open(vim.g.config.sysmon.width)
   end
   if vim.g.config.weather.enable == true then
-    require("local_utils.wsplit").open()
+    require("local_utils.wsplit").open(vim.g.config.weather.file)
   end
 end
 

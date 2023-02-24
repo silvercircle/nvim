@@ -78,7 +78,8 @@ vim.g.config = {
   weather = {
     width = 42,
     enable = true,
-    interval = 60000
+    file = "~/.weather/weather",
+    splitright = false
   },
   use_bufferlist = true,                       -- split the left sidebar (nvim-tree) to show a list of buffers
   -- this is a table of filetype <> colorcolumns associations. it's used by globals.toggle_colorcolumn()

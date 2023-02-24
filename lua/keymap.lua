@@ -205,7 +205,7 @@ end, opts)  -- Buffer List
 kms({'n', 'i', 't', 'v'}, "<A-8>", function()
   local wspl = require("local_utils.wsplit")
   if wspl.winid == nil then
-    wspl.open()
+    wspl.open(vim.g.config.weather.file)
   else
     vim.fn.win_gotoid(wspl.winid)
   end

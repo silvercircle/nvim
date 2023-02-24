@@ -1,3 +1,6 @@
+-- implements a split window showing weather data.
+-- depends on my ~/.weather/weather data file, created by fetchweather
+-- this is useless without.
 local globals = require("globals")
 
 local M = {}
@@ -5,13 +8,11 @@ M.winid = nil             -- window id
 M.bufid = nil             -- buffer id
 M.win_width = nil
 M.win_height = nil
-M.autocmds_valid = nil
-M.watch = nil
+M.weatherfile = ""
 
-M.autocmds_valid = nil    -- auto command was set
-M.weatherfile = "~/.weather/weather"
-
-M.conditions = {
+local watch = nil
+local autocmds_valid = nil    -- auto command was set
+local conditions = {
   VC = {
     c = "Partly Cloudy",
     a = "Clear",
@@ -24,10 +25,10 @@ M.conditions = {
 }
 
 function M.setup_auto()
-  if M.autocmds_valid == true then
+  if autocmds_valid == true then
     return
   end
-  M.autocmds_valid = true
+  autocmds_valid = true
   vim.api.nvim_create_augroup("WeatherSplit", { clear = true })
   vim.api.nvim_create_autocmd({ "WinClosed", "WinResized" }, {
     group = "WeatherSplit",
@@ -50,25 +51,25 @@ local function onChange(cust, _, _, status)
     --source.debugmsg("No status change, do nothing")
     return
   end
-  if M.watch ~= nil then
-    vim.loop.fs_event_stop(M.watch)
+  if watch ~= nil then
+    vim.loop.fs_event_stop(watch)
   end
   M.refresh()
-  if M.watch ~= nil then
-    vim.loop.fs_event_start(M.watch, M.weatherfile, {}, vim.schedule_wrap(function(...) onChange(cust, ...) end))
+  if watch ~= nil then
+    vim.loop.fs_event_start(watch, M.weatherfile, {}, vim.schedule_wrap(function(...) onChange(cust, ...) end))
   end
 end
 
-function M.open()
+function M.open(_weatherfile)
   local wid = globals.findwinbyBufType("terminal")
   local curwin = vim.api.nvim_get_current_win()     -- remember active win for going back
-  M.weatherfile = vim.fn.expand(M.weatherfile)
+  M.weatherfile = vim.fn.expand(_weatherfile)
 
   -- glances must be executable otherwise do nothing
   -- also, a terminal split must be present.
   if #wid > 0 and vim.fn.filereadable(M.weatherfile) then
     vim.fn.win_gotoid(wid[1])
-    vim.cmd("setlocal splitright | " .. vim.g.config.weather.width .. " vsp new")
+    vim.cmd((vim.g.config.weather.splitright == true and "setlocal splitright | " or "") .. vim.g.config.weather.width .. " vsp new")
     M.winid = vim.fn.win_getid()
     M.bufid = vim.api.nvim_get_current_buf()
     vim.bo[M.bufid].buflisted = false
@@ -80,15 +81,14 @@ function M.open()
   end
   M.setup_auto()
   M.refresh()
-  if M.watch == nil then
-    M.watch = vim.loop.new_fs_event()
+  if watch == nil then
+    watch = vim.loop.new_fs_event()
   end
-  if M.watch ~= nil then
+  if watch ~= nil then
     if vim.fn.filereadable(M.weatherfile) then
-      vim.loop.fs_event_start(M.watch, M.weatherfile, {}, vim.schedule_wrap(function(...) onChange(M.weatherfile, ...) end))
+      vim.loop.fs_event_start(watch, M.weatherfile, {}, vim.schedule_wrap(function(...) onChange(M.weatherfile, ...) end))
     end
   end
-  -- vim.fn.timer_start(vim.g.config.weather.interval, function() M.refresh() end)
 end
 
 function M.prepare_line(_left, _right, correct)
@@ -104,8 +104,8 @@ function M.close()
   if M.winid ~= nil then
     vim.api.nvim_win_close(M.winid, {force=true})
   end
-  if M.watch ~= nil then
-    vim.loop.fs_event_stop(M.watch)
+  if watch ~= nil then
+    vim.loop.fs_event_stop(watch)
   end
 end
 
@@ -183,7 +183,7 @@ function M.refresh()
       table.insert(lines, M.prepare_line(" " .. results['25'] .. " at " .. results['20'] .. "  ", " Vis: " .. results['22'], 2))
       table.insert(lines, M.prepare_line("Pressure: " .. results['19'], results['18'], 1))
       table.insert(lines, M.prepare_line("Sunrise: " .. results['23'], "Sunset: " .. results['24'], 1))
-      local cond = M.conditions[results['37']][results['4']]
+      local cond = conditions[results['37']][results['4']]
       if cond == nil then
         cond = "N/A"
       end

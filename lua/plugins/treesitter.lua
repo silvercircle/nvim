@@ -1,7 +1,6 @@
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 parser_config.objc = {
   install_info = {
-    --url = "/mnt/shared/data/code/treesitter-parsers/tree-sitter-objc", -- local path or git repo
     url = "https://github.com/merico-dev/tree-sitter-objc",
     files = {"src/parser.c" },
     -- optional entries:
@@ -10,12 +9,9 @@ parser_config.objc = {
     requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
   },
 }
-local ft_to_parser = require"nvim-treesitter.parsers".filetype_to_parsername
-ft_to_parser.objcpp = 'objc'
-
+vim.treesitter.language.register('objc', 'objcpp')
 require("nvim-treesitter.configs").setup({
   auto_install = false,
-  -- NOTE: Problem parsers: JavaScript is slow, scala lacks Scala3 syntax.
   ensure_installed = { "c", "cpp", "lua", "vim", "python", "rust", "dart", "go", "c_sharp", "scala" },
   playground = {
     enable = vim.g.config.treesitter_playground,
@@ -47,7 +43,8 @@ require("nvim-treesitter.configs").setup({
   highlight = {
     enable = true,
     disable = { "help" }      -- FIXME: JavaScript parser is painfully slow. Help can be
-                                            -- slow with large pages.
+                              -- slow with large pages. This is caused by injections, so disabling them
+                              -- does help.
   },
   indent = {
     -- FIXME: Setting this to true will cause a huge memory leak when inserting lines
