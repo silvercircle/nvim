@@ -70,7 +70,9 @@ vim.g.config = {
   termheight = 11,
   iconpad = ' ',                              -- additional padding for devicons.
   sysmon = {
-    width = 60,
+    width = 51,
+    modules = "cpu,mem,network,load,system,uptime",
+    -- modules = "cpu,mem,network,load,system,uptime,quicklook", -- this requiers a width of 58 or more
     enable = true
   },
   weather = {

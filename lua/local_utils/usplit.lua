@@ -45,8 +45,9 @@ function M.open(_width)
   -- also, a terminal split must be present.
   if #wid > 0 and vim.fn.executable("glances") > 0 then
     vim.fn.win_gotoid(wid[1])
-    vim.cmd("rightbelow " .. width .. " vsplit|terminal glances --disable-plugin all --disable-bg --enable-plugin cpu,mem,network,load,system,uptime,quicklook --time 3")
+    vim.cmd("rightbelow " .. width .. " vsplit|terminal glances --disable-plugin all --disable-bg --enable-plugin " .. vim.g.config.sysmon.modules .. " --time 3")
     M.winid = vim.fn.win_getid()
+    vim.schedule(function() vim.api.nvim_win_set_width(M.winid, vim.g.config.sysmon.width - 2) end)
     M.bufid = vim.api.nvim_get_current_buf()
     vim.api.nvim_win_set_option(M.winid, "list", false)
     vim.api.nvim_win_set_option(M.winid, "statusline", "System Monitor")

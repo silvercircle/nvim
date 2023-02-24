@@ -45,12 +45,11 @@ function M.setup_auto()
   })
 end
 
-local function onChange(cust, _, filename, status)
+local function onChange(cust, _, _, status)
   if not status.change then
     --source.debugmsg("No status change, do nothing")
     return
   end
-  print("On change event received for " .. cust)
   if M.watch ~= nil then
     vim.loop.fs_event_stop(M.watch)
   end
@@ -147,7 +146,6 @@ local function wind_to_hl(wind)
 end
 
 function M.refresh()
-  local name = M.weatherfile
   local results = {}
 
   if M.bufid == nil or M.winid == nil then
@@ -162,9 +160,9 @@ function M.refresh()
   end
   vim.api.nvim_buf_clear_namespace(M.bufid, -1, 0, -1)
 
-  if vim.fn.filereadable(name) then
+  if vim.fn.filereadable(M.weatherfile) then
     local lines = {}
-    local file = io.open(name)
+    local file = io.open(M.weatherfile)
     local index = 1
     local hl
     if file ~= nil then
