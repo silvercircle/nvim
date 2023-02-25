@@ -127,26 +127,26 @@ local agroup_hl = vim.api.nvim_create_augroup("hl", {} )
 autocmd({ 'UIEnter' }, {
   callback = function()
     globals.main_winid = vim.fn.win_getid()
-    require("local_utils.blist").setup({
-      symbols = {
-        current = "+", -- default 
-        split = "s", -- default 
-        alternate = "a", -- default 
-        hidden = "~", -- default ﬘
-        unloaded = "-",
-        locked = "L", -- default 
-        ro = "r", -- default 
-        edited = "*", -- default 
-        terminal = "t", -- default 
---        default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
-        terminal_symbol = ">" -- Filetype icon for a terminal split. Default 
-      }
-    })
     if vim.g.config.plain == false then
       require('nvim-tree.api').tree.toggle({focus = false})
       require("globals").termToggle(12)
       vim.api.nvim_command("wincmd p")
       if vim.g.config.use_bufferlist == true then
+        require("local_utils.blist").setup({
+          symbols = {
+            current = "+", -- default 
+            split = "s", -- default 
+            alternate = "a", -- default 
+            hidden = "~", -- default ﬘
+            unloaded = "-",
+            locked = "L", -- default 
+            ro = "r", -- default 
+            edited = "*", -- default 
+            terminal = "t", -- default 
+    --        default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
+            terminal_symbol = ">" -- Filetype icon for a terminal split. Default 
+          }
+        })
         require("local_utils.blist").open(true)
       end
     end
@@ -193,7 +193,7 @@ autocmd( { 'FileType' }, {
 autocmd( { 'FileType' }, {
   pattern = { 'qf' },
   callback = function()
-    if #globals.findwinbyBufType("sysmon") > 0 then
+    if #globals.findwinbyBufType("sysmon") > 0 or #globals.findwinbyBufType("weather") > 0 then
       vim.cmd("setlocal statuscolumn= | setlocal signcolumn=no | wincmd J")
     else
       vim.cmd("setlocal statuscolumn= | setlocal signcolumn=no")

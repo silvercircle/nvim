@@ -13,7 +13,7 @@ function M.setup_auto()
   end
   M.autocmds_valid = true
   vim.api.nvim_create_augroup("SYSMONSplit", { clear = true })
-  vim.api.nvim_create_autocmd({ "WinClosed" }, {
+  vim.api.nvim_create_autocmd({ "WinClosed", 'WinResized' }, {
     group = "SYSMONSplit",
     callback = function()
       if M.winid ~= nil and vim.api.nvim_win_is_valid(M.winid) == false then  -- window has disappeared
@@ -22,6 +22,9 @@ function M.setup_auto()
           M.bufid = nil
         end
         M.winid = nil
+      end
+      if M.winid ~=nil and vim.api.nvim_win_is_valid(M.winid) then
+        vim.api.nvim_win_set_width(M.winid, vim.g.config.sysmon.width - 2)
       end
     end,
   })

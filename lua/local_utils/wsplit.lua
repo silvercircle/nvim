@@ -42,6 +42,9 @@ function M.setup_auto()
       else
         M.refresh()
       end
+      if M.winid ~=nil and vim.api.nvim_win_is_valid(M.winid) then
+        vim.api.nvim_win_set_width(M.winid, vim.g.config.weather.width)
+      end
     end,
   })
 end
@@ -67,7 +70,7 @@ function M.open(_weatherfile)
 
   -- glances must be executable otherwise do nothing
   -- also, a terminal split must be present.
-  if #wid > 0 and vim.fn.filereadable(M.weatherfile) then 
+  if #wid > 0 and vim.fn.filereadable(M.weatherfile) then
     vim.fn.win_gotoid(wid[1])
     vim.cmd((vim.g.config.weather.splitright == true and "setlocal splitright | " or "") .. vim.g.config.weather.width .. " vsp new")
     M.winid = vim.fn.win_getid()
