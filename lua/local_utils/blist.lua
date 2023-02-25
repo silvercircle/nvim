@@ -560,7 +560,9 @@ function M.close()
       api.nvim_win_close(M.main_win, false)
     end
   end
-  api.nvim_buf_delete(M.main_buf, {})
+  if api.nvim_buf_is_valid(M.main_buf) == true then
+    api.nvim_buf_delete(M.main_buf, {})
+  end
   api.nvim_set_current_win(M.back_win)
   M.main_win = nil
   M.main_buf = nil
@@ -675,3 +677,4 @@ function M.autorefresh()
   M.refresh(M.main_buf)
 end
 return M
+

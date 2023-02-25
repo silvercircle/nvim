@@ -67,7 +67,7 @@ function M.open(_weatherfile)
 
   -- glances must be executable otherwise do nothing
   -- also, a terminal split must be present.
-  if #wid > 0 and vim.fn.filereadable(M.weatherfile) then
+  if #wid > 0 and vim.fn.filereadable(M.weatherfile) then 
     vim.fn.win_gotoid(wid[1])
     vim.cmd((vim.g.config.weather.splitright == true and "setlocal splitright | " or "") .. vim.g.config.weather.width .. " vsp new")
     M.winid = vim.fn.win_getid()
@@ -189,13 +189,14 @@ function M.refresh()
       end
       table.insert(lines, "  ")
       table.insert(lines, M.prepare_line("Tomorrow: " .. cond, "    " .. results['5'] .. "°C "  .. results['6'] .. "°C", 2))
-
+      hl = temp_to_hl(results['6'])
       vim.api.nvim_buf_set_lines(M.bufid, 0, -1, false, lines)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 11, 0, -1)
 
       vim.api.nvim_buf_add_highlight(M.bufid, -1, "Debug", 0, 0, -1)
-      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Keyword", 1, 0, -1)
       -- temp
-      hl = temp_to_hl(results['3'])
+      hl = temp_to_hl(results['3'])       -- the current temperature, also colorize the condition string
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 1, 0, -1)
       vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 3, 0, 20)
       hl = temp_to_hl(results['16'])
       vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 3, 20, -1)

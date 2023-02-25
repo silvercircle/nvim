@@ -200,7 +200,7 @@ kms({'n', 'i', 't', 'v'}, "<A-9>", function()
   else
     vim.fn.win_gotoid(uspl.winid)
   end
-end, opts)  -- Buffer List
+end, opts)  -- usplit (system monitor)
 
 kms({'n', 'i', 't', 'v'}, "<A-8>", function()
   local wspl = require("local_utils.wsplit")
@@ -209,7 +209,7 @@ kms({'n', 'i', 't', 'v'}, "<A-8>", function()
   else
     vim.fn.win_gotoid(wspl.winid)
   end
-end, opts)  -- Buffer List
+end, opts)  -- wsplit (weather)
 
 kms({'n', 'i', 't', 'v'}, "<A-7>", function()
   if globals.findbufbyType("qf") == false then
