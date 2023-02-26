@@ -10,7 +10,8 @@ M.term = {
   bufid = nil,
   winid = nil,
   height = 12,
-  visible = false
+  visible = false,
+  current_height = nil
 }
 
 --- set the statuscol to either normal or relative line numbers
@@ -187,6 +188,9 @@ function M.close_qf_or_loc()
     for i,_ in pairs(winid) do
       if winid[i] > 0 and vim.api.nvim_win_is_valid(winid[i]) then
         vim.api.nvim_win_close(winid[i], {})
+        if M.term.winid ~= nil then
+          vim.api.nvim_win_set_height(M.term.winid, M.term.current_height)
+        end
       end
     end
   end
@@ -209,6 +213,7 @@ function M.termToggle(_height)
   vim.fn.win_gotoid(vim.g.config.main_winid)
   vim.cmd("belowright " .. height .. " sp|terminal export NOCOW=1 && $SHELL")
   M.term.winid = vim.fn.win_getid()
+  M.term.current_height = vim.api.nvim_win_get_height(M.term.winid)
   M.term.bufid = vim.api.nvim_get_current_buf()
   vim.cmd("setlocal statusline=Terminal | setlocal statuscolumn= | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=yes | set winfixheight | set nocursorline | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC")
   M.term.visible = true

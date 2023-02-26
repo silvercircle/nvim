@@ -16,6 +16,9 @@ function M.setup_auto()
   vim.api.nvim_create_autocmd({ "WinClosed", 'WinResized' }, {
     group = "SYSMONSplit",
     callback = function()
+      if globals.term.winid ~= nil then
+        globals.term.current_height = vim.api.nvim_win_get_height(globals.term.winid)
+      end
       if M.winid ~= nil and vim.api.nvim_win_is_valid(M.winid) == false then  -- window has disappeared
         if M.bufid ~= nil then
           vim.api.nvim_buf_delete(M.bufid, { force = true })
@@ -56,7 +59,7 @@ function M.open(_width)
     M.bufid = vim.api.nvim_get_current_buf()
     vim.api.nvim_win_set_option(M.winid, "list", false)
     vim.api.nvim_win_set_option(M.winid, "statusline", "System Monitor")
-    vim.cmd("set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn= | setlocal nocursorline")
+    vim.cmd("set winfixheight | set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn= | setlocal nocursorline")
     vim.fn.win_gotoid(curwin)
   end
   M.setup_auto()

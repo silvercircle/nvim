@@ -19,6 +19,7 @@ require('config')
 
 require('load_lazy')
 require('options')
+require("auto")
 require('plugins.default')
 require('keymap')
 EOB
