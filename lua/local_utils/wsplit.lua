@@ -43,7 +43,9 @@ function M.setup_auto()
         M.refresh()
       end
       if M.winid ~=nil and vim.api.nvim_win_is_valid(M.winid) then
-        vim.api.nvim_win_set_width(M.winid, vim.g.config.weather.width)
+        if vim.api.nvim_win_get_width(M.winid) ~= vim.g.config.weather.width then
+          vim.api.nvim_win_set_width(M.winid, vim.g.config.weather.width)
+        end
       end
     end,
   })

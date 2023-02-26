@@ -292,7 +292,7 @@ highlight! link LspReferenceRead CurrentWord
 highlight! link LspReferenceWrite CurrentWord
 highlight! link LspCodeLens VirtualTextInfo
 highlight! link LspCodeLensSeparator VirtualTextHint
-highlight! link LspSignatureActiveParameter Search
+highlight! link LspSignatureActiveParameter Yellow
 highlight! link TermCursor Cursor
 highlight! link healthError Red
 highlight! link healthSuccess Green
