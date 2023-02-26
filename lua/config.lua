@@ -71,13 +71,11 @@ vim.g.config = {
   iconpad = ' ',                              -- additional padding for devicons.
   sysmon = {
     width = 51,
-    modules = "cpu,mem,network,load,system,uptime",
+    modules = "cpu,mem,network,load,system,uptime"
     -- modules = "cpu,mem,network,load,system,uptime,quicklook", -- this requiers a width of 58 or more
-    enable = true
   },
   weather = {
     width = 42,
-    enable = true,
     file = "~/.weather/weather",
     splitright = false
   },

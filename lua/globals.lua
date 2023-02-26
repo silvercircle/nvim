@@ -11,8 +11,28 @@ M.term = {
   winid = nil,
   height = 12,
   visible = false,
-  current_height = nil
 }
+
+M.perm_config_default = {
+  sysmon = {
+    active = false,
+    width = 0
+  },
+  weather = {
+    active = false,
+    width = 0
+  },
+  terminal = {
+    active = true,
+    height = 0
+  }
+}
+
+M.perm_config = {}
+
+local function get_permconfig_file()
+  return vim.fn.stdpath("state") .. "/permconfig.json"
+end
 
 --- set the statuscol to either normal or relative line numbers
 --- @param mode string: allowed values: 'normal' or 'rel'
@@ -189,7 +209,7 @@ function M.close_qf_or_loc()
       if winid[i] > 0 and vim.api.nvim_win_is_valid(winid[i]) then
         vim.api.nvim_win_close(winid[i], {})
         if M.term.winid ~= nil then
-          vim.api.nvim_win_set_height(M.term.winid, M.term.current_height)
+          vim.api.nvim_win_set_height(M.term.winid, M.perm_config.terminal.height)
         end
       end
     end
@@ -213,17 +233,49 @@ function M.termToggle(_height)
   vim.fn.win_gotoid(vim.g.config.main_winid)
   vim.cmd("belowright " .. height .. " sp|terminal export NOCOW=1 && $SHELL")
   M.term.winid = vim.fn.win_getid()
-  M.term.current_height = vim.api.nvim_win_get_height(M.term.winid)
   M.term.bufid = vim.api.nvim_get_current_buf()
   vim.cmd("setlocal statusline=Terminal | setlocal statuscolumn= | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=yes | set winfixheight | set nocursorline | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC")
   M.term.visible = true
 
-  if vim.g.config.sysmon.enable == true then
+  if M.perm_config.sysmon.active == true then
     require("local_utils.usplit").open(vim.g.config.sysmon.width)
   end
-  if vim.g.config.weather.enable == true then
+  if M.perm_config.weather.active == true then
     require("local_utils.wsplit").open(vim.g.config.weather.file)
   end
 end
 
+function M.write_config()
+  local file = get_permconfig_file()
+  local f = io.open(file, "w+")
+  if f ~= nil then
+    local wsplit_id = require("local_utils.wsplit").winid
+    local usplit_id = require("local_utils.usplit").winid
+
+    local state = {
+      terminal = {
+        active = M.term.winid ~= nil and true or false,
+      },
+      weather = {
+        active = wsplit_id ~= nil and true or false,
+      },
+      sysmon = {
+        active = usplit_id ~= nil and true or false,
+      }
+    }
+    local string = vim.fn.json_encode(vim.tbl_deep_extend("force", M.perm_config, state))
+    f:write(string)
+    io.close(f)
+  end
+end
+
+function M.restore_config()
+  local file = get_permconfig_file()
+  local f = io.open(file, "r")
+  if f ~= nil then
+    local string = f:read()
+    local tmp = vim.fn.json_decode(string)
+    M.perm_config = vim.tbl_deep_extend("force", M.perm_config_default, tmp)
+  end
+end
 return M

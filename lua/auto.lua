@@ -4,6 +4,15 @@ local globals = require("globals")
 local agroup_views = vim.api.nvim_create_augroup("views", {} )
 local agroup_hl = vim.api.nvim_create_augroup("hl", {} )
 
+autocmd({ 'VimLeave' }, {
+  callback = function()
+    if vim.g.config.plain == false then
+      globals.write_config()
+    end
+  end,
+  group = agroup_views
+})
+
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
 -- environment variable or command line option forbids it for better startup performance and
 -- a clean UI
@@ -12,7 +21,23 @@ autocmd({ 'UIEnter' }, {
     globals.main_winid = vim.fn.win_getid()
     if vim.g.config.plain == false then
       require('nvim-tree.api').tree.toggle({focus = false})
-      require("globals").termToggle(12)
+      globals.restore_config()
+      if globals.perm_config.terminal.active == true then
+        globals.termToggle(globals.perm_config.terminal.height)
+      end
+      if globals.perm_config.sysmon.active ~= true and globals.perm_config.weather.active ~= true then
+        -- create the WinResized watcher to keep track of the terminal split height.
+        -- When either sysmon or weather splits are active, this is done by their resize handlers
+        -- so we don't need this here
+        autocmd({ "WinResized" }, {
+          callback = function()
+            if globals.term.winid ~= nil then
+              globals.perm_config.terminal.height = vim.api.nvim_win_get_height(globals.term.winid)
+            end
+          end,
+          group = agroup_views
+        })
+      end
       vim.api.nvim_command("wincmd p")
       if vim.g.config.use_bufferlist == true then
         require("local_utils.blist").setup({
@@ -81,7 +106,7 @@ autocmd( { 'FileType' }, {
     else
       vim.cmd("setlocal statuscolumn= | setlocal signcolumn=no")
     end
-    vim.schedule(function() if globals.term.winid ~= nil then vim.api.nvim_win_set_height(globals.term.winid, globals.term.current_height) end end)
+    vim.api.nvim_win_set_height(globals.term.winid, globals.perm_config.terminal.height)
   end,
   group = agroup_views
 })
