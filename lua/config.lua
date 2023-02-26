@@ -51,7 +51,6 @@ vim.g.config = {
   --statuscol_rel = '%s%#LineNr#%=%{printf("%4d", v:relnum)} %C%#IndentBlankLineChar#│ ',
   --again, with highlighting relative number
   statuscol_rel = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:relnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:relnum) : ""} %C%#IndentBlankLineChar#│ ',
-  statuscol_default = 'normal',
   nvim_tree = true,
   cokeline_filename_width = 25,               -- max filename length on cokeline tabs
   cmp_autocomplete = false,                   -- false means only manual complete <C-Space>. Set to true for autocomplete
@@ -96,8 +95,6 @@ vim.g.config = {
     }
   }
 }
-local globals = require("globals")
-globals.statuscol_current = vim.g.config.statuscol_default
 
 vim.g.theme = {
   variant = "warm",     -- "warm" gives a slight red-ish tint for some backgrounds. "cold" a more blue-ish

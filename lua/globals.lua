@@ -2,7 +2,6 @@
 --- use with require("globals")
 local M = {}
 
-M.statuscol_current = 'normal'
 M.winid_bufferlist = 0
 M.main_winid = 0
 
@@ -25,7 +24,8 @@ M.perm_config_default = {
   terminal = {
     active = true,
     height = 12
-  }
+  },
+  statuscol_current = 'normal'
 }
 
 M.perm_config = {}
@@ -40,7 +40,7 @@ function M.set_statuscol(mode)
   if mode ~= nil and mode ~= 'normal' and mode ~= 'rel' then
     return
   end
-  M.statuscol_current = mode
+  M.perm_config.statuscol_current = mode
   vim.o.statuscolumn = vim.g.config["statuscol_" .. mode ]
   if mode == 'normal' then
     vim.o.relativenumber = false
@@ -56,11 +56,11 @@ end
 -- toggle statuscolum between absolute and relative line numbers
 -- by default, it is mapped to <C-l><C-l>
 function M.toggle_statuscol()
-  if M.statuscol_current == 'normal' then
+  if M.perm_config.statuscol_current == 'normal' then
     M.set_statuscol('rel')
     return
   end
-  if M.statuscol_current == 'rel' then
+  if M.perm_config.statuscol_current == 'rel' then
     M.set_statuscol('normal')
     return
   end

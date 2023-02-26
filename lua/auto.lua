@@ -21,7 +21,6 @@ autocmd({ 'UIEnter' }, {
     globals.main_winid = vim.fn.win_getid()
     if vim.g.config.plain == false then
       require('nvim-tree.api').tree.toggle({focus = false})
-      globals.restore_config()
       if globals.perm_config.terminal.active == true then
         globals.termToggle(globals.perm_config.terminal.height)
       end

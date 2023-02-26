@@ -63,8 +63,6 @@ if vim.fn.has('nvim-0.9') == 1 then
   end
   -- single-column fold guide, using a patched screen.c without the stupid numbers ;)
   o.foldcolumn="1"
-  -- statuscolumns are defined in vim.g.config (config.lua)
-  globals.set_statuscol(globals.statuscol_current)
 else
   o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
   o.foldcolumn="5"
@@ -116,3 +114,5 @@ o.undodir = vim.fn.stdpath("data") .. "/undo/"
 -- set this to true if you want to have persistent undo
 o.undofile=false
 
+globals.restore_config()
+globals.set_statuscol(globals.perm_config.statuscol_current)
