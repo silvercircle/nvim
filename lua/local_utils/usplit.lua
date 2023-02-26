@@ -17,7 +17,7 @@ function M.setup_auto()
     group = "SYSMONSplit",
     callback = function()
       if globals.term.winid ~= nil then
-        globals.term.current_height = vim.api.nvim_win_get_height(globals.term.winid)
+        globals.perm_config.terminal.height = vim.api.nvim_win_get_height(globals.term.winid)
       end
       if M.winid ~= nil and vim.api.nvim_win_is_valid(M.winid) == false then  -- window has disappeared
         if M.bufid ~= nil then
@@ -25,11 +25,6 @@ function M.setup_auto()
           M.bufid = nil
         end
         M.winid = nil
-      end
-      if M.winid ~=nil and vim.api.nvim_win_is_valid(M.winid) then
-        if vim.api.nvim_win_get_width(M.winid) ~= vim.g.config.sysmon.width - 2 then
-          vim.api.nvim_win_set_width(M.winid, vim.g.config.sysmon.width - 2)
-        end
       end
     end,
   })
@@ -43,19 +38,18 @@ end
 
 --- this opens a split next to the terminal split and launches an instance of glances
 --- system monitor in it. See: https://nicolargo.github.io/glances/
---- @param _width number: the width of the split. Default is vim.g.config.sysmon.width
-function M.open(_width)
-  local width = _width or vim.g.config.sysmon.width
+function M.open()
+  local width = globals.perm_config.sysmon.width
   local wid = globals.findwinbyBufType("terminal")
   local curwin = vim.api.nvim_get_current_win()     -- remember active win for going back
-
   -- glances must be executable otherwise do nothing
   -- also, a terminal split must be present.
   if #wid > 0 and vim.fn.executable("glances") > 0 then
     vim.fn.win_gotoid(wid[1])
     vim.cmd("rightbelow " .. width .. " vsplit|terminal glances --disable-plugin all --disable-bg --enable-plugin " .. vim.g.config.sysmon.modules .. " --time 3")
     M.winid = vim.fn.win_getid()
-    vim.schedule(function() vim.api.nvim_win_set_width(M.winid, vim.g.config.sysmon.width - 2) end)
+    vim.schedule(function() vim.api.nvim_win_set_width(M.winid, globals.perm_config.sysmon.width - 2) end)
+    vim.schedule(function() vim.api.nvim_win_set_width(M.winid, globals.perm_config.sysmon.width) end)
     M.bufid = vim.api.nvim_get_current_buf()
     vim.api.nvim_win_set_option(M.winid, "list", false)
     vim.api.nvim_win_set_option(M.winid, "statusline", "System Monitor")

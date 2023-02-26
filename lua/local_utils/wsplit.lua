@@ -45,11 +45,6 @@ function M.setup_auto()
       else
         M.refresh()
       end
-      if M.winid ~=nil and vim.api.nvim_win_is_valid(M.winid) then
-        if vim.api.nvim_win_get_width(M.winid) ~= vim.g.config.weather.width then
-          vim.api.nvim_win_set_width(M.winid, vim.g.config.weather.width)
-        end
-      end
     end,
   })
 end
@@ -77,7 +72,7 @@ function M.open(_weatherfile)
   -- also, a terminal split must be present.
   if #wid > 0 and vim.fn.filereadable(M.weatherfile) then
     vim.fn.win_gotoid(wid[1])
-    vim.cmd((vim.g.config.weather.splitright == true and "setlocal splitright | " or "") .. vim.g.config.weather.width .. " vsp new")
+    vim.cmd((vim.g.config.weather.splitright == true and "setlocal splitright | " or "") .. globals.perm_config.weather.width .. " vsp new")
     M.winid = vim.fn.win_getid()
     M.bufid = vim.api.nvim_get_current_buf()
     vim.bo[M.bufid].buflisted = false

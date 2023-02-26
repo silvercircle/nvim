@@ -16,15 +16,15 @@ M.term = {
 M.perm_config_default = {
   sysmon = {
     active = false,
-    width = 0
+    width = vim.g.config.sysmon.width
   },
   weather = {
     active = false,
-    width = 0
+    width = vim.g.config.weather.width
   },
   terminal = {
     active = true,
-    height = 0
+    height = 12
   }
 }
 
@@ -238,7 +238,7 @@ function M.termToggle(_height)
   M.term.visible = true
 
   if M.perm_config.sysmon.active == true then
-    require("local_utils.usplit").open(vim.g.config.sysmon.width)
+    require("local_utils.usplit").open()
   end
   if M.perm_config.weather.active == true then
     require("local_utils.wsplit").open(vim.g.config.weather.file)
@@ -263,6 +263,12 @@ function M.write_config()
         active = usplit_id ~= nil and true or false,
       }
     }
+    if wsplit_id ~= nil then
+      state.weather.width = vim.api.nvim_win_get_width(wsplit_id)
+    end
+    if usplit_id ~= nil then
+      state.sysmon.width = vim.api.nvim_win_get_width(usplit_id)
+    end
     local string = vim.fn.json_encode(vim.tbl_deep_extend("force", M.perm_config, state))
     f:write(string)
     io.close(f)
@@ -276,6 +282,8 @@ function M.restore_config()
     local string = f:read()
     local tmp = vim.fn.json_decode(string)
     M.perm_config = vim.tbl_deep_extend("force", M.perm_config_default, tmp)
+  else
+    M.perm_config = M.perm_config_default
   end
 end
 return M
