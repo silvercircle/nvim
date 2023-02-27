@@ -228,15 +228,19 @@ function M.termToggle(_height)
     require("local_utils.wsplit").close()
     vim.api.nvim_win_hide(M.term.winid)
     M.term.visible = false
-    M.term.bufid = nil
     M.term.winid = nil
     return
   end
   vim.fn.win_gotoid(vim.g.config.main_winid)
-  vim.cmd("belowright " .. height .. " sp|terminal export NOCOW=1 && $SHELL")
+  if M.term.bufid == nil then
+    vim.cmd("belowright " .. height .. " sp|terminal export NOCOW=1 && $SHELL")
+  else
+    vim.cmd("belowright " .. height .. " sp")
+    vim.api.nvim_win_set_buf(0, M.term.bufid)
+  end
+  vim.cmd("setlocal statusline=Terminal | setlocal statuscolumn= | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=yes | set winfixheight | set nocursorline | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC")
   M.term.winid = vim.fn.win_getid()
   M.term.bufid = vim.api.nvim_get_current_buf()
-  vim.cmd("setlocal statusline=Terminal | setlocal statuscolumn= | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=yes | set winfixheight | set nocursorline | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC")
   M.term.visible = true
 
   if M.perm_config.sysmon.active == true then

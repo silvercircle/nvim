@@ -27,8 +27,7 @@ autocmd({ 'UIEnter' }, {
         globals.termToggle(globals.perm_config.terminal.height)
       end
       -- create the WinResized watcher to keep track of the terminal split height.
-      -- When either sysmon or weather splits are active, this is done by their resize handlers
-      -- so we don't need this here
+      -- also call the resize handlers for the usplit/wsplit frames.
       autocmd({ "WinClosed", "WinResized" }, {
         callback = function()
           if globals.term.winid ~= nil then

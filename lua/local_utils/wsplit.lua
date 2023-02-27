@@ -24,9 +24,6 @@ local conditions = {
 }
 
 function M.resize_or_closed()
-  if globals.term.winid ~= nil then
-    globals.perm_config.terminal.height = vim.api.nvim_win_get_height(globals.term.winid)
-  end
   if M.winid ~= nil and vim.api.nvim_win_is_valid(M.winid) == false then  -- window has disappeared
     if M.bufid ~= nil then
       vim.api.nvim_buf_delete(M.bufid, { force = true })
