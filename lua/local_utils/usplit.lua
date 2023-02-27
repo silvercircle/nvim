@@ -3,31 +3,18 @@ local globals = require("globals")
 local M = {}
 M.winid = nil             -- window id
 M.bufid = nil             -- buffer id
-M.autocmds_valid = nil    -- auto command was set
 
--- set auto command for the sysmon split. Watches WinClosed to react by removing the buffer when the
--- window has been closed.
-function M.setup_auto()
-  if M.autocmds_valid == true then
-    return
+function M.resize_or_closed()
+  if globals.term.winid ~= nil then
+    globals.perm_config.terminal.height = vim.api.nvim_win_get_height(globals.term.winid)
   end
-  M.autocmds_valid = true
-  vim.api.nvim_create_augroup("SYSMONSplit", { clear = true })
-  vim.api.nvim_create_autocmd({ "WinClosed", 'WinResized' }, {
-    group = "SYSMONSplit",
-    callback = function()
-      if globals.term.winid ~= nil then
-        globals.perm_config.terminal.height = vim.api.nvim_win_get_height(globals.term.winid)
-      end
-      if M.winid ~= nil and vim.api.nvim_win_is_valid(M.winid) == false then  -- window has disappeared
-        if M.bufid ~= nil then
-          vim.api.nvim_buf_delete(M.bufid, { force = true })
-          M.bufid = nil
-        end
-        M.winid = nil
-      end
-    end,
-  })
+  if M.winid ~= nil and vim.api.nvim_win_is_valid(M.winid) == false then  -- window has disappeared
+    if M.bufid ~= nil then
+      vim.api.nvim_buf_delete(M.bufid, { force = true })
+      M.bufid = nil
+    end
+    M.winid = nil
+  end
 end
 
 function M.close()
@@ -56,7 +43,6 @@ function M.open()
     vim.cmd("set winfixheight | set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn= | setlocal nocursorline")
     vim.fn.win_gotoid(curwin)
   end
-  M.setup_auto()
 end
 
 return M

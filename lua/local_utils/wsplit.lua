@@ -11,7 +11,6 @@ M.win_height = nil
 M.weatherfile = ""
 
 local watch = nil
-local autocmds_valid = nil    -- auto command was set
 local conditions = {
   VC = {
     c = "Partly Cloudy",
@@ -24,29 +23,19 @@ local conditions = {
   }
 }
 
-function M.setup_auto()
-  if autocmds_valid == true then
-    return
+function M.resize_or_closed()
+  if globals.term.winid ~= nil then
+    globals.perm_config.terminal.height = vim.api.nvim_win_get_height(globals.term.winid)
   end
-  autocmds_valid = true
-  vim.api.nvim_create_augroup("WeatherSplit", { clear = true })
-  vim.api.nvim_create_autocmd({ "WinClosed", "WinResized" }, {
-    group = "WeatherSplit",
-    callback = function()
-      if globals.term.winid ~= nil then
-        globals.perm_config.terminal.height = vim.api.nvim_win_get_height(globals.term.winid)
-      end
-      if M.winid ~= nil and vim.api.nvim_win_is_valid(M.winid) == false then  -- window has disappeared
-        if M.bufid ~= nil then
-          vim.api.nvim_buf_delete(M.bufid, { force = true })
-          M.bufid = nil
-        end
-        M.winid = nil
-      else
-        M.refresh()
-      end
-    end,
-  })
+  if M.winid ~= nil and vim.api.nvim_win_is_valid(M.winid) == false then  -- window has disappeared
+    if M.bufid ~= nil then
+      vim.api.nvim_buf_delete(M.bufid, { force = true })
+      M.bufid = nil
+    end
+    M.winid = nil
+  else
+    M.refresh()
+  end
 end
 
 local function onChange(cust, _, _, status)
@@ -82,7 +71,6 @@ function M.open(_weatherfile)
     vim.cmd("set winfixheight | set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn= | setlocal nocursorline")
     vim.fn.win_gotoid(curwin)
   end
-  M.setup_auto()
   M.refresh()
   if watch == nil then
     watch = vim.loop.new_fs_event()

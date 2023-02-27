@@ -25,11 +25,10 @@ local plugins = {
       'tom-anders/telescope-vim-bookmarks.nvim',
       { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
       { 'FeiyouG/command_center.nvim',
-        event = { 'UIEnter' },
+        event = { "BufRead" },
+        keys = { "<A-p>" },
         config = function()
-          if vim.g.config.plain ~= true then
-            require("plugins.command_center_setup")
-          end
+          require("plugins.command_center_setup")
         end
       }
     },
@@ -42,9 +41,10 @@ local plugins = {
       require("plugins.treesitter")
       vim.treesitter.set_query("javascript", "injections", "")
       vim.treesitter.set_query("typescript", "injections", "")
-      -- vim.treesitter.set_query("tsx", "injections", "")
-      -- vim.treesitter.set_query("lua", "injections", "")
-    end
+    end,
+    dependencies = {
+      { 'nvim-treesitter/playground', cond = vim.g.config.treesitter_playground == true },
+    }
   },
   {'dcampos/nvim-snippy',
     lazy=true,
@@ -156,7 +156,6 @@ local plugins = {
       require("plugins.todo")
     end
   },
-  { 'nvim-treesitter/playground', cond = vim.g.config.treesitter_playground == true },
   { 'goolord/alpha-nvim',
     cond = vim.g.config.plain == false,
 --    pin = true,

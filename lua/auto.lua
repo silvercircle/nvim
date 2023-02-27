@@ -26,19 +26,19 @@ autocmd({ 'UIEnter' }, {
       if globals.perm_config.terminal.active == true then
         globals.termToggle(globals.perm_config.terminal.height)
       end
-      if globals.perm_config.sysmon.active ~= true and globals.perm_config.weather.active ~= true then
-        -- create the WinResized watcher to keep track of the terminal split height.
-        -- When either sysmon or weather splits are active, this is done by their resize handlers
-        -- so we don't need this here
-        autocmd({ "WinResized" }, {
-          callback = function()
-            if globals.term.winid ~= nil then
-              globals.perm_config.terminal.height = vim.api.nvim_win_get_height(globals.term.winid)
-            end
-          end,
-          group = agroup_views
-        })
-      end
+      -- create the WinResized watcher to keep track of the terminal split height.
+      -- When either sysmon or weather splits are active, this is done by their resize handlers
+      -- so we don't need this here
+      autocmd({ "WinClosed", "WinResized" }, {
+        callback = function()
+          if globals.term.winid ~= nil then
+            globals.perm_config.terminal.height = vim.api.nvim_win_get_height(globals.term.winid)
+          end
+          require("local_utils.usplit").resize_or_closed()
+          require("local_utils.wsplit").resize_or_closed()
+        end,
+        group = agroup_views
+      })
       vim.api.nvim_command("wincmd p")
       require("local_utils.blist").setup({
         symbols = {
