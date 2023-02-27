@@ -194,7 +194,7 @@ function M.splittree(_factor)
     M.winid_bufferlist = vim.fn.win_getid()
     vim.api.nvim_win_set_option(M.winid_bufferlist, "list", false)
     vim.api.nvim_win_set_option(M.winid_bufferlist, "statusline", "Buffer List")
-    vim.cmd("set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0")
+    vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0")
     vim.fn.win_gotoid(vim.g.config.main_winid)
     return M.winid_bufferlist
   end

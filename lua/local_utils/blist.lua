@@ -389,7 +389,9 @@ function M.selBufNum(win, opt, count)
     return
   end
 
-  api.nvim_set_current_win(win)
+  -- api.nvim_set_current_win(win)
+  vim.cmd("wincmd p")
+  -- api.nvim_set_current_win(vim.g.config.main_winid)
   vim.cmd(string.format(M.openOptions[opt], buf))
 end
 
