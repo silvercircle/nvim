@@ -25,7 +25,9 @@ M.perm_config_default = {
     active = true,
     height = 12
   },
-  statuscol_current = 'normal'
+  statuscol_current = 'normal',
+  blist = true,
+  tree = true
 }
 
 M.perm_config = {}
@@ -261,7 +263,9 @@ function M.write_config()
       },
       sysmon = {
         active = usplit_id ~= nil and true or false,
-      }
+      },
+      blist = require("local_utils.blist").main_win ~=nil and true or false,
+      tree = #M.findwinbyBufType("NvimTree") > 0 and true or false
     }
     if wsplit_id ~= nil then
       state.weather.width = vim.api.nvim_win_get_width(wsplit_id)
@@ -286,4 +290,18 @@ function M.restore_config()
     M.perm_config = M.perm_config_default
   end
 end
+
+--- adjust the optional frames so they will keep their width when the side tree opens or closes
+function M.adjust_layout()
+  local globals = require("globals")
+  local usplit = require("local_utils.usplit").winid
+  local wsplit = require("local_utils.wsplit").winid
+  if usplit ~= nil then
+    vim.api.nvim_win_set_width(usplit, globals.perm_config.sysmon.width)
+  end
+  if wsplit ~= nil then
+    vim.api.nvim_win_set_width(wsplit, globals.perm_config.weather.width)
+  end
+end
+
 return M

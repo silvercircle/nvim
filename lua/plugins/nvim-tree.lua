@@ -229,12 +229,14 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
   },
 }) -- END_DEFAULT_OPT
 
--- set a default status line with just the name. My lualine config ignores
--- nvim-tree and other file trees
-
+-- react on open and close events to adjust the remaining window layout
 local Event = api.events.Event
 api.events.subscribe(Event.TreeOpen, function(_)
---  vim.opt.statusline="NvimTree"
   vim.opt.statuscolumn=''
   vim.cmd("setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual")
+  require("globals").adjust_layout()
+end)
+
+api.events.subscribe(Event.TreeClose, function(_)
+  require("globals").adjust_layout()
 end)

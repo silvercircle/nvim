@@ -20,7 +20,9 @@ autocmd({ 'UIEnter' }, {
   callback = function()
     globals.main_winid = vim.fn.win_getid()
     if vim.g.config.plain == false then
-      require('nvim-tree.api').tree.toggle({focus = false})
+      if globals.perm_config.tree == true then
+        require('nvim-tree.api').tree.toggle({focus = false})
+      end
       if globals.perm_config.terminal.active == true then
         globals.termToggle(globals.perm_config.terminal.height)
       end
@@ -38,25 +40,26 @@ autocmd({ 'UIEnter' }, {
         })
       end
       vim.api.nvim_command("wincmd p")
-      if vim.g.config.use_bufferlist == true then
-        require("local_utils.blist").setup({
-          symbols = {
-            current = "+", -- default 
-            split = "s", -- default 
-            alternate = "a", -- default 
-            hidden = "~", -- default ﬘
-            unloaded = "-",
-            locked = "L", -- default 
-            ro = "r", -- default 
-            edited = "*", -- default 
-            terminal = "t", -- default 
-    --        default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
-            terminal_symbol = ">" -- Filetype icon for a terminal split. Default 
-          }
-        })
+      require("local_utils.blist").setup({
+        symbols = {
+          current = "+", -- default 
+          split = "s", -- default 
+          alternate = "a", -- default 
+          hidden = "~", -- default ﬘
+          unloaded = "-",
+          locked = "L", -- default 
+          ro = "r", -- default 
+          edited = "*", -- default 
+          terminal = "t", -- default 
+  --        default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
+          terminal_symbol = ">" -- Filetype icon for a terminal split. Default 
+        }
+      })
+      if globals.perm_config.blist == true then
         require("local_utils.blist").open(true)
       end
     end
+    vim.fn.win_gotoid(globals.main_winid)
   end
 })
 

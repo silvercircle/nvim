@@ -389,9 +389,7 @@ function M.selBufNum(win, opt, count)
     return
   end
 
-  -- api.nvim_set_current_win(win)
   vim.cmd("wincmd p")
-  -- api.nvim_set_current_win(vim.g.config.main_winid)
   vim.cmd(string.format(M.openOptions[opt], buf))
 end
 
@@ -638,7 +636,7 @@ function M.open(_mode, _width)
   M.back_win = api.nvim_get_current_win()
   -- Create the buffer for the window
   if not M.main_buf and not M.main_win then
-    M.updatePos()
+    -- M.updatePos()
     M.main_buf = api.nvim_create_buf(false, true)
     vim.bo[M.main_buf]["filetype"] = "JABSwindow"
     if not mode then
