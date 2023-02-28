@@ -652,7 +652,7 @@ function M.open(_mode, _width)
       M.win_conf.width = width
       vim.api.nvim_win_set_buf(M.main_win, M.main_buf)
       vim.api.nvim_buf_set_option(M.main_buf, "filetype", "BufList")
-      vim.api.nvim_win_set_option(M.main_win, "statusline", "Buffer List")
+      vim.api.nvim_win_set_option(M.main_win, "statusline", "   Buffer List")
     end
     if M.main_win ~= 0 then
       M.refresh(M.main_buf)

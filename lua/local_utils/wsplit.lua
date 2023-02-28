@@ -23,6 +23,9 @@ local conditions = {
   }
 }
 
+-- handles resize and close events. Called from auto.lua resize/close handler
+-- it removes the buffer when the window has disappeared. Otherwise it refreshes
+-- it.
 function M.resize_or_closed()
   if M.winid ~= nil and vim.api.nvim_win_is_valid(M.winid) == false then  -- window has disappeared
     if M.bufid ~= nil then
@@ -64,7 +67,7 @@ function M.open(_weatherfile)
     vim.bo[M.bufid].buflisted = false
     vim.api.nvim_buf_set_option(M.bufid, "buftype", "nofile")
     vim.api.nvim_win_set_option(M.winid, "list", false)
-    vim.api.nvim_win_set_option(M.winid, "statusline", "Weather")
+    vim.api.nvim_win_set_option(M.winid, "statusline", "  Weather")
     vim.cmd("set winfixheight | set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn= | setlocal nocursorline")
     vim.fn.win_gotoid(curwin)
   end

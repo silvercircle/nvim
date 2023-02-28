@@ -4,6 +4,8 @@ local M = {}
 M.winid = nil             -- window id
 M.bufid = nil             -- buffer id
 
+-- this is called from the winresized / winclosed handler in auto.lua
+-- when the window has disappeared, the buffer is deleted.
 function M.resize_or_closed()
   if M.winid ~= nil and vim.api.nvim_win_is_valid(M.winid) == false then  -- window has disappeared
     if M.bufid ~= nil then
@@ -36,7 +38,7 @@ function M.open()
     vim.schedule(function() vim.api.nvim_win_set_width(M.winid, globals.perm_config.sysmon.width) end)
     M.bufid = vim.api.nvim_get_current_buf()
     vim.api.nvim_win_set_option(M.winid, "list", false)
-    vim.api.nvim_win_set_option(M.winid, "statusline", "System Monitor")
+    vim.api.nvim_win_set_option(M.winid, "statusline", "  System Monitor")
     vim.cmd("set winfixheight | set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn= | setlocal nocursorline")
     vim.fn.win_gotoid(curwin)
   end

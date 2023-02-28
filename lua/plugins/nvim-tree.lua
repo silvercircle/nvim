@@ -233,6 +233,8 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
 local Event = api.events.Event
 api.events.subscribe(Event.TreeOpen, function(_)
   vim.opt.statuscolumn=''
+  local w = vim.fn.win_getid()
+  vim.api.nvim_win_set_option(w, "statusline", "   NvimTree")
   vim.cmd("setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual")
   require("globals").adjust_layout()
 end)
