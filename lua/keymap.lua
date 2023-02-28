@@ -71,7 +71,7 @@ map('i', "<f5>", '<c-o><CMD>nohl<CR>', opts)
 map('i', "<C-y>-", "—", opts)        -- emdash
 map('i', "<C-y>\"", "„”", opts)       -- typographic quotes („”)
 -- close window
-map('n', "<A-w>", "<CMD>close<CR>", opts)
+kms( {'n', 'i'}, "<A-w>", function() if vim.fn.win_getid() ~= vim.g.config.main_winid then vim.cmd("close") end end, opts)
 
 -- quickfix/loclist navigation
 kms('n', "<C-f>c", function() globals.close_qf_or_loc() end, opts)

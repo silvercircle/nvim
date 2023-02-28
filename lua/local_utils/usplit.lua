@@ -19,6 +19,7 @@ end
 function M.close()
   if M.winid ~= nil then
     vim.api.nvim_win_close(M.winid, {force=true})
+    -- resize_or_closed() will cleanup, triggered by auto command
   end
 end
 

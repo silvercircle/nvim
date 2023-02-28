@@ -344,7 +344,7 @@ lspconfig.lua_ls.setup {
 require("lsp.jdtls")
 
 -- require("lsp.omnisharp")
-
+-- require("lsp.hls")      -- hls (haskell)
 -------------------------
 -- LSP Handlers (general)
 -------------------------
