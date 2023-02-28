@@ -218,10 +218,6 @@ local plugins = {
     config = function()
       require("inc_rename").setup()
     end
-  },
-  {
-    'mrcjkb/haskell-tools.nvim',
-    ft = { 'haskell', 'lhaskell' }
   }
 }
 -- for experimental purpose, I use some private forks and local repos.
