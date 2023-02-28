@@ -26,7 +26,6 @@ local plugins = {
       { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
       { 'FeiyouG/command_center.nvim',
         event = { "BufRead" },
-        keys = { "<A-p>" },
         config = function()
           require("plugins.command_center_setup")
         end
@@ -162,6 +161,12 @@ local plugins = {
     config = function ()
       if vim.g.config.plain == false then
         local theme = require("alpha.themes.startify")
+        theme.section.top_buttons.val = {
+          theme.button( "e", "  New file" , ":ene <BAR> startinsert <CR>"),
+          theme.button( "q", "  Quit NVIM" , ":qa!<CR>"),
+          theme.button( "c", "  Edit config", ":e ~/.config/nvim/init.vim<CR>:NvimTreeFindFile<CR>:wincmd p<CR>")
+        }
+        theme.section.bottom_buttons.val = {}
         if vim.fn.has("linux") > 0 and (vim.g.config.fortunecookie ~= false and #vim.g.config.fortunecookie > 0) then
           local handle = io.popen("fortune science politics -s -n500 | cowsay -W 120")
           local result = {"",""}

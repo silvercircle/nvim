@@ -196,7 +196,7 @@ kms({'n', 'i', 't', 'v'}, "<A-0>", function() globals.main_winid = vim.fn.win_ge
 kms({'n', 'i', 't', 'v'}, "<A-9>", function()
   local uspl = require("local_utils.usplit")
   if uspl.winid == nil then
-    uspl.open(vim.g.config.sysmon.width)
+    uspl.open()
   else
     vim.fn.win_gotoid(uspl.winid)
   end
