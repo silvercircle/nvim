@@ -161,11 +161,10 @@ local plugins = {
     config = function ()
       if vim.g.config.plain == false then
         local theme = require("alpha.themes.startify")
-        theme.section.top_buttons.val = {
-          theme.button( "e", "  New file" , ":ene <BAR> startinsert <CR>"),
-          theme.button( "q", "  Quit NVIM" , ":qa!<CR>"),
-          theme.button( "c", "  Edit config", ":e ~/.config/nvim/init.vim<CR>:NvimTreeFindFile<CR>:wincmd p<CR>")
-        }
+        theme.section.top_buttons.val = {}
+        for _,v in ipairs(vim.g.startify_top) do
+          table.insert(theme.section.top_buttons.val, theme.button( v.key, v.text, v.command ))
+        end
         theme.section.bottom_buttons.val = {}
         if vim.fn.has("linux") > 0 and (vim.g.config.fortunecookie ~= false and #vim.g.config.fortunecookie > 0) then
           local handle = io.popen("fortune science politics -s -n500 | cowsay -W 120")

@@ -106,6 +106,23 @@ vim.g.theme = {
   lualine = 'internal'  -- use 'internal' for the integrated theme or any valid lualine theme name
 }
 
+vim.g.startify_top = {
+  {
+    key = 'e',
+    text = "  New file",
+    command = ":ene <BAR> startinsert <CR>"
+  },
+  {
+    key = 'q',
+    text = "  Quit NVIM",
+    command = ":qa!<CR>"
+  },
+  {
+    key = 'c',
+    text = "  Edit config",
+    command = ":e ~/.config/nvim/init.vim<CR>:NvimTreeFindFile<CR>:wincmd p<CR>"
+  }
+}
 local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'
 local localbin = vim.fn.getenv('HOME') .. '/.local/bin/'
 local homepath = vim.fn.getenv('HOME')
