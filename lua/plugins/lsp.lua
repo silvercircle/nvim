@@ -109,6 +109,7 @@ end
 
 lspconfig.rust_analyzer.setup({
   cmd = { vim.g.lsp_server_bin['rust_analyzer'] },
+  on_attach = on_attach,
   filetypes = { 'rust' },
   root_dir = function(fname)
     local cargo_crate_dir = util.root_pattern 'Cargo.toml'(fname)
@@ -522,3 +523,6 @@ glance.setup({
 if vim.g.config.neodev == true then
   require("neodev").setup({})
 end
+
+vim.diagnostic.config({ virtual_text = true })
+

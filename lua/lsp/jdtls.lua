@@ -12,6 +12,12 @@ local function get_cache_dir()
   return env.XDG_CACHE_HOME and env.XDG_CACHE_HOME or util.path.join(env.HOME, '.cache')
 end
 
+local on_attach = function(client, bufnr)
+  if vim.g.config.use_winbar == true then
+    require("nvim-navic").attach(client, bufnr)
+  end
+end
+
 local function get_jdtls_cache_dir()
   return util.path.join(get_cache_dir(), 'jdtls')
 end
@@ -98,6 +104,7 @@ lspconfig.jdtls.setup({
     get_jdtls_workspace_dir(),
     get_jdtls_jvm_args(),
   },
+  on_attach = on_attach,
   filetypes = { 'java' },
   root_dir = function(fname)
     for _, patterns in ipairs(root_files) do

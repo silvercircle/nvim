@@ -156,7 +156,7 @@ autocmd( { 'FileType' }, {
 })
 
 autocmd( { 'FileType' }, {
-  pattern = { 'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go' },
+  pattern = { 'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go'},
   callback = function()
     vim.cmd("setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal fo-=c")
   end,

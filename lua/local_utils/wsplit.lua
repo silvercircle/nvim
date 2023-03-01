@@ -13,13 +13,13 @@ M.weatherfile = ""
 local watch = nil
 local conditions = {
   VC = {
-    c = "Partly Cloudy",
-    a = "Clear",
-    e = "Cloudy",
-    j = "Rain",
-    o = "Snow",
-    g = "Showers",
-    k = "Thunderstorm"
+    c = "󰖕 Partly Cloudy",
+    a = "󰖙 Clear",
+    e = "󰖐 Cloudy",
+    j = "󰖖 Rain",
+    o = "󰼶 Snow",
+    g = "󰖗 Showers",
+    k = "󰖓 Thunderstorm"
   }
 }
 
@@ -87,7 +87,8 @@ function M.prepare_line(_left, _right, correct)
   local left = string.format(format, _left)
   format = "%-15s"
   local right = string.format(format, _right)
-  local pad = string.rep(" ", M.win_width - 2 - #right - #left + correct)
+
+  local pad = string.rep(" ", M.win_width - 2 - vim.fn.strwidth(right) - vim.fn.strwidth(left) + correct)
   return " " .. left .. pad .. right .. " "
 end
 
@@ -164,22 +165,23 @@ function M.refresh()
       end
       io.close(file)
       vim.api.nvim_buf_set_option(M.bufid, "modifiable", true)
-      table.insert(lines, M.prepare_line(results['26'], results['28'], 1))
-      table.insert(lines, M.prepare_line(results['27'], "API: " .. results['37'], 1))
+      local lcond = conditions[results['37']][results['2']]
+      table.insert(lines, M.prepare_line(results['26'], " " .. results['28'], 0))
+      table.insert(lines, M.prepare_line(lcond, results['33'], 1))
       table.insert(lines, "  ")
-      table.insert(lines, M.prepare_line("Temp: " .. results['3'],    "Feels: " .. results['16'], 2))
-      table.insert(lines, M.prepare_line("Min:  " .. results['29'],   "Max:   " .. results['30'], 2))
-      table.insert(lines, M.prepare_line("Dew:  " .. results['17'],   results['21'] .. "      ", 2))
-      table.insert(lines, M.prepare_line("", results['31'], 1))
-      table.insert(lines, M.prepare_line(" " .. results['25'] .. " at " .. results['20'] .. "  ", " Vis: " .. results['22'], 2))
-      table.insert(lines, M.prepare_line("Pressure: " .. results['19'], results['18'], 1))
-      table.insert(lines, M.prepare_line("Sunrise: " .. results['23'], "Sunset: " .. results['24'], 1))
+      table.insert(lines, M.prepare_line("Temp: " .. results['3'],    "Feels: " .. results['16'], 0))
+      table.insert(lines, M.prepare_line("Min:  " .. results['29'],   "Max:   " .. results['30'], 0))
+      table.insert(lines, M.prepare_line("Dew:  " .. results['17'],   " " .. results['21'] .. "      ", 0))
+      table.insert(lines, M.prepare_line("API:  " .. results['37'],   " " .. results['31'], 0))
+      table.insert(lines, M.prepare_line("  " .. results['25'] .. " at " .. results['20'] .. "  ", " Vis: " .. results['22'], 0))
+      table.insert(lines, M.prepare_line("Pressure: " .. results['19'], " " .. results['18'], 0))
+      table.insert(lines, M.prepare_line("  " .. results['23'], "滋" .. results['24'], -2))
       local cond = conditions[results['37']][results['4']]
       if cond == nil then
         cond = "N/A"
       end
       table.insert(lines, "  ")
-      table.insert(lines, M.prepare_line("Tomorrow: " .. cond, "    " .. results['5'] .. "°C "  .. results['6'] .. "°C", 2))
+      table.insert(lines, M.prepare_line("Tomorrow: " .. cond, "    " .. results['5'] .. "°C "  .. results['6'] .. "°C", 0))
       hl = temp_to_hl(results['6'])
       vim.api.nvim_buf_set_lines(M.bufid, 0, -1, false, lines)
       vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 11, 0, -1)

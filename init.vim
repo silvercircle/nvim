@@ -4,6 +4,8 @@ let g:vim_markdown_frontmatter = 1
 
 let g:rnvimr_enable_picker = 1
 let g:rnvimr_draw_border = 1
+let g:rnvimr_ranger_cmd = ['ranger', '--cmd=set draw_borders both']
+
 " Customize the initial layout
 let g:rnvimr_layout = {
             \ 'relative': 'editor',
