@@ -181,6 +181,9 @@ map('n', "<f23>", "<CMD>Lazy<CR>", opts)
 
 kms({'n', 'i'}, "<C-l><C-l>", function() globals.toggle_statuscol() end, opts)
 kms({'n', 'i'}, "<C-l><C-k>", function() globals.toggle_colorcolumn() end, opts)
+kms({'n', 'i'}, "<C-l><C-t>", function() globals.toggle_theme_variant() end, opts)
+kms({'n', 'i'}, "<C-l><C-d>", function() globals.toggle_theme_desaturate() end, opts)
+
 kms('n', "<A-q>", function() require "local_utils".Quitapp() end, opts)
 kms({'n', 'i'}, "<C-e>", function() require'telescope.builtin'.buffers(Telescope_dropdown_theme({title='Buffer list', width=0.6, height=0.4, sort_lastused=true, sort_mru=true, show_all_buffers=true, ignore_current_buffer=true, sorter=require'telescope.sorters'.get_substr_matcher()})) end, opts)
 kms('n', "<C-p>", function() require'telescope.builtin'.oldfiles(Telescope_dropdown_theme({title='Old files', width=0.6, height=0.5})) end, opts)

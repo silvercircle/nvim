@@ -27,7 +27,9 @@ M.perm_config_default = {
   },
   statuscol_current = 'normal',
   blist = true,
-  tree = true
+  tree = true,
+  theme_variant = 'warm',
+  theme_desaturate = true
 }
 
 M.perm_config = {}
@@ -270,7 +272,9 @@ function M.write_config()
         active = usplit_id ~= nil and true or false,
       },
       blist = require("local_utils.blist").main_win ~=nil and true or false,
-      tree = #M.findwinbyBufType("NvimTree") > 0 and true or false
+      tree = #M.findwinbyBufType("NvimTree") > 0 and true or false,
+      theme_variant = vim.g.theme_variant,
+      theme_desaturate = vim.g.theme_desaturate
     }
     if wsplit_id ~= nil then
       state.weather.width = vim.api.nvim_win_get_width(wsplit_id)
@@ -294,6 +298,8 @@ function M.restore_config()
   else
     M.perm_config = M.perm_config_default
   end
+  vim.g.theme_variant = M.perm_config.theme_variant
+  vim.g.theme_desaturate = M.perm_config.theme_desaturate
 end
 
 --- adjust the optional frames so they will keep their width when the side tree opens or closes
@@ -307,6 +313,21 @@ function M.adjust_layout()
   if wsplit ~= nil then
     vim.api.nvim_win_set_width(wsplit, globals.perm_config.weather.width)
   end
+end
+
+function M.toggle_theme_variant()
+  if vim.g.theme_variant == 'warm' then
+    vim.g.theme_variant = 'cold'
+  else
+    vim.g.theme_variant = 'warm'
+  end
+  print(vim.g.theme_variant)
+  vim.cmd("colorscheme my_sonokai")
+end
+
+function M.toggle_theme_desaturate()
+  vim.g.theme_desaturate = not vim.g.theme_desaturate
+  vim.cmd("colorscheme my_sonokai")
 end
 
 return M

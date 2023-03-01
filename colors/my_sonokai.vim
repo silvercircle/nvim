@@ -22,7 +22,7 @@ function! my_sonokai#get_configuration()
         \ }
 endfunction
 
-if g:theme['desaturate'] == v:true
+if g:theme_desaturate == v:true
   let s:orange = ['#ab6a6c', 215]
   if g:theme['string'] == 'yellow'
     let s:string = ['#a0a050', 231]
@@ -45,7 +45,7 @@ else
 endif
 
 " The default variant is "warm"
-if g:theme['variant'] == 'cold'
+if g:theme_variant == 'cold'
   let palette = {
         \ 'black':      ['#121215',   '232'],
         \ 'bg_dim':     ['#222327',   '232'],
@@ -136,7 +136,7 @@ let s:palette = palette
 let s:path = expand('<sfile>:p') " the path of this script
 let s:last_modified = '2022-12-23T08:46:17+0100'
 let g:sonokai_loaded_file_types = []
-if g:theme['variant'] == 'cold'
+if g:theme_variant == 'cold'
   let s:darkbg = ['#101013', 237]
   let s:darkpurple = ['#803090', 240]
   let s:darkred = ['#601010', 249]

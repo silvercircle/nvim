@@ -96,8 +96,6 @@ vim.g.config = {
 }
 
 vim.g.theme = {
-  variant = "warm",     -- "warm" gives a slight red-ish tint for some backgrounds. "cold" a more blue-ish
-  desaturate = true,    -- true: desaturate some colors to get a more "pastel" look with less intense colors
   string = 'yellow',    -- yellow strings, default is green. Respects desaturate
   -- accent color is used for important highlights like the currently selected tab (buffer)
   -- and more.
@@ -105,6 +103,8 @@ vim.g.theme = {
   alt_accent_color = '#bd2f4f',
   lualine = 'internal'  -- use 'internal' for the integrated theme or any valid lualine theme name
 }
+vim.g.theme_variant = 'warm'
+vim.g.theme_desaturate = true
 
 vim.g.startify_top = {
   {
@@ -300,5 +300,4 @@ g.VM_Insert_hl = 'DiffChange'
 Telescope_dropdown_theme = require("local_utils").Telescope_dropdown_theme
 Telescope_vertical_dropdown_theme = require("local_utils").Telescope_vertical_dropdown_theme
 -- load the color theme
-vim.cmd [[silent! colorscheme my_sonokai]]
 
