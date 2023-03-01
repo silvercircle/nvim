@@ -1,6 +1,7 @@
 -- implements a split window showing weather data.
 -- depends on my ~/.weather/weather data file, created by fetchweather
 -- this is useless without.
+-- requires a NERDFont
 local globals = require("globals")
 
 local M = {}
@@ -11,6 +12,9 @@ M.win_height = nil
 M.weatherfile = ""
 
 local watch = nil
+
+-- this translates condition codes (single letters) to actual readable conditions. This is API specific
+-- and right now only implemented for the VC API (visual crossing)
 local conditions = {
   VC = {
     c = "󰖕 Partly Cloudy",
@@ -38,6 +42,7 @@ function M.resize_or_closed()
   end
 end
 
+--- handles file watcher events.
 local function onChange(cust, _, _, status)
   if not status.change then
     --source.debugmsg("No status change, do nothing")
@@ -82,6 +87,11 @@ function M.open(_weatherfile)
   end
 end
 
+--- prepare a line with two elements
+--- @param _left string: the left part of the line
+--- @param _right string: The right part
+--- @param correct number: a correction value to control the padding
+--- @return string: the line to print
 function M.prepare_line(_left, _right, correct)
   local format = "%-" .. math.floor(M.win_width / 2) .. "s"
   local left = string.format(format, _left)
@@ -92,6 +102,7 @@ function M.prepare_line(_left, _right, correct)
   return " " .. left .. pad .. right .. " "
 end
 
+--- close the buffer, temporarily stop the file watcher
 function M.close()
   if M.winid ~= nil then
     vim.api.nvim_win_close(M.winid, {force=true})
@@ -101,6 +112,10 @@ function M.close()
   end
 end
 
+--- set a highlight group for the given temperature
+--- @param temp string: the temperature
+--- @return string: the hl group
+--- TODO: make this customizable via a setup() method
 local function temp_to_hl(temp)
   local t = tonumber(string.gsub(temp, "°C", ""), 10)
   if t <= 0 then
@@ -120,6 +135,10 @@ local function temp_to_hl(temp)
   end
 end
 
+--- set a highlight group for the wind speed
+--- @param wind string: wind speed (assumed in km/h)
+--- @return string: A hl group
+--- TODO: make this customizable via a setup() method
 local function wind_to_hl(wind)
   local w = tonumber(string.gsub(wind, "km/h", ""), 10)
   if w < 5 then
@@ -137,6 +156,8 @@ local function wind_to_hl(wind)
   end
 end
 
+--- refresh the buffer. Called when the window is resized or the file watcher detects a change
+--- in the weather file
 function M.refresh()
   local results = {}
 
@@ -165,7 +186,7 @@ function M.refresh()
       end
       io.close(file)
       vim.api.nvim_buf_set_option(M.bufid, "modifiable", true)
-      local lcond = conditions[results['37']][results['2']]
+      local lcond = conditions[results['37']][string.lower(results['2'])]
       table.insert(lines, M.prepare_line(results['26'], " " .. results['28'], 0))
       table.insert(lines, M.prepare_line(lcond, results['33'], 1))
       table.insert(lines, "  ")
@@ -182,6 +203,8 @@ function M.refresh()
       end
       table.insert(lines, "  ")
       table.insert(lines, M.prepare_line("Tomorrow: " .. cond, "    " .. results['5'] .. "°C "  .. results['6'] .. "°C", 0))
+      -- set highlights. Use the max expected temp to highlight general conditions or specific
+      -- temps (like the Dew Point)
       hl = temp_to_hl(results['6'])
       vim.api.nvim_buf_set_lines(M.bufid, 0, -1, false, lines)
       vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 11, 0, -1)
