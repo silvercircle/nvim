@@ -153,7 +153,11 @@ lspconfig.rust_analyzer.setup({
       or util.find_git_ancestor(fname)
   end,
   settings = {
-    ['rust-analyzer'] = {},
+    ['rust-analyzer'] = {
+      checkOnSave = {
+        command = "clippy"
+      }
+    },
   },
   commands = {
     CargoReload = {
