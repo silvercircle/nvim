@@ -456,7 +456,7 @@ function M.parseLs(buf)
       -- dummy so we get '' as result for linenr
       match_cmd = match_cmd .. "(%d*)"
     end
-    local handle, flags, modified, filename, linenr = string.match(ls_line, match_cmd)
+    local handle, flags, modified, filename, _ = string.match(ls_line, match_cmd)
     if flags == "%a" then
       M.current_line = i
     end
@@ -473,13 +473,12 @@ function M.parseLs(buf)
 
     -- format preLine and postLine
     local preLine = string.format(lineformat, handle, modified_icon, fn_symbol)
-    local preLine_len = #preLine:gsub("[\128-\191]", "")
+    local preLine_len = vim.fn.strwidth(preLine)
     local postLine = string.format(" %s", icon)
-    --local postLine_len = #postLine:gsub("[\128-\191]", "")
-    local postLine_len = #postLine
+    local postLine_len = vim.fn.strwidth(postLine)
 
     -- determine filename field length and format filename
-    local filename_max_length = M.win_conf.width - preLine_len - 3
+    local filename_max_length = M.win_conf.width - preLine_len - postLine_len
     local filename_str = formatFilename(filename, filename_max_length)
     local line = preLine .. filename_str .. postLine
     -- set line and highligh
