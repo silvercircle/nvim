@@ -87,7 +87,14 @@ require("lualine").setup({
     },
   },
   sections = {
-    lualine_a = { "mode", "o:formatoptions", " : ", "o:textwidth" }, -- display textwidth after formattingoptions
+    lualine_a = { "mode", "o:formatoptions", " : ",
+    {
+      "o:textwidth",
+      fmt = function(str)
+        return string.format("%s:%s", str, vim.api.nvim_win_get_option(0, "wrap") == true and "wrap" or "nowrap")
+      end
+    },
+    }, -- display textwidth after formattingoptions
     lualine_b = { "branch", "diff", "diagnostics" },
     lualine_c = { "filename", "searchcount" },
     lualine_x = {

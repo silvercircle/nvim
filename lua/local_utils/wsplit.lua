@@ -202,7 +202,7 @@ function M.refresh()
         cond = "N/A"
       end
       table.insert(lines, "  ")
-      table.insert(lines, M.prepare_line("Tomorrow: " .. cond, "    " .. results['5'] .. "°C "  .. results['6'] .. "°C", 0))
+      table.insert(lines, M.prepare_line(results['7'] .. ": " .. cond, "  " .. results['5'] .. "°C "  .. results['6'] .. "°C", -1))
       -- set highlights. Use the max expected temp to highlight general conditions or specific
       -- temps (like the Dew Point)
       hl = temp_to_hl(results['6'])
