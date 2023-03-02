@@ -12,6 +12,7 @@ local utils = require("local_utils")
 local globals = require("globals")
 
 kms({ 'n', 'i' },  "<C-c>", "<NOP>", opts)
+map('i', "<ins>", "<nop>", opts)
 
 -- file tree
 map('n', "<leader>r", "<CMD>NvimTreeFindFile<CR>", opts)            -- sync Nvim-Tree with current

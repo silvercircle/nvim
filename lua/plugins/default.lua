@@ -51,7 +51,7 @@ local function full_filename()
 end
 
 local function indentstats()
-  return string.format("%d:%d/%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n')
+  return string.format("%d:%d:%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n')
 end
 
 -- the internal theme is defined in config.lua
