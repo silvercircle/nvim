@@ -252,6 +252,7 @@ function Lualine_internal_theme()
       a = { fg = LuaLineColors.darkestgreen, bg = LuaLineColors.brightgreen, gui = 'bold' },
       b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
       c = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
+      x = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
     },
     insert = {
       a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' },

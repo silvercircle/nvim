@@ -46,6 +46,10 @@ local function actual_tabline()
   end
 end
 
+local function padding()
+  return string.rep(" ", 200)
+end
+
 local function full_filename()
   return vim.fn.expand("%")
 end
@@ -96,7 +100,7 @@ require("lualine").setup({
     },
     }, -- display textwidth after formattingoptions
     lualine_b = { "branch", "diff", "diagnostics" },
-    lualine_c = { "filename", "searchcount" },
+    lualine_c = {"filename", "searchcount" },
     lualine_x = {
       { indentstats },
       {
@@ -140,11 +144,19 @@ require("lualine").setup({
         end
       }
     },
+    lualine_c = {
+      {
+        padding,
+        color = "WinBarInvis",
+        separator = { left = "", right = "" }
+      }
+    },
     lualine_z = {
       {
         full_filename,
+        separator = { left = "", right = "" },
         -- separator = { left ="", right = "" },
-        separator = "",
+        --separator = "",
         color = 'WinBarFilename'
       },
       'tabs'
