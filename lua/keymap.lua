@@ -137,7 +137,7 @@ kms({'i', 'n'}, "<f13>", function() vim.lsp.buf.signature_help() end, opts) -- s
 kms({'i', 'n'}, "<f1>", function() vim.lsp.buf.hover() end, opts)
 --
 -- shift-F4: refresh indent guides
-kms({ 'n', 'i', 'v' }, "<f16>", function() ibl.refresh() end, opts)
+kms({ 'n', 'i', 'v' }, "<f16>", function() vim.cmd("set fdm=expr") ibl.refresh() end, opts)
 kms({ 'n', 'i'}, "<f4>", function() globals.mkview() end, opts)
 kms({ 'n', 'i', 'v' }, "<f28>", function() vim.schedule(function() vim.cmd("set fdm=expr") globals.mkview() end) end, opts)
 

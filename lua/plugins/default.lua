@@ -46,8 +46,10 @@ local function actual_tabline()
   end
 end
 
+--- hack-ish. just return a very long string for the central section. Set the
+--- highlight group to bg=none and fg=bg and it will appear "transparent"
 local function padding()
-  return string.rep(" ", 200)
+  return string.rep(" ", 250)
 end
 
 local function full_filename()

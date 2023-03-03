@@ -1125,19 +1125,13 @@ call my_sonokai#highlight('NeoTreeFileNameOpened', s:palette.blue, s:palette.neo
 hi! link NeoTreeCursorLine Visual
 
 " winbar 
-
-call my_sonokai#highlight('WinBarFilename', s:teal, s:palette.none)
-call my_sonokai#highlight('WinBarContext', s:palette.darkyellow, s:palette.none, 'bold')
+call my_sonokai#highlight('WinBarFilename', s:teal, s:palette.none)                      " Filename (right hand)
+call my_sonokai#highlight('WinBarContext', s:palette.darkyellow, s:palette.none, 'bold') " LSP context (left hand)
+" WinBarInvis is for the central padding item. It should be transparent and invisible (fg = bg)
+" This is a somewhat hack-ish way to make the lualine-controlle winbar transparent.
 call my_sonokai#highlight('WinBarInvis', s:bg, s:palette.none)
 hi! link WinBarNC StatusLineNC
-" Org mode
-"
-call my_sonokai#highlight('OrgTSHeadlineLevel1', s:blue, s:palette.none, 'bold')
-hi! link OrgTSHeadlineLevel2 OrgTSHeadlineLevel1
-
-" markdown (preservim/vim-markdown)
 
 " Lazy
-"
 hi! link LazyNoCond RedBold
 hi! link VirtColumn IndentBlankLineChar
