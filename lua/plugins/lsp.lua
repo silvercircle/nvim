@@ -10,13 +10,6 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
-local on_diagnostic_refresh = function(_, _, ctx)
-  local ns = vim.lsp.diagnostic.get_namespace(ctx.client_id)
-  local bufnr = vim.api.nvim_get_current_buf()
-  vim.diagnostic.reset(ns, bufnr)
-  return true
-end
-
 -- Customize LSP behavior via on_attach
 local on_attach = function(client, bufnr)
   if vim.g.config.use_winbar == true then
@@ -451,13 +444,15 @@ end
 -- Fidget.nvim (LSP status widget)
 require("fidget").setup({
   text = {
-    --see ~/.vim/plugged/fidget.nvim/lua/fidget/spinners.lua
     spinner = "zip",
   },
   window = {
     relative = "win",
-    blend = 50,
+    blend = 100
   },
+  timer = {
+    spinner_rate = 500
+  }
 })
 
 local glance = require("glance")

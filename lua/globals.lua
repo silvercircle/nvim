@@ -199,7 +199,7 @@ function M.splittree(_factor)
     vim.api.nvim_win_set_option(M.winid_bufferlist, "list", false)
     vim.api.nvim_win_set_option(M.winid_bufferlist, "statusline", "Buffer List")
     vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0")
-    vim.fn.win_gotoid(vim.g.config.main_winid)
+    vim.fn.win_gotoid(M.main_winid)
     return M.winid_bufferlist
   end
   return 0
@@ -233,7 +233,7 @@ function M.termToggle(_height)
     M.term.winid = nil
     return
   end
-  vim.fn.win_gotoid(vim.g.config.main_winid)
+  vim.fn.win_gotoid(M.main_winid)
   if M.term.bufid == nil then
     vim.cmd("belowright " .. height .. " sp|terminal export NOCOW=1 && $SHELL")
   else

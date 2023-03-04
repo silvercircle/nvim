@@ -64,7 +64,6 @@ vim.g.config = {
                                               -- when false, views are only written on write/update or manually (f4)
   mkview_on_fold = false,                     -- always create a view when using the folding keys (f2/f3)
   use_winbar = true,
-  main_winid = 1000,                          -- this is normally 1000 for the first window. It's updated in UIEnter autocmd
   termheight = 11,
   iconpad = ' ',                              -- additional padding for devicons.
   sysmon = {

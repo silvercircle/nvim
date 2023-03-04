@@ -12,6 +12,7 @@ local utils = require("local_utils")
 local globals = require("globals")
 
 kms({ 'n', 'i' },  "<C-c>", "<NOP>", opts)
+-- disable <ins> toggling the (annoying) replace mode. Instead use <c-ins> to switch to replace
 map('i', "<ins>", "<nop>", opts)
 
 -- file tree
@@ -24,6 +25,7 @@ kms('n', "<leader>,",
     if globals.findbufbyType("BufList") ~= false then
       require("local_utils.blist").close()
     end
+    -- foobar
     require("nvim-tree.api").tree.toggle()
   end, opts)              -- toggle the Nvim-Tree
 
@@ -72,7 +74,7 @@ map('i', "<f5>", '<c-o><CMD>nohl<CR>', opts)
 map('i', "<C-y>-", "—", opts)        -- emdash
 map('i', "<C-y>\"", "„”", opts)       -- typographic quotes („”)
 -- close window
-kms( {'n', 'i'}, "<A-w>", function() if vim.fn.win_getid() ~= vim.g.config.main_winid then vim.cmd("close") end end, opts)
+kms( {'n', 'i'}, "<A-w>", function() if vim.fn.win_getid() ~= globals.main_winid then vim.cmd("close") end end, opts)
 
 -- quickfix/loclist navigation
 kms('n', "<C-f>c", function() globals.close_qf_or_loc() end, opts)
