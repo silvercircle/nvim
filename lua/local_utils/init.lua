@@ -73,6 +73,36 @@ function M.truncate(text, max_width)
   end
 end
 
+function M.selectFrom()
+  local lines = {}
+  local i = 1
+  local adresses = {
+    {
+      name = "alex",
+      mail = "<aschorna@yandex.com.invalid>"
+    },
+    {
+      name = "Alex Shorner",
+      mail = "<as@subspsce.cc.invalid>"
+    }
+  }
+  for _,v in ipairs(adresses) do
+    lines[i] = "\"" .. v.name .. "\" " .. v.mail
+    i = i + 1
+  end
+  vim.ui.select(lines, {
+  prompt = 'Select From adress',
+    format_item = function(item)
+      return M.pad(item, 60, ' ')
+    end,
+  },
+  function(choice)
+    if #choice >1 then
+      vim.cmd("%s/^From: .*/From: " .. choice)
+      return choice
+    end
+  end)
+end
 --- find root (guesswork) for the file with the full path fname
 --- tries a git root first, then uses known patterns to identify a potential project root
 --- patterns are in conf table.
