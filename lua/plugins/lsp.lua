@@ -6,10 +6,12 @@ if vim.g.config.use_winbar == true then
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- local cmp_nvim_lsp = require("cmp_nvim_lsp")
+-- capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
-local cmp_nvim_lsp = require("cmp_nvim_lsp")
-capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
 
+print(vim.inspect(capabilities))
 -- Customize LSP behavior via on_attach
 local on_attach = function(client, bufnr)
   if vim.g.config.use_winbar == true then
@@ -299,6 +301,7 @@ local lua_root_files = {
 }
 
 lspconfig.lua_ls.setup {
+  capabilities = capabilities,
   on_attach = on_attach,
   cmd = { vim.g.lsp_server_bin['lua_ls'], '--logpath=' .. vim.fn.stdpath("data") },
   root_dir = function(fname)
@@ -349,7 +352,6 @@ require("lsp.jdtls")
 
 do
   local on_references = vim.lsp.handlers["textDocument/references"]
-  
   local lsp_handlers_hover = vim.lsp.with(vim.lsp.handlers.hover, {
     border = "single",
   })
