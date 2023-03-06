@@ -9,19 +9,12 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 -- local cmp_nvim_lsp = require("cmp_nvim_lsp")
 -- capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
-capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
+-- capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
 
-print(vim.inspect(capabilities))
 -- Customize LSP behavior via on_attach
 local on_attach = function(client, bufnr)
   if vim.g.config.use_winbar == true then
     navic.attach(client, bufnr)
-  end
-  -- Disable specific LSP capabilities: see nvim-lspconfig#1891
-  if client.name == "sumneko_lua" and client.server_capabilities then
-    client.server_capabilities.documentFormattingProvider = false
-  elseif client.name == 'omnisharp' and client.server_capabilities then
-    client.server_capabilities.semanticTokensProvider = {}
   end
 end
 
@@ -45,11 +38,13 @@ lspconfig.tsserver.setup({
 
 lspconfig.texlab.setup({
   cmd = { vim.g.lsp_server_bin['texlab'] },
-  on_attach = on_attach
+  on_attach = on_attach,
+  capabilities = capabilities
 })
 
 lspconfig.nimls.setup({
   on_attach = on_attach,
+  capabilities = capabilities,
   cmd = { vim.g.lsp_server_bin['nimls'] },
   filetypes = { 'nim' },
   root_dir = function(fname)
@@ -60,7 +55,8 @@ lspconfig.nimls.setup({
 
 lspconfig.clangd.setup({
   cmd = { 'clangd' },
-  on_attach = on_attach
+  on_attach = on_attach,
+  capabilities = capabilities
 })
 
 lspconfig.als.setup({
@@ -105,6 +101,7 @@ end
 lspconfig.rust_analyzer.setup({
   cmd = { vim.g.lsp_server_bin['rust_analyzer'] },
   on_attach = on_attach,
+  capabilities = capabilities,
   filetypes = { 'rust' },
   root_dir = function(fname)
     local cargo_crate_dir = util.root_pattern 'Cargo.toml'(fname)
@@ -224,6 +221,7 @@ lspconfig.serve_d.setup({
 
 lspconfig.yamlls.setup({
   on_attach = on_attach,
+  capabilities = capabilities,
   cmd = { vim.g.lsp_server_bin['yamlls'], '--stdio' },
   filetypes = { 'yaml', 'yaml.docker-compose' },
   root_dir = util.find_git_ancestor,
@@ -236,6 +234,7 @@ lspconfig.yamlls.setup({
 
 lspconfig.csharp_ls.setup({
   on_attach = on_attach,
+  capabilities = capabilities,
   cmd = { vim.g.lsp_server_bin['csharp_ls'] },
     root_dir = util.root_pattern('*.sln', '*.csproj', '*.fsproj', '.git'),
     filetypes = { 'cs' },
@@ -268,7 +267,8 @@ lspconfig.metals.setup({
 -- python pyright
 lspconfig.pyright.setup({
   cmd = { vim.g.lsp_server_bin['pyright'], '--stdio' },
-  on_attach = on_attach
+  on_attach = on_attach,
+  capabilities = capabilities
 })
 
 lspconfig.marksman.setup({
@@ -280,10 +280,12 @@ lspconfig.marksman.setup({
     return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname)
   end,
   single_file_support = true,
+  capabilities = capabilities
 })
 
 lspconfig.lemminx.setup({
   on_attach = on_attach,
+  capabilities = capabilities,
   cmd = { vim.g.lsp_server_bin['lemminx'] },
   filetypes = { 'xml', 'xsd', 'xsl', 'xslt', 'svg' },
   root_dir = util.find_git_ancestor,
