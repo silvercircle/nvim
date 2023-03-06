@@ -16,6 +16,9 @@ local on_attach = function(client, bufnr)
   if vim.g.config.use_winbar == true then
     navic.attach(client, bufnr)
   end
+  if client.name == 'marksman' then
+    client.server_capabilities.semanticTokensProvider = {}
+  end
 end
 
 lspconfig.tsserver.setup({
