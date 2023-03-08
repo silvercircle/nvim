@@ -342,6 +342,9 @@ call my_sonokai#highlight('Underlined', s:palette.none, s:palette.none, 'underli
 " }}}
 " Predefined Highlight Groups: {{{
 call my_sonokai#highlight('Fg', s:palette.fg, s:palette.none)
+call my_sonokai#highlight('FgBold', s:palette.fg, s:palette.none, 'bold')
+call my_sonokai#highlight('FgItalic', s:palette.fg, s:palette.none, 'italic')
+call my_sonokai#highlight('FgDimBold', s:palette.fg_dim, s:palette.none, 'bold')
 call my_sonokai#highlight('Grey', s:palette.grey, s:palette.none)
 call my_sonokai#highlight('Red', s:palette.red, s:palette.none)
 call my_sonokai#highlight('PaleRed', s:palette.palered, s:palette.none, 'bold')
@@ -516,48 +519,11 @@ highlight! link @type.qualifier TSTypeQualifier
 highlight! link @uri TSURI
 highlight! link @variable TSVariable
 highlight! link @variable.builtin TSVariableBuiltin
-" }}}
-" prabirshrestha/vim-lsp {{{
-highlight! link LspErrorVirtual VirtualTextError
-highlight! link LspWarningVirtual VirtualTextWarning
-highlight! link LspInformationVirtual VirtualTextInfo
-highlight! link LspHintVirtual VirtualTextHint
-highlight! link LspErrorHighlight ErrorText
-highlight! link LspWarningHighlight WarningText
-highlight! link LspInformationHighlight InfoText
-highlight! link LspHintHighlight HintText
-highlight! link lspReference CurrentWord
-highlight! link lspInlayHintsType LineNr
-highlight! link lspInlayHintsParameter LineNr
-highlight! link LspSemanticType TSType
-highlight! link LspSemanticClass TSType
-highlight! link LspSemanticEnum TSType
-highlight! link LspSemanticInterface TSType
-highlight! link LspSemanticStruct TSType
-highlight! link LspSemanticTypeParameter TSType
-highlight! link LspSemanticParameter TSParameter
-highlight! link LspSemanticVariable TSVariable
-highlight! link LspSemanticProperty TSProperty
-highlight! link LspSemanticEnumMember TSVariableBuiltin
-highlight! link LspSemanticEvents TSLabel
-highlight! link LspSemanticFunction TSFunction
-highlight! link LspSemanticMethod TSMethod
-highlight! link LspSemanticKeyword TSKeyword
-highlight! link LspSemanticModifier TSOperator
-highlight! link LspSemanticComment TSComment
-highlight! link LspSemanticString TSString
-highlight! link LspSemanticNumber TSNumber
-highlight! link LspSemanticRegexp TSStringRegex
-highlight! link LspSemanticOperator TSOperator
-" }}}
-highlight! link SignifySignAdd GreenSign
-highlight! link SignifySignChange BlueSign
-highlight! link SignifySignDelete RedSign
-highlight! link SignifySignChangeDelete PurpleSign
-highlight! link SignifyLineAdd DiffAdd
-highlight! link SignifyLineChange DiffChange
-highlight! link SignifyLineChangeDelete DiffChange
-highlight! link SignifyLineDelete DiffDelete
+
+" Treesitter semantic
+highlight! link @lsp.type.parameter FgDimBold
+highlight! link @lsp.type.variable FgBold
+
 " terryma/vim-multiple-cursors {{{
 highlight! link multiple_cursors_cursor Cursor
 highlight! link multiple_cursors_visual Visual

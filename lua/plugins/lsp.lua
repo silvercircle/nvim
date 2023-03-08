@@ -16,10 +16,10 @@ local on_attach = function(client, bufnr)
   if vim.g.config.use_winbar == true then
     navic.attach(client, bufnr)
   end
---  if client.name == 'marksman' then
+  if client.name == 'marksman' then
 -- disable semantic tokens, might be buggy with some LSP servers
-  client.server_capabilities.semanticTokensProvider = {}
---  end
+    client.server_capabilities.semanticTokensProvider = {}
+  end
 end
 
 lspconfig.tsserver.setup({
