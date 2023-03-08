@@ -32,6 +32,7 @@ if g:theme_desaturate == v:true
   let s:blue =   ['#5a6acf', 239]
   let s:purple = ['#b070b0', 241]
   let s:teal =   ['#408080', 238]
+  let s:brightteal =   ['#70a0c0', 238]
 else
   if g:theme['string'] == 'yellow'
     let s:string = ['#cccc60', 231]
@@ -42,6 +43,7 @@ else
   let s:blue =   ['#4a4adf', 239]
   let s:purple = ['#c030c0', 241]
   let s:teal =   ['#108080', 238]
+  let s:brightteal =   ['#30a0c0', 238]
 endif
 
 " The default variant is "warm"
@@ -324,6 +326,8 @@ call my_sonokai#highlight('Character', s:palette.yellow, s:palette.none)
 call my_sonokai#highlight('Number', s:purple, s:palette.none, 'bold')
 call my_sonokai#highlight('Float', s:palette.purple, s:palette.none)
 call my_sonokai#highlight('Function', s:teal, s:palette.none, 'bold')
+call my_sonokai#highlight('Method', s:brightteal, s:palette.none, 'bold')
+
 call my_sonokai#highlight('Operator', s:palette.red, s:palette.none, 'bold')
 call my_sonokai#highlight('Title', s:palette.red, s:palette.none, 'bold')
 call my_sonokai#highlight('Tag', s:palette.orange, s:palette.none)
@@ -440,7 +444,7 @@ highlight! link TSKeyword BlueBold
 highlight! link TSKeywordFunction PaleRed
 highlight! link TSKeywordOperator RedBold
 highlight! link TSLabel Red
-highlight! link TSMethod TealBold
+highlight! link TSMethod Method
 highlight! link TSNamespace DarkPurpleBold
 highlight! link TSNone Fg
 highlight! link TSNumber Number
@@ -523,6 +527,8 @@ highlight! link @variable.builtin TSVariableBuiltin
 " Treesitter semantic
 highlight! link @lsp.type.parameter FgDimBold
 highlight! link @lsp.type.variable FgBold
+highlight! link @lsp.type.selfKeyword TSTypeBuiltin
+highlight! link @lsp.type.method Method
 
 " terryma/vim-multiple-cursors {{{
 highlight! link multiple_cursors_cursor Cursor
