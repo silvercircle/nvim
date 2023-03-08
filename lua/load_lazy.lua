@@ -218,6 +218,13 @@ local plugins = {
     config = function()
       require("inc_rename").setup()
     end
+  },
+  {
+    'pwntester/octo.nvim',
+    cmd = { "Octo" },
+    config = function()
+      require("plugins.octo")
+    end
   }
 }
 -- for experimental purpose, I use some private forks and local repos.
