@@ -465,7 +465,7 @@ highlight! link TSTypeDefinition Red
 highlight! link TSTypeQualifier BlueItalic
 highlight! link TSURI markdownUrl
 highlight! link TSVariable Fg
-highlight! link TSVariableBuiltin OrangeItalic
+highlight! link TSVariableBuiltin Fg
 highlight! link @annotation TSAnnotation
 highlight! link @attribute TSAttribute
 highlight! link @boolean TSBoolean

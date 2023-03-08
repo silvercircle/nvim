@@ -235,3 +235,8 @@ kms('n', "<leader>wr", function() globals.toggle_wrap() end, opts)
 kms("n", "ren", function()
   return ":IncRename " .. vim.fn.expand("<cword>")
 end, { expr = true })
+
+kms({'n', 'i'}, "<C-x>d", function() vim.lsp.buf.definition() end, opts)
+kms({'n', 'i'}, "<C-x>r", function() vim.lsp.buf.references() end, opts)
+kms({'n', 'i'}, "<C-x>t", function() vim.lsp.buf.type_definition() end, opts)
+

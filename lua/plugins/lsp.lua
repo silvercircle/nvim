@@ -6,8 +6,8 @@ if vim.g.config.use_winbar == true then
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
--- local cmp_nvim_lsp = require("cmp_nvim_lsp")
--- capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+--local cmp_nvim_lsp = require("cmp_nvim_lsp")
+--capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
 -- capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
 
@@ -16,9 +16,10 @@ local on_attach = function(client, bufnr)
   if vim.g.config.use_winbar == true then
     navic.attach(client, bufnr)
   end
-  if client.name == 'marksman' then
-    client.server_capabilities.semanticTokensProvider = {}
-  end
+--  if client.name == 'marksman' then
+-- disable semantic tokens, might be buggy with some LSP servers
+  client.server_capabilities.semanticTokensProvider = {}
+--  end
 end
 
 lspconfig.tsserver.setup({
