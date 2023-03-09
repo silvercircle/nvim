@@ -526,7 +526,7 @@ highlight! link @variable.builtin TSVariableBuiltin
 
 " Treesitter semantic
 highlight! link @lsp.type.parameter FgDimBold
-highlight! link @lsp.type.variable FgBold
+highlight! link @lsp.type.variable Fg
 highlight! link @lsp.type.selfKeyword TSTypeBuiltin
 highlight! link @lsp.type.method Method
 

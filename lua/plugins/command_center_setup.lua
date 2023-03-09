@@ -118,13 +118,17 @@ command_center.add({
   {
     desc = "LSP Jump to definition",
     cmd = function() vim.lsp.buf.definition() end,
-    keys = { "n", "ld", noremap },
+    keys = { { "n", "<C-x>d", noremap },
+             { 'i', "<C-x>d", noremap }
+           },
     category = "@LSP"
   },
   {
     desc = "LSP References",
     cmd = function() vim.lsp.buf.references() end,
-    keys = { "n", "lr", noremap },
+    keys = { { "n", "<C-x>r", noremap },
+             { 'i', "<C-x>r", noremap }
+           },
     category = "@LSP"
   },
   {
@@ -136,7 +140,9 @@ command_center.add({
   {
     desc = "LSP Jump to type definition",
     cmd = function() vim.lsp.buf.type_definition() end,
-    keys = { "n", "lt", noremap },
+    keys = { { "n", "<C-x>t", noremap },
+             { 'i', "<C-x>t", noremap }
+           },
     category = "@LSP"
   },
 
