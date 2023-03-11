@@ -145,7 +145,6 @@ command_center.add({
            },
     category = "@LSP"
   },
-
 -- Telescope LSP code navigation and diagnostics
   {
     desc = "Jump to definition (Telescope)",

@@ -304,7 +304,7 @@ call my_sonokai#highlight('Type', s:darkpurple, s:palette.none, 'bold')
 call my_sonokai#highlight('Structure', s:darkpurple, s:palette.none, 'bold')
 call my_sonokai#highlight('StorageClass', s:purple, s:palette.none, 'bold')
 call my_sonokai#highlight('Identifier', s:palette.orange, s:palette.none)
-call my_sonokai#highlight('Constant', s:palette.orange, s:palette.none)
+call my_sonokai#highlight('Constant', s:palette.purple, s:palette.none)
 call my_sonokai#highlight('PreProc', s:palette.darkyellow, s:palette.none, 'bold')
 call my_sonokai#highlight('PreCondit', s:palette.darkyellow, s:palette.none, 'bold')
 call my_sonokai#highlight('Include', s:palette.green, s:palette.none)
@@ -349,6 +349,7 @@ call my_sonokai#highlight('Fg', s:palette.fg, s:palette.none)
 call my_sonokai#highlight('FgBold', s:palette.fg, s:palette.none, 'bold')
 call my_sonokai#highlight('FgItalic', s:palette.fg, s:palette.none, 'italic')
 call my_sonokai#highlight('FgDimBold', s:palette.fg_dim, s:palette.none, 'bold')
+call my_sonokai#highlight('FgDimBoldItalic', s:palette.fg_dim, s:palette.none, 'bold,italic')
 call my_sonokai#highlight('Grey', s:palette.grey, s:palette.none)
 call my_sonokai#highlight('Red', s:palette.red, s:palette.none)
 call my_sonokai#highlight('PaleRed', s:palette.palered, s:palette.none, 'bold')
@@ -431,7 +432,7 @@ highlight! link TSComment Comment
 highlight! link TSConditional Conditional
 highlight! link TSConstBuiltin OrangeItalic
 highlight! link TSConstMacro OrangeItalic
-highlight! link TSConstant OrangeItalic
+highlight! link TSConstant Constant
 highlight! link TSConstructor Yellow
 highlight! link TSException Red
 highlight! link TSField Orange
@@ -449,7 +450,7 @@ highlight! link TSNamespace DarkPurpleBold
 highlight! link TSNone Fg
 highlight! link TSNumber Number
 highlight! link TSOperator RedBold
-highlight! link TSParameter Fg
+highlight! link TSParameter FgDimBoldItalic
 highlight! link TSParameterReference Fg
 highlight! link TSProperty Orange
 highlight! link TSPunctBracket RedBold
@@ -525,7 +526,7 @@ highlight! link @variable TSVariable
 highlight! link @variable.builtin TSVariableBuiltin
 
 " Treesitter semantic
-highlight! link @lsp.type.parameter FgDimBold
+highlight! link @lsp.type.parameter FgDimBoldItalic
 highlight! link @lsp.type.variable Fg
 highlight! link @lsp.type.selfKeyword TSTypeBuiltin
 highlight! link @lsp.type.method Method
