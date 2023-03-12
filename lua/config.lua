@@ -282,20 +282,11 @@ end
 -- global variables for plugins
 g.mapleader = ','
 
--- sonokai theme
-g.sonokai_menu_selection_background='red'
-g.sonokai_transparent_background=1
-g.sonokai_disable_italic_comment=1
-g.sonokai_cursor = "auto"
-g.sonokai_diagnostic_text_highlight=0
-g.sonokai_diagnostic_line_highlight=0
-
 -- multicursor highlight colors
 g.VM_Mono_hl   = 'DiffText'
 g.VM_Extend_hl = 'DiffAdd'
 g.VM_Cursor_hl = 'Visual'
 g.VM_Insert_hl = 'DiffChange'
-
 
 Telescope_dropdown_theme = require("local_utils").Telescope_dropdown_theme
 Telescope_vertical_dropdown_theme = require("local_utils").Telescope_vertical_dropdown_theme

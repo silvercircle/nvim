@@ -10,18 +10,6 @@
 " -----------------------------------------------------------------------------
 " TODO: convert this to lua at some point
 
-function! my_sonokai#get_configuration()
-  return {
-        \ 'colors_override': get(g:, 'sonokai_colors_override', {}),
-        \ 'dim_inactive_windows': get(g:, 'sonokai_dim_inactive_windows', 0),
-        \ 'disable_italic_comment': get(g:, 'sonokai_disable_italic_comment', 0),
-        \ 'diagnostic_text_highlight': get(g:, 'sonokai_diagnostic_text_highlight', 0),
-        \ 'diagnostic_line_highlight': get(g:, 'sonokai_diagnostic_line_highlight', 0),
-        \ 'diagnostic_virtual_text': get(g:, 'sonokai_diagnostic_virtual_text', 'grey'),
-        \ 'disable_terminal_colors': get(g:, 'sonokai_disable_terminal_colors', 0),
-        \ }
-endfunction
-
 if g:theme_desaturate == v:true
   let s:orange = ['#ab6a6c', 215]
   if g:theme['string'] == 'yellow'
@@ -133,7 +121,6 @@ function! my_sonokai#highlight(group, fg, bg, ...)
 endfunction
 
 " Initialization:
-let s:configuration = my_sonokai#get_configuration()
 let s:palette = palette
 let s:path = expand('<sfile>:p') " the path of this script
 let s:last_modified = '2022-12-23T08:46:17+0100'
@@ -332,15 +319,9 @@ call my_sonokai#highlight('Operator', s:palette.red, s:palette.none, 'bold')
 call my_sonokai#highlight('Title', s:palette.red, s:palette.none, 'bold')
 call my_sonokai#highlight('Tag', s:palette.orange, s:palette.none)
 call my_sonokai#highlight('Delimiter', s:palette.red, s:palette.none, 'bold')
-if s:configuration.disable_italic_comment
-  call my_sonokai#highlight('Comment', s:palette.grey, s:palette.none)
-  call my_sonokai#highlight('SpecialComment', s:palette.grey, s:palette.none)
-  call my_sonokai#highlight('Todo', s:palette.blue, s:palette.none)
-else
-  call my_sonokai#highlight('Comment', s:palette.grey, s:palette.none, 'italic')
-  call my_sonokai#highlight('SpecialComment', s:palette.grey, s:palette.none, 'italic')
-  call my_sonokai#highlight('Todo', s:palette.blue, s:palette.none, 'italic')
-endif
+call my_sonokai#highlight('Comment', s:palette.grey, s:palette.none)
+call my_sonokai#highlight('SpecialComment', s:palette.grey, s:palette.none)
+call my_sonokai#highlight('Todo', s:palette.blue, s:palette.none)
 call my_sonokai#highlight('Ignore', s:palette.grey, s:palette.none)
 call my_sonokai#highlight('Underlined', s:palette.none, s:palette.none, 'underline')
 " }}}
@@ -379,39 +360,18 @@ call my_sonokai#highlight('YellowSign', s:palette.yellow, s:palette.none)
 call my_sonokai#highlight('GreenSign', s:string, s:palette.none)
 call my_sonokai#highlight('BlueSign', s:palette.blue, s:palette.none)
 call my_sonokai#highlight('PurpleSign', s:palette.purple, s:palette.none)
-if s:configuration.diagnostic_text_highlight
-  call my_sonokai#highlight('ErrorText', s:palette.none, s:palette.diff_red, 'undercurl', s:palette.red)
-  call my_sonokai#highlight('WarningText', s:palette.none, s:palette.diff_yellow, 'undercurl', s:palette.yellow)
-  call my_sonokai#highlight('InfoText', s:palette.none, s:palette.diff_blue, 'undercurl', s:palette.blue)
-  call my_sonokai#highlight('HintText', s:palette.none, s:palette.diff_green, 'undercurl', s:palette.green)
-else
-  call my_sonokai#highlight('ErrorText', s:palette.none, s:palette.none, 'undercurl', s:palette.red)
-  call my_sonokai#highlight('WarningText', s:palette.none, s:palette.none, 'undercurl', s:palette.yellow)
-  call my_sonokai#highlight('InfoText', s:palette.none, s:palette.none, 'undercurl', s:palette.blue)
-  call my_sonokai#highlight('HintText', s:palette.none, s:palette.none, 'undercurl', s:palette.green)
-endif
-if s:configuration.diagnostic_line_highlight
-  call my_sonokai#highlight('ErrorLine', s:palette.none, s:palette.diff_red)
-  call my_sonokai#highlight('WarningLine', s:palette.none, s:palette.diff_yellow)
-  call my_sonokai#highlight('InfoLine', s:palette.none, s:palette.diff_blue)
-  call my_sonokai#highlight('HintLine', s:palette.none, s:palette.diff_green)
-else
-  highlight clear ErrorLine
-  highlight clear WarningLine
-  highlight clear InfoLine
-  highlight clear HintLine
-endif
-if s:configuration.diagnostic_virtual_text ==# 'grey'
-  highlight! link VirtualTextWarning Grey
-  highlight! link VirtualTextError Grey
-  highlight! link VirtualTextInfo Grey
-  highlight! link VirtualTextHint Grey
-else
-  highlight! link VirtualTextWarning Yellow
-  highlight! link VirtualTextError Red
-  highlight! link VirtualTextInfo Blue
-  highlight! link VirtualTextHint Green
-endif
+call my_sonokai#highlight('ErrorText', s:palette.none, s:palette.none, 'undercurl', s:palette.red)
+call my_sonokai#highlight('WarningText', s:palette.none, s:palette.none, 'undercurl', s:palette.yellow)
+call my_sonokai#highlight('InfoText', s:palette.none, s:palette.none, 'undercurl', s:palette.blue)
+call my_sonokai#highlight('HintText', s:palette.none, s:palette.none, 'undercurl', s:palette.green)
+highlight clear ErrorLine
+highlight clear WarningLine
+highlight clear InfoLine
+highlight clear HintLine
+highlight! link VirtualTextWarning Grey
+highlight! link VirtualTextError Grey
+highlight! link VirtualTextInfo Grey
+highlight! link VirtualTextHint Grey
 call my_sonokai#highlight('ErrorFloat', s:palette.red, s:palette.none) " was palette.bg2"
 call my_sonokai#highlight('WarningFloat', s:palette.yellow, s:palette.none)
 call my_sonokai#highlight('InfoFloat', s:palette.blue, s:palette.none)
@@ -806,22 +766,6 @@ highlight! link htmlString Green
 highlight! link djangoTagBlock Yellow
 " }}}
 " syn_end }}}
-" syn_begin: xml {{{
-" builtin: https://github.com/chrisbra/vim-xml-ftplugin{{{
-highlight! link xmlTag Green
-highlight! link xmlEndTag Blue
-highlight! link xmlTagName RedItalic
-highlight! link xmlEqual Orange
-highlight! link xmlAttrib Blue
-highlight! link xmlEntity Red
-highlight! link xmlEntityPunct Red
-highlight! link xmlDocTypeDecl Grey
-highlight! link xmlDocTypeKeyword RedItalic
-highlight! link xmlCdataStart Grey
-highlight! link xmlCdataCdata Purple
-highlight! link xmlString Green
-" }}}
-" syn_end }}}
 " syn_begin: less {{{
 " vim-less: https://github.com/groenewege/vim-less{{{
 highlight! link lessMixinChar Grey
@@ -1026,16 +970,6 @@ highlight! link tomlKey Red
 highlight! link tomlBoolean Blue
 highlight! link tomlString Green
 highlight! link tomlTableArray tomlTable
-" syn_end }}}
-" syn_begin: gitcommit {{{
-highlight! link gitcommitSummary Red
-highlight! link gitcommitUntracked Grey
-highlight! link gitcommitDiscarded Grey
-highlight! link gitcommitSelected Grey
-highlight! link gitcommitUnmerged Grey
-highlight! link gitcommitOnBranch Grey
-highlight! link gitcommitArrow Grey
-highlight! link gitcommitFile Green
 " syn_end }}}
 " syn_begin: help {{{
 call my_sonokai#highlight('helpNote', s:palette.purple, s:palette.none, 'bold')
