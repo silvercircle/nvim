@@ -10,28 +10,34 @@
 " -----------------------------------------------------------------------------
 " TODO: convert this to lua at some point
 
+" desaturate means that some colors are less intense and less vivid but retain their basic color
+" tint, resulting in a more "pastel" look.
 if g:theme_desaturate == v:true
   let s:orange = ['#ab6a6c', 215]
   if g:theme['string'] == 'yellow'
-    let s:string = ['#a0a050', 231]
+    let s:string = ['#9a9a60', 231]
   else
     let s:string = ['#40804f', 231]
   endif
-  let s:blue =   ['#5a6acf', 239]
-  let s:purple = ['#b070b0', 241]
-  let s:teal =   ['#408080', 238]
-  let s:brightteal =   ['#70a0c0', 238]
+  let s:blue =          ['#5a6acf', 239]
+  let s:purple =        ['#b070b0', 241]
+  let s:teal =          ['#508080', 238]
+  let s:brightteal =    ['#70a0c0', 238]
+  let s:darkpurple =    ['#705070', 240]
+  let s:red =           ['#bb4d5c', 203]
 else
   if g:theme['string'] == 'yellow'
     let s:string = ['#cccc60', 231]
   else
     let s:string = ['#10801f', 231]
   endif
-  let s:orange = ['#c36630', 215]
-  let s:blue =   ['#4a4adf', 239]
-  let s:purple = ['#c030c0', 241]
-  let s:teal =   ['#108080', 238]
-  let s:brightteal =   ['#30a0c0', 238]
+  let s:orange =        ['#c36630', 215]
+  let s:blue =          ['#4a4adf', 239]
+  let s:purple =        ['#c030c0', 241]
+  let s:teal =          ['#108080', 238]
+  let s:brightteal =    ['#30a0c0', 238]
+  let s:darkpurple =    ['#803090', 240]
+  let s:red =           ['#cc2d4c', 203]
 endif
 
 " The default variant is "warm"
@@ -53,7 +59,7 @@ if g:theme_variant == 'cold'
         \ 'diff_yellow':['#4e432f',   '54'],
         \ 'fg':         ['#d2c2c0',   '250'],
         \ 'fg_dim':     ['#959290',   '251'],
-        \ 'red':        ['#cc2d4c',   '203'],
+        \ 'red':        s:red,
         \ 'palered':    ['#8b2d3c',   '203'],
         \ 'orange':     s:orange,
         \ 'yellow':     ['#e7c664',   '179'],
@@ -86,7 +92,7 @@ else
         \ 'diff_yellow':['#4e432f',   '54'],
         \ 'fg':         ['#d2c2c0',   '250'],
         \ 'fg_dim':     ['#959290',   '251'],
-        \ 'red':        ['#cc2d4c',   '203'],
+        \ 'red':        s:red,
         \ 'palered':    ['#8b2d3c',   '203'],
         \ 'orange':     s:orange,
         \ 'yellow':     ['#e7c664',   '179'],
@@ -127,7 +133,6 @@ let s:last_modified = '2022-12-23T08:46:17+0100'
 let g:sonokai_loaded_file_types = []
 if g:theme_variant == 'cold'
   let s:darkbg = ['#101013', 237]
-  let s:darkpurple = ['#803090', 240]
   let s:darkred = ['#601010', 249]
   let s:darkestred = ['#161616', 249]
   let s:darkestblue = ['#10101a', 247]
@@ -140,7 +145,6 @@ if g:theme_variant == 'cold'
   let s:tablinebg = [ g:cokeline_colors['bg'], 214]
 else
   let s:darkbg = ['#131010', 237]
-  let s:darkpurple = ['#803090', 240]
   let s:darkred = ['#601010', 249]
   let s:darkestred = ['#161616', 249]
   let s:darkestblue = ['#10101a', 247]

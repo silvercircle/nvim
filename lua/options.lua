@@ -115,5 +115,5 @@ o.undodir = vim.fn.stdpath("data") .. "/undo/"
 o.undofile=false
 
 globals.restore_config()
-vim.cmd [[silent! colorscheme my_sonokai]]
+vim.cmd("colorscheme " .. globals.perm_config.theme_name)
 globals.set_statuscol(globals.perm_config.statuscol_current)

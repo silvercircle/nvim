@@ -29,7 +29,8 @@ M.perm_config_default = {
   blist = true,
   tree = true,
   theme_variant = 'warm',
-  theme_desaturate = true
+  theme_desaturate = true,
+  theme_name = "my_sonokai"
 }
 
 M.perm_config = {}
@@ -321,13 +322,18 @@ function M.toggle_theme_variant()
   else
     vim.g.theme_variant = 'warm'
   end
-  print(vim.g.theme_variant)
-  vim.cmd("colorscheme my_sonokai")
+  vim.cmd("colorscheme " .. M.perm_config.theme_name)
 end
 
 function M.toggle_theme_desaturate()
   vim.g.theme_desaturate = not vim.g.theme_desaturate
-  vim.cmd("colorscheme my_sonokai")
+  vim.cmd("colorscheme " .. M.perm_config.theme_name)
 end
 
+--- function called when the automaton workspace changes
+--- @param ws table: the new workspace
+--- currently not in use
+function M.workspace_changed(ws)
+  print(ws)
+end
 return M
