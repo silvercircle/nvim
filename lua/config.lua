@@ -119,7 +119,7 @@ vim.g.startify_top = {
   {
     key = 'c',
     text = "  Edit config",
-    command = ":e ~/.config/nvim/init.vim<CR>:NvimTreeFindFile<CR>:wincmd p<CR>"
+    command = ":e ~/.config/nvim/init.vim<CR>:NvimTreeFindFile<CR>"
   }
 }
 local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'
