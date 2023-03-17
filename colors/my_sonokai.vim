@@ -41,6 +41,7 @@ else
 endif
 
 " The default variant is "warm"
+" cold is slightly blue-ish tinted in the backgrounds.
 if g:theme_variant == 'cold'
   let palette = {
         \ 'black':      ['#121215',   '232'],
@@ -75,6 +76,8 @@ if g:theme_variant == 'cold'
         \ 'none':       ['NONE',      'NONE']
         \ }
 else
+  " the "warm" variant features a slight red-ish tint in the background colors
+  " all other colors are identical to the cold variant.
   let palette = {
         \ 'black':      ['#151212',   '232'],
         \ 'bg_dim':     ['#242020',   '232'],
