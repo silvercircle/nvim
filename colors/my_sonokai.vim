@@ -8,10 +8,12 @@
 " Website:      https://github.com/sainnhe/sonokai/
 " License:      MIT
 " -----------------------------------------------------------------------------
-" TODO: convert this to lua at some point
+" TODO: convert this to lua at some point, allow color overrides in the config, clean up
+" things no longer used because of LSP.
 
 " desaturate means that some colors are less intense and less vivid but retain their basic color
-" tint, resulting in a more "pastel" look.
+" tint, resulting in a more "pastel" look with less contrast. the basic color scheme is unaffected
+" by this setting.
 if g:theme_desaturate == v:true
   let s:orange = ['#ab6a6c', 215]
   if g:theme['string'] == 'yellow'

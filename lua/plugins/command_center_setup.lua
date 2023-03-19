@@ -287,9 +287,27 @@ command_center.add({
     cmd = function() local path = lsputil.root_pattern(".git")(vim.fn.expand("%:p"))
       path = path or "."
       local cmd = "FloatermNew --name=GIT --width=0.9 --height=0.9 lazygit --path=" .. path
-      vim.cmd(cmd)
+      vim.cmd.stopinsert()
+      vim.schedule(function() vim.cmd(cmd) end)
     end,
-    keys = { "n", "<f6>", noremap },
+    keys = {
+      { "n", "<f6>", noremap },
+      { "i", "<f6>", noremap },
+    },
+    category = "@GIT"
+  },
+  {
+    -- open a markdown preview using IMD
+    desc = "Floatterm IMD",
+    cmd = function() local path = vim.fn.expand("%:p")
+      local cmd = "FloatermNew --name=IMD --width=150 --height=0.95 imd '" .. path .. "'"
+      vim.cmd.stopinsert()
+      vim.schedule(function() vim.cmd(cmd) end)
+    end,
+    keys = {
+      { "n", "<f18>", noremap },
+      { "i", "<f18>", noremap },
+    },
     category = "@GIT"
   },
   -- lsp formatters, this requires the null-ls plugin
