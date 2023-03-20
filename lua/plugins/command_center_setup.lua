@@ -49,7 +49,7 @@ command_center.add({
     category = "@Bookmarks"
   },
   {
-    desc = "Bookmark delete All",
+    desc = "Bookmark del,rete All",
     cmd = "<Plug>BookmarkClearAll",
     keys = { "n", "<leader>bx", noremap },
     category = "@Bookmarks"
@@ -308,7 +308,21 @@ command_center.add({
       { "n", "<f18>", noremap },
       { "i", "<f18>", noremap },
     },
-    category = "@GIT"
+    category = "@Markdown"
+  },
+  {
+    -- open a markdown preview using lightmdview
+    desc = "View Markdown in lightmdview",
+    cmd = function() local path = vim.fn.expand("%:p")
+      local cmd = "!litemdview '" .. path .. "'"
+      vim.cmd.stopinsert()
+      vim.schedule(function() vim.cmd(cmd) end)
+    end,
+    keys = {
+      { "n", "<f30>", noremap },
+      { "i", "<f30>", noremap },
+    },
+    category = "@Markdown"
   },
   -- lsp formatters, this requires the null-ls plugin
   {

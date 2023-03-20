@@ -105,6 +105,17 @@ vim.g.theme = {
 vim.g.theme_variant = 'warm'
 vim.g.theme_desaturate = true
 
+vim.g.formatters = {
+  lua = {
+    cmd = "stylua",
+    range = true
+  },
+  rust = {
+    cmd = "rustfmt",
+    range = true
+  }
+}
+
 vim.g.startify_top = {
   {
     key = 'e',
@@ -175,8 +186,8 @@ vim.g.confirm_actions = {
 
 local g = vim.g
 -- disable some standard plugins
-g.loaded_netrw       = 1
-g.loaded_netrwPlugin = 1
+--g.loaded_netrw       = 1
+--g.loaded_netrwPlugin = 1
 
 g.loaded_zipPlugin= 1
 g.loaded_zip = 1

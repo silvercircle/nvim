@@ -338,4 +338,13 @@ end
 function M.workspace_changed(ws)
   print(ws)
 end
+
+function M.format_source()
+  local ft = vim.api.nvim_buf_get_option(0, "filetype")
+  if vim.g.formatters[ft] ~= nil then
+    local cmd = "!" .. vim.g.formatters[ft].cmd .. " " .. vim.fn.expand("%:p")
+    print("The cmd is: " .. cmd)
+    vim.cmd(cmd)
+  end
+end
 return M
