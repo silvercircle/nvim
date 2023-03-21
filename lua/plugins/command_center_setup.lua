@@ -377,7 +377,7 @@ command_center.add({
     },
     category = "@Markdown"
   },
-  -- lsp formatters, this requires the null-ls plugin
+  -- format with the LSP server
   {
     desc = "LSP Format document or range",
     cmd = function() vim.lsp.buf.format() end,
@@ -385,6 +385,17 @@ command_center.add({
       { "n", "<f19>", noremap },
       { "i", "<f19>", noremap },
       { "v", "<f19>", noremap },
+    },
+    category = "@Formatting"
+  },
+  -- format with the configured utility
+  {
+    desc = "Format document using the configured utility",
+    cmd = function() require("globals").format_source() end,
+    keys = {
+      { "n", "<f55>", noremap },
+      { "i", "<f55>", noremap },
+      { "v", "<f55>", noremap },
     },
     category = "@Formatting"
   },

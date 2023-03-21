@@ -108,11 +108,15 @@ vim.g.theme_desaturate = true
 vim.g.formatters = {
   lua = {
     cmd = "stylua",
-    range = true
+    range = false
   },
   rust = {
     cmd = "rustfmt",
-    range = true
+    range = false
+  },
+  python = {
+    cmd = "autopep8",
+    range = false
   }
 }
 

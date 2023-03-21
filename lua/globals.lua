@@ -228,6 +228,8 @@ end
 --- @param _height number: height of the terminal split to open.
 function M.termToggle(_height)
   local height = _height or M.term.height
+  -- if it is visible, then close it an all sub frames
+  -- but leave the buffer open
   if M.term.visible == true then
     require("local_utils.usplit").close()
     require("local_utils.wsplit").close()
@@ -237,18 +239,22 @@ function M.termToggle(_height)
     return
   end
   vim.fn.win_gotoid(M.main_winid)
+  -- now, if we have no terminal buffer (yet), create one. Otherwise just select
+  -- the existing one.
   if M.term.bufid == nil then
     vim.cmd("belowright " .. height .. " sp|terminal export NOCOW=1 && $SHELL")
   else
     vim.cmd("belowright " .. height .. " sp")
     vim.api.nvim_win_set_buf(0, M.term.bufid)
   end
+  -- configure the terminal window
   vim.cmd("setlocal statuscolumn= | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=yes | set winfixheight | set nocursorline | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC")
   M.term.winid = vim.fn.win_getid()
   vim.api.nvim_win_set_option(M.term.winid, "statusline", "  Terminal")
   M.term.bufid = vim.api.nvim_get_current_buf()
   M.term.visible = true
 
+  -- finally, open the sub frames if they were previously open
   if M.perm_config.sysmon.active == true then
     require("local_utils.usplit").open()
   end
