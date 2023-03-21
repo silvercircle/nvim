@@ -20,6 +20,16 @@ local on_attach = function(client, bufnr)
 -- disable semantic tokens, might be buggy with some LSP servers
     client.server_capabilities.semanticTokensProvider = {}
   end
+  if client.name == 'gopls' then
+    print("set semantic for gopls")
+    client.server_capabilities.semanticTokensProvider = {
+      full = true,
+      legend = {
+        tokenTypes = { 'namespace', 'type', 'class', 'enum', 'interface', 'struct', 'typeParameter', 'parameter', 'variable', 'property', 'enumMember', 'event', 'function', 'method', 'macro', 'keyword', 'modifier', 'comment', 'string', 'number', 'regexp', 'operator', 'decorator' },
+        tokenModifiers = { 'declaration', 'definition', 'readonly', 'static', 'deprecated', 'abstract', 'async', 'modification', 'documentation', 'defaultLibrary'}
+      }
+    }
+  end
 end
 
 lspconfig.tsserver.setup({
@@ -206,6 +216,11 @@ lspconfig.gopls.setup({
   capabilities = capabilities,
   single_file_support = true,
   filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+  settings = {
+    gopls = {
+      semanticTokens = true
+    }
+  },
   root_dir = function(fname)
     return util.root_pattern 'go.work'(fname) or util.root_pattern('go.mod', '.git')(fname)
   end

@@ -377,6 +377,22 @@ command_center.add({
     },
     category = "@Markdown"
   },
+  {
+    -- open a zathura view and view the tex document as PDF
+    desc = "View LaTeX result",
+    cmd = function()
+      local path = vim.fn.expand("~/OneDrive/texdocs/OUTPUT/") .. vim.fn.expand("%:t:r") .. ".pdf"
+      print(path)
+      local cmd = "!zathura  '" .. path .. "'"
+      vim.cmd.stopinsert()
+      vim.schedule(function() vim.cmd(cmd) end)
+    end,
+    keys = {
+      { "n", "<f54>", noremap },
+      { "i", "<f54>", noremap },
+    },
+    category = "@Markdown"
+  },
   -- format with the LSP server
   {
     desc = "LSP Format document or range",
