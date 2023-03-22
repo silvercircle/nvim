@@ -211,6 +211,9 @@ local function getFileSymbol(filename)
     return "", nil
   end
 
+  if filename == nil or #filename == 0 then
+    return "", nil
+  end
   local ext = string.match(filename, "%.([^%.]*)$")
 
   local symbol, hl = require("nvim-web-devicons").get_icon(filename, ext)
@@ -460,6 +463,9 @@ function M.parseLs(buf)
     if flags == "%a" then
       M.current_line = i
     end
+
+    if handle == 0 then goto continue end
+
     -- get symbol and icon
     local fn_symbol, fn_symbol_hl = "", nil
     if M.use_devicons then
@@ -488,6 +494,7 @@ function M.parseLs(buf)
       local pos = string.find(line, fn_symbol, 1, true)
       api.nvim_buf_add_highlight(buf, -1, fn_symbol_hl, i, pos, pos + string.len(fn_symbol))
     end
+    ::continue::
   end
 end
 

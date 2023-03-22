@@ -100,7 +100,7 @@ autocmd( { 'FileType' }, {
 })
 
 autocmd( { 'FileType' }, {
-  pattern = { 'qf' },
+  pattern = { 'qf', 'replacer' },
   callback = function()
     if #globals.findwinbyBufType("sysmon") > 0 or #globals.findwinbyBufType("weather") > 0 then
       vim.cmd("setlocal statuscolumn= | setlocal signcolumn=no | wincmd J")

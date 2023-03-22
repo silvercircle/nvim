@@ -178,7 +178,7 @@ local treename = 'NvimTree'
 require('cokeline').setup({
   -- Cokeline_theme() is defined in config.lua
   buffers = {
-    filter_visible = function(buffer) return not(buffer['type'] == 'terminal' or buffer['type'] == 'nofile') and true or false end,
+    filter_visible = function(buffer) return not(buffer['type'] == 'quickfix' or buffer['type'] == 'terminal' or buffer['type'] == 'nofile' or buffer['type'] == 'acwrite') and true or false end,
     new_buffers_position = 'directory'
   },
   default_hl = Cokeline_theme().hl,

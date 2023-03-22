@@ -225,6 +225,10 @@ local plugins = {
     config = function()
       require("plugins.octo")
     end
+  },
+  {
+    'gabrielpoca/replacer.nvim',
+    ft = { "qf" }
   }
 }
 -- for experimental purpose, I use some private forks and local repos.

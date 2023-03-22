@@ -211,6 +211,9 @@ end
 --- close all quickfix windows
 function M.close_qf_or_loc()
   local winid = M.findwinbyBufType("qf")
+  if #winid == 0 then
+    winid = M.findwinbyBufType("replacer")
+  end
   if #winid > 0 then
     for i,_ in pairs(winid) do
       if winid[i] > 0 and vim.api.nvim_win_is_valid(winid[i]) then

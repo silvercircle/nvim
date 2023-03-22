@@ -3,7 +3,7 @@
 local o = vim.o
 local globals = require("globals")
 
-o.shada = "!,'200,<20,s10,h,f1,%20,:500,rterm://,rOUTLINE,rNvimTree_1,rMERGE_MSG"
+o.shada = "!,'200,<20,s10,h,f1,%20,:500,rreplacer://,rterm://,rOUTLINE,rNvimTree_1,rMERGE_MSG"
 o.termguicolors = true
 o.background = "dark"
 o.cursorline = true
