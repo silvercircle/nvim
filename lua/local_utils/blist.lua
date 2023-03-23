@@ -31,8 +31,8 @@ M.openOptions = {
   hsplit = "sb %s",
 }
 
-function M.setup(c)
-  local c = c or {}
+function M.setup(_c)
+  local c = _c or {}
 
   -- If preview opts table not provided in config
   if not c.preview then

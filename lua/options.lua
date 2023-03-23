@@ -113,6 +113,8 @@ o.clipboard = "unnamedplus"
 o.undodir = vim.fn.stdpath("data") .. "/undo/"
 -- set this to true if you want to have persistent undo
 o.undofile=false
+o.exrc=true
+o.secure=true
 
 globals.restore_config()
 vim.cmd("colorscheme " .. globals.perm_config.theme_name)
