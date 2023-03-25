@@ -164,15 +164,7 @@ kms({ 'n', 'x' }, '<Leader>#', function()
   return ':noh<CR>'
 end, { expr = true })
 
--- if we have playgrund, use the special command to reveal the highlight group under the cursor
-if vim.g.config.treesitter_playground == true then
-  kms('n', 'hl', ':TSCaptureUnderCursor<CR>', opts)
-else -- otherwise, use the API (less pretty, but functional)
-  kms('n', 'hl', function()
-    local result = vim.treesitter.get_captures_at_cursor(0)
-    print(vim.inspect(result))
-  end, { noremap = true, silent = false })
-end
+map('n', 'hl', "<CMD>Inspect<CR>", opts)
 
 -- the following is ALL related to folding and there are no command center equivalents
 
