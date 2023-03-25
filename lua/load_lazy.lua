@@ -38,8 +38,8 @@ local plugins = {
   {'nvim-treesitter/nvim-treesitter',
     config = function()
       require("plugins.treesitter")
-      vim.treesitter.set_query("javascript", "injections", "")
-      vim.treesitter.set_query("typescript", "injections", "")
+      vim.treesitter.query.set("javascript", "injections", "")
+      vim.treesitter.query.set("typescript", "injections", "")
     end,
     dependencies = {
       { 'nvim-treesitter/playground', cond = vim.g.config.treesitter_playground == true },
