@@ -16,6 +16,7 @@ let g:rnvimr_layout = {
             \ }
 
 lua << EOB
+vim.loader.enable()
 require('config')
 
 require('load_lazy')
