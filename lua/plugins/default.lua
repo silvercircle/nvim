@@ -1,8 +1,6 @@
 local globals = require("globals")
 local navic
-if vim.g.config.use_winbar then
-  navic = require('nvim-navic')
-end
+navic = require('nvim-navic')
 
 -- devicons for lua plugins (e.g. Telescope, neotree, nvim-tree among others  need them)
 require("nvim-web-devicons").setup({
@@ -54,6 +52,10 @@ end
 
 local function full_filename()
   return vim.fn.expand("%")
+end
+
+local function navic_context()
+  return navic.get_location()
 end
 
 local function indentstats()
@@ -133,7 +135,8 @@ require("lualine").setup({
   winbar = vim.g.config.use_winbar == true and {
     lualine_a = {
       {
-        navic.get_location,
+
+        navic_context,
         -- separator = { right ="", left = "" },
         separator = "",
         color = 'WinBarContext',
