@@ -326,7 +326,7 @@ local lua_root_files = {
 lspconfig.lua_ls.setup {
   capabilities = capabilities,
   on_attach = on_attach,
-  cmd = { vim.g.lsp_server_bin['lua_ls'], '--logpath=' .. vim.fn.stdpath("data") },
+  cmd = { vim.g.lsp_server_bin['lua_ls'], '--logpath=' .. vim.fn.stdpath("state") },
   root_dir = function(fname)
     local root = util.root_pattern(unpack(lua_root_files))(fname)
     if root and root ~= vim.env.HOME then
