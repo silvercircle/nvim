@@ -68,7 +68,7 @@ lspconfig.nimls.setup({
 })
 
 lspconfig.clangd.setup({
-  cmd = { 'clangd' },
+  cmd = { 'clangd', "--header-insertion-decorators" },
   on_attach = on_attach,
   capabilities = capabilities
 })
