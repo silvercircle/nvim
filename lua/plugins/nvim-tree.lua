@@ -152,11 +152,12 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
     ignore_dirs = {},
   },
   git = {
-    enable = false,
+    enable = true,
     ignore = true,
     show_on_dirs = true,
     show_on_open_dirs = true,
     timeout = 400,
+    async = true    -- FIX: experimental feature
   },
   actions = {
     use_system_clipboard = true,
