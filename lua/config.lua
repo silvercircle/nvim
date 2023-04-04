@@ -45,12 +45,12 @@ vim.g.config = {
   treesitter_playground = false,                -- no setup required, optional, handled by setup_treesitter
   plain = (env_plain ~= nil or vim.g.want_plain == true) and true or false,
   use_rainbow_indentguides = false,             -- for indent-blankline: rainbow-colorize indent guides
-  --statuscol_normal = '%s%#LineNr#%=%{printf("%4d", v:lnum)} %C%#IndentBlankLineChar#│ ',
+  statuscol_normal = '%s%=%{printf("%4d", v:lnum)} %C%#IndentBlankLineChar#│ ',
   --the same as above with highlighting the current line number
-  statuscol_normal = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:lnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:lnum) : ""} %C%#IndentBlankLineChar#│ ',
-  --statuscol_rel = '%s%#LineNr#%=%{printf("%4d", v:relnum)} %C%#IndentBlankLineChar#│ ',
+  --statuscol_normal = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:lnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:lnum) : ""} %C%#IndentBlankLineChar#│ ',
+  statuscol_rel = '%s%=%{printf("%4d", v:relnum)} %C%#IndentBlankLineChar#│ ',
   --again, with highlighting relative number
-  statuscol_rel = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:relnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:relnum) : ""} %C%#IndentBlankLineChar#│ ',
+  --statuscol_rel = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:relnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:relnum) : ""} %C%#IndentBlankLineChar#│ ',
   nvim_tree = true,
   cokeline_filename_width = 25,               -- max filename length on cokeline tabs
   cmp_autocomplete = false,                   -- false means only manual complete <C-Space>. Set to true for autocomplete

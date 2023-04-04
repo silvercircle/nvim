@@ -196,9 +196,9 @@ else
 endif
 call my_sonokai#highlight('LineNr', s:palette.grey_dim, s:darkbg)
 if &diff
-  call my_sonokai#highlight('CursorLineNr', s:palette.fg, s:palette.none, 'underline')
+  call my_sonokai#highlight('CursorLineNr', s:palette.yellow, s:palette.none, 'underline')
 else
-  call my_sonokai#highlight('CursorLineNr', s:palette.fg, s:palette.none)
+  call my_sonokai#highlight('CursorLineNr', s:palette.yellow, s:palette.none)
 endif
 call my_sonokai#highlight('DiffAdd', s:palette.none, s:palette.diff_green)
 call my_sonokai#highlight('DiffChange', s:palette.none, s:palette.diff_blue)
