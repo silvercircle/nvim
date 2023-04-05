@@ -66,6 +66,7 @@ vim.g.config = {
   use_winbar = true,
   termheight = 11,
   iconpad = ' ',                              -- additional padding for devicons.
+  texoutput = "~/OneDrive/texdocs/OUTPUT/",
   sysmon = {
     width = 51,
     modules = "cpu,mem,network,load,system,uptime"

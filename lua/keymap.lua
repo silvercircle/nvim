@@ -342,6 +342,7 @@ kms({ 'n', 'i', 't', 'v' }, '<A-4>', function()
   if globals.findbufbyType('terminal') == false then
     vim.api.nvim_input('<f11>')
   end
+  vim.cmd.startinsert()
 end, opts) -- Terminal
 kms({ 'n', 'i', 't', 'v' }, '<A-5>', function()
   if globals.findbufbyType('BufList') == false then

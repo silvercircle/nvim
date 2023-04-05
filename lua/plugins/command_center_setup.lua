@@ -381,11 +381,13 @@ command_center.add({
     -- open a zathura view and view the tex document as PDF
     desc = "View LaTeX result",
     cmd = function()
-      local path = vim.fn.expand("~/OneDrive/texdocs/OUTPUT/") .. vim.fn.expand("%:t:r") .. ".pdf"
+      local result, path = require("globals").getLatexPreviewPath(vim.fn.expand("%"), true)
       print(path)
-      local cmd = "!zathura  '" .. path .. "'"
-      vim.cmd.stopinsert()
-      vim.schedule(function() vim.cmd(cmd) end)
+      if result == true then
+        local cmd = "!zathura  '" .. path .. "'"
+        vim.cmd.stopinsert()
+        vim.schedule(function() vim.cmd(cmd) end)
+      end
     end,
     keys = {
       { "n", "<f54>", noremap },
