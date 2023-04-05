@@ -295,7 +295,7 @@ lspconfig.pyright.setup({
 lspconfig.marksman.setup({
   on_attach = on_attach,
   cmd ={ vim.g.lsp_server_bin['marksman'] },
-  filetypes = { 'markdown' },
+  filetypes = { 'markdown', 'telekasten' },
   root_dir = function(fname)
     local root_files = { '.marksman.toml' }
     return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname)

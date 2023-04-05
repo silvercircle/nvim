@@ -156,8 +156,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
     ignore = true,
     show_on_dirs = true,
     show_on_open_dirs = true,
-    timeout = 400,
-    async = true    -- FIX: experimental feature
+    timeout = 400
   },
   actions = {
     use_system_clipboard = true,
@@ -228,6 +227,11 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
       watcher = false,
     },
   },
+  experimental = {
+    git = {
+      async = true
+    }
+  }
 }) -- END_DEFAULT_OPT
 
 -- react on open and close events to adjust the remaining window layout
