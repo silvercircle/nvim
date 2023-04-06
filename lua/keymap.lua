@@ -349,8 +349,16 @@ kms({ 'n', 'i', 't', 'v' }, '<A-4>', function()
 end, opts) -- Terminal
 
 kms({ 'n', 'i', 't', 'v' }, '<A-5>', function()
-  if globals.findbufbyType('BufList') == false then
-    require('local_utils.blist').open(true)
+  local blist = require('local_utils.blist')
+  if blist.main_win == nil then
+    blist.open(true)
+  else
+    if blist.main_win ~= vim.fn.win_getid() then
+      vim.fn.win_gotoid(blist.main_win)
+    else
+      blist.close()
+      vim.fn.win_gotoid(globals.main_winid)
+    end
   end
 end, opts) -- Buffer List
 
