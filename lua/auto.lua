@@ -55,7 +55,7 @@ autocmd({ 'UIEnter' }, {
         }
       })
       if globals.perm_config.blist == true then
-        require("local_utils.blist").open(true)
+        require("local_utils.blist").open(true, 0, globals.perm_config.blist_height)
       end
     end
     vim.fn.win_gotoid(globals.main_winid)

@@ -1,4 +1,3 @@
--- light keyboard mappings.
 -- This version is needed when the command_center plugin is installed and configure. It will
 -- overtake many of the original keyboar mappings.
 -- The majority of the more complex mappings for LSP are in setup_command_center.lua
@@ -351,7 +350,7 @@ end, opts) -- Terminal
 kms({ 'n', 'i', 't', 'v' }, '<A-5>', function()
   local blist = require('local_utils.blist')
   if blist.main_win == nil then
-    blist.open(true)
+    blist.open(true, 0, globals.perm_config.blist_height)
   else
     if blist.main_win ~= vim.fn.win_getid() then
       vim.fn.win_gotoid(blist.main_win)

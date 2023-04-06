@@ -29,6 +29,7 @@ M.perm_config_default = {
   },
   statuscol_current = 'normal',
   blist = true,
+  blist_height = 0.33,
   tree = true,
   theme_variant = 'warm',
   theme_desaturate = true,
@@ -272,6 +273,7 @@ function M.write_config()
   if f ~= nil then
     local wsplit_id = require("local_utils.wsplit").winid
     local usplit_id = require("local_utils.usplit").winid
+    local blist_id = require("local_utils.blist").main_win
 
     local state = {
       terminal = {
@@ -283,7 +285,7 @@ function M.write_config()
       sysmon = {
         active = usplit_id ~= nil and true or false,
       },
-      blist = require("local_utils.blist").main_win ~=nil and true or false,
+      blist = blist_id ~=nil and true or false,
       tree = #M.findwinbyBufType("NvimTree") > 0 and true or false,
       theme_variant = vim.g.theme_variant,
       theme_desaturate = vim.g.theme_desaturate
@@ -293,6 +295,9 @@ function M.write_config()
     end
     if usplit_id ~= nil then
       state.sysmon.width = vim.api.nvim_win_get_width(usplit_id)
+    end
+    if blist_id ~= nil then
+      state.blist_height = vim.api.nvim_win_get_height(blist_id)
     end
     local string = vim.fn.json_encode(vim.tbl_deep_extend("force", M.perm_config, state))
     f:write(string)
