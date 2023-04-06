@@ -330,34 +330,45 @@ end, opts)
 kms({ 'n', 'i', 't', 'v' }, '<A-1>', function()
   globals.findbufbyType('NvimTree')
 end, opts) -- Nvim-tree
+
 kms({ 'n', 'i', 't', 'v' }, '<A-2>', function()
   vim.fn.win_gotoid(globals.main_winid)
 end, opts) -- main window
+
 kms({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   if globals.findbufbyType('Outline') == false then
     vim.cmd('SymbolsOutlineOpen')
   end
 end, opts) -- Outline
+
 kms({ 'n', 'i', 't', 'v' }, '<A-4>', function()
   if globals.findbufbyType('terminal') == false then
     vim.api.nvim_input('<f11>')
   end
   vim.cmd.startinsert()
 end, opts) -- Terminal
+
 kms({ 'n', 'i', 't', 'v' }, '<A-5>', function()
   if globals.findbufbyType('BufList') == false then
     require('local_utils.blist').open(true)
   end
 end, opts) -- Buffer List
+
 kms({ 'n', 'i', 't', 'v' }, '<A-0>', function()
   globals.main_winid = vim.fn.win_getid()
-end, opts) -- Buffer List
+end, opts) -- save current winid as main window id
+
 kms({ 'n', 'i', 't', 'v' }, '<A-9>', function()
   local uspl = require('local_utils.usplit')
   if uspl.winid == nil then
     uspl.open()
   else
-    vim.fn.win_gotoid(uspl.winid)
+    if uspl.winid ~= vim.fn.win_getid() then
+      vim.fn.win_gotoid(uspl.winid)
+    else
+      uspl.close()
+      vim.fn.win_gotoid(globals.main_winid)
+    end
   end
 end, opts) -- usplit (system monitor)
 
@@ -366,7 +377,12 @@ kms({ 'n', 'i', 't', 'v' }, '<A-8>', function()
   if wspl.winid == nil then
     wspl.open(vim.g.config.weather.file)
   else
-    vim.fn.win_gotoid(wspl.winid)
+    if wspl.winid ~= vim.fn.win_getid() then
+      vim.fn.win_gotoid(wspl.winid)
+    else
+      wspl.close()
+      vim.fn.win_gotoid(globals.main_winid)
+    end
   end
 end, opts) -- wsplit (weather)
 
