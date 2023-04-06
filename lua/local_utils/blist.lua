@@ -682,7 +682,6 @@ function M.autorefresh()
   local ls_result = api.nvim_exec(M.sort_mru and ":ls t" or ":ls", true)
   M.bopen = iter2array(string.gmatch(ls_result, "([^\n]+)"))
   globals.perm_config.blist_height = vim.api.nvim_win_get_height(M.main_win)
-  print("blist height is now: " .. globals.perm_config.blist_height)
   M.refresh(M.main_buf)
 end
 return M
