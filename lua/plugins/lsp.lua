@@ -17,7 +17,7 @@ local on_attach = function(client, bufnr)
     navic.attach(client, bufnr)
   end
   if client.name == 'marksman' then
--- disable semantic tokens, might be buggy with some LSP servers
+    -- disable semantic tokens, might be buggy with some LSP servers
     client.server_capabilities.semanticTokensProvider = {}
   end
   if client.name == 'gopls' then
