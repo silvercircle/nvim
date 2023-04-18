@@ -1,5 +1,4 @@
 local api = require('nvim-tree.api')
--- keyboard mapping changed to on_attach
 
 local function on_attach(bufnr)
   local api = require('nvim-tree.api')
