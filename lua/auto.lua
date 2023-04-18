@@ -13,11 +13,19 @@ autocmd({ 'VimLeave' }, {
   group = agroup_views
 })
 
+local did_UIEnter = false
+
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
 -- environment variable or command line option forbids it for better startup performance and
 -- a clean UI
 autocmd({ 'UIEnter' }, {
   callback = function()
+    -- this should only run on initial UIEnter (nvim start), exactly once. UIEnter is also
+    -- fired when nvim resumes from suspend (Ctrl-Z)
+    if did_UIEnter == true then
+      return
+    end
+    did_UIEnter = true
     globals.main_winid = vim.fn.win_getid()
     if vim.g.config.plain == false then
       if globals.perm_config.tree == true then
