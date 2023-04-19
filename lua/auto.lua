@@ -20,8 +20,9 @@ local did_UIEnter = false
 -- a clean UI
 autocmd({ 'UIEnter' }, {
   callback = function()
-    -- this should only run on initial UIEnter (nvim start), exactly once. UIEnter is also
-    -- fired when nvim resumes from suspend (Ctrl-Z)
+    -- this should only run on initial UIEnter (nvim start), exactly ONCE. UIEnter is also
+    -- fired when nvim resumes from suspend (Ctrl-Z) in which case this code is no longer needed
+    -- because all the sub splits have already been created
     if did_UIEnter == true then
       return
     end
