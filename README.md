@@ -13,7 +13,7 @@ two branches with different setups.
   (due to Coc). It is currently unmaintained, but should work ok.
 
 All branches use lots of Telescope stuff and Tree-Sitter for syntax highlighting. **The minimum required 
-Neovim version is 0.8**.
+Neovim version is 0.9**.
 
 # Some words of warning
 
@@ -90,7 +90,7 @@ Nim support is manually installed via nimlsp.
 
 ## Requirements
 
-* Neovim 0.8 or later.
+* Neovim 0.9 or later.
 
 * A NERD Font. Optional, but things like the file browser, the status- and tab line and some other things 
   will look much better with such a font. [NERDfonts](https://www.nerdfonts.com/) provide the necessary 
