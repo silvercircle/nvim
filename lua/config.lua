@@ -7,12 +7,16 @@
 -- terminal split.
 local env_plain = os.getenv("NVIM_PLAIN")
 
+if vim.fn.has("nvim-0.9") == 0 then
+  vim.notify("Warning, this configuration requires Neovim version 0.9 or later.", 3)
+end
+
 -- this is the global config table. Since the migration to lazy, the features table is gone and
 -- no longer needed. load_lazy.lua handles all the plugin loading and deals with optional plugins.
 
 vim.g.config = {
   telescope_fname_width = 140,
-  nightly = vim.fn.has("nvim-0.9"),             -- TODO: fix this when 0.9 goes release
+  nightly = vim.fn.has("nvim-0.10"),             -- TODO: fix this when 0.9 goes release
   cokeline = {
     enabled = true,                             -- when false, lualine handles the bufferline
     show_close = false                          -- showa close button on the tabs
