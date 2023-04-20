@@ -267,7 +267,12 @@ function M.termToggle(_height)
   end
 end
 
+--- write the configuration to the json file
+--- do not write it when running in plain mode (without additional frames and content)
 function M.write_config()
+  if vim.g.config.plain == true then
+    return
+  end
   local file = get_permconfig_file()
   local f = io.open(file, "w+")
   if f ~= nil then
@@ -305,6 +310,7 @@ function M.write_config()
   end
 end
 
+--- read the permanent config from the JSON dump.
 function M.restore_config()
   local file = get_permconfig_file()
   local f = io.open(file, "r")
@@ -332,6 +338,8 @@ function M.adjust_layout()
   end
 end
 
+--- bound to a hotkey ("C-l C-t" by default)
+--- toggle between warm and cold theme variants
 function M.toggle_theme_variant()
   if vim.g.theme_variant == 'warm' then
     vim.g.theme_variant = 'cold'
@@ -341,6 +349,8 @@ function M.toggle_theme_variant()
   vim.cmd("colorscheme " .. M.perm_config.theme_name)
 end
 
+--- toggle theme saturate state. By default bound to C-l C-d
+--- desaturated means a more pastel and less vivid color contrast
 function M.toggle_theme_desaturate()
   vim.g.theme_desaturate = not vim.g.theme_desaturate
   vim.cmd("colorscheme " .. M.perm_config.theme_name)
@@ -353,11 +363,11 @@ function M.workspace_changed(ws)
   print(ws)
 end
 
+--- try to format a souce file by using one of the defined formatter programs
 function M.format_source()
   local ft = vim.api.nvim_buf_get_option(0, "filetype")
   if vim.g.formatters[ft] ~= nil then
     local cmd = "!" .. vim.g.formatters[ft].cmd .. " " .. vim.fn.expand("%:p")
-    print("The cmd is: " .. cmd)
     vim.cmd(cmd)
   end
 end
@@ -372,7 +382,7 @@ function M.getLatexPreviewPath(_filename, _useglobal)
   local path = vim.fn.expand(vim.g.config.texoutput)
   local finalpath
 
-  if useglobal == true and #path > 0 and vim.fn.isdirectory(path) == 1 then
+  if useglobal == true and #path > 0 and vim.fn.isdirectory(path) == 0 then
     finalpath = path .. vim.fn.expand(vim.fn.fnamemodify(_filename, ":t:r")) .. ".pdf"
   else
     finalpath = vim.fn.expand(vim.fn.fnamemodify(_filename, ":r")) .. ".pdf"
