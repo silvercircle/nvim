@@ -1,8 +1,11 @@
+-- this file handles all auto commands and event handling.
+
 -- autogroups
 local autocmd = vim.api.nvim_create_autocmd
 local globals = require("globals")
 local agroup_views = vim.api.nvim_create_augroup("views", {} )
 local agroup_hl = vim.api.nvim_create_augroup("hl", {} )
+local ibl = require('indent_blankline')
 
 autocmd({ 'VimLeave' }, {
   callback = function()
@@ -14,6 +17,12 @@ autocmd({ 'VimLeave' }, {
 })
 
 local did_UIEnter = false
+
+autocmd({ 'InsertEnter', 'InsertLeave' }, {
+  callback = function()
+    ibl.refresh()
+  end
+})
 
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
 -- environment variable or command line option forbids it for better startup performance and

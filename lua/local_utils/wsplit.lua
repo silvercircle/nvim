@@ -73,7 +73,7 @@ function M.open(_weatherfile)
     vim.api.nvim_buf_set_option(M.bufid, "buftype", "nofile")
     vim.api.nvim_win_set_option(M.winid, "list", false)
     vim.api.nvim_win_set_option(M.winid, "statusline", "  Weather")
-    vim.cmd("set winfixheight | set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn= | setlocal nocursorline")
+    vim.cmd("set winfixheight | set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn=%#NeoTreeNormalNC#\\  | setlocal nocursorline")
     vim.fn.win_gotoid(curwin)
   end
   M.refresh()
@@ -99,7 +99,7 @@ function M.prepare_line(_left, _right, correct)
   local right = string.format(format, _right)
 
   local pad = string.rep(" ", M.win_width - 2 - vim.fn.strwidth(right) - vim.fn.strwidth(left) + correct)
-  return " " .. left .. pad .. right .. " "
+  return left .. pad .. right .. " "
 end
 
 --- close the buffer, temporarily stop the file watcher

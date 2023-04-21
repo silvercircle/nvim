@@ -252,7 +252,7 @@ function M.termToggle(_height)
     vim.api.nvim_win_set_buf(0, M.term.bufid)
   end
   -- configure the terminal window
-  vim.cmd("setlocal statuscolumn= | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=yes | set winfixheight | set nocursorline | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC")
+  vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=no | set winfixheight | set nocursorline | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC")
   M.term.winid = vim.fn.win_getid()
   vim.api.nvim_win_set_option(M.term.winid, "statusline", "  Terminal")
   M.term.bufid = vim.api.nvim_get_current_buf()

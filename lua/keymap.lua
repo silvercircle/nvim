@@ -181,7 +181,9 @@ kms({ 'i', 'n' }, '<f1>', function()
 end, opts)
 --
 -- shift-F4: refresh indent guides
-kms({ 'n', 'i', 'v' }, '<f16>', function()
+kms({ 'n', 'i', 'v' }, '<Home>', function()
+  local pos = vim.api.nvim_win_get_cursor(0)
+  vim.api.nvim_win_set_cursor(0, { pos[1], 0})
   vim.cmd('set fdm=expr')
   ibl.refresh()
 end, opts)
