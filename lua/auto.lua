@@ -18,11 +18,11 @@ autocmd({ 'VimLeave' }, {
 
 local did_UIEnter = false
 
-autocmd({ 'InsertEnter', 'InsertLeave' }, {
-  callback = function()
-    ibl.refresh()
-  end
-})
+-- autocmd({ 'InsertEnter', 'InsertLeave' }, {
+--   callback = function()
+--     ibl.refresh()
+--   end
+-- })
 
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
 -- environment variable or command line option forbids it for better startup performance and
@@ -121,9 +121,9 @@ autocmd( { 'FileType' }, {
   pattern = { 'qf', 'replacer' },
   callback = function()
     if #globals.findwinbyBufType("sysmon") > 0 or #globals.findwinbyBufType("weather") > 0 then
-      vim.cmd("setlocal statuscolumn= | setlocal signcolumn=no | wincmd J")
+      vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber | wincmd J")
     else
-      vim.cmd("setlocal statuscolumn= | setlocal signcolumn=no")
+      vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber")
     end
     vim.api.nvim_win_set_height(globals.term.winid, globals.perm_config.terminal.height)
   end,
@@ -133,7 +133,7 @@ autocmd( { 'FileType' }, {
 autocmd( { 'FileType' }, {
   pattern = 'Outline',
   callback = function()
-    vim.cmd("silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn=%#NeoTreeNormalNC# | silent! setlocal statusline=\\ \\ Outline | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=100")
+    vim.cmd("silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=\\ \\ Outline | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=100")
   end,
   group = agroup_views
 })

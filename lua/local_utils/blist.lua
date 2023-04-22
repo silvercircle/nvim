@@ -641,6 +641,10 @@ function M.open(_mode, _width, _height)
   M.bopen = iter2array(string.gmatch(ls_result, "([^\n]+)"))
 
   M.back_win = api.nvim_get_current_win()
+  if M.back_win == nil or vim.api.nvim_win_is_valid(M.back_win) ~= true then
+    M.back_win = globals.main_winid
+  end
+
   -- Create the buffer for the window
   if not M.main_buf and not M.main_win then
     -- M.updatePos()

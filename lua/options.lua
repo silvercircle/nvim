@@ -50,7 +50,7 @@ o.ruler = true
 o.tm = 500
 o.wrap = false
 -- gutter config. set numbers (5 digits max)
-o.numberwidth = 5
+o.numberwidth = 6
 vim.opt.listchars = {tab = '  ', trail = '▪', extends = '>', precedes = '<', eol = '↴' }
 vim.opt.list = true
 

@@ -601,7 +601,7 @@ command_center.add({
     desc = "Treesitter tree",
     cmd = function()
       vim.treesitter.inspect_tree({ command = 'rightbelow 36vnew' })
-      vim.o.statuscolumn = "%#NeoTreeNormalNC#"
+      vim.o.statuscolumn = ""
     end,
     keys = { "n", "tsp", noremap },
     category = "@Neovim"
