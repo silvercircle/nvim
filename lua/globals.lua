@@ -324,7 +324,6 @@ function M.restore_config()
       if #tmp ~= nil then
         M.perm_config = vim.tbl_deep_extend("force", M.perm_config_default, tmp)
       else
-        print("json decode invalid")
         M.perm_config = M.perm_config_default
       end
     end
