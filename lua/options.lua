@@ -58,6 +58,7 @@ vim.opt.list = true
 if vim.fn.has('nvim-0.9') == 1 then
   if vim.g.use_private_forks == true then
     o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]
+    --o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
   else
     o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
   end

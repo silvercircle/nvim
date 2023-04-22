@@ -131,18 +131,18 @@ autocmd( { 'FileType' }, {
 })
 
 autocmd( { 'FileType' }, {
-  pattern = { 'Outline' },
+  pattern = 'Outline',
   callback = function()
-    vim.cmd("silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=\\ \\ Outline | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=100")
+    vim.cmd("silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn=%#NeoTreeNormalNC# | silent! setlocal statusline=\\ \\ Outline | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=100")
   end,
   group = agroup_views
 })
 
 -- this is for the treesitter tree split view (tsp command)
 autocmd( { 'FileType' }, {
-  pattern = "Treesitter",
+  pattern = "query",
   callback = function()
-    vim.cmd("silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal nonumber | setlocal norelativenumber | silent setlocal statuscolumn= | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC")
+    vim.cmd("silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal norelativenumber | silent! setlocal nonumber | silent! setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC")
   end,
   group = agroup_views
 })

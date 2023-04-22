@@ -5,7 +5,7 @@ if vim.g.config.use_winbar == true then
   navic = require('nvim-navic')
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = vim.lsp.protocol.make_client_capabilities() 
 --local cmp_nvim_lsp = require("cmp_nvim_lsp")
 --capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
@@ -474,6 +474,9 @@ require("fidget").setup({
   window = {
     relative = "win",
     blend = 100
+  },
+  align = {
+
   },
   timer = {
     spinner_rate = 500
