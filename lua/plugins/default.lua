@@ -133,19 +133,20 @@ require("lualine").setup({
   },
   tabline = actual_tabline(),
   winbar = vim.g.config.use_winbar == true and {
+    --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
       {
         'lsp_progress',
         fmt = function(string)
-          if #string <= 0 then
-            local ctx = navic_context()
-            if #ctx > 0 then
-              return string.format("Context: %s", ctx)
+          if #string > 0 then
+            return string
+          else
+            string = navic_context()
+            if #string > 0 then
+              return string.format("Context: %s", string)
             else
               return ""
             end
-          else
-            return string
           end
         end,
         -- separator = { right ="", left = "" },
