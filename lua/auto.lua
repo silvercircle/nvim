@@ -142,7 +142,7 @@ autocmd( { 'FileType' }, {
 autocmd( { 'FileType' }, {
   pattern = "query",
   callback = function()
-    vim.cmd("silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal norelativenumber | silent! setlocal nonumber | silent! setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC")
+    vim.cmd("silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal norelativenumber | silent! setlocal nonumber | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC")
   end,
   group = agroup_views
 })
