@@ -467,21 +467,21 @@ do
 end
 
 -- Fidget.nvim (LSP status widget)
-require("fidget").setup({
-  text = {
-    spinner = "zip",
-  },
-  window = {
-    relative = "win",
-    blend = 100
-  },
-  align = {
-
-  },
-  timer = {
-    spinner_rate = 500
-  }
-})
+--require("fidget").setup({
+--  text = {
+--    spinner = "zip",
+--  },
+--  window = {
+--    relative = "win",
+--    blend = 100
+--  },
+--  align = {
+--
+--  },
+--  timer = {
+--    spinner_rate = 500
+--  }
+--})
 
 local glance = require("glance")
 local actions = glance.actions

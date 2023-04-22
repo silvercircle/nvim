@@ -135,18 +135,22 @@ require("lualine").setup({
   winbar = vim.g.config.use_winbar == true and {
     lualine_a = {
       {
-
-        navic_context,
+        'lsp_progress',
+        fmt = function(string)
+          if #string <= 0 then
+            local ctx = navic_context()
+            if #ctx > 0 then
+              return string.format("Context: %s", ctx)
+            else
+              return ""
+            end
+          else
+            return string
+          end
+        end,
         -- separator = { right ="", left = "" },
         separator = "",
         color = 'WinBarContext',
-        fmt = function(string)
-          if #string > 0 then
-            return string.format("Context: %s", string)
-          else
-            return ""
-          end
-        end
       }
     },
     lualine_c = {
