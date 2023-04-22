@@ -314,10 +314,19 @@ end
 function M.restore_config()
   local file = get_permconfig_file()
   local f = io.open(file, "r")
+  -- do some checks to avoid invalid data
   if f ~= nil then
     local string = f:read()
-    local tmp = vim.fn.json_decode(string)
-    M.perm_config = vim.tbl_deep_extend("force", M.perm_config_default, tmp)
+    if #string <= 0 then
+      M.perm_config = M.perm_config_default
+    else
+      local tmp = vim.fn.json_decode(string)
+      if #tmp > 0 then
+        M.perm_config = vim.tbl_deep_extend("force", M.perm_config_default, tmp)
+      else
+        M.perm_config = M.perm_config_default
+      end
+    end
   else
     M.perm_config = M.perm_config_default
   end
