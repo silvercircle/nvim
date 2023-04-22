@@ -52,11 +52,11 @@ function M.set_statuscol(mode)
   vim.o.statuscolumn = vim.g.config["statuscol_" .. mode ]
   if mode == 'normal' then
     vim.o.relativenumber = false
-    vim.o.numberwidth=5
+    vim.o.numberwidth=6
     vim.o.number = true
   else
     vim.o.relativenumber = true
-    vim.o.numberwidth=5
+    vim.o.numberwidth=6
     vim.o.number = false
   end
 end
