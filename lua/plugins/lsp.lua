@@ -5,12 +5,7 @@ if vim.g.config.use_winbar == true then
   navic = require('nvim-navic')
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
---local cmp_nvim_lsp = require("cmp_nvim_lsp")
---capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 -- capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
 
 -- Customize LSP behavior via on_attach
