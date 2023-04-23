@@ -5,7 +5,9 @@ if vim.g.config.use_winbar == true then
   navic = require('nvim-navic')
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities() 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 --local cmp_nvim_lsp = require("cmp_nvim_lsp")
 --capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
@@ -179,8 +181,16 @@ lspconfig.rust_analyzer.setup({
 
 lspconfig.cssls.setup({
   cmd = { vim.g.lsp_server_bin['cssls'], '--stdio' },
+  filetypes = { 'css', 'scss', 'less' },
+  root_dir = util.root_pattern('package.json', '.git'),
+  single_file_support = true,
   on_attach = on_attach,
-  capabilities = capabilities
+  capabilities = capabilities,
+  settings = {
+    css = { validate = true },
+    scss = { validate = true },
+    less = { validate = true },
+  },
 })
 
 lspconfig.html.setup({

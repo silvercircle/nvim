@@ -5,7 +5,7 @@ local autocmd = vim.api.nvim_create_autocmd
 local globals = require("globals")
 local agroup_views = vim.api.nvim_create_augroup("views", {} )
 local agroup_hl = vim.api.nvim_create_augroup("hl", {} )
-local ibl = require('indent_blankline')
+-- local ibl = require('indent_blankline')
 
 autocmd({ 'VimLeave' }, {
   callback = function()
