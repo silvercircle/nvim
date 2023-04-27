@@ -18,7 +18,6 @@ local on_attach = function(client, bufnr)
     client.server_capabilities.semanticTokensProvider = {}
   end
   if client.name == 'gopls' then
-    print("set semantic for gopls")
     client.server_capabilities.semanticTokensProvider = {
       full = true,
       legend = {
