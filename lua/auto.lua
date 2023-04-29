@@ -7,6 +7,7 @@ local agroup_views = vim.api.nvim_create_augroup("views", {} )
 local agroup_hl = vim.api.nvim_create_augroup("hl", {} )
 -- local ibl = require('indent_blankline')
 
+--- on leave, write the permanent settings file
 autocmd({ 'VimLeave' }, {
   callback = function()
     if vim.g.config.plain == false then
@@ -16,6 +17,7 @@ autocmd({ 'VimLeave' }, {
   group = agroup_views
 })
 
+--- remember if UIEnter already done
 local did_UIEnter = false
 
 -- autocmd({ 'InsertEnter', 'InsertLeave' }, {
@@ -109,6 +111,7 @@ autocmd( { 'bufread' }, {
   group = agroup_views
 })
 
+--- ft alpha is the startscreen from the alpha plugin
 autocmd( { 'FileType' }, {
   pattern = { 'alpha' },
   callback = function()
@@ -130,6 +133,7 @@ autocmd( { 'FileType' }, {
   group = agroup_views
 })
 
+--- Outline is from symbols-outline plugin and holds the symbol tree
 autocmd( { 'FileType' }, {
   pattern = 'Outline',
   callback = function()
