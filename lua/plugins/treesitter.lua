@@ -44,7 +44,7 @@ require("nvim-treesitter.configs").setup({
     enable = true,
     disable = { "help" }      -- FIXME: JavaScript parser is painfully slow. Help can be
                               -- slow with large pages. This is caused by injections, so disabling them
-                              -- does help.
+                              -- does help. 
   },
   indent = {
     -- FIXME: Setting this to true will cause a huge memory leak when inserting lines

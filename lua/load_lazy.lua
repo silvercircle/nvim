@@ -64,6 +64,8 @@ local plugins = {
   -- cmp and all its helpers
   { 'hrsh7th/nvim-cmp',
     lazy = true,
+    commit = "5dcbc91d9a0eed00f66b6cdc406f843c4253020f",
+    pin = true,
     event = { "InsertEnter", "CmdLineEnter" },
     dependencies = {
       'hrsh7th/cmp-cmdline',
