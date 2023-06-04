@@ -176,7 +176,8 @@ vim.g.lsp_server_bin = {
   csharp_ls     =   homepath .. '/.dotnet/tools/csharp-ls',
   marksman      =   masonbinpath .. 'marksman',
   lemminx       =   masonbinpath .. 'lemminx',
-  haskell       =   homepath .. '/.ghcup/hls/1.9.0.0/bin/haskell-language-server-9.4.4'
+  haskell       =   homepath .. '/.ghcup/hls/1.9.0.0/bin/haskell-language-server-9.4.4',
+  bashls        =   masonbinpath .. 'bash-language-server'
 }
 
 -- ugly but working hack. If $NVIM_USE_PRIVATE_FORKS is set (to anything), we will use private
