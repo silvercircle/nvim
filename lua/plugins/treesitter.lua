@@ -1,14 +1,14 @@
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.objc = {
-  install_info = {
-    url = "https://github.com/merico-dev/tree-sitter-objc",
-    files = {"src/parser.c" },
-    -- optional entries:
-    branch = "master", -- default branch in case of git repo if different from master
-    generate_requires_npm = false, -- if stand-alone parser without npm dependencies
-    requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
-  },
-}
+-- local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+-- parser_config.objc = {
+--   install_info = {
+--     url = "https://github.com/merico-dev/tree-sitter-objc",
+--     files = {"src/parser.c" },
+--     -- optional entries:
+--     branch = "master", -- default branch in case of git repo if different from master
+--     generate_requires_npm = false, -- if stand-alone parser without npm dependencies
+--     requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
+--   },
+-- }
 vim.treesitter.language.register('objc', 'objcpp')
 require("nvim-treesitter.configs").setup({
   auto_install = false,
