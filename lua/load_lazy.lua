@@ -240,7 +240,7 @@ local plugins = {
 -- for experimental purpose, I use some private forks and local repos.
 -- plugins_official (see below) contains the same stuff..
 local plugins_private = {
-  { 'silvercircle/nvim-cokeline', branch = "mine" },
+  { 'willothy/nvim-cokeline', branch = "main" },
   {
     dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim',
     lazy = true,
@@ -284,7 +284,6 @@ local plugins_private = {
 }
 
 local plugins_official = {
-  'noib3/nvim-cokeline',
   {
     'simrat39/symbols-outline.nvim', cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
     config = function()
