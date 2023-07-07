@@ -235,12 +235,14 @@ local plugins = {
     config = function()
 
     end
+  },
+  {
+    'willothy/nvim-cokeline', branch = "main"
   }
 }
 -- for experimental purpose, I use some private forks and local repos.
 -- plugins_official (see below) contains the same stuff..
 local plugins_private = {
-  { 'willothy/nvim-cokeline', branch = "main" },
   {
     dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim',
     lazy = true,
@@ -262,25 +264,6 @@ local plugins_private = {
       require("plugins.symbols_outline")
     end
   }
---  -- CMP and all its extensions
---  {
---    dir = '/mnt/shared/data/code/neovim_plugins/nvim-cmp',
---    lazy = true,
---    event = { "InsertEnter", "CmdLineEnter" },
---    dependencies = {
---      'hrsh7th/cmp-cmdline',
---      'hrsh7th/cmp-nvim-lsp',
---      'hrsh7th/cmp-path',
---      'hrsh7th/cmp-emoji',
---      'saadparwaiz1/cmp_luasnip',
---      'hrsh7th/cmp-nvim-lsp-signature-help',
---      { dir = '/mnt/shared/data/code/neovim_plugins/cmp-wordlist.nvim' },
---      'hrsh7th/cmp-buffer'
---    },
---    config = function()
---      require("plugins.cmp")
---    end
---  }
 }
 
 local plugins_official = {
