@@ -40,10 +40,17 @@ endif
 " a key mapping for the kwbd macro to close a buffer
 command C Kwbd
 
+function! Foobar(event)
+  echo "UIEnter vimscript"
+  let chan = a:event["chan"]
+  lua require("globals").set_session(vim.fn.eval("chan"))
+endfunction
+
 augroup filetypes
   autocmd!
   autocmd FileType ada,d,nim,objc,objcpp,javascript,scala,typescript syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
   autocmd FileType lua syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\+]'
+  " autocmd UIEnter * call Foobar(v:event)
 augroup end
 
 " This is for adding fortune cookies. User will be prompted for a section

@@ -177,7 +177,8 @@ vim.g.lsp_server_bin = {
   marksman      =   masonbinpath .. 'marksman',
   lemminx       =   masonbinpath .. 'lemminx',
   haskell       =   homepath .. '/.ghcup/hls/1.9.0.0/bin/haskell-language-server-9.4.4',
-  bashls        =   masonbinpath .. 'bash-language-server'
+  bashls        =   masonbinpath .. 'bash-language-server',
+  pylyzer       =   localbin .. "pylyzer"
 }
 
 -- ugly but working hack. If $NVIM_USE_PRIVATE_FORKS is set (to anything), we will use private

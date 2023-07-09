@@ -30,7 +30,7 @@ local did_UIEnter = false
 -- environment variable or command line option forbids it for better startup performance and
 -- a clean UI
 autocmd({ 'UIEnter' }, {
-  callback = function()
+  callback = function(event)
     -- this should only run on initial UIEnter (nvim start), exactly ONCE. UIEnter is also
     -- fired when nvim resumes from suspend (Ctrl-Z) in which case this code is no longer needed
     -- because all the sub splits have already been created
@@ -80,6 +80,14 @@ autocmd({ 'UIEnter' }, {
     end
     vim.fn.win_gotoid(globals.main_winid)
   end
+})
+
+autocmd( { 'ChanInfo' }, {
+  pattern = "*",
+  callback = function(chaninfo)
+    vim.print(chaninfo)
+  end,
+  group = agroup_views
 })
 
 -- create a view to save folds when saving the file

@@ -38,6 +38,8 @@ M.perm_config_default = {
 
 M.perm_config = {}
 
+M.sessions = {}
+
 local function get_permconfig_file()
   return vim.fn.stdpath("state") .. "/permconfig.json"
 end
@@ -403,4 +405,9 @@ function M.getLatexPreviewPath(_filename, _useglobal)
   end
 end
 
+function M.set_session(session)
+  print(vim.inspect(session))
+  M.sessions[session] = session
+  vim.print(M.sessions)
+end
 return M
