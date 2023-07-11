@@ -4,6 +4,7 @@ local M = {}
 
 M.winid_bufferlist = 0
 M.main_winid = 0
+M.cur_bufsize = 0
 
 M.term = {
   bufid = nil,
@@ -410,4 +411,12 @@ function M.set_session(session)
   M.sessions[session] = session
   vim.print(M.sessions)
 end
+
+function M.get_bufsize()
+  local buf = vim.api.nvim_get_current_buf()
+  local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+  M.cur_bufsize = byte_size
+  return byte_size
+end
+
 return M

@@ -82,14 +82,6 @@ autocmd({ 'UIEnter' }, {
   end
 })
 
-autocmd( { 'ChanInfo' }, {
-  pattern = "*",
-  callback = function(chaninfo)
-    vim.print(chaninfo)
-  end,
-  group = agroup_views
-})
-
 -- create a view to save folds when saving the file
 autocmd( { 'bufwritepre' }, {
   pattern = "*",
@@ -104,6 +96,15 @@ autocmd( { 'bufwinleave' }, {
     if vim.g.config.mkview_on_leave == true then
       globals.mkview()
     end
+  end,
+  group = agroup_views
+})
+
+-- just recalculate buffer size in bytes. We need this for some performance tweaks
+autocmd( { 'bufwinenter' }, {
+  pattern = "*",
+  callback = function()
+    globals.get_bufsize()
   end,
   group = agroup_views
 })
