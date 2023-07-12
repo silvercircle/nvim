@@ -100,7 +100,8 @@ autocmd( { 'bufwinleave' }, {
   group = agroup_views
 })
 
--- just recalculate buffer size in bytes. We need this for some performance tweaks
+-- just recalculate buffer size in bytes when entering a buffer.
+-- We need this for some performance tweaks
 autocmd( { 'bufwinenter' }, {
   pattern = "*",
   callback = function()

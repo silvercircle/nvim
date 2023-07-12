@@ -23,7 +23,7 @@ require("nvim-web-devicons").setup({
 --- count words in either the entire document or the current visual mode selection.
 --- required for the lualine plugin
 local function getWordsV2()
-  if globals.cur_bufsize > 10000000 then
+  if globals.cur_bufsize > vim.g.config.wordcount_limit * 1024 * 1024 then
     return "NaN"
   end
   local wc = vim.fn.wordcount()
