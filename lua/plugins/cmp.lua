@@ -193,12 +193,12 @@ cmp.setup({
         max_indexed_line_length = 256,
         get_bufnrs = function()
           local buf = vim.api.nvim_get_current_buf()
-          local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
           local ft = vim.api.nvim_buf_get_option(buf, "filetype")
           if vim.g.config.cmp.buffer_ft_allowed[ft] == nil then
             return {}
           end
-          if byte_size > vim.g.config.cmp.buffer_maxsize then -- 300kb
+          if globals.cur_bufsize > vim.g.config.cmp.buffer_maxsize then -- 300kb
+            print("file too big, cmp_buffer disabled")
             return {}
           end
           return { buf }

@@ -412,6 +412,8 @@ function M.set_session(session)
   vim.print(M.sessions)
 end
 
+--- get the size (in bytes) of the current buffer.
+--- needed for some performance tweaks to disable features for large buffers
 function M.get_bufsize()
   local buf = vim.api.nvim_get_current_buf()
   local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
