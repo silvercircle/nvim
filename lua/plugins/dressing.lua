@@ -39,7 +39,7 @@ local dressing_select_default = {
   -- Options for built-in selector
   builtin = {
     -- These are passed to nvim_open_win
-    anchor = "NW",
+    -- anchor = "NW",
     border = "single",
     -- 'editor' and 'win' will default to being centered
     relative = "editor",
@@ -95,7 +95,7 @@ require('dressing').setup({
     start_in_insert = true,
 
     -- These are passed to nvim_open_win
-    anchor = "SW",
+    -- anchor = "SW",
     border = "single",
     -- 'editor' and 'win' will default to being centered
     relative = "editor",

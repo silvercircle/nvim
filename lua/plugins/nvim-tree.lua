@@ -92,7 +92,6 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   sync_root_with_cwd = false,
   reload_on_bufenter = false,
   respect_buf_cwd = false,
-  remove_keymaps = false,
   select_prompts = false,
   view = {
     adaptive_size = false,
@@ -104,15 +103,6 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
     number = false,
     relativenumber = false,
     signcolumn = 'no',
-    mappings = {
-      custom_only = false,
-      list = {
-        { key = 'u', action = 'dir_up' },
-        { key = '<C-Enter>', action = 'cd' },
-        { key = '<C-p>', action = 'dir_up' },
-        { key = '<C-e>', action = 'edit' },
-      },
-    },
     float = {
       enable = false,
       quit_on_focus_loss = true,
