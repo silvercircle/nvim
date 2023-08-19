@@ -34,7 +34,8 @@ M.perm_config_default = {
   tree = true,
   theme_variant = 'warm',
   theme_desaturate = true,
-  theme_name = "my_sonokai"
+  theme_name = "my_sonokai",
+  debug = false
 }
 
 M.perm_config = {}
@@ -393,7 +394,7 @@ function M.getLatexPreviewPath(_filename, _useglobal)
   local useglobal = _useglobal or false
   local path = vim.fn.expand(vim.g.config.texoutput)
   local finalpath
-  print(path)
+  M.debugmsg("The preview path is: " .. path)
   if useglobal == true and #path > 0 and vim.fn.isdirectory(path) == 1 then
     finalpath = path .. vim.fn.expand(vim.fn.fnamemodify(_filename, ":t:r")) .. ".pdf"
   else
@@ -407,7 +408,6 @@ function M.getLatexPreviewPath(_filename, _useglobal)
 end
 
 function M.set_session(session)
-  print(vim.inspect(session))
   M.sessions[session] = session
   vim.print(M.sessions)
 end
@@ -421,4 +421,31 @@ function M.get_bufsize()
   return byte_size
 end
 
+--- output a debug message als notification. Does nothing when debug mode is disabled.
+--- @param msg string: The message to show
+function M.debugmsg(msg)
+  if M.perm_config.debug == true then
+    vim.notify(msg, 3)
+  end
+end
+
+--- toggle the debug mode and display the new status.
+function M.toggle_debug()
+  M.perm_config.debug = not M.perm_config.debug
+  if M.perm_config.debug == true then
+    vim.notify("Debug messages are now ENABLED.", 3)
+  else
+    vim.notify("Debug messages are now DISABLED.", 3)
+  end
+end
+
+function M.detach_all_tui()
+  for _, ui in pairs(vim.api.nvim_list_uis()) do
+    if ui.chan and not ui.stdout_tty then
+      vim.fn.chanclose(ui.chan)
+    end
+  end
+end
+
 return M
+

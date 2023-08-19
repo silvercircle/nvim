@@ -401,7 +401,6 @@ command_center.add({
     -- recompile the .tex document using ltx
     desc = "Recompile LaTeX document",
     cmd = function()
-      print(vim.fn.expand("%:p"))
       local cwd = "cd " .. vim.fn.expand("%:p:h")
       vim.cmd(cwd)
       local cmd = "!lualatex --output-directory=" .. vim.fn.expand(vim.g.config.texoutput) .. " '" .. vim.fn.expand("%:p") .. "'"
@@ -615,6 +614,14 @@ command_center.add({
       if c.is_buffer_attached(0) then c.detach_from_buffer(0) else c.attach_to_buffer(0) end
     end,
     keys = { "n", "ct", noremap },
+    category = "@Neovim"
+  },
+  {
+    desc = "Debug toggle",
+    cmd = function()
+      require("globals").toggle_debug()
+    end,
+    keys = { "n", "dbg", noremap },
     category = "@Neovim"
   },
   {
