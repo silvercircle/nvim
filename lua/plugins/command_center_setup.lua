@@ -382,16 +382,34 @@ command_center.add({
     desc = "View LaTeX result",
     cmd = function()
       local result, path = require("globals").getLatexPreviewPath(vim.fn.expand("%"), true)
-      print(path)
       if result == true then
-        local cmd = "!zathura  '" .. path .. "'"
+        local cmd = "silent !zathura  '" .. path .. "'"
         vim.cmd.stopinsert()
         vim.schedule(function() vim.cmd(cmd) end)
+      else
+        print("The PDF output does not exist. Please recompile.")
+        return
       end
     end,
     keys = {
       { "n", "<f54>", noremap },
       { "i", "<f54>", noremap },
+    },
+    category = "@Markdown"
+  },
+  {
+    -- recompile the .tex document using ltx
+    desc = "Recompile LaTeX document",
+    cmd = function()
+      print(vim.fn.expand("%:p"))
+      local cmd = "!lualatex --output-directory=" .. vim.fn.expand(vim.g.config.texoutput) .. " '" .. vim.fn.expand("%:p") .. "'"
+      print(cmd)
+      vim.cmd.stopinsert()
+      vim.schedule(function() vim.cmd(cmd) end)
+    end,
+    keys = {
+      { "n", "<f53>", noremap },
+      { "i", "<f53>", noremap },
     },
     category = "@Markdown"
   },
