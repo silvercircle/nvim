@@ -402,6 +402,8 @@ command_center.add({
     desc = "Recompile LaTeX document",
     cmd = function()
       print(vim.fn.expand("%:p"))
+      local cwd = "cd " .. vim.fn.expand("%:p:h")
+      vim.cmd(cwd)
       local cmd = "!lualatex --output-directory=" .. vim.fn.expand(vim.g.config.texoutput) .. " '" .. vim.fn.expand("%:p") .. "'"
       print(cmd)
       vim.cmd.stopinsert()
