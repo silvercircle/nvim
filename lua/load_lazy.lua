@@ -13,6 +13,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
+  'MunifTanjim/nui.nvim',
   'nvim-lualine/lualine.nvim',
   -- multiple cursors.
   'mg979/vim-visual-multi',

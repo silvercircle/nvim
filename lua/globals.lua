@@ -439,6 +439,8 @@ function M.toggle_debug()
   end
 end
 
+--- detach all TUI sessions from the headless master. The server will continue running
+--- in the background accepting new TUI sessions.
 function M.detach_all_tui()
   for _, ui in pairs(vim.api.nvim_list_uis()) do
     if ui.chan and not ui.stdout_tty then

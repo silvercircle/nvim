@@ -398,13 +398,15 @@ command_center.add({
     category = "@Markdown"
   },
   {
-    -- recompile the .tex document using ltx
+    -- recompile the .tex document using lualatex
     desc = "Recompile LaTeX document",
     cmd = function()
+      -- must change cwd to current, otherwise latex may not found subdocuments using relative
+      -- file names. 
       local cwd = "cd " .. vim.fn.expand("%:p:h")
       vim.cmd(cwd)
       local cmd = "!lualatex --output-directory=" .. vim.fn.expand(vim.g.config.texoutput) .. " '" .. vim.fn.expand("%:p") .. "'"
-      print(cmd)
+      require("globals").debugmsg(cmd)
       vim.cmd.stopinsert()
       vim.schedule(function() vim.cmd(cmd) end)
     end,
@@ -415,6 +417,7 @@ command_center.add({
     category = "@Markdown"
   },
   -- format with the LSP server
+  -- note: ranges are not supported by all LSP
   {
     desc = "LSP Format document or range",
     cmd = function() vim.lsp.buf.format() end,

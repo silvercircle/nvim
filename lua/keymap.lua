@@ -418,6 +418,7 @@ kms('n', 'ren', function()
   return ':IncRename ' .. vim.fn.expand('<cword>')
 end, { expr = true })
 
+-- Alt-d: Detach all TUI sessions from the (headless) master
 kms({ 'n', 'i', 't', 'v' }, '<A-d>', function()
   globals.detach_all_tui()
 end, opts)

@@ -4,7 +4,7 @@ local dressing_select_default = {
 
   -- Priority list of preferred vim.select implementations
 --    backend = { "builtin", "nui", "telescope" },
-  backend = { "builtin" },
+  backend = { "nui" },
 
   -- Trim trailing `:` from prompt
   trim_prompt = true,
@@ -29,6 +29,7 @@ local dressing_select_default = {
     },
     win_options = {
       winblend = 0,
+      winhighlight = "CursorLine:Visual"
     },
     max_width = 80,
     max_height = 40,
@@ -48,6 +49,7 @@ local dressing_select_default = {
     win_options = {
       -- Window transparency (0-100)
       winblend = 0,
+      cursorlineopt = "both"
     },
 
     -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
