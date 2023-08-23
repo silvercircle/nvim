@@ -378,12 +378,13 @@ command_center.add({
     category = "@Markdown"
   },
   {
-    -- open a zathura view and view the tex document as PDF
+    -- open a document viewer zathura view and view the tex document as PDF
     desc = "View LaTeX result",
     cmd = function()
       local result, path = require("globals").getLatexPreviewPath(vim.fn.expand("%"), true)
       if result == true then
-        local cmd = "silent !zathura  '" .. path .. "'"
+        local viewer = vim.g.config.texviewer or "zathura"
+        local cmd = "silent !" .. viewer .. " '" .. path .. "'"
         vim.cmd.stopinsert()
         vim.schedule(function() vim.cmd(cmd) end)
       else

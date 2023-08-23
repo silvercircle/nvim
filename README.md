@@ -119,3 +119,26 @@ It is a customized variant of the [Sonokai theme](https://github.com/sainnhe/son
 
 ![Screenshot 2](https://i.imgur.com/lXvfJQk.png)
 
+
+# Special Features
+
+The following is a probably incomplete list of special features including key bindings for various tasks 
+related to writing markdown and LaTeX documents, handling GIT repositories and more.
+
+## LaTeX features
+
+* **Alt-F5**: compile current document using luatex. This requires a fully working texlive installation (or 
+  equivalent). It also requires that the output path for documents (where the PDFs are stored) is 
+  configured in `config.lua` The global variable `vim.g.config.textoutput` must point to a valid and 
+  writable directory. The directory is fed to `expand()` so environment variables are allowed.
+
+* **Alt-F6**: Display the current document using the document viewer. By default, this is **zathura** but 
+  you can change this in `config.lua` by setting `vim.g.config.texviewer` to an executable that can 
+  display PDF documents.
+
+## Markdown features
+
+* **Shift-F6:** Display the current markdown document in a terminal-based viewer. This assumes that 
+* [IMD](https://github.com/Noah-Arcouette/imd) is properly installed and
+* executable.
+
