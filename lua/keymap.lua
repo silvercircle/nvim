@@ -324,7 +324,7 @@ kms('n', '<C-p>', function()
   )
 end, opts)
 kms('n', '<A-p>', function()
-  require('telescope').extensions.command_center.command_center({ mode = 'n' })
+  require('telescope').extensions.command_center.command_center({ filter={ mode = 'n' }})
 end, opts)
 
 -- quick-focus the four main areas
