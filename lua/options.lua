@@ -44,7 +44,6 @@ o.backup = false
 o.scrolloff = 3
 o.showmode = true
 o.showcmd = true
-o.hidden = true
 o.wildmenu = true
 o.ruler = true
 o.tm = 500

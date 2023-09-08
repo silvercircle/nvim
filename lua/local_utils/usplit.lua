@@ -8,11 +8,13 @@ M.bufid = nil             -- buffer id
 -- when the window has disappeared, the buffer is deleted.
 function M.resize_or_closed()
   if M.winid ~= nil and vim.api.nvim_win_is_valid(M.winid) == false then  -- window has disappeared
-    if M.bufid ~= nil then
+    if  M.bufid ~= nil and vim.api.nvim_buf_is_valid(M.bufid) then
       vim.api.nvim_buf_delete(M.bufid, { force = true })
       M.bufid = nil
     end
     M.winid = nil
+  else
+    M.refresh()
   end
 end
 
@@ -21,6 +23,9 @@ function M.close()
     vim.api.nvim_win_close(M.winid, {force=true})
     -- resize_or_closed() will cleanup, triggered by auto command
   end
+end
+
+function M.refresh()
 end
 
 --- this opens a split next to the terminal split and launches an instance of glances

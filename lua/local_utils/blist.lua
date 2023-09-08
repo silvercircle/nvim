@@ -473,8 +473,10 @@ function M.parseLs(buf)
       fn_symbol, fn_symbol_hl = getFileSymbol(filename)
     end
     local icon, icon_hl = getBufferIcon(flags)
-    if #icon == 1 then
+    if icon ~= nil and #icon == 1 then
       icon = " " .. icon
+    else
+      icon = "  "
     end
     local modified_icon = M.bufinfo[modified] or " "
 
