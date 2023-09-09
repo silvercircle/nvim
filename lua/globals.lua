@@ -321,7 +321,7 @@ function M.restore_config()
   -- do some checks to avoid invalid data
   if f ~= nil then
     local string = f:read()
-    if #string <= 0 then
+    if #string <= 1 then
       M.perm_config = M.perm_config_default
     else
       local tmp = vim.fn.json_decode(string)

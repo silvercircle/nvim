@@ -384,7 +384,7 @@ command_center.add({
       local result, path = require("globals").getLatexPreviewPath(vim.fn.expand("%"), true)
       if result == true then
         local viewer = vim.g.config.texviewer or "zathura"
-        local cmd = "silent !" .. viewer .. " '" .. path .. "'"
+        local cmd = "silent !" .. viewer .. " '" .. path .. "' &"
         vim.cmd.stopinsert()
         vim.schedule(function() vim.cmd(cmd) end)
       else
@@ -396,7 +396,7 @@ command_center.add({
       { "n", "<f54>", noremap },
       { "i", "<f54>", noremap },
     },
-    category = "@Markdown"
+    category = "@LaTeX"
   },
   {
     -- recompile the .tex document using lualatex
@@ -415,7 +415,7 @@ command_center.add({
       { "n", "<f53>", noremap },
       { "i", "<f53>", noremap },
     },
-    category = "@Markdown"
+    category = "@LaTeX"
   },
   -- format with the LSP server
   -- note: ranges are not supported by all LSP
