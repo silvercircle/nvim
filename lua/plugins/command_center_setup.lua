@@ -11,6 +11,34 @@ local _tb = require("telescope.builtin")
 -- this is a helper for mini pickers like references and symbols.
 local fzf_vertical_winops = { width = 0.6, preview = { layout = 'vertical', vertical = "up:30%" } }
 
+local function view_latex()
+  return function()
+    local result, path = require("globals").getLatexPreviewPath(vim.fn.expand("%"), true)
+    if result == true then
+      local viewer = vim.g.config.texviewer or "zathura"
+      local cmd = "silent !" .. viewer .. " '" .. path .. "' &"
+      vim.cmd.stopinsert()
+      vim.schedule(function() vim.cmd(cmd) end)
+    else
+      print("The PDF output does not exist. Please recompile.")
+      return
+    end
+  end
+end
+
+local function compile_latex()
+  return function()
+    -- must change cwd to current, otherwise latex may not found subdocuments using relative
+    -- file names. 
+    local cwd = "cd " .. vim.fn.expand("%:p:h")
+    vim.cmd(cwd)
+    local cmd = "!lualatex --output-directory=" .. vim.fn.expand(vim.g.config.texoutput) .. " '" .. vim.fn.expand("%:p") .. "'"
+    require("globals").debugmsg(cmd)
+    vim.cmd.stopinsert()
+    vim.schedule(function() vim.cmd(cmd) end)
+  end
+end
+
 command_center.add({
   {
     desc = "Bookmark Toggle",
@@ -380,18 +408,7 @@ command_center.add({
   {
     -- open a document viewer zathura view and view the tex document as PDF
     desc = "View LaTeX result",
-    cmd = function()
-      local result, path = require("globals").getLatexPreviewPath(vim.fn.expand("%"), true)
-      if result == true then
-        local viewer = vim.g.config.texviewer or "zathura"
-        local cmd = "silent !" .. viewer .. " '" .. path .. "' &"
-        vim.cmd.stopinsert()
-        vim.schedule(function() vim.cmd(cmd) end)
-      else
-        print("The PDF output does not exist. Please recompile.")
-        return
-      end
-    end,
+    cmd = view_latex(),
     keys = {
       { "n", "<f54>", noremap },
       { "i", "<f54>", noremap },
@@ -401,16 +418,7 @@ command_center.add({
   {
     -- recompile the .tex document using lualatex
     desc = "Recompile LaTeX document",
-    cmd = function()
-      -- must change cwd to current, otherwise latex may not found subdocuments using relative
-      -- file names. 
-      local cwd = "cd " .. vim.fn.expand("%:p:h")
-      vim.cmd(cwd)
-      local cmd = "!lualatex --output-directory=" .. vim.fn.expand(vim.g.config.texoutput) .. " '" .. vim.fn.expand("%:p") .. "'"
-      require("globals").debugmsg(cmd)
-      vim.cmd.stopinsert()
-      vim.schedule(function() vim.cmd(cmd) end)
-    end,
+    cmd = compile_latex(),
     keys = {
       { "n", "<f53>", noremap },
       { "i", "<f53>", noremap },
