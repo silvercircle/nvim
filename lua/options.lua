@@ -114,6 +114,7 @@ o.undodir = vim.fn.stdpath("data") .. "/undo/"
 -- set this to true if you want to have persistent undo
 o.undofile=false
 o.exrc=true
+o.cmdheight=0
 -- o.secure=true
 
 globals.restore_config()
