@@ -70,6 +70,7 @@ cmp.setup({
   completion = {
     autocomplete = vim.g.config.cmp_autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or { },
     keyword_length = vim.g.config.cmp_autocomplete_kwlen,
+    completeopt = "menu,menuone",
   },
   snippet = {
     expand = function(args)
@@ -241,6 +242,9 @@ cmp.setup.cmdline(":", {
   }, {
     { name = "cmdline" },
   }),
+  completion = {
+    completeopt = "menu,menuone,noselect"
+  }
 })
  -- Custom sorting/ranking for completion items.
 cmp_helper.compare = {
