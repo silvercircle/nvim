@@ -338,6 +338,17 @@ lspconfig.lemminx.setup({
   single_file_support = true
 })
 
+lspconfig.taplo.setup ({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  cmd = { vim.g.lsp_server_bin['taplo'], 'lsp', 'stdio' },
+  filetypes = { 'toml' },
+  root_dir = function(fname)
+    return util.root_pattern '*.toml'(fname) or util.find_git_ancestor(fname)
+  end,
+  single_file_support = true
+})
+
 local lua_root_files = {
   '.luarc.json',
   '.luarc.jsonc',
