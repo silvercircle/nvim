@@ -227,17 +227,21 @@ require('cokeline').setup({
   }
 })
 
---local highlight = {
---  "IndentBlanklineIndent1",
---  "IndentBlanklineIndent2",
---  "IndentBlanklineIndent3",
---  "IndentBlanklineIndent4",
---  "IndentBlanklineIndent5",
---  "IndentBlanklineIndent6",
---}
-local highlight = {
-  "IndentBlanklineChar",
-}
+local highlight = {}
+if vim.g.config.use_rainbow_indentguides == true then
+  highlight = {
+    "IndentBlanklineIndent1",
+    "IndentBlanklineIndent2",
+    "IndentBlanklineIndent3",
+    "IndentBlanklineIndent4",
+    "IndentBlanklineIndent5",
+    "IndentBlanklineIndent6",
+  }
+else 
+  highlight = {
+    "IndentBlanklineChar",
+  }
+end
 
 require("ibl").setup({
   -- for example, context is off by default, use this to turn it on
@@ -246,6 +250,7 @@ require("ibl").setup({
   whitespace = {
     remove_blankline_trail = false,
   },
+  scope = { enabled = false },
   show_current_context_start = false,
   show_end_of_line = true,
   show_foldtext = false,      -- FIX: important to properly refresh indent guides in folds after expanding them
