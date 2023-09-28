@@ -227,22 +227,30 @@ require('cokeline').setup({
   }
 })
 
-require("indent_blankline").setup({
+--local highlight = {
+--  "IndentBlanklineIndent1",
+--  "IndentBlanklineIndent2",
+--  "IndentBlanklineIndent3",
+--  "IndentBlanklineIndent4",
+--  "IndentBlanklineIndent5",
+--  "IndentBlanklineIndent6",
+--}
+local highlight = {
+  "IndentBlanklineChar",
+}
+
+require("ibl").setup({
   -- for example, context is off by default, use this to turn it on
   show_current_context = false,
+  indent = { highlight = highlight },
+  whitespace = {
+    remove_blankline_trail = false,
+  },
   show_current_context_start = false,
   show_end_of_line = true,
   show_foldtext = false,      -- FIX: important to properly refresh indent guides in folds after expanding them
   -- „rainbow style“ indent guides - if you want it, uncomment it. the highlight groups are already
   -- defined in the my_sonokai scheme.
-  char_highlight_list = vim.g.config.use_rainbow_indentguides == true and {
-    "IndentBlanklineIndent1",
-    "IndentBlanklineIndent2",
-    "IndentBlanklineIndent3",
-    "IndentBlanklineIndent4",
-    "IndentBlanklineIndent5",
-    "IndentBlanklineIndent6",
-  } or {},
   filetype_exclude = {
     "alpha",
     "help"
