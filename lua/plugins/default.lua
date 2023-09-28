@@ -227,38 +227,44 @@ require('cokeline').setup({
   }
 })
 
-local highlight = {}
+local ibl_highlight = {}
+
 if vim.g.config.use_rainbow_indentguides == true then
-  highlight = {
+  -- use multiple colors for indentation guides ("rainbow colors")
+  ibl_highlight = {
     "IndentBlanklineIndent1",
     "IndentBlanklineIndent2",
     "IndentBlanklineIndent3",
     "IndentBlanklineIndent4",
     "IndentBlanklineIndent5",
-    "IndentBlanklineIndent6",
+    "IndentBlanklineIndent6"
   }
-else 
-  highlight = {
-    "IndentBlanklineChar",
+else -- use a single color for all guides.
+  ibl_highlight = {
+    "IndentBlanklineChar"
   }
 end
 
+-- indent blankline setup
+-- note: ibl requires version 3
 require("ibl").setup({
   -- for example, context is off by default, use this to turn it on
   show_current_context = false,
-  indent = { highlight = highlight },
+  indent = { highlight = ibl_highlight, char = "│" },
   whitespace = {
     remove_blankline_trail = false,
   },
   scope = { enabled = false },
-  show_current_context_start = false,
-  show_end_of_line = true,
+  viewport_buffer = {
+    min = 30,
+    max = 100
+  },
   show_foldtext = false,      -- FIX: important to properly refresh indent guides in folds after expanding them
-  -- „rainbow style“ indent guides - if you want it, uncomment it. the highlight groups are already
-  -- defined in the my_sonokai scheme.
-  filetype_exclude = {
-    "alpha",
-    "help"
+  exclude = {
+    filetypes = {
+      "alpha",
+      "help"
+    }
   }
 })
 
