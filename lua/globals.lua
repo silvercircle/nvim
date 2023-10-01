@@ -35,12 +35,28 @@ M.perm_config_default = {
   theme_variant = 'warm',
   theme_desaturate = true,
   theme_name = "my_sonokai",
-  debug = false
+  debug = false,
+  ibl_rainbow = false
 }
 
 M.perm_config = {}
 
 M.sessions = {}
+
+-- use multiple colors for indentation guides ("rainbow colors")
+M.ibl_rainbow_highlight = {
+  "IndentBlanklineIndent1",
+  "IndentBlanklineIndent2",
+  "IndentBlanklineIndent3",
+  "IndentBlanklineIndent4",
+  "IndentBlanklineIndent5",
+  "IndentBlanklineIndent6"
+}
+-- use single color for ibl highlight
+M.ibl_highlight = {
+  "IndentBlanklineChar"
+}
+
 
 local function get_permconfig_file()
   return vim.fn.stdpath("state") .. "/permconfig.json"
@@ -437,6 +453,11 @@ function M.toggle_debug()
   else
     vim.notify("Debug messages are now DISABLED.", 3)
   end
+end
+
+function M.toggle_ibl_rainbow()
+  M.perm_config.ibl_rainbow = not M.perm_config.ibl_rainbow
+  require("ibl").update( { indent = { highlight = M.perm_config.ibl_rainbow == true and M.ibl_rainbow_highlight or M.ibl_highlight } } )
 end
 
 --- detach all TUI sessions from the headless master. The server will continue running

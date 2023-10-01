@@ -48,7 +48,6 @@ vim.g.config = {
   treesitter = true,
   treesitter_playground = false,                -- no setup required, optional, handled by setup_treesitter
   plain = (env_plain ~= nil or vim.g.want_plain == true) and true or false,
-  use_rainbow_indentguides = false,             -- for indent-blankline: rainbow-colorize indent guides
   -- statuscol_normal = '%s%=%{printf("%4d", v:lnum)} %C ',
   statuscol_normal = '%s%=%l %C ',
   --the same as above with highlighting the current line number

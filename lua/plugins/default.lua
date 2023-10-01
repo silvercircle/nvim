@@ -227,30 +227,12 @@ require('cokeline').setup({
   }
 })
 
-local ibl_highlight = {}
-
-if vim.g.config.use_rainbow_indentguides == true then
-  -- use multiple colors for indentation guides ("rainbow colors")
-  ibl_highlight = {
-    "IndentBlanklineIndent1",
-    "IndentBlanklineIndent2",
-    "IndentBlanklineIndent3",
-    "IndentBlanklineIndent4",
-    "IndentBlanklineIndent5",
-    "IndentBlanklineIndent6"
-  }
-else -- use a single color for all guides.
-  ibl_highlight = {
-    "IndentBlanklineChar"
-  }
-end
-
 -- indent blankline setup
 -- note: ibl requires version 3
 require("ibl").setup({
   -- for example, context is off by default, use this to turn it on
   show_current_context = false,
-  indent = { highlight = ibl_highlight, char = "│" },
+  indent = { highlight = globals.perm_config.ibl_rainbow == true and globals.ibl_rainbow_highlight or globals.ibl_highlight, char = "│" },
   whitespace = {
     remove_blankline_trail = false,
   },
