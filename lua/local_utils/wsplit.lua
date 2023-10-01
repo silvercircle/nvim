@@ -62,6 +62,9 @@ function M.open(_weatherfile)
   local curwin = vim.api.nvim_get_current_win()     -- remember active win for going back
   M.weatherfile = vim.fn.expand(_weatherfile)
 
+  if vim.fn.filereadable(M.weatherfile) == 0 then
+    return
+  end
   -- glances must be executable otherwise do nothing
   -- also, a terminal split must be present.
   if #wid > 0 and vim.fn.filereadable(M.weatherfile) then

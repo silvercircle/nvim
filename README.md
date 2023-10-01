@@ -139,6 +139,13 @@ related to writing markdown and LaTeX documents, handling GIT repositories and m
 ## Markdown features
 
 * **Shift-F6:** Display the current markdown document in a terminal-based viewer. This assumes that 
-* [IMD](https://github.com/Noah-Arcouette/imd) is properly installed and
-* executable.
+  [IMD](https://github.com/Noah-Arcouette/imd) is properly installed and
+  executable.
+* **Ctrl-F6**: Display the current markdown document in a 
+  [litemdview](https://notabug.org/g0tsu/litemdview) window. This program must be installed and available 
+  on your `$PATH`
 
+## Dynamic config feature
+
+  Some settings are stored in a JSON document `permconfig.json` in the state directory (see 
+  `vim.fn.stdpath("state")`.
