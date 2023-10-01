@@ -231,10 +231,11 @@ require('cokeline').setup({
 -- note: ibl requires version 3
 require("ibl").setup({
   -- for example, context is off by default, use this to turn it on
-  show_current_context = false,
+  enabled = globals.perm_config.ibl_enabled,
+  debounce = 300,
   indent = { highlight = globals.perm_config.ibl_rainbow == true and globals.ibl_rainbow_highlight or globals.ibl_highlight, char = "│" },
   whitespace = {
-    remove_blankline_trail = false,
+    remove_blankline_trail = true,
   },
   scope = { enabled = false },
   viewport_buffer = {

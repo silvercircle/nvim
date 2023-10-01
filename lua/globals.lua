@@ -36,7 +36,8 @@ M.perm_config_default = {
   theme_desaturate = true,
   theme_name = "my_sonokai",
   debug = false,
-  ibl_rainbow = false
+  ibl_rainbow = false,
+  ibl_enabled = true
 }
 
 M.perm_config = {}
@@ -331,6 +332,7 @@ function M.write_config()
 end
 
 --- read the permanent config from the JSON dump.
+--- if anything goes wrong, then restore the defaults.
 function M.restore_config()
   local file = get_permconfig_file()
   local f = io.open(file, "r")
@@ -458,6 +460,11 @@ end
 function M.toggle_ibl_rainbow()
   M.perm_config.ibl_rainbow = not M.perm_config.ibl_rainbow
   require("ibl").update( { indent = { highlight = M.perm_config.ibl_rainbow == true and M.ibl_rainbow_highlight or M.ibl_highlight } } )
+end
+
+function M.toggle_ibl()
+  M.perm_config.ibl_enabled = not M.perm_config.ibl_enabled
+  require("ibl").update( { enabled = M.perm_config.ibl_enabled })
 end
 
 --- detach all TUI sessions from the headless master. The server will continue running
