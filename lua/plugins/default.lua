@@ -242,7 +242,6 @@ require("ibl").setup({
     min = 30,
     max = 100
   },
-  show_foldtext = false,      -- FIX: important to properly refresh indent guides in folds after expanding them
   exclude = {
     filetypes = {
       "alpha",

@@ -97,7 +97,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
     adaptive_size = false,
     centralize_selection = false,
     width = vim.g.config.filetree_width,
-    hide_root_folder = false,
+    -- hide_root_folder = false,
     side = 'left',
     preserve_window_proportions = true,
     number = false,
