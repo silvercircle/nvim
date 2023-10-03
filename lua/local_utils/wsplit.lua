@@ -90,6 +90,41 @@ function M.open(_weatherfile)
   end
 end
 
+function M.openleftsplit(_weatherfile)
+  local wid = globals.findwinbyBufType("terminal")
+  local curwin = vim.api.nvim_get_current_win()     -- remember active win for going back
+  M.weatherfile = vim.fn.expand(_weatherfile)
+
+  if vim.fn.filereadable(M.weatherfile) == 0 then
+    return
+  end
+  M.winid = require("globals").splittree(12)
+  if M.winid == 0 then
+    print("Could not find split")
+    M.close()
+    return
+  end
+  if vim.fn.filereadable(M.weatherfile) == 1 then
+    vim.fn.win_gotoid(M.winid)
+    M.bufid = vim.api.nvim_create_buf(false, true)
+    vim.bo[M.bufid].buflisted = false
+    vim.api.nvim_win_set_buf(M.winid, M.bufid)
+    vim.api.nvim_buf_set_option(M.bufid, "buftype", "nofile")
+    vim.api.nvim_win_set_option(M.winid, "list", false)
+    vim.api.nvim_win_set_option(M.winid, "statusline", "  Weather")
+    vim.cmd("set winfixheight | set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn=%#NeoTreeNormalNC#\\  | setlocal nocursorline")
+    vim.fn.win_gotoid(curwin)
+  end
+  M.refresh()
+  if watch == nil then
+    watch = vim.loop.new_fs_event()
+  end
+  if watch ~= nil then
+    if vim.fn.filereadable(M.weatherfile) then
+      vim.loop.fs_event_start(watch, M.weatherfile, {}, vim.schedule_wrap(function(...) onChange(M.weatherfile, ...) end))
+    end
+  end
+end
 --- prepare a line with two elements
 --- @param _left string: the left part of the line
 --- @param _right string: The right part

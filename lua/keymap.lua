@@ -324,6 +324,15 @@ kms({ 'n', 'i' }, '<C-e>', function()
     })
   )
 end, opts)
+--kms({ 'n', 'i' }, '<A-e>', function()
+--  require('fzf-lua').buffers({
+--    winopts = {
+--      width = 0.6,
+--      height = 0.4,
+--      preview = { hidden = "hidden" }
+--    }
+--  })
+--end, opts)
 kms('n', '<C-p>', function()
   require('telescope.builtin').oldfiles(
     Telescope_dropdown_theme({ title = 'Old files', width = 0.6, height = 0.5 })
@@ -390,7 +399,7 @@ end, opts) -- usplit (system monitor)
 kms({ 'n', 'i', 't', 'v' }, '<A-8>', function()
   local wspl = require('local_utils.wsplit')
   if wspl.winid == nil then
-    wspl.open(vim.g.config.weather.file)
+    wspl.openleftsplit(vim.g.config.weather.file)
   else
     if wspl.winid ~= vim.fn.win_getid() then
       vim.fn.win_gotoid(wspl.winid)

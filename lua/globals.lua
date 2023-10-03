@@ -257,7 +257,7 @@ function M.termToggle(_height)
   -- but leave the buffer open
   if M.term.visible == true then
     require("local_utils.usplit").close()
-    require("local_utils.wsplit").close()
+    -- require("local_utils.wsplit").close()
     vim.api.nvim_win_hide(M.term.winid)
     M.term.visible = false
     M.term.winid = nil
@@ -284,7 +284,8 @@ function M.termToggle(_height)
     require("local_utils.usplit").open()
   end
   if M.perm_config.weather.active == true then
-    require("local_utils.wsplit").open(vim.g.config.weather.file)
+    --require("local_utils.wsplit").open(vim.g.config.weather.file)
+    --require("local_utils.wsplit").openleftsplit(vim.g.config.weather.file)
   end
 end
 

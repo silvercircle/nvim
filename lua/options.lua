@@ -73,7 +73,8 @@ end
 -- indentation-based folding.
 if vim.g.config.treesitter == true then
   o.foldmethod = "expr"
-  o.foldexpr = "nvim_treesitter#foldexpr()"
+  vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+  -- vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 else
   o.foldmethod = "indent"
   o.foldexpr = ""
