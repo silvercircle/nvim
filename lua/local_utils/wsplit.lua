@@ -90,15 +90,15 @@ function M.open(_weatherfile)
   end
 end
 
+--- open the weather split in a split of the nvim-tree
 function M.openleftsplit(_weatherfile)
-  local wid = globals.findwinbyBufType("terminal")
   local curwin = vim.api.nvim_get_current_win()     -- remember active win for going back
   M.weatherfile = vim.fn.expand(_weatherfile)
 
   if vim.fn.filereadable(M.weatherfile) == 0 then
     return
   end
-  M.winid = require("globals").splittree(12)
+  M.winid = require("globals").splittree(vim.g.config.weather.required_height)
   if M.winid == 0 then
     print("Could not find split")
     M.close()

@@ -82,7 +82,8 @@ vim.g.config = {
   weather = {
     width = 42,
     file = "~/.weather/weather",
-    splitright = false
+    splitright = false,
+    required_height = 13
   },
   -- this is a table of filetype <> colorcolumns associations. it's used by globals.toggle_colorcolumn()
   -- to figure out where the color column for the given filetype should be.

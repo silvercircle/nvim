@@ -366,7 +366,8 @@ function M.adjust_layout()
     vim.api.nvim_win_set_width(usplit, globals.perm_config.sysmon.width)
   end
   if wsplit ~= nil then
-    vim.api.nvim_win_set_width(wsplit, globals.perm_config.weather.width)
+    require("local_utils.wsplit").close()
+    -- vim.api.nvim_win_set_width(wsplit, globals.perm_config.weather.width)
   end
 end
 

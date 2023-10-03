@@ -78,7 +78,7 @@ autocmd({ 'UIEnter' }, {
         --require("local_utils.blist").open(true, 0, globals.perm_config.blist_height)
       end
       if globals.perm_config.weather.active == true then
-        require("local_utils.wsplit").openleftsplit(vim.g.config.weather.file)
+      --  require("local_utils.wsplit").openleftsplit(vim.g.config.weather.file)
       end
     end
     vim.fn.win_gotoid(globals.main_winid)
