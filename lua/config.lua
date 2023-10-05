@@ -76,7 +76,7 @@ vim.g.config = {
   wordcount_limit = 5,                         -- file size limit in megabytes. Above it, the word count will be disabled for performance reasons
   sysmon = {
     width = 51,
-    modules = "cpu,mem,network,load,system,uptime"
+    modules = "cpu,mem,memswap,network,load,system,uptime"
     -- modules = "cpu,mem,network,load,system,uptime,quicklook", -- this requiers a width of 58 or more
   },
   weather = {

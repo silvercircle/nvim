@@ -57,6 +57,19 @@ local function onChange(cust, _, _, status)
   end
 end
 
+--- install the file watcher local function with onChange(...) as event handler
+--- when the file containing the weather dump changes, refresh the buffer
+function M.installwatch()
+  if watch == nil then
+    watch = vim.loop.new_fs_event()
+  end
+  if watch ~= nil then
+    if vim.fn.filereadable(M.weatherfile) then
+      vim.loop.fs_event_start(watch, M.weatherfile, {}, vim.schedule_wrap(function(...) onChange(M.weatherfile, ...) end))
+    end
+  end
+end
+
 function M.open(_weatherfile)
   local wid = globals.findwinbyBufType("terminal")
   local curwin = vim.api.nvim_get_current_win()     -- remember active win for going back
@@ -80,14 +93,7 @@ function M.open(_weatherfile)
     vim.fn.win_gotoid(curwin)
   end
   M.refresh()
-  if watch == nil then
-    watch = vim.loop.new_fs_event()
-  end
-  if watch ~= nil then
-    if vim.fn.filereadable(M.weatherfile) then
-      vim.loop.fs_event_start(watch, M.weatherfile, {}, vim.schedule_wrap(function(...) onChange(M.weatherfile, ...) end))
-    end
-  end
+  M.installwatch()
 end
 
 --- open the weather split in a split of the nvim-tree
@@ -116,14 +122,7 @@ function M.openleftsplit(_weatherfile)
     vim.fn.win_gotoid(curwin)
   end
   M.refresh()
-  if watch == nil then
-    watch = vim.loop.new_fs_event()
-  end
-  if watch ~= nil then
-    if vim.fn.filereadable(M.weatherfile) then
-      vim.loop.fs_event_start(watch, M.weatherfile, {}, vim.schedule_wrap(function(...) onChange(M.weatherfile, ...) end))
-    end
-  end
+  M.installwatch()
 end
 --- prepare a line with two elements
 --- @param _left string: the left part of the line
