@@ -37,7 +37,8 @@ M.perm_config_default = {
   theme_name = "my_sonokai",
   debug = false,
   ibl_rainbow = false,
-  ibl_enabled = true
+  ibl_enabled = true,
+  ibl_context = true
 }
 
 M.perm_config = {}
@@ -467,6 +468,11 @@ end
 function M.toggle_ibl()
   M.perm_config.ibl_enabled = not M.perm_config.ibl_enabled
   require("ibl").update( { enabled = M.perm_config.ibl_enabled })
+end
+
+function M.toggle_ibl_context()
+  M.perm_config.ibl_context = not M.perm_config.ibl_context
+  require("ibl").update( { scope = { enabled = M.perm_config.ibl_context } } )
 end
 
 --- detach all TUI sessions from the headless master. The server will continue running

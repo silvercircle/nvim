@@ -118,7 +118,16 @@ local plugins = {
   'kevinhwang91/nvim-hlslens',
   'lewis6991/gitsigns.nvim',
   'lukas-reineke/indent-blankline.nvim',
-  'petertriho/nvim-scrollbar',
+  --{'petertriho/nvim-scrollbar',
+  --  config = function()
+    --  require("plugins.nvim-scrollbar")
+  --  end
+  --},
+  {'lewis6991/satellite.nvim',
+    config = function()
+      require("plugins.satellite")
+    end
+  },
   { 'stevearc/dressing.nvim',
     event = { "UIEnter" },
     config = function()
