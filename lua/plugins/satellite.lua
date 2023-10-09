@@ -2,7 +2,7 @@
   current_only = false,
   winblend = 0,
   zindex = 1,
-  excluded_filetypes = {},
+  excluded_filetypes = {"NvimTree"},
   width = 2,
   handlers = {
     cursor = {
