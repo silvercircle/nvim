@@ -1,20 +1,21 @@
  require('satellite').setup {
   current_only = false,
-  winblend = 50,
-  zindex = 40,
+  winblend = 0,
+  zindex = 1,
   excluded_filetypes = {},
   width = 2,
   handlers = {
     cursor = {
       enable = true,
       -- Supports any number of symbols
-      symbols = { '⎺', '⎻', '⎼', '⎽' }
-      -- symbols = { '⎻', '⎼' }
+      --symbols = { '⎺', '⎻', '⎼', '⎽' }
+      symbols = { "■" },
       -- Highlights:
       -- - SatelliteCursor (default links to NonText
     },
     search = {
       enable = true,
+      symbols = { "*" },
       -- Highlights:
       -- - SatelliteSearch (default links to Search)
       -- - SatelliteSearchCurrent (default links to SearchCurrent)

@@ -1051,3 +1051,6 @@ hi! link WinBarNC StatusLineNC
 " Lazy
 hi! link LazyNoCond RedBold
 hi! link VirtColumn IndentBlankLineChar
+hi! link SatelliteCursor WarningMsg
+hi! link SatelliteSearch PurpleBold
+hi! link SatelliteSearchCurrent PurpleBold

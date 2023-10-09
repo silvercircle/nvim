@@ -118,11 +118,11 @@ local plugins = {
   'kevinhwang91/nvim-hlslens',
   'lewis6991/gitsigns.nvim',
   'lukas-reineke/indent-blankline.nvim',
-  --{'petertriho/nvim-scrollbar',
-  --  config = function()
-    --  require("plugins.nvim-scrollbar")
-  --  end
-  --},
+--  {'petertriho/nvim-scrollbar',
+--    config = function()
+--      require("plugins.nvim-scrollbar")
+--    end
+--  },
   {'lewis6991/satellite.nvim',
     config = function()
       require("plugins.satellite")
