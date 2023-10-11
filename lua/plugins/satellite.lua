@@ -1,4 +1,4 @@
- require('satellite').setup {
+require('satellite').setup {
   current_only = false,
   winblend = 0,
   zindex = 1,
