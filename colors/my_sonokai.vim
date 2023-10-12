@@ -545,8 +545,8 @@ hi! link FzfLuaSearch TelescopeMatching
 " lewis6991/gitsigns.nvim {{{
 highlight! link GitSignsAdd GreenSign
 highlight! link GitSignsAddNr GreenSign
-highlight! link GitSignsChange Blue
-highlight! link GitSignsChangeNr Blue
+highlight! link GitSignsChange BlueBold
+highlight! link GitSignsChangeNr BlueBold
 highlight! link GitSignsDelete RedSign
 highlight! link GitSignsDeleteNr Red
 highlight! link GitSignsAddLn DiffAdd
