@@ -80,6 +80,7 @@ autocmd({ 'UIEnter' }, {
       if globals.perm_config.weather.active == true then
       --  require("local_utils.wsplit").openleftsplit(vim.g.config.weather.file)
       end
+      globals.set_scrollbar()
     end
     vim.fn.win_gotoid(globals.main_winid)
   end

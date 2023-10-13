@@ -38,7 +38,8 @@ M.perm_config_default = {
   debug = false,
   ibl_rainbow = false,
   ibl_enabled = true,
-  ibl_context = true
+  ibl_context = true,
+  scrollbar = true
 }
 
 M.perm_config = {}
@@ -475,6 +476,23 @@ function M.toggle_ibl_context()
   require("ibl").update( { scope = { enabled = M.perm_config.ibl_context } } )
 end
 
+function M.set_scrollbar()
+  local status, _ = pcall(require, "satellite")
+
+  if M.perm_config.scrollbar == true then
+    if status then
+      vim.cmd("SatelliteEnable")
+    else
+      vim.cmd("ScrollbarShow")
+    end
+  else
+    if status then
+      vim.cmd("SatelliteDisable")
+    else
+      vim.cmd("ScrollbarHide")
+    end
+  end
+end
 --- detach all TUI sessions from the headless master. The server will continue running
 --- in the background accepting new TUI sessions.
 function M.detach_all_tui()

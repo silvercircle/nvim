@@ -1,5 +1,5 @@
 require('satellite').setup {
-  current_only = false,
+  current_only = true,
   winblend = 0,
   zindex = 1,
   excluded_filetypes = {"NvimTree"},

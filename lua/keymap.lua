@@ -309,6 +309,10 @@ end, opts)
 kms({ 'n', 'i' }, '<C-l><C-u>', function()
   globals.toggle_ibl_context()
 end, opts)
+kms({ 'n', 'i' }, '<C-l><C-z>', function()
+  globals.perm_config.scrollbar = not globals.perm_config.scrollbar
+  globals.set_scrollbar()
+end, opts)
 
 kms('n', '<A-q>', function()
   require('local_utils').Quitapp()
