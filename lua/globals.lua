@@ -476,6 +476,9 @@ function M.toggle_ibl_context()
   require("ibl").update( { scope = { enabled = M.perm_config.ibl_context } } )
 end
 
+--- toggle scrollbar visibility
+--- this works with both the satellite and nvim-scrollbar plugins whatever one
+--- is active. The current status is saved to the permanent configuration.
 function M.set_scrollbar()
   local status, _ = pcall(require, "satellite")
 
