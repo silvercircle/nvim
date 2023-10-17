@@ -584,7 +584,7 @@ command_center.add({
     desc = "Todo List Project Root",
     cmd = function()
       require('telescope._extensions.todo-comments').exports.todo(Telescope_vertical_dropdown_theme({
-        prompt_title = "Todo Comments", cwd = lutils.getroot_current(), hidden = true }))
+        layout_config = { width=120 }, prompt_title = "Todo Comments (Project)", cwd = lutils.getroot_current(), hidden = true }))
     end,
     keys = { "n", "tdp", noremap },
     category = "@Neovim"
@@ -594,7 +594,7 @@ command_center.add({
     cmd = function()
       local dir = vim.fn.expand("%:p:h")
       require('telescope._extensions.todo-comments').exports.todo(Telescope_vertical_dropdown_theme({
-        prompt_title = "Todo Comments", cwd = dir }))
+        layout_config = { width=120 }, prompt_title = "Todo Comments (Current Directory)", cwd = dir }))
     end,
     keys = { "n", "tdo", noremap },
     category = "@Neovim"

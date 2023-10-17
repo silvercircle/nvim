@@ -1,4 +1,4 @@
-local home = vim.fn.expand("~/OneDrive/zettelkasten")
+local home = vim.fn.expand("~/Documents/zettelkasten")
 -- NOTE for Windows users:
 -- - don't use Windows
 -- - try WSL2 on Windows and pretend you're on Linux
