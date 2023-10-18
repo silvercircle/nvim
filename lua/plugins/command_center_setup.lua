@@ -550,6 +550,7 @@ command_center.add({
     desc = "Live Grep (current directory)",
     cmd = function()
       _tb.live_grep(Telescope_vertical_dropdown_theme({
+        layout_config = { width = 130 },
         prompt_title = "Live Grep Folder (current)",
         search_dirs = { vim.fn.expand("%:p:h") }
       }))
@@ -561,6 +562,7 @@ command_center.add({
     desc = "Live Grep (project root)",
     cmd = function()
       _tb.live_grep(Telescope_vertical_dropdown_theme({
+        layout_config = { width = 130 },
         prompt_title = "Live Grep Folder (project root)",
         search_dirs = { lutils.getroot_current() }
       }))

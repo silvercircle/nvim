@@ -12,7 +12,7 @@
 vim.treesitter.language.register('objc', 'objcpp')
 require("nvim-treesitter.configs").setup({
   auto_install = false,
-  ensure_installed = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "scala", "markdown" },
+  ensure_installed = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "scala" },
   playground = {
     enable = vim.g.config.treesitter_playground,
     disable = {},
@@ -42,9 +42,10 @@ require("nvim-treesitter.configs").setup({
 --  },
   highlight = {
     enable = true,
-    disable = { "help", "markdown" }      -- FIXME: JavaScript parser is painfully slow. Help can be
+    disable = { "help", "markdown" },      -- FIXME: JavaScript parser is painfully slow. Help can be
                               -- slow with large pages. This is caused by injections, so disabling them
-                              -- does help. 
+                              -- does help.
+    additional_vim_regex_highlighting = false
   },
   indent = {
     -- FIXME: Setting this to true will cause a huge memory leak when inserting lines
