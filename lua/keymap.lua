@@ -331,6 +331,11 @@ kms({ 'n', 'i' }, '<C-e>', function()
     })
   )
 end, opts)
+kms('n', '<C-p>', function()
+  require('telescope.builtin').oldfiles(
+    Telescope_dropdown_theme({ title = 'Old files', width = 0.6, height = 0.5 })
+  )
+end, opts)
 --kms({ 'n', 'i' }, '<A-e>', function()
 --  require('fzf-lua').buffers({
 --    winopts = {
@@ -340,11 +345,15 @@ end, opts)
 --    }
 --  })
 --end, opts)
-kms('n', '<C-p>', function()
-  require('telescope.builtin').oldfiles(
-    Telescope_dropdown_theme({ title = 'Old files', width = 0.6, height = 0.5 })
-  )
-end, opts)
+--kms({ 'n', 'i' }, '<C-S-p>', function()
+--  require('fzf-lua').oldfiles({
+--    winopts = {
+--      width = 0.6,
+--      height = 0.4,
+--      preview = { hidden = "hidden" }
+--    }
+--  })
+--end, opts)
 kms('n', '<A-p>', function()
   require('telescope').extensions.command_center.command_center({ filter={ mode = 'n' }})
 end, opts)

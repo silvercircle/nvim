@@ -31,15 +31,18 @@ require("nvim-treesitter.configs").setup({
       show_help = "?",
     },
   },
---  incremental_selection = {
---    enable = true,
---    keymaps = {
---      init_selection = '<Space>',
---      scope_incremental = '<Space>',
---      node_incremental = '<C-Space>',
---      node_decremental = '<A-Space>',
---    },
---  },
+  textobjects = {
+    enable = false
+  },
+  incremental_selection = {
+    enable = false,
+    keymaps = {
+      init_selection = '<Space>',
+      scope_incremental = '<Space>',
+      node_incremental = '<C-Space>',
+      node_decremental = '<A-Space>',
+    },
+  },
   highlight = {
     enable = true,
     disable = { "help", "markdown" },      -- FIXME: JavaScript parser is painfully slow. Help can be
