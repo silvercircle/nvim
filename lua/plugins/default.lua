@@ -1,6 +1,4 @@
 local globals = require("globals")
-local navic
-navic = require('nvim-navic')
 
 -- devicons for lua plugins (e.g. Telescope, neotree, nvim-tree among others  need them)
 require("nvim-web-devicons").setup({
@@ -22,18 +20,6 @@ require("nvim-web-devicons").setup({
 
 --- count words in either the entire document or the current visual mode selection.
 --- required for the lualine plugin
-local function getWordsV2()
-  if globals.cur_bufsize > vim.g.config.wordcount_limit * 1024 * 1024 then
-    return "NaN"
-  end
-  local wc = vim.fn.wordcount()
-  if wc["visual_words"] then -- text is selected in visual mode
-    return wc["visual_words"] .. " Words/" .. wc['visual_chars'] .. " Chars (Vis)"
-  else -- all of the document
-    return wc["words"] .. " Words"
-  end
-end
-
 -- setup cokeline plugin. It provides a buffer line (aka tab-bar)
 -- local sidebar_or_tree = vim.g.features['sidebar']['enable'] == true and true or false
 -- local treename = vim.g.config.nvim_tree == true and 'NvimTree' or 'neo-tree'
