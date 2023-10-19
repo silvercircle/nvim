@@ -14,7 +14,11 @@ vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
   'MunifTanjim/nui.nvim',
-  'nvim-lualine/lualine.nvim',
+  {'nvim-lualine/lualine.nvim',
+    config = function()
+      require("plugins.lualine")
+    end
+  },
   -- multiple cursors.
   'mg979/vim-visual-multi',
   -- telescope + extensions, mandatory
