@@ -61,7 +61,7 @@ M.ibl_highlight = {
 }
 
 
-local function get_permconfig_file()
+local function get_permconfig_filename()
   return vim.fn.stdpath("state") .. "/permconfig.json"
 end
 
@@ -297,7 +297,7 @@ function M.write_config()
   if vim.g.config.plain == true then
     return
   end
-  local file = get_permconfig_file()
+  local file = get_permconfig_filename()
   local f = io.open(file, "w+")
   if f ~= nil then
     local wsplit_id = require("local_utils.wsplit").winid
@@ -337,7 +337,7 @@ end
 --- read the permanent config from the JSON dump.
 --- if anything goes wrong, then restore the defaults.
 function M.restore_config()
-  local file = get_permconfig_file()
+  local file = get_permconfig_filename()
   local f = io.open(file, "r")
   -- do some checks to avoid invalid data
   if f ~= nil then
