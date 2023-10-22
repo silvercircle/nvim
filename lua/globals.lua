@@ -33,6 +33,7 @@ M.perm_config_default = {
   blist_height = 0.33,
   tree = true,
   theme_variant = 'warm',
+  transbg = false,
   theme_desaturate = true,
   theme_name = "my_sonokai",
   debug = false,
@@ -494,6 +495,28 @@ function M.set_scrollbar()
     else
       vim.cmd("ScrollbarHide")
     end
+  end
+end
+
+--- set the background transparent or solid
+function M.set_bg()
+  if M.perm_config.transbg == true then
+    vim.api.nvim_set_hl(0, "Normal", { bg = "none", fg = "fg" } )
+    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = 'none' } )
+    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = 'none' } )
+    vim.cmd("hi VertSplit guibg=none")
+    vim.cmd("hi LineNr guibg=none")
+    vim.cmd("hi FoldColumn guibg=none")
+    vim.cmd("hi SignColumn guibg=none")
+  else
+    local variant = M.perm_config.theme_variant
+    vim.api.nvim_set_hl(0, "Normal", { bg = vim.g.theme[variant].bg, fg = "fg" } )
+    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = vim.g.theme[variant].treebg, fg = "fg" })
+    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = vim.g.theme[variant].treebg, fg = "fg" })
+    vim.cmd("hi VertSplit guibg=" .. vim.g.theme[variant].treebg)
+    vim.cmd("hi LineNr guibg=" .. vim.g.theme[variant].gutterbg)
+    vim.cmd("hi FoldColumn guibg=" .. vim.g.theme[variant].gutterbg)
+    vim.cmd("hi SignColumn guibg=" .. vim.g.theme[variant].gutterbg)
   end
 end
 --- detach all TUI sessions from the headless master. The server will continue running

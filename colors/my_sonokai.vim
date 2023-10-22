@@ -72,7 +72,7 @@ if g:theme_variant == 'cold'
         \ 'purple':     ['#b39df3',   '176'],
         \ 'grey':       ['#7f8490',   '246'],
         \ 'grey_dim':   ['#595f6f',   '240'],
-        \ 'neotreebg':  ['#18181c',   '232'],
+        \ 'neotreebg':  [g:theme['cold'].treebg,   '232'],
         \ 'selfg':      ['#cccc20',   '233'],
         \ 'selbg':      ['#3030b0',   '234'],
         \ 'none':       ['NONE',      'NONE']
@@ -107,7 +107,7 @@ else
         \ 'purple':     ['#b39df3',   '176'],
         \ 'grey':       ['#7f8490',   '246'],
         \ 'grey_dim':   ['#595f6f',   '240'],
-        \ 'neotreebg':  ['#1b1818',   '232'],
+        \ 'neotreebg':  [g:theme['warm'].treebg,   '232'],
         \ 'selfg':      ['#cccc20',   '233'],
         \ 'selbg':      ['#3030b0',   '234'],
         \ 'none':       ['NONE',      'NONE']
@@ -141,7 +141,7 @@ if g:theme_variant == 'cold'
   let s:darkred = ['#601010', 249]
   let s:darkestred = ['#161616', 249]
   let s:darkestblue = ['#10101a', 247]
-  let s:bg = ['#141414', 0]
+  let s:bg = [g:theme['cold'].bg, 0]
   let s:statuslinebg = [ g:statuslinebg, 208 ]
   let s:palette.fg = [ '#a2a0ac', 1 ]
   let s:palette.grey = [ '#707070', 2 ]
@@ -153,7 +153,7 @@ else
   let s:darkred = ['#601010', 249]
   let s:darkestred = ['#161616', 249]
   let s:darkestblue = ['#10101a', 247]
-  let s:bg = ['#161414', 0]
+  let s:bg = [g:theme['warm'].bg, 0]
   let s:statuslinebg = [ g:statuslinebg, 208 ]
   let s:palette.fg = [ '#aaa0a5', 1 ]
   let s:palette.grey = [ '#707070', 2 ]

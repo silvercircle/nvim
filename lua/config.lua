@@ -109,7 +109,17 @@ vim.g.theme = {
   -- and more.
   accent_color = '#cbaf00',
   alt_accent_color = '#bd2f4f',
-  lualine = 'internal'  -- use 'internal' for the integrated theme or any valid lualine theme name
+  lualine = 'internal',  -- use 'internal' for the integrated theme or any valid lualine theme name
+  cold = {
+    bg = '#141414',
+    treebg = '#18181c',
+    gutterbg = '#101013'
+  },
+  warm = {
+    bg = '#161414',
+    treebg = '#1b1818',
+    gutterbg = '#131010'
+  }
 }
 vim.g.theme_variant = 'warm'
 vim.g.theme_desaturate = true
