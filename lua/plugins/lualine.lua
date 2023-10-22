@@ -80,7 +80,7 @@ require("lualine").setup({
     {
       "o:textwidth",
       fmt = function(str)
-        return string.format("%s:%s", str, vim.api.nvim_win_get_option(0, "wrap") == true and "wrap" or "nowrap")
+        return string.format("%s:%s", str, vim.api.nvim_win_get_option(0, "wrap") == true and "wr" or "no")
       end
     },
     }, -- display textwidth after formattingoptions
