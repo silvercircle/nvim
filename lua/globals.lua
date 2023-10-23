@@ -379,8 +379,10 @@ end
 function M.toggle_theme_variant()
   if vim.g.theme_variant == 'warm' then
     vim.g.theme_variant = 'cold'
+    M.perm_config.theme_variant = 'cold'
   else
     vim.g.theme_variant = 'warm'
+    M.perm_config.theme_variant = 'warm'
   end
   vim.cmd("colorscheme " .. M.perm_config.theme_name)
 end
