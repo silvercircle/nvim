@@ -123,6 +123,10 @@ kms('i', '<C-f>c', function()
   globals.close_qf_or_loc()
 end, opts)
 
+kms('n', '<C-f>x', function()
+  require("local_utils").SetFoldingMode()
+end, opts)
+
 map('n', '<C-S-Down>', '<CMD>cnext<CR>', opts)
 map('i', '<C-S-Down>', '<c-o><CMD>cnext<CR>', opts)
 

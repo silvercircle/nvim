@@ -214,6 +214,28 @@ function M.BufClose()
   end
 end
 
+function M.SetFoldingMode()
+  local foldingmodes = {
+    Expression = "expr",
+    Indent = "indent",
+    Syntax = "syntax",
+    Marker = "marker",
+    Diff = "diff",
+    Manual = "manual"
+  }
+  vim.ui.select({ "Expression", "Indent", "Syntax", "Marker", "Diff", "Manual"}, {
+    prompt = "Select folding mode",
+    border = "single",
+    format_item = function(item)
+      return M.pad(item, 40, ' ')
+    end
+    },
+    function(choice)
+      vim.o.foldmethod = foldingmodes[choice]
+    end
+  )
+end
+
 function M.Quitapp()
   local bufs = vim.api.nvim_list_bufs()
   local have_modified_buf = false
