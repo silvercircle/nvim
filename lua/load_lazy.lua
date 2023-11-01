@@ -20,7 +20,10 @@ local plugins = {
     end
   },
   -- multiple cursors.
-  'mg979/vim-visual-multi',
+  {
+    'mg979/vim-visual-multi',
+     event = "BufReadPre"
+  },
   -- telescope + extensions, mandatory
   {
     'nvim-telescope/telescope.nvim', branch = '0.1.x',
@@ -173,7 +176,6 @@ local plugins = {
   },
   { 'goolord/alpha-nvim',
     cond = vim.g.config.plain == false,
---    pin = true,
     config = function ()
       require("plugins.alpha")
     end

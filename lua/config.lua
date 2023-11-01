@@ -25,11 +25,12 @@ vim.g.config = {
   cpalette_dropdown = 'top',                    -- same for the command palette
   -- the minipicker is the small telescope picker used for references, symbols and
   -- treesitter-symbols. It also works in insert mode.
+  minipicker_symbolwidth = 60,
   minipicker_layout = {
-    height = 0.8,
-    width = 50,
+    height = 0.85,
+    width = 80,
     preview_height =10,
-    anchor = "N"
+    anchor = "N",
   },
   cmp = {
     max_abbr_item_width = 40,                   -- item name width (maximum for truncate())
