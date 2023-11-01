@@ -91,7 +91,7 @@ o.complete=""
 -- coc and also CMP respect this settings for the maximum autocomplete-popup height
 o.pumheight = 15
 -- allow two signcolumns, the first will be occupied by git signs
-o.signcolumn = "yes:3"
+o.signcolumn = "yes:4"
 -- set &dictionary to allow auto-complete with coc-dictionary
 vim.opt.dictionary:append(vim.fn.stdpath("data") .. "/dict")
 -- do not use swap files.
