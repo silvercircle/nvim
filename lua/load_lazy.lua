@@ -47,6 +47,7 @@ local plugins = {
       vim.treesitter.query.set("javascript", "injections", "")
       vim.treesitter.query.set("typescript", "injections", "")
     end,
+    event = { "BufReadPre" },
     dependencies = {
       { 'nvim-treesitter/playground', cond = vim.g.config.treesitter_playground == true },
     }
@@ -210,14 +211,14 @@ local plugins = {
       require("dap.nvim_dap")
     end
   },
-  {
-    'mrjones2014/legendary.nvim',
-    lazy = true,
-    cmd = { "Legendary" },
-    config = function()
-      require("plugins.legendary")
-    end
-  },
+--  {
+--    'mrjones2014/legendary.nvim',
+--    lazy = true,
+--    cmd = { "Legendary" },
+--    config = function()
+--      require("plugins.legendary")
+--    end
+--  },
   {
     'ibhagwan/fzf-lua',
     lazy = true,
@@ -234,11 +235,19 @@ local plugins = {
       require("inc_rename").setup()
     end
   },
+--  {
+--    'pwntester/octo.nvim',
+--    cmd = { "Octo" },
+--    config = function()
+--      require("plugins.octo")
+--    end
+--  },
   {
-    'pwntester/octo.nvim',
-    cmd = { "Octo" },
+    'chentoast/marks.nvim',
     config = function()
-      require("plugins.octo")
+      require("marks").setup({ --TODO: foobar 
+        signcolumn = 4
+      })
     end
   },
   {
