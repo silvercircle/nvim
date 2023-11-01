@@ -458,3 +458,10 @@ kms({ 'n', 'i', 't', 'v' }, '<A-d>', function()
   globals.detach_all_tui()
 end, opts)
 
+kms({ 'n', 'i', 't', 'v' }, '<C-l>za', function()
+  require("cmp_wordlist").add_cword()
+end, opts)
+
+kms({ 'n', 'i', 't', 'v' }, '<C-l>zt', function()
+  require("cmp_wordlist").add_cword_with_translation()
+end, opts)
