@@ -142,6 +142,13 @@ kms({ 'n', 'i' }, '<C-a><C-e>', function()
   { window = { config = globals.mini_pick_center(50, 0.6, 0.2) } })
 end, opts)
 
+--- open mini picker for marks
+kms({ 'n', 'i' }, '<C-a>m', function()
+  require("mini.extra").pickers.marks(
+  { },
+  { window = { config = globals.mini_pick_center(50, 0.6, 0.2) } })
+end, opts)
+---
 map('n', '<C-S-Down>', '<CMD>cnext<CR>', opts)
 map('i', '<C-S-Down>', '<c-o><CMD>cnext<CR>', opts)
 
