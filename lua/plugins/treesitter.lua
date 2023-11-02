@@ -14,7 +14,7 @@ vim.treesitter.language.register('markdown', 'telekasten')
 
 require("nvim-treesitter.configs").setup({
   auto_install = false,
-  ensure_installed = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "scala", "markdown" },
+  ensure_installed = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "scala", "markdown", "java", "kdl" },
   playground = {
     enable = vim.g.config.treesitter_playground,
     disable = {},
