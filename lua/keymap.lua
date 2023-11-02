@@ -321,6 +321,12 @@ kms({ 'n', 'i' }, '<C-l><C-h>', function()
   globals.perm_config.transbg = not globals.perm_config.transbg
   globals.set_bg()
 end, opts)
+kms({ 'n', 'i' }, '<C-l><C-g>', function()
+  globals.perm_config.statusline_declutter = globals.perm_config.statusline_declutter + 1
+  if globals.perm_config.statusline_declutter == 4 then
+    globals.perm_config.statusline_declutter = 0
+  end
+end, opts)
 
 kms('n', '<A-q>', function()
   require('local_utils').Quitapp()

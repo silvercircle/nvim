@@ -40,7 +40,8 @@ M.perm_config_default = {
   ibl_rainbow = false,
   ibl_enabled = true,
   ibl_context = true,
-  scrollbar = true
+  scrollbar = true,
+  statusline_declutter = 0
 }
 
 M.perm_config = {}

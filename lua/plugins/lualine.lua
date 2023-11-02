@@ -42,7 +42,11 @@ local function navic_context()
 end
 
 local function indentstats()
-  return string.format("%d:%d:%s|%s%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n', vim.g.theme_variant, vim.g.theme_desaturate == true and ",D" or "")
+  if globals.perm_config.statusline_declutter > 0 then
+    return string.format("%d:%d:%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n')
+  else
+    return string.format("%d:%d:%s|%s%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n', vim.g.theme_variant, vim.g.theme_desaturate == true and ",D" or "")
+  end
 end
 
 -- the internal theme is defined in config.lua
@@ -98,9 +102,9 @@ require("lualine").setup({
       },
       "filetype",
       "fileformat",
-      "encoding"
+      { "encoding", draw_empty=false, cond = function() return globals.perm_config.statusline_declutter < 3 and true or false end }
     },
-    lualine_y = { "progress" },
+    lualine_y = { { "progress", cond = function() return globals.perm_config.statusline_declutter < 2 and true or false end, draw_empty=false} },
     -- word counter via custom function
     lualine_z = { { getWordsV2 }, "location" },
   },
