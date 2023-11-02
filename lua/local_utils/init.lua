@@ -225,17 +225,22 @@ local fdm = {
 }
 
 function M.PickFoldingMode(currentmode)
+  if currentmode == nil or currentmode == '' then
+    return
+  end
+
   local pick = require("mini.pick")
   local index = 0
-
   for i, v in ipairs(fdm) do
     if v.val == currentmode then
       index = i
     end
   end
-  local swap = fdm[1]
-  fdm[1] = fdm[index]
-  fdm[index] = swap
+  if index > 0 then
+    local swap = fdm[1]
+    fdm[1] = fdm[index]
+    fdm[index] = swap
+  end
   pick.start({
     source = {
       items = fdm,

@@ -541,6 +541,12 @@ end
 ---                           lower values shift upwards, higher downwards
 function M.mini_pick_center(width, height, col_anchor)
   local _ca = col_anchor or 0.5
+  if width > 0 and width < 1 then
+    width = math.floor(width * vim.o.columns)
+  end
+  if height > 0 and height < 1 then
+    height = math.floor(height * vim.o.lines)
+  end
   return {
     anchor = 'NW', height = height, width = width,
     row = math.floor(_ca * (vim.o.lines - height)),

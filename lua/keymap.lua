@@ -123,8 +123,23 @@ kms('i', '<C-f>c', function()
   globals.close_qf_or_loc()
 end, opts)
 
-kms('n', '<C-f>x', function()
+--- mini picker shortcuts, all start with <C-m>
+kms({ 'n', 'i' }, '<C-a>f', function()
   require("local_utils").PickFoldingMode(vim.o.foldmethod)
+end, opts)
+
+--- open mini explorer at current directory
+kms({ 'n', 'i' }, '<C-a>e', function()
+  require("mini.extra").pickers.explorer(
+  { cwd = vim.fn.expand("%:p:h")  },
+  { window = { config = globals.mini_pick_center(50, 0.6, 0.2) } })
+end, opts)
+
+--- open mini explorer at project root
+kms({ 'n', 'i' }, '<C-a><C-e>', function()
+  require("mini.extra").pickers.explorer(
+  { cwd = utils.getroot_current()  },
+  { window = { config = globals.mini_pick_center(50, 0.6, 0.2) } })
 end, opts)
 
 map('n', '<C-S-Down>', '<CMD>cnext<CR>', opts)

@@ -24,6 +24,7 @@ require('options')
 require("auto")
 require('plugins.default')
 require('keymap')
+require("local_utils.marks")
 EOB
 
 set guifont=Iosevka\ Mayukai\ Sonata\ Medium:h11:#e-subpixelantialias:#h-full

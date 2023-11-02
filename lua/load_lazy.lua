@@ -155,6 +155,14 @@ local plugins = {
     end
   },
   {
+    'echasnovski/mini.extra',
+    version = false,
+    lazy = true,
+    config = function()
+      require("plugins.mini_extra")
+    end
+  },
+  {
     'nvim-tree/nvim-tree.lua',
     lazy = true,
     config = function()
@@ -232,16 +240,17 @@ local plugins = {
 --      require("plugins.octo")
 --    end
 --  },
-  {
-    'https://gitlab.com/silvercircle74/marks.nvim',
-    branch = "CursorHold",
-    config = function()
-      require("marks").setup({ --TODO: foobar
-        signcolumn = 4,
-        refresh_interval = 1000
-      })
-    end
-  },
+--  {
+--    'https://gitlab.com/silvercircle74/marks.nvim',
+--    branch = "CursorHold",
+--    event = "BufReadPre",
+--    config = function()
+--      require("marks").setup({ --TODO: foobar
+--        signcolumn = 4,
+--        refresh_interval = 1000
+--      })
+--    end
+--  },
   {
     'gabrielpoca/replacer.nvim',
     ft = { "qf" }
