@@ -124,7 +124,7 @@ kms('i', '<C-f>c', function()
 end, opts)
 
 kms('n', '<C-f>x', function()
-  require("local_utils").SetFoldingMode()
+  require("local_utils").PickFoldingMode(vim.o.foldmethod)
 end, opts)
 
 map('n', '<C-S-Down>', '<CMD>cnext<CR>', opts)

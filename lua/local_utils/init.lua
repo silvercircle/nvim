@@ -214,26 +214,43 @@ function M.BufClose()
   end
 end
 
-function M.SetFoldingMode()
-  local foldingmodes = {
-    Expression = "expr",
-    Indent = "indent",
-    Syntax = "syntax",
-    Marker = "marker",
-    Diff = "diff",
-    Manual = "manual"
-  }
-  vim.ui.select({ "Expression", "Indent", "Syntax", "Marker", "Diff", "Manual"}, {
-    prompt = "Select folding mode",
-    border = "single",
-    format_item = function(item)
-      return M.pad(item, 40, ' ')
+local fdm = {
+--  { text = M.pad("<NoChange>", 25, ' '), val = "none" },
+  { text = M.pad("Indent", 25, ' '), val = "indent" },
+  { text = M.pad("Expression", 25, ' '), val = "expr" },
+  { text = M.pad("Syntax", 25, ' '), val = "syntax" },
+  { text = M.pad("Marker", 25, ' '), val = "marker" },
+  { text = M.pad("Diff", 25, ' '), val = "diff" },
+  { text = M.pad("Manual", 25, ' '), val = "manual" }
+}
+
+function M.PickFoldingMode(currentmode)
+  local pick = require("mini.pick")
+  local index = 0
+
+  for i, v in ipairs(fdm) do
+    if v.val == currentmode then
+      index = i
     end
+  end
+  local swap = fdm[1]
+  fdm[1] = fdm[index]
+  fdm[index] = swap
+  pick.start({
+    source = {
+      items = fdm,
+      name = "Foldmethod",
+      choose = function(item)
+        if item.val ~= "none" then
+          print(item.val)
+          vim.schedule(function() vim.o.foldmethod = item.val end)
+        end
+      end
     },
-    function(choice)
-      vim.o.foldmethod = foldingmodes[choice]
-    end
-  )
+    window = {
+      config = require("globals").mini_pick_center(25, 6, 0.3)
+    }
+  })
 end
 
 function M.Quitapp()
