@@ -532,5 +532,20 @@ function M.detach_all_tui()
   end
 end
 
+--- supporting function for mini.pick
+--- returns a window config table to center a mini.picker with desired width and height
+--- on screen
+--- @param width integer      desired width of the picker window
+--- @param height integer     desired height of the picker window
+--- @param col_anchor integer vertical anchor in percentage. 0.5 centers
+---                           lower values shift upwards, higher downwards
+function M.mini_pick_center(width, height, col_anchor)
+  local _ca = col_anchor or 0.5
+  return {
+    anchor = 'NW', height = height, width = width,
+    row = math.floor(_ca * (vim.o.lines - height)),
+    col = math.floor(0.5 * (vim.o.columns - width))
+  }
+end
 return M
 

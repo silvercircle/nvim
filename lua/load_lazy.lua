@@ -147,6 +147,14 @@ local plugins = {
   { 'norcalli/nvim-colorizer.lua' },
   'echasnovski/mini.move',
   {
+    'echasnovski/mini.pick',
+    version = false,
+    lazy = true,
+    config = function()
+      require("plugins.mini_pick")
+    end
+  },
+  {
     'nvim-tree/nvim-tree.lua',
     lazy = true,
     config = function()

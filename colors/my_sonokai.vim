@@ -534,6 +534,13 @@ call my_sonokai#highlight('TelescopePromptNormal', s:accent, s:palette.bg_dim, '
 call my_sonokai#highlight('TelescopeNormal', s:palette.fg_dim, s:palette.bg_dim)
 call my_sonokai#highlight('TelescopeTitle', s:palette.black, s:accent, 'bold')
 
+hi! link MiniPickBorder TelescopeBorder
+hi! link MiniPickBorderBusy TelescopeBorder
+hi! link MiniPickBorderText TelescopeBorder
+hi! link MiniPickNormal TelescopeNormal
+hi! link MiniPickHeader TelescopeTitle
+hi! link MiniPickMatchCurrent Visual
+
 highlight! link TelescopeResultsLineNr Yellow
 highlight! link TelescopePromptPrefix Blue
 highlight! link TelescopeSelection Visual
