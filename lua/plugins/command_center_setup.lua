@@ -369,7 +369,9 @@ command_center.add({
     cmd = function()
       local path = lsputil.root_pattern(".git")(vim.fn.expand("%:p"))
       path = path or "."
-      local cmd = "FloatermNew --name=GIT --width=0.9 --height=0.9 lazygit --path=" .. path
+      --require("FTerm").scratch({ cmd = {"lazygit", '-p', path }, on_exit=function() vim.cmd("wincmd c") end, dimensions={width=0.9, height=0.9} })
+      --local cmd = "FloatermNew --name=GIT --width=0.9 --height=0.9 lazygit --path=" .. path
+      local cmd = "FloatermNew --name=GIT --width=0.9 --height=0.9 gitui -d " .. path
       vim.cmd.stopinsert()
       vim.schedule(function() vim.cmd(cmd) end)
     end,

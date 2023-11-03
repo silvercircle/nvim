@@ -143,6 +143,7 @@ local plugins = {
     end
   },
   { 'voldikss/vim-floaterm', cmd = {"FloatermNew", "FloatermToggle"} },
+  --{ 'numToStr/FTerm.nvim', lazy=true },
   { 'preservim/vim-markdown', ft = "markdown" },
   { 'norcalli/nvim-colorizer.lua' },
   'echasnovski/mini.move',
