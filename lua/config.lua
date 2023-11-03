@@ -6,6 +6,7 @@
 -- when NVIM_PLAIN is set (to whatever value), the editor will start plain without a neotree and
 -- terminal split.
 local env_plain = os.getenv("NVIM_PLAIN")
+local tweaks = require("tweaks")
 
 if vim.fn.has("nvim-0.9") == 0 then
   vim.notify("Warning, this configuration requires Neovim version 0.9 or later.", 3)
@@ -15,7 +16,7 @@ end
 -- no longer needed. load_lazy.lua handles all the plugin loading and deals with optional plugins.
 
 vim.g.config = {
-  telescope_fname_width = 140,
+  telescope_fname_width = tweaks.telescope_fname_width,
   nightly = vim.fn.has("nvim-0.10"),             -- TODO: fix this when 0.9 goes release
   cokeline = {
     enabled = true,                             -- when false, lualine handles the bufferline
@@ -25,7 +26,7 @@ vim.g.config = {
   cpalette_dropdown = 'top',                    -- same for the command palette
   -- the minipicker is the small telescope picker used for references, symbols and
   -- treesitter-symbols. It also works in insert mode.
-  minipicker_symbolwidth = 60,
+  minipicker_symbolwidth = tweaks.telescope_symbol_width,
   minipicker_layout = {
     height = 0.85,
     width = 80,
@@ -37,7 +38,7 @@ vim.g.config = {
     max_detail_item_width = 40,                 -- item detail field maxium width
     -- the following lists file types that are allowed to use the cmp_buffer source
     buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true },
-    buffer_maxsize = 1024 * 300                 -- PERF: maximum buffer size allowed to use cmp_buffer source. 300kB
+    buffer_maxsize = tweaks.cmp_buffer_maxsize  -- PERF: maximum buffer size allowed to use cmp_buffer source. 300kB
   },
   minipicker_iprefix = "#>",
   filetree_width = 44,                          -- width nvim-tree plugin (file tree)
@@ -58,10 +59,9 @@ vim.g.config = {
   --again, with highlighting relative number
   --statuscol_rel = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:relnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:relnum) : ""} %C%#IndentBlankLineChar#│ ',
   nvim_tree = true,
-  cokeline_filename_width = 25,               -- max filename length on cokeline tabs
-  cmp_autocomplete = false,                   -- false means only manual complete <C-Space>. Set to true for autocomplete
-  cmp_autocomplete_kwlen = 1,                 -- keyword length, cmp_autocomplete must be true for this to take effect
-                                              -- (complete while typing)
+  cokeline_filename_width = tweaks.cokeline_filename_width,               -- max filename length on cokeline tabs
+  cmp_autocomplete = tweaks.cmp_autocomplete,
+  cmp_autocomplete_kwlen = tweaks.cmp_keywordlen,
   fortunecookie = false,                      --"fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
                                               -- needs fortune and cowsay installed.
                                               -- set to false or an empty string to disable

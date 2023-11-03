@@ -366,6 +366,7 @@ function M.Telescope_vertical_dropdown_theme(opts)
     sorting_strategy = "ascending",
     layout_strategy = "vertical",
     path_display={smart = true},
+    symbol_width = vim.g.config.minipicker_symbolwidth,
     layout_config = {
       width = lopts.width or 0.8,
       height = lopts.height or 0.9,

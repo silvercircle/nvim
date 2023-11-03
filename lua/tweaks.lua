@@ -1,0 +1,22 @@
+--- user tweakable stuff
+local M = {}
+
+-- telescope field width. These depend on the characters per line in the terminal
+-- setup. So it needs to be tweakable
+
+M.telescope_symbol_width = 60
+M.telescope_fname_width = 120
+
+-- length of the filename in the cokeline winbar
+M.cokeline_filename_width = 25
+
+-- max buffer size to enable the buffer words autocompletion source in cmp
+-- this is a performance tweak. Value is in bytes and 300kB is a reasonable default, even for
+-- slower machines.
+M.cmp_buffer_maxsize = 300 * 1024
+-- I prefer to have only manual cmp complation (hit Ctrl-Space)
+-- set this to true to always have auto-completion when typing
+M.cmp_autocomplete = false
+-- minimum keyword length for auto-complete to kick in
+M.cmp_keywordlen = 1
+return M

@@ -212,7 +212,6 @@ command_center.add({
     desc = "Mini Document symbols",
     cmd = function()
       _tb.lsp_document_symbols(Telescope_vertical_dropdown_theme({
-        symbol_width = vim.g.config.minipicker_symbolwidth,
         layout_config = vim.g.config.minipicker_layout }))
     end,
     keys = { "n", "<A-o>", noremap },
@@ -222,7 +221,6 @@ command_center.add({
     desc = "Mini Document symbols (i)",
     cmd = function()
       _tb.lsp_document_symbols(Telescope_vertical_dropdown_theme({
-        symbol_width = vim.g.config.minipicker_symbolwidth,
         prompt_prefix = vim.g.config.minipicker_iprefix, layout_config = vim.g.config.minipicker_layout }))
     end,
     keys = { "i", "<A-o>", noremap },
@@ -234,7 +232,6 @@ command_center.add({
       _tb.lsp_references(Telescope_vertical_dropdown_theme({
         path_display = { truncate = 9 },
         show_line = false,
-        symbol_width = vim.g.config.minipicker_symbolwidth,
         layout_config = vim.g.config.minipicker_layout
       }))
     end,
@@ -248,7 +245,6 @@ command_center.add({
         path_display = { truncate = 9 },
         show_line = false,
         prompt_prefix = vim.g.config.minipicker_iprefix,
-        symbol_width = vim.g.config.minipicker_symbolwidth,
         layout_config = vim.g.config
             .minipicker_layout
       }))
