@@ -1,6 +1,7 @@
 -- local utils
 -- can be used without calling setup(), but you can use it to set some (few) options.
 
+local globals = require("globals")
 local M = {}
 
 local default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", ".vscode" }
@@ -224,6 +225,8 @@ local fdm = {
   { text = M.pad("Manual", 25, ' '), val = "manual" }
 }
 
+--- use mini.pick to pick a folding method.
+--- @param currentmode string: the current folding method will be placed on top of the list and highlighted
 function M.PickFoldingMode(currentmode)
   if currentmode == nil or currentmode == '' then
     return
@@ -247,13 +250,13 @@ function M.PickFoldingMode(currentmode)
       name = "Foldmethod",
       choose = function(item)
         if item.val ~= "none" then
-          print(item.val)
+          globals.debugmsg("Selected folding method: " .. item.val)
           vim.schedule(function() vim.o.foldmethod = item.val end)
         end
       end
     },
     window = {
-      config = require("globals").mini_pick_center(25, 6, 0.3)
+      config = globals.mini_pick_center(25, 6, 0.3)
     }
   })
 end

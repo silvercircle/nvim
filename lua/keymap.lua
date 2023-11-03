@@ -129,21 +129,21 @@ kms({ 'n', 'i' }, '<C-a>f', function()
 end, opts)
 
 --- open mini explorer at current directory
-kms({ 'n', 'i' }, '<C-a>e', function()
+kms('n', '<C-a>e', function()
   require("mini.extra").pickers.explorer(
   { cwd = vim.fn.expand("%:p:h")  },
   { window = { config = globals.mini_pick_center(50, 0.6, 0.2) } })
 end, opts)
 
 --- open mini explorer at project root
-kms({ 'n', 'i' }, '<C-a><C-e>', function()
+kms( 'n', '<C-a><C-e>', function()
   require("mini.extra").pickers.explorer(
   { cwd = utils.getroot_current()  },
   { window = { config = globals.mini_pick_center(50, 0.6, 0.2) } })
 end, opts)
 
 --- open mini picker for marks
-kms({ 'n', 'i' }, '<C-a>m', function()
+kms('n', '<C-a>m', function()
   require("mini.extra").pickers.marks(
   { },
   { window = { config = globals.mini_pick_center(50, 0.6, 0.2) } })
