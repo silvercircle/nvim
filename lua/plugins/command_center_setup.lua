@@ -532,7 +532,7 @@ command_center.add({
   {
     desc = "Registers (Mini)",
     cmd = function() require("mini.extra").pickers.registers({}, { window = { config = require("globals").mini_pick_center(110, 25, 0.1) } }) end,
-    keys = { "n", "<C-x><C-r>", noremap },
+    keys = { {"n", "i"}, "<C-x><C-r>", noremap },
     category = "@Telescope"
   },
   {
