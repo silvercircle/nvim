@@ -218,14 +218,14 @@ local plugins = {
 --      require("plugins.legendary")
 --    end
 --  },
-  {
-    'ibhagwan/fzf-lua',
-    lazy = true,
-    cmd = { "FzfLua" },
-    config = function()
-      require("plugins.fzf")
-    end
-  },
+--  {
+--    'ibhagwan/fzf-lua',
+--    lazy = true,
+--    cmd = { "FzfLua" },
+--    config = function()
+--      require("plugins.fzf")
+--    end
+--  },
   { 'kevinhwang91/rnvimr', lazy=true, cmd={"RnvimrToggle"} },
   {
     "smjonas/inc-rename.nvim",

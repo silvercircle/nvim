@@ -370,14 +370,30 @@ command_center.add({
       local path = lsputil.root_pattern(".git")(vim.fn.expand("%:p"))
       path = path or "."
       --require("FTerm").scratch({ cmd = {"lazygit", '-p', path }, on_exit=function() vim.cmd("wincmd c") end, dimensions={width=0.9, height=0.9} })
-      --local cmd = "FloatermNew --name=GIT --width=0.9 --height=0.9 lazygit --path=" .. path
-      local cmd = "FloatermNew --name=GIT --width=0.9 --height=0.9 gitui -d " .. path
+      local cmd = "FloatermNew --name=GIT --width=0.9 --height=0.9 lazygit --path=" .. path
       vim.cmd.stopinsert()
       vim.schedule(function() vim.cmd(cmd) end)
     end,
     keys = {
       { "n", "<f6>", noremap },
       { "i", "<f6>", noremap },
+    },
+    category = "@GIT"
+  },
+  {
+    -- open a float term with gitui
+    -- use the path of the current buffer to find the .git root. The LSP utils are useful here
+    desc = "FloatTerm gitui",
+    cmd = function()
+      local path = lsputil.root_pattern(".git")(vim.fn.expand("%:p"))
+      path = path or "."
+      local cmd = "FloatermNew --name=GIT --width=0.9 --height=0.9 gitui -d " .. path
+      vim.cmd.stopinsert()
+      vim.schedule(function() vim.cmd(cmd) end)
+    end,
+    keys = {
+      { "n", "<f7>", noremap },
+      { "i", "<f7>", noremap },
     },
     category = "@GIT"
   },
@@ -514,8 +530,8 @@ command_center.add({
     category = "@Telescope"
   },
   {
-    desc = "Registers (Fzf)",
-    cmd = function() require("fzf-lua").registers({ winopts = fzf_vertical_winops }) end,
+    desc = "Registers (Mini)",
+    cmd = function() require("mini.extra").pickers.registers({}, { window = { config = require("globals").mini_pick_center(110, 25, 0.1) } }) end,
     keys = { "n", "<C-x><C-r>", noremap },
     category = "@Telescope"
   },
@@ -664,21 +680,21 @@ command_center.add({
     category = "@Neovim"
   },
   {
-    desc = "Fzf Quickfix list",
-    cmd = function() require("fzf-lua").quickfix({ winopts = fzf_vertical_winops }) end,
+    desc = "Quickfix list (Mini)",
+    cmd = function() require("mini.extra").pickers.list({ scope="quickfix" }, { window={ config=require("globals").mini_pick_center(110, 25, 0.1) } }) end,
     keys = { "n", "qfl", noremap },
     category = "@Neovim"
   },
   {
-    desc = "Fzf Location list",
-    cmd = function() require("fzf-lua").loclist({ winopts = fzf_vertical_winops }) end,
+    desc = "Location list (Mini)",
+    cmd = function() require("mini.extra").pickers.list({ scope="location" }, { window={ config=require("globals").mini_pick_center(110, 25, 0.1) } }) end,
     keys = { "n", "lll", noremap },
     category = "@Neovim"
   },
   {
     desc = "Telekasten panel",
     cmd = function() require('telekasten').panel() end,
-    keys = { "n", "<f7>", noremap },
+    keys = { "n", "tkp", noremap },
     category = "@Telekasten"
   },
   {
@@ -698,22 +714,22 @@ command_center.add({
     cmd = function() require('telekasten').search_notes() end,
     keys = { "n", "<leader>zs", noremap },
     category = "@Telekasten"
-  },
-  {
-    desc = "FZF live grep current directory",
-    cmd = function() require("fzf-lua").live_grep({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_vertical_winops }) end,
-    keys = { "n", "<f9>", noremap },
-    category = "@FZF"
-  },
-  {
-    desc = "FZF live grep project root",
-    cmd = function()
-      require("fzf-lua").live_grep({
-        cwd = require("local_utils").getroot_current(),
-        winopts = fzf_vertical_winops
-      })
-    end,
-    keys = { "n", "<f21>", noremap },
-    category = "@FZF"
   }
+--  {
+--    desc = "FZF live grep current directory",
+--    cmd = function() require("fzf-lua").live_grep({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_vertical_winops }) end,
+--    keys = { "n", "<f9>", noremap },
+--    category = "@FZF"
+--  },
+--  {
+--    desc = "FZF live grep project root",
+--    cmd = function()
+--      require("fzf-lua").live_grep({
+--        cwd = require("local_utils").getroot_current(),
+--        winopts = fzf_vertical_winops
+--      })
+--    end,
+--    keys = { "n", "<f21>", noremap },
+--    category = "@FZF"
+--  }
 })
