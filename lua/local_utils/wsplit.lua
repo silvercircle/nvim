@@ -224,6 +224,7 @@ function M.refresh()
       io.close(file)
       vim.api.nvim_buf_set_option(M.bufid, "modifiable", true)
       local lcond = conditions[results['37']][string.lower(results['2'])]
+      table.insert(lines, " ")
       table.insert(lines, M.prepare_line(results['26'], " " .. results['28'], 0))
       table.insert(lines, M.prepare_line(lcond, results['33'], 1))
       table.insert(lines, "  ")

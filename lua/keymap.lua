@@ -357,7 +357,7 @@ kms({ 'n', 'i' }, '<C-e>', function()
   require('telescope.builtin').buffers(
     Telescope_dropdown_theme({
       title = 'Buffer list',
-      width = 0.6,
+      width = 100,
       height = 0.4,
       sort_lastused = true,
       sort_mru = true,
@@ -367,6 +367,10 @@ kms({ 'n', 'i' }, '<C-e>', function()
     })
   )
 end, opts)
+kms({ 'n', 'i' }, '<A-e>', function()
+  require("mini.pick").builtin.buffers({include_current=false}, {window = { config = require("globals").mini_pick_center(100, 20, 0.1) } } )
+end, opts)
+
 kms('n', '<C-p>', function()
   require('telescope.builtin').oldfiles(
     Telescope_dropdown_theme({ title = 'Old files', width = 0.6, height = 0.5 })
