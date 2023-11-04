@@ -281,6 +281,7 @@ function M.termToggle(_height)
   M.term.winid = vim.fn.win_getid()
   vim.api.nvim_win_set_option(M.term.winid, "statusline", "  Terminal")
   M.term.bufid = vim.api.nvim_get_current_buf()
+  vim.api.nvim_buf_set_option(M.term.bufid, "buflisted", false)
   M.term.visible = true
 
   -- finally, open the sub frames if they were previously open

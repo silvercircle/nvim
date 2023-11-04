@@ -264,7 +264,7 @@ local plugins = {
   },
   {
     'willothy/nvim-cokeline', branch = "main"
-  },
+  }
 }
 -- for experimental purpose, I use some private forks and local repos.
 -- plugins_official (see below) contains the same stuff..

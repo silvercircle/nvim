@@ -1,7 +1,7 @@
 --- user tweakable stuff
 local M = {}
 
--- telescope field width. These depend on the characters per line in the terminal
+-- telescope field widths. These depend on the characters per line in the terminal
 -- setup. So it needs to be tweakable
 
 M.telescope_symbol_width = 60
@@ -19,4 +19,5 @@ M.cmp_buffer_maxsize = 300 * 1024
 M.cmp_autocomplete = false
 -- minimum keyword length for auto-complete to kick in
 M.cmp_keywordlen = 1
+
 return M
