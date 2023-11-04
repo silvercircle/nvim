@@ -104,6 +104,7 @@ map('n', '<C-s><C-c>', '<CMD>lua require("local_utils").BufClose()<CR>', opts)
 -- switch off highlighted search results
 map('n', '<f5>', '<CMD>nohl<CR>', opts)
 map('i', '<f5>', '<c-o><CMD>nohl<CR>', opts)
+map('i', '<C-z>', '<c-o>:undo<CR>', opts)
 
 -- various
 map('i', '<C-y>-', '—', opts) -- emdash

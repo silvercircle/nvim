@@ -6,6 +6,7 @@ local M = {}
 
 M.telescope_symbol_width = 60
 M.telescope_fname_width = 120
+M.telescope_mini_picker_width = 76
 
 -- length of the filename in the cokeline winbar
 M.cokeline_filename_width = 25

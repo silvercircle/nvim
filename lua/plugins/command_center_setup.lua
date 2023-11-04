@@ -596,6 +596,12 @@ command_center.add({
     category = "@Telescope"
   },
   {
+    desc = "Spell suggestions (i)",
+    cmd = function() _tb.spell_suggest(Telescope_dropdown_theme { prompt_prefix = vim.g.config.minipicker_iprefix, title = 'Spell suggestions', height = 0.5, width = 0.2 }) end,
+    keys = { "i", "<A-s>", noremap },
+    category = "@Telescope"
+  },
+  {
     desc = "Tags list (Telescope)",
     cmd = function() _tb.tags(Telescope_vertical_dropdown_theme({ prompt_title = "Tags", cwd = lutils.getroot_current() })) end,
     keys = { "n", "<leader>t", },

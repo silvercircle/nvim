@@ -29,7 +29,7 @@ vim.g.config = {
   minipicker_symbolwidth = tweaks.telescope_symbol_width,
   minipicker_layout = {
     height = 0.85,
-    width = 75,
+    width = tweaks.telescope_mini_picker_width,
     preview_height =10,
     anchor = "N",
   },
