@@ -102,7 +102,7 @@ vim.g.config = {
       value = "76"
     }
   },
-  outline_filetype = "Outline"      -- filetype for the outline split
+  outline_filetype = tweaks.outline_plugin      -- filetype for the outline split, depends on the outline plugin
 }
 
 vim.g.theme = {

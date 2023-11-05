@@ -15,7 +15,7 @@ M.cokeline_filename_width = 25
 
 -- max buffer size to enable the buffer words autocompletion source in cmp
 -- this is a performance tweak. Value is in bytes and 300kB is a reasonable default, even for
--- slower machines.
+-- slower machines. On fast hardware you can increase this to much higher values
 M.cmp_buffer_maxsize = 300 * 1024
 -- I prefer to have only manual cmp complation (hit Ctrl-Space)
 -- set this to true to always have auto-completion when typing
@@ -23,4 +23,7 @@ M.cmp_autocomplete = false
 -- minimum keyword length for auto-complete to kick in
 M.cmp_keywordlen = 1
 
+-- set this to "Outline" to use the symbols-outline plugin.
+-- set it to "aerial" to use the Arial plugin.
+M.outline_plugin = "Outline"
 return M
