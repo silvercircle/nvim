@@ -216,50 +216,34 @@ command_center.add({
         ignore_symbols = globals.ignore_symbols[vim.bo.filetype]
       end
       _tb.lsp_document_symbols(Telescope_vertical_dropdown_theme({
+        prompt_prefix = vim.api.nvim_get_mode().mode == 'i' and vim.g.config.minipicker_iprefix or "> ",
         ignore_symbols = ignore_symbols,
         layout_config = vim.g.config.minipicker_layout }))
     end,
-    keys = { "n", "<A-o>", noremap },
+    keys = { {"n", "i"}, "<A-o>", noremap },
     category = "@LSP Telescope"
   },
   {
-    desc = "Mini Document symbols (i)",
+    desc = "Aerial Symbols",
     cmd = function()
-      local ignore_symbols = {}
-      if globals.ignore_symbols[vim.bo.filetype] ~= nil then
-        ignore_symbols = globals.ignore_symbols[vim.bo.filetype]
-      end
-      _tb.lsp_document_symbols(Telescope_vertical_dropdown_theme({
-        ignore_symbols = ignore_symbols,
-        prompt_prefix = vim.g.config.minipicker_iprefix, layout_config = vim.g.config.minipicker_layout }))
+      _t.extensions.aerial.aerial(Telescope_vertical_dropdown_theme({
+        prompt_prefix = vim.api.nvim_get_mode().mode == 'i' and vim.g.config.minipicker_iprefix or "> ",
+        layout_config = vim.g.config.minipicker_layout }))
     end,
-    keys = { "i", "<A-o>", noremap },
-    category = "@LSP Telescope"
+    keys = { {"n", "i"}, "<A-a>", noremap },
+    category = "@LSP Telescope Aerial"
   },
   {
     desc = "Mini Document references",
     cmd = function()
       _tb.lsp_references(Telescope_vertical_dropdown_theme({
+        prompt_prefix = vim.api.nvim_get_mode().mode == 'i' and vim.g.config.minipicker_iprefix or "> ",
         path_display = { truncate = 9 },
         show_line = false,
         layout_config = vim.g.config.minipicker_layout
       }))
     end,
-    keys = { "n", "<A-r>", noremap },
-    category = "@LSP Telescope"
-  },
-  {
-    desc = "Mini Document references (i)",
-    cmd = function()
-      _tb.lsp_references(Telescope_vertical_dropdown_theme({
-        path_display = { truncate = 9 },
-        show_line = false,
-        prompt_prefix = vim.g.config.minipicker_iprefix,
-        layout_config = vim.g.config
-            .minipicker_layout
-      }))
-    end,
-    keys = { "i", "<A-r>", noremap },
+    keys = { {"n", "i"}, "<A-r>", noremap },
     category = "@LSP Telescope"
   },
   {

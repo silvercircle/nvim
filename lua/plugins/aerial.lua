@@ -2,7 +2,10 @@
 require("aerial").setup({
   -- Priority list of preferred backends for aerial.
   -- This can be a filetype map (see :help aerial-filetype-map)
-  backends = { "lsp", "treesitter", "markdown", "man" },
+  backends = {
+    ['_'] = { "lsp" },
+    markdown = { "markdown" }
+  },
 
   layout = {
     -- These control the width of the aerial window.
@@ -176,7 +179,7 @@ require("aerial").setup({
   -- Use symbol tree for folding. Set to true or false to enable/disable
   -- Set to "auto" to manage folds if your previous foldmethod was 'manual'
   -- This can be a filetype map (see :help aerial-filetype-map)
-  manage_folds = false,
+  manage_folds = true,
 
   -- When you fold code with za, zo, or zc, update the aerial tree as well.
   -- Only works when manage_folds = true
@@ -227,7 +230,7 @@ require("aerial").setup({
   -- Options for opening aerial in a floating win
   float = {
     -- Controls border appearance. Passed to nvim_open_win
-    border = "rounded",
+    border = "single",
 
     -- Determines location of floating window
     --   cursor - Opens float on top of the cursor

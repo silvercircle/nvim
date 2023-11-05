@@ -6,7 +6,8 @@
 -- when NVIM_PLAIN is set (to whatever value), the editor will start plain without a neotree and
 -- terminal split.
 local env_plain = os.getenv("NVIM_PLAIN")
-local tweaks = require("tweaks")
+vim.g.tweaks = require("tweaks")
+local tweaks = vim.g.tweaks
 
 if vim.fn.has("nvim-0.9") == 0 then
   vim.notify("Warning, this configuration requires Neovim version 0.9 or later.", 3)

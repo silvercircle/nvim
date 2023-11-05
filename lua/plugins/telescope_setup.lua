@@ -120,6 +120,16 @@ require("telescope").setup({
     }
   },
   extensions = {
+    aerial = {
+      -- Display symbols as <root>.<parent>.<symbol>
+      show_nesting = {
+        ["_"] = false, -- This key will be the default
+        json = true, -- You can set the option for specific filetypes
+        yaml = true,
+        scala = true
+      },
+    },
+ 
     -- command center is a command palette plugin. Pretty much like Ctrl-P in sublime text
     -- the actual commands are setup in setup_command_center.lua
     command_center = {
@@ -176,4 +186,7 @@ require("telescope").setup({
 -- require("telescope").load_extension("file_browser")
 require("telescope").load_extension("vim_bookmarks")
 require("telescope").load_extension("fzf")
+if vim.g.config.outline_filetype == "aerial" then
+  require("telescope").load_extension("aerial")
+end
 
