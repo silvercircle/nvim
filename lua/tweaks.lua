@@ -3,9 +3,11 @@ local M = {}
 
 -- telescope field widths. These depend on the characters per line in the terminal
 -- setup. So it needs to be tweakable
-
 M.telescope_symbol_width = 60
 M.telescope_fname_width = 120
+
+-- the overall width for the "mini" telescope picker. These are used for LSP symbols
+-- and references.
 M.telescope_mini_picker_width = 76
 
 -- length of the filename in the cokeline winbar

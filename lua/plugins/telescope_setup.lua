@@ -9,8 +9,6 @@ local actionstate = require("telescope.actions.state")
 -- since this is a lot of code, it's outsourced but really belongs here.
 local command_center = require('command_center')
 
-local insert_mode_prefix = "#>"
-
 -- the following two functions are helpers for Telescope to workaround a bug
 -- with creating/restoring views via autocmd when picking files via telescope.
 -- the problem affects file browser, buffer list and the „oldfiles“ picker. Maybe 
@@ -49,7 +47,7 @@ local function stopinsert_ins(callback)
     vim.schedule(function()
       callback(prompt_bufnr)
     end)
-    if current.prompt_prefix == insert_mode_prefix then
+    if current.prompt_prefix == vim.g.config.minipicker_iprefix then
       vim.schedule(function() vim.api.nvim_input("i") end)
     end
   end
@@ -58,7 +56,7 @@ end
 local function close_insertmode(prompt_bufnr)
   local current = actionstate.get_current_picker(prompt_bufnr)
   actions.close(prompt_bufnr)
-  if current.prompt_prefix == insert_mode_prefix then
+  if current.prompt_prefix == vim.g.config.minipicker_iprefix then
     vim.api.nvim_input("i")
   end
 end

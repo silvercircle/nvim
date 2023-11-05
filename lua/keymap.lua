@@ -359,6 +359,7 @@ kms({ 'n', 'i' }, '<C-e>', function()
     Telescope_dropdown_theme({
       title = 'Buffer list',
       width = 100,
+      prompt_prefix = utils.getTelescopePromptPrefix(),
       height = 0.4,
       sort_lastused = true,
       sort_mru = true,
@@ -372,29 +373,11 @@ kms({ 'n', 'i' }, '<A-e>', function()
   require("mini.pick").builtin.buffers({include_current=false}, {window = { config = require("globals").mini_pick_center(100, 20, 0.1) } } )
 end, opts)
 
-kms('n', '<C-p>', function()
+kms({'n', 'i'}, '<C-p>', function()
   require('telescope.builtin').oldfiles(
-    Telescope_dropdown_theme({ title = 'Old files', width = 0.6, height = 0.5 })
+    Telescope_dropdown_theme({ prompt_prefix = utils.getTelescopePromptPrefix(), title = 'Old files', width = 100, height = 0.5 })
   )
 end, opts)
---kms({ 'n', 'i' }, '<A-e>', function()
---  require('fzf-lua').buffers({
---    winopts = {
---      width = 0.6,
---      height = 0.4,
---      preview = { hidden = "hidden" }
---    }
---  })
---end, opts)
---kms({ 'n', 'i' }, '<C-S-p>', function()
---  require('fzf-lua').oldfiles({
---    winopts = {
---      width = 0.6,
---      height = 0.4,
---      preview = { hidden = "hidden" }
---    }
---  })
---end, opts)
 kms('n', '<A-p>', function()
   require('telescope').extensions.command_center.command_center({ filter={ mode = 'n' }})
 end, opts)

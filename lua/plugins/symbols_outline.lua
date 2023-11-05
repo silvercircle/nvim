@@ -29,7 +29,7 @@ require("symbols-outline").setup({
     fold_reset = "R",
   },
   lsp_blacklist = {},
-  symbol_blacklist = {},
+  symbol_blacklist = {"Array"}, -- avoid extremely long trees in some languages (lua for example)
   symbols = {
     File = { icon = "", hl = "TSURI" },
     Module = { icon = "", hl = "TSNamespace" },

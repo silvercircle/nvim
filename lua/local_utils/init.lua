@@ -74,6 +74,10 @@ function M.truncate(text, max_width)
   end
 end
 
+function M.getTelescopePromptPrefix()
+  return vim.api.nvim_get_mode().mode == 'i' and '#>' or '> '
+end
+
 function M.selectFrom()
   local lines = {}
   local i = 1
