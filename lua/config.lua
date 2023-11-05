@@ -101,7 +101,8 @@ vim.g.config = {
       filetype = "mail",
       value = "76"
     }
-  }
+  },
+  outline_filetype = "Outline"      -- filetype for the outline split
 }
 
 vim.g.theme = {

@@ -147,7 +147,7 @@ autocmd( { 'FileType' }, {
 
 --- Outline is from symbols-outline plugin and holds the symbol tree
 autocmd( { 'FileType' }, {
-  pattern = 'Outline',
+  pattern = vim.g.config.outline_filetype,
   callback = function()
     vim.cmd("silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=\\ \\ Outline | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=100")
   end,
@@ -224,7 +224,7 @@ autocmd( { 'WinEnter' }, {
   pattern = '*',
   callback = function()
     local filetype = vim.bo.filetype
-    if filetype == "DressingSelect" or filetype == "Outline" or filetype =="NvimTree" or filetype == 'BufList' then
+    if filetype == "DressingSelect" or filetype == vim.g.config.outline_filetype or filetype =="NvimTree" or filetype == 'BufList' then
       vim.cmd("setlocal winhl=CursorLine:Visual,Normal:NeoTreeNormalNC | hi nCursor blend=100")
     end
   end,
@@ -235,7 +235,7 @@ autocmd( { 'WinLeave' }, {
   pattern = '*',
   callback = function()
     local filetype = vim.bo.filetype
-    if filetype == "DressingSelect" or filetype == "Outline" or filetype =="NvimTree" or filetype == 'BufList' then
+    if filetype == "DressingSelect" or filetype == vim.g.config.outline_filetype or filetype =="NvimTree" or filetype == 'BufList' then
       vim.cmd("hi nCursor blend=0")
     end
   end,
