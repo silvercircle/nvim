@@ -48,6 +48,9 @@ M.perm_config = {}
 
 M.sessions = {}
 
+M.ignore_symbols = {
+  lua = { "string", "object", "boolean", "number", "array", "variable" }
+}
 -- use multiple colors for indentation guides ("rainbow colors")
 M.ibl_rainbow_highlight = {
   "IndentBlanklineIndent1",

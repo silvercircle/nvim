@@ -211,7 +211,12 @@ command_center.add({
   {
     desc = "Mini Document symbols",
     cmd = function()
+      local ignore_symbols = {}
+      if globals.ignore_symbols[vim.bo.filetype] ~= nil then
+        ignore_symbols = globals.ignore_symbols[vim.bo.filetype]
+      end
       _tb.lsp_document_symbols(Telescope_vertical_dropdown_theme({
+        ignore_symbols = ignore_symbols,
         layout_config = vim.g.config.minipicker_layout }))
     end,
     keys = { "n", "<A-o>", noremap },
@@ -220,7 +225,12 @@ command_center.add({
   {
     desc = "Mini Document symbols (i)",
     cmd = function()
+      local ignore_symbols = {}
+      if globals.ignore_symbols[vim.bo.filetype] ~= nil then
+        ignore_symbols = globals.ignore_symbols[vim.bo.filetype]
+      end
       _tb.lsp_document_symbols(Telescope_vertical_dropdown_theme({
+        ignore_symbols = ignore_symbols,
         prompt_prefix = vim.g.config.minipicker_iprefix, layout_config = vim.g.config.minipicker_layout }))
     end,
     keys = { "i", "<A-o>", noremap },
