@@ -38,6 +38,7 @@ function M.resize_or_closed()
     end
     M.winid = nil
   else
+    vim.api.nvim_win_set_height(M.winid, vim.g.config.weather.required_height)
     M.refresh()
   end
 end

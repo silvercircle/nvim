@@ -264,13 +264,9 @@ local plugins = {
   },
   {
     'willothy/nvim-cokeline', branch = "main"
-  }
-}
--- for experimental purpose, I use some private forks and local repos.
--- plugins_official (see below) contains the same stuff..
-local plugins_private = {
+  },
   {
-    dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim',
+    'https://gitlab.com/silvercircle74/quickfavs.nvim',
     lazy = true,
     config = function()
       require("quickfavs").setup({
@@ -291,40 +287,5 @@ local plugins_private = {
     end
   }
 }
-
-local plugins_official = {
-  {
-    'simrat39/symbols-outline.nvim', cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
-    config = function()
-      require("plugins.symbols_outline")
-    end
-  },
-  {
-    dir = '/mnt/shared/data/code/neovim_plugins/quickfavs.nvim',
-    lazy = true,
-    config = function()
-      require("quickfavs").setup({
-       telescope_theme = Telescope_dropdown_theme,
-       file_browser_theme = {
-         theme = Telescope_vertical_dropdown_theme,
-         layout_config = {
-           preview_height = 0.4
-         }
-       }
-      })
-    end
-  },
-}
-
---- use private forks of some plugins, not recommended. this is normally disabled
-if vim.g.use_private_forks == true then
-  for _,v in ipairs(plugins_private) do
-    table.insert(plugins, v)
-  end
-else
-  for _,v in ipairs(plugins_official) do
-    table.insert(plugins, v)
-  end
-end
 
 require("lazy").setup(plugins)
