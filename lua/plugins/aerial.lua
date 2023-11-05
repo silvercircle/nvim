@@ -99,14 +99,17 @@ require("aerial").setup({
   -- This can be a filetype map (see :help aerial-filetype-map)
   -- To see all available values, see :help SymbolKind
   filter_kind = {
-    "Class",
-    "Constructor",
-    "Enum",
-    "Function",
-    "Interface",
-    "Module",
-    "Method",
-    "Struct",
+    ['_'] = false,
+--    lua = {
+--      "Class",
+--      "Constructor",
+--      "Enum",
+--      "Function",
+--      "Interface",
+--      "Module",
+--      "Method",
+--      "Struct"
+--    }
   },
 
   -- Determines line highlighting mode when multiple splits are visible.
@@ -207,7 +210,7 @@ require("aerial").setup({
   update_events = "TextChanged,InsertLeave",
 
   -- Show box drawing characters for the tree hierarchy
-  show_guides = false,
+  show_guides = true,
 
   -- Customize the characters used when show_guides = true
   guides = {

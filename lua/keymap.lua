@@ -391,8 +391,12 @@ kms({ 'n', 'i', 't', 'v' }, '<A-2>', function()
 end, opts) -- main window
 
 kms({ 'n', 'i', 't', 'v' }, '<A-3>', function()
-  if globals.findbufbyType('Outline') == false then
-    vim.cmd('SymbolsOutlineOpen')
+  if globals.findbufbyType(vim.g.config.outline_filetype) == false then
+    if vim.g.config.outline_filetype == "Outline" then
+      vim.cmd('SymbolsOutlineOpen')
+    elseif vim.g.config.outline_filetype == "aerial" then
+      require("aerial").open()
+    end
   end
 end, opts) -- Outline
 

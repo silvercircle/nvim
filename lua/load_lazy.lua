@@ -248,8 +248,16 @@ local plugins = {
   },
   {
     'silvercircle/symbols-outline.nvim', branch = "mine", cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
+    cond = vim.g.config.outline_filetype == "Outline",
     config = function()
       require("plugins.symbols_outline")
+    end
+  },
+  { 'stevearc/aerial.nvim',
+    cond = vim.g.config.outline_filetype == "aerial",
+    lazy = true,
+    config = function()
+      require("plugins.aerial")
     end
   }
 }

@@ -301,7 +301,13 @@ command_center.add({
   },
   {
     desc = "toggle outline view",
-    cmd = "<CMD>SymbolsOutline<CR>",
+    cmd = function()
+      if vim.g.config.outline_filetype == "Outline" then
+        vim.cmd("SymbolsOutline")
+      elseif vim.g.config.outline_filetype == "aerial" then
+        require("aerial").open()
+      end
+    end,
     keys = { "n", "<leader>.", noremap },
     category = "@LSP"
   },
