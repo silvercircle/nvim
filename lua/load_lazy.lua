@@ -254,8 +254,8 @@ local plugins = {
     end
   },
   { 'stevearc/aerial.nvim',
-    cond = vim.g.config.outline_filetype == "aerial",
-    lazy = true,
+    --cond = vim.g.config.outline_filetype == "aerial",
+    verylazy = true,
     config = function()
       require("plugins.aerial")
     end

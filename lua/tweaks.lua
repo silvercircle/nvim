@@ -25,5 +25,5 @@ M.cmp_keywordlen = 1
 
 -- set this to "Outline" to use the symbols-outline plugin.
 -- set it to "aerial" to use the Arial plugin.
-M.outline_plugin = "aerial"
+M.outline_plugin = "Outline"
 return M

@@ -142,7 +142,8 @@ require("aerial").setup({
   -- "nerd_font" option below.
   -- If you have lspkind-nvim installed, it will be the default icon set.
   -- This can be a filetype map (see :help aerial-filetype-map)
-  icons = {},
+  icons = {
+  },
 
   -- Control which windows and buffers aerial should ignore.
   -- Aerial will not open when these are focused, and existing aerial windows will not be updated
