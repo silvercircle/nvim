@@ -210,22 +210,6 @@ local plugins = {
       require("dap.nvim_dap")
     end
   },
---  {
---    'mrjones2014/legendary.nvim',
---    lazy = true,
---    cmd = { "Legendary" },
---    config = function()
---      require("plugins.legendary")
---    end
---  },
---  {
---    'ibhagwan/fzf-lua',
---    lazy = true,
---    cmd = { "FzfLua" },
---    config = function()
---      require("plugins.fzf")
---    end
---  },
   { 'kevinhwang91/rnvimr', lazy=true, cmd={"RnvimrToggle"} },
   {
     "smjonas/inc-rename.nvim",
@@ -234,24 +218,6 @@ local plugins = {
       require("inc_rename").setup()
     end
   },
---  {
---    'pwntester/octo.nvim',
---    cmd = { "Octo" },
---    config = function()
---      require("plugins.octo")
---    end
---  },
---  {
---    'https://gitlab.com/silvercircle74/marks.nvim',
---    branch = "CursorHold",
---    event = "BufReadPre",
---    config = function()
---      require("marks").setup({ --TODO: foobar
---        signcolumn = 4,
---        refresh_interval = 1000
---      })
---    end
---  },
   {
     'gabrielpoca/replacer.nvim',
     ft = { "qf" }

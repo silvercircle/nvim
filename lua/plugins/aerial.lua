@@ -9,9 +9,9 @@ require("aerial").setup({
     -- They can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
     -- min_width and max_width can be a list of mixed types.
     -- max_width = {40, 0.2} means "the lesser of 40 columns or 20% of total"
-    max_width = { 80, 0.4 },
+    max_width = { vim.g.config.outline_width },
     width = nil,
-    min_width = 30,
+    min_width = vim.g.config.outline_width,
 
     -- key-value pairs of window-local options for aerial window (e.g. winhl)
     win_opts = {
