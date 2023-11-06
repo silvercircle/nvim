@@ -26,4 +26,8 @@ M.cmp_keywordlen = 1
 -- set this to "Outline" to use the symbols-outline plugin.
 -- set it to "aerial" to use the Arial plugin.
 M.outline_plugin = "Outline"
+
+-- list of filetypes for which no views are created when saving or leaving the buffer
+-- by default, help files and terminals don't need views
+M.mkview_exclude = { "help", "terminal" }
 return M

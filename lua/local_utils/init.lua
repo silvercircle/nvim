@@ -74,6 +74,8 @@ function M.truncate(text, max_width)
   end
 end
 
+--- get prompt prefix to determine whether a picker has been called in insert mode
+--- this is hack-ish, but works.
 function M.getTelescopePromptPrefix()
   return vim.api.nvim_get_mode().mode == 'i' and vim.g.config.minipicker_iprefix or '> '
 end

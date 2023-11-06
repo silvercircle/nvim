@@ -168,9 +168,15 @@ function M.truncate(text, max_length)
   end
 end
 
+-- list of filetypes we never want to create views for.'
+
 --- global function to create a view
 --- this creates a view using mkview unless the buffer has no file name or is not a file at all.
+--- it also respects the filetype exclusion list to avoid unwanted clutter in the views folder
 function M.mkview()
+  if vim.tbl_contains(require("tweaks").mkview_exclude, vim.bo.filetype) == true then
+    return
+  end
   if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then
     vim.cmd("silent! mkview!")
   end

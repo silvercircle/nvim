@@ -84,15 +84,12 @@ autocmd({ 'UIEnter' }, {
   end
 })
 
-local mkview_exclude = { "help", "terminal" }
 
 -- create a view to save folds when saving the file
 autocmd( { 'bufwritepre' }, {
   pattern = "*",
   callback = function()
-    if vim.tbl_contains(mkview_exclude, vim.bo.filetype) == false then
-      globals.mkview()
-    end
+    globals.mkview()
   end,
   group = agroup_views
 })
@@ -101,7 +98,7 @@ autocmd( { 'bufwritepre' }, {
 autocmd( { 'bufwinleave' }, {
   pattern = "*",
   callback = function()
-    if vim.g.config.mkview_on_leave == true and vim.tbl_contains(mkview_exclude, vim.bo.filetype) == false then
+    if vim.g.config.mkview_on_leave == true then
       globals.mkview()
     end
   end,
