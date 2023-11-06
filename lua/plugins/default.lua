@@ -71,7 +71,7 @@ require("ibl").setup({
   -- for example, context is off by default, use this to turn it on
   enabled = globals.perm_config.ibl_enabled,
   debounce = 300,
-  indent = { highlight = globals.perm_config.ibl_rainbow == true and globals.ibl_rainbow_highlight or globals.ibl_highlight, char = "│" },
+  indent = { highlight = globals.perm_config.ibl_rainbow == true and globals.ibl_rainbow_highlight or globals.ibl_highlight, char = "│", tab_char = "│" },
   whitespace = {
     remove_blankline_trail = true,
   },

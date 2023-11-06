@@ -497,7 +497,7 @@ command_center.add({
     desc = "Fuzzy search in current buffer",
     cmd = function()
       _tb.current_buffer_fuzzy_find(Telescope_vertical_dropdown_theme({
-        layout_config = { width = vim.g.config.telescope_vertical_layout_width, preview_height = 20 },
+        layout_config = { width = vim.g.config.telescope_vertical_layout_width, preview_height = 10 },
         prompt_title = "Fuzzy Find in current buffer" }))
     end,
     keys = { "n", "<C-x><C-f>", noremap },
