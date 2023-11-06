@@ -482,8 +482,8 @@ command_center.add({
     category = "@Telescope"
   },
   {
-    desc = "Registers (Mini)",
-    cmd = function() require("mini.extra").pickers.registers({}, { window = { config = globals.mini_pick_center(110, 25, 0.1) } }) end,
+    desc = "Registers (Telescope)",
+    cmd = function() _tb.registers(Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix() }) end,
     keys = { {"n", "i"}, "<C-x><C-r>", noremap },
     category = "@Telescope"
   },
@@ -494,21 +494,10 @@ command_center.add({
     category = "@Telescope"
   },
   {
-    desc = "File Browser (Telescope)",
-    cmd = function()
-      _t.extensions.file_browser.file_browser(Telescope_vertical_dropdown_theme({
-        hidden = true,
-        prompt_title = "File Browser",
-        path = vim.fn.expand('%:p:h')
-      }))
-    end,
-    keys = { "n", "<A-f>", noremap },
-    category = "@Telescope"
-  },
-  {
     desc = "Fuzzy search in current buffer",
     cmd = function()
       _tb.current_buffer_fuzzy_find(Telescope_vertical_dropdown_theme({
+        layout_config = { width = 120, preview_height = 20 },
         prompt_title = "Fuzzy Find in current buffer" }))
     end,
     keys = { "n", "<C-x><C-f>", noremap },
@@ -575,24 +564,24 @@ command_center.add({
     keys = { "n", "tdo", noremap },
     category = "@Neovim"
   },
-  {
-    desc = "Neotree buffer list",
-    cmd = "<CMD>Neotree buffers dir=%:p:h position=float<CR>",
-    keys = { "n", "<C-t>", noremap },
-    category = "@Neovim"
-  },
-  {
-    desc = "Neotree Git status",
-    cmd = "<CMD>Neotree git_status dir=%:p:h position=float<CR>",
-    keys = { "n", "<C-g>", noremap },
-    category = "@Neovim"
-  },
-  {
-    desc = "Packer Sync",
-    cmd = "<CMD>PackerSync<CR>",
-    keys = {},
-    category = "@Neovim"
-  },
+--  {
+--    desc = "Neotree buffer list",
+--    cmd = "<CMD>Neotree buffers dir=%:p:h position=float<CR>",
+--    keys = { "n", "<C-t>", noremap },
+--    category = "@Neovim"
+--  },
+--  {
+--    desc = "Neotree Git status",
+--    cmd = "<CMD>Neotree git_status dir=%:p:h position=float<CR>",
+--    keys = { "n", "<C-g>", noremap },
+--    category = "@Neovim"
+--  },
+--  {
+--    desc = "Packer Sync",
+--    cmd = "<CMD>PackerSync<CR>",
+--    keys = {},
+--    category = "@Neovim"
+--  },
   {
     desc = "List all Highlight groups",
     cmd = function() _tb.highlights() end,
