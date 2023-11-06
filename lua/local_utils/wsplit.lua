@@ -248,23 +248,23 @@ function M.refresh()
       vim.api.nvim_buf_set_lines(M.bufid, 0, -1, false, lines)
       vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 11, 0, -1)
 
-      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Debug", 0, 0, -1)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Debug", 1, 0, -1)
       -- temp
       hl = temp_to_hl(results['3'])       -- the current temperature, also colorize the condition string
-      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 1, 0, -1)
-      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 3, 0, 20)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 2, 0, -1)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 4, 0, 20)
       hl = temp_to_hl(results['16'])
-      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 3, 20, -1)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 4, 20, -1)
 
       hl = temp_to_hl(results['29'])
-      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 4, 0, 20)
-      hl = temp_to_hl(results['30'])
-      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 4, 20, -1)
-      hl = temp_to_hl(results['17'])
       vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 5, 0, 20)
+      hl = temp_to_hl(results['30'])
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 5, 20, -1)
+      hl = temp_to_hl(results['17'])
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 6, 0, 20)
 
       hl = wind_to_hl(results['20'])
-      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 7, 0, 25)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, hl, 8, 0, 25)
       vim.api.nvim_buf_set_option(M.bufid, "modifiable", false)
     end
   end
