@@ -79,7 +79,7 @@ command_center.add({
       _t.extensions.vim_bookmarks.all(Telescope_vertical_dropdown_theme({
         prompt_title = "All Bookmarks",
         hide_filename = false,
-        width_text = 120
+        layout_config = vim.g.config.telescope_vertical_preview_layout
       }))
     end,
     keys = { "n", "<A-b>", noremap },
@@ -166,7 +166,7 @@ command_center.add({
     desc = "Show references (Telescope)",
     cmd = function()
       _tb.lsp_references(Telescope_vertical_dropdown_theme({
-        fname_width = 120,
+        fname_width = vim.g.config.telescope_fname_width,
         layout_config = {
           width = 0.9 }
       }))
@@ -463,7 +463,7 @@ command_center.add({
       _tb.jumplist(Telescope_vertical_dropdown_theme({
         show_line = false,
         prompt_prefix = lutils.getTelescopePromptPrefix(),
-        layout_config = { width = 80, preview_height = 0.3 }
+        layout_config = vim.g.config.telescope_vertical_preview_layout
       }))
     end,
     keys = { {"n", "i"}, "<A-Backspace>", noremap },
@@ -497,7 +497,7 @@ command_center.add({
     desc = "Fuzzy search in current buffer",
     cmd = function()
       _tb.current_buffer_fuzzy_find(Telescope_vertical_dropdown_theme({
-        layout_config = { width = 120, preview_height = 20 },
+        layout_config = { width = vim.g.config.telescope_vertical_layout_width, preview_height = 20 },
         prompt_title = "Fuzzy Find in current buffer" }))
     end,
     keys = { "n", "<C-x><C-f>", noremap },

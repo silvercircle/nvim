@@ -5,6 +5,11 @@ local M = {}
 -- setup. So it needs to be tweakable
 M.telescope_symbol_width = 60
 M.telescope_fname_width = 120
+M.telescope_vertical_layout_width = 120
+M.telescope_vertical_preview_layout = {
+  width = 120,
+  preview_height = 15
+}
 
 -- the overall width for the "mini" telescope picker. These are used for LSP symbols
 -- and references.

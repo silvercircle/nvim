@@ -125,7 +125,7 @@ end, opts)
 
 --- mini picker shortcuts, all start with <C-m>
 kms({ 'n', 'i' }, '<C-a>f', function()
-  require("local_utils").PickFoldingMode(vim.o.foldmethod)
+  utils.PickFoldingMode(vim.o.foldmethod)
 end, opts)
 
 --- open mini explorer at current directory
@@ -357,7 +357,7 @@ kms({ 'n', 'i' }, '<C-l><C-g>', function()
 end, opts)
 
 kms('n', '<A-q>', function()
-  require('local_utils').Quitapp()
+  utils.Quitapp()
 end, opts)
 kms({ 'n', 'i' }, '<C-e>', function()
   require('telescope.builtin').buffers(
