@@ -148,6 +148,12 @@ kms('n', '<C-a>m', function()
   { },
   { window = { config = globals.mini_pick_center(50, 0.6, 0.2) } })
 end, opts)
+--- open mini picker help tags
+kms('n', '<C-a>h', function()
+  require("mini.pick").builtin.help(
+  { },
+  { window = { config = globals.mini_pick_center(60, 0.5, 0.2) } })
+end, opts)
 ---
 map('n', '<C-S-Down>', '<CMD>cnext<CR>', opts)
 map('i', '<C-S-Down>', '<c-o><CMD>cnext<CR>', opts)
