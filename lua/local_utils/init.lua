@@ -75,7 +75,57 @@ function M.truncate(text, max_width)
 end
 
 function M.getTelescopePromptPrefix()
-  return vim.api.nvim_get_mode().mode == 'i' and '#>' or '> '
+  return vim.api.nvim_get_mode().mode == 'i' and vim.g.config.minipicker_iprefix or '> '
+end
+
+--- this function determines the path where a latex-generated PDF may reside. It depends on the 
+--- setting of config.texoutput. If this is set and _useglobal is true, then the global output
+--- path will be used. Otherwise, the .pdf is expected in the same directory as the .tex file
+--- @param _filename string: the filename to analyze
+--- @param _useglobal boolean: use the global texoutput directory
+function M.getLatexPreviewPath(_filename, _useglobal)
+  local useglobal = _useglobal or false
+  local path = vim.fn.expand(vim.g.config.texoutput)
+  local finalpath
+  M.debugmsg("The preview path is: " .. path)
+  if useglobal == true and #path > 0 and vim.fn.isdirectory(path) == 1 then
+    finalpath = path .. vim.fn.expand(vim.fn.fnamemodify(_filename, ":t:r")) .. ".pdf"
+  else
+    finalpath = vim.fn.expand(vim.fn.fnamemodify(_filename, ":r")) .. ".pdf"
+  end
+  if vim.fn.filereadable(finalpath) == 1 then
+    return true, finalpath
+  else
+    return false, ""
+  end
+end
+
+function M.view_latex()
+  return function()
+    local result, path = M.getLatexPreviewPath(vim.fn.expand("%"), true)
+    if result == true then
+      local viewer = vim.g.config.texviewer or "zathura"
+      local cmd = "silent !" .. viewer .. " '" .. path .. "' &"
+      vim.cmd.stopinsert()
+      vim.schedule(function() vim.cmd(cmd) end)
+    else
+      print("The PDF output does not exist. Please recompile.")
+      return
+    end
+  end
+end
+
+function M.compile_latex()
+  return function()
+    -- must change cwd to current, otherwise latex may not found subdocuments using relative
+    -- file names. 
+    local cwd = "cd " .. vim.fn.expand("%:p:h")
+    vim.cmd(cwd)
+    local cmd = "!lualatex --output-directory=" .. vim.fn.expand(vim.g.config.texoutput) .. " '" .. vim.fn.expand("%:p") .. "'"
+    globals.debugmsg(cmd)
+    vim.cmd.stopinsert()
+    vim.schedule(function() vim.cmd(cmd) end)
+  end
 end
 
 function M.selectFrom()

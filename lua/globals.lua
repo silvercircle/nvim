@@ -415,28 +415,6 @@ function M.format_source()
   end
 end
 
---- this function determines the path where a latex-generated PDF may reside. It depends on the 
---- setting of config.texoutput. If this is set and _useglobal is true, then the global output
---- path will be used. Otherwise, the .pdf is expected in the same directory as the .tex file
---- @param _filename string: the filename to analyze
---- @param _useglobal boolean: use the global texoutput directory
-function M.getLatexPreviewPath(_filename, _useglobal)
-  local useglobal = _useglobal or false
-  local path = vim.fn.expand(vim.g.config.texoutput)
-  local finalpath
-  M.debugmsg("The preview path is: " .. path)
-  if useglobal == true and #path > 0 and vim.fn.isdirectory(path) == 1 then
-    finalpath = path .. vim.fn.expand(vim.fn.fnamemodify(_filename, ":t:r")) .. ".pdf"
-  else
-    finalpath = vim.fn.expand(vim.fn.fnamemodify(_filename, ":r")) .. ".pdf"
-  end
-  if vim.fn.filereadable(finalpath) == 1 then
-    return true, finalpath
-  else
-    return false, ""
-  end
-end
-
 function M.set_session(session)
   M.sessions[session] = session
   vim.print(M.sessions)

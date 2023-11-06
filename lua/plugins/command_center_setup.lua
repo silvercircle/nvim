@@ -10,35 +10,7 @@ local _tb = require("telescope.builtin")
 local globals = require("globals")
 
 -- this is a helper for mini pickers like references and symbols.
-local fzf_vertical_winops = { width = 0.6, preview = { layout = 'vertical', vertical = "up:30%" } }
-
-local function view_latex()
-  return function()
-    local result, path = globals.getLatexPreviewPath(vim.fn.expand("%"), true)
-    if result == true then
-      local viewer = vim.g.config.texviewer or "zathura"
-      local cmd = "silent !" .. viewer .. " '" .. path .. "' &"
-      vim.cmd.stopinsert()
-      vim.schedule(function() vim.cmd(cmd) end)
-    else
-      print("The PDF output does not exist. Please recompile.")
-      return
-    end
-  end
-end
-
-local function compile_latex()
-  return function()
-    -- must change cwd to current, otherwise latex may not found subdocuments using relative
-    -- file names. 
-    local cwd = "cd " .. vim.fn.expand("%:p:h")
-    vim.cmd(cwd)
-    local cmd = "!lualatex --output-directory=" .. vim.fn.expand(vim.g.config.texoutput) .. " '" .. vim.fn.expand("%:p") .. "'"
-    globals.debugmsg(cmd)
-    vim.cmd.stopinsert()
-    vim.schedule(function() vim.cmd(cmd) end)
-  end
-end
+-- local fzf_vertical_winops = { width = 0.6, preview = { layout = 'vertical', vertical = "up:30%" } }
 
 command_center.add({
   {
@@ -216,7 +188,7 @@ command_center.add({
         ignore_symbols = globals.ignore_symbols[vim.bo.filetype]
       end
       _tb.lsp_document_symbols(Telescope_vertical_dropdown_theme({
-        prompt_prefix = vim.api.nvim_get_mode().mode == 'i' and vim.g.config.minipicker_iprefix or "> ",
+        prompt_prefix = lutils.getTelescopePromptPrefix(),
         ignore_symbols = ignore_symbols,
         layout_config = vim.g.config.minipicker_layout }))
     end,
@@ -227,7 +199,7 @@ command_center.add({
     desc = "Aerial Symbols",
     cmd = function()
       _t.extensions.aerial.aerial(Telescope_vertical_dropdown_theme({
-        prompt_prefix = vim.api.nvim_get_mode().mode == 'i' and vim.g.config.minipicker_iprefix or "> ",
+        prompt_prefix = lutils.getTelescopePromptPrefix(),
         layout_config = vim.g.config.minipicker_layout }))
     end,
     keys = { {"n", "i"}, "<A-a>", noremap },
@@ -237,7 +209,7 @@ command_center.add({
     desc = "Mini Document references",
     cmd = function()
       _tb.lsp_references(Telescope_vertical_dropdown_theme({
-        prompt_prefix = vim.api.nvim_get_mode().mode == 'i' and vim.g.config.minipicker_iprefix or "> ",
+        prompt_prefix = lutils.getTelescopePromptPrefix(),
         path_display = { truncate = 9 },
         show_line = false,
         layout_config = vim.g.config.minipicker_layout
@@ -248,19 +220,13 @@ command_center.add({
   },
   {
     desc = "Mini Document Treesitter",
-    cmd = function() _tb.treesitter(Telescope_vertical_dropdown_theme({ layout_config = vim.g.config.minipicker_layout })) end,
-    keys = { "n", "<A-t>", noremap },
-    category = "@LSP Telescope"
-  },
-  {
-    desc = "Mini Document Treesitter (i)",
     cmd = function()
       _tb.treesitter(Telescope_vertical_dropdown_theme({
-        prompt_prefix = vim.g.config.minipicker_iprefix,
+        prompt_prefix = lutils.getTelescopePromptPrefix(),
         layout_config = vim.g.config.minipicker_layout
       }))
     end,
-    keys = { "i", "<A-t>", noremap },
+    keys = { {"n", "i"}, "<A-t>", noremap },
     category = "@LSP Telescope"
   },
   {
@@ -427,7 +393,7 @@ command_center.add({
   {
     -- open a document viewer zathura view and view the tex document as PDF
     desc = "View LaTeX result",
-    cmd = view_latex(),
+    cmd = lutils.view_latex(),
     keys = {
       { "n", "<f54>", noremap },
       { "i", "<f54>", noremap },
@@ -437,7 +403,7 @@ command_center.add({
   {
     -- recompile the .tex document using lualatex
     desc = "Recompile LaTeX document",
-    cmd = compile_latex(),
+    cmd = lutils.compile_latex(),
     keys = {
       { "n", "<f53>", noremap },
       { "i", "<f53>", noremap },
@@ -496,22 +462,11 @@ command_center.add({
     cmd = function()
       _tb.jumplist(Telescope_vertical_dropdown_theme({
         show_line = false,
+        prompt_prefix = lutils.getTelescopePromptPrefix(),
         layout_config = { width = 80, preview_height = 0.3 }
       }))
     end,
-    keys = { "n", "<A-Backspace>", noremap },
-    category = "@Telescope"
-  },
-  {
-    desc = "Jumplist (Telescope) (i)",
-    cmd = function()
-      _tb.jumplist(Telescope_vertical_dropdown_theme({
-        prompt_prefix = vim.g.config.minipicker_iprefix,
-        show_line = false,
-        layout_config = { width = 80, preview_height = 0.3 }
-      }))
-    end,
-    keys = { "i", "<A-Backspace>", noremap },
+    keys = { {"n", "i"}, "<A-Backspace>", noremap },
     category = "@Telescope"
   },
   {
@@ -591,14 +546,8 @@ command_center.add({
   },
   {
     desc = "Spell suggestions",
-    cmd = function() _tb.spell_suggest(Telescope_dropdown_theme { title = 'Spell suggestions', height = 0.5, width = 0.2 }) end,
-    keys = { "n", "<A-s>", noremap },
-    category = "@Telescope"
-  },
-  {
-    desc = "Spell suggestions (i)",
-    cmd = function() _tb.spell_suggest(Telescope_dropdown_theme { prompt_prefix = vim.g.config.minipicker_iprefix, title = 'Spell suggestions', height = 0.5, width = 0.2 }) end,
-    keys = { "i", "<A-s>", noremap },
+    cmd = function() _tb.spell_suggest(Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix(), title = 'Spell suggestions', height = 0.5, width = 0.2 }) end,
+    keys = { {"n", "i"}, "<A-s>", noremap },
     category = "@Telescope"
   },
   {
