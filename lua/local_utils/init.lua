@@ -308,6 +308,9 @@ function M.PickFoldingMode(currentmode)
         if item.val ~= "none" then
           globals.debugmsg("Selected folding method: " .. item.val)
           vim.schedule(function() vim.o.foldmethod = item.val end)
+          if item.val == "expr" then
+            vim.schedule(function() vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" end)
+          end
         end
       end
     },

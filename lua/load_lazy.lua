@@ -237,12 +237,6 @@ local plugins = {
     config = function()
       require("quickfavs").setup({
        telescope_theme = Telescope_dropdown_theme,
-       file_browser_theme = {
-         theme = Telescope_vertical_dropdown_theme,
-         layout_config = {
-           preview_height = 0.4
-         }
-       }
       })
     end
   },

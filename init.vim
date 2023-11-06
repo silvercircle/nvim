@@ -6,6 +6,8 @@ let g:rnvimr_enable_picker = 1
 let g:rnvimr_draw_border = 1
 
 " Customize the initial layout
+" Rnvimr plugin (ranger filemanager integration)
+" Activate with <C-f8>
 let g:rnvimr_layout = {
             \ 'relative': 'editor',
             \ 'width': float2nr(round(0.9 * &columns)),
