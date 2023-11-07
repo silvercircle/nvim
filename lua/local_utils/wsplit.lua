@@ -18,6 +18,7 @@ M.content_winid = nil
 local watch = nil
 local timer = nil
 local timer_interval = 60000
+local autocmd_set = false
 
 -- this translates condition codes (single letters) to actual readable conditions. This is API specific
 -- and right now only implemented for the VC API (visual crossing)
@@ -31,6 +32,15 @@ local conditions = {
     g = "󰖗 Showers",
     k = "󰖓 Thunderstorm"
   }
+}
+
+local fdm = {
+  expr    = "Expression",
+  manual  = "Manual",
+  syntax  = "Syntax",
+  indent  = "Indent",
+  marker  = "Marker",
+  diff    = "Diff"
 }
 
 local function path_truncate(path, maxlen)
@@ -136,6 +146,15 @@ function M.installwatch()
     if M.content == 'info' then
       timer:start(0, timer_interval, vim.schedule_wrap(M.refresh_on_timer))
     end
+  end
+  if autocmd_set == false then
+    autocmd_set = true
+    vim.api.nvim_create_autocmd({ "OptionSet" }, {
+      pattern = { "wrap", "formatoptions", "textwidth", "foldmethod", "filetype" },
+      callback = function()
+        M.refresh()
+      end,
+    })
   end
 end
 
@@ -309,15 +328,25 @@ function M.refresh()
       if globals.cur_bufsize > 1 then
         local size = globals.cur_bufsize
         if size < 1024 then
-          table.insert(lines, M.prepare_line("Size: " .. size .. " Bytes", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 0))
+          table.insert(lines, M.prepare_line("Size: " .. size .. " Bytes", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 2))
         elseif size < 1024 * 1024 then
-          table.insert(lines, M.prepare_line("Size: " .. string.format("%.2f", size / 1024) .. " KB", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 0))
+          table.insert(lines, M.prepare_line("Size: " .. string.format("%.2f", size / 1024) .. " KB", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 2))
         else
-          table.insert(lines, M.prepare_line("Size: " .. string.format("%.2f", size / 1024 / 1024) .. " MB", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 0))
+          table.insert(lines, M.prepare_line("Size: " .. string.format("%.2f", size / 1024 / 1024) .. " MB", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 2))
         end
+        table.insert(lines, M.prepare_line("Type: " .. vim.api.nvim_get_option_value("filetype", { buf = curbuf }) .. " " .. fn_symbol, "Enc: " .. vim.opt.fileencoding:get(), 2))
+        table.insert(lines, " ")
+        table.insert(lines, M.prepare_line("Textwidth: " .. vim.api.nvim_get_option_value("textwidth", { buf = curbuf }) ..
+                     " / " .. (vim.api.nvim_get_option_value("wrap", { win = M.content_winid }) == false and "No Wrap" or "Wrap"),
+                     "Fmt: " .. (vim.api.nvim_get_option_value("fo", { buf = curbuf })), 2))
+        table.insert(lines, M.prepare_line("Folding method:", fdm[vim.api.nvim_get_option_value("foldmethod", { win = M.content_winid })], 2))
+        if vim.api.nvim_get_option_value("foldmethod", { win = M.content_winid }) == 'expr' then
+          table.insert(lines, "Expr: " .. vim.api.nvim_get_option_value("foldexpr", { win = M.content_winid }))
+        else
+          table.insert(lines, " ")
+        end
+        vim.api.nvim_buf_set_lines(M.bufid, 0, -1, false, lines)
       end
-      table.insert(lines, M.prepare_line("Type: " .. vim.api.nvim_get_option_value("filetype", { buf = curbuf }) .. " " .. fn_symbol, "Enc: " .. vim.opt.fileencoding:get(), 0))
-      vim.api.nvim_buf_set_lines(M.bufid, 0, -1, false, lines)
       -- set highlights
       vim.api.nvim_buf_add_highlight(M.bufid, -1, "Visual", 1, 0, M.win_width - 2)
       if string.len(name) > 0 then
@@ -326,6 +355,7 @@ function M.refresh()
       if fn_symbol_hl ~= nil then
         vim.api.nvim_buf_add_highlight(M.bufid, -1, fn_symbol_hl, 5, 0, M.win_width - 2)
       end
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Debug", 7, 0, M.win_width - 2)
       vim.api.nvim_buf_set_option(M.bufid, "modifiable", false)
     end
   elseif M.content == 'weather' then
