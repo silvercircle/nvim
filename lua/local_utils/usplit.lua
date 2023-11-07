@@ -13,7 +13,7 @@ function M.resize_or_closed()
       M.bufid = nil
     end
     M.winid = nil
-  else
+  elseif M.winid ~= nil then
     M.refresh()
     globals.perm_config.sysmon.width = vim.api.nvim_win_get_width(M.winid)
   end

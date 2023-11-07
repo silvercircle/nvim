@@ -22,7 +22,8 @@ M.perm_config_default = {
   },
   weather = {
     active = false,
-    width = vim.g.config.weather.width
+    width = vim.g.config.weather.width,
+    content = 'info'
   },
   terminal = {
     active = true,
@@ -65,11 +66,27 @@ M.ibl_highlight = {
   "IndentBlanklineChar"
 }
 
-
 local function get_permconfig_filename()
   return vim.fn.stdpath("state") .. "/permconfig.json"
 end
 
+--- open the outline window
+function M.open_outline()
+  if vim.g.config.outline_filetype == "Outline" then
+    vim.cmd('SymbolsOutlineOpen')
+  elseif vim.g.config.outline_filetype == "aerial" then
+    require("aerial").open()
+  end
+end
+
+--- close the outline window
+function M.close_outline()
+   if vim.g.config.outline_filetype == "Outline" then
+    vim.cmd('SymbolsOutlineClose')
+  elseif vim.g.config.outline_filetype == "aerial" then
+    require("aerial").close()
+  end
+end
 --- set the statuscol to either normal or relative line numbers
 --- @param mode string: allowed values: 'normal' or 'rel'
 function M.set_statuscol(mode)
@@ -266,6 +283,7 @@ end
 --- @param _height number: height of the terminal split to open.
 function M.termToggle(_height)
   local height = _height or M.term.height
+  local reopen_outline = false
   -- if it is visible, then close it an all sub frames
   -- but leave the buffer open
   if M.term.visible == true then
@@ -276,6 +294,13 @@ function M.termToggle(_height)
     M.term.winid = nil
     return
   end
+  local outline_win = M.findwinbyBufType(vim.g.config.outline_filetype)
+
+  if outline_win[1] ~= nil and vim.api.nvim_win_is_valid(outline_win[1]) then
+    M.close_outline()
+    reopen_outline = true
+  end
+
   vim.fn.win_gotoid(M.main_winid)
   -- now, if we have no terminal buffer (yet), create one. Otherwise just select
   -- the existing one.
@@ -297,9 +322,11 @@ function M.termToggle(_height)
   if M.perm_config.sysmon.active == true then
     require("local_utils.usplit").open()
   end
-  if M.perm_config.weather.active == true then
-    --require("local_utils.wsplit").open(vim.g.config.weather.file)
-    --require("local_utils.wsplit").openleftsplit(vim.g.config.weather.file)
+
+  if reopen_outline == true then
+    vim.fn.win_gotoid(M.main_winid)
+    M.open_outline()
+    vim.schedule(function() vim.fn.win_gotoid(M.main_winid) end)
   end
 end
 
@@ -376,7 +403,7 @@ function M.adjust_layout()
   local globals = require("globals")
   local usplit = require("local_utils.usplit").winid
   local wsplit = require("local_utils.wsplit").winid
-  vim.o.cmdheight = 0
+  vim.o.cmdheight = require("tweaks").cmdheight
   if usplit ~= nil then
     vim.api.nvim_win_set_width(usplit, globals.perm_config.sysmon.width)
   end
@@ -386,7 +413,10 @@ function M.adjust_layout()
   end
   vim.api.nvim_win_set_height(M.main_winid, 200)
   if M.term.winid ~= nil then
+    local width = vim.api.nvim_win_get_width(M.term.winid)
     vim.api.nvim_win_set_height(M.term.winid, M.term.height)
+    vim.api.nvim_win_set_width(M.term.winid, width - 1)
+    vim.api.nvim_win_set_width(M.term.winid, width)
   end
   local outline = M.findwinbyBufType("Outline")
   if #outline > 0 then

@@ -112,10 +112,7 @@ kms({ 'n', 'i' }, '<A-w>', function()
 end, opts)
 
 -- quickfix/loclist navigation
-kms('n', '<C-f>c', function()
-  globals.close_qf_or_loc()
-end, opts)
-kms('i', '<C-f>c', function()
+kms({'n', 'i'}, '<C-f>c', function()
   globals.close_qf_or_loc()
 end, opts)
 
@@ -394,11 +391,7 @@ end, opts) -- main window
 
 kms({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   if globals.findbufbyType(vim.g.config.outline_filetype) == false then
-    if vim.g.config.outline_filetype == "Outline" then
-      vim.cmd('SymbolsOutlineOpen')
-    elseif vim.g.config.outline_filetype == "aerial" then
-      require("aerial").open()
-    end
+    globals.open_outline()
   end
 end, opts) -- Outline
 
@@ -490,3 +483,8 @@ end, opts)
 kms({ 'n', 'i', 't', 'v' }, '<C-l>zt', function()
   require("cmp_wordlist").add_cword_with_translation()
 end, opts)
+
+kms({ 'n', 'i', 't', 'v' }, '<C-l>wt', function()
+  require("local_utils.wsplit").toggle_content()
+end, opts)
+

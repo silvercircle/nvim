@@ -5,6 +5,8 @@ local autocmd = vim.api.nvim_create_autocmd
 local globals = require("globals")
 local agroup_views = vim.api.nvim_create_augroup("views", {} )
 local agroup_hl = vim.api.nvim_create_augroup("hl", {} )
+local wsplit = require("local_utils.wsplit")
+
 -- local ibl = require('indent_blankline')
 
 --- on leave, write the permanent settings file
@@ -73,7 +75,9 @@ autocmd({ 'UIEnter' }, {
         --require("local_utils.blist").open(true, 0, globals.perm_config.blist_height)
       end
       if globals.perm_config.weather.active == true then
-      --  require("local_utils.wsplit").openleftsplit(vim.g.config.weather.file)
+        wsplit.content = globals.perm_config.weather.content
+        wsplit.content_set_winid(globals.main_winid)
+        wsplit.refresh()
       end
       if globals.perm_config.transbg == true then
         globals.set_bg()
@@ -111,6 +115,22 @@ autocmd( { 'bufwinenter' }, {
   pattern = "*",
   callback = function()
     globals.get_bufsize()
+    wsplit.content_set_winid(vim.fn.win_getid())
+    if wsplit.content == 'info' then
+      vim.schedule(function() wsplit.refresh() end)
+    end
+  end,
+  group = agroup_views
+})
+
+autocmd( { 'winenter' }, {
+  pattern = "*",
+  callback = function()
+    wsplit.content_set_winid(vim.fn.win_getid())
+    if wsplit.content == 'info' then
+      globals.get_bufsize()
+      vim.schedule(function() wsplit.refresh() end)
+    end
   end,
   group = agroup_views
 })

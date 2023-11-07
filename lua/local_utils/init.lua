@@ -13,6 +13,35 @@ local conf = {
   ignore_git = false
 }
 
+ -- Fallback file symbol for devicon
+M.default_file = ""
+  -- File symbol for a terminal split
+M.terminal_symbol = ""
+
+-- Get file symbol from devicons
+function M.getFileSymbol(filename)
+  local devicons = pcall(require, "nvim-web-devicons")
+  if not devicons then
+    return "", nil
+  end
+
+  if filename == nil or #filename == 0 then
+    return "", nil
+  end
+  local ext = string.match(filename, "%.([^%.]*)$")
+
+  local symbol, hl = require("nvim-web-devicons").get_icon(filename, ext)
+  if not symbol then
+    if filename:match("^term://") then
+      symbol = M.terminal_symbol
+    else
+      symbol = M.default_file
+    end
+  end
+
+  return symbol, hl
+end
+
 --- output a debug message
 --- @param msg string - what's to be printed
 --- does nothing when conf.debugmode = false (default)

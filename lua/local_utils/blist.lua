@@ -93,11 +93,6 @@ function M.setup(_c)
   -- Use devicons file symbols
   M.use_devicons = not (c.use_devicons == false)
 
-  -- Fallback file symbol for devicon
-  M.default_file = c.symbols.default_file or ""
-  -- File symbol for a terminal split
-  M.terminal_symbol = c.symbols.terminal_symbol or ""
-
   -- default width and height of the popup window
   M.default_width = c.width or 50
   M.default_height = c.height or 10
@@ -203,30 +198,6 @@ local function getBufferHandleFromLine(line)
     local handle = iter2array(string.gmatch(line, "[^%s]+"))[2]
     return assert(tonumber(handle))
   end
-end
-
--- Get file symbol from devicons
-local function getFileSymbol(filename)
-  local devicons = pcall(require, "nvim-web-devicons")
-  if not devicons then
-    return "", nil
-  end
-
-  if filename == nil or #filename == 0 then
-    return "", nil
-  end
-  local ext = string.match(filename, "%.([^%.]*)$")
-
-  local symbol, hl = require("nvim-web-devicons").get_icon(filename, ext)
-  if not symbol then
-    if filename:match("^term://") then
-      symbol = M.terminal_symbol
-    else
-      symbol = M.default_file
-    end
-  end
-
-  return symbol, hl
 end
 
 local function getBufferIcon(flags)
@@ -470,7 +441,7 @@ function M.parseLs(buf)
     -- get symbol and icon
     local fn_symbol, fn_symbol_hl = "", nil
     if M.use_devicons then
-      fn_symbol, fn_symbol_hl = getFileSymbol(filename)
+      fn_symbol, fn_symbol_hl = require("local_utils").getFileSymbol(filename)
     end
     local icon, icon_hl = getBufferIcon(flags)
     if icon ~= nil and #icon == 1 then
