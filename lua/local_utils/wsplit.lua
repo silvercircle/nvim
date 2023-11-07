@@ -37,7 +37,7 @@ function M.resize_or_closed()
       M.bufid = nil
     end
     M.winid = nil
-  else
+  elseif M.winid ~= nil then
     vim.api.nvim_win_set_height(M.winid, vim.g.config.weather.required_height)
     M.refresh()
   end
@@ -95,6 +95,7 @@ function M.open(_weatherfile)
   end
   M.refresh()
   M.installwatch()
+  globals.perm_config.weather.active = true
 end
 
 --- open the weather split in a split of the nvim-tree
@@ -124,6 +125,7 @@ function M.openleftsplit(_weatherfile)
   end
   M.refresh()
   M.installwatch()
+  globals.perm_config.weather.active = true
 end
 --- prepare a line with two elements
 --- @param _left string: the left part of the line
@@ -144,6 +146,7 @@ end
 function M.close()
   if M.winid ~= nil then
     vim.api.nvim_win_close(M.winid, {force=true})
+    M.winid = nil
   end
   if watch ~= nil then
     vim.loop.fs_event_stop(watch)

@@ -376,12 +376,21 @@ function M.adjust_layout()
   local globals = require("globals")
   local usplit = require("local_utils.usplit").winid
   local wsplit = require("local_utils.wsplit").winid
+  vim.o.cmdheight = 0
   if usplit ~= nil then
     vim.api.nvim_win_set_width(usplit, globals.perm_config.sysmon.width)
   end
   if wsplit ~= nil then
     require("local_utils.wsplit").close()
     -- vim.api.nvim_win_set_width(wsplit, globals.perm_config.weather.width)
+  end
+  vim.api.nvim_win_set_height(M.main_winid, 200)
+  if M.term.winid ~= nil then
+    vim.api.nvim_win_set_height(M.term.winid, M.term.height)
+  end
+  local outline = M.findwinbyBufType("Outline")
+  if #outline > 0 then
+    vim.api.nvim_win_set_width(outline[1], vim.g.config.outline_width)
   end
 end
 

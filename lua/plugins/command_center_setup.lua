@@ -89,6 +89,7 @@ command_center.add({
     desc = "Show bookmarks in current file (Telescope)",
     cmd = function()
       _t.extensions.vim_bookmarks.current_file(Telescope_vertical_dropdown_theme({
+        layout_config = vim.g.config.telescope_vertical_preview_layout,
         prompt_title = "File Bookmarks" }))
     end,
     keys = { "n", "<A-B>", noremap },

@@ -19,10 +19,6 @@ kms('n', '<leader>,', function()
   -- when the buflist is open (which means, the tree is also open), close it.
   -- we do NOT auto-open the buflist when activating the tree. Use Alt-5 for quickly
   -- creating (and switching to) a buffer list
-  if globals.findbufbyType('BufList') ~= false then
-    require('local_utils.blist').close()
-  end
-  -- foobar
   require('nvim-tree.api').tree.toggle()
 end, opts) -- toggle the Nvim-Tree
 
@@ -132,14 +128,14 @@ end, opts)
 kms('n', '<C-a>e', function()
   require("mini.extra").pickers.explorer(
   { cwd = vim.fn.expand("%:p:h")  },
-  { window = { config = globals.mini_pick_center(50, 0.6, 0.2) } })
+  { window = { config = globals.mini_pick_center(60, 0.6, 0.2) } })
 end, opts)
 
 --- open mini explorer at project root
 kms( 'n', '<C-a><C-e>', function()
   require("mini.extra").pickers.explorer(
   { cwd = utils.getroot_current()  },
-  { window = { config = globals.mini_pick_center(50, 0.6, 0.2) } })
+  { window = { config = globals.mini_pick_center(60, 0.6, 0.2) } })
 end, opts)
 
 --- open mini picker for marks

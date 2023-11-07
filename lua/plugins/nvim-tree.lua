@@ -315,5 +315,12 @@ api.events.subscribe(Event.TreeOpen, function(_)
 end)
 
 api.events.subscribe(Event.TreeClose, function(_)
+  local wsplit = require("local_utils.wsplit")
+  local globals = require("globals")
+  wsplit.close()
+  wsplit.winid = nil
   require('globals').adjust_layout()
+  if globals.term.winid ~= nil then
+    vim.api.nvim_win_set_height(globals.term.winid, globals.term.height)
+  end
 end)

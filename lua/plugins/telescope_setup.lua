@@ -99,6 +99,9 @@ require("telescope").setup({
     }
   },
   pickers = {
+    find_files = {
+      find_command = { "rg", "--ignore", "-L", "--hidden", "--files", "-g", "!.git/objects/" }
+    },
     buffers = {
       -- implement Ctrl-d to close a buffer directly from the buffer list without closing the list itself.
       -- works in both normal and insert modes.
