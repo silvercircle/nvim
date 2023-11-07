@@ -103,7 +103,6 @@ o.updatetime = 800
 o.updatecount = 0
 -- wait that many milliseconds for keq sequences to complete
 o.timeoutlen = 800
-o.cmdheight = 1
 o.scrolloff = 5
 o.undolevels = 50
 o.scrolljump = 1
@@ -115,7 +114,7 @@ o.undodir = vim.fn.stdpath("data") .. "/undo/"
 -- set this to true if you want to have persistent undo
 o.undofile=false
 o.exrc=true
-o.cmdheight=0
+o.cmdheight=require("tweaks").cmdheight
 -- o.secure=true
 
 globals.restore_config()
