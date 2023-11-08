@@ -77,7 +77,7 @@ autocmd({ 'UIEnter' }, {
       if globals.perm_config.weather.active == true then
         wsplit.content = globals.perm_config.weather.content
         wsplit.content_set_winid(globals.main_winid)
-        wsplit.refresh()
+        --wsplit.refresh()
       end
       if globals.perm_config.transbg == true then
         globals.set_bg()

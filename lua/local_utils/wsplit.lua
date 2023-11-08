@@ -1,5 +1,5 @@
--- implements a split window showing weather data.
--- depends on my ~/.weather/weather data file, created by fetchweather
+-- implements a split window showing weather data or buffer information
+-- weather display depends on my ~/.weather/weather data file, created by fetchweather
 -- this is useless without.
 -- requires a NERDFont
 local globals = require("globals")
@@ -14,6 +14,7 @@ M.win_height = nil
 M.weatherfile = ""
 M.content = 'info'
 M.content_winid = nil
+M.freeze = false
 
 local watch = nil
 local timer = nil
@@ -34,6 +35,7 @@ local conditions = {
   }
 }
 
+-- folding modes
 local fdm = {
   expr    = "Expression",
   manual  = "Manual",
@@ -43,6 +45,10 @@ local fdm = {
   diff    = "Diff"
 }
 
+--- truncate the path and display the rightmost maxlen characters
+--- @param path string: A filepath
+--- @param maxlen number: the desired length
+--- @return string: the truncated path
 local function path_truncate(path, maxlen)
   local len = string.len(path)
   if len <= maxlen then
@@ -52,27 +58,47 @@ local function path_truncate(path, maxlen)
   return "..." .. string.sub(path, len - effective_width, len)
 end
 
-function M.toggle_content()
-  if M.content == 'info' then
-    M.content = 'weather'
-    if timer ~= nil then
-      timer:stop()
-    end
-  elseif M.content == 'weather' then
-    M.content = 'info'
-  end
+-- reconfigure the rendering
+function M.on_content_change()
   globals.perm_config.weather.content = M.content
   M.content_winid = vim.fn.win_getid()
-  if M.content == 'info' then
+  if M.content ~= 'weather' then
     if timer ~= nil then
       timer:stop()
       timer:start(0, timer_interval, vim.schedule_wrap(M.refresh_on_timer))
+    end
+  else
+    if timer ~= nil then
+      timer:stop()
     end
   end
   M.refresh()
 end
 
+--- toggle window content
+function M.toggle_content()
+  if M.content == 'info' then
+    M.content = 'weather'
+  elseif M.content == 'weather' then
+    M.content = 'info'
+  end
+  M.on_content_change()
+end
+
+--- set content type
+--- @param _content string: content type. Allowed are 'info' or 'weather'
+function M.set_content(_content)
+  if _content ~= nil and (_content == 'info' or _content == 'weather') then
+    M.content = _content
+    M.on_content_change()
+  end
+end
+
+--- filetypes we are not interested in
 local info_exclude = { "terminal", "Outline", "aerial", "NvimTree", "sysmon", "weather" }
+
+--- set the window id of the buffer of interest
+--- @param _id number: the window id
 function M.content_set_winid(_id)
   if M.content ~= 'info' then
     return
@@ -90,10 +116,12 @@ function M.content_set_winid(_id)
     end
     -- ignore certain filetypes
     if vim.tbl_contains(info_exclude, vim.api.nvim_buf_get_option(bufid, "filetype")) == true then
+      M.freeze = true
       return
     end
     globals.debugmsg("Set content window id to " .. _id)
     M.content_winid = _id
+    M.freeze = false
   end
 end
 
@@ -150,9 +178,13 @@ function M.installwatch()
   if autocmd_set == false then
     autocmd_set = true
     vim.api.nvim_create_autocmd({ "OptionSet" }, {
+      -- TODO: update this when adding new options of interest
       pattern = { "wrap", "formatoptions", "textwidth", "foldmethod", "filetype" },
       callback = function()
-        M.refresh()
+        -- weather content refreshes from a file watcher
+        if M.content ~= 'weather' then
+          M.refresh()
+        end
       end,
     })
   end
@@ -189,10 +221,8 @@ end
 function M.openleftsplit(_weatherfile)
   local curwin = vim.api.nvim_get_current_win()     -- remember active win for going back
   M.weatherfile = vim.fn.expand(_weatherfile)
-
   M.winid = require("globals").splittree(vim.g.config.weather.required_height)
   if M.winid == 0 then
-    print("Could not find split")
     M.close()
     return
   end
@@ -239,6 +269,7 @@ function M.close()
   if timer ~= nil then
     timer:stop()
   end
+  print("close wsplit")
 end
 
 --- set a highlight group for the given temperature
@@ -294,7 +325,9 @@ function M.refresh_on_timer()
   M.refresh()
 end
 --- refresh the buffer. Called when the window is resized or the file watcher detects a change
---- in the weather file
+--- in the weather file. For info content, this is called when:
+---   a) one option of interest changes
+---   b) The current window or buffer changes (WinEnter, BufWinEnter events)
 function M.refresh()
   local results = {}
 
@@ -310,6 +343,9 @@ function M.refresh()
   end
 
   if M.content == 'info' then
+    if M.freeze == true then
+      return
+    end
     vim.api.nvim_win_set_option(M.winid, "statusline", "ⓘ Information")
     if M.content_winid ~= nil and vim.api.nvim_win_is_valid(M.content_winid) then
       local curbuf = vim.api.nvim_win_get_buf(M.content_winid)

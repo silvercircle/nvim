@@ -577,12 +577,6 @@ command_center.add({
 --    keys = { "n", "<C-g>", noremap },
 --    category = "@Neovim"
 --  },
---  {
---    desc = "Packer Sync",
---    cmd = "<CMD>PackerSync<CR>",
---    keys = {},
---    category = "@Neovim"
---  },
   {
     desc = "List all Highlight groups",
     cmd = function() _tb.highlights() end,

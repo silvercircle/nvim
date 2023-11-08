@@ -1,4 +1,6 @@
 local api = require('nvim-tree.api')
+local globals = require("globals")
+local wsplit = require("local_utils.wsplit")
 
 local function on_attach(bufnr)
   local api = require('nvim-tree.api')
@@ -303,23 +305,23 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
 -- react on open and close events to adjust the remaining window layout
 local Event = api.events.Event
 api.events.subscribe(Event.TreeOpen, function(_)
-  local globals = require("globals")
   vim.opt.statuscolumn = ''
   local w = vim.fn.win_getid()
   vim.api.nvim_win_set_option(w, 'statusline', '   NvimTree')
   vim.cmd('setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual')
   globals.adjust_layout()
   if globals.perm_config.weather.active == true then
-    require("local_utils.wsplit").openleftsplit(vim.g.config.weather.file)
+    wsplit.content = globals.perm_config.weather.content
+    if wsplit.winid == nil then
+      wsplit.openleftsplit(vim.g.config.weather.file)
+    end
   end
 end)
 
 api.events.subscribe(Event.TreeClose, function(_)
-  local wsplit = require("local_utils.wsplit")
-  local globals = require("globals")
   wsplit.close()
   wsplit.winid = nil
-  require('globals').adjust_layout()
+  globals.adjust_layout()
   if globals.term.winid ~= nil then
     vim.api.nvim_win_set_height(globals.term.winid, globals.term.height)
   end

@@ -218,8 +218,8 @@ vim.g.confirm_actions = {
 
 local g = vim.g
 -- disable some standard plugins
---g.loaded_netrw       = 1
---g.loaded_netrwPlugin = 1
+g.loaded_netrw       = 1
+g.loaded_netrwPlugin = 1
 
 g.loaded_zipPlugin= 1
 g.loaded_zip = 1

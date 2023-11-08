@@ -49,6 +49,7 @@ M.perm_config = {}
 
 M.sessions = {}
 
+-- ignore symbol types for the fast symbol browser (telescope)
 M.ignore_symbols = {
   lua = { "string", "object", "boolean", "number", "array", "variable" }
 }
@@ -186,12 +187,13 @@ function M.truncate(text, max_length)
 end
 
 -- list of filetypes we never want to create views for.'
+local _mkview_exclude = require("tweaks").mkview_exclude
 
 --- global function to create a view
 --- this creates a view using mkview unless the buffer has no file name or is not a file at all.
 --- it also respects the filetype exclusion list to avoid unwanted clutter in the views folder
 function M.mkview()
-  if vim.tbl_contains(require("tweaks").mkview_exclude, vim.bo.filetype) == true then
+  if vim.tbl_contains(_mkview_exclude, vim.bo.filetype) == true then
     return
   end
   if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then
@@ -408,7 +410,7 @@ function M.adjust_layout()
     vim.api.nvim_win_set_width(usplit, globals.perm_config.sysmon.width)
   end
   if wsplit ~= nil then
-    require("local_utils.wsplit").close()
+    -- require("local_utils.wsplit").close()
     -- vim.api.nvim_win_set_width(wsplit, globals.perm_config.weather.width)
   end
   vim.api.nvim_win_set_height(M.main_winid, 200)
