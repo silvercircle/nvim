@@ -17,5 +17,6 @@ if vim.g.config.plain == false then
       theme.section.header.val = result
     end
   end
+  theme.config.opts.noautocmd = true
   require('alpha').setup(theme.config)
 end
