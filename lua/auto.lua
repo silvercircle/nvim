@@ -146,15 +146,6 @@ autocmd( { 'bufread' }, {
   group = agroup_views
 })
 
---- ft alpha is the startscreen from the alpha plugin
-autocmd( { 'FileType' }, {
-  pattern = { 'alpha' },
-  callback = function()
-     vim.cmd("silent! setlocal statuscolumn=")
-  end,
-  group = agroup_views
-})
-
 autocmd( { 'FileType' }, {
   pattern = { 'qf', 'replacer' },
   callback = function()

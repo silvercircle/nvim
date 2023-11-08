@@ -404,14 +404,10 @@ end
 function M.adjust_layout()
   local globals = require("globals")
   local usplit = require("local_utils.usplit").winid
-  local wsplit = require("local_utils.wsplit").winid
+  --local wsplit = require("local_utils.wsplit").winid
   vim.o.cmdheight = require("tweaks").cmdheight
   if usplit ~= nil then
     vim.api.nvim_win_set_width(usplit, globals.perm_config.sysmon.width)
-  end
-  if wsplit ~= nil then
-    -- require("local_utils.wsplit").close()
-    -- vim.api.nvim_win_set_width(wsplit, globals.perm_config.weather.width)
   end
   vim.api.nvim_win_set_height(M.main_winid, 200)
   if M.term.winid ~= nil then
@@ -531,6 +527,8 @@ function M.set_scrollbar()
 end
 
 --- set the background transparent or solid
+--- this changes the relevant highlight groups to use a transparent background.
+--- Needs terminal with transparency support (kitty, alacritty etc.)
 function M.set_bg()
   if M.perm_config.transbg == true then
     vim.api.nvim_set_hl(0, "Normal", { bg = "none", fg = "fg" } )
@@ -551,6 +549,7 @@ function M.set_bg()
     vim.cmd("hi SignColumn guibg=" .. vim.g.theme[variant].gutterbg)
   end
 end
+
 --- detach all TUI sessions from the headless master. The server will continue running
 --- in the background accepting new TUI sessions.
 function M.detach_all_tui()

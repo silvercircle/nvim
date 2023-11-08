@@ -16,13 +16,14 @@ M.content = 'info'
 M.content_winid = nil
 M.freeze = false
 
-local watch = nil
-local timer = nil
-local timer_interval = 60000
-local autocmd_set = false
+local watch = nil             -- file watcher (for weather content)
+local timer = nil             -- timer (for info content)
+local timer_interval = 60000  -- timer interval
+local autocmd_set = false     -- remember whether the OptionSet autocmd has been set
 
 -- this translates condition codes (single letters) to actual readable conditions. This is API specific
 -- and right now only implemented for the VC API (visual crossing)
+-- this also requires a NERD font.
 local conditions = {
   VC = {
     c = "󰖕 Partly Cloudy",
@@ -35,7 +36,7 @@ local conditions = {
   }
 }
 
--- folding modes
+-- folding modes (translate foldmethod to readable terms)
 local fdm = {
   expr    = "Expression",
   manual  = "Manual",
@@ -235,7 +236,6 @@ function M.openleftsplit(_weatherfile)
   vim.api.nvim_win_set_buf(M.winid, M.bufid)
   vim.api.nvim_buf_set_option(M.bufid, "buftype", "nofile")
   vim.api.nvim_win_set_option(M.winid, "list", false)
-  vim.api.nvim_win_set_option(M.winid, "statusline", "  Weather")
   vim.cmd("set winfixheight | set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn=%#NeoTreeNormalNC#\\  | setlocal nocursorline")
   vim.fn.win_gotoid(curwin)
   M.refresh()
@@ -282,7 +282,7 @@ local function temp_to_hl(temp)
     return "Purple"
   elseif t <= 5 then
     return "Blue"
-  elseif t > 0 and t < 10 then
+  elseif t > 5 and t < 10 then
     return "Green"
   elseif t >= 10 and t <= 20 then
     return "Yellow"
@@ -298,7 +298,6 @@ end
 --- set a highlight group for the wind speed
 --- @param wind string: wind speed (assumed in km/h)
 --- @return string: A hl group
---- TODO: make this customizable via a setup() method
 local function wind_to_hl(wind)
   local w = tonumber(string.gsub(wind, "km/h", ""), 10)
   if w < 5 then
@@ -347,10 +346,10 @@ function M.refresh()
       return
     end
     vim.api.nvim_win_set_option(M.winid, "statusline", "ⓘ Information")
+    vim.api.nvim_buf_clear_namespace(M.bufid, -1, 0, -1)
     if M.content_winid ~= nil and vim.api.nvim_win_is_valid(M.content_winid) then
       local curbuf = vim.api.nvim_win_get_buf(M.content_winid)
 
-      vim.api.nvim_buf_clear_namespace(M.bufid, -1, 0, -1)
       vim.api.nvim_buf_set_option(M.bufid, "modifiable", true)
       local lines = {}
       local name = path_truncate(plenary:new(vim.api.nvim_buf_get_name(curbuf)):make_relative(), M.win_width - 3)
@@ -392,6 +391,8 @@ function M.refresh()
         vim.api.nvim_buf_add_highlight(M.bufid, -1, fn_symbol_hl, 5, 0, M.win_width - 2)
       end
       vim.api.nvim_buf_add_highlight(M.bufid, -1, "Debug", 7, 0, M.win_width - 2)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Keyword", 8, 0, M.win_width - 2)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Keyword", 9, 0, M.win_width - 2)
       vim.api.nvim_buf_set_option(M.bufid, "modifiable", false)
     end
   elseif M.content == 'weather' then

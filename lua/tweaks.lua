@@ -35,5 +35,5 @@ M.outline_plugin = "Outline"
 -- list of filetypes for which no views are created when saving or leaving the buffer
 -- by default, help files and terminals don't need views
 M.mkview_exclude = { "help", "terminal", "floaterm" }
-M.cmdheight = 1
+M.cmdheight = 0
 return M
