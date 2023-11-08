@@ -269,7 +269,7 @@ command_center.add({
         require("aerial").open()
       end
     end,
-    keys = { "n", "<leader>.", noremap },
+    keys = { {"n", "i"}, "<C-x>o", noremap },
     category = "@LSP"
   },
   -- LSP Diagnostics
@@ -291,12 +291,13 @@ command_center.add({
     keys = { "n", "DP", noremap },
     category = "@LSP Diagnostics"
   },
-  {
-    desc = "Show hover info for current symbol",
-    cmd = function() vim.lsp.buf.hover() end,
-    keys = { "n", "DD", noremap },
-    category = "@LSP Diagnostics"
-  },
+-- this is basically the same as <F1>
+--  {
+--    desc = "Show hover info for current symbol",
+--    cmd = function() vim.lsp.buf.hover() end,
+--    keys = { "n", "DD", noremap },
+--    category = "@LSP Diagnostics"
+--  },
   {
     desc = "Code Action",
     cmd = function() vim.lsp.buf.code_action() end,
