@@ -191,7 +191,8 @@ local plugins = {
       require("plugins.todo")
     end
   },
-  { 'goolord/alpha-nvim',
+  { 'silvercircle/alpha-nvim',
+    branch = "mine",
     cond = vim.g.config.plain == false,
     config = function ()
       require("plugins.alpha")
