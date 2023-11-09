@@ -124,7 +124,7 @@ end
 -- this can be different, depending on filetype. The relevant table is in vim.g.config.colorcolumn.
 -- by default, this is mapped to <C-l><C-k>
 function M.toggle_colorcolumn()
-  if vim.opt_local.colorcolumn._value ~= "" then
+  if #vim.opt_local.colorcolumn:get() ~= 0 then
     vim.opt_local.colorcolumn = ""
   else
     local filetype = vim.bo.filetype
@@ -227,7 +227,7 @@ end
 
 --- toggle the status of wrap between wrap and nowrap
 function M.toggle_wrap()
-  if vim.opt_local.wrap._value == true then
+  if vim.opt_local.wrap:get() == true then
     vim.opt_local.wrap = false
     vim.opt_local.linebreak = false
   else
@@ -241,7 +241,7 @@ end
 --  of the window to split. Otherwise as an absolute number. The default is set to 1/3 (0.33)
 --- @return number: the window id
 function M.splittree(_factor)
-  local factor = (_factor ~= nil and _factor > 0) and _factor or 0.33
+  local factor = math.abs((_factor ~= nil and _factor > 0) and _factor or 0.33)
   local winid = M.findwinbyBufType("NvimTree")
   if #winid > 0 then
     local splitheight

@@ -1,11 +1,14 @@
---- user tweakable stuff
+-- user tweakable stuff
+-- most of this is for cosmetical or performance purpose. Other tweaks are still
+-- in config.lua and options.lua, but the goal is to have all user-tweakable options
+-- here. This is WIP.
 local M = {}
 
 -- telescope field widths. These depend on the characters per line in the terminal
 -- setup. So it needs to be tweakable
 M.telescope_symbol_width = 60
 M.telescope_fname_width = 120
-M.telescope_vertical_layout_width = 120
+-- the width for the vertical layout with preview on top
 M.telescope_vertical_preview_layout = {
   width = 120,
   preview_height = 15
@@ -29,7 +32,7 @@ M.cmp_autocomplete = false
 M.cmp_keywordlen = 1
 
 -- set this to "Outline" to use the symbols-outline plugin.
--- set it to "aerial" to use the Arial plugin.
+-- set it to "aerial" to use the Aerial plugin.
 M.outline_plugin = "Outline"
 
 -- list of filetypes for which no views are created when saving or leaving the buffer

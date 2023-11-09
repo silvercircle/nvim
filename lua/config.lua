@@ -18,7 +18,6 @@ end
 
 vim.g.config = {
   telescope_fname_width = tweaks.telescope_fname_width,
-  telescope_vertical_layout_width = tweaks.telescope_vertical_layout_width,
   telescope_vertical_preview_layout = tweaks.telescope_vertical_preview_layout,
   nightly = vim.fn.has("nvim-0.10"),             -- TODO: fix this when 0.9 goes release
   cokeline = {

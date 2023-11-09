@@ -39,6 +39,7 @@ local dressing_select_default = {
 
   -- Options for built-in selector
   builtin = {
+    -- do not show the line numbers for each option
     show_numbers = false,
     -- These are passed to nvim_open_win
     -- anchor = "NW",

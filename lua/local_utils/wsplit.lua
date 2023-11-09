@@ -9,12 +9,12 @@ local utils = require("local_utils")
 local M = {}
 M.winid = nil             -- window id
 M.bufid = nil             -- buffer id
-M.win_width = nil
+M.win_width = nil         -- horizontal requirement
 M.win_height = nil
 M.weatherfile = ""
-M.content = 'info'
-M.content_winid = nil
-M.freeze = false
+M.content = 'info'        -- content type (info or weather as of now)
+M.content_winid = nil     -- window of interest.
+M.freeze = false          -- do not refresh when set
 
 local watch = nil             -- file watcher (for weather content)
 local timer = nil             -- timer (for info content)

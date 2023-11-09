@@ -499,7 +499,7 @@ command_center.add({
     desc = "Fuzzy search in current buffer",
     cmd = function()
       _tb.current_buffer_fuzzy_find(Telescope_vertical_dropdown_theme({
-        layout_config = { width = vim.g.config.telescope_vertical_layout_width, preview_height = 10 },
+        layout_config = vim.g.config.telescope_vertical_preview_layout,
         prompt_title = "Fuzzy Find in current buffer" }))
     end,
     keys = { "n", "<C-x><C-f>", noremap },
@@ -566,18 +566,6 @@ command_center.add({
     keys = { "n", "tdo", noremap },
     category = "@Neovim"
   },
---  {
---    desc = "Neotree buffer list",
---    cmd = "<CMD>Neotree buffers dir=%:p:h position=float<CR>",
---    keys = { "n", "<C-t>", noremap },
---    category = "@Neovim"
---  },
---  {
---    desc = "Neotree Git status",
---    cmd = "<CMD>Neotree git_status dir=%:p:h position=float<CR>",
---    keys = { "n", "<C-g>", noremap },
---    category = "@Neovim"
---  },
   {
     desc = "List all Highlight groups",
     cmd = function() _tb.highlights() end,
@@ -652,6 +640,19 @@ command_center.add({
     keys = { "n", "<leader>zs", noremap },
     category = "@Telekasten"
   }
+-- unused stuff keep it here in case we need it at some point
+--  {
+--    desc = "Neotree buffer list",
+--    cmd = "<CMD>Neotree buffers dir=%:p:h position=float<CR>",
+--    keys = { "n", "<C-t>", noremap },
+--    category = "@Neovim"
+--  },
+--  {
+--    desc = "Neotree Git status",
+--    cmd = "<CMD>Neotree git_status dir=%:p:h position=float<CR>",
+--    keys = { "n", "<C-g>", noremap },
+--    category = "@Neovim"
+--  },
 --  {
 --    desc = "FZF live grep current directory",
 --    cmd = function() require("fzf-lua").live_grep({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_vertical_winops }) end,

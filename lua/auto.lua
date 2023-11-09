@@ -6,6 +6,7 @@ local globals = require("globals")
 local agroup_views = vim.api.nvim_create_augroup("views", {} )
 local agroup_hl = vim.api.nvim_create_augroup("hl", {} )
 local wsplit = require("local_utils.wsplit")
+local marks = require("local_utils.marks")
 
 -- local ibl = require('indent_blankline')
 
@@ -119,7 +120,7 @@ autocmd( { 'bufwinenter' }, {
     if wsplit.content == 'info' then
       vim.schedule(function() wsplit.refresh() end)
     end
-    require("local_utils.marks").BufWinEnterHandler(args)
+    marks.BufWinEnterHandler(args)  -- update marks in sign column
   end,
   group = agroup_views
 })

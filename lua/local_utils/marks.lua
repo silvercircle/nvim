@@ -5,7 +5,7 @@
 --- originally written by Mariasolos
 --- (https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/marks.lua)
 
---- modified by me:
+--- modified by me for my own neovim config (https://gitlab.com/silvercircle74/nvim):
 ---   * use global keymaps (registered from keymap.lua)
 ---   * change sign group name
 ---   * integrated BufWinEnter funtionality in my own handler (auto.lua)
@@ -87,9 +87,11 @@ local function register_mark(mark, bufnr, line)
     })
 end
 
+local skm = vim.api.nvim_set_keymap
+
 --- set key mappings
 function M.set_keymaps()
-    vim.api.nvim_set_keymap('n', 'm', '', {
+    skm('n', 'm', '', {
         desc = 'Add mark',
         callback = function()
             local curbuf = vim.api.nvim_get_current_buf()
@@ -102,7 +104,7 @@ function M.set_keymaps()
         end,
     })
 
-    vim.api.nvim_set_keymap('n', 'dm', '', {
+    skm('n', 'dm', '', {
         desc = 'Delete mark',
         callback = function()
             local curbuf = vim.api.nvim_get_current_buf()
@@ -114,7 +116,7 @@ function M.set_keymaps()
         end,
     })
 
-    vim.api.nvim_set_keymap('n', 'dm-', '', {
+    skm('n', 'dm-', '', {
         desc = 'Delete all buffer marks',
         callback = function()
             local curbuf = vim.api.nvim_get_current_buf()
