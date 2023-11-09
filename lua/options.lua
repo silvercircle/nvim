@@ -49,7 +49,7 @@ o.ruler = true
 o.tm = 500
 o.wrap = false
 -- gutter config. set numbers (5 digits max)
-o.numberwidth = 6
+o.numberwidth =  vim.g.tweaks.numberwidth
 vim.opt.listchars = {tab = '  ', trail = '▪', extends = '>', precedes = '<', eol = '↴' }
 vim.opt.list = true
 
@@ -90,8 +90,7 @@ o.completeopt = "menu,menuone,noinsert"
 o.complete=""
 -- coc and also CMP respect this settings for the maximum autocomplete-popup height
 o.pumheight = 15
--- allow two signcolumns, the first will be occupied by git signs
-o.signcolumn = "yes:4"
+o.signcolumn = vim.g.tweaks.signcolumn
 -- set &dictionary to allow auto-complete with coc-dictionary
 vim.opt.dictionary:append(vim.fn.stdpath("data") .. "/dict")
 -- do not use swap files.
@@ -114,7 +113,7 @@ o.undodir = vim.fn.stdpath("data") .. "/undo/"
 -- set this to true if you want to have persistent undo
 o.undofile=false
 o.exrc=true
-o.cmdheight=require("tweaks").cmdheight
+o.cmdheight=vim.g.tweaks.cmdheight
 -- o.secure=true
 
 globals.restore_config()

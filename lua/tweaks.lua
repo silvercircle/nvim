@@ -39,4 +39,10 @@ M.outline_plugin = "Outline"
 -- by default, help files and terminals don't need views
 M.mkview_exclude = { "help", "terminal", "floaterm" }
 M.cmdheight = 0
+
+-- width of line number (absolute numbers)
+M.numberwidth = 6
+-- for relative numbers, 2 should normally be sufficient, but then 
+M.numberwidth_rel = 2
+M.signcolumn = "yes:4"
 return M

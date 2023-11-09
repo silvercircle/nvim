@@ -98,11 +98,11 @@ function M.set_statuscol(mode)
   vim.o.statuscolumn = vim.g.config["statuscol_" .. mode ]
   if mode == 'normal' then
     vim.o.relativenumber = false
-    vim.o.numberwidth=6
+    vim.o.numberwidth = vim.g.tweaks.numberwidth
     vim.o.number = true
   else
     vim.o.relativenumber = true
-    vim.o.numberwidth=6
+    vim.o.numberwidth = vim.g.tweaks.numberwidth_rel
     vim.o.number = false
   end
 end
@@ -187,7 +187,7 @@ function M.truncate(text, max_length)
 end
 
 -- list of filetypes we never want to create views for.'
-local _mkview_exclude = require("tweaks").mkview_exclude
+local _mkview_exclude = vim.g.tweaks.mkview_exclude
 
 --- global function to create a view
 --- this creates a view using mkview unless the buffer has no file name or is not a file at all.
@@ -405,7 +405,7 @@ function M.adjust_layout()
   local globals = require("globals")
   local usplit = require("local_utils.usplit").winid
   --local wsplit = require("local_utils.wsplit").winid
-  vim.o.cmdheight = require("tweaks").cmdheight
+  vim.o.cmdheight = vim.g.tweaks.cmdheight
   if usplit ~= nil then
     vim.api.nvim_win_set_width(usplit, globals.perm_config.sysmon.width)
   end
