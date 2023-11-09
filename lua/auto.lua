@@ -113,12 +113,13 @@ autocmd( { 'bufwinleave' }, {
 -- We need this for some performance tweaks
 autocmd( { 'bufwinenter' }, {
   pattern = "*",
-  callback = function()
+  callback = function(args)
     globals.get_bufsize()
     wsplit.content_set_winid(vim.fn.win_getid())
     if wsplit.content == 'info' then
       vim.schedule(function() wsplit.refresh() end)
     end
+    require("local_utils.marks").BufWinEnterHandler(args)
   end,
   group = agroup_views
 })
