@@ -45,4 +45,6 @@ M.numberwidth = 6
 -- for relative numbers, 2 should normally be sufficient, but then 
 M.numberwidth_rel = 2
 M.signcolumn = "yes:4"
+
+M.breadcrumb = 'dropbar'
 return M

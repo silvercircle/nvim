@@ -13,6 +13,8 @@ if vim.fn.has("nvim-0.9") == 0 then
   vim.notify("Warning, this configuration requires Neovim version 0.9 or later.", 3)
 end
 
+local nvim_10 = vim.fn.has("nvim-0.10")
+
 -- this is the global config table. Since the migration to lazy, the features table is gone and
 -- no longer needed. load_lazy.lua handles all the plugin loading and deals with optional plugins.
 
@@ -71,7 +73,7 @@ vim.g.config = {
   mkview_on_leave = true,                     -- set to true if you want to save views on BufWinLeave
                                               -- when false, views are only written on write/update or manually (f4)
   mkview_on_fold = false,                     -- always create a view when using the folding keys (f2/f3)
-  use_winbar = true,
+  breadcrumb = (nvim_10 == 1) and tweaks.breadcrumb or 'navic',
   termheight = 11,
   iconpad = ' ',                              -- additional padding for devicons.
   texoutput = "~/Documents/TEXOUTPUT/",

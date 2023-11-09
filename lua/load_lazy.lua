@@ -97,7 +97,8 @@ local plugins = {
     dependencies = {
       'onsails/lspkind-nvim',
       --'j-hui/fidget.nvim',
-      {'SmiteshP/nvim-navic',lazy=true },
+      {'Bekaboo/dropbar.nvim', cond = vim.g.config.breadcrumb == 'dropbar' and vim.fn.has("nvim-0.10") == 1 },
+      {'SmiteshP/nvim-navic',lazy=true, cond = vim.g.config.breadcrumb == 'navic' },
       'dnlhc/glance.nvim',
       { 'jose-elias-alvarez/null-ls.nvim', cond = vim.g.config.null_ls == true,
         config = function()
@@ -223,11 +224,18 @@ local plugins = {
     'gabrielpoca/replacer.nvim',
     ft = { "qf" }
   },
+--  {
+--    'arkav/lualine-lsp-progress',
+--    config = function()
+--
+--    end
+--  },
   {
-    'arkav/lualine-lsp-progress',
-    config = function()
-
-    end
+    'j-hui/fidget.nvim',
+    tag = "legacy",
+    event = "LspAttach",
+    opts = {}
+    -- options
   },
   {
     'willothy/nvim-cokeline', branch = "main"

@@ -1,6 +1,9 @@
 local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
 local globals = require("globals")
-local navic = require('nvim-navic')
+local navic = nil
+if vim.g.config.breadcrumb == 'navic' then
+  navic = require('nvim-navic')
+end
 
 local function actual_tabline()
   if vim.g.config.cokeline.enabled == true then
@@ -38,7 +41,10 @@ local function full_filename()
 end
 
 local function navic_context()
-  return navic.get_location()
+  if navic ~= nil then
+    return navic.get_location()
+  end
+  return "NavicErr"
 end
 
 local function indentstats()
@@ -117,7 +123,7 @@ require("lualine").setup({
     lualine_z = {},
   },
   tabline = actual_tabline(),
-  winbar = vim.g.config.use_winbar == true and {
+  winbar = vim.g.config.breadcrumb == 'navic' and {
     --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
       {
@@ -127,7 +133,7 @@ require("lualine").setup({
             return string
           else
             string = navic_context()
-            if #string > 0 then
+            if string ~= nil and #string > 0 then
               return string.format("Context: %s", string)
             else
               return ""
@@ -157,7 +163,7 @@ require("lualine").setup({
       'tabs'
     }
   } or {},
-  inactive_winbar = vim.g.config.use_winbar == true and {
+  inactive_winbar = vim.g.config.breadcrumb == 'navic' and {
     -- lualine_x = { { win_pad, color = 'Normal' } },
     lualine_z = { { full_filename, color = 'WinBarNC' }, 'tabs' }
   } or {},

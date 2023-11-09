@@ -1,7 +1,7 @@
 local lspconfig = require("lspconfig")
 local util = require('lspconfig.util')
-local navic
-if vim.g.config.use_winbar == true then
+local navic = nil
+if vim.g.config.breadcrumb == 'navic' then
   navic = require('nvim-navic')
 end
 
@@ -10,7 +10,7 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protoc
 
 -- Customize LSP behavior via on_attach
 local on_attach = function(client, bufnr)
-  if vim.g.config.use_winbar == true then
+  if vim.g.config.breadcrumb == 'navic' and navic ~= nil then
     navic.attach(client, bufnr)
   end
   --if client.name == 'marksman' then
