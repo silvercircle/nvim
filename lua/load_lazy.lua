@@ -13,7 +13,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
-  'MunifTanjim/nui.nvim',
+  --'MunifTanjim/nui.nvim',
   {'nvim-lualine/lualine.nvim',
     config = function()
       require("plugins.lualine")

@@ -4,7 +4,7 @@ local dressing_select_default = {
 
   -- Priority list of preferred vim.select implementations
 --    backend = { "builtin", "nui", "telescope" },
-  backend = { "nui" },
+  backend = { "builtin" },
 
   -- Trim trailing `:` from prompt
   trim_prompt = true,
@@ -39,6 +39,7 @@ local dressing_select_default = {
 
   -- Options for built-in selector
   builtin = {
+    show_numbers = false,
     -- These are passed to nvim_open_win
     -- anchor = "NW",
     border = "single",
@@ -57,7 +58,7 @@ local dressing_select_default = {
     -- max_width = {140, 0.8} means "the lesser of 140 columns or 80% of total"
     width = nil,
     max_width = { 140, 0.8 },
-    min_width = { 40, 0.2 },
+    min_width = { 20, 0.1 },
     height = nil,
     max_height = 0.9,
     min_height = { 2, 0.0 },

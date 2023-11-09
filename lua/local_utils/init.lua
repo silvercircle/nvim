@@ -365,7 +365,7 @@ function M.Quitapp()
         prompt = 'Exit (no modified buffers)',
         border="single",
         format_item = function(item)
-          return M.pad(item, 46, ' ')
+          return M.pad(item, 40, ' ')
         end,
       },
       function(choice)
@@ -383,7 +383,7 @@ function M.Quitapp()
     vim.ui.select({ 'Save all modified buffers and exit', 'Discard all modified buffers and exit', 'Cancel operation' }, {
       prompt = 'Exit (all unsaved changes are lost)',
         format_item = function(item)
-          return M.pad(item, 46, ' ')
+          return M.pad(item, 40, ' ')
         end,
       },
       function(choice)
