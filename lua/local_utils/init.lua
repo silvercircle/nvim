@@ -18,13 +18,11 @@ M.default_file = ""
   -- File symbol for a terminal split
 M.terminal_symbol = ""
 
--- Get file symbol from devicons
+--- Get file symbol from devicons
+--- @param filename string: a valid filename
+--- @return string, string|nil: the symbol (can be an empty string) and highlight group (can be nil)
+--- nvim-web-devicons plugin is REQUIRED
 function M.getFileSymbol(filename)
-  local devicons = pcall(require, "nvim-web-devicons")
-  if not devicons then
-    return "", nil
-  end
-
   if filename == nil or #filename == 0 then
     return "", nil
   end
@@ -38,7 +36,6 @@ function M.getFileSymbol(filename)
       symbol = M.default_file
     end
   end
-
   return symbol, hl
 end
 
@@ -301,7 +298,6 @@ function M.BufClose()
 end
 
 local fdm = {
---  { text = M.pad("<NoChange>", 25, ' '), val = "none" },
   { text = M.pad("Indent", 25, ' '), val = "indent" },
   { text = M.pad("Expression", 25, ' '), val = "expr" },
   { text = M.pad("Syntax", 25, ' '), val = "syntax" },

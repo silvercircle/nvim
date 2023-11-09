@@ -1,7 +1,6 @@
 -- set vim options and autocommands. No plugins involved
 
 local o = vim.o
-local globals = require("globals")
 
 o.shada = "!,'200,<20,s10,h,f1,%20,:500,rreplacer://,rterm://,rOUTLINE,rNvimTree_1,rMERGE_MSG"
 o.termguicolors = true
@@ -116,6 +115,7 @@ o.exrc=true
 o.cmdheight=vim.g.tweaks.cmdheight
 -- o.secure=true
 
+local globals = require("globals")
 globals.restore_config()
 vim.cmd("colorscheme " .. globals.perm_config.theme_name)
 globals.set_statuscol(globals.perm_config.statuscol_current)

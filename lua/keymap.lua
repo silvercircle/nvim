@@ -4,10 +4,10 @@
 
 local map = vim.api.nvim_set_keymap
 local kms = vim.keymap.set
+local globals = require("globals")
 
 local opts = { noremap = true, silent = true }
 local utils = require('local_utils')
-local globals = require('globals')
 
 kms({ 'n', 'i' }, '<C-c>', '<NOP>', opts)
 -- disable <ins> toggling the (annoying) replace mode. Instead use <c-ins> to switch to replace
