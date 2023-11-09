@@ -146,6 +146,7 @@ vim.g.formatters = {
   }
 }
 
+-- quick actions for the alpha start screen
 vim.g.startify_top = {
   {
     key = 'e',

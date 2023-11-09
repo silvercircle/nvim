@@ -103,7 +103,8 @@ require("scrollbar").setup({
     "cmp_menu",
     "cmp_docs",
     "weather",
-    "sysmon"
+    "sysmon",
+    "dropbar_menu"
   },
   autocmd = {
     render = {

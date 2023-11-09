@@ -244,7 +244,6 @@ call my_sonokai#highlight('debugPC', s:palette.bg0, s:palette.green)
 call my_sonokai#highlight('debugBreakpoint', s:palette.bg0, s:palette.red)
 call my_sonokai#highlight('ToolbarButton', s:palette.bg0, s:palette.bg_blue)
 call my_sonokai#highlight('Substitute', s:palette.bg0, s:palette.yellow)
-highlight! link WinBarNC Grey
 highlight! link DiagnosticFloatingError ErrorFloat
 highlight! link DiagnosticFloatingWarn WarningFloat
 highlight! link DiagnosticFloatingInfo InfoFloat
@@ -1054,7 +1053,7 @@ call my_sonokai#highlight('WinBarContext', s:palette.darkyellow, s:palette.none,
 " This is a somewhat hack-ish way to make the lualine-controlle winbar transparent.
 call my_sonokai#highlight('WinBarInvis', s:bg, s:palette.none)
 hi! link WinBarNC StatusLineNC
-
+hi! link WinBar WinBarContext
 " Lazy
 hi! link LazyNoCond RedBold
 hi! link VirtColumn IndentBlankLineChar

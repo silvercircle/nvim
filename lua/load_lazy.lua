@@ -96,14 +96,18 @@ local plugins = {
     event = { "UIEnter" },
     dependencies = {
       'onsails/lspkind-nvim',
-      --'j-hui/fidget.nvim',
-      {'Bekaboo/dropbar.nvim', cond = vim.g.config.breadcrumb == 'dropbar' and vim.fn.has("nvim-0.10") == 1 },
+      {'Bekaboo/dropbar.nvim', cond = vim.g.config.breadcrumb == 'dropbar' and vim.fn.has("nvim-0.10") == 1,
+        config = function()
+          require("plugins.dropbar")
+        end
+      },
       {'SmiteshP/nvim-navic',lazy=true, cond = vim.g.config.breadcrumb == 'navic' },
       'dnlhc/glance.nvim',
-      { 'jose-elias-alvarez/null-ls.nvim', cond = vim.g.config.null_ls == true,
-        config = function()
-          require("plugins.null_ls")
-        end
+      {'j-hui/fidget.nvim',
+        tag = "legacy",
+        event = "LspAttach",
+        opts = {}
+        -- options
       },
     },
     config = function()
@@ -230,13 +234,6 @@ local plugins = {
 --
 --    end
 --  },
-  {
-    'j-hui/fidget.nvim',
-    tag = "legacy",
-    event = "LspAttach",
-    opts = {}
-    -- options
-  },
   {
     'willothy/nvim-cokeline', branch = "main"
   },
