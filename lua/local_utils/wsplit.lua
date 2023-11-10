@@ -248,7 +248,7 @@ function M.openleftsplit(_weatherfile)
   vim.api.nvim_win_set_buf(M.winid, M.bufid)
   vim.api.nvim_buf_set_option(M.bufid, "buftype", "nofile")
   vim.api.nvim_win_set_option(M.winid, "list", false)
-  vim.cmd("set winfixheight | set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn=%#NeoTreeNormalNC#\\  | setlocal nocursorline")
+  vim.cmd("set winfixheight | setlocal statuscolumn=| set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | setlocal nocursorline")
   vim.fn.win_gotoid(curwin)
   M.refresh()
   M.installwatch()
@@ -329,8 +329,8 @@ end
 
 -- refresh the cookie
 -- this can be any shell command that returns a string with multiple lines
--- it could be a fortune cookie or anything for example. It should not be longer
--- than 4 lines at most.
+-- it could be a fortune cookie or anything for example. It should not be longe
+-- than 4 lines at most otherwise it will be clipped at the bottom of the frame.
 function M.refresh_cookie()
   for i, _ in ipairs(M.cookie) do
     M.cookie[i] = nil
@@ -377,30 +377,30 @@ function M.refresh()
 
       vim.api.nvim_buf_set_option(M.bufid, "modifiable", true)
       local lines = {}
-      local name = path_truncate(plenary:new(vim.api.nvim_buf_get_name(curbuf)):make_relative(), M.win_width - 3)
+      local name = path_truncate(plenary:new(vim.api.nvim_buf_get_name(curbuf)):make_relative(), M.win_width - 1)
 
       local fn_symbol, fn_symbol_hl = utils.getFileSymbol(vim.api.nvim_buf_get_name(curbuf))
-      table.insert(lines, utils.pad("Buffer Info", M.win_width, ' '))
+      table.insert(lines, utils.pad("Buffer Info", M.win_width + 1, ' '))
       table.insert(lines, utils.pad(name, M.win_width, ' '))
       table.insert(lines, " ")
       -- size of buffer. Bytes, KB or MB
       if globals.cur_bufsize > 1 then
         local size = globals.cur_bufsize
         if size < 1024 then
-          table.insert(lines, M.prepare_line("Size: " .. size .. " Bytes", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 2))
+          table.insert(lines, M.prepare_line(" Size: " .. size .. " Bytes", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 4))
         elseif size < 1024 * 1024 then
-          table.insert(lines, M.prepare_line("Size: " .. string.format("%.2f", size / 1024) .. " KB", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 2))
+          table.insert(lines, M.prepare_line(" Size: " .. string.format("%.2f", size / 1024) .. " KB", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 4))
         else
-          table.insert(lines, M.prepare_line("Size: " .. string.format("%.2f", size / 1024 / 1024) .. " MB", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 2))
+          table.insert(lines, M.prepare_line(" Size: " .. string.format("%.2f", size / 1024 / 1024) .. " MB", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 4))
         end
-        table.insert(lines, M.prepare_line("Type: " .. vim.api.nvim_get_option_value("filetype", { buf = curbuf }) .. " " .. fn_symbol, "Enc: " .. vim.opt.fileencoding:get(), 2))
+        table.insert(lines, M.prepare_line(" Type: " .. vim.api.nvim_get_option_value("filetype", { buf = curbuf }) .. " " .. fn_symbol, "Enc: " .. vim.opt.fileencoding:get(), 4))
         table.insert(lines, " ")
-        table.insert(lines, M.prepare_line("Textwidth: " .. vim.api.nvim_get_option_value("textwidth", { buf = curbuf }) ..
+        table.insert(lines, M.prepare_line(" Textwidth: " .. vim.api.nvim_get_option_value("textwidth", { buf = curbuf }) ..
                      " / " .. (vim.api.nvim_get_option_value("wrap", { win = M.content_winid }) == false and "No Wrap" or "Wrap"),
-                     "Fmt: " .. (vim.api.nvim_get_option_value("fo", { buf = curbuf })), 2))
-        table.insert(lines, M.prepare_line("Folding method:", fdm[vim.api.nvim_get_option_value("foldmethod", { win = M.content_winid })], 2))
+                     "Fmt: " .. (vim.api.nvim_get_option_value("fo", { buf = curbuf })), 4))
+        table.insert(lines, M.prepare_line(" Folding method:", fdm[vim.api.nvim_get_option_value("foldmethod", { win = M.content_winid })], 4))
         if vim.api.nvim_get_option_value("foldmethod", { win = M.content_winid }) == 'expr' then
-          table.insert(lines, "Expr: " .. vim.api.nvim_get_option_value("foldexpr", { win = M.content_winid }))
+          table.insert(lines, " Expr: " .. vim.api.nvim_get_option_value("foldexpr", { win = M.content_winid }))
         else
           table.insert(lines, " ")
         end
@@ -408,15 +408,15 @@ function M.refresh()
         -- add the cookie
         if M.cookie ~= nil and #M.cookie >= 1 then
           for _,v in ipairs(M.cookie) do
-            table.insert(lines, v)
+            table.insert(lines, " " .. v)
           end
         end
         vim.api.nvim_buf_set_lines(M.bufid, 0, -1, false, lines)
       end
       -- set highlights
-      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Visual", 0, 0, M.win_width - 2)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Visual", 0, 0, M.win_width + 1)
       if string.len(name) > 0 then
-        vim.api.nvim_buf_add_highlight(M.bufid, -1, "CursorLine", 1, 0, M.win_width - 2)
+        vim.api.nvim_buf_add_highlight(M.bufid, -1, "CursorLine", 1, 0, M.win_width)
       end
       if fn_symbol_hl ~= nil then
         vim.api.nvim_buf_add_highlight(M.bufid, -1, fn_symbol_hl, 4, 0, M.win_width - 2)
@@ -444,22 +444,22 @@ function M.refresh()
         vim.api.nvim_buf_set_option(M.bufid, "modifiable", true)
         local lcond = conditions[results['37']][string.lower(results['2'])]
         table.insert(lines, " ")
-        table.insert(lines, M.prepare_line(results['26'], " " .. results['28'], 0))
-        table.insert(lines, M.prepare_line(lcond, results['33'], 1))
+        table.insert(lines, M.prepare_line(" " .. results['26'], " " .. results['28'], 0))
+        table.insert(lines, M.prepare_line(" " .. lcond, results['33'], 1))
         table.insert(lines, "  ")
-        table.insert(lines, M.prepare_line("Temp: " .. results['3'],    "Feels: " .. results['16'], 0))
-        table.insert(lines, M.prepare_line("Min:  " .. results['29'],   "Max:   " .. results['30'], 0))
-        table.insert(lines, M.prepare_line("Dew:  " .. results['17'],   " " .. results['21'], 0))
-        table.insert(lines, M.prepare_line("API:  " .. results['37'],   " " .. results['31'], 0))
-        table.insert(lines, M.prepare_line("  " .. results['25'] .. " at " .. results['20'] .. "  ", " Vis: " .. results['22'], 0))
-        table.insert(lines, M.prepare_line("Pressure: " .. results['19'], " " .. results['18'], 0))
-        table.insert(lines, M.prepare_line("  " .. results['23'], "滋" .. results['24'], -2))
+        table.insert(lines, M.prepare_line(" Temp: " .. results['3'],    "Feels: " .. results['16'], 0))
+        table.insert(lines, M.prepare_line(" Min:  " .. results['29'],   "Max:   " .. results['30'], 0))
+        table.insert(lines, M.prepare_line(" Dew:  " .. results['17'],   " " .. results['21'], 0))
+        table.insert(lines, M.prepare_line(" API:  " .. results['37'],   " " .. results['31'], 0))
+        table.insert(lines, M.prepare_line("   " .. results['25'] .. " at " .. results['20'] .. "  ", " Vis: " .. results['22'], 0))
+        table.insert(lines, M.prepare_line(" Pressure: " .. results['19'], " " .. results['18'], 0))
+        table.insert(lines, M.prepare_line("   " .. results['23'], "滋" .. results['24'], -2))
         local cond = conditions[results['37']][results['4']]
         if cond == nil then
           cond = "N/A"
         end
         table.insert(lines, "  ")
-        table.insert(lines, M.prepare_line(results['7'] .. ": " .. cond, "  " .. results['5'] .. "°C "  .. results['6'] .. "°C", -1))
+        table.insert(lines, M.prepare_line(" " .. results['7'] .. ": " .. cond, "  " .. results['5'] .. "°C "  .. results['6'] .. "°C", -1))
         -- set highlights. Use the max expected temp to highlight general conditions or specific
         -- temps (like the Dew Point)
         hl = temp_to_hl(results['6'])

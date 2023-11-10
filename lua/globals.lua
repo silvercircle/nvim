@@ -176,7 +176,7 @@ end
 
 --- truncate a string to a maximum length, appending ellipses when necessary
 --- @param text string:       the string to truncate
---- @param max_length number: the maximum length
+--- @param max_length integer: the maximum length
 --- @return string:           the truncated text
 function M.truncate(text, max_length)
   if #text > max_length then
@@ -567,6 +567,7 @@ end
 --- @param height integer     desired height of the picker window
 --- @param col_anchor integer vertical anchor in percentage. 0.5 centers
 ---                           lower values shift upwards, higher downwards
+--- @ return table            a valid window config that can be passed to the picker
 function M.mini_pick_center(width, height, col_anchor)
   local _ca = col_anchor or 0.5
   if width > 0 and width < 1 then
