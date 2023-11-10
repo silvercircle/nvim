@@ -15,10 +15,14 @@ M.weatherfile = ""
 M.content = 'info'        -- content type (info or weather as of now)
 M.content_winid = nil     -- window of interest.
 M.freeze = false          -- do not refresh when set
+M.cookie = {}
 
 local watch = nil             -- file watcher (for weather content)
 local timer = nil             -- timer (for info content)
+local cookie_timer = nil
 local timer_interval = 60000  -- timer interval
+local cookie_timer_interval = 300000
+
 local autocmd_set = false     -- remember whether the OptionSet autocmd has been set
 
 -- this translates condition codes (single letters) to actual readable conditions. This is API specific
@@ -189,6 +193,12 @@ function M.installwatch()
       end,
     })
   end
+  if cookie_timer == nil then
+    cookie_timer = vim.loop.new_timer()
+  end
+  if cookie_timer ~= nil then
+    cookie_timer:start(0, cookie_timer_interval, vim.schedule_wrap(M.refresh_cookie))
+  end
 end
 
 function M.open(_weatherfile)
@@ -315,6 +325,15 @@ local function wind_to_hl(wind)
   end
 end
 
+-- refresh the cookie 
+function M.refresh_cookie()
+  for i, _ in ipairs(M.cookie) do
+    M.cookie[i] = nil
+  end
+  vim.fn.jobstart("curl -s -m 5 --connect-timeout 5 https://vtip.43z.one|fmt -" .. M.win_width - 2, {
+    on_stdout = function(_, b, _) for _,v in ipairs(b) do table.insert(M.cookie, v) end end
+  })
+end
 -- refresh on timer. But only for info content. Weather content ist handled by the
 -- file watcher plugin
 function M.refresh_on_timer()
@@ -346,6 +365,7 @@ function M.refresh()
       return
     end
     vim.api.nvim_win_set_option(M.winid, "statusline", "ⓘ Information")
+
     vim.api.nvim_buf_clear_namespace(M.bufid, -1, 0, -1)
     if M.content_winid ~= nil and vim.api.nvim_win_is_valid(M.content_winid) then
       local curbuf = vim.api.nvim_win_get_buf(M.content_winid)
@@ -355,7 +375,6 @@ function M.refresh()
       local name = path_truncate(plenary:new(vim.api.nvim_buf_get_name(curbuf)):make_relative(), M.win_width - 3)
 
       local fn_symbol, fn_symbol_hl = utils.getFileSymbol(vim.api.nvim_buf_get_name(curbuf))
-      table.insert(lines, " ")
       table.insert(lines, utils.pad("Buffer Info", M.win_width, ' '))
       table.insert(lines, utils.pad(name, M.win_width, ' '))
       table.insert(lines, " ")
@@ -380,25 +399,31 @@ function M.refresh()
         else
           table.insert(lines, " ")
         end
+        table.insert(lines, " ")
+        -- add the cookie
+        if M.cookie ~= nil and #M.cookie >= 1 then
+          for _,v in ipairs(M.cookie) do
+            table.insert(lines, v)
+          end
+        end
         vim.api.nvim_buf_set_lines(M.bufid, 0, -1, false, lines)
       end
       -- set highlights
-      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Visual", 1, 0, M.win_width - 2)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Visual", 0, 0, M.win_width - 2)
       if string.len(name) > 0 then
-        vim.api.nvim_buf_add_highlight(M.bufid, -1, "CursorLine", 2, 0, M.win_width - 2)
+        vim.api.nvim_buf_add_highlight(M.bufid, -1, "CursorLine", 1, 0, M.win_width - 2)
       end
       if fn_symbol_hl ~= nil then
-        vim.api.nvim_buf_add_highlight(M.bufid, -1, fn_symbol_hl, 5, 0, M.win_width - 2)
+        vim.api.nvim_buf_add_highlight(M.bufid, -1, fn_symbol_hl, 4, 0, M.win_width - 2)
       end
-      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Debug", 7, 0, M.win_width - 2)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Debug", 6, 0, M.win_width - 2)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Keyword", 7, 0, M.win_width - 2)
       vim.api.nvim_buf_add_highlight(M.bufid, -1, "Keyword", 8, 0, M.win_width - 2)
-      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Keyword", 9, 0, M.win_width - 2)
       vim.api.nvim_buf_set_option(M.bufid, "modifiable", false)
     end
   elseif M.content == 'weather' then
     vim.api.nvim_buf_clear_namespace(M.bufid, -1, 0, -1)
     vim.api.nvim_win_set_option(M.winid, "statusline", "  Weather")
-
     if vim.fn.filereadable(M.weatherfile) then
       local lines = {}
       local file = io.open(M.weatherfile)

@@ -1,6 +1,6 @@
 local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
 local globals = require("globals")
-local navic = nil
+local navic
 if vim.g.config.breadcrumb == 'navic' then
   navic = require('nvim-navic')
 end
@@ -41,10 +41,7 @@ local function full_filename()
 end
 
 local function navic_context()
-  if navic ~= nil then
-    return navic.get_location()
-  end
-  return "NavicErr"
+  return navic.get_location()
 end
 
 local function indentstats()
@@ -126,19 +123,35 @@ require("lualine").setup({
   winbar = vim.g.config.breadcrumb == 'navic' and {
     --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
+--      {
+--        "aerial",
+--        -- The separator to be used to separate symbols in status line.
+--        sep = " ) ",
+--
+--        -- The number of symbols to render top-down. In order to render only 'N' last
+--        -- symbols, negative numbers may be supplied. For instance, 'depth = -1' can
+--        -- be used in order to render only current symbol.
+--        depth = nil,
+--
+--        -- When 'dense' mode is on, icons are not rendered near their symbols. Only
+--        -- a single icon that represents the kind of current symbol is rendered at
+--        -- the beginning of status line.
+--        dense = false,
+--
+--        -- The separator to be used to separate symbols in dense mode.
+--        dense_sep = ".",
+--
+--        -- Color the symbol icons.
+--        colored = true,
+--      }
       {
-        'lsp_progress',
+        navic_context,
         fmt = function(string)
-          if #string > 0 then
-            return string
+          if #string < 2 then
+            return ""
           else
-            string = navic_context()
-            if string ~= nil and #string > 0 then
-              return string.format("Context: %s", string)
-            else
-              return ""
-            end
-          end
+           return string.format("Context: %s", string)
+         end
         end,
         -- separator = { right ="", left = "" },
         separator = "",

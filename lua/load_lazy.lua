@@ -93,21 +93,20 @@ local plugins = {
   -- lsp
   { 'neovim/nvim-lspconfig',
     lazy = true,
-    event = { "UIEnter" },
+    event = { "LspAttach" },
     dependencies = {
       'onsails/lspkind-nvim',
       {'Bekaboo/dropbar.nvim', cond = vim.g.config.breadcrumb == 'dropbar' and vim.fn.has("nvim-0.10") == 1,
+        event = "LspAttach",
         config = function()
           require("plugins.dropbar")
         end
       },
-      {'SmiteshP/nvim-navic',lazy=true, cond = vim.g.config.breadcrumb == 'navic' },
+      {'SmiteshP/nvim-navic',lazy=true, cond = vim.g.config.breadcrumb == 'navic', event = "LspAttach" },
       'dnlhc/glance.nvim',
       {'j-hui/fidget.nvim',
         tag = "legacy",
         event = "LspAttach",
-        opts = {}
-        -- options
       },
     },
     config = function()
@@ -254,7 +253,7 @@ local plugins = {
     end
   },
   { 'stevearc/aerial.nvim',
-    --cond = vim.g.config.outline_filetype == "aerial",
+    event = "LspAttach",
     verylazy = true,
     config = function()
       require("plugins.aerial")

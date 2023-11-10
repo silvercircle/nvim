@@ -2,11 +2,11 @@
 --- Implementation slightly inspired by https://github.com/chentoast/marks.nvim, but this is
 --- much simpler.
 
---- originally written by Mariasolos
+--- originally written by MariaSolOs
 --- (https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/marks.lua)
 
 --- modified by me for my own neovim config (https://gitlab.com/silvercircle74/nvim):
----   * use global keymaps (registered from keymap.lua)
+---   * use global keymap (registered from keymap.lua)
 ---   * change sign group name
 ---   * integrated BufWinEnter funtionality in my own handler (auto.lua)
 ---   TODO: pluginify (really worth it? This is just so simple)
