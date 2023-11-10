@@ -50,10 +50,7 @@ local plugins = {
       vim.treesitter.query.set("javascript", "injections", "")
       vim.treesitter.query.set("typescript", "injections", "")
     end,
-    event = { "BufReadPre" },
-    dependencies = {
-      { 'nvim-treesitter/playground', cond = vim.g.config.treesitter_playground == true },
-    }
+    event = { "BufReadPre" }
   },
   {'dcampos/nvim-snippy',
     lazy=true,

@@ -52,7 +52,6 @@ vim.g.config = {
   null_ls = false,                              -- setup by lazy loader
   neodev = false,                               -- setup by lazy loader
   treesitter = true,
-  treesitter_playground = false,                -- no setup required, optional, handled by setup_treesitter
   plain = (env_plain ~= nil or vim.g.want_plain == true) and true or false,
   -- statuscol_normal = '%s%=%{printf("%4d", v:lnum)} %C ',
   statuscol_normal = '%s%=%l %C ',
