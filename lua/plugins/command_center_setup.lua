@@ -261,7 +261,7 @@ command_center.add({
     category = "@LSP"
   },
   {
-    desc = "toggle outline view",
+    desc = "Toggle outline view",
     cmd = function()
       if vim.g.config.outline_filetype == "Outline" then
         vim.cmd("SymbolsOutline")
@@ -270,6 +270,16 @@ command_center.add({
       end
     end,
     keys = { {"n", "i"}, "<C-x>o", noremap },
+    category = "@LSP"
+  },
+  {
+    desc = "Pick from dropbar",
+    cmd = function()
+      if vim.g.config.breadcrumb == 'dropbar' then
+        require("dropbar.api").pick()
+      end
+    end,
+    keys = { {"n", "i"}, "<C-x>p", noremap },
     category = "@LSP"
   },
   -- LSP Diagnostics

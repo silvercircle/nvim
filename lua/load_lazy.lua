@@ -107,14 +107,33 @@ local plugins = {
       {'j-hui/fidget.nvim',
         tag = "legacy",
         event = "LspAttach",
-        config = function() require("fidget").setup({
-          progress = {
-            poll_rate = 0.5
-          },
-          notification = {
-            poll_rate = 0.5
-          }}) end
-      },
+        config = function()
+          require("fidget").setup({
+            text = {
+              spinner = "zip",
+            },
+            window = {
+              relative = "win",
+              blend = 100
+            },
+            align = {
+            },
+            progress = {
+              ignore = { 'lua_ls', 'lua-language-server' }
+            },
+            timer = {
+              spinner_rate = 500,
+              task_decay = 100
+            },
+            fmt = {
+              max_messages = 2
+            },
+            sources = {
+              lua_ls = { ignore = true }
+            }
+          })
+        end
+      }
     },
     config = function()
       require("plugins.lsp")
@@ -257,7 +276,7 @@ local plugins = {
     event = "LspAttach",
     verylazy = true,
     config = function()
-      require("plugins.aerial")
+      require("plugins.aerialsetup")
     end
   }
 }

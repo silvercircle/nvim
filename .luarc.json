@@ -1,5 +1,40 @@
 {
-    "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
-    "Lua.completion.autoRequire": false,
-    "Lua.workspace.checkThirdParty": false
+    "diagnostics": {
+        "workspaceEvent": "None",
+        "workspaceRate": 100,
+        "workspaceDelay": 10000,
+        "groupFileStatus": {
+            "ambiguity": "Any",
+            "await": "Any",
+            "duplicate": "Any",
+            "global": "Any",
+            "luadoc": "Any",
+            "redefined": "Any",
+            "strict": "Any",
+            "type-check": "Any",
+            "unbalanced": "Any",
+            "unused": "Any"
+        }
+    },
+    "runtime": {
+        "version": "LuaJIT",
+    },
+    "workspace": {
+        "maxPreload": 1600,
+        "preloadFileSize": 1000,
+        "checkThirdParty": "Disable"
+    },
+    "typeFormat": {
+        "config": {
+            "format_line": "false"
+        }
+    },
+    "type": {
+        "castNumberToInteger": false
+    },
+    "doc": {
+        "privateName": [
+            "_*"
+        ]
+    }
 }

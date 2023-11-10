@@ -17,6 +17,8 @@ M.content_winid = nil     -- window of interest.
 M.freeze = false          -- do not refresh when set
 M.cookie = {}
 
+M.cookie_source = require("tweaks").cookie_source
+
 local watch = nil             -- file watcher (for weather content)
 local timer = nil             -- timer (for info content)
 local cookie_timer = nil
@@ -52,7 +54,7 @@ local fdm = {
 
 --- truncate the path and display the rightmost maxlen characters
 --- @param path string: A filepath
---- @param maxlen number: the desired length
+--- @param maxlen integer: the desired length
 --- @return string: the truncated path
 local function path_truncate(path, maxlen)
   local len = string.len(path)
@@ -325,12 +327,15 @@ local function wind_to_hl(wind)
   end
 end
 
--- refresh the cookie 
+-- refresh the cookie
+-- this can be any shell command that returns a string with multiple lines
+-- it could be a fortune cookie or anything for example. It should not be longer
+-- than 4 lines at most.
 function M.refresh_cookie()
   for i, _ in ipairs(M.cookie) do
     M.cookie[i] = nil
   end
-  vim.fn.jobstart("curl -s -m 5 --connect-timeout 5 https://vtip.43z.one|fmt -" .. M.win_width - 2, {
+  vim.fn.jobstart(M.cookie_source .. "|fmt -" .. M.win_width - 2, {
     on_stdout = function(_, b, _) for _,v in ipairs(b) do table.insert(M.cookie, v) end end
   })
 end

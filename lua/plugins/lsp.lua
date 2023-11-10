@@ -13,10 +13,6 @@ local on_attach = function(client, bufnr)
   if vim.g.config.breadcrumb == 'navic' then
     navic.attach(client, bufnr)
   end
-  --if client.name == 'marksman' then
-    -- disable semantic tokens, might be buggy with some LSP servers
-    -- client.server_capabilities.semanticTokensProvider = {}
-  --end
   if client.name == 'gopls' then
     client.server_capabilities.semanticTokensProvider = {
       full = true,
@@ -83,13 +79,25 @@ lspconfig.bashls.setup({
     }
   }
 })
-
+local clangd_root_files = {
+  '.clangd',
+  '.clang-tidy',
+  '.clang-format',
+  'compile_commands.json',
+  'compile_flags.txt',
+  'configure.ac', -- AutoTools
+}
 lspconfig.clangd.setup({
   cmd = { 'clangd', "--header-insertion-decorators" },
-  on_attach = on_attach,
+  filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
+  root_dir = function(fname)
+    return util.root_pattern(unpack(clangd_root_files))(fname) or util.find_git_ancestor(fname)
+  end,
+  single_file_support = true, on_attach = on_attach,
   capabilities = capabilities
 })
 
+-- ada language server
 lspconfig.als.setup({
   on_attach = on_attach,
   cmd = { vim.g.lsp_server_bin['als'] },
@@ -375,21 +383,15 @@ lspconfig.lua_ls.setup {
     return util.find_git_ancestor(fname)
   end,
   single_file_support = true,
-  log_level = vim.lsp.protocol.MessageType.Warning,
-  -- new_folder_restart = true,
-  --handlers = {
-  --  ['workspace/diagnostic/refresh'] = on_diagnostic_refresh
-  --},
   settings = {
     Lua = {
-      diagnostics = { globals = { "vim" } },
-      hint = {
-        enable = true
+      diagnostics = {
+        globals = { "vim" },
+        workspaceEvent = "OnSave"
       },
-      --workspace = {
-      --  -- Make the server aware of Neovim runtime files
-      --  library = vim.api.nvim_get_runtime_file("", true),
-      --},
+      hint = {
+        enable = false
+      },
       runtime = {
         version = "LuaJIT", -- Lua 5.1/LuaJIT
       },
@@ -414,6 +416,12 @@ do
   local lsp_handlers_hover = vim.lsp.with(vim.lsp.handlers.hover, {
     border = "single",
   })
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+     -- delay update diagnostics
+      update_in_insert = false,
+    }
+  )
   vim.lsp.handlers['workspace/diagnostic/refresh'] = function(_, _, ctx)
     local ns = vim.lsp.diagnostic.get_namespace(ctx.client_id)
     local bufnr = vim.api.nvim_get_current_buf()
@@ -422,7 +430,6 @@ do
   end
   vim.lsp.handlers["textDocument/references"] = vim.lsp.with(
     on_references, {
-      -- loclist = true,
     }
   )
   vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
@@ -502,23 +509,6 @@ do
   ]])
 end
 
--- Fidget.nvim (LSP status widget)
---require("fidget").setup({
---  text = {
---    spinner = "zip",
---  },
---  window = {
---    relative = "win",
---    blend = 100
---  },
---  align = {
---
---  },
---  timer = {
---    spinner_rate = 500
---  }
---})
-
 local glance = require("glance")
 local actions = glance.actions
 glance.setup({
@@ -587,5 +577,5 @@ if vim.g.config.neodev == true then
   require("neodev").setup({})
 end
 
-vim.diagnostic.config({ virtual_text = true })
+vim.diagnostic.config({ virtual_text = true, update_in_insert = false })
 
