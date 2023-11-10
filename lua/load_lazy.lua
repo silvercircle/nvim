@@ -107,6 +107,13 @@ local plugins = {
       {'j-hui/fidget.nvim',
         tag = "legacy",
         event = "LspAttach",
+        config = function() require("fidget").setup({
+          progress = {
+            poll_rate = 0.5
+          },
+          notification = {
+            poll_rate = 0.5
+          }}) end
       },
     },
     config = function()
@@ -174,12 +181,6 @@ local plugins = {
       require("plugins.nvim-tree")
     end
   },
---  {
---    'glepnir/lspsaga.nvim', lazy = true, cmd = "Lspsaga",
---    config = function()
---      require("plugins.lspsaga")
---    end
---  },
   {
     'renerocksai/telekasten.nvim', lazy = true, ft={"telekasten", "markdown"},
     dependencies = {

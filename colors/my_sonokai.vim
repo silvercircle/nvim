@@ -1045,6 +1045,7 @@ call my_sonokai#highlight('NeoTreeFloatBorder', s:palette.grey_dim, s:palette.ne
 call my_sonokai#highlight('NeoTreeFileNameOpened', s:palette.blue, s:palette.neotreebg, 'italic')
 call my_sonokai#highlight('SymbolsOutlineConnector', s:palette.bg4, s:palette.none)
 
+hi! link NvimTreeIndentMarker SymbolsOutlineConnector
 hi! link NeoTreeCursorLine Visual
 
 " winbar 

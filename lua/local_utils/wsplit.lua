@@ -195,9 +195,9 @@ function M.installwatch()
   end
   if cookie_timer == nil then
     cookie_timer = vim.loop.new_timer()
-  end
-  if cookie_timer ~= nil then
-    cookie_timer:start(0, cookie_timer_interval, vim.schedule_wrap(M.refresh_cookie))
+    if cookie_timer ~= nil then
+      cookie_timer:start(0, cookie_timer_interval, vim.schedule_wrap(M.refresh_cookie))
+    end
   end
 end
 
