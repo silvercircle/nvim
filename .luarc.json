@@ -14,7 +14,13 @@
             "type-check": "Any",
             "unbalanced": "Any",
             "unused": "Any"
-        }
+        },
+        "disable": [
+          "param-type-mismatch",
+          "undefined-field",
+          "invisible",
+          "missing-global-doc"
+        ]
     },
     "runtime": {
         "version": "LuaJIT",
@@ -36,5 +42,8 @@
         "privateName": [
             "_*"
         ]
+    },
+    "window": {
+      // "progressBar": false
     }
 }
