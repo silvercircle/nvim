@@ -49,5 +49,9 @@ M.signcolumn = "yes:4"
 M.breadcrumb = 'navic'
 M.cookie_source = 'curl -s -m 5 --connect-timeout 5 https://vtip.43z.one'
 
-M.fortune_refresh = 10 -- in minutes
+M.fortune = {
+  refresh = 10, -- in minutes
+  numcookies = 2,
+  command = "fortune -s -n300"
+}
 return M

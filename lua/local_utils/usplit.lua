@@ -1,4 +1,5 @@
 local globals = require("globals")
+local tweaks = require("tweaks")
 
 local M = {}
 M.winid = nil             -- window id
@@ -7,7 +8,11 @@ M.content = 'fortune'
 M.cookie = {}
 
 local timer = nil
-local timer_interval = require("tweaks").fortune_refresh * 60 * 1000
+local num_cookies = tweaks.fortune.numcookies or 1
+local cookie_command = tweaks.fortune.command
+
+-- timer interval is in minutes. We accept nothing lower than one minute
+local timer_interval = tweaks.fortune.refresh * 60 * 1000
 if timer_interval < 60000 then
   timer_interval = 60000
 end
@@ -39,7 +44,7 @@ function M.toggle_content()
   M.open()
 end
 
--- force refreshing the cookie. restart timer
+-- force refreshing the cookie. just restart the timer should be enough
 function M.refresh_cookie()
   if M.content ~= 'fortune' then
     return
@@ -68,8 +73,11 @@ function M.refresh()
   end
   local lines = {}
   vim.api.nvim_buf_set_option(M.bufid, "modifiable", true)
+  -- prevent the winbar from appearing
   vim.api.nvim_buf_set_option(M.bufid, "winbar", "")
   vim.api.nvim_buf_clear_namespace(M.bufid, -1, 0, -1)
+  table.insert(lines, " ")
+  table.insert(lines, "    *** Quote of the moment ***")
   table.insert(lines, " ")
   for _, v in ipairs(M.cookie) do
     table.insert(lines, " " .. v)
@@ -77,6 +85,7 @@ function M.refresh()
   vim.api.nvim_buf_set_lines(M.bufid, 0, -1, false, lines)
   vim.api.nvim_buf_set_option(M.bufid, "modifiable", false)
   vim.api.nvim_buf_set_option(M.bufid, "modified", false)
+  vim.api.nvim_buf_add_highlight(M.bufid, -1, "Debug", 1, 0, -1)
 end
 
 function M.refresh_on_timer()
@@ -84,9 +93,16 @@ function M.refresh_on_timer()
     M.cookie[i] = nil
   end
   local width = vim.api.nvim_win_get_width(M.winid)
-  for _ = 1, 2, 1 do
-    vim.fn.jobstart("fortune -n400" .. "|fmt -" .. width - 2, {
-      on_stdout = function(_, b, _) for _,v in ipairs(b) do table.insert(M.cookie, v) end M.refresh() end
+  for _ = 1, num_cookies, 1 do
+    vim.fn.jobstart(cookie_command .. "|fmt -" .. width - 2, {
+      on_stdout = function(_, b, _)
+        for _,v in ipairs(b) do
+          if #v > 1 then
+            table.insert(M.cookie, v)
+          end
+        end
+      end,
+      on_exit = function() table.insert(M.cookie, " ") M.refresh() end
     })
   end
 end

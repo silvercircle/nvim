@@ -324,7 +324,6 @@ function M.termToggle(_height)
   -- finally, open the sub frames if they were previously open
   if M.perm_config.sysmon.active == true then
     require("local_utils.usplit").content = M.perm_config.sysmon.content
-    print("the sysmon content is" .. M.perm_config.sysmon.content)
     require("local_utils.usplit").open()
   end
 
