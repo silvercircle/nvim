@@ -19,7 +19,8 @@
           "param-type-mismatch",
           "undefined-field",
           "invisible",
-          "missing-global-doc"
+          "missing-global-doc",
+          "incomplete-signature-doc"
         ]
     },
     "runtime": {

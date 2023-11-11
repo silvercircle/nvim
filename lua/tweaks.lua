@@ -54,4 +54,9 @@ M.fortune = {
   numcookies = 2,
   command = "fortune -s -n300"
 }
+
+-- nvim-cmp tweak: enable ghost text with this highlight group. Set to false to
+-- disable the feature.
+--M.cmp_ghost = { hl_group = 'CmpGhostText' }
+M.cmp_ghost = false
 return M

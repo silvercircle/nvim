@@ -21,7 +21,7 @@ local nvim_10 = vim.fn.has("nvim-0.10")
 vim.g.config = {
   telescope_fname_width = tweaks.telescope_fname_width,
   telescope_vertical_preview_layout = tweaks.telescope_vertical_preview_layout,
-  nightly = vim.fn.has("nvim-0.10"),             -- TODO: fix this when 0.9 goes release
+  nightly = nvim_10,
   cokeline = {
     enabled = true,                             -- when false, lualine handles the bufferline
     show_close = false                          -- showa close button on the tabs
@@ -42,7 +42,8 @@ vim.g.config = {
     max_detail_item_width = 40,                 -- item detail field maxium width
     -- the following lists file types that are allowed to use the cmp_buffer source
     buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true },
-    buffer_maxsize = tweaks.cmp_buffer_maxsize  -- PERF: maximum buffer size allowed to use cmp_buffer source. 300kB
+    buffer_maxsize = tweaks.cmp_buffer_maxsize, -- PERF: maximum buffer size allowed to use cmp_buffer source. 300kB
+    ghost_text = tweaks.cmp_ghost
   },
   minipicker_iprefix = "#>",
   filetree_width = 44,                          -- width nvim-tree plugin (file tree)
@@ -176,7 +177,7 @@ vim.g.lsp_server_bin = {
   phpactor      =   '/usr/local/bin/phpactor',
   rust_analyzer =   masonbinpath .. 'rust-analyzer',
   gopls         =   localbin .. 'gopls',
-  nimls         =   homepath .. '/.nimble/bin/nimlsp',
+  nimls         =   homepath .. '/.nimble/bin/nimlangserver',
   texlab        =   localbin .. 'texlab',
   clangd        =   '/usr/bin/clangd',
   dartls        =   '/opt/flutter/bin/dart',

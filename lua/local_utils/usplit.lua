@@ -32,7 +32,7 @@ function M.resize_or_closed()
   end
 end
 
--- toggle content. close() will stop and open() restart the timer
+-- toggle content. close() will stop and open() will restart the timer
 function M.toggle_content()
   if M.content == 'sysmon' then
     M.content = 'fortune'
@@ -51,8 +51,6 @@ function M.refresh_cookie()
   end
   if timer ~= nil then
     timer:stop()
-  end
-  if timer ~= nil then
     timer:start(0, timer_interval, vim.schedule_wrap(M.refresh_on_timer))
   end
 end
@@ -74,7 +72,9 @@ function M.refresh()
   local lines = {}
   vim.api.nvim_buf_set_option(M.bufid, "modifiable", true)
   -- prevent the winbar from appearing
-  vim.api.nvim_buf_set_option(M.bufid, "winbar", "")
+  if vim.g.config.nightly > 0 then
+    vim.api.nvim_buf_set_option(M.bufid, "winbar", "")
+  end
   vim.api.nvim_buf_clear_namespace(M.bufid, -1, 0, -1)
   table.insert(lines, " ")
   table.insert(lines, "    *** Quote of the moment ***")

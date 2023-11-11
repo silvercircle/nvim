@@ -240,7 +240,7 @@ end
 -- split the file tree horizontally
 --- @param _factor number:  if _factor is betweeen 0 and 1 it is interpreted as percentage 
 --  of the window to split. Otherwise as an absolute number. The default is set to 1/3 (0.33)
---- @return number: the window id
+--- @return number: the window id, 0 if the process failed
 function M.splittree(_factor)
   local factor = math.abs((_factor ~= nil and _factor > 0) and _factor or 0.33)
   local winid = M.findwinbyBufType("NvimTree")

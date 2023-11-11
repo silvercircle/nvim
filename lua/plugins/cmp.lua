@@ -78,7 +78,7 @@ cmp.setup({
     end,
   },
   experimental = {
-    ghost_text = {hl_group = 'CmpGhostText'}
+    ghost_text = vim.g.config.cmp.ghost_text
   },
   window = {
     documentation = {
