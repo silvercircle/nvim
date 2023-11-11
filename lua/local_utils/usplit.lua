@@ -65,6 +65,8 @@ function M.close()
   end
 end
 
+--- this renders the fortune cookie content. In sysmon mode, it
+--- does nothing.
 function M.refresh()
   if M.content == 'sysmon' then
     return
@@ -88,6 +90,8 @@ function M.refresh()
   vim.api.nvim_buf_add_highlight(M.bufid, -1, "Debug", 1, 0, -1)
 end
 
+--- timer event. fetch a new fortune cookie and store it. On completion
+--- it calls refresh() to render
 function M.refresh_on_timer()
   for i, _ in ipairs(M.cookie) do
     M.cookie[i] = nil
@@ -127,7 +131,9 @@ function M.open()
     elseif M.content == 'fortune' then
       vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(wid[1]), "modifiable", true)
       vim.cmd("rightbelow " .. width .. " vsplit new")
+      vim.cmd("setlocal buftype=nofile")
       M.winid = vim.fn.win_getid()
+      --vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(wid[1]), "buftype", "nofile")
       vim.api.nvim_win_set_option(M.winid, "statusline", "🗎  Fortune cookie")
       vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(wid[1]), "modifiable", false)
     end

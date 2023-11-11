@@ -325,6 +325,7 @@ lspconfig.pyright.setup({
   capabilities = capabilities
 })
 
+-- markdown
 lspconfig.marksman.setup({
   on_attach = on_attach,
   cmd ={ vim.g.lsp_server_bin['marksman'] },
@@ -337,6 +338,7 @@ lspconfig.marksman.setup({
   capabilities = capabilities
 })
 
+-- xml
 lspconfig.lemminx.setup({
   on_attach = on_attach,
   capabilities = capabilities,
@@ -346,6 +348,7 @@ lspconfig.lemminx.setup({
   single_file_support = true
 })
 
+-- toml
 lspconfig.taplo.setup ({
   on_attach = on_attach,
   capabilities = capabilities,

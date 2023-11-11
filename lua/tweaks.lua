@@ -46,7 +46,7 @@ M.numberwidth = 6
 M.numberwidth_rel = 2
 M.signcolumn = "yes:4"
 
-M.breadcrumb = 'navic'
+M.breadcrumb = 'dropbar'
 M.cookie_source = 'curl -s -m 5 --connect-timeout 5 https://vtip.43z.one'
 
 M.fortune = {

@@ -145,7 +145,7 @@ local plugins = {
 --  { 'williamboman/mason-lspconfig.nvim' },
   {'tpope/vim-liquid', ft = "liquid" },
   'nvim-tree/nvim-web-devicons',
-  { 'alaviss/nim.nvim', ft = "nim" },
+--  { 'alaviss/nim.nvim', ft = "nim" },
   'nvim-lua/plenary.nvim',
   'MattesGroeger/vim-bookmarks',
   'sharkdp/fd',
@@ -263,10 +263,11 @@ local plugins = {
     end
   },
   {
-    'silvercircle/symbols-outline.nvim', branch = "mine", cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
+    --'silvercircle/symbols-outline.nvim', branch = "mine", cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
+    'https://gitlab.com/silvercircle74/symbols-outline.nvim', branch="mine", cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
     cond = vim.g.config.outline_filetype == "Outline",
     config = function()
-      require("plugins.symbols_outline")
+      require("plugins.symbols_outline-forked")
     end
   },
   { 'stevearc/aerial.nvim',
