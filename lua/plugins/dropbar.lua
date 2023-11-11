@@ -1,3 +1,4 @@
+utils = require("dropbar.utils")
 require("dropbar").setup({
   bar = {
     padding = {
@@ -7,7 +8,7 @@ require("dropbar").setup({
   },
   menu = {
     win_configs = {
-      border = "none"
+      border = "single"
     },
     keymaps = {
       ['<esc>'] = function()
@@ -17,7 +18,7 @@ require("dropbar").setup({
   },
   fzf = {
     win_configs = {
-      border = "none"
+      border = "single"
     }
   }
 })

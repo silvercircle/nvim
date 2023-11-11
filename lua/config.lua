@@ -288,7 +288,8 @@ vim.g.cokeline_colors = {
   focus_fg = '#202020'
 }
 
--- internal global function to create the lualine color theme
+--- internal global function to create the lualine color theme
+--- @return table
 function Lualine_internal_theme()
   return {
     normal = {

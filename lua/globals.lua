@@ -18,7 +18,8 @@ M.term = {
 M.perm_config_default = {
   sysmon = {
     active = false,
-    width = vim.g.config.sysmon.width
+    width = vim.g.config.sysmon.width,
+    content = 'sysmon'
   },
   weather = {
     active = false,
@@ -322,6 +323,8 @@ function M.termToggle(_height)
 
   -- finally, open the sub frames if they were previously open
   if M.perm_config.sysmon.active == true then
+    require("local_utils.usplit").content = M.perm_config.sysmon.content
+    print("the sysmon content is" .. M.perm_config.sysmon.content)
     require("local_utils.usplit").open()
   end
 
@@ -565,7 +568,7 @@ end
 --- on screen
 --- @param width integer      desired width of the picker window
 --- @param height integer     desired height of the picker window
---- @param col_anchor integer vertical anchor in percentage. 0.5 centers
+--- @param col_anchor number vertical anchor in percentage. 0.5 centers
 ---                           lower values shift upwards, higher downwards
 --- @ return table            a valid window config that can be passed to the picker
 function M.mini_pick_center(width, height, col_anchor)

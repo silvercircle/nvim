@@ -99,12 +99,13 @@ require("scrollbar").setup({
     "alpha",
     "lspinfo",
     "NvimTree",
-    "BufList",
+--    "BufList",
     "cmp_menu",
     "cmp_docs",
     "weather",
     "sysmon",
-    "dropbar_menu"
+    "dropbar_menu",
+    "dropbar_menu_fzf"
   },
   autocmd = {
     render = {

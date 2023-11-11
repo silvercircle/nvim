@@ -6,6 +6,8 @@ local globals = require("globals")
 local agroup_views = vim.api.nvim_create_augroup("views", {} )
 local agroup_hl = vim.api.nvim_create_augroup("hl", {} )
 local wsplit = require("local_utils.wsplit")
+local usplit = require("local_utils.usplit")
+
 local marks = require("local_utils.marks")
 
 -- local ibl = require('indent_blankline')
@@ -79,6 +81,9 @@ autocmd({ 'UIEnter' }, {
         wsplit.content = globals.perm_config.weather.content
         wsplit.content_set_winid(globals.main_winid)
         --wsplit.refresh()
+      end
+      if globals.perm_config.sysmon.active then
+        usplit.content = globals.perm_config.sysmon.content
       end
       if globals.perm_config.transbg == true then
         globals.set_bg()

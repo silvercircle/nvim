@@ -65,6 +65,11 @@ local function path_truncate(path, maxlen)
   return "..." .. string.sub(path, len - effective_width, len)
 end
 
+function M.set_minheight()
+  if M.winid ~= nil and vim.api.nvim_win_is_valid(M.winid) then
+    vim.api.nvim_win_set_height(M.winid, M.content == 'info' and vim.g.config.weather.required_height or vim.g.config.weather.required_height - 2)
+  end
+end
 -- reconfigure the rendering
 function M.on_content_change()
   globals.perm_config.weather.content = M.content
@@ -79,6 +84,7 @@ function M.on_content_change()
       timer:stop()
     end
   end
+  M.set_minheight()
   M.refresh()
 end
 
@@ -201,6 +207,7 @@ function M.installwatch()
       cookie_timer:start(0, cookie_timer_interval, vim.schedule_wrap(M.refresh_cookie))
     end
   end
+  M.set_minheight()
 end
 
 function M.open(_weatherfile)
@@ -377,11 +384,11 @@ function M.refresh()
 
       vim.api.nvim_buf_set_option(M.bufid, "modifiable", true)
       local lines = {}
-      local name = path_truncate(plenary:new(vim.api.nvim_buf_get_name(curbuf)):make_relative(), M.win_width - 1)
+      local name = path_truncate(plenary:new(vim.api.nvim_buf_get_name(curbuf)):make_relative(), M.win_width - 3)
 
       local fn_symbol, fn_symbol_hl = utils.getFileSymbol(vim.api.nvim_buf_get_name(curbuf))
       table.insert(lines, utils.pad("Buffer Info", M.win_width + 1, ' '))
-      table.insert(lines, utils.pad(name, M.win_width, ' '))
+      table.insert(lines, " " .. utils.pad(name, M.win_width, ' ') .. "  ")
       table.insert(lines, " ")
       -- size of buffer. Bytes, KB or MB
       if globals.cur_bufsize > 1 then
@@ -416,7 +423,7 @@ function M.refresh()
       -- set highlights
       vim.api.nvim_buf_add_highlight(M.bufid, -1, "Visual", 0, 0, M.win_width + 1)
       if string.len(name) > 0 then
-        vim.api.nvim_buf_add_highlight(M.bufid, -1, "CursorLine", 1, 0, M.win_width)
+        vim.api.nvim_buf_add_highlight(M.bufid, -1, "CursorLine", 1, 0, M.win_width + 1)
       end
       if fn_symbol_hl ~= nil then
         vim.api.nvim_buf_add_highlight(M.bufid, -1, fn_symbol_hl, 4, 0, M.win_width - 2)

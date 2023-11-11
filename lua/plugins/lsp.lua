@@ -387,7 +387,12 @@ lspconfig.lua_ls.setup {
     Lua = {
       diagnostics = {
         globals = { "vim" },
-        workspaceEvent = "OnSave"
+        workspaceEvent = "OnSave",
+        disable = {
+          "param-type-mismatch",
+          "undefined-field",
+          "invisible"
+        }
       },
       hint = {
         enable = false
@@ -397,6 +402,9 @@ lspconfig.lua_ls.setup {
       },
       telemetry = {
         enable = false
+      },
+      window = {
+        progressBar = false
       }
     }
   }

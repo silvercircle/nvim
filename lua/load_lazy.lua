@@ -47,6 +47,7 @@ local plugins = {
   {'nvim-treesitter/nvim-treesitter',
     config = function()
       require("plugins.treesitter")
+      -- FIXME: disable injections for js and ts. Slow!
       vim.treesitter.query.set("javascript", "injections", "")
       vim.treesitter.query.set("typescript", "injections", "")
     end,
@@ -116,17 +117,16 @@ local plugins = {
             align = {
             },
             progress = {
-              ignore = { 'lua_ls', 'lua-language-server' }
+              -- ignore = { 'lua_ls', 'lua-language-server' }
             },
             timer = {
               spinner_rate = 500,
-              task_decay = 100
             },
             fmt = {
               max_messages = 2
             },
             sources = {
-              lua_ls = { ignore = true }
+              -- lua_ls = { ignore = true }
             }
           })
         end

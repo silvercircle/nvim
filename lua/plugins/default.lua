@@ -87,7 +87,8 @@ require("ibl").setup({
   exclude = {
     filetypes = {
       "alpha",
-      "help"
+      "help",
+      "sysmon"
     }
   }
 })
