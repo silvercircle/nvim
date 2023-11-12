@@ -264,9 +264,7 @@ local plugins = {
   },
   {
     'silvercircle/outline.nvim', branch = "mine", cmd = { "Outline", "OutlineOpen" },
-    --'hedyhli/outline.nvim', cmd = { "Outline", "OutlineOpen" },
     --'https://gitlab.com/silvercircle74/symbols-outline.nvim', branch = 'mine', cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
-    -- cond = require("globals").perm_config.outline_filetype == "Outline",
     lazy = true,
     config = function()
       require("plugins.symbols_outline-forked")

@@ -59,28 +59,27 @@ autocmd({ 'UIEnter' }, {
         group = agroup_views
       })
       vim.api.nvim_command("wincmd p")
-      require("local_utils.blist").setup({
-        symbols = {
-          current = "+", -- default 
-          split = "s", -- default 
-          alternate = "a", -- default 
-          hidden = "~", -- default ﬘
-          unloaded = "-",
-          locked = "L", -- default 
-          ro = "r", -- default 
-          edited = "*", -- default 
-          terminal = "t", -- default 
-  --        default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
-          terminal_symbol = ">" -- Filetype icon for a terminal split. Default 
-        }
-      })
-      if globals.perm_config.blist == true then
+--      require("local_utils.blist").setup({
+--        symbols = {
+--          current = "+", -- default 
+--          split = "s", -- default 
+--          alternate = "a", -- default 
+--          hidden = "~", -- default ﬘
+--          unloaded = "-",
+--          locked = "L", -- default 
+--          ro = "r", -- default 
+--          edited = "*", -- default 
+--          terminal = "t", -- default 
+--  --        default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
+--          terminal_symbol = ">" -- Filetype icon for a terminal split. Default 
+--        }
+--      })
+--      if globals.perm_config.blist == true then
         --require("local_utils.blist").open(true, 0, globals.perm_config.blist_height)
-      end
+--      end
       if globals.perm_config.weather.active == true then
         wsplit.content = globals.perm_config.weather.content
         wsplit.content_set_winid(globals.main_winid)
-        --wsplit.refresh()
       end
       if globals.perm_config.sysmon.active then
         usplit.content = globals.perm_config.sysmon.content
@@ -169,8 +168,13 @@ autocmd( { 'FileType' }, {
 --- Outline is from symbols-outline plugin and holds the symbol tree
 autocmd( { 'FileType' }, {
   pattern = { "aerial", "Outline" },
-  callback = function()
-    vim.cmd("silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statuscolumn= | silent! setlocal statusline=\\ \\ Outline" .. "\\ (" .. globals.perm_config.outline_filetype.. ") | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=0")
+  callback = function(args)
+    vim.cmd("silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=\\ \\ Outline" .. "\\ (" .. globals.perm_config.outline_filetype.. ") | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=0")
+    if args.match == 'aerial' then
+      vim.cmd("silent! setlocal statuscolumn=%#NeoTreeNormalNC#\\ ")
+    else
+      vim.cmd("silent! setlocal statuscolumn= ")
+    end
   end,
   group = agroup_views
 })
@@ -241,6 +245,8 @@ autocmd( { 'CmdLineEnter' }, {
   group = agroup_hl
 })
 
+-- filetypes for left, right and bottom splits. They are meant to have a different background
+-- color and no cursor
 local enter_leave_filetypes = { "DressingSelect", "aerial", "Outline", "NvimTree" }
 autocmd( { 'WinEnter' }, {
   pattern = '*',

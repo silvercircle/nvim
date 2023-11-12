@@ -20,9 +20,8 @@ let g:rnvimr_layout = {
 lua << EOB
 vim.loader.enable()
 require('config')
-
-require('load_lazy')
 require('options')
+require('load_lazy')
 require("auto")
 require('plugins.default')
 require('keymap')

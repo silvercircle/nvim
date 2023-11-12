@@ -498,5 +498,8 @@ kms({ 'n', 'i', 't', 'v' }, '<C-x>ft', function()
   print(vim.api.nvim_get_option_value("filetype", { buf = 0 }))
 end, opts)
 
+kms({ 'n', 'i', 't', 'v' }, '<C-l>#', function()
+  require("aerial").refetch_symbols(0)
+end, opts)
 require("local_utils.marks").set_keymaps()
 
