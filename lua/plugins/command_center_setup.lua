@@ -264,7 +264,7 @@ command_center.add({
     desc = "Toggle outline view",
     cmd = function()
       if vim.g.config.outline_filetype == "Outline" then
-        vim.cmd("SymbolsOutline")
+        globals.open_outline()
       elseif vim.g.config.outline_filetype == "aerial" then
         require("aerial").open()
       end
@@ -301,13 +301,6 @@ command_center.add({
     keys = { "n", "DP", noremap },
     category = "@LSP Diagnostics"
   },
--- this is basically the same as <F1>
---  {
---    desc = "Show hover info for current symbol",
---    cmd = function() vim.lsp.buf.hover() end,
---    keys = { "n", "DD", noremap },
---    category = "@LSP Diagnostics"
---  },
   {
     desc = "Code Action",
     cmd = function() vim.lsp.buf.code_action() end,

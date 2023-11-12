@@ -73,7 +73,7 @@ function M.refresh()
   end
   local lines = {}
   vim.api.nvim_buf_set_option(M.bufid, "modifiable", true)
-  -- prevent the winbar from appearing
+  -- prevent the winbar from appearing (nvim 0.10 or higher)
   if vim.g.config.nightly > 0 then
     vim.api.nvim_buf_set_option(M.bufid, "winbar", "")
   end

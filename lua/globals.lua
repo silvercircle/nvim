@@ -75,7 +75,7 @@ end
 --- open the outline window
 function M.open_outline()
   if vim.g.config.outline_filetype == "Outline" then
-    vim.cmd('SymbolsOutlineOpen')
+    vim.cmd('OutlineOpen')
   elseif vim.g.config.outline_filetype == "aerial" then
     require("aerial").open()
   end
@@ -84,7 +84,7 @@ end
 --- close the outline window
 function M.close_outline()
    if vim.g.config.outline_filetype == "Outline" then
-    vim.cmd('SymbolsOutlineClose')
+    vim.cmd('OutlineClose')
   elseif vim.g.config.outline_filetype == "aerial" then
     require("aerial").close()
   end

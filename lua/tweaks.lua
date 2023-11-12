@@ -46,12 +46,18 @@ M.numberwidth = 6
 M.numberwidth_rel = 2
 M.signcolumn = "yes:4"
 
+-- valid are 'dropbar' and 'navic'. Defaults to 'navic' when unrecognized
+-- note that dropbar requires neovim 0.10 which is currently in development
+-- and only available as nightly build.
 M.breadcrumb = 'dropbar'
-M.cookie_source = 'curl -s -m 5 --connect-timeout 5 https://vtip.43z.one'
+M.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
 
+-- settings for the fortune cookie split
 M.fortune = {
-  refresh = 10, -- in minutes
+  refresh = 10, -- in minutes - the minimum is one minute, lower values are corrected.
+  -- fetch 2 cookies and merge them.
   numcookies = 2,
+  -- see man fortune (-s = short cookies, max. 300 characters long)
   command = "fortune -s -n300"
 }
 
@@ -59,4 +65,6 @@ M.fortune = {
 -- disable the feature.
 --M.cmp_ghost = { hl_group = 'CmpGhostText' }
 M.cmp_ghost = false
+M.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and true or false
+
 return M

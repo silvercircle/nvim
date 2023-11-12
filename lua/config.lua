@@ -73,7 +73,7 @@ vim.g.config = {
   mkview_on_leave = true,                     -- set to true if you want to save views on BufWinLeave
                                               -- when false, views are only written on write/update or manually (f4)
   mkview_on_fold = false,                     -- always create a view when using the folding keys (f2/f3)
-  breadcrumb = (nvim_10 == 1) and tweaks.breadcrumb or 'navic',
+  breadcrumb = ((nvim_10 == 1) and (tweaks.breadcrumb == 'navic' or tweaks.breadcrumb == 'dropbar')) and tweaks.breadcrumb or 'navic',
   termheight = 11,
   iconpad = ' ',                              -- additional padding for devicons.
   texoutput = "~/Documents/TEXOUTPUT/",
@@ -201,17 +201,6 @@ vim.g.lsp_server_bin = {
   pylyzer       =   localbin .. "pylyzer",
   taplo         =   masonbinpath .. 'taplo'
 }
-
--- ugly but working hack. If $NVIM_USE_PRIVATE_FORKS is set (to anything), we will use private
--- forks of some plugins.
--- Reason: I'm just experimenting with some plugins.
--- This hack may go away without notice.
-
--- You REALLY should not use this and stick to the official plugins.
-vim.g.use_private_forks = false
-if os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil then
-  vim.g.use_private_forks = true
-end
 
 vim.g.confirm_actions = {
   exit = true,            -- ALWAYS confirm force-close (Alt-q), even when no buffers are modified

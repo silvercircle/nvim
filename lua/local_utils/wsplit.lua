@@ -343,7 +343,8 @@ function M.refresh_cookie()
     M.cookie[i] = nil
   end
   vim.fn.jobstart(M.cookie_source .. "|fmt -" .. M.win_width - 2, {
-    on_stdout = function(_, b, _) for _,v in ipairs(b) do table.insert(M.cookie, v) end end
+    on_stdout = function(_, b, _) for _,v in ipairs(b) do table.insert(M.cookie, v) end end,
+    on_exit = function() M.refresh() end
   })
 end
 -- refresh on timer. But only for info content. Weather content ist handled by the
@@ -426,11 +427,11 @@ function M.refresh()
         vim.api.nvim_buf_add_highlight(M.bufid, -1, "CursorLine", 1, 0, M.win_width + 1)
       end
       if fn_symbol_hl ~= nil then
-        vim.api.nvim_buf_add_highlight(M.bufid, -1, fn_symbol_hl, 4, 0, M.win_width - 2)
+        vim.api.nvim_buf_add_highlight(M.bufid, -1, fn_symbol_hl, 4, 0, M.win_width  + 1)
       end
-      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Debug", 6, 0, M.win_width - 2)
-      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Keyword", 7, 0, M.win_width - 2)
-      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Keyword", 8, 0, M.win_width - 2)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Debug", 6, 0, M.win_width + 1)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Keyword", 7, 0, M.win_width + 1)
+      vim.api.nvim_buf_add_highlight(M.bufid, -1, "Keyword", 8, 0, M.win_width + 1)
       vim.api.nvim_buf_set_option(M.bufid, "modifiable", false)
     end
   elseif M.content == 'weather' then

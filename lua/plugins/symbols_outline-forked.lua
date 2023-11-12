@@ -1,8 +1,9 @@
-require("symbols-outline").setup(
+require("outline").setup(
 {
 outline_window = {
     -- Where to open the split window: right/left
     position = 'right',
+    split_command = 'rightbelow vs',
     -- Percentage or integer of columns
     width = vim.g.config.outline_width,
     -- Whether width is relative to the total width of nvim
@@ -52,7 +53,7 @@ outline_window = {
 
   outline_items = {
     -- Whether to highlight the currently hovered symbol (high cpu usage)
-    highlight_hovered_item = true,
+    highlight_hovered_item = false,
     -- Show extra details with the symbols (lsp dependent)
     show_symbol_details = true,
     -- Only in this fork.
@@ -161,7 +162,7 @@ outline_window = {
   symbols = {
     -- Symbols to ignore.
     -- Possible values are the Keys in the icons table below.
-    blacklist = {},
+    blacklist = {"Array"},
     -- Added in this fork:
     -- You can use a custom function that returns the icon for each symbol kind.
     -- This function takes a kind (string) as parameter and should return an

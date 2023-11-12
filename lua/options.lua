@@ -54,7 +54,7 @@ vim.opt.list = true
 
 -- statuscolumn stuff
 if vim.fn.has('nvim-0.9') == 1 then
-  if vim.g.use_private_forks == true then
+  if require("tweaks").use_foldlevel_patch == true then
     o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]
     --o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
   else
@@ -62,10 +62,6 @@ if vim.fn.has('nvim-0.9') == 1 then
   end
   -- single-column fold guide, using a patched screen.c without the stupid numbers ;)
   o.foldcolumn="1"
-else
-  o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
-  o.foldcolumn="5"
-  o.number = true
 end
 
 -- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 

@@ -966,26 +966,6 @@ highlight! link ps1InterpolationDelimiter Purple
 highlight! link ps1BuiltIn BlueItalic
 " }}}
 " syn_end }}}
-" syn_begin: json {{{
-highlight! link jsonKeyword Blue
-highlight! link jsonString Green
-highlight! link jsonBoolean Red
-highlight! link jsonNoise Grey
-highlight! link jsonQuote Grey
-highlight! link jsonBraces Fg
-" syn_end }}}
-" syn_begin: yaml {{{
-highlight! link yamlKey Red
-highlight! link yamlConstant BlueItalic
-highlight! link yamlString Green
-" syn_end }}}
-" syn_begin: toml {{{
-call my_sonokai#highlight('tomlTable', s:palette.purple, s:palette.none, 'bold')
-highlight! link tomlKey Red
-highlight! link tomlBoolean Blue
-highlight! link tomlString Green
-highlight! link tomlTableArray tomlTable
-" syn_end }}}
 " syn_begin: help {{{
 call my_sonokai#highlight('helpNote', s:palette.purple, s:palette.none, 'bold')
 call my_sonokai#highlight('helpHeadline', s:palette.red, s:palette.none, 'bold')
@@ -1046,6 +1026,7 @@ call my_sonokai#highlight('NeoTreeFileNameOpened', s:palette.blue, s:palette.neo
 call my_sonokai#highlight('SymbolsOutlineConnector', s:palette.bg4, s:palette.none)
 
 hi! link NvimTreeIndentMarker SymbolsOutlineConnector
+hi! link OutlineGuides SymbolsOutlineConnector
 hi! link NeoTreeCursorLine Visual
 
 " winbar 
