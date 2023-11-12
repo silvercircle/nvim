@@ -38,11 +38,13 @@ vim.g.config = {
     anchor = "N",
   },
   cmp = {
+    autocomplete = tweaks.cmp.autocomplete,
+    autocomplete_kwlen = tweaks.cmp.keywordlen,
     max_abbr_item_width = 40,                   -- item name width (maximum for truncate())
     max_detail_item_width = 40,                 -- item detail field maxium width
     -- the following lists file types that are allowed to use the cmp_buffer source
     buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true },
-    buffer_maxsize = tweaks.cmp_buffer_maxsize, -- PERF: maximum buffer size allowed to use cmp_buffer source. 300kB
+    buffer_maxsize = tweaks.cmp.buffer_maxsize, -- PERF: maximum buffer size allowed to use cmp_buffer source. 300kB
     ghost_text = tweaks.cmp_ghost
   },
   minipicker_iprefix = "#>",
@@ -64,8 +66,6 @@ vim.g.config = {
   --statuscol_rel = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:relnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:relnum) : ""} %C%#IndentBlankLineChar#│ ',
   nvim_tree = true,
   cokeline_filename_width = tweaks.cokeline_filename_width,               -- max filename length on cokeline tabs
-  cmp_autocomplete = tweaks.cmp_autocomplete,
-  cmp_autocomplete_kwlen = tweaks.cmp_keywordlen,
   fortunecookie = false,                      --"fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
                                               -- needs fortune and cowsay installed.
                                               -- set to false or an empty string to disable
@@ -88,7 +88,7 @@ vim.g.config = {
     width = 42,
     file = "~/.weather/weather",
     splitright = false,
-    required_height = 16
+    required_height = 14
   },
   -- this is a table of filetype <> colorcolumns associations. it's used by globals.toggle_colorcolumn()
   -- to figure out where the color column for the given filetype should be.
@@ -106,8 +106,6 @@ vim.g.config = {
       value = "76"
     }
   },
--- filetype for the outline split, depends on the outline plugin
-  outline_filetype = tweaks.outline_plugin
 }
 
 vim.g.theme = {

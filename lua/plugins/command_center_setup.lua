@@ -261,18 +261,6 @@ command_center.add({
     category = "@LSP"
   },
   {
-    desc = "Toggle outline view",
-    cmd = function()
-      if vim.g.config.outline_filetype == "Outline" then
-        globals.open_outline()
-      elseif vim.g.config.outline_filetype == "aerial" then
-        require("aerial").open()
-      end
-    end,
-    keys = { {"n", "i"}, "<C-x>o", noremap },
-    category = "@LSP"
-  },
-  {
     desc = "Pick from dropbar",
     cmd = function()
       if vim.g.config.breadcrumb == 'dropbar' then

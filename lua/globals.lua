@@ -43,7 +43,8 @@ M.perm_config_default = {
   ibl_enabled = true,
   ibl_context = true,
   scrollbar = true,
-  statusline_declutter = 0
+  statusline_declutter = 0,
+  outline_filetype = "Outline"
 }
 
 M.perm_config = {}
@@ -74,20 +75,30 @@ end
 
 --- open the outline window
 function M.open_outline()
-  if vim.g.config.outline_filetype == "Outline" then
+  if M.perm_config.outline_filetype == "Outline" then
     vim.cmd('OutlineOpen')
-  elseif vim.g.config.outline_filetype == "aerial" then
+  elseif M.perm_config.outline_filetype == "aerial" then
     require("aerial").open()
   end
 end
 
 --- close the outline window
 function M.close_outline()
-   if vim.g.config.outline_filetype == "Outline" then
+   if M.perm_config.outline_filetype == "Outline" then
     vim.cmd('OutlineClose')
-  elseif vim.g.config.outline_filetype == "aerial" then
+  elseif M.perm_config.outline_filetype == "aerial" then
     require("aerial").close()
   end
+end
+
+function M.toggle_outline_type()
+  M.close_outline()
+  if M.perm_config.outline_filetype == 'aerial' then
+    M.perm_config.outline_filetype = "Outline"
+  elseif M.perm_config.outline_filetype == "Outline" then
+    M.perm_config.outline_filetype = "aerial"
+  end
+  vim.notify("Outline type is now set to: " .. M.perm_config.outline_filetype, 3)
 end
 --- set the statuscol to either normal or relative line numbers
 --- @param mode string: allowed values: 'normal' or 'rel'
@@ -297,7 +308,7 @@ function M.termToggle(_height)
     M.term.winid = nil
     return
   end
-  local outline_win = M.findwinbyBufType(vim.g.config.outline_filetype)
+  local outline_win = M.findwinbyBufType(M.perm_config.outline_filetype)
 
   if outline_win[1] ~= nil and vim.api.nvim_win_is_valid(outline_win[1]) then
     M.close_outline()

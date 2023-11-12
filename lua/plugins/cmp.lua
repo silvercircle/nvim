@@ -68,8 +68,8 @@ cmp.setup({
   preselect = cmp.PreselectMode.Item,
   enabled = true,
   completion = {
-    autocomplete = vim.g.config.cmp_autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or { },
-    keyword_length = vim.g.config.cmp_autocomplete_kwlen,
+    autocomplete = vim.g.config.cmp.autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or { },
+    keyword_length = vim.g.config.cmp.autocomplete_kwlen,
     completeopt = "menu,menuone",
   },
   snippet = {

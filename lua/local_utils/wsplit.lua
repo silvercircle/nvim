@@ -67,7 +67,7 @@ end
 
 function M.set_minheight()
   if M.winid ~= nil and vim.api.nvim_win_is_valid(M.winid) then
-    vim.api.nvim_win_set_height(M.winid, M.content == 'info' and vim.g.config.weather.required_height or vim.g.config.weather.required_height - 2)
+    vim.api.nvim_win_set_height(M.winid, (M.content == 'info') and vim.g.config.weather.required_height or vim.g.config.weather.required_height - 2)
   end
 end
 -- reconfigure the rendering
@@ -122,7 +122,6 @@ function M.content_set_winid(_id)
     if vim.api.nvim_win_get_config(_id).relative ~= "" then
       return
     end
-    globals.debugmsg("Set winid to " .. _id .. " and buffer to " .. bufid .. " and buftype to " .. vim.api.nvim_buf_get_option(bufid, "buftype") .. " and filetype to " .. vim.api.nvim_buf_get_option(bufid, "filetype"))
     -- ignore buffers without a type
     if vim.api.nvim_buf_get_option(bufid, "buftype") == 'nofile' then
       return
@@ -132,7 +131,6 @@ function M.content_set_winid(_id)
       M.freeze = true
       return
     end
-    globals.debugmsg("Set content window id to " .. _id)
     M.content_winid = _id
     M.freeze = false
   end
@@ -149,7 +147,7 @@ function M.resize_or_closed()
     end
     M.winid = nil
   elseif M.winid ~= nil then
-    vim.api.nvim_win_set_height(M.winid, vim.g.config.weather.required_height)
+    M.set_minheight()
     M.refresh()
   end
 end

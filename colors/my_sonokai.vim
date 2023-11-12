@@ -44,6 +44,9 @@ endif
 
 " The default variant is "warm"
 " cold is slightly blue-ish tinted in the backgrounds.
+"
+" about language support:
+" for most languages, this colorscheme relies on treesitter highlighting.
 if g:theme_variant == 'cold'
   let palette = {
         \ 'black':      ['#121215',   '232'],
@@ -819,17 +822,6 @@ highlight! link typescriptInterpolationDelimiter Purple
 highlight! link typescriptBraces Fg
 highlight! link typescriptParens Fg
 " }}}
-" syn_begin: dart {{{
-" dart-lang: https://github.com/dart-lang/dart-vim-plugin{{{
-highlight! link dartCoreClasses BlueItalic
-highlight! link dartTypeName BlueItalic
-highlight! link dartInterpolation Purple
-highlight! link dartTypeDef Red
-highlight! link dartClassDecl Red
-highlight! link dartLibrary Red
-highlight! link dartMetadata OrangeItalic
-" }}}
-" syn_end }}}
 " syn_begin: objc {{{
 " builtin: {{{
 highlight! link objcModuleImport Red
@@ -878,27 +870,6 @@ highlight! link ktStructure Red
 highlight! link ktKeyword OrangeItalic
 " }}}
 " syn_end }}}
-" syn_begin: scala {{{
-" builtin: https://github.com/derekwyatt/vim-scala{{{
-highlight! link scalaNameDefinition Fg
-highlight! link scalaInterpolationBoundary Purple
-highlight! link scalaInterpolation Purple
-highlight! link scalaTypeOperator Red
-highlight! link scalaOperator Red
-highlight! link scalaKeywordModifier TealBold
-" }}}
-" syn_end }}}
-" syn_begin: go {{{
-" builtin: https://github.com/google/vim-ft-go{{{
-highlight! link goDirective Red
-highlight! link goConstants OrangeItalic
-highlight! link goDeclType Red
-" }}}
-" coc-rust-analyzer: https://github.com/fannheyward/coc-rust-analyzer {{{
-highlight! link CocRustChainingHint Grey
-highlight! link CocRustTypeHint Grey
-" }}}
-" syn_end }}}
 " syn_begin: swift {{{
 " swift.vim: https://github.com/keith/swift.vim{{{
 highlight! link swiftInterpolatedWrapper Purple
@@ -909,19 +880,6 @@ highlight! link swiftClosureArgument OrangeItalic
 highlight! link swiftStructure Red
 " }}}
 " syn_end }}}
-" syn_begin: ruby {{{
-" builtin: https://github.com/vim-ruby/vim-ruby{{{
-highlight! link rubyKeywordAsMethod Green
-highlight! link rubyInterpolation Purple
-highlight! link rubyInterpolationDelimiter Purple
-highlight! link rubyStringDelimiter Yellow
-highlight! link rubyBlockParameterList Fg
-highlight! link rubyDefine Red
-highlight! link rubyModuleName Red
-highlight! link rubyAccess Red
-highlight! link rubyMacro Red
-highlight! link rubySymbol Fg
-" }}}
 " syn_begin: matlab {{{
 " builtin: {{{
 highlight! link matlabSemicolon Fg
@@ -934,28 +892,6 @@ highlight! link matlabArithmeticOperator Red
 highlight! link matlabRelationalOperator Red
 highlight! link matlabRelationalOperator Red
 highlight! link matlabLogicalOperator Red
-" }}}
-" syn_end }}}
-" syn_begin: sh/zsh {{{
-" builtin: http://www.drchip.org/astronaut/vim/index.html#SYNTAX_SH{{{
-highlight! link shRange Fg
-highlight! link shOption Purple
-highlight! link shQuote Yellow
-highlight! link shVariable BlueItalic
-highlight! link shDerefSimple BlueItalic
-highlight! link shDerefVar BlueItalic
-highlight! link shDerefSpecial BlueItalic
-highlight! link shDerefOff BlueItalic
-highlight! link shVarAssign Red
-highlight! link shFunctionOne Green
-highlight! link shFunctionKey Red
-" }}}
-" syn_end }}}
-" syn_begin: zsh {{{
-" builtin: https://github.com/chrisbra/vim-zsh{{{
-highlight! link zshOption BlueItalic
-highlight! link zshSubst Orange
-highlight! link zshFunction Green
 " }}}
 " syn_end }}}
 " syn_begin: ps1 {{{
@@ -1028,6 +964,7 @@ call my_sonokai#highlight('SymbolsOutlineConnector', s:palette.bg4, s:palette.no
 hi! link NvimTreeIndentMarker SymbolsOutlineConnector
 hi! link OutlineGuides SymbolsOutlineConnector
 hi! link NeoTreeCursorLine Visual
+hi! link AerialGuide SymbolsOutlineConnector
 
 " winbar 
 call my_sonokai#highlight('WinBarFilename', s:teal, s:palette.none)                      " Filename (right hand)

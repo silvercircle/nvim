@@ -383,7 +383,13 @@ kms({ 'n', 'i', 't', 'v' }, '<A-2>', function()
 end, opts) -- main window
 
 kms({ 'n', 'i', 't', 'v' }, '<A-3>', function()
-  if globals.findbufbyType(vim.g.config.outline_filetype) == false then
+  -- if the outline window is focused, close it.
+  if vim.api.nvim_buf_get_option(0, "filetype") == globals.perm_config.outline_filetype then
+    globals.close_outline()
+    return
+  end
+  -- otherwise search it and if none is found, open it.
+  if globals.findbufbyType(globals.perm_config.outline_filetype) == false then
     globals.open_outline()
   end
 end, opts) -- Outline

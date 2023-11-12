@@ -135,6 +135,7 @@ require("aerial").setup({
   -- When jumping to a symbol, highlight the line for this many ms.
   -- Set to false to disable
   highlight_on_jump = 300,
+  autojump = true,
 
   -- Define symbol icons. You can also specify "<Symbol>Collapsed" to change the
   -- icon when the tree is collapsed at that symbol, or "Collapsed" to specify a
@@ -142,14 +143,13 @@ require("aerial").setup({
   -- "nerd_font" option below.
   -- If you have lspkind-nvim installed, it will be the default icon set.
   -- This can be a filetype map (see :help aerial-filetype-map)
-  icons = {
-  },
+  icons = { },
 
   -- Control which windows and buffers aerial should ignore.
   -- Aerial will not open when these are focused, and existing aerial windows will not be updated
   ignore = {
     -- Ignore unlisted buffers. See :help buflisted
-    unlisted_buffers = false,
+    unlisted_buffers = true,
 
     -- List of filetypes to ignore.
     filetypes = {},
