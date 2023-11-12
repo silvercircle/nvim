@@ -263,11 +263,11 @@ local plugins = {
     end
   },
   {
-    --'silvercircle/symbols-outline.nvim', branch = "mine", cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
-    'https://gitlab.com/silvercircle74/symbols-outline.nvim', branch="mine", cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
+    'silvercircle/symbols-outline.nvim', branch = "mine", cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
+    --'https://gitlab.com/silvercircle74/symbols-outline.nvim', branch="mine", cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
     cond = vim.g.config.outline_filetype == "Outline",
     config = function()
-      require("plugins.symbols_outline-forked")
+      require("plugins.symbols_outline")
     end
   },
   { 'stevearc/aerial.nvim',

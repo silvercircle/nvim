@@ -4,7 +4,7 @@ outline_window = {
     -- Where to open the split window: right/left
     position = 'right',
     -- Percentage or integer of columns
-    width = vim.g.config.outline_width, 
+    width = vim.g.config.outline_width,
     -- Whether width is relative to the total width of nvim
     -- When relative_width = true, this means take 25% of the total
     -- screen width for outline window.
@@ -16,14 +16,14 @@ outline_window = {
     auto_close = false,
     -- Automatically go to location in code when navigating outline window.
     -- Only in this fork
-    auto_goto = false,
+    auto_goto = true,
 
     -- Vim options for the outline window
     show_numbers = false,
     show_relative_numbers = false,
 
     -- Only in this fork (this and the one below)
-    show_cursorline = false,
+    show_cursorline = true,
     -- Enable this when you enabled cursorline so your cursor color can
     -- blend with the cursorline, in effect, as if your cursor is hidden
     -- in the outline window.
@@ -40,7 +40,7 @@ outline_window = {
     -- Whether to focus on the outline window when it is opened.
     -- Set to false to remain focus on your previous buffer when opening
     -- symbols-outline.
-    focus_on_open = true,
+    focus_on_open = false,
     -- Only in this fork:
     -- Winhighlight option for outline window.
     -- See :help 'winhl'
@@ -90,7 +90,7 @@ outline_window = {
     -- If you disable this you can still open hover_symbol using your keymap
     -- below.
     -- Only in this fork
-    open_hover_on_preview = true,
+    open_hover_on_preview = false,
     -- Only in this fork:
     width = 50,     -- Percentage or integer of columns
     min_width = 50, -- This is the number of columns
