@@ -13,7 +13,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
-  --'MunifTanjim/nui.nvim',
   {'nvim-lualine/lualine.nvim',
     config = function()
       require("plugins.lualine")
@@ -111,35 +110,48 @@ local plugins = {
       },
       {'SmiteshP/nvim-navic',lazy=true, cond = vim.g.config.breadcrumb == 'navic', event = "LspAttach" },
       'dnlhc/glance.nvim',
-      {'j-hui/fidget.nvim',
-        tag = "legacy",
+      {'vigoux/notifier.nvim',
         event = "LspAttach",
+        lazy = true,
         config = function()
-          require("fidget").setup({
-            text = {
-              spinner = "zip",
-            },
-            window = {
-              relative = "win",
-              blend = 100
-            },
-            align = {
-            },
-            progress = {
-              -- ignore = { 'lua_ls', 'lua-language-server' }
-            },
-            timer = {
-              spinner_rate = 500,
-            },
-            fmt = {
-              max_messages = 2
-            },
-            sources = {
-              -- lua_ls = { ignore = true }
+          require("notifier").setup({
+            components = {
+              "nvim",
+              "lsp"
             }
           })
+          vim.g.notifier = require("notifier")
         end
-      }
+      },
+--      {'j-hui/fidget.nvim',
+--        --tag = "legacy",
+--        event = "LspAttach",
+--        config = function()
+--          require("fidget").setup({
+--            text = {
+--              spinner = "zip",
+--            },
+--            window = {
+--              relative = "win",
+--              blend = 100
+--            },
+--            align = {
+--            },
+--            progress = {
+--              -- ignore = { 'lua_ls', 'lua-language-server' }
+--            },
+--            timer = {
+--              spinner_rate = 500,
+--            },
+--            fmt = {
+--              max_messages = 2
+--            },
+--            sources = {
+--              -- lua_ls = { ignore = true }
+--            }
+--          })
+--        end
+--      }
     },
     config = function()
       require("plugins.lsp")
@@ -263,7 +275,7 @@ local plugins = {
     'willothy/nvim-cokeline', branch = "main"
   },
   {
-    'silvercircle/outline.nvim', branch = "mine", cmd = { "Outline", "OutlineOpen" },
+    'silvercircle/outline.nvim', branch = "mine", cmd = { "Outline", "OutlineOpen", "OutlineClose" },
     --'https://gitlab.com/silvercircle74/symbols-outline.nvim', branch = 'mine', cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
     lazy = true,
     config = function()

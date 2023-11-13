@@ -53,7 +53,6 @@ vim.g.config = {
   -- some optional plugins
   mason = true,                                 -- on demand, setup in setup_lsp.lua
   null_ls = false,                              -- setup by lazy loader
-  neodev = false,                               -- setup by lazy loader
   treesitter = true,
   plain = (env_plain ~= nil or vim.g.want_plain == true) and true or false,
   -- statuscol_normal = '%s%=%{printf("%4d", v:lnum)} %C ',

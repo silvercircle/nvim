@@ -91,6 +91,8 @@ function M.close_outline()
   end
 end
 
+-- toggle the type of outline window to use between outline.nvim ("Outline") and
+-- aerial.
 function M.toggle_outline_type()
   M.close_outline()
   if M.perm_config.outline_filetype == 'aerial' then
@@ -98,7 +100,7 @@ function M.toggle_outline_type()
   elseif M.perm_config.outline_filetype == "Outline" then
     M.perm_config.outline_filetype = "aerial"
   end
-  vim.notify("Outline type is now set to: " .. M.perm_config.outline_filetype, 3)
+  vim.g.notifier.notify("Now using " .. M.perm_config.outline_filetype, 1, { title = "Outline", render = "compact" })
 end
 --- set the statuscol to either normal or relative line numbers
 --- @param mode string: allowed values: 'normal' or 'rel'

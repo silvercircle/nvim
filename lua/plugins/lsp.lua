@@ -407,7 +407,7 @@ lspconfig.lua_ls.setup {
         enable = false
       },
       window = {
-        progressBar = false
+        -- progressBar = false
       }
     }
   }
@@ -583,10 +583,6 @@ glance.setup({
     enable = true, -- Available strating from nvim-0.8+
   },
 })
-
-if vim.g.config.neodev == true then
-  require("neodev").setup({})
-end
 
 vim.diagnostic.config({ virtual_text = true, update_in_insert = false })
 
