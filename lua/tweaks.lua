@@ -30,7 +30,11 @@ M.cmp = {
   -- set this to true to always have auto-completion when typing
   autocomplete = false,
   -- minimum keyword length for auto-complete to kick in
-  keywordlen = 1
+  keywordlen = 1,
+  --enable experimental ghost text feature. Set to false (disable) or a table
+  --containing the highlight group to use for ghost text.
+  --M.cmp_ghost = { hl_group = 'CmpGhostText' }
+  ghost = false
 }
 
 -- set this to "Outline" to use the symbols-outline plugin.
@@ -65,8 +69,6 @@ M.fortune = {
 
 -- nvim-cmp tweak: enable ghost text with this highlight group. Set to false to
 -- disable the feature.
---M.cmp_ghost = { hl_group = 'CmpGhostText' }
-M.cmp_ghost = false
 M.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and true or false
 
 return M

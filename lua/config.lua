@@ -45,7 +45,7 @@ vim.g.config = {
     -- the following lists file types that are allowed to use the cmp_buffer source
     buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true },
     buffer_maxsize = tweaks.cmp.buffer_maxsize, -- PERF: maximum buffer size allowed to use cmp_buffer source. 300kB
-    ghost_text = tweaks.cmp_ghost
+    ghost_text = tweaks.cmp.ghost
   },
   minipicker_iprefix = "#>",
   filetree_width = 44,                          -- width nvim-tree plugin (file tree)
@@ -58,7 +58,6 @@ vim.g.config = {
   plain = (env_plain ~= nil or vim.g.want_plain == true) and true or false,
   -- statuscol_normal = '%s%=%{printf("%4d", v:lnum)} %C ',
   statuscol_normal = '%s%=%l %C ',
-  --the same as above with highlighting the current line number
   --statuscol_normal = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:lnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:lnum) : ""} %C%#IndentBlankLineChar#│ ',
   --statuscol_rel = '%s%=%{printf("%4d", v:relnum)} %C ',
   statuscol_rel = '%s%=%r %C ',

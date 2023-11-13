@@ -19,7 +19,7 @@ require("aerial").setup({
     -- key-value pairs of window-local options for aerial window (e.g. winhl)
     win_opts = {
       winhl = "CursorLine:Visual",
-      statuscolumn = "",
+      statuscolumn = "%#NvimTreeNormalNC# ",
     },
 
     -- Determines the default direction to open the aerial window. The 'prefer'

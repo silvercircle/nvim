@@ -170,10 +170,9 @@ autocmd( { 'FileType' }, {
   pattern = { "aerial", "Outline" },
   callback = function(args)
     vim.cmd("silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=\\ \\ Outline" .. "\\ (" .. globals.perm_config.outline_filetype.. ") | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=0")
-    if args.match == 'aerial' then
-      vim.cmd("silent! setlocal statuscolumn=%#NeoTreeNormalNC#\\ ")
-    else
-      vim.cmd("silent! setlocal statuscolumn= ")
+    -- aerial can set its own statuscolumn
+    if args.match == 'Outline' then
+      vim.cmd("silent! setlocal statuscolumn=")
     end
   end,
   group = agroup_views
