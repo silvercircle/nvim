@@ -25,7 +25,7 @@ M.cmp = {
   -- max buffer size to enable the buffer words autocompletion source in cmp
   -- this is a performance tweak. Value is in bytes and 300kB is a reasonable default, even for
   -- slower machines. On fast hardware you can increase this to much higher values
-  cmp_buffer_maxsize = 300 * 1024,
+  buffer_maxsize = 300 * 1024,
   -- I prefer to have only manual cmp complation (hit Ctrl-Space)
   -- set this to true to always have auto-completion when typing
   autocomplete = false,

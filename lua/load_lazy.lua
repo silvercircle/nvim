@@ -38,6 +38,15 @@ local plugins = {
         config = function()
           require("plugins.command_center_setup")
         end
+      },
+      {
+        'https://gitlab.com/silvercircle74/quickfavs.nvim',
+        lazy = true,
+        config = function()
+          require("quickfavs").setup({
+           telescope_theme = Telescope_dropdown_theme,
+          })
+        end
       }
     },
     config = function()
@@ -252,15 +261,6 @@ local plugins = {
 --  },
   {
     'willothy/nvim-cokeline', branch = "main"
-  },
-  {
-    'https://gitlab.com/silvercircle74/quickfavs.nvim',
-    lazy = true,
-    config = function()
-      require("quickfavs").setup({
-       telescope_theme = Telescope_dropdown_theme,
-      })
-    end
   },
   {
     'silvercircle/outline.nvim', branch = "mine", cmd = { "Outline", "OutlineOpen" },
