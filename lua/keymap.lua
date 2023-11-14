@@ -8,6 +8,8 @@ local globals = require("globals")
 
 local opts = { noremap = true, silent = true }
 local utils = require('local_utils')
+local utility_key = require("tweaks").utility_key
+
 
 kms({ 'n', 'i' }, '<C-c>', '<NOP>', opts)
 -- disable <ins> toggling the (annoying) replace mode. Instead use <c-ins> to switch to replace
@@ -306,36 +308,36 @@ map('i', '<A-Right>', '<C-o>g,', opts)
 
 map('n', '<f23>', '<CMD>Lazy<CR>', opts)
 
-kms({ 'n', 'i' }, '<C-l><C-l>', function()
+kms({ 'n', 'i' }, utility_key .. '<C-l>', function()
   globals.toggle_statuscol()
 end, opts)
-kms({ 'n', 'i' }, '<C-l><C-k>', function()
+kms({ 'n', 'i' }, utility_key .. '<C-k>', function()
   globals.toggle_colorcolumn()
 end, opts)
-kms({ 'n', 'i' }, '<C-l><C-t>', function()
+kms({ 'n', 'i' }, utility_key .. '<C-t>', function()
   globals.toggle_theme_variant()
 end, opts)
-kms({ 'n', 'i' }, '<C-l><C-d>', function()
+kms({ 'n', 'i' }, utility_key .. '<C-d>', function()
   globals.toggle_theme_desaturate()
 end, opts)
-kms({ 'n', 'i' }, '<C-l><C-p>', function()
+kms({ 'n', 'i' }, utility_key .. '<C-p>', function()
   globals.toggle_ibl_rainbow()
 end, opts)
-kms({ 'n', 'i' }, '<C-l><C-o>', function()
+kms({ 'n', 'i' }, utility_key .. '<C-o>', function()
   globals.toggle_ibl()
 end, opts)
-kms({ 'n', 'i' }, '<C-l><C-u>', function()
+kms({ 'n', 'i' }, utility_key .. '<C-u>', function()
   globals.toggle_ibl_context()
 end, opts)
-kms({ 'n', 'i' }, '<C-l><C-z>', function()
+kms({ 'n', 'i' }, utility_key .. '<C-z>', function()
   globals.perm_config.scrollbar = not globals.perm_config.scrollbar
   globals.set_scrollbar()
 end, opts)
-kms({ 'n', 'i' }, '<C-l><C-h>', function()
+kms({ 'n', 'i' }, utility_key .. '<C-h>', function()
   globals.perm_config.transbg = not globals.perm_config.transbg
   globals.set_bg()
 end, opts)
-kms({ 'n', 'i' }, '<C-l><C-g>', function()
+kms({ 'n', 'i' }, utility_key .. '<C-g>', function()
   globals.perm_config.statusline_declutter = globals.perm_config.statusline_declutter + 1
   if globals.perm_config.statusline_declutter == 4 then
     globals.perm_config.statusline_declutter = 0
@@ -475,21 +477,21 @@ kms({ 'n', 'i', 't', 'v' }, '<A-d>', function()
   globals.detach_all_tui()
 end, opts)
 
-kms({ 'n', 'i', 't', 'v' }, '<C-l>za', function()
+kms({ 'n', 'i', 't', 'v' }, utility_key .. 'za', function()
   require("cmp_wordlist").add_cword()
 end, opts)
 
-kms({ 'n', 'i', 't', 'v' }, '<C-l>zt', function()
+kms({ 'n', 'i', 't', 'v' }, utility_key .. 'zt', function()
   require("cmp_wordlist").add_cword_with_translation()
 end, opts)
 
-kms({ 'n', 'i', 't', 'v' }, '<C-l>wt', function()
+kms({ 'n', 'i', 't', 'v' }, utility_key .. 'wt', function()
   require("local_utils.wsplit").toggle_content()
 end, opts)
-kms({ 'n', 'i', 't', 'v' }, '<C-l>st', function()
+kms({ 'n', 'i', 't', 'v' }, utility_key .. 'st', function()
   require("local_utils.usplit").toggle_content()
 end, opts)
-kms({ 'n', 'i', 't', 'v' }, '<C-l>sr', function()
+kms({ 'n', 'i', 't', 'v' }, utility_key .. 'sr', function()
   require("local_utils.usplit").refresh_cookie()
 end, opts)
 
@@ -498,8 +500,12 @@ kms({ 'n', 'i', 't', 'v' }, '<C-x>ft', function()
   print(vim.api.nvim_get_option_value("filetype", { buf = 0 }))
 end, opts)
 
-kms({ 'n', 'i', 't', 'v' }, '<C-l>#', function()
+kms({ 'n', 'i', 't', 'v' }, utility_key .. '#', function()
   require("aerial").refetch_symbols(0)
 end, opts)
+kms({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
+  globals.toggle_outline_type()
+end, opts)
+
 require("local_utils.marks").set_keymaps()
 

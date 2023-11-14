@@ -100,8 +100,9 @@ function M.toggle_outline_type()
   elseif M.perm_config.outline_filetype == "Outline" then
     M.perm_config.outline_filetype = "aerial"
   end
-  vim.g.notifier.notify("Now using " .. M.perm_config.outline_filetype, 1, { title = "Outline", render = "compact" })
+  vim.g.notifier.notify("Now using " .. M.perm_config.outline_filetype, 3, { title = "Outline", render = "compact" })
 end
+
 --- set the statuscol to either normal or relative line numbers
 --- @param mode string: allowed values: 'normal' or 'rel'
 function M.set_statuscol(mode)
@@ -119,6 +120,7 @@ function M.set_statuscol(mode)
     vim.o.numberwidth = vim.g.tweaks.numberwidth_rel
     vim.o.number = false
   end
+  M.notify("Line numbers set to :" .. mode, 2, { title = "Info" })
 end
 
 -- toggle statuscolum between absolute and relative line numbers
@@ -495,6 +497,16 @@ function M.debugmsg(msg)
   end
 end
 
+--- use the notifier to display a message
+--- @param msg string
+--- @param level number warning level
+--- @param params table additional parameters
+function M.notify(msg, level, params)
+  if vim.g.notifier == nil then
+    return
+  end
+  vim.g.notifier.notify(msg, level, params)
+end
 --- toggle the debug mode and display the new status.
 function M.toggle_debug()
   M.perm_config.debug = not M.perm_config.debug

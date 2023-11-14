@@ -152,6 +152,7 @@ autocmd( { 'bufread' }, {
   group = agroup_views
 })
 
+-- quickfix and location list stuff
 autocmd( { 'FileType' }, {
   pattern = { 'qf', 'replacer' },
   callback = function()
@@ -165,7 +166,8 @@ autocmd( { 'FileType' }, {
   group = agroup_views
 })
 
---- Outline is from symbols-outline plugin and holds the symbol tree
+--- Outline is from outline.nvim plugin and holds the symbol tree
+--- The aerial plugin is also supported.
 autocmd( { 'FileType' }, {
   pattern = { "aerial", "Outline" },
   callback = function(args)
@@ -187,6 +189,7 @@ autocmd( { 'FileType' }, {
   group = agroup_views
 })
 
+-- used for mutt and maybe slrn
 autocmd( { 'FileType' }, {
   pattern = 'mail',
   callback = function()

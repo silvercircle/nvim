@@ -166,7 +166,6 @@ local plugins = {
 --  { 'williamboman/mason-lspconfig.nvim' },
   {'tpope/vim-liquid', ft = "liquid" },
   'nvim-tree/nvim-web-devicons',
---  { 'alaviss/nim.nvim', ft = "nim" },
   'nvim-lua/plenary.nvim',
   'MattesGroeger/vim-bookmarks',
   'sharkdp/fd',

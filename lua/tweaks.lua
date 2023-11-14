@@ -70,5 +70,5 @@ M.fortune = {
 -- nvim-cmp tweak: enable ghost text with this highlight group. Set to false to
 -- disable the feature.
 M.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and true or false
-
+M.utility_key = "<C-l>"
 return M
