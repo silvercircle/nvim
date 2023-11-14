@@ -343,6 +343,7 @@ kms({ 'n', 'i', 't', 'v' }, '<A-2>', function()
   vim.fn.win_gotoid(globals.main_winid)
 end, opts) -- main window
 
+-- focus or toggle the outline window
 kms({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   -- if the outline window is focused, close it.
   if vim.api.nvim_buf_get_option(0, "filetype") == globals.perm_config.outline_filetype then
@@ -355,6 +356,7 @@ kms({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   end
 end, opts) -- Outline
 
+-- focus the terminal split when available
 kms({ 'n', 'i', 't', 'v' }, '<A-4>', function()
   if globals.findbufbyType('terminal') == false then
     vim.api.nvim_input('<f11>')

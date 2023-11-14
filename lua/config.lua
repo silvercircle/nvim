@@ -195,7 +195,8 @@ vim.g.lsp_server_bin = {
   haskell       =   homepath .. '/.ghcup/hls/1.9.0.0/bin/haskell-language-server-9.4.4',
   bashls        =   masonbinpath .. 'bash-language-server',
   pylyzer       =   localbin .. "pylyzer",
-  taplo         =   masonbinpath .. 'taplo'
+  taplo         =   masonbinpath .. 'taplo',
+  emmet         =   masonbinpath .. 'emmet-language-server'
 }
 
 vim.g.confirm_actions = {

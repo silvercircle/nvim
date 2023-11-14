@@ -201,35 +201,60 @@ lspconfig.rust_analyzer.setup({
     },
   }
 })
-
-lspconfig.cssls.setup({
-  cmd = { vim.g.lsp_server_bin['cssls'], '--stdio' },
-  filetypes = { 'css', 'scss', 'less' },
+lspconfig.emmet_language_server.setup({
+  cmd = { vim.g.lsp_server_bin['emmet'], '--stdio' },
+  filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass", "scss", "svelte", "pug", "typescriptreact", "vue" },
   root_dir = util.root_pattern('package.json', '.git'),
-  single_file_support = true,
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    css = { validate = true },
-    scss = { validate = true },
-    less = { validate = true },
-  },
-})
-
-lspconfig.html.setup({
-  cmd = { vim.g.lsp_server_bin['html'], '--stdio' },
-  filetypes = { 'html', 'xhtml', 'liquid' },
-  root_dir = util.root_pattern('package.json', '.git'),
-  single_file_support = true,
-  settings = {},
+  -- Read more about this options in the [vscode docs](https://code.visualstudio.com/docs/editor/emmet#_emmet-configuration).
+  -- **Note:** only the options listed in the table are supported.
   init_options = {
-    provideFormatter = false,
-    embeddedLanguages = { css = true, javascript = true },
-    configurationSection = { 'html', 'css', 'javascript' },
+    --- @type string[]
+    excludeLanguages = {},
+    --- @type string[]
+    extensionsPath = {},
+    --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/preferences/)
+    preferences = {},
+    --- @type boolean Defaults to `true`
+    showAbbreviationSuggestions = true,
+    --- @type "always" | "never" Defaults to `"always"`
+    showExpandedAbbreviation = "always",
+    --- @type boolean Defaults to `false`
+    showSuggestionsAsSnippets = false,
+    --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/syntax-profiles/)
+    syntaxProfiles = {},
+    --- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
+    variables = {},
   },
-  on_attach = on_attach,
-  capabilities = capabilities
 })
+
+--lspconfig.cssls.setup({
+--  cmd = { vim.g.lsp_server_bin['cssls'], '--stdio' },
+--  filetypes = { 'css', 'scss', 'less' },
+--  root_dir = util.root_pattern('package.json', '.git'),
+--  single_file_support = true,
+--  on_attach = on_attach,
+--  capabilities = capabilities,
+--  settings = {
+--    css = { validate = true },
+--    scss = { validate = true },
+--    less = { validate = true },
+--  },
+--})
+--
+--lspconfig.html.setup({
+--  cmd = { vim.g.lsp_server_bin['html'], '--stdio' },
+--  filetypes = { 'html', 'xhtml', 'liquid' },
+--  root_dir = util.root_pattern('package.json', '.git'),
+--  single_file_support = true,
+--  settings = {},
+--  init_options = {
+--    provideFormatter = false,
+--    embeddedLanguages = { css = true, javascript = true },
+--    configurationSection = { 'html', 'css', 'javascript' },
+--  },
+--  on_attach = on_attach,
+--  capabilities = capabilities
+--})
 
 lspconfig.phpactor.setup({
   cmd = { vim.g.lsp_server_bin['phpactor'], 'language-server' },
