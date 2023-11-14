@@ -10,6 +10,29 @@ local opts = { noremap = true, silent = true }
 local utils = require('local_utils')
 local utility_key = require("tweaks").utility_key
 
+--- peform a folding action
+--- @param code string: the keybind to execute, e.g. 'za' to toggle a fold
+--- works in all modes, normal, insert and visual
+local function perform_fold(code)
+  local mode = vim.api.nvim_get_mode().mode
+  if mode == 'n' or mode == 'v' then
+    vim.api.nvim_feedkeys(code, mode, true)
+    --vim.schedule(schedule_mkview)
+  elseif mode == 'i' then
+    local key = vim.api.nvim_replace_termcodes('<C-o>' .. code, true, false, true)
+    vim.api.nvim_feedkeys(key, 'i', false)
+    --vim.schedule(schedule_mkview)
+  end
+end
+
+local function perform_command(cmd)
+  local mode = vim.api.nvim_get_mode().mode
+  if mode == 'i' then
+    vim.cmd(cmd)
+  else
+    vim.cmd(cmd)
+  end
+end
 
 kms({ 'n', 'i' }, '<C-c>', '<NOP>', opts)
 -- disable <ins> toggling the (annoying) replace mode. Instead use <c-ins> to switch to replace
@@ -24,6 +47,7 @@ kms('n', '<leader>,', function()
   require('nvim-tree.api').tree.toggle()
 end, opts) -- toggle the Nvim-Tree
 
+-- change NvimTree current directory to the root of current file (usually project or git root)
 kms('n', '<leader>R', function()
   require('nvim-tree.api').tree.change_root(utils.getroot_current())
 end, opts)
@@ -88,19 +112,18 @@ end, opts)
 
 map('n', '<leader>v', '}kV{j', opts) -- select current paragraph
 
--- Ctrl-x Ctrl-s save the file if modified (use update command). Also,
--- create a view to save state
-map('i', '<C-s><C-s>', '<c-o><CMD>update!<CR>', opts)
-map('n', '<C-s><C-s>', '<CMD>update!<CR>', opts)
+-- save file,
+kms({'i', 'n'}, '<C-s><C-s>', function() perform_command("update!") end, opts)
 
 -- Ctrl-x Ctrl-c close the file, do NOT save it(!) but create the view to save folding state and
 -- cursor position. if g.confirm_actions['buffer_close'] is true then a warning message and a
 -- selection dialog will appear..
-map('n', '<C-s><C-c>', '<CMD>lua require("local_utils").BufClose()<CR>', opts)
+kms({'n', 'i', 'v'}, '<C-s><C-c>', function() require("local_utils").BufClose() end, opts)
 
 -- switch off highlighted search results
-map('n', '<f5>', '<CMD>nohl<CR>', opts)
-map('i', '<f5>', '<c-o><CMD>nohl<CR>', opts)
+
+kms({'n', 'i', 'v'}, '<f5>', function() perform_command('nohl') end, opts)
+
 map('i', '<C-z>', '<c-o>:undo<CR>', opts)
 
 -- various
@@ -192,8 +215,16 @@ end, { expr = true })
 
 map('n', 'hl', "<CMD>Inspect<CR>", opts)
 
--- the following is ALL related to folding and there are no command center equivalents
+-- Shift-F1 show lsp signature help
+kms({ 'i', 'n' }, '<f13>', function()
+  vim.lsp.buf.signature_help()
+end, opts)
+-- F1 show lsp hover (symbol help in most cases)
+kms({ 'i', 'n' }, '<f1>', function()
+  vim.lsp.buf.hover()
+end, opts)
 
+-- the following is ALL related to folding and there are no command center equivalents
 local function schedule_mkview()
   if vim.g.config.mkview_on_fold == true then
     vim.api.nvim_input('<f4>')
@@ -203,24 +234,6 @@ kms({ 'n', 'i' }, '<f4>', function()
   globals.mkview()
 end, opts)
 
-kms({ 'i', 'n' }, '<f13>', function()
-  vim.lsp.buf.signature_help()
-end, opts) -- shift-f1
-kms({ 'i', 'n' }, '<f1>', function()
-  vim.lsp.buf.hover()
-end, opts)
-
-local function perform_fold(code)
-  local mode = vim.api.nvim_get_mode().mode
-  if mode == 'n' or mode == 'v' then
-    vim.api.nvim_feedkeys(code, mode, true)
-    --vim.schedule(schedule_mkview)
-  elseif mode == 'i' then
-    local key = vim.api.nvim_replace_termcodes('<C-o>' .. code, true, false, true)
-    vim.api.nvim_feedkeys(key, 'i', false)
-    --vim.schedule(schedule_mkview)
-  end
-end
 --
 -- toggle current fold
 kms({'n', 'i', 'v'}, '<F2>', function()
@@ -266,36 +279,41 @@ map('i', '<A-Right>', '<C-o>g,', opts)
 
 map('n', '<f23>', '<CMD>Lazy<CR>', opts)
 
+-- utility functions
+-- they use a prefix key, by default <C-l>. Can be customized in tweaks.lua
+
 kms({ 'n', 'i' }, utility_key .. '<C-l>', function()
-  globals.toggle_statuscol()
+  globals.toggle_statuscol()          -- switch status column absolute/relative line numbers
 end, opts)
 kms({ 'n', 'i' }, utility_key .. '<C-k>', function()
-  globals.toggle_colorcolumn()
+  globals.toggle_colorcolumn()        -- toggle the colorcolumn display
 end, opts)
 kms({ 'n', 'i' }, utility_key .. '<C-t>', function()
-  globals.toggle_theme_variant()
+  globals.toggle_theme_variant()      -- toggle the theme variant ("warm" / "cold")
 end, opts)
 kms({ 'n', 'i' }, utility_key .. '<C-d>', function()
-  globals.toggle_theme_desaturate()
+  globals.toggle_theme_desaturate()   -- desaturate theme colors
 end, opts)
 kms({ 'n', 'i' }, utility_key .. '<C-p>', function()
-  globals.toggle_ibl_rainbow()
+  globals.toggle_ibl_rainbow()        -- toggle indent-blankline rainbow guides
 end, opts)
 kms({ 'n', 'i' }, utility_key .. '<C-o>', function()
-  globals.toggle_ibl()
+  globals.toggle_ibl()                -- toggle indent-blankline active
 end, opts)
 kms({ 'n', 'i' }, utility_key .. '<C-u>', function()
-  globals.toggle_ibl_context()
+  globals.toggle_ibl_context()        -- toggle indent-blankline context display
 end, opts)
 kms({ 'n', 'i' }, utility_key .. '<C-z>', function()
   globals.perm_config.scrollbar = not globals.perm_config.scrollbar
-  globals.set_scrollbar()
+  globals.set_scrollbar()             -- toggle scrollbar visibility
 end, opts)
 kms({ 'n', 'i' }, utility_key .. '<C-h>', function()
   globals.perm_config.transbg = not globals.perm_config.transbg
-  globals.set_bg()
+  globals.set_bg()                    -- toggle transparent background (may not work on all terminals)
 end, opts)
 kms({ 'n', 'i' }, utility_key .. '<C-g>', function()
+  -- declutter status line. There are 4 levels. 0 displays all components, 1-3 disables some
+  -- lesser needed
   globals.perm_config.statusline_declutter = globals.perm_config.statusline_declutter + 1
   if globals.perm_config.statusline_declutter == 4 then
     globals.perm_config.statusline_declutter = 0
