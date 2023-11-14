@@ -10,28 +10,24 @@ local opts = { noremap = true, silent = true }
 local utils = require('local_utils')
 local utility_key = require("tweaks").utility_key
 
---- peform a folding action
---- @param code string: the keybind to execute, e.g. 'za' to toggle a fold
---- works in all modes, normal, insert and visual
-local function perform_fold(code)
+--- peform a key press
+--- @param key string a key sequence
+--- prefix <c-o> when in insert mode
+local function perform_key(key)
   local mode = vim.api.nvim_get_mode().mode
+  local _key
   if mode == 'n' or mode == 'v' then
-    vim.api.nvim_feedkeys(code, mode, true)
-    --vim.schedule(schedule_mkview)
+    _key = vim.api.nvim_replace_termcodes(key, true, false, true)
   elseif mode == 'i' then
-    local key = vim.api.nvim_replace_termcodes('<C-o>' .. code, true, false, true)
-    vim.api.nvim_feedkeys(key, 'i', false)
-    --vim.schedule(schedule_mkview)
+    _key = vim.api.nvim_replace_termcodes('<C-o>' .. key, true, false, true)
   end
+  vim.api.nvim_feedkeys(_key, mode, false)
 end
 
+--- perform a command
+--- @param cmd string: a valid command
 local function perform_command(cmd)
-  local mode = vim.api.nvim_get_mode().mode
-  if mode == 'i' then
-    vim.cmd(cmd)
-  else
-    vim.cmd(cmd)
-  end
+  vim.cmd(cmd)
 end
 
 kms({ 'n', 'i' }, '<C-c>', '<NOP>', opts)
@@ -39,11 +35,9 @@ kms({ 'n', 'i' }, '<C-c>', '<NOP>', opts)
 map('i', '<ins>', '<nop>', opts)
 
 -- file tree
-map('n', '<leader>r', '<CMD>NvimTreeFindFile<CR>', opts) -- sync Nvim-Tree with current
+kms({'n', 'v'}, '<leader>r', function() perform_command('NvimTreeFindFile') end, opts) -- sync Nvim-Tree with current
+-- toggle NvimTree
 kms('n', '<leader>,', function()
-  -- when the buflist is open (which means, the tree is also open), close it.
-  -- we do NOT auto-open the buflist when activating the tree. Use Alt-5 for quickly
-  -- creating (and switching to) a buffer list
   require('nvim-tree.api').tree.toggle()
 end, opts) -- toggle the Nvim-Tree
 
@@ -124,7 +118,7 @@ kms({'n', 'i', 'v'}, '<C-s><C-c>', function() require("local_utils").BufClose() 
 
 kms({'n', 'i', 'v'}, '<f5>', function() perform_command('nohl') end, opts)
 
-map('i', '<C-z>', '<c-o>:undo<CR>', opts)
+kms('i', '<C-z>', function() perform_command("undo") end, opts)
 
 -- various
 map('i', '<C-y>-', '—', opts) -- emdash
@@ -173,19 +167,12 @@ kms('n', '<C-a>h', function()
   { window = { config = globals.mini_pick_center(60, 0.5, 0.2) } })
 end, opts)
 ---
-map('n', '<C-S-Down>', '<CMD>cnext<CR>', opts)
-map('i', '<C-S-Down>', '<c-o><CMD>cnext<CR>', opts)
+kms({'n', 'i', 'v'}, '<C-S-Down>', function() perform_command('cnext') end, opts)
+kms({'n', 'i', 'v'}, '<C-S-Up>', function() perform_command('cprev') end, opts)
+kms({'n', 'i', 'v'}, '<C-S-PageDown>', function() perform_command('lnext') end, opts)
+kms({'n', 'i', 'v'}, '<C-S-PageUp>', function() perform_command('lprev') end, opts)
 
-map('n', '<C-S-Up>', '<CMD>cprev<CR>', opts)
-map('i', '<C-S-Up>', '<c-o><CMD>cprev<CR>', opts)
-
-map('n', '<C-S-PageDown>', '<CMD>lnext<CR>', opts)
-map('i', '<C-S-PageDown>', '<c-o><CMD>lnext<CR>', opts)
-
-map('n', '<C-S-PageUp>', '<CMD>lprev<CR>', opts)
-map('i', '<C-S-PageUp>', '<c-o><CMD>lprev<CR>', opts)
 -- hlslens
-
 vim.api.nvim_set_keymap(
   'n',
   'n',
@@ -237,47 +224,43 @@ end, opts)
 --
 -- toggle current fold
 kms({'n', 'i', 'v'}, '<F2>', function()
-  perform_fold('za')
+  perform_key('za')
 end, opts)
 
 -- close current fold (Shift-F2)
 kms({'n', 'i', 'v'}, '<f14>', function()
-  perform_fold('zc')
+  perform_key('zc')
 end, opts)
 
 -- open current fold (Ctrl-F2)
 kms({'n', 'i', 'v'}, '<f26>', function()
-  perform_fold('zo')
+  perform_key('zo')
 end, opts)
 
 -- toggle all folds at current line
 kms({'n', 'i', 'v'}, '<F3>', function()
-  perform_fold('zA')
+  perform_key('zA')
 end, opts)
 
 -- close all folds at current line (Shift-F3)
 kms({'n', 'i', 'v'}, '<f15>', function()
-  perform_fold('zC')
+  perform_key('zC')
 end, opts)
 
 -- open all folds at current line (Ctrl-F3)
 kms({'n', 'i', 'v'}, '<f27>', function()
-  perform_fold('zO')
+  perform_key('zO')
 end, opts)
 
 -- jump list
-map('n', '<C-S-Left>', '<C-o>', opts)
-map('n', '<C-S-Right>', '<C-i>', opts)
-map('i', '<C-S-Left>', '<c-o><C-o>', opts)
-map('i', '<C-S-Right>', '<c-o><C-i>', opts)
+kms({'n', 'i', 'v'}, '<C-S-Left>', function() perform_key('<C-o>') end, opts)
+kms({'n', 'i', 'v'}, '<C-S-Right>', function() perform_key('<C-i>') end , opts)
 
 -- change list
-map('n', '<A-Left>', 'g;', opts)
-map('n', '<A-Right>', 'g,', opts)
-map('i', '<A-Left>', '<C-o>g;', opts)
-map('i', '<A-Right>', '<C-o>g,', opts)
+kms({'n', 'i'}, '<A-Left>', function() perform_key('g;') end, opts)
+kms({'n', 'i'}, '<A-Right>', function() perform_key('g,') end, opts)
 
-map('n', '<f23>', '<CMD>Lazy<CR>', opts)
+kms('n', '<f23>', function() perform_command('Lazy') end, opts)
 
 -- utility functions
 -- they use a prefix key, by default <C-l>. Can be customized in tweaks.lua
