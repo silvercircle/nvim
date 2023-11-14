@@ -100,7 +100,7 @@ function M.toggle_outline_type()
   elseif M.perm_config.outline_filetype == "Outline" then
     M.perm_config.outline_filetype = "aerial"
   end
-  vim.g.notifier.notify("Now using " .. M.perm_config.outline_filetype, 3, { title = "Outline", render = "compact" })
+  M.notify("Now using " .. M.perm_config.outline_filetype, 1)
 end
 
 --- set the statuscol to either normal or relative line numbers
@@ -497,36 +497,53 @@ function M.debugmsg(msg)
   end
 end
 
+local notify_classes = {
+  { icon = " ", title = "Trace" },
+  { icon = " ", title = "Debug" },
+  { icon = "ℹ", title = "Information"},
+  { icon = " ", title = "Warning"},
+  { icon = "⚠ ", title = "Error"}
+}
+
 --- use the notifier to display a message
---- @param msg string
---- @param level number warning level
---- @param params table additional parameters
-function M.notify(msg, level, params)
+--- @param msg string: The message to display
+--- @param level number: Warning level
+--- @optionally a title can be specified
+function M.notify(msg, level, ...)
+  local arg = {...}
+  local params = {}
   if vim.g.notifier == nil then
     return
   end
-  vim.g.notifier.notify(msg, level, params)
+  if level >= 0 and level <= 4 then
+    params.icon = notify_classes[level+1].icon
+    params.title = (arg[1] == nil) and notify_classes[level+1].title or arg[1]
+    vim.g.notifier.notify(msg, level, params)
+  end
 end
 --- toggle the debug mode and display the new status.
 function M.toggle_debug()
   M.perm_config.debug = not M.perm_config.debug
   if M.perm_config.debug == true then
-    vim.notify("Debug messages are now ENABLED.", 3)
+    M.notify("Debug messages are now ENABLED.", 1)
   else
-    vim.notify("Debug messages are now DISABLED.", 3)
+    M.notify("Debug messages are now DISABLED.", 1)
   end
 end
 
+-- enable/disable ibl rainbow guides
 function M.toggle_ibl_rainbow()
   M.perm_config.ibl_rainbow = not M.perm_config.ibl_rainbow
   require("ibl").update( { indent = { highlight = M.perm_config.ibl_rainbow == true and M.ibl_rainbow_highlight or M.ibl_highlight } } )
 end
 
+-- enable/disable ibl
 function M.toggle_ibl()
   M.perm_config.ibl_enabled = not M.perm_config.ibl_enabled
   require("ibl").update( { enabled = M.perm_config.ibl_enabled })
 end
 
+-- enable/disable ibl context display
 function M.toggle_ibl_context()
   M.perm_config.ibl_context = not M.perm_config.ibl_context
   require("ibl").update( { scope = { enabled = M.perm_config.ibl_context } } )

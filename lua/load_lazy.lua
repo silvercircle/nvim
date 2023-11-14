@@ -118,6 +118,9 @@ local plugins = {
             components = {
               "nvim",
               "lsp"
+            },
+            notify = {
+              min_level = 0
             }
           })
           vim.g.notifier = require("notifier")
