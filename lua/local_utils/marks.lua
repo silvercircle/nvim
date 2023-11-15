@@ -13,7 +13,7 @@
 --- Map of mark information per buffer.
 ---@type table<integer, table<string, {line: integer, id: integer}>>
 local marks = {}
-local M = {}
+local Marks = {}
 
 --- Keeps track of the signs I've already created.
 ---@type table<string, boolean>
@@ -90,7 +90,7 @@ end
 local skm = vim.api.nvim_set_keymap
 
 --- set key mappings
-function M.set_keymaps()
+function Marks.set_keymaps()
     skm('n', 'm', '', {
         desc = 'Add mark',
         callback = function()
@@ -129,7 +129,7 @@ end
 
 --- handle BufWinEnter events
 --- @param args table: event arguments
-function M.BufWinEnterHandler(args)
+function Marks.BufWinEnterHandler(args)
     local bufnr = args.buf
     -- Only handle normal buffers.
     if vim.bo[bufnr].bt ~= '' then
@@ -168,4 +168,4 @@ function M.BufWinEnterHandler(args)
     end
 end
 
-return M
+return Marks
