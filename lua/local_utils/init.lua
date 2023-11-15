@@ -18,6 +18,12 @@ M.default_file = ""
   -- File symbol for a terminal split
 M.terminal_symbol = ""
 
+function M.schedule_mkview()
+  if vim.g.config.mkview_on_fold == true then
+    vim.api.nvim_input('<f4>')
+  end
+end
+
 --- Get file symbol from devicons
 --- @param filename string: a valid filename
 --- @return string, string|nil: the symbol (can be an empty string) and highlight group (can be nil)

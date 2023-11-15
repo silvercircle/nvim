@@ -37,43 +37,24 @@ map('i', '<ins>', '<nop>', opts)
 -- file tree
 kms({'n', 'v'}, '<leader>r', function() perform_command('NvimTreeFindFile') end, opts) -- sync Nvim-Tree with current
 -- toggle NvimTree
-kms('n', '<leader>,', function()
-  require('nvim-tree.api').tree.toggle()
-end, opts) -- toggle the Nvim-Tree
+kms('n', '<leader>,', function() require('nvim-tree.api').tree.toggle() end, opts)
 
--- change NvimTree current directory to the root of current file (usually project or git root)
-kms('n', '<leader>R', function()
-  require('nvim-tree.api').tree.change_root(utils.getroot_current())
-end, opts)
-kms('n', '<leader>nr', function()
-  require('nvim-tree.api').tree.change_root(vim.fn.expand('%:p:h'))
-end, opts)
+-- change NvimTree current directory to the root of current project
+kms('n', '<leader>R', function() require('nvim-tree.api').tree.change_root(utils.getroot_current()) end, opts)
+-- same, but use the directory of the current buffer
+kms('n', '<leader>nr', function() require('nvim-tree.api').tree.change_root(vim.fn.expand('%:p:h')) end, opts)
 --end
 
 map('n', '<C-Tab>', '<CMD>bnext<CR>', opts)
 map('n', '<leader><Tab>', '<CMD>bnext<CR>', opts)
 
-kms({ 'i', 'n' }, '<C-f><C-a>', function()
-  globals.toggle_fo('a')
-end, opts)
-kms({ 'i', 'n' }, '<C-f><C-c>', function()
-  globals.toggle_fo('c')
-end, opts)
-kms({ 'i', 'n' }, '<C-f><C-w>', function()
-  globals.toggle_fo('w')
-end, opts)
-kms({ 'i', 'n' }, '<C-f><C-t>', function()
-  globals.toggle_fo('t')
-end, opts)
+kms({ 'i', 'n' }, '<C-f><C-a>', function() globals.toggle_fo('a') end, opts)
+kms({ 'i', 'n' }, '<C-f><C-c>', function() globals.toggle_fo('c') end, opts)
+kms({ 'i', 'n' }, '<C-f><C-w>', function() globals.toggle_fo('w') end, opts)
+kms({ 'i', 'n' }, '<C-f><C-t>', function() globals.toggle_fo('t') end, opts)
 
-kms({ 'i', 'n' }, '<C-f>1', function()
-  globals.set_fo('w')
-  globals.set_fo('a')
-end, opts)
-kms({ 'i', 'n' }, '<C-f>2', function()
-  globals.clear_fo('w')
-  globals.clear_fo('a')
-end, opts)
+kms({ 'i', 'n' }, '<C-f>1', function() globals.set_fo('w')  globals.set_fo('a') end, opts)
+kms({ 'i', 'n' }, '<C-f>2', function() globals.clear_fo('w') globals.clear_fo('a') end, opts)
 
 kms({ 'i', 'n' }, '<C-f>f', function()
   globals.clear_fo('w')
@@ -107,7 +88,7 @@ end, opts)
 map('n', '<leader>v', '}kV{j', opts) -- select current paragraph
 
 -- save file,
-kms({'i', 'n'}, '<C-s><C-s>', function() perform_command("update!") end, opts)
+kms({'i', 'n', 'v'}, '<C-s><C-s>', function() perform_command("update!") end, opts)
 
 -- Ctrl-x Ctrl-c close the file, do NOT save it(!) but create the view to save folding state and
 -- cursor position. if g.confirm_actions['buffer_close'] is true then a warning message and a
@@ -211,46 +192,27 @@ kms({ 'i', 'n' }, '<f1>', function()
   vim.lsp.buf.hover()
 end, opts)
 
--- the following is ALL related to folding and there are no command center equivalents
-local function schedule_mkview()
-  if vim.g.config.mkview_on_fold == true then
-    vim.api.nvim_input('<f4>')
-  end
-end
 kms({ 'n', 'i' }, '<f4>', function()
   globals.mkview()
 end, opts)
-
 --
 -- toggle current fold
-kms({'n', 'i', 'v'}, '<F2>', function()
-  perform_key('za')
-end, opts)
+kms({'n', 'i', 'v'}, '<F2>', function() perform_key('za') end, opts)
 
 -- close current fold (Shift-F2)
-kms({'n', 'i', 'v'}, '<f14>', function()
-  perform_key('zc')
-end, opts)
+kms({'n', 'i', 'v'}, '<f14>', function() perform_key('zc') end, opts)
 
 -- open current fold (Ctrl-F2)
-kms({'n', 'i', 'v'}, '<f26>', function()
-  perform_key('zo')
-end, opts)
+kms({'n', 'i', 'v'}, '<f26>', function() perform_key('zo') end, opts)
 
 -- toggle all folds at current line
-kms({'n', 'i', 'v'}, '<F3>', function()
-  perform_key('zA')
-end, opts)
+kms({'n', 'i', 'v'}, '<F3>', function() perform_key('zA') end, opts)
 
 -- close all folds at current line (Shift-F3)
-kms({'n', 'i', 'v'}, '<f15>', function()
-  perform_key('zC')
-end, opts)
+kms({'n', 'i', 'v'}, '<f15>', function() perform_key('zC') end, opts)
 
 -- open all folds at current line (Ctrl-F3)
-kms({'n', 'i', 'v'}, '<f27>', function()
-  perform_key('zO')
-end, opts)
+kms({'n', 'i', 'v'}, '<f27>', function() perform_key('zO') end, opts)
 
 -- jump list
 kms({'n', 'i', 'v'}, '<C-S-Left>', function() perform_key('<C-o>') end, opts)

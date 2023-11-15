@@ -17,10 +17,10 @@ M.telescope_vertical_preview_layout = {
 -- the overall width for the "mini" telescope picker. These are used for LSP symbols
 -- and references.
 M.telescope_mini_picker_width = 76
-
 -- length of the filename in the cokeline winbar
 M.cokeline_filename_width = 25
 
+-- tweaks for the cmp autocompletion system
 M.cmp = {
   -- max buffer size to enable the buffer words autocompletion source in cmp
   -- this is a performance tweak. Value is in bytes and 300kB is a reasonable default, even for
@@ -29,8 +29,8 @@ M.cmp = {
   -- I prefer to have only manual cmp complation (hit Ctrl-Space)
   -- set this to true to always have auto-completion when typing
   autocomplete = false,
-  -- minimum keyword length for auto-complete to kick in
-  keywordlen = 1,
+  -- minimum keyword length for auto-complete to kick in (only if the above is true)
+  keywordlen = 2,
   --enable experimental ghost text feature. Set to false (disable) or a table
   --containing the highlight group to use for ghost text.
   --M.cmp_ghost = { hl_group = 'CmpGhostText' }
@@ -39,6 +39,7 @@ M.cmp = {
 
 -- set this to "Outline" to use the symbols-outline plugin.
 -- set it to "aerial" to use the Aerial plugin.
+-- this is a default, it can be switched at runtime
 M.outline_plugin = "Outline"
 
 -- list of filetypes for which no views are created when saving or leaving the buffer
@@ -55,7 +56,7 @@ M.signcolumn = "yes:4"
 -- valid are 'dropbar' and 'navic'. Defaults to 'navic' when unrecognized
 -- note that dropbar requires neovim 0.10 which is currently in development
 -- and only available as nightly build.
-M.breadcrumb = 'dropbar'
+M.breadcrumb = 'navic'
 M.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
 
 -- settings for the fortune cookie split
