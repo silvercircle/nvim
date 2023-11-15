@@ -15,13 +15,10 @@ local utility_key = require("tweaks").utility_key
 --- prefix <c-o> when in insert mode
 local function perform_key(key)
   local mode = vim.api.nvim_get_mode().mode
-  local _key
-  if mode == 'n' or mode == 'v' then
-    _key = vim.api.nvim_replace_termcodes(key, true, false, true)
-  elseif mode == 'i' then
-    _key = vim.api.nvim_replace_termcodes('<C-o>' .. key, true, false, true)
+  if mode == 'i' then
+    key = '<C-o>' .. key
   end
-  vim.api.nvim_feedkeys(_key, mode, false)
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, false, true), mode, false)
 end
 
 --- perform a command
