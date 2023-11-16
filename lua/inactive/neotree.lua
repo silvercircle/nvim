@@ -121,7 +121,7 @@ require("neo-tree").setup({
       size = { height = "70%", width = "60" },
       position = "50%", -- 50% means center it
     },
-    width = vim.g.config.filetree_width,
+    width = require("globals").perm_config.tree.width,
     mapping_options = {
       noremap = true,
       nowait = true,

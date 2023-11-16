@@ -1,4 +1,6 @@
  -- Call the setup function to change the default behavior
+local globals = require("globals")
+
 require("aerial").setup({
   -- Priority list of preferred backends for aerial.
   -- This can be a filetype map (see :help aerial-filetype-map)
@@ -12,9 +14,10 @@ require("aerial").setup({
     -- They can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
     -- min_width and max_width can be a list of mixed types.
     -- max_width = {40, 0.2} means "the lesser of 40 columns or 20% of total"
-    max_width = { vim.g.config.outline_width },
+    max_width = { globals.perm_config.outline.width },
     width = nil,
     min_width = vim.g.config.outline_width,
+    ignore_width = true,
 
     -- key-value pairs of window-local options for aerial window (e.g. winhl)
     win_opts = {
@@ -208,7 +211,7 @@ require("aerial").setup({
     -- function     - A function that returns true if the window should be
     --                ignored or false if it should not be ignored.
     --                Takes two arguments, `winid` and `wintype`.
-    wintypes = "special",
+    wintypes = "special"
   },
 
   -- Use symbol tree for folding. Set to true or false to enable/disable
@@ -291,7 +294,7 @@ require("aerial").setup({
   lsp = {
     -- Fetch document symbols when LSP diagnostics update.
     -- If false, will update on buffer changes.
-    diagnostics_trigger_update = true,
+    diagnostics_trigger_update = false,
 
     -- Set to false to not update the symbols when there are LSP errors
     update_when_errors = true,

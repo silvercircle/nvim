@@ -284,8 +284,9 @@ local plugins = {
       require("plugins.symbols_outline")
     end
   },
-  { 'stevearc/aerial.nvim',
+  { 'silvercircle/aerial.nvim',
     event = "LspAttach",
+    branch = 'mine',
     verylazy = true,
     config = function()
       require("plugins.aerialsetup")

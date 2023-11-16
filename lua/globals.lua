@@ -5,6 +5,7 @@ local M = {}
 M.winid_bufferlist = 0
 M.main_winid = 0
 M.cur_bufsize = 0
+M.outline_is_open = false
 
 M.term = {
   bufid = nil,
@@ -30,10 +31,16 @@ M.perm_config_default = {
     active = true,
     height = 12
   },
+  tree = {
+    width = vim.g.config.filetree_width,
+    active = true
+  },
+  outline = {
+    width = vim.g.config.outline_width
+  },
   statuscol_current = 'normal',
   blist = true,
   blist_height = 0.33,
-  tree = true,
   theme_variant = 'warm',
   transbg = false,
   theme_desaturate = true,
@@ -79,6 +86,10 @@ function M.open_outline()
     vim.cmd('OutlineOpen')
   elseif M.perm_config.outline_filetype == "aerial" then
     require("aerial").open()
+--    local win =M.findwinbyBufType("aerial")
+--    if #win > 0 and win[1] ~= nil then
+--      vim.api.nvim_win_set_width(win[1], M.perm_config.outline.width)
+--    end
   end
 end
 
@@ -91,8 +102,19 @@ function M.close_outline()
   end
 end
 
--- toggle the type of outline window to use between outline.nvim ("Outline") and
--- aerial.
+function M.is_outline_open()
+  local status = {
+    outline = 0,
+    aerial = 0
+  }
+  local _o = M.findwinbyBufType("Outline")
+  if #_o > 0 and _o[1] ~= nil then status.outline = _o[1] end
+  local _a = M.findwinbyBufType("aerial")
+  if #_a > 0 and _a[1] ~= nil then status.outline = _a[1] end
+  return status
+end
+
+-- toggle the type of outline window to use between outline.nvim and aerial.
 function M.toggle_outline_type()
   M.close_outline()
   if M.perm_config.outline_filetype == 'aerial' then
@@ -120,7 +142,7 @@ function M.set_statuscol(mode)
     vim.o.numberwidth = vim.g.tweaks.numberwidth_rel
     vim.o.number = false
   end
-  M.notify("Line numbers set to :" .. mode, 2, { title = "Info" })
+  M.notify("Line numbers set to: " .. mode, vim.log.levels.INFO)
 end
 
 -- toggle statuscolum between absolute and relative line numbers
@@ -298,8 +320,7 @@ function M.close_qf_or_loc()
   end
 end
 
---- opens a terminal split at the bottom. May also open the sysmon and weather
---- splits
+--- opens a terminal split at the bottom. May also open the sysmon/fortune split
 --- @param _height number: height of the terminal split to open.
 function M.termToggle(_height)
   local height = _height or M.term.height
@@ -375,7 +396,9 @@ function M.write_config()
         active = usplit_id ~= nil and true or false,
       },
       blist = blist_id ~=nil and true or false,
-      tree = #M.findwinbyBufType("NvimTree") > 0 and true or false,
+      tree = {
+        active = #M.findwinbyBufType("NvimTree") > 0 and true or false
+      },
       theme_variant = vim.g.theme_variant,
       theme_desaturate = vim.g.theme_desaturate
     }
@@ -437,7 +460,7 @@ function M.adjust_layout()
   end
   local outline = M.findwinbyBufType("Outline")
   if #outline > 0 then
-    vim.api.nvim_win_set_width(outline[1], vim.g.config.outline_width)
+    vim.api.nvim_win_set_width(outline[1], M.perm_config.outline.width)
   end
 end
 
@@ -575,6 +598,7 @@ end
 --- set the background transparent or solid
 --- this changes the relevant highlight groups to use a transparent background.
 --- Needs terminal with transparency support (kitty, alacritty etc.)
+--- this will not work with different color schemes.
 function M.set_bg()
   if M.perm_config.transbg == true then
     vim.api.nvim_set_hl(0, "Normal", { bg = "none", fg = "fg" } )

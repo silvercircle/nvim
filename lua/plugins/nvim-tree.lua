@@ -98,7 +98,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   view = {
     adaptive_size = false,
     centralize_selection = false,
-    width = vim.g.config.filetree_width,
+    width = globals.perm_config.tree.width,
     -- hide_root_folder = false,
     side = 'left',
     preserve_window_proportions = true,
@@ -309,6 +309,7 @@ api.events.subscribe(Event.TreeOpen, function(_)
   local w = vim.fn.win_getid()
   vim.api.nvim_win_set_option(w, 'statusline', '   NvimTree')
   vim.cmd('setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual')
+  vim.api.nvim_win_set_width(w, globals.perm_config.tree.width)
   globals.adjust_layout()
   if globals.perm_config.weather.active == true then
     wsplit.content = globals.perm_config.weather.content

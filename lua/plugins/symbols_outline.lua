@@ -4,7 +4,7 @@ require("symbols-outline").setup({
   auto_preview = false,
   position = "right",
   relative_width = false,
-  width = vim.g.config.outline_width,
+  width = require("globals").perm_config.outline.width,
   auto_close = false,
   show_numbers = false,
   show_relative_numbers = false,

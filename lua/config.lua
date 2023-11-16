@@ -48,6 +48,7 @@ vim.g.config = {
     ghost_text = tweaks.cmp.ghost
   },
   minipicker_iprefix = "#>",
+  -- these are minimal values
   filetree_width = 44,                          -- width nvim-tree plugin (file tree)
   outline_width = 36,                           -- split width for symbols-outline window (right sidebar)
   -- some optional plugins

@@ -40,7 +40,7 @@ autocmd({ 'UIEnter' }, {
     did_UIEnter = true
     globals.main_winid = vim.fn.win_getid()
     if vim.g.config.plain == false then
-      if globals.perm_config.tree == true then
+      if globals.perm_config.tree.active == true then
         require('nvim-tree.api').tree.toggle({focus = false})
       end
       if globals.perm_config.terminal.active == true then
@@ -49,12 +49,33 @@ autocmd({ 'UIEnter' }, {
       -- create the WinResized watcher to keep track of the terminal split height.
       -- also call the resize handlers for the usplit/wsplit frames.
       autocmd({ "WinClosed", "WinResized" }, {
-        callback = function()
+        callback = function(sizeevent)
           if globals.term.winid ~= nil then
             globals.perm_config.terminal.height = vim.api.nvim_win_get_height(globals.term.winid)
           end
           require("local_utils.usplit").resize_or_closed()
-          require("local_utils.wsplit").resize_or_closed()
+          -- require("local_utils.wsplit").resize_or_closed()
+          if sizeevent.event == "WinResized" then
+            local status = globals.is_outline_open()
+            local tree = globals.findwinbyBufType("NvimTree")
+            if status.outline ~= 0 then
+              globals.perm_config.outline.width = vim.api.nvim_win_get_width(status.outline)
+              -- print("Outline (" .. status.outline .. ") width set to: " .. globals.perm_config.outline.width)
+            end
+            if status.aerial ~= 0 then
+              globals.perm_config.outline.width = vim.api.nvim_win_get_width(status.aerial)
+              -- print("Aerial (" .. status.aerial .. ") width set to: " .. globals.perm_config.outline.width, 3)
+            end
+            if globals.perm_config.outline.width < vim.g.config.outline_width then
+              globals.perm_config.outline.width = vim.g.config.outline_width
+            end
+            if #tree > 0 and tree[1] ~= nil then
+              globals.perm_config.tree.width = vim.api.nvim_win_get_width(tree[1])
+              if globals.perm_config.tree.width < vim.g.config.filetree_width then
+                globals.perm_config.tree.width = vim.g.config.filetree_width
+              end
+            end
+          end
         end,
         group = agroup_views
       })
@@ -176,6 +197,7 @@ autocmd( { 'FileType' }, {
     if args.match == 'Outline' then
       vim.cmd("silent! setlocal statuscolumn=")
     end
+    vim.api.nvim_win_set_width(0, globals.perm_config.outline.width)
   end,
   group = agroup_views
 })
