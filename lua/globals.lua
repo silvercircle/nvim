@@ -209,10 +209,12 @@ local _mkview_exclude = vim.g.tweaks.mkview_exclude
 --- this creates a view using mkview unless the buffer has no file name or is not a file at all.
 --- it also respects the filetype exclusion list to avoid unwanted clutter in the views folder
 function M.mkview()
-  if vim.tbl_contains(_mkview_exclude, vim.bo.filetype) == true then
-    return
-  end
-  if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then
+  -- require valid filename and ignore all buffers with special buftype
+  if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") == '' then
+    -- respect exclusion list
+    if vim.tbl_contains(_mkview_exclude, vim.bo.filetype) == true then
+      return
+    end
     vim.cmd("silent! mkview!")
   end
 end
@@ -525,9 +527,9 @@ end
 function M.toggle_debug()
   M.perm_config.debug = not M.perm_config.debug
   if M.perm_config.debug == true then
-    M.notify("Debug messages are now ENABLED.", 1)
+    M.notify("Debug messages are now ENABLED.", 2)
   else
-    M.notify("Debug messages are now DISABLED.", 1)
+    M.notify("Debug messages are now DISABLED.", 2)
   end
 end
 

@@ -810,18 +810,6 @@ highlight! link jsxEscapeJs Purple
 highlight! link jsxAttrib Blue
 " }}}
 " syn_end }}}
-" syn_begin: typescript/typescriptreact {{{
-" vim-typescript: https://github.com/leafgarland/typescript-vim{{{
-highlight! link typescriptStorageClass Red
-highlight! link typescriptEndColons Fg
-highlight! link typescriptSource BlueItalic
-highlight! link typescriptMessage Green
-highlight! link typescriptGlobalObjects BlueItalic
-highlight! link typescriptInterpolation Purple
-highlight! link typescriptInterpolationDelimiter Purple
-highlight! link typescriptBraces Fg
-highlight! link typescriptParens Fg
-" }}}
 " syn_begin: objc {{{
 " builtin: {{{
 highlight! link objcModuleImport Red
@@ -892,14 +880,6 @@ highlight! link matlabArithmeticOperator Red
 highlight! link matlabRelationalOperator Red
 highlight! link matlabRelationalOperator Red
 highlight! link matlabLogicalOperator Red
-" }}}
-" syn_end }}}
-" syn_begin: ps1 {{{
-" vim-ps1: https://github.com/PProvost/vim-ps1{{{
-highlight! link ps1FunctionInvocation Green
-highlight! link ps1FunctionDeclaration Green
-highlight! link ps1InterpolationDelimiter Purple
-highlight! link ps1BuiltIn BlueItalic
 " }}}
 " syn_end }}}
 " syn_begin: help {{{

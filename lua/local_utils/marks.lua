@@ -127,7 +127,7 @@ function Marks.set_keymaps()
     })
 end
 
---- handle BufWinEnter events
+--- handle BufWinEnter events to refresh marks in the signcolumn
 --- @param args table: event arguments
 function Marks.BufWinEnterHandler(args)
     local bufnr = args.buf
