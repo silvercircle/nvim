@@ -2,7 +2,7 @@
 -- can be used without calling setup(), but you can use it to set some (few) options.
 
 local globals = require("globals")
-local M = {}
+local Utils = {}
 
 local default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", ".vscode" }
 
@@ -14,11 +14,11 @@ local conf = {
 }
 
  -- Fallback file symbol for devicon
-M.default_file = ""
+Utils.default_file = ""
   -- File symbol for a terminal split
-M.terminal_symbol = ""
+Utils.terminal_symbol = ""
 
-function M.schedule_mkview()
+function Utils.schedule_mkview()
   if vim.g.config.mkview_on_fold == true then
     vim.api.nvim_input('<f4>')
   end
@@ -28,7 +28,7 @@ end
 --- @param filename string: a valid filename
 --- @return string, string|nil: the symbol (can be an empty string) and highlight group (can be nil)
 --- nvim-web-devicons plugin is REQUIRED
-function M.getFileSymbol(filename)
+function Utils.getFileSymbol(filename)
   if filename == nil or #filename == 0 then
     return "", nil
   end
@@ -37,9 +37,9 @@ function M.getFileSymbol(filename)
   local symbol, hl = require("nvim-web-devicons").get_icon(filename, ext)
   if not symbol then
     if filename:match("^term://") then
-      symbol = M.terminal_symbol
+      symbol = Utils.terminal_symbol
     else
-      symbol = M.default_file
+      symbol = Utils.default_file
     end
   end
   return symbol, hl
@@ -48,13 +48,13 @@ end
 --- output a debug message
 --- @param msg string - what's to be printed
 --- does nothing when conf.debugmode = false (default)
-function M.debug(msg)
+function Utils.debug(msg)
   if conf.debugmode then
     print("Utils: " .. msg)
   end
 end
 
-function M.setup(opts)
+function Utils.setup(opts)
   opts = opts or {}
   conf.root_patterns = opts.root_patterns or default_root_patterns
   conf.debugmode = opts.debug or false
@@ -66,7 +66,7 @@ end
 
 -- some library functions
 -- pad string left and right to length with fill as fillchar
-function M.pad(string, length, fill)
+function Utils.pad(string, length, fill)
   local padlen = (length - #string) / 2
   if #string >= length or padlen < 2 then
     return string
@@ -74,7 +74,7 @@ function M.pad(string, length, fill)
   return string.rep(fill, padlen) .. string .. string.rep(fill, padlen)
 end
 
-function M.lpad(string, length, fill)
+function Utils.lpad(string, length, fill)
   local padlen = (length - #string)
   if #string >= length or padlen < 2 then
     return string
@@ -82,7 +82,7 @@ function M.lpad(string, length, fill)
   return string.rep(fill, padlen) .. string
 end
 
-function M.rpad(string, length, fill)
+function Utils.rpad(string, length, fill)
   local padlen = (length - #string)
   if #string >= length or padlen < 2 then
     return string
@@ -90,7 +90,7 @@ function M.rpad(string, length, fill)
   return string .. string.rep(fill, padlen)
 end
 
-function M.string_split(s, delimiter)
+function Utils.string_split(s, delimiter)
   local result = {};
   for match in (s..delimiter):gmatch("(.-)"..delimiter) do
     table.insert(result, match);
@@ -98,7 +98,7 @@ function M.string_split(s, delimiter)
   return result;
 end
 
-function M.truncate(text, max_width)
+function Utils.truncate(text, max_width)
   if #text > max_width then
     return string.sub(text, 1, max_width) .. "…"
   else
@@ -108,7 +108,7 @@ end
 
 --- get prompt prefix to determine whether a picker has been called in insert mode
 --- this is hack-ish, but works.
-function M.getTelescopePromptPrefix()
+function Utils.getTelescopePromptPrefix()
   return vim.api.nvim_get_mode().mode == 'i' and vim.g.config.minipicker_iprefix or '> '
 end
 
@@ -117,11 +117,11 @@ end
 --- path will be used. Otherwise, the .pdf is expected in the same directory as the .tex file
 --- @param _filename string: the filename to analyze
 --- @param _useglobal boolean: use the global texoutput directory
-function M.getLatexPreviewPath(_filename, _useglobal)
+function Utils.getLatexPreviewPath(_filename, _useglobal)
   local useglobal = _useglobal or false
   local path = vim.fn.expand(vim.g.config.texoutput)
   local finalpath
-  M.debugmsg("The preview path is: " .. path)
+  Utils.debugmsg("The preview path is: " .. path)
   if useglobal == true and #path > 0 and vim.fn.isdirectory(path) == 1 then
     finalpath = path .. vim.fn.expand(vim.fn.fnamemodify(_filename, ":t:r")) .. ".pdf"
   else
@@ -134,9 +134,9 @@ function M.getLatexPreviewPath(_filename, _useglobal)
   end
 end
 
-function M.view_latex()
+function Utils.view_latex()
   return function()
-    local result, path = M.getLatexPreviewPath(vim.fn.expand("%"), true)
+    local result, path = Utils.getLatexPreviewPath(vim.fn.expand("%"), true)
     if result == true then
       local viewer = vim.g.config.texviewer or "zathura"
       local cmd = "silent !" .. viewer .. " '" .. path .. "' &"
@@ -149,7 +149,7 @@ function M.view_latex()
   end
 end
 
-function M.compile_latex()
+function Utils.compile_latex()
   return function()
     -- must change cwd to current, otherwise latex may not found subdocuments using relative
     -- file names. 
@@ -162,7 +162,7 @@ function M.compile_latex()
   end
 end
 
-function M.selectFrom()
+function Utils.selectFrom()
   local lines = {}
   local i = 1
   local adresses = {
@@ -182,7 +182,7 @@ function M.selectFrom()
   vim.ui.select(lines, {
   prompt = 'Select From adress',
     format_item = function(item)
-      return M.pad(item, 60, ' ')
+      return Utils.pad(item, 60, ' ')
     end,
   },
   function(choice)
@@ -196,7 +196,7 @@ end
 --- tries a git root first, then uses known patterns to identify a potential project root
 --- patterns are in conf table.
 --- @param fname string (a fullpath filename)
-function M.getroot(fname)
+function Utils.getroot(fname)
   local lsputil = require('lspconfig.util')
   -- try git root first
   local path = nil
@@ -205,31 +205,31 @@ function M.getroot(fname)
   end
   if path == nil then
     if conf.ignore_git == false then
-      M.debug("No git root found for " .. fname .. " trying root patterns")
+      Utils.debug("No git root found for " .. fname .. " trying root patterns")
     end
     path = lsputil.root_pattern(conf.root_patterns)(fname)
   end
   if path == nil then
-    M.debug("No root found for " .. fname .." giving up")
+    Utils.debug("No root found for " .. fname .." giving up")
     return "."
   else
-    M.debug("Found root path for " .. fname .. ": " .. path)
+    Utils.debug("Found root path for " .. fname .. ": " .. path)
     return path
   end
 end
 
 --- a helper function for M.getroot()
 --- this always exands the filename for the current buffer.
-function M.getroot_current()
-  return M.getroot(vim.fn.expand("%:p:h"))
+function Utils.getroot_current()
+  return Utils.getroot(vim.fn.expand("%:p:h"))
 end
 
 --- simple telescope picker to list active LSP servers. Allows to terminate a server on selection.
-function M.StopLsp()
+function Utils.StopLsp()
   local entries = {}
   local clients = vim.lsp.get_active_clients()
   for _, client in ipairs(clients) do
-    local entry = M.rpad(tostring(client['id']), 10, ' ') .. M.rpad(client['name'], 20, ' ') .. M.rpad(client['config']['cmd'][1], 40, ' ')
+    local entry = Utils.rpad(tostring(client['id']), 10, ' ') .. Utils.rpad(client['name'], 20, ' ') .. Utils.rpad(client['config']['cmd'][1], 40, ' ')
     table.insert(entries, entry)
   end
   local pickers = require "telescope.pickers"
@@ -265,11 +265,11 @@ function M.StopLsp()
       end,
     }):find()
   end
-  lspselector(Telescope_dropdown_theme{width=0.4, height=0.2, prompt_title="Active LSP clients (Enter = terminate, ESC cancels)"})
+  lspselector(Telescope_dropdown_theme{width=0.4, height=0.4, prompt_title="Active LSP clients (Enter = terminate, ESC cancels)"})
 end
 
 -- confirm buffer close when file is modified. May discard the file but always save the view.
-function M.BufClose()
+function Utils.BufClose()
   -- local closecmd = "call Mkview() | Kwbd"
   local closecmd = "Kwbd"
   local saveclosecmd = "update! | Kwbd"
@@ -279,7 +279,7 @@ function M.BufClose()
       vim.ui.select({ 'Save and Close', 'Close and discard', 'Cancel Operation' }, {
       prompt = 'Close modified buffer?',
         format_item = function(item)
-          return M.pad(item, 46, ' ')
+          return Utils.pad(item, 46, ' ')
         end,
       },
       function(choice)
@@ -304,17 +304,17 @@ function M.BufClose()
 end
 
 local fdm = {
-  { text = M.pad("Indent", 25, ' '), val = "indent" },
-  { text = M.pad("Expression", 25, ' '), val = "expr" },
-  { text = M.pad("Syntax", 25, ' '), val = "syntax" },
-  { text = M.pad("Marker", 25, ' '), val = "marker" },
-  { text = M.pad("Diff", 25, ' '), val = "diff" },
-  { text = M.pad("Manual", 25, ' '), val = "manual" }
+  { text = Utils.pad("Indent", 25, ' '), val = "indent" },
+  { text = Utils.pad("Expression", 25, ' '), val = "expr" },
+  { text = Utils.pad("Syntax", 25, ' '), val = "syntax" },
+  { text = Utils.pad("Marker", 25, ' '), val = "marker" },
+  { text = Utils.pad("Diff", 25, ' '), val = "diff" },
+  { text = Utils.pad("Manual", 25, ' '), val = "manual" }
 }
 
 --- use mini.pick to pick a folding method.
 --- @param currentmode string: the current folding method will be placed on top of the list and highlighted
-function M.PickFoldingMode(currentmode)
+function Utils.PickFoldingMode(currentmode)
   if currentmode == nil or currentmode == '' then
     return
   end
@@ -351,7 +351,7 @@ function M.PickFoldingMode(currentmode)
   })
 end
 
-function M.Quitapp()
+function Utils.Quitapp()
   local bufs = vim.api.nvim_list_bufs()
   local have_modified_buf = false
 
@@ -367,7 +367,7 @@ function M.Quitapp()
         prompt = 'Exit (no modified buffers)',
         border="single",
         format_item = function(item)
-          return M.pad(item, 40, ' ')
+          return Utils.pad(item, 40, ' ')
         end,
       },
       function(choice)
@@ -385,7 +385,7 @@ function M.Quitapp()
     vim.ui.select({ 'Save all modified buffers and exit', 'Discard all modified buffers and exit', 'Cancel operation' }, {
       prompt = 'Exit (all unsaved changes are lost)',
         format_item = function(item)
-          return M.pad(item, 40, ' ')
+          return Utils.pad(item, 40, ' ')
         end,
       },
       function(choice)
@@ -418,7 +418,7 @@ local border_layout_prompt_bottom = {
 }
 
 -- private modified version of the dropdown theme with a square border
-function M.Telescope_dropdown_theme(opts)
+function Utils.Telescope_dropdown_theme(opts)
   local lopts = opts or {}
   local defaults = require('telescope.themes').get_dropdown({
     -- borderchars = vim.g.config.telescope_dropdown == 'bottom' and border_layout_bottom_vertical or border_layout_top_center,
@@ -444,7 +444,7 @@ end
 
 --- a dropdown theme with vertical layout strategy
 --- @param opts table of valid telescope options
-function M.Telescope_vertical_dropdown_theme(opts)
+function Utils.Telescope_vertical_dropdown_theme(opts)
   local lopts = opts or {}
   local defaults = require('telescope.themes').get_dropdown({
     borderchars = {
@@ -480,7 +480,7 @@ end
 
 -- custom theme for the command_center Telescope plugin
 -- reason: I have square borders everywhere
-function M.command_center_theme(opts)
+function Utils.command_center_theme(opts)
   local lopts = opts or {}
   local defaults = require('telescope.themes').get_dropdown({
     borderchars = vim.g.config.cpalette_dropdown == 'bottom' and border_layout_prompt_bottom or border_layout_prompt_top,
@@ -502,5 +502,5 @@ function M.command_center_theme(opts)
   end
   return vim.tbl_deep_extend('force', defaults, lopts)
 end
-return M
+return Utils
 
