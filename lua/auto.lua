@@ -48,6 +48,7 @@ autocmd({ 'UIEnter' }, {
       end
       -- create the WinResized watcher to keep track of the terminal split height.
       -- also call the resize handlers for the usplit/wsplit frames.
+      -- keep track of tree/outline window widths
       autocmd({ "WinClosed", "WinResized" }, {
         callback = function(sizeevent)
           if globals.term.winid ~= nil then
@@ -56,6 +57,8 @@ autocmd({ 'UIEnter' }, {
           require("local_utils.usplit").resize_or_closed()
           -- require("local_utils.wsplit").resize_or_closed()
           if sizeevent.event == "WinResized" then
+            wsplit.set_minheight()
+            wsplit.refresh()
             local status = globals.is_outline_open()
             local tree = globals.findwinbyBufType("NvimTree")
             if status.outline ~= 0 then

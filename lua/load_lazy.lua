@@ -126,35 +126,6 @@ local plugins = {
           vim.g.notifier = require("notifier")
         end
       },
---      {'j-hui/fidget.nvim',
---        --tag = "legacy",
---        event = "LspAttach",
---        config = function()
---          require("fidget").setup({
---            text = {
---              spinner = "zip",
---            },
---            window = {
---              relative = "win",
---              blend = 100
---            },
---            align = {
---            },
---            progress = {
---              -- ignore = { 'lua_ls', 'lua-language-server' }
---            },
---            timer = {
---              spinner_rate = 500,
---            },
---            fmt = {
---              max_messages = 2
---            },
---            sources = {
---              -- lua_ls = { ignore = true }
---            }
---          })
---        end
---      }
     },
     config = function()
       require("plugins.lsp")
@@ -267,12 +238,6 @@ local plugins = {
     'gabrielpoca/replacer.nvim',
     ft = { "qf" }
   },
---  {
---    'arkav/lualine-lsp-progress',
---    config = function()
---
---    end
---  },
   {
     'willothy/nvim-cokeline', branch = "main"
   },

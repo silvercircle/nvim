@@ -51,7 +51,7 @@ M.cmdheight = 0
 M.numberwidth = 6
 -- for relative numbers, 2 should normally be sufficient, but then 
 M.numberwidth_rel = 2
-M.signcolumn = "yes:4"
+M.signcolumn = "yes:3"
 
 -- valid are 'dropbar' and 'navic'. Defaults to 'navic' when unrecognized
 -- note that dropbar requires neovim 0.10 which is currently in development

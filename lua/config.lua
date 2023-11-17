@@ -207,8 +207,8 @@ vim.g.confirm_actions = {
 
 local g = vim.g
 -- disable some standard plugins
-g.loaded_netrw       = 1
-g.loaded_netrwPlugin = 1
+--g.loaded_netrw       = 1
+--g.loaded_netrwPlugin = 1
 
 g.loaded_zipPlugin= 1
 g.loaded_zip = 1
@@ -273,7 +273,7 @@ vim.g.cokeline_colors = {
   bg = LuaLineColors.statuslinebg,
   focus_bg = vim.g.theme.accent_color,
   fg = LuaLineColors.gray7,
-  focus_fg = '#202020'
+  focus_fg = '#000000'
 }
 
 --- internal global function to create the lualine color theme

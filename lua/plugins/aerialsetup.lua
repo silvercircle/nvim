@@ -17,6 +17,7 @@ require("aerial").setup({
     max_width = { globals.perm_config.outline.width },
     width = nil,
     min_width = vim.g.config.outline_width,
+    -- do not enforce width, let control it from outside.
     ignore_width = true,
 
     -- key-value pairs of window-local options for aerial window (e.g. winhl)

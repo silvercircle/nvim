@@ -86,10 +86,6 @@ function M.open_outline()
     vim.cmd('OutlineOpen')
   elseif M.perm_config.outline_filetype == "aerial" then
     require("aerial").open()
---    local win =M.findwinbyBufType("aerial")
---    if #win > 0 and win[1] ~= nil then
---      vim.api.nvim_win_set_width(win[1], M.perm_config.outline.width)
---    end
   end
 end
 
