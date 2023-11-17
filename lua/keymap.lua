@@ -315,26 +315,31 @@ kms({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   end
 end, opts) -- Outline
 
--- focus the terminal split when available
-kms({ 'n', 'i', 't', 'v' }, '<A-4>', function()
+local function focus_term_split(dir)
   if globals.findbufbyType('terminal') == false then
     vim.api.nvim_input('<f11>')
   end
   vim.cmd.startinsert()
+  if dir and #dir > 0 then
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("cd " .. dir .. "<cr>", true, false, true), 'i', false)
+  end
+end
+
+-- focus the terminal split when available
+kms({ 'n', 'i', 't', 'v' }, '<A-4>', function()
+  focus_term_split(nil)
 end, opts) -- Terminal
 
+-- focus the terminal split and set root
 kms({ 'n', 'i', 't', 'v' }, '<A-5>', function()
-  local blist = require('local_utils.blist')
-  if blist.main_win == nil then
-    blist.open(true, 0, globals.perm_config.blist_height)
-  else
-    if blist.main_win ~= vim.fn.win_getid() then
-      vim.fn.win_gotoid(blist.main_win)
-    else
-      blist.close()
-      vim.fn.win_gotoid(globals.main_winid)
-    end
-  end
+  local dir = vim.fn.expand("%:p:h")
+  focus_term_split(dir)
+end, opts) -- Buffer List
+
+-- focus the terminal split and set root to project root
+kms({ 'n', 'i', 't', 'v' }, '<A-6>', function()
+  local dir = utils.getroot_current()
+  focus_term_split(dir)
 end, opts) -- Buffer List
 
 kms({ 'n', 'i', 't', 'v' }, '<A-0>', function()
@@ -369,6 +374,7 @@ kms({ 'n', 'i', 't', 'v' }, '<A-8>', function()
   end
 end, opts) -- wsplit (weather)
 
+-- focus quickfix list (when open)
 kms({ 'n', 'i', 't', 'v' }, '<A-7>', function()
   if globals.findbufbyType('qf') == false then
     vim.cmd('copen')
@@ -417,7 +423,7 @@ end, opts)
 
 -- debug keymap, print the filetype of the current buffer
 kms({ 'n', 'i', 't', 'v' }, '<C-x>ft', function()
-  print(vim.api.nvim_get_option_value("filetype", { buf = 0 }))
+  globals.notify("Filetype is: " .. vim.api.nvim_get_option_value("filetype", { buf = 0 }), 2, " ")
 end, opts)
 
 kms({ 'n', 'i', 't', 'v' }, utility_key .. '#', function()
