@@ -275,12 +275,20 @@ autocmd( { 'CmdLineEnter' }, {
 -- filetypes for left, right and bottom splits. They are meant to have a different background
 -- color and no cursor
 local enter_leave_filetypes = { "DressingSelect", "aerial", "Outline", "NvimTree" }
+local old_mode
+
 autocmd( { 'WinEnter' }, {
   pattern = '*',
   callback = function()
     local filetype = vim.bo.filetype
     if vim.tbl_contains(enter_leave_filetypes, filetype) then
       vim.cmd("setlocal winhl=CursorLine:Visual,Normal:NeoTreeNormalNC | hi nCursor blend=100")
+    end
+    -- HACK: NvimTree and outline windows will complain about the buffer being not modifiable
+    -- when insert mode is active. So stop it and remember its state
+    if filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial" then
+      old_mode = vim.api.nvim_get_mode().mode
+      vim.cmd.stopinsert()
     end
   end,
   group = agroup_hl
@@ -292,6 +300,14 @@ autocmd( { 'WinLeave' }, {
     local filetype = vim.bo.filetype
     if vim.tbl_contains(enter_leave_filetypes, filetype) then
       vim.cmd("hi nCursor blend=0")
+    end
+    -- HACK: restore the insert mode if it was active when changing to the NvimTree or outline
+    -- split.
+    if filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial" then
+      if old_mode == 'i' then
+        old_mode = ''
+        vim.cmd.startinsert()
+      end
     end
   end,
   group = agroup_hl
