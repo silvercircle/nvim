@@ -262,13 +262,5 @@ cmp_helper.compare = {
   end,
 }
 
-require("cmp_wordlist").setup({
-  wordfiles={'wordlist.txt', "personal.txt" },
-  debug = false,
-  read_on_setup = false,
-  watch_files = true,
-  telescope_theme = Telescope_dropdown_theme
-})
-
 -- vim.cmd("doautocmd CmdLineEnter")
 

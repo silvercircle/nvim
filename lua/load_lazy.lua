@@ -79,18 +79,29 @@ local plugins = {
   },
   -- cmp and all its helpers
   { 'hrsh7th/nvim-cmp',
+    cond = false,
     lazy = true,
     event = { "InsertEnter", "CmdLineEnter" },
     dependencies = {
       'hrsh7th/cmp-cmdline',
-      'hrsh7th/cmp-nvim-lsp',
+      {'hrsh7th/cmp-nvim-lsp'},
       'hrsh7th/cmp-path',
-      'hrsh7th/cmp-emoji',
-      'dcampos/cmp-snippy',
-      'hrsh7th/cmp-nvim-lua',
-      'hrsh7th/cmp-nvim-lsp-signature-help',
-      {'https://gitlab.com/silvercircle74/cmp-wordlist.nvim' },
-      'hrsh7th/cmp-buffer'
+      {'hrsh7th/cmp-emoji'},
+      {'dcampos/cmp-snippy'},
+      {'hrsh7th/cmp-nvim-lua'},
+      {'hrsh7th/cmp-nvim-lsp-signature-help'},
+      {'https://gitlab.com/silvercircle74/cmp-wordlist.nvim',
+        config = function()
+          require("cmp_wordlist").setup({
+            wordfiles={'wordlist.txt', "personal.txt" },
+            debug = false,
+            read_on_setup = false,
+            watch_files = true,
+            telescope_theme = Telescope_dropdown_theme
+          })
+        end
+      },
+      {'hrsh7th/cmp-buffer'}
     },
     config = function()
       require("plugins.cmp")
@@ -109,7 +120,11 @@ local plugins = {
         end
       },
       {'SmiteshP/nvim-navic',lazy=true, cond = vim.g.config.breadcrumb == 'navic', event = "LspAttach" },
-      'dnlhc/glance.nvim',
+      {'dnlhc/glance.nvim',
+        config = function()
+          require("plugins.glance")
+        end
+      },
       {'vigoux/notifier.nvim',
         event = "LspAttach",
         lazy = true,
@@ -146,7 +161,7 @@ local plugins = {
   'BurntSushi/ripgrep',
   'kevinhwang91/nvim-hlslens',
   'lewis6991/gitsigns.nvim',
-  'lukas-reineke/indent-blankline.nvim',
+  {'lukas-reineke/indent-blankline.nvim', config = function() require("plugins.ibl") end },
   {'petertriho/nvim-scrollbar',
     config = function()
       require("plugins.nvim-scrollbar")

@@ -711,21 +711,6 @@ highlight! link VimwikiPre Green
 highlight! link VimwikiPreDelim Green
 highlight! link VimwikiNoExistsLink Red
 " syn_end }}}
-" syn_begin: rst {{{
-" builtin: https://github.com/marshallward/vim-restructuredtext{{{
-call my_sonokai#highlight('rstStandaloneHyperlink', s:palette.purple, s:palette.none, 'underline')
-call my_sonokai#highlight('rstEmphasis', s:palette.none, s:palette.none, 'italic')
-call my_sonokai#highlight('rstStrongEmphasis', s:palette.none, s:palette.none, 'bold')
-call my_sonokai#highlight('rstStandaloneHyperlink', s:palette.blue, s:palette.none, 'underline')
-call my_sonokai#highlight('rstHyperlinkTarget', s:palette.blue, s:palette.none, 'underline')
-highlight! link rstSubstitutionReference Blue
-highlight! link rstInterpretedTextOrHyperlinkReference Green
-highlight! link rstTableLines Grey
-highlight! link rstInlineLiteral Green
-highlight! link rstLiteralBlock Green
-highlight! link rstQuotedLiteralBlock Green
-" }}}
-" syn_end }}}
 " syn_begin: tex {{{
 " builtin: http://www.drchip.org/astronaut/vim/index.html#SYNTAX_TEX{{{
 highlight! link texStatement BlueItalic

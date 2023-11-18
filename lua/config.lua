@@ -284,7 +284,7 @@ vim.g.cokeline_colors = {
 function Lualine_internal_theme()
   return {
     normal = {
-      a = { fg = LuaLineColors.darkestgreen, bg = LuaLineColors.brightgreen, gui = 'bold' },
+      a = { fg = LuaLineColors.darkestgreen, bg = LuaLineColors.brightgreen--[[, gui = 'bold']] },
       b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
       c = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
       x = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
@@ -294,7 +294,7 @@ function Lualine_internal_theme()
       b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
       c = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
     },
-    visual = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightorange, gui = 'bold' } },
+    visual = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightorange--[[, gui = 'bold']] } },
     replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' } },
     inactive = {
       a = { fg = LuaLineColors.gray4, bg = LuaLineColors.statuslinebg, gui = 'bold' },
