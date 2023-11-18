@@ -150,6 +150,7 @@ if g:theme_variant == 'cold'
   let s:palette.grey = [ '#707070', 2 ]
   let s:pmenubg = [ '#241a20', 156 ]
   let s:accent = [ g:theme['accent_color'], 209 ]
+  let s:accent_fg = [ g:theme['accent_fg'], 210 ]
   let s:tablinebg = [ g:cokeline_colors['bg'], 214]
 else
   let s:darkbg = ['#131010', 237]
@@ -162,6 +163,7 @@ else
   let s:palette.grey = [ '#707070', 2 ]
   let s:pmenubg = [ '#241a20', 156 ]
   let s:accent = [ g:theme['accent_color'], 209 ]
+  let s:accent_fg = [ g:theme['accent_fg'], 210 ]
   let s:tablinebg = [ g:cokeline_colors['bg'], 214]
 endif
 
@@ -532,9 +534,9 @@ if has('nvim')
 call my_sonokai#highlight('TelescopeMatching', s:palette.palered, s:palette.none, 'bold')
 call my_sonokai#highlight('TelescopeBorder', s:accent, s:palette.bg_dim)
 call my_sonokai#highlight('TelescopePromptBorder', s:accent, s:palette.bg_dim)
-call my_sonokai#highlight('TelescopePromptNormal', s:accent, s:palette.bg_dim, 'bold')
+call my_sonokai#highlight('TelescopePromptNormal', s:palette.fg_dim, s:palette.bg_dim, 'bold')
 call my_sonokai#highlight('TelescopeNormal', s:palette.fg_dim, s:palette.bg_dim)
-call my_sonokai#highlight('TelescopeTitle', s:palette.black, s:accent, 'bold')
+call my_sonokai#highlight('TelescopeTitle', s:accent_fg, s:accent, 'bold')
 
 hi! link MiniPickBorder TelescopeBorder
 hi! link MiniPickBorderBusy TelescopeBorder

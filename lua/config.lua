@@ -111,8 +111,11 @@ vim.g.theme = {
   string = 'yellow',    -- yellow strings, default is green. Respects desaturate
   -- accent color is used for important highlights like the currently selected tab (buffer)
   -- and more.
-  accent_color = '#cbaf00',
-  alt_accent_color = '#bd2f4f',
+  --accent_color = '#cbaf00',
+  accent_color = '#305030',
+  --alt_accent_color = '#bd2f4f',
+  alt_accent_color = '#501010',
+  accent_fg = '#cccc80',
   lualine = 'internal',  -- use 'internal' for the integrated theme or any valid lualine theme name
   cold = {
     bg = '#141414',
@@ -228,7 +231,7 @@ local LuaLineColors
 if vim.g.theme.variant == 'cold' then
   LuaLineColors = {
     white          = '#ffffff',
-    darkestgreen   = '#003f00',
+    darkestgreen   =  vim.g.theme.accent_fg,
     brightgreen    =  vim.g.theme.accent_color,
     darkestcyan    = '#005f5f',
     mediumcyan     = '#87dfff',
@@ -247,7 +250,7 @@ if vim.g.theme.variant == 'cold' then
 else
   LuaLineColors = {
     white          = '#ffffff',
-    darkestgreen   = '#003f00',
+    darkestgreen   = vim.g.theme.accent_fg,
     brightgreen    = vim.g.theme.accent_color,
     darkestcyan    = '#005f5f',
     mediumcyan     = '#87dfff',
@@ -273,7 +276,7 @@ vim.g.cokeline_colors = {
   bg = LuaLineColors.statuslinebg,
   focus_bg = vim.g.theme.accent_color,
   fg = LuaLineColors.gray7,
-  focus_fg = '#000000'
+  focus_fg = vim.g.theme.accent_fg,
 }
 
 --- internal global function to create the lualine color theme
