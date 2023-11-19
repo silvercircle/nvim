@@ -174,6 +174,17 @@ autocmd( { 'FileType' }, {
   group = agroup_views
 })
 
+local treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp",
+                           "scala", "markdown", "java", "kdl", "ada", "json", "nim", "d",
+                           "yaml", "rust" }
+
+autocmd( { "Filetype" }, {
+  pattern = treesitter_types,
+  callback = function()
+    vim.treesitter.start()
+  end,
+  group = agroup_hl
+})
 -- pattern for which the indent and tabstop options must be set.
 local tabstop_pattern = { 'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go'}
 local conceal_pattern = { "markdown", "telekasten", "liquid" }

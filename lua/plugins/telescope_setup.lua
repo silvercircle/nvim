@@ -133,7 +133,6 @@ require("telescope").setup({
         scala = true
       },
     },
- 
     -- command center is a command palette plugin. Pretty much like Ctrl-P in sublime text
     -- the actual commands are setup in setup_command_center.lua
     command_center = {

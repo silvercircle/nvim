@@ -54,7 +54,7 @@ glance.setup({
     folded = false, -- Automatically fold list on startup
   },
   indent_lines = {
-    enable = false,
+    enable = true,
     icon = "│",
   },
   winbar = {
