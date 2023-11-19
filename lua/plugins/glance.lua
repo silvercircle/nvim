@@ -1,7 +1,7 @@
 local glance = require("glance")
 local actions = glance.actions
 glance.setup({
-  height = 30, -- Height of the window
+  height = 25, -- Height of the window
   border = {
     enable = true, -- Show window borders. Only horizontal borders allowed
     top_char = "—",
@@ -29,8 +29,8 @@ glance.setup({
       ["<Up>"] = actions.previous,
       ["<Tab>"] = actions.next_location, -- Bring the cursor to the next location skipping groups in the list
       ["<S-Tab>"] = actions.previous_location, -- Bring the cursor to the previous location skipping groups in the list
-      ["<C-u>"] = actions.preview_scroll_win(5),
-      ["<C-d>"] = actions.preview_scroll_win(-5),
+      ["<C-Up>"] = actions.preview_scroll_win(5),
+      ["<C-Down>"] = actions.preview_scroll_win(-5),
       ["v"] = actions.jump_vsplit,
       ["s"] = actions.jump_split,
       ["t"] = actions.jump_tab,
@@ -54,7 +54,7 @@ glance.setup({
     folded = false, -- Automatically fold list on startup
   },
   indent_lines = {
-    enable = true,
+    enable = false,
     icon = "│",
   },
   winbar = {

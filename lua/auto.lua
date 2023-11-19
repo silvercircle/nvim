@@ -200,7 +200,7 @@ autocmd( { 'FileType' }, {
     elseif args.match == "query" then
       vim.cmd("silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal norelativenumber | silent! setlocal nonumber | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC")
     elseif args.match == "Glance" then
-      vim.defer_fn(function() vim.cmd("setlocal cursorline") end, 200)
+      vim.defer_fn(function() vim.cmd("setlocal cursorline") end, 400)
     elseif args.match == "qf" or args.match == "replacer" then
       if #globals.findwinbyBufType("sysmon") > 0 or #globals.findwinbyBufType("weather") > 0 then
         vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber | wincmd J")

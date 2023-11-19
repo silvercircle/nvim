@@ -50,6 +50,7 @@ local function stopinsert_ins(callback)
     if current.prompt_prefix == vim.g.config.minipicker_iprefix then
       vim.schedule(function() vim.api.nvim_input("i") end)
     end
+    vim.schedule(function() vim.api.nvim_input("<Left>") end)
   end
 end
 
