@@ -260,7 +260,6 @@ autocmd( { 'WinEnter' }, {
     -- HACK: NvimTree and outline windows will complain about the buffer being not modifiable
     -- when insert mode is active. So stop it and remember its state
     if filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial" then
-      vim.notify("enter with " .. filetype)
       old_mode = vim.api.nvim_get_mode().mode
       vim.cmd.stopinsert()
     end
