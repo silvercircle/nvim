@@ -105,7 +105,8 @@ require("scrollbar").setup({
     "weather",
     "sysmon",
     "dropbar_menu",
-    "dropbar_menu_fzf"
+    "dropbar_menu_fzf",
+    "Glance"
   },
   autocmd = {
     render = {

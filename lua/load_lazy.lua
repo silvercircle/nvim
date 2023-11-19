@@ -54,12 +54,12 @@ local plugins = {
   },
   {'nvim-treesitter/nvim-treesitter',
     branch = "main",
---    config = function()
---      require("plugins.treesitter")
---      -- FIXME: disable injections for js and ts. Slow!
---      vim.treesitter.query.set("javascript", "injections", "")
---      vim.treesitter.query.set("typescript", "injections", "")
---    end,
+    config = function()
+      -- require("plugins.treesitter")
+      -- FIXME: disable injections for js and ts. Slow!
+      vim.treesitter.query.set("javascript", "injections", "")
+      vim.treesitter.query.set("typescript", "injections", "")
+    end,
     event = { "BufReadPre" }
   },
   {'dcampos/nvim-snippy',
