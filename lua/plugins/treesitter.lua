@@ -1,11 +1,6 @@
-vim.treesitter.language.register('objc', 'objcpp')
-vim.treesitter.language.register('markdown', 'telekasten')
-
 require("nvim-treesitter").setup({
-  auto_install = false,
-  ensure_installed = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp",
-                       "scala", "markdown", "java", "kdl", "ada", "json", "nim", "d",
-                       "yaml", "rust" },
+  auto_install = true,
+  ensure_installed = vim.g.config.treesitter_types,
   textobjects = {
     enable = false
   },
@@ -20,7 +15,7 @@ require("nvim-treesitter").setup({
   },
   highlight = {
     enable = true,
-    disable = { "help", "markdown", "vimdoc" },      -- FIXME: JavaScript parser is painfully slow. Help can be
+    disable = { "latex", "tex", "help", "markdown", "vimdoc" },      -- FIXME: JavaScript parser is painfully slow. Help can be
                               -- slow with large pages. This is caused by injections, so disabling them
                               -- does help.
     additional_vim_regex_highlighting = false

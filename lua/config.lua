@@ -106,7 +106,7 @@ vim.g.config = {
     }
   },
   treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp",
-                       "scala", "markdown", "java", "kdl", "ada", "json", "nim", "d",
+                       "scala", "java", "kdl", "ada", "json", "nim", "d",
                        "yaml", "rust", "javascript" }
 }
 

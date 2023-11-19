@@ -649,7 +649,11 @@ function M.mini_pick_center(width, height, col_anchor)
   }
 end
 
+-- configure the treesitter core component. This is called once before
+-- treesitter is first started (in auto.lua)
 function M.configure_treesitter()
+  vim.treesitter.language.register('objc', 'objcpp')
+  vim.treesitter.language.register('markdown', 'telekasten')
   vim.treesitter.query.set("javascript", "injections", "")
   vim.treesitter.query.set("typescript", "injections", "")
 end
