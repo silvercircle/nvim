@@ -174,13 +174,16 @@ autocmd( { 'FileType' }, {
   group = agroup_views
 })
 
-local treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp",
-                           "scala", "markdown", "java", "kdl", "ada", "json", "nim", "d",
-                           "yaml", "rust" }
+local treesitter_configured = false
 
+-- handle treesitter configuration and start it on supported filetypes.
 autocmd( { "Filetype" }, {
-  pattern = treesitter_types,
+  pattern = vim.g.config.treesitter_types,
   callback = function()
+    if not treesitter_configured then
+      globals.configure_treesitter()
+      treesitter_configured = true
+    end
     vim.treesitter.start()
   end,
   group = agroup_hl

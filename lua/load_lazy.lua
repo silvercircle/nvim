@@ -25,7 +25,7 @@ local plugins = {
   },
   -- telescope + extensions, mandatory
   {
-    'nvim-telescope/telescope.nvim', branch = '0.1.x',
+    'nvim-telescope/telescope.nvim',--  branch = '0.1.x',
     lazy = true,
     dependencies = {
       -- 'nvim-telescope/telescope-file-browser.nvim',
@@ -54,13 +54,10 @@ local plugins = {
   },
   {'nvim-treesitter/nvim-treesitter',
     branch = "main",
+    event = { "BufReadPre" },
     config = function()
-      -- require("plugins.treesitter")
-      -- FIXME: disable injections for js and ts. Slow!
-      vim.treesitter.query.set("javascript", "injections", "")
-      vim.treesitter.query.set("typescript", "injections", "")
-    end,
-    event = { "BufReadPre" }
+      require("plugins.treesitter")
+    end
   },
   {'dcampos/nvim-snippy',
     lazy=true,

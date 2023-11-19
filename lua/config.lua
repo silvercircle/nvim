@@ -105,6 +105,9 @@ vim.g.config = {
       value = "76"
     }
   },
+  treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp",
+                       "scala", "markdown", "java", "kdl", "ada", "json", "nim", "d",
+                       "yaml", "rust", "javascript" }
 }
 
 vim.g.theme = {

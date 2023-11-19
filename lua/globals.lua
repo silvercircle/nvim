@@ -648,5 +648,10 @@ function M.mini_pick_center(width, height, col_anchor)
     col = math.floor(0.5 * (vim.o.columns - width))
   }
 end
+
+function M.configure_treesitter()
+  vim.treesitter.query.set("javascript", "injections", "")
+  vim.treesitter.query.set("typescript", "injections", "")
+end
 return M
 
