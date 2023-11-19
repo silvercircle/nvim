@@ -51,7 +51,7 @@ glance.setup({
   folds = {
     fold_closed = "",
     fold_open = "",
-    folded = true, -- Automatically fold list on startup
+    folded = false, -- Automatically fold list on startup
   },
   indent_lines = {
     enable = true,

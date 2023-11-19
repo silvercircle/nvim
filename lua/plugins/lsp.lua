@@ -8,7 +8,7 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 local status, cmp_lsp = pcall(require, "cmp_nvim_lsp")
 if status then
-  capabilities = cmp_lsp.update_capabilities(capabilities)
+  capabilities = cmp_lsp.default_capabilities(capabilities)
 else
   vim.notify("cmp_lsp not installed")
 end
@@ -421,7 +421,7 @@ lspconfig.lua_ls.setup {
     Lua = {
       diagnostics = {
         globals = { "vim" },
-        -- workspaceEvent = "OnSave",
+          workspaceEvent = "OnSave",
         disable = {
           "param-type-mismatch",
           "undefined-field",
@@ -438,7 +438,7 @@ lspconfig.lua_ls.setup {
         enable = false
       },
       window = {
-        -- progressBar = false
+        progressBar = false
       }
     }
   }

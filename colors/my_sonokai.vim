@@ -920,6 +920,7 @@ highlight!      CmpItemKindSnippet       guibg=NONE guifg=#E3E300
 call my_sonokai#highlight('GlancePreviewNormal', s:palette.fg, s:palette.black)
 call my_sonokai#highlight('GlancePreviewMatch', s:palette.yellow, s:palette.none)
 call my_sonokai#highlight('GlanceListMatch', s:palette.yellow, s:palette.none)
+hi! link GlanceListCursorLine Visual
 
 " allow neotree and other addon panels have different backgrounds
 call my_sonokai#highlight('NeoTreeNormalNC', s:palette.fg, s:palette.neotreebg)

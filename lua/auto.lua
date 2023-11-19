@@ -182,7 +182,7 @@ local conceal_pattern = { "markdown", "telekasten", "liquid" }
 autocmd( { 'FileType' }, {
   pattern = { "aerial", "Outline", "DressingSelect", "DressingInput", "query", "mail", "qf", "replacer",
               'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go',
-              "markdown", "telekasten", "liquid" },
+              "markdown", "telekasten", "liquid", "Glance" },
   callback = function(args)
     if args.match == "aerial" or args.match == "Outline" then
       vim.cmd("silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=\\ \\ Outline" .. "\\ (" .. globals.perm_config.outline_filetype.. ") | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=0")
@@ -199,6 +199,8 @@ autocmd( { 'FileType' }, {
       vim.cmd("setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
     elseif args.match == "query" then
       vim.cmd("silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal norelativenumber | silent! setlocal nonumber | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC")
+    elseif args.match == "Glance" then
+      vim.defer_fn(function() vim.cmd("setlocal cursorline") end, 200)
     elseif args.match == "qf" or args.match == "replacer" then
       if #globals.findwinbyBufType("sysmon") > 0 or #globals.findwinbyBufType("weather") > 0 then
         vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber | wincmd J")
@@ -244,6 +246,7 @@ autocmd( { 'WinEnter' }, {
     -- HACK: NvimTree and outline windows will complain about the buffer being not modifiable
     -- when insert mode is active. So stop it and remember its state
     if filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial" then
+      vim.notify("enter with " .. filetype)
       old_mode = vim.api.nvim_get_mode().mode
       vim.cmd.stopinsert()
     end
@@ -260,7 +263,7 @@ autocmd( { 'WinLeave' }, {
     end
     -- HACK: restore the insert mode if it was active when changing to the NvimTree or outline
     -- split.
-    if filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial" then
+    if filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial"  then
       if old_mode == 'i' then
         old_mode = ''
         vim.cmd.startinsert()

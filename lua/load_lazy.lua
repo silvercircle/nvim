@@ -79,7 +79,6 @@ local plugins = {
   },
   -- cmp and all its helpers
   { 'hrsh7th/nvim-cmp',
-    cond = false,
     lazy = true,
     event = { "InsertEnter", "CmdLineEnter" },
     dependencies = {

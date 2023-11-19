@@ -116,14 +116,14 @@ command_center.add({
   },
   {
     desc = "Peek definitions (Glance Plugin)",
-    cmd = "<CMD>Glance definitions<CR>",
-    keys = { "n", "GD", noremap },
+    cmd = function() require("glance").open("definition") end,
+    keys = { "n", "<f16>", noremap },
     category = "@LSP"
   },
   {
     desc = "Peek references (Glance Plugin)",
-    cmd = "<CMD>Glance references<CR>",
-    keys = { "n", "GR", noremap },
+    cmd = function() require("glance").open("references") end,
+    keys = { "n", "<f4>", noremap },
     category = "@LSP"
   },
   {
