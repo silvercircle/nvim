@@ -91,7 +91,6 @@ require("scrollbar").setup({
   excluded_filetypes = {
     "prompt",
     "TelescopePrompt",
---    "Outline",
     "DressingSelect",
     "DressingInput",
     "mason",
@@ -99,7 +98,6 @@ require("scrollbar").setup({
     "alpha",
     "lspinfo",
     "NvimTree",
---    "BufList",
     "cmp_menu",
     "cmp_docs",
     "weather",

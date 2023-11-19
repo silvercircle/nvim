@@ -74,4 +74,7 @@ Tweaks.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and tr
 
 -- the key prefix used for various utility functions. See keymap.lua
 Tweaks.utility_key = "<C-l>"
+Tweaks.treesitter = {
+  perf_tweaks = true
+}
 return Tweaks

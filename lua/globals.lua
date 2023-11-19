@@ -654,8 +654,12 @@ end
 function M.configure_treesitter()
   vim.treesitter.language.register('objc', 'objcpp')
   vim.treesitter.language.register('markdown', 'telekasten')
-  vim.treesitter.query.set("javascript", "injections", "")
-  vim.treesitter.query.set("typescript", "injections", "")
+  -- disable injections for these languages, because they can be slow
+  -- can be tweaked
+  if require("tweaks").treesitter.perf_tweaks == true then
+    vim.treesitter.query.set("javascript", "injections", "")
+    vim.treesitter.query.set("typescript", "injections", "")
+  end
 end
 return M
 

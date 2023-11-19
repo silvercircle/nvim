@@ -189,7 +189,4 @@ require("telescope").setup({
 -- require("telescope").load_extension("file_browser")
 require("telescope").load_extension("vim_bookmarks")
 require("telescope").load_extension("fzf")
-if require("globals").perm_config.outline_filetype == "aerial" then
-  require("telescope").load_extension("aerial")
-end
 
