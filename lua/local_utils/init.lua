@@ -486,7 +486,7 @@ function Utils.command_center_theme(opts)
     borderchars = vim.g.config.cpalette_dropdown == 'bottom' and border_layout_prompt_bottom or border_layout_prompt_top,
     layout_config = {
       anchor = "N",
-      width = lopts.width or 0.6,
+      width = lopts.width or 120,
       height = lopts.height or 0.4,
       prompt_position = vim.g.config.cpalette_dropdown,
     },

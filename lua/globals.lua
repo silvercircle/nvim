@@ -20,28 +20,28 @@ M.perm_config_default = {
   sysmon = {
     active = false,
     width = vim.g.config.sysmon.width,
-    content = 'sysmon'
+    content = "sysmon",
   },
   weather = {
     active = false,
     width = vim.g.config.weather.width,
-    content = 'info'
+    content = "info",
   },
   terminal = {
     active = true,
-    height = 12
+    height = 12,
   },
   tree = {
     width = vim.g.config.filetree_width,
-    active = true
+    active = true,
   },
   outline = {
-    width = vim.g.config.outline_width
+    width = vim.g.config.outline_width,
   },
-  statuscol_current = 'normal',
+  statuscol_current = "normal",
   blist = true,
   blist_height = 0.33,
-  theme_variant = 'warm',
+  theme_variant = "warm",
   transbg = false,
   theme_desaturate = true,
   theme_name = "my_sonokai",
@@ -51,7 +51,7 @@ M.perm_config_default = {
   ibl_context = true,
   scrollbar = true,
   statusline_declutter = 0,
-  outline_filetype = "Outline"
+  outline_filetype = "Outline",
 }
 
 M.perm_config = {}
@@ -60,7 +60,7 @@ M.sessions = {}
 
 -- ignore symbol types for the fast symbol browser (telescope)
 M.ignore_symbols = {
-  lua = { "string", "object", "boolean", "number", "array", "variable" }
+  lua = { "string", "object", "boolean", "number", "array", "variable" },
 }
 -- use multiple colors for indentation guides ("rainbow colors")
 M.ibl_rainbow_highlight = {
@@ -69,11 +69,11 @@ M.ibl_rainbow_highlight = {
   "IndentBlanklineIndent3",
   "IndentBlanklineIndent4",
   "IndentBlanklineIndent5",
-  "IndentBlanklineIndent6"
+  "IndentBlanklineIndent6",
 }
 -- use single color for ibl highlight
 M.ibl_highlight = {
-  "IndentBlanklineChar"
+  "IndentBlanklineChar",
 }
 
 local function get_permconfig_filename()
@@ -83,7 +83,7 @@ end
 --- open the outline window
 function M.open_outline()
   if M.perm_config.outline_filetype == "Outline" then
-    vim.cmd('OutlineOpen')
+    vim.cmd("OutlineOpen")
   elseif M.perm_config.outline_filetype == "aerial" then
     require("aerial").open()
   end
@@ -91,8 +91,8 @@ end
 
 --- close the outline window
 function M.close_outline()
-   if M.perm_config.outline_filetype == "Outline" then
-    vim.cmd('OutlineClose')
+  if M.perm_config.outline_filetype == "Outline" then
+    vim.cmd("OutlineClose")
   elseif M.perm_config.outline_filetype == "aerial" then
     require("aerial").close()
   end
@@ -101,19 +101,23 @@ end
 function M.is_outline_open()
   local status = {
     outline = 0,
-    aerial = 0
+    aerial = 0,
   }
   local _o = M.findwinbyBufType("Outline")
-  if #_o > 0 and _o[1] ~= nil then status.outline = _o[1] end
+  if #_o > 0 and _o[1] ~= nil then
+    status.outline = _o[1]
+  end
   local _a = M.findwinbyBufType("aerial")
-  if #_a > 0 and _a[1] ~= nil then status.outline = _a[1] end
+  if #_a > 0 and _a[1] ~= nil then
+    status.outline = _a[1]
+  end
   return status
 end
 
 -- toggle the type of outline window to use between outline.nvim and aerial.
 function M.toggle_outline_type()
   M.close_outline()
-  if M.perm_config.outline_filetype == 'aerial' then
+  if M.perm_config.outline_filetype == "aerial" then
     M.perm_config.outline_filetype = "Outline"
   elseif M.perm_config.outline_filetype == "Outline" then
     M.perm_config.outline_filetype = "aerial"
@@ -124,12 +128,12 @@ end
 --- set the statuscol to either normal or relative line numbers
 --- @param mode string: allowed values: 'normal' or 'rel'
 function M.set_statuscol(mode)
-  if mode ~= nil and mode ~= 'normal' and mode ~= 'rel' then
+  if mode ~= nil and mode ~= "normal" and mode ~= "rel" then
     return
   end
   M.perm_config.statuscol_current = mode
-  vim.o.statuscolumn = vim.g.config["statuscol_" .. mode ]
-  if mode == 'normal' then
+  vim.o.statuscolumn = vim.g.config["statuscol_" .. mode]
+  if mode == "normal" then
     vim.o.relativenumber = false
     vim.o.numberwidth = vim.g.tweaks.numberwidth
     vim.o.number = true
@@ -144,12 +148,12 @@ end
 -- toggle statuscolum between absolute and relative line numbers
 -- by default, it is mapped to <C-l><C-l>
 function M.toggle_statuscol()
-  if M.perm_config.statuscol_current == 'normal' then
-    M.set_statuscol('rel')
+  if M.perm_config.statuscol_current == "normal" then
+    M.set_statuscol("rel")
     return
   end
-  if M.perm_config.statuscol_current == 'rel' then
-    M.set_statuscol('normal')
+  if M.perm_config.statuscol_current == "rel" then
+    M.set_statuscol("normal")
     return
   end
 end
@@ -162,7 +166,7 @@ function M.toggle_colorcolumn()
     vim.opt_local.colorcolumn = ""
   else
     local filetype = vim.bo.filetype
-    for _,v in pairs(vim.g.config.colorcolumns) do
+    for _, v in pairs(vim.g.config.colorcolumns) do
       if string.find(v.filetype, filetype) then
         vim.opt_local.colorcolumn = v.value
         return
@@ -228,7 +232,7 @@ local _mkview_exclude = vim.g.tweaks.mkview_exclude
 --- it also respects the filetype exclusion list to avoid unwanted clutter in the views folder
 function M.mkview()
   -- require valid filename and ignore all buffers with special buftype
-  if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") == '' then
+  if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") == "" then
     -- respect exclusion list
     if vim.tbl_contains(_mkview_exclude, vim.bo.filetype) == true then
       return
@@ -273,7 +277,7 @@ function M.toggle_wrap()
 end
 
 -- split the file tree horizontally
---- @param _factor number:  if _factor is betweeen 0 and 1 it is interpreted as percentage 
+--- @param _factor number:  if _factor is betweeen 0 and 1 it is interpreted as percentage
 --  of the window to split. Otherwise as an absolute number. The default is set to 1/3 (0.33)
 --- @return number: the window id, 0 if the process failed
 function M.splittree(_factor)
@@ -291,7 +295,9 @@ function M.splittree(_factor)
     M.winid_bufferlist = vim.fn.win_getid()
     vim.api.nvim_win_set_option(M.winid_bufferlist, "list", false)
     vim.api.nvim_win_set_option(M.winid_bufferlist, "statusline", "Buffer List")
-    vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0")
+    vim.cmd(
+      "set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0"
+    )
     vim.fn.win_gotoid(M.main_winid)
     return M.winid_bufferlist
   end
@@ -305,7 +311,7 @@ function M.close_qf_or_loc()
     winid = M.findwinbyBufType("replacer")
   end
   if #winid > 0 then
-    for i,_ in pairs(winid) do
+    for i, _ in pairs(winid) do
       if winid[i] > 0 and vim.api.nvim_win_is_valid(winid[i]) then
         vim.api.nvim_win_close(winid[i], {})
         if M.term.winid ~= nil then
@@ -348,7 +354,9 @@ function M.termToggle(_height)
     vim.api.nvim_win_set_buf(0, M.term.bufid)
   end
   -- configure the terminal window
-  vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=no | set winfixheight | set nocursorline | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC")
+  vim.cmd(
+    "setlocal statuscolumn=%#NeoTreeNormalNC#\\  | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=no | set winfixheight | set nocursorline | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC"
+  )
   M.term.winid = vim.fn.win_getid()
   vim.api.nvim_win_set_option(M.term.winid, "statusline", "  Terminal")
   M.term.bufid = vim.api.nvim_get_current_buf()
@@ -364,7 +372,9 @@ function M.termToggle(_height)
   if reopen_outline == true then
     vim.fn.win_gotoid(M.main_winid)
     M.open_outline()
-    vim.schedule(function() vim.fn.win_gotoid(M.main_winid) end)
+    vim.schedule(function()
+      vim.fn.win_gotoid(M.main_winid)
+    end)
   end
 end
 
@@ -391,12 +401,12 @@ function M.write_config()
       sysmon = {
         active = usplit_id ~= nil and true or false,
       },
-      blist = blist_id ~=nil and true or false,
+      blist = blist_id ~= nil and true or false,
       tree = {
-        active = #M.findwinbyBufType("NvimTree") > 0 and true or false
+        active = #M.findwinbyBufType("NvimTree") > 0 and true or false,
       },
       theme_variant = vim.g.theme_variant,
-      theme_desaturate = vim.g.theme_desaturate
+      theme_desaturate = vim.g.theme_desaturate,
     }
     if wsplit_id ~= nil then
       state.weather.width = vim.api.nvim_win_get_width(wsplit_id)
@@ -463,12 +473,12 @@ end
 --- bound to a hotkey ("C-l C-t" by default)
 --- toggle between warm and cold theme variants
 function M.toggle_theme_variant()
-  if vim.g.theme_variant == 'warm' then
-    vim.g.theme_variant = 'cold'
-    M.perm_config.theme_variant = 'cold'
+  if vim.g.theme_variant == "warm" then
+    vim.g.theme_variant = "cold"
+    M.perm_config.theme_variant = "cold"
   else
-    vim.g.theme_variant = 'warm'
-    M.perm_config.theme_variant = 'warm'
+    vim.g.theme_variant = "warm"
+    M.perm_config.theme_variant = "warm"
   end
   vim.cmd("colorscheme " .. M.perm_config.theme_name)
 end
@@ -521,9 +531,9 @@ end
 local notify_classes = {
   { icon = " ", title = "Trace" },
   { icon = " ", title = "Debug" },
-  { icon = "󰋼 ", title = "Information"},
-  { icon = " ", title = "Warning"},
-  { icon = " ", title = "Error"}
+  { icon = "󰋼 ", title = "Information" },
+  { icon = " ", title = "Warning" },
+  { icon = " ", title = "Error" },
 }
 
 --- use the notifier to display a message
@@ -531,14 +541,14 @@ local notify_classes = {
 --- @param level number: Warning level
 --- @optionally a title can be specified
 function M.notify(msg, level, ...)
-  local arg = {...}
+  local arg = { ... }
   local params = {}
   if vim.g.notifier == nil then
     return
   end
   if level >= 0 and level <= 4 then
-    params.icon = notify_classes[level+1].icon
-    params.title = (arg[1] == nil) and notify_classes[level+1].title or arg[1]
+    params.icon = notify_classes[level + 1].icon
+    params.title = (arg[1] == nil) and notify_classes[level + 1].title or arg[1]
     vim.g.notifier.notify(msg, level, params)
   end
 end
@@ -555,19 +565,21 @@ end
 -- enable/disable ibl rainbow guides
 function M.toggle_ibl_rainbow()
   M.perm_config.ibl_rainbow = not M.perm_config.ibl_rainbow
-  require("ibl").update( { indent = { highlight = M.perm_config.ibl_rainbow == true and M.ibl_rainbow_highlight or M.ibl_highlight } } )
+  require("ibl").update({
+    indent = { highlight = M.perm_config.ibl_rainbow == true and M.ibl_rainbow_highlight or M.ibl_highlight },
+  })
 end
 
 -- enable/disable ibl
 function M.toggle_ibl()
   M.perm_config.ibl_enabled = not M.perm_config.ibl_enabled
-  require("ibl").update( { enabled = M.perm_config.ibl_enabled })
+  require("ibl").update({ enabled = M.perm_config.ibl_enabled })
 end
 
 -- enable/disable ibl context display
 function M.toggle_ibl_context()
   M.perm_config.ibl_context = not M.perm_config.ibl_context
-  require("ibl").update( { scope = { enabled = M.perm_config.ibl_context } } )
+  require("ibl").update({ scope = { enabled = M.perm_config.ibl_context } })
 end
 
 --- toggle scrollbar visibility
@@ -597,16 +609,16 @@ end
 --- this will not work with different color schemes.
 function M.set_bg()
   if M.perm_config.transbg == true then
-    vim.api.nvim_set_hl(0, "Normal", { bg = "none", fg = "fg" } )
-    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = 'none' } )
-    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = 'none' } )
+    vim.api.nvim_set_hl(0, "Normal", { bg = "none", fg = "fg" })
+    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
     vim.cmd("hi VertSplit guibg=none")
     vim.cmd("hi LineNr guibg=none")
     vim.cmd("hi FoldColumn guibg=none")
     vim.cmd("hi SignColumn guibg=none")
   else
     local variant = M.perm_config.theme_variant
-    vim.api.nvim_set_hl(0, "Normal", { bg = vim.g.theme[variant].bg, fg = "fg" } )
+    vim.api.nvim_set_hl(0, "Normal", { bg = vim.g.theme[variant].bg, fg = "fg" })
     vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = vim.g.theme[variant].treebg, fg = "fg" })
     vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = vim.g.theme[variant].treebg, fg = "fg" })
     vim.cmd("hi VertSplit guibg=" .. vim.g.theme[variant].treebg)
@@ -643,17 +655,19 @@ function M.mini_pick_center(width, height, col_anchor)
     height = math.floor(height * vim.o.lines)
   end
   return {
-    anchor = 'NW', height = height, width = width,
+    anchor = "NW",
+    height = height,
+    width = width,
     row = math.floor(_ca * (vim.o.lines - height)),
-    col = math.floor(0.5 * (vim.o.columns - width))
+    col = math.floor(0.5 * (vim.o.columns - width)),
   }
 end
 
 -- configure the treesitter core component. This is called once before
 -- treesitter is first started (in auto.lua)
 function M.configure_treesitter()
-  vim.treesitter.language.register('objc', 'objcpp')
-  vim.treesitter.language.register('markdown', 'telekasten')
+  vim.treesitter.language.register("objc", "objcpp")
+  vim.treesitter.language.register("markdown", "telekasten")
   -- disable injections for these languages, because they can be slow
   -- can be tweaked
   if require("tweaks").treesitter.perf_tweaks == true then
@@ -662,4 +676,3 @@ function M.configure_treesitter()
   end
 end
 return M
-
