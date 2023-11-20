@@ -2,9 +2,9 @@ local globals = require("globals")
 local tweaks = require("tweaks")
 
 local Usplit = {}
-Usplit.winid = nil             -- window id
-Usplit.bufid = nil             -- buffer id
-Usplit.content = 'fortune'
+Usplit.winid = nil -- window id
+Usplit.bufid = nil -- buffer id
+Usplit.content = "fortune"
 Usplit.cookie = {}
 
 local timer = nil
@@ -20,8 +20,8 @@ end
 -- this is called from the winresized / winclosed handler in auto.lua
 -- when the window has disappeared, the buffer is deleted.
 function Usplit.resize_or_closed()
-  if Usplit.winid ~= nil and vim.api.nvim_win_is_valid(Usplit.winid) == false then  -- window has disappeared
-    if  Usplit.bufid ~= nil and vim.api.nvim_buf_is_valid(Usplit.bufid) then
+  if Usplit.winid ~= nil and vim.api.nvim_win_is_valid(Usplit.winid) == false then -- window has disappeared
+    if Usplit.bufid ~= nil and vim.api.nvim_buf_is_valid(Usplit.bufid) then
       vim.api.nvim_buf_delete(Usplit.bufid, { force = true })
       Usplit.bufid = nil
     end
@@ -34,10 +34,10 @@ end
 
 -- toggle content. close() will stop and open() will restart the timer
 function Usplit.toggle_content()
-  if Usplit.content == 'sysmon' then
-    Usplit.content = 'fortune'
-  elseif Usplit.content == 'fortune' then
-    Usplit.content = 'sysmon'
+  if Usplit.content == "sysmon" then
+    Usplit.content = "fortune"
+  elseif Usplit.content == "fortune" then
+    Usplit.content = "sysmon"
   end
   globals.perm_config.sysmon.content = Usplit.content
   Usplit.close()
@@ -46,7 +46,7 @@ end
 
 -- force refreshing the cookie. just restart the timer should be enough
 function Usplit.refresh_cookie()
-  if Usplit.content ~= 'fortune' then
+  if Usplit.content ~= "fortune" then
     return
   end
   if timer ~= nil then
@@ -57,7 +57,7 @@ end
 
 function Usplit.close()
   if Usplit.winid ~= nil then
-    vim.api.nvim_win_close(Usplit.winid, {force=true})
+    vim.api.nvim_win_close(Usplit.winid, { force = true })
     -- resize_or_closed() will cleanup, triggered by auto command
   end
   if timer ~= nil then
@@ -68,7 +68,7 @@ end
 --- this renders the fortune cookie content. In sysmon mode, it
 --- does nothing.
 function Usplit.refresh()
-  if Usplit.content == 'sysmon' then
+  if Usplit.content == "sysmon" then
     return
   end
   local lines = {}
@@ -100,13 +100,16 @@ function Usplit.refresh_on_timer()
   for _ = 1, num_cookies, 1 do
     vim.fn.jobstart(cookie_command .. "|fmt -" .. width - 2, {
       on_stdout = function(_, b, _)
-        for _,v in ipairs(b) do
+        for _, v in ipairs(b) do
           if #v > 1 then
             table.insert(Usplit.cookie, v)
           end
         end
       end,
-      on_exit = function() table.insert(Usplit.cookie, " ") Usplit.refresh() end
+      on_exit = function()
+        table.insert(Usplit.cookie, " ")
+        Usplit.refresh()
+      end,
     })
   end
 end
@@ -116,19 +119,25 @@ end
 function Usplit.open()
   local width = globals.perm_config.sysmon.width
   local wid = globals.findwinbyBufType("terminal")
-  local curwin = vim.api.nvim_get_current_win()     -- remember active win for going back
+  local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   -- glances must be executable otherwise do nothing
   -- also, a terminal split must be present.
   if not vim.fn.executable("glances") then
-    Usplit.content = 'fortune'
+    Usplit.content = "fortune"
   end
   if #wid > 0 then
     vim.fn.win_gotoid(wid[1])
-    if Usplit.content == 'sysmon' then
-      vim.cmd("rightbelow " .. width .. " vsplit|terminal glances --disable-plugin all --disable-bg --enable-plugin " .. vim.g.config.sysmon.modules .. " --time 3")
+    if Usplit.content == "sysmon" then
+      vim.cmd(
+        "rightbelow "
+          .. width
+          .. " vsplit|terminal glances --disable-plugin all --disable-bg --enable-plugin "
+          .. vim.g.config.sysmon.modules
+          .. " --time 3"
+      )
       Usplit.winid = vim.fn.win_getid()
       vim.api.nvim_win_set_option(Usplit.winid, "statusline", "  System Monitor")
-    elseif Usplit.content == 'fortune' then
+    elseif Usplit.content == "fortune" then
       vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(wid[1]), "modifiable", true)
       vim.cmd("rightbelow " .. width .. " vsplit new")
       vim.cmd("setlocal buftype=nofile")
@@ -137,12 +146,18 @@ function Usplit.open()
       vim.api.nvim_win_set_option(Usplit.winid, "statusline", "󰈙 Fortune cookie")
       vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(wid[1]), "modifiable", false)
     end
-    vim.schedule(function() vim.api.nvim_win_set_width(Usplit.winid, globals.perm_config.sysmon.width - 2) end)
-    vim.schedule(function() vim.api.nvim_win_set_width(Usplit.winid, globals.perm_config.sysmon.width) end)
+    vim.schedule(function()
+      vim.api.nvim_win_set_width(Usplit.winid, globals.perm_config.sysmon.width - 2)
+    end)
+    vim.schedule(function()
+      vim.api.nvim_win_set_width(Usplit.winid, globals.perm_config.sysmon.width)
+    end)
     Usplit.bufid = vim.api.nvim_get_current_buf()
     vim.api.nvim_buf_set_option(Usplit.bufid, "buflisted", false)
     vim.api.nvim_win_set_option(Usplit.winid, "list", false)
-    vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\ |set winfixheight | setlocal winbar= |set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC | set foldcolumn=0 | setlocal nocursorline")
+    vim.cmd(
+      "setlocal statuscolumn=%#NeoTreeNormalNC#\\ |set winfixheight | setlocal winbar= |set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC | set foldcolumn=0 | setlocal nocursorline"
+    )
     vim.fn.win_gotoid(curwin)
   end
   if timer ~= nil then
@@ -150,10 +165,9 @@ function Usplit.open()
   else
     timer = vim.loop.new_timer()
   end
-  if timer ~= nil and Usplit.content == 'fortune' then
+  if timer ~= nil and Usplit.content == "fortune" then
     timer:start(0, timer_interval, vim.schedule_wrap(Usplit.refresh_on_timer))
   end
 end
 
 return Usplit
-

@@ -7,25 +7,25 @@ local plenary = require("plenary.path")
 local utils = require("local_utils")
 
 local Wsplit = {}
-Wsplit.winid = nil             -- window id
-Wsplit.bufid = nil             -- buffer id
-Wsplit.win_width = nil         -- horizontal requirement
+Wsplit.winid = nil -- window id
+Wsplit.bufid = nil -- buffer id
+Wsplit.win_width = nil -- horizontal requirement
 Wsplit.win_height = nil
 Wsplit.weatherfile = ""
-Wsplit.content = 'info'        -- content type (info or weather as of now)
-Wsplit.content_winid = nil     -- window of interest.
-Wsplit.freeze = false          -- do not refresh when set
+Wsplit.content = "info" -- content type (info or weather as of now)
+Wsplit.content_winid = nil -- window of interest.
+Wsplit.freeze = false -- do not refresh when set
 Wsplit.cookie = {}
 
 Wsplit.cookie_source = require("tweaks").cookie_source
 
-local watch = nil             -- file watcher (for weather content)
-local timer = nil             -- timer (for info content)
+local watch = nil -- file watcher (for weather content)
+local timer = nil -- timer (for info content)
 local cookie_timer = nil
-local timer_interval = 60000  -- timer interval
+local timer_interval = 60000 -- timer interval
 local cookie_timer_interval = 300000
 
-local autocmd_set = false     -- remember whether the OptionSet autocmd has been set
+local autocmd_set = false -- remember whether the OptionSet autocmd has been set
 
 -- this translates condition codes (single letters) to actual readable conditions. This is API specific
 -- and right now only implemented for the VC API (visual crossing)
@@ -38,18 +38,18 @@ local conditions = {
     j = "󰖖 Rain",
     o = "󰼶 Snow",
     g = "󰖗 Showers",
-    k = "󰖓 Thunderstorm"
-  }
+    k = "󰖓 Thunderstorm",
+  },
 }
 
 -- folding modes (translate foldmethod to readable terms)
 local fdm = {
-  expr    = "Expression",
-  manual  = "Manual",
-  syntax  = "Syntax",
-  indent  = "Indent",
-  marker  = "Marker",
-  diff    = "Diff"
+  expr = "Expression",
+  manual = "Manual",
+  syntax = "Syntax",
+  indent = "Indent",
+  marker = "Marker",
+  diff = "Diff",
 }
 
 --- truncate the path and display the rightmost maxlen characters
@@ -61,20 +61,23 @@ local function path_truncate(path, maxlen)
   if len <= maxlen then
     return path
   end
-  local effective_width = maxlen - 3    -- make space for leading ...
+  local effective_width = maxlen - 3 -- make space for leading ...
   return "..." .. string.sub(path, len - effective_width, len)
 end
 
 function Wsplit.set_minheight()
   if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) then
-    vim.api.nvim_win_set_height(Wsplit.winid, (Wsplit.content == 'info') and vim.g.config.weather.required_height or vim.g.config.weather.required_height - 2)
+    vim.api.nvim_win_set_height(
+      Wsplit.winid,
+      (Wsplit.content == "info") and vim.g.config.weather.required_height or vim.g.config.weather.required_height - 2
+    )
   end
 end
 -- reconfigure the rendering
 function Wsplit.on_content_change()
   globals.perm_config.weather.content = Wsplit.content
   Wsplit.content_winid = vim.fn.win_getid()
-  if Wsplit.content ~= 'weather' then
+  if Wsplit.content ~= "weather" then
     if timer ~= nil then
       timer:stop()
       timer:start(0, timer_interval, vim.schedule_wrap(Wsplit.refresh_on_timer))
@@ -90,10 +93,10 @@ end
 
 --- toggle window content
 function Wsplit.toggle_content()
-  if Wsplit.content == 'info' then
-    Wsplit.content = 'weather'
-  elseif Wsplit.content == 'weather' then
-    Wsplit.content = 'info'
+  if Wsplit.content == "info" then
+    Wsplit.content = "weather"
+  elseif Wsplit.content == "weather" then
+    Wsplit.content = "info"
   end
   Wsplit.on_content_change()
 end
@@ -101,7 +104,7 @@ end
 --- set content type
 --- @param _content string: content type. Allowed are 'info' or 'weather'
 function Wsplit.set_content(_content)
-  if _content ~= nil and (_content == 'info' or _content == 'weather') then
+  if _content ~= nil and (_content == "info" or _content == "weather") then
     Wsplit.content = _content
     Wsplit.on_content_change()
   end
@@ -113,7 +116,7 @@ local info_exclude = { "terminal", "Outline", "aerial", "NvimTree", "sysmon", "w
 --- set the window id of the buffer of interest
 --- @param _id number: the window id
 function Wsplit.content_set_winid(_id)
-  if Wsplit.content ~= 'info' then
+  if Wsplit.content ~= "info" then
     return
   end
   local bufid = vim.api.nvim_win_get_buf(_id)
@@ -123,7 +126,7 @@ function Wsplit.content_set_winid(_id)
       return
     end
     -- ignore buffers without a type
-    if vim.api.nvim_buf_get_option(bufid, "buftype") == 'nofile' then
+    if vim.api.nvim_buf_get_option(bufid, "buftype") == "nofile" then
       return
     end
     -- ignore certain filetypes
@@ -140,7 +143,7 @@ end
 -- it removes the buffer when the window has disappeared. Otherwise it refreshes
 -- it.
 function Wsplit.resize_or_closed()
-  if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) == false then  -- window has disappeared
+  if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) == false then -- window has disappeared
     if Wsplit.bufid ~= nil then
       vim.api.nvim_buf_delete(Wsplit.bufid, { force = true })
       Wsplit.bufid = nil
@@ -163,7 +166,14 @@ local function onChange(cust, _, _, status)
   end
   Wsplit.refresh()
   if watch ~= nil then
-    vim.loop.fs_event_start(watch, Wsplit.weatherfile, {}, vim.schedule_wrap(function(...) onChange(cust, ...) end))
+    vim.loop.fs_event_start(
+      watch,
+      Wsplit.weatherfile,
+      {},
+      vim.schedule_wrap(function(...)
+        onChange(cust, ...)
+      end)
+    )
   end
 end
 
@@ -175,14 +185,21 @@ function Wsplit.installwatch()
   end
   if watch ~= nil then
     if vim.fn.filereadable(Wsplit.weatherfile) then
-      vim.loop.fs_event_start(watch, Wsplit.weatherfile, {}, vim.schedule_wrap(function(...) onChange(Wsplit.weatherfile, ...) end))
+      vim.loop.fs_event_start(
+        watch,
+        Wsplit.weatherfile,
+        {},
+        vim.schedule_wrap(function(...)
+          onChange(Wsplit.weatherfile, ...)
+        end)
+      )
     end
   end
   if timer == nil then
     timer = vim.loop.new_timer()
   end
   if timer ~= nil then
-    if Wsplit.content == 'info' then
+    if Wsplit.content == "info" then
       timer:start(0, timer_interval, vim.schedule_wrap(Wsplit.refresh_on_timer))
     end
   end
@@ -193,7 +210,7 @@ function Wsplit.installwatch()
       pattern = { "wrap", "formatoptions", "textwidth", "foldmethod", "filetype" },
       callback = function()
         -- weather content refreshes from a file watcher
-        if Wsplit.content ~= 'weather' then
+        if Wsplit.content ~= "weather" then
           Wsplit.refresh()
         end
       end,
@@ -210,7 +227,7 @@ end
 
 function Wsplit.open(_weatherfile)
   local wid = globals.findwinbyBufType("terminal")
-  local curwin = vim.api.nvim_get_current_win()     -- remember active win for going back
+  local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   Wsplit.weatherfile = vim.fn.expand(_weatherfile)
 
   if vim.fn.filereadable(Wsplit.weatherfile) == 0 then
@@ -220,14 +237,20 @@ function Wsplit.open(_weatherfile)
   -- also, a terminal split must be present.
   if #wid > 0 and vim.fn.filereadable(Wsplit.weatherfile) then
     vim.fn.win_gotoid(wid[1])
-    vim.cmd((vim.g.config.weather.splitright == true and "setlocal splitright | " or "") .. globals.perm_config.weather.width .. " vsp new")
+    vim.cmd(
+      (vim.g.config.weather.splitright == true and "setlocal splitright | " or "")
+        .. globals.perm_config.weather.width
+        .. " vsp new"
+    )
     Wsplit.winid = vim.fn.win_getid()
     Wsplit.bufid = vim.api.nvim_get_current_buf()
     vim.bo[Wsplit.bufid].buflisted = false
     vim.api.nvim_buf_set_option(Wsplit.bufid, "buftype", "nofile")
     vim.api.nvim_win_set_option(Wsplit.winid, "list", false)
     vim.api.nvim_win_set_option(Wsplit.winid, "statusline", "  Weather")
-    vim.cmd("set winfixheight | set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn=%#NeoTreeNormalNC#\\  | setlocal nocursorline")
+    vim.cmd(
+      "set winfixheight | set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn=%#NeoTreeNormalNC#\\  | setlocal nocursorline"
+    )
     vim.fn.win_gotoid(curwin)
   end
   Wsplit.refresh()
@@ -237,7 +260,7 @@ end
 
 --- open the weather split in a split of the nvim-tree
 function Wsplit.openleftsplit(_weatherfile)
-  local curwin = vim.api.nvim_get_current_win()     -- remember active win for going back
+  local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   Wsplit.weatherfile = vim.fn.expand(_weatherfile)
   Wsplit.winid = require("globals").splittree(vim.g.config.weather.required_height)
   if Wsplit.winid == 0 then
@@ -245,7 +268,7 @@ function Wsplit.openleftsplit(_weatherfile)
     return
   end
   if vim.fn.filereadable(Wsplit.weatherfile) == 0 then
-    Wsplit.content = 'info'
+    Wsplit.content = "info"
   end
   vim.fn.win_gotoid(Wsplit.winid)
   Wsplit.bufid = vim.api.nvim_create_buf(false, true)
@@ -253,7 +276,9 @@ function Wsplit.openleftsplit(_weatherfile)
   vim.api.nvim_win_set_buf(Wsplit.winid, Wsplit.bufid)
   vim.api.nvim_buf_set_option(Wsplit.bufid, "buftype", "nofile")
   vim.api.nvim_win_set_option(Wsplit.winid, "list", false)
-  vim.cmd("set winfixheight | setlocal statuscolumn=| set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | setlocal nocursorline")
+  vim.cmd(
+    "set winfixheight | setlocal statuscolumn=| set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | setlocal nocursorline"
+  )
   vim.fn.win_gotoid(curwin)
   Wsplit.refresh()
   Wsplit.installwatch()
@@ -277,7 +302,7 @@ end
 --- close the buffer, temporarily stop the file watcher
 function Wsplit.close()
   if Wsplit.winid ~= nil then
-    vim.api.nvim_win_close(Wsplit.winid, {force=true})
+    vim.api.nvim_win_close(Wsplit.winid, { force = true })
     Wsplit.winid = nil
   end
   if watch ~= nil then
@@ -341,14 +366,20 @@ function Wsplit.refresh_cookie()
     Wsplit.cookie[i] = nil
   end
   vim.fn.jobstart(Wsplit.cookie_source .. "|fmt -" .. Wsplit.win_width - 2, {
-    on_stdout = function(_, b, _) for _,v in ipairs(b) do table.insert(Wsplit.cookie, v) end end,
-    on_exit = function() Wsplit.refresh() end
+    on_stdout = function(_, b, _)
+      for _, v in ipairs(b) do
+        table.insert(Wsplit.cookie, v)
+      end
+    end,
+    on_exit = function()
+      Wsplit.refresh()
+    end,
   })
 end
 -- refresh on timer. But only for info content. Weather content ist handled by the
 -- file watcher plugin
 function Wsplit.refresh_on_timer()
-  if Wsplit.content == 'weather' then
+  if Wsplit.content == "weather" then
     return
   end
   Wsplit.refresh()
@@ -371,7 +402,7 @@ function Wsplit.refresh()
     return
   end
 
-  if Wsplit.content == 'info' then
+  if Wsplit.content == "info" then
     if Wsplit.freeze == true then
       return
     end
@@ -386,26 +417,67 @@ function Wsplit.refresh()
       local name = path_truncate(plenary:new(vim.api.nvim_buf_get_name(curbuf)):make_relative(), Wsplit.win_width - 3)
 
       local fn_symbol, fn_symbol_hl = utils.getFileSymbol(vim.api.nvim_buf_get_name(curbuf))
-      table.insert(lines, utils.pad("Buffer Info", Wsplit.win_width + 1, ' '))
-      table.insert(lines, " " .. utils.pad(name, Wsplit.win_width, ' ') .. "  ")
+      table.insert(lines, utils.pad("Buffer Info", Wsplit.win_width + 1, " "))
+      table.insert(lines, " " .. utils.pad(name, Wsplit.win_width, " ") .. "  ")
       table.insert(lines, " ")
       -- size of buffer. Bytes, KB or MB
       if globals.cur_bufsize > 1 then
         local size = globals.cur_bufsize
         if size < 1024 then
-          table.insert(lines, Wsplit.prepare_line(" Size: " .. size .. " Bytes", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 4))
+          table.insert(
+            lines,
+            Wsplit.prepare_line(" Size: " .. size .. " Bytes", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 4)
+          )
         elseif size < 1024 * 1024 then
-          table.insert(lines, Wsplit.prepare_line(" Size: " .. string.format("%.2f", size / 1024) .. " KB", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 4))
+          table.insert(
+            lines,
+            Wsplit.prepare_line(
+              " Size: " .. string.format("%.2f", size / 1024) .. " KB",
+              "Lines: " .. vim.api.nvim_buf_line_count(curbuf),
+              4
+            )
+          )
         else
-          table.insert(lines, Wsplit.prepare_line(" Size: " .. string.format("%.2f", size / 1024 / 1024) .. " MB", "Lines: " .. vim.api.nvim_buf_line_count(curbuf), 4))
+          table.insert(
+            lines,
+            Wsplit.prepare_line(
+              " Size: " .. string.format("%.2f", size / 1024 / 1024) .. " MB",
+              "Lines: " .. vim.api.nvim_buf_line_count(curbuf),
+              4
+            )
+          )
         end
-        table.insert(lines, Wsplit.prepare_line(" Type: " .. vim.api.nvim_get_option_value("filetype", { buf = curbuf }) .. " " .. fn_symbol, "Enc: " .. vim.opt.fileencoding:get(), 4))
+        table.insert(
+          lines,
+          Wsplit.prepare_line(
+            " Type: " .. vim.api.nvim_get_option_value("filetype", { buf = curbuf }) .. " " .. fn_symbol,
+            "Enc: " .. vim.opt.fileencoding:get(),
+            4
+          )
+        )
         table.insert(lines, " ")
-        table.insert(lines, Wsplit.prepare_line(" Textwidth: " .. vim.api.nvim_get_option_value("textwidth", { buf = curbuf }) ..
-                     " / " .. (vim.api.nvim_get_option_value("wrap", { win = Wsplit.content_winid }) == false and "No Wrap" or "Wrap"),
-                     "Fmt: " .. (vim.api.nvim_get_option_value("fo", { buf = curbuf })), 4))
-        table.insert(lines, Wsplit.prepare_line(" Folding method:", fdm[vim.api.nvim_get_option_value("foldmethod", { win = Wsplit.content_winid })], 4))
-        if vim.api.nvim_get_option_value("foldmethod", { win = Wsplit.content_winid }) == 'expr' then
+        table.insert(
+          lines,
+          Wsplit.prepare_line(
+            " Textwidth: "
+              .. vim.api.nvim_get_option_value("textwidth", { buf = curbuf })
+              .. " / "
+              .. (
+                vim.api.nvim_get_option_value("wrap", { win = Wsplit.content_winid }) == false and "No Wrap" or "Wrap"
+              ),
+            "Fmt: " .. (vim.api.nvim_get_option_value("fo", { buf = curbuf })),
+            4
+          )
+        )
+        table.insert(
+          lines,
+          Wsplit.prepare_line(
+            " Folding method:",
+            fdm[vim.api.nvim_get_option_value("foldmethod", { win = Wsplit.content_winid })],
+            4
+          )
+        )
+        if vim.api.nvim_get_option_value("foldmethod", { win = Wsplit.content_winid }) == "expr" then
           table.insert(lines, " Expr: " .. vim.api.nvim_get_option_value("foldexpr", { win = Wsplit.content_winid }))
         else
           table.insert(lines, " ")
@@ -413,7 +485,7 @@ function Wsplit.refresh()
         table.insert(lines, " ")
         -- add the cookie
         if Wsplit.cookie ~= nil and #Wsplit.cookie >= 1 then
-          for _,v in ipairs(Wsplit.cookie) do
+          for _, v in ipairs(Wsplit.cookie) do
             table.insert(lines, " " .. v)
           end
         end
@@ -425,14 +497,14 @@ function Wsplit.refresh()
         vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "CursorLine", 1, 0, Wsplit.win_width + 1)
       end
       if fn_symbol_hl ~= nil then
-        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, fn_symbol_hl, 4, 0, Wsplit.win_width  + 1)
+        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, fn_symbol_hl, 4, 0, Wsplit.win_width + 1)
       end
       vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Debug", 6, 0, Wsplit.win_width + 1)
       vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Keyword", 7, 0, Wsplit.win_width + 1)
       vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Keyword", 8, 0, Wsplit.win_width + 1)
       vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", false)
     end
-  elseif Wsplit.content == 'weather' then
+  elseif Wsplit.content == "weather" then
     vim.api.nvim_buf_clear_namespace(Wsplit.bufid, -1, 0, -1)
     vim.api.nvim_win_set_option(Wsplit.winid, "statusline", "   Weather")
     if vim.fn.filereadable(Wsplit.weatherfile) then
@@ -448,46 +520,60 @@ function Wsplit.refresh()
         end
         io.close(file)
         vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", true)
-        local lcond = conditions[results['37']][string.lower(results['2'])]
+        local lcond = conditions[results["37"]][string.lower(results["2"])]
         table.insert(lines, " ")
-        table.insert(lines, Wsplit.prepare_line(" " .. results['26'], " " .. results['28'], 0))
-        table.insert(lines, Wsplit.prepare_line(" " .. lcond, results['33'], 1))
+        table.insert(lines, Wsplit.prepare_line(" " .. results["26"], " " .. results["28"], 0))
+        table.insert(lines, Wsplit.prepare_line(" " .. lcond, results["33"], 1))
         table.insert(lines, "  ")
-        table.insert(lines, Wsplit.prepare_line(" Temp: " .. results['3'],    "Feels: " .. results['16'], 0))
-        table.insert(lines, Wsplit.prepare_line(" Min:  " .. results['29'],   "Max:   " .. results['30'], 0))
-        table.insert(lines, Wsplit.prepare_line(" Dew:  " .. results['17'],   " " .. results['21'], 0))
-        table.insert(lines, Wsplit.prepare_line(" API:  " .. results['37'],   " " .. results['31'], 0))
-        table.insert(lines, Wsplit.prepare_line("   " .. results['25'] .. " at " .. results['20'] .. "  ", " Vis: " .. results['22'], 0))
-        table.insert(lines, Wsplit.prepare_line(" Pressure: " .. results['19'], " " .. results['18'], 0))
-        table.insert(lines, Wsplit.prepare_line("   " .. results['23'], "滋" .. results['24'], -2))
-        local cond = conditions[results['37']][results['4']]
+        table.insert(lines, Wsplit.prepare_line(" Temp: " .. results["3"], "Feels: " .. results["16"], 0))
+        table.insert(lines, Wsplit.prepare_line(" Min:  " .. results["29"], "Max:   " .. results["30"], 0))
+        table.insert(lines, Wsplit.prepare_line(" Dew:  " .. results["17"], " " .. results["21"], 0))
+        table.insert(lines, Wsplit.prepare_line(" API:  " .. results["37"], " " .. results["31"], 0))
+        table.insert(
+          lines,
+          Wsplit.prepare_line(
+            "   " .. results["25"] .. " at " .. results["20"] .. "  ",
+            " Vis: " .. results["22"],
+            0
+          )
+        )
+        table.insert(lines, Wsplit.prepare_line(" Pressure: " .. results["19"], " " .. results["18"], 0))
+        table.insert(lines, Wsplit.prepare_line("   " .. results["23"], "滋" .. results["24"], -2))
+        local cond = conditions[results["37"]][results["4"]]
         if cond == nil then
           cond = "N/A"
         end
         table.insert(lines, "  ")
-        table.insert(lines, Wsplit.prepare_line(" " .. results['7'] .. ": " .. cond, "  " .. results['5'] .. "°C "  .. results['6'] .. "°C", -1))
+        table.insert(
+          lines,
+          Wsplit.prepare_line(
+            " " .. results["7"] .. ": " .. cond,
+            "  " .. results["5"] .. "°C " .. results["6"] .. "°C",
+            -1
+          )
+        )
         -- set highlights. Use the max expected temp to highlight general conditions or specific
         -- temps (like the Dew Point)
-        hl = temp_to_hl(results['6'])
+        hl = temp_to_hl(results["6"])
         vim.api.nvim_buf_set_lines(Wsplit.bufid, 0, -1, false, lines)
         vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 11, 0, -1)
 
         vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Debug", 1, 0, -1)
         -- temp
-        hl = temp_to_hl(results['3'])       -- the current temperature, also colorize the condition string
+        hl = temp_to_hl(results["3"]) -- the current temperature, also colorize the condition string
         vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 2, 0, -1)
         vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 4, 0, 20)
-        hl = temp_to_hl(results['16'])
+        hl = temp_to_hl(results["16"])
         vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 4, 20, -1)
 
-        hl = temp_to_hl(results['29'])
+        hl = temp_to_hl(results["29"])
         vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 5, 0, 20)
-        hl = temp_to_hl(results['30'])
+        hl = temp_to_hl(results["30"])
         vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 5, 20, -1)
-        hl = temp_to_hl(results['17'])
+        hl = temp_to_hl(results["17"])
         vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 6, 0, 20)
 
-        hl = wind_to_hl(results['20'])
+        hl = wind_to_hl(results["20"])
         vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 8, 0, 25)
         vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", false)
       end

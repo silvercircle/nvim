@@ -10,17 +10,17 @@ local conf = {
   root_patterns = default_root_patterns,
   debugmode = false,
   -- experimental, try root patterns ONLY. not recommended, git_ancestor() is more relieable
-  ignore_git = false
+  ignore_git = false,
 }
 
- -- Fallback file symbol for devicon
+-- Fallback file symbol for devicon
 Utils.default_file = ""
-  -- File symbol for a terminal split
+-- File symbol for a terminal split
 Utils.terminal_symbol = ""
 
 function Utils.schedule_mkview()
   if vim.g.config.mkview_on_fold == true then
-    vim.api.nvim_input('<f4>')
+    vim.api.nvim_input("<f4>")
   end
 end
 
@@ -91,11 +91,11 @@ function Utils.rpad(string, length, fill)
 end
 
 function Utils.string_split(s, delimiter)
-  local result = {};
-  for match in (s..delimiter):gmatch("(.-)"..delimiter) do
-    table.insert(result, match);
+  local result = {}
+  for match in (s .. delimiter):gmatch("(.-)" .. delimiter) do
+    table.insert(result, match)
   end
-  return result;
+  return result
 end
 
 function Utils.truncate(text, max_width)
@@ -109,10 +109,10 @@ end
 --- get prompt prefix to determine whether a picker has been called in insert mode
 --- this is hack-ish, but works.
 function Utils.getTelescopePromptPrefix()
-  return vim.api.nvim_get_mode().mode == 'i' and vim.g.config.minipicker_iprefix or '> '
+  return vim.api.nvim_get_mode().mode == "i" and vim.g.config.minipicker_iprefix or "> "
 end
 
---- this function determines the path where a latex-generated PDF may reside. It depends on the 
+--- this function determines the path where a latex-generated PDF may reside. It depends on the
 --- setting of config.texoutput. If this is set and _useglobal is true, then the global output
 --- path will be used. Otherwise, the .pdf is expected in the same directory as the .tex file
 --- @param _filename string: the filename to analyze
@@ -141,7 +141,9 @@ function Utils.view_latex()
       local viewer = vim.g.config.texviewer or "zathura"
       local cmd = "silent !" .. viewer .. " '" .. path .. "' &"
       vim.cmd.stopinsert()
-      vim.schedule(function() vim.cmd(cmd) end)
+      vim.schedule(function()
+        vim.cmd(cmd)
+      end)
     else
       print("The PDF output does not exist. Please recompile.")
       return
@@ -152,13 +154,19 @@ end
 function Utils.compile_latex()
   return function()
     -- must change cwd to current, otherwise latex may not found subdocuments using relative
-    -- file names. 
+    -- file names.
     local cwd = "cd " .. vim.fn.expand("%:p:h")
     vim.cmd(cwd)
-    local cmd = "!lualatex --output-directory=" .. vim.fn.expand(vim.g.config.texoutput) .. " '" .. vim.fn.expand("%:p") .. "'"
+    local cmd = "!lualatex --output-directory="
+      .. vim.fn.expand(vim.g.config.texoutput)
+      .. " '"
+      .. vim.fn.expand("%:p")
+      .. "'"
     globals.debugmsg(cmd)
     vim.cmd.stopinsert()
-    vim.schedule(function() vim.cmd(cmd) end)
+    vim.schedule(function()
+      vim.cmd(cmd)
+    end)
   end
 end
 
@@ -168,25 +176,24 @@ function Utils.selectFrom()
   local adresses = {
     {
       name = "alex",
-      mail = "<aschorna@yandex.com.invalid>"
+      mail = "<aschorna@yandex.com.invalid>",
     },
     {
       name = "Alex Shorner",
-      mail = "<as@subspsce.cc.invalid>"
-    }
+      mail = "<as@subspsce.cc.invalid>",
+    },
   }
-  for _,v in ipairs(adresses) do
-    lines[i] = "\"" .. v.name .. "\" " .. v.mail
+  for _, v in ipairs(adresses) do
+    lines[i] = '"' .. v.name .. '" ' .. v.mail
     i = i + 1
   end
   vim.ui.select(lines, {
-  prompt = 'Select From adress',
+    prompt = "Select From adress",
     format_item = function(item)
-      return Utils.pad(item, 60, ' ')
+      return Utils.pad(item, 60, " ")
     end,
-  },
-  function(choice)
-    if #choice >1 then
+  }, function(choice)
+    if #choice > 1 then
       vim.cmd("%s/^From: .*/From: " .. choice)
       return choice
     end
@@ -197,7 +204,7 @@ end
 --- patterns are in conf table.
 --- @param fname string (a fullpath filename)
 function Utils.getroot(fname)
-  local lsputil = require('lspconfig.util')
+  local lsputil = require("lspconfig.util")
   -- try git root first
   local path = nil
   if conf.ignore_git == false then
@@ -210,7 +217,7 @@ function Utils.getroot(fname)
     path = lsputil.root_pattern(conf.root_patterns)(fname)
   end
   if path == nil then
-    Utils.debug("No root found for " .. fname .." giving up")
+    Utils.debug("No root found for " .. fname .. " giving up")
     return "."
   else
     Utils.debug("Found root path for " .. fname .. ": " .. path)
@@ -229,43 +236,53 @@ function Utils.StopLsp()
   local entries = {}
   local clients = vim.lsp.get_active_clients()
   for _, client in ipairs(clients) do
-    local entry = Utils.rpad(tostring(client['id']), 10, ' ') .. Utils.rpad(client['name'], 20, ' ') .. Utils.rpad(client['config']['cmd'][1], 40, ' ')
+    local entry = Utils.rpad(tostring(client["id"]), 10, " ")
+      .. Utils.rpad(client["name"], 20, " ")
+      .. Utils.rpad(client["config"]["cmd"][1], 40, " ")
     table.insert(entries, entry)
   end
-  local pickers = require "telescope.pickers"
-  local finders = require "telescope.finders"
+  local pickers = require("telescope.pickers")
+  local finders = require("telescope.finders")
   local tconf = require("telescope.config").values
-  local actions = require "telescope.actions"
-  local action_state = require "telescope.actions.state"
+  local actions = require("telescope.actions")
+  local action_state = require("telescope.actions.state")
 
   local lspselector = function(opts)
     opts = opts or {}
-    pickers.new(opts, {
-      layout_config = {
-        horizontal = {
-          prompt_position = "bottom"
-        }
-      },
-      finder = finders.new_table {
-        results = entries
-      },
-      sorter = tconf.generic_sorter(opts),
-      attach_mappings = function(prompt_bufnr, _)
-        actions.select_default:replace(function()
-          actions.close(prompt_bufnr)
-          local selection = action_state.get_selected_entry()
-          if selection[1] ~= nil and #selection[1] > 0 then
-            local id = tonumber(string.sub(selection[1], 1, 6))
-            if id ~= nil and id > 0 then
-              vim.lsp.stop_client({id, true})
+    pickers
+      .new(opts, {
+        layout_config = {
+          horizontal = {
+            prompt_position = "bottom",
+          },
+        },
+        finder = finders.new_table({
+          results = entries,
+        }),
+        sorter = tconf.generic_sorter(opts),
+        attach_mappings = function(prompt_bufnr, _)
+          actions.select_default:replace(function()
+            actions.close(prompt_bufnr)
+            local selection = action_state.get_selected_entry()
+            if selection[1] ~= nil and #selection[1] > 0 then
+              local id = tonumber(string.sub(selection[1], 1, 6))
+              if id ~= nil and id > 0 then
+                vim.lsp.stop_client({ id, true })
+              end
             end
-          end
-        end)
-      return true
-      end,
-    }):find()
+          end)
+          return true
+        end,
+      })
+      :find()
   end
-  lspselector(Telescope_dropdown_theme{width=0.4, height=0.4, prompt_title="Active LSP clients (Enter = terminate, ESC cancels)"})
+  lspselector(
+    Telescope_dropdown_theme({
+      width = 0.4,
+      height = 0.4,
+      prompt_title = "Active LSP clients (Enter = terminate, ESC cancels)",
+    })
+  )
 end
 
 -- confirm buffer close when file is modified. May discard the file but always save the view.
@@ -275,20 +292,19 @@ function Utils.BufClose()
   local saveclosecmd = "update! | Kwbd"
 
   if vim.api.nvim_buf_get_option(0, "modified") == true then
-    if vim.g.confirm_actions['close_buffer'] == true then
-      vim.ui.select({ 'Save and Close', 'Close and discard', 'Cancel Operation' }, {
-      prompt = 'Close modified buffer?',
+    if vim.g.confirm_actions["close_buffer"] == true then
+      vim.ui.select({ "Save and Close", "Close and discard", "Cancel Operation" }, {
+        prompt = "Close modified buffer?",
         format_item = function(item)
-          return Utils.pad(item, 46, ' ')
+          return Utils.pad(item, 46, " ")
         end,
-      },
-      function(choice)
+      }, function(choice)
         if choice == "Cancel Operation" then
           return
-        elseif choice == 'Save and Close' then
+        elseif choice == "Save and Close" then
           vim.cmd(saveclosecmd)
           return
-        elseif choice == 'Close and discard' then
+        elseif choice == "Close and discard" then
           vim.cmd(closecmd)
           return
         else
@@ -304,18 +320,18 @@ function Utils.BufClose()
 end
 
 local fdm = {
-  { text = Utils.pad("Indent", 25, ' '), val = "indent" },
-  { text = Utils.pad("Expression", 25, ' '), val = "expr" },
-  { text = Utils.pad("Syntax", 25, ' '), val = "syntax" },
-  { text = Utils.pad("Marker", 25, ' '), val = "marker" },
-  { text = Utils.pad("Diff", 25, ' '), val = "diff" },
-  { text = Utils.pad("Manual", 25, ' '), val = "manual" }
+  { text = Utils.pad("Indent", 25, " "), val = "indent" },
+  { text = Utils.pad("Expression", 25, " "), val = "expr" },
+  { text = Utils.pad("Syntax", 25, " "), val = "syntax" },
+  { text = Utils.pad("Marker", 25, " "), val = "marker" },
+  { text = Utils.pad("Diff", 25, " "), val = "diff" },
+  { text = Utils.pad("Manual", 25, " "), val = "manual" },
 }
 
 --- use mini.pick to pick a folding method.
 --- @param currentmode string: the current folding method will be placed on top of the list and highlighted
 function Utils.PickFoldingMode(currentmode)
-  if currentmode == nil or currentmode == '' then
+  if currentmode == nil or currentmode == "" then
     return
   end
 
@@ -338,16 +354,20 @@ function Utils.PickFoldingMode(currentmode)
       choose = function(item)
         if item.val ~= "none" then
           globals.debugmsg("Selected folding method: " .. item.val)
-          vim.schedule(function() vim.o.foldmethod = item.val end)
+          vim.schedule(function()
+            vim.o.foldmethod = item.val
+          end)
           if item.val == "expr" then
-            vim.schedule(function() vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" end)
+            vim.schedule(function()
+              vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+            end)
           end
         end
-      end
+      end,
     },
     window = {
-      config = globals.mini_pick_center(25, 6, 0.3)
-    }
+      config = globals.mini_pick_center(25, 6, 0.3),
+    },
   })
 end
 
@@ -362,16 +382,15 @@ function Utils.Quitapp()
   end
   if have_modified_buf == false then
     -- no modified files, but we want to confirm exit anyway
-    if vim.g.confirm_actions['exit'] == true then
-      vim.ui.select({ 'Really exit?', 'Cancel operation' }, {
-        prompt = 'Exit (no modified buffers)',
-        border="single",
+    if vim.g.confirm_actions["exit"] == true then
+      vim.ui.select({ "Really exit?", "Cancel operation" }, {
+        prompt = "Exit (no modified buffers)",
+        border = "single",
         format_item = function(item)
-          return Utils.pad(item, 40, ' ')
+          return Utils.pad(item, 40, " ")
         end,
-      },
-      function(choice)
-        if choice == 'Really exit?' then
+      }, function(choice)
+        if choice == "Really exit?" then
           vim.cmd("qa!")
         else
           return
@@ -382,22 +401,21 @@ function Utils.Quitapp()
     end
   else
     -- let the user choose (save all, discard all, cancel)
-    vim.ui.select({ 'Save all modified buffers and exit', 'Discard all modified buffers and exit', 'Cancel operation' }, {
-      prompt = 'Exit (all unsaved changes are lost)',
-        format_item = function(item)
-          return Utils.pad(item, 40, ' ')
-        end,
-      },
-      function(choice)
-        if choice == 'Discard all modified buffers and exit' then
-          vim.cmd("qa!")
-        elseif choice == 'Save all modified buffers and exit' then
-          vim.cmd("wa!")
-          vim.cmd("qa!")
-        else
-          return
-        end
-      end)
+    vim.ui.select({ "Save all modified buffers and exit", "Discard all modified buffers and exit", "Cancel operation" }, {
+      prompt = "Exit (all unsaved changes are lost)",
+      format_item = function(item)
+        return Utils.pad(item, 40, " ")
+      end,
+    }, function(choice)
+      if choice == "Discard all modified buffers and exit" then
+        vim.cmd("qa!")
+      elseif choice == "Save all modified buffers and exit" then
+        vim.cmd("wa!")
+        vim.cmd("qa!")
+      else
+        return
+      end
+    end)
   end
 end
 
@@ -406,84 +424,86 @@ end
 -----------------------------------------------------------------
 
 local border_layout_prompt_top = {
-  results = {"─", "│", "─", "│", '├', '┤', '┘', '└'},
-  prompt =  {"─", "│", "─", "│", '┌', '┐', "┘", "└"},
-  preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+  results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
+  prompt = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+  preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
 }
 
 local border_layout_prompt_bottom = {
-  prompt  = {"─", "│", "─", "│", '┌', '┐', '┘', '└'},
-  results = {"─", "│", "─", "│", '┌', '┐', '┤', '├'},
-  preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+  prompt = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+  results = { "─", "│", "─", "│", "┌", "┐", "┤", "├" },
+  preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
 }
 
 -- private modified version of the dropdown theme with a square border
 function Utils.Telescope_dropdown_theme(opts)
   local lopts = opts or {}
-  local defaults = require('telescope.themes').get_dropdown({
+  local defaults = require("telescope.themes").get_dropdown({
     -- borderchars = vim.g.config.telescope_dropdown == 'bottom' and border_layout_bottom_vertical or border_layout_top_center,
-    borderchars = vim.g.config.telescope_dropdown == 'bottom' and border_layout_prompt_bottom or border_layout_prompt_top,
+    borderchars = vim.g.config.telescope_dropdown == "bottom" and border_layout_prompt_bottom
+      or border_layout_prompt_top,
     layout_config = {
       anchor = "N",
       width = lopts.width or 0.5,
       height = lopts.height or 0.5,
-      prompt_position=vim.g.config.telescope_dropdown,
+      prompt_position = vim.g.config.telescope_dropdown,
     },
     -- layout_strategy=vim.g.config.telescope_dropdown == 'bottom' and 'vertical' or 'center',
     previewer = false,
     winblend = vim.g.float_winblend,
   })
   if lopts.cwd ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.cwd
+    lopts.prompt_title = lopts.prompt_title .. ": " .. lopts.cwd
   end
   if lopts.path ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.path
+    lopts.prompt_title = lopts.prompt_title .. ": " .. lopts.path
   end
-  return vim.tbl_deep_extend('force', defaults, lopts)
+  return vim.tbl_deep_extend("force", defaults, lopts)
 end
 
 --- a dropdown theme with vertical layout strategy
 --- @param opts table of valid telescope options
 function Utils.Telescope_vertical_dropdown_theme(opts)
   local lopts = opts or {}
-  local defaults = require('telescope.themes').get_dropdown({
+  local defaults = require("telescope.themes").get_dropdown({
     borderchars = {
-      results = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
-      prompt = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
-      preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+      results = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
+      prompt = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
+      preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
     },
-    fname_width = vim.g.config['telescope_fname_width'],
+    fname_width = vim.g.config["telescope_fname_width"],
     sorting_strategy = "ascending",
     layout_strategy = "vertical",
-    path_display={smart = true},
+    path_display = { smart = true },
     symbol_width = vim.g.config.minipicker_symbolwidth,
     layout_config = {
       width = lopts.width or 0.8,
       height = lopts.height or 0.9,
       preview_height = lopts.preview_width or 0.4,
-      prompt_position='bottom',
+      prompt_position = "bottom",
       scroll_speed = 2,
     },
     winblend = vim.g.float_winblend,
   })
   if lopts.search_dirs ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.search_dirs[1]
+    lopts.prompt_title = lopts.prompt_title .. ": " .. lopts.search_dirs[1]
   end
   if lopts.cwd ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.cwd
+    lopts.prompt_title = lopts.prompt_title .. ": " .. lopts.cwd
   end
   if lopts.path ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.path
+    lopts.prompt_title = lopts.prompt_title .. ": " .. lopts.path
   end
-  return vim.tbl_deep_extend('force', defaults, lopts)
+  return vim.tbl_deep_extend("force", defaults, lopts)
 end
 
 -- custom theme for the command_center Telescope plugin
 -- reason: I have square borders everywhere
 function Utils.command_center_theme(opts)
   local lopts = opts or {}
-  local defaults = require('telescope.themes').get_dropdown({
-    borderchars = vim.g.config.cpalette_dropdown == 'bottom' and border_layout_prompt_bottom or border_layout_prompt_top,
+  local defaults = require("telescope.themes").get_dropdown({
+    borderchars = vim.g.config.cpalette_dropdown == "bottom" and border_layout_prompt_bottom
+      or border_layout_prompt_top,
     layout_config = {
       anchor = "N",
       width = lopts.width or 120,
@@ -495,12 +515,11 @@ function Utils.command_center_theme(opts)
     winblend = vim.g.float_winblend,
   })
   if lopts.cwd ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.cwd
+    lopts.prompt_title = lopts.prompt_title .. ": " .. lopts.cwd
   end
   if lopts.path ~= nil then
-    lopts.prompt_title = lopts.prompt_title .. ': ' .. lopts.path
+    lopts.prompt_title = lopts.prompt_title .. ": " .. lopts.path
   end
-  return vim.tbl_deep_extend('force', defaults, lopts)
+  return vim.tbl_deep_extend("force", defaults, lopts)
 end
 return Utils
-
