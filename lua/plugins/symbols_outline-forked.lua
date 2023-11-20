@@ -53,7 +53,7 @@ outline_window = {
 
   outline_items = {
     -- Whether to highlight the currently hovered symbol (high cpu usage)
-    highlight_hovered_item = false,
+    highlight_hovered_item = true,
     -- Show extra details with the symbols (lsp dependent)
     show_symbol_details = true,
     -- Only in this fork.
@@ -61,6 +61,10 @@ outline_window = {
     -- Why? See this comment:
     -- https://github.com/simrat39/symbols-outline.nvim/issues/212#issuecomment-1793503563
     show_symbol_lineno = false,
+    auto_set_cursor = true,
+    auto_update_events = {
+      follow = { "CursorHold" }
+    }
   },
 
   -- Options for outline guides.
