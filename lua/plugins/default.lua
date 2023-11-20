@@ -18,6 +18,17 @@ require("nvim-web-devicons").setup({
   default = true
 })
 
+-- crete the cokeline theme. Global function
+local function Cokeline_theme()
+  return {
+    hl = {
+      fg = function(buffer) return buffer.is_focused and vim.g.cokeline_colors.focus_fg or vim.g.cokeline_colors.fg end,
+      bg = function(buffer) return buffer.is_focused and vim.g.cokeline_colors.focus_bg or vim.g.cokeline_colors.bg end
+    },
+    unsaved = '#ff6060' -- the unsaved indicator on the tab
+  }
+end
+
 --- count words in either the entire document or the current visual mode selection.
 --- required for the lualine plugin
 -- setup cokeline plugin. It provides a buffer line (aka tab-bar)

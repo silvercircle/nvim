@@ -120,6 +120,7 @@ vim.g.theme = {
   alt_accent_color = '#501010',
   accent_fg = '#cccc80',
   lualine = 'internal',  -- use 'internal' for the integrated theme or any valid lualine theme name
+  selbg = '#104090',
   cold = {
     bg = '#141414',
     treebg = '#18181c',
@@ -307,25 +308,8 @@ function Lualine_internal_theme()
   }
 end
 
--- crete the cokeline theme. Global function
-function Cokeline_theme()
-  return {
-    hl = {
-      fg = function(buffer) return buffer.is_focused and vim.g.cokeline_colors.focus_fg or vim.g.cokeline_colors.fg end,
-      bg = function(buffer) return buffer.is_focused and vim.g.cokeline_colors.focus_bg or vim.g.cokeline_colors.bg end
-    },
-    unsaved = '#ff6060' -- the unsaved indicator on the tab
-  }
-end
-
 -- global variables for plugins
 g.mapleader = ','
-
--- multicursor highlight colors
-g.VM_Mono_hl   = 'DiffText'
-g.VM_Extend_hl = 'DiffAdd'
-g.VM_Cursor_hl = 'Visual'
-g.VM_Insert_hl = 'DiffChange'
 
 Telescope_dropdown_theme = require("local_utils").Telescope_dropdown_theme
 Telescope_vertical_dropdown_theme = require("local_utils").Telescope_vertical_dropdown_theme

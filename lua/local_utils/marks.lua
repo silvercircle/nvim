@@ -89,7 +89,7 @@ end
 
 local skm = vim.api.nvim_set_keymap
 
---- set key mappings
+-- set key mappings. this is called from keymap.lua globally
 function Marks.set_keymaps()
   skm("n", "m", "", {
     desc = "Add mark",

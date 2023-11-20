@@ -77,7 +77,7 @@ if g:theme_variant == 'cold'
         \ 'grey_dim':   ['#595f6f',   '240'],
         \ 'neotreebg':  [g:theme['cold'].treebg,   '232'],
         \ 'selfg':      ['#cccc20',   '233'],
-        \ 'selbg':      ['#3030b0',   '234'],
+        \ 'selbg':      [g:theme['selbg'],   '234'],
         \ 'none':       ['NONE',      'NONE']
         \ }
 else
@@ -112,7 +112,7 @@ else
         \ 'grey_dim':   ['#595f6f',   '240'],
         \ 'neotreebg':  [g:theme['warm'].treebg,   '232'],
         \ 'selfg':      ['#cccc20',   '233'],
-        \ 'selbg':      ['#3030b0',   '234'],
+        \ 'selbg':      [g:theme['selbg'],   '234'],
         \ 'none':       ['NONE',      'NONE']
         \ }
 endif
@@ -508,17 +508,10 @@ highlight! link @lsp.type.method Method
 highlight! link multiple_cursors_cursor Cursor
 highlight! link multiple_cursors_visual Visual
 call my_sonokai#highlight('VMCursor', s:palette.blue, s:palette.grey_dim)
-let g:VM_Mono_hl = 'VMCursor'
-let g:VM_Extend_hl = 'Visual'
-let g:VM_Cursor_hl = 'VMCursor'
-let g:VM_Insert_hl = 'VMCursor'
-" itchyny/vim-cursorword {{{
-highlight! link CursorWord0 CurrentWord
-highlight! link CursorWord1 CurrentWord
-" }}}
-" APZelos/blamer.nvim {{{
-highlight! link Blamer Grey
-" }}}
+let g:VM_Mono_hl = 'DiffText'
+let g:VM_Extend_hl = 'DiffAdd'
+let g:VM_Cursor_hl = 'Visual'
+let g:VM_Insert_hl = 'DiffChange'
 " voldikss/vim-floaterm {{{
 highlight! link FloatermBorder Grey
 " }}}
@@ -527,8 +520,6 @@ highlight! link BookmarkSign BlueSign
 highlight! link BookmarkAnnotationSign GreenSign
 highlight! link BookmarkLine DiffChange
 highlight! link BookmarkAnnotationLine DiffAdd
-" }}}
-if has('nvim')
 " }}}
 " nvim-telescope/telescope.nvim {{{
 call my_sonokai#highlight('TelescopeMatching', s:palette.palered, s:palette.none, 'bold')
@@ -604,7 +595,6 @@ highlight! link NotifyTRACETitle Purple
 " }}}
 " b0o/incline.nvim {{{
 call my_sonokai#highlight('InclineNormalNC', s:palette.grey, s:palette.bg2)
-endif
 " }}}
 " Extended File Types: {{{
 " Whitelist: {{{ File type optimizations that will always be loaded.
@@ -690,27 +680,6 @@ highlight! link mkdDelimiter Grey
 highlight! link mkdId Yellow
 " }}}
 " syn_end }}}
-" syn_begin: vimwiki {{{
-call my_sonokai#highlight('VimwikiHeader1', s:palette.red, s:palette.none, 'bold')
-call my_sonokai#highlight('VimwikiHeader2', s:palette.orange, s:palette.none, 'bold')
-call my_sonokai#highlight('VimwikiHeader3', s:palette.yellow, s:palette.none, 'bold')
-call my_sonokai#highlight('VimwikiHeader4', s:palette.green, s:palette.none, 'bold')
-call my_sonokai#highlight('VimwikiHeader5', s:palette.blue, s:palette.none, 'bold')
-call my_sonokai#highlight('VimwikiHeader6', s:palette.purple, s:palette.none, 'bold')
-call my_sonokai#highlight('VimwikiLink', s:palette.blue, s:palette.none, 'underline')
-call my_sonokai#highlight('VimwikiItalic', s:palette.none, s:palette.none, 'italic')
-call my_sonokai#highlight('VimwikiBold', s:palette.none, s:palette.none, 'bold')
-call my_sonokai#highlight('VimwikiUnderline', s:palette.none, s:palette.none, 'underline')
-highlight! link VimwikiList Red
-highlight! link VimwikiTag Blue
-highlight! link VimwikiCode Green
-highlight! link VimwikiHR Yellow
-highlight! link VimwikiHeaderChar Grey
-highlight! link VimwikiMarkers Grey
-highlight! link VimwikiPre Green
-highlight! link VimwikiPreDelim Green
-highlight! link VimwikiNoExistsLink Red
-" syn_end }}}
 " syn_begin: tex {{{
 " builtin: http://www.drchip.org/astronaut/vim/index.html#SYNTAX_TEX{{{
 highlight! link texStatement BlueItalic
@@ -766,11 +735,6 @@ highlight! link htmlSpecialTagName RedItalic
 highlight! link htmlString Green
 " }}}
 " syn_end }}}
-" syn_begin: htmldjango {{{
-" builtin: https://github.com/vim/vim/blob/master/runtime/syntax/htmldjango.vim{{{
-highlight! link djangoTagBlock Yellow
-" }}}
-" syn_end }}}
 " syn_begin: less {{{
 " vim-less: https://github.com/groenewege/vim-less{{{
 highlight! link lessMixinChar Grey
@@ -789,14 +753,6 @@ highlight! link javaScriptLabel Red
 highlight! link javaScriptGlobal BlueItalic
 highlight! link javaScriptMessage BlueItalic
 " }}}
-" vim-jsx-pretty: https://github.com/maxmellon/vim-jsx-pretty{{{
-highlight! link jsxTagName RedItalic
-highlight! link jsxOpenPunct Green
-highlight! link jsxClosePunct Blue
-highlight! link jsxEscapeJs Purple
-highlight! link jsxAttrib Blue
-" }}}
-" syn_end }}}
 " syn_begin: objc {{{
 " builtin: {{{
 highlight! link objcModuleImport Red
