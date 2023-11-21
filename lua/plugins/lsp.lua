@@ -24,7 +24,7 @@ local on_attach = function(client, bufnr)
       full = true,
       legend = {
         tokenTypes = { 'namespace', 'type', 'class', 'enum', 'interface', 'struct', 'typeParameter', 'parameter', 'variable', 'property', 'enumMember', 'event', 'function', 'method', 'macro', 'keyword', 'modifier', 'comment', 'string', 'number', 'regexp', 'operator', 'decorator' },
-        tokenModifiers = { 'declaration', 'definition', 'readonly', 'static', 'deprecated', 'abstract', 'async', 'modification', 'documentation', 'defaultLibrary'}
+        tokenModifiers = { 'declaration', 'definition', 'readonly', 'static', 'deprecated', 'abstract', 'async', 'modification', 'documentation', 'defaultLibrary' }
       }
     }
   end
@@ -34,15 +34,15 @@ lspconfig.tsserver.setup({
   init_options = { hostInfo = 'neovim' },
   cmd = { vim.g.lsp_server_bin['tsserver'], '--stdio' },
   filetypes = {
-      'javascript',
-      'javascriptreact',
-      'javascript.jsx',
-      'typescript',
-      'typescriptreact',
-      'typescript.tsx',
+    'javascript',
+    'javascriptreact',
+    'javascript.jsx',
+    'typescript',
+    'typescriptreact',
+    'typescript.tsx'
   },
   root_dir = function(fname)
-    return util.root_pattern 'tsconfig.json'(fname) or util.root_pattern('package.json', 'jsconfig.json', '.git')(fname)
+    return util.root_pattern 'tsconfig.json' (fname) or util.root_pattern('package.json', 'jsconfig.json', '.git')(fname)
   end,
   on_attach = on_attach,
   capabilities = capabilities
@@ -60,7 +60,7 @@ lspconfig.nimls.setup({
   cmd = { vim.g.lsp_server_bin['nimls'] },
   filetypes = { 'nim' },
   root_dir = function(fname)
-    return util.root_pattern '*.nimble'(fname) or util.find_git_ancestor(fname)
+    return util.root_pattern '*.nimble' (fname) or util.find_git_ancestor(fname)
   end,
   single_file_support = true
 })
@@ -99,7 +99,8 @@ lspconfig.clangd.setup({
   root_dir = function(fname)
     return util.root_pattern(unpack(clangd_root_files))(fname) or util.find_git_ancestor(fname)
   end,
-  single_file_support = true, on_attach = on_attach,
+  single_file_support = true,
+  on_attach = on_attach,
   capabilities = capabilities
 })
 
@@ -109,11 +110,11 @@ lspconfig.als.setup({
   cmd = { vim.g.lsp_server_bin['als'] },
   filetypes = { 'ada' },
   root_dir = util.root_pattern('Makefile', '.git', '*.gpr', '*.adc'),
---  settings = {
---    ada = {
---      projectFile = "project.gpr"
---    }
---  }
+  --  settings = {
+  --    ada = {
+  --      projectFile = "project.gpr"
+  --    }
+  --  }
 })
 
 lspconfig.dartls.setup({
@@ -151,7 +152,7 @@ lspconfig.rust_analyzer.setup({
   capabilities = capabilities,
   filetypes = { 'rust' },
   root_dir = function(fname)
-    local cargo_crate_dir = util.root_pattern 'Cargo.toml'(fname)
+    local cargo_crate_dir = util.root_pattern 'Cargo.toml' (fname)
     local cmd = { 'cargo', 'metadata', '--no-deps', '--format-version', '1' }
     if cargo_crate_dir ~= nil then
       cmd[#cmd + 1] = '--manifest-path'
@@ -187,9 +188,9 @@ lspconfig.rust_analyzer.setup({
       )
     end
     return cargo_workspace_dir
-      or cargo_crate_dir
-      or util.root_pattern 'rust-project.json'(fname)
-      or util.find_git_ancestor(fname)
+        or cargo_crate_dir
+        or util.root_pattern 'rust-project.json' (fname)
+        or util.find_git_ancestor(fname)
   end,
   settings = {
     ['rust-analyzer'] = {
@@ -209,7 +210,8 @@ lspconfig.rust_analyzer.setup({
 })
 lspconfig.emmet_language_server.setup({
   cmd = { vim.g.lsp_server_bin['emmet'], '--stdio' },
-  filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass", "scss", "svelte", "pug", "typescriptreact", "vue", "liquid" },
+  filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass",
+                "scss", "svelte", "pug", "typescriptreact", "vue", "liquid" },
   root_dir = util.root_pattern('package.json', '.git'),
   -- Read more about this options in the [vscode docs](https://code.visualstudio.com/docs/editor/emmet#_emmet-configuration).
   -- **Note:** only the options listed in the table are supported.
@@ -266,11 +268,11 @@ lspconfig.phpactor.setup({
   cmd = { vim.g.lsp_server_bin['phpactor'], 'language-server' },
   filetypes = { 'php' },
   root_dir = function(pattern)
-      local cwd = vim.loop.cwd()
-      local root = util.root_pattern('composer.json', '.git')(pattern)
+    local cwd = vim.loop.cwd()
+    local root = util.root_pattern('composer.json', '.git')(pattern)
 
-      -- prefer cwd if root is a descendant
-      return util.path.is_descendant(cwd, root) and cwd or root
+    -- prefer cwd if root is a descendant
+    return util.path.is_descendant(cwd, root) and cwd or root
   end,
   on_attach = on_attach,
   capabilities = capabilities
@@ -288,7 +290,7 @@ lspconfig.gopls.setup({
     }
   },
   root_dir = function(fname)
-    return util.root_pattern 'go.work'(fname) or util.root_pattern('go.mod', '.git')(fname)
+    return util.root_pattern 'go.work' (fname) or util.root_pattern('go.mod', '.git')(fname)
   end
 })
 
@@ -321,11 +323,11 @@ lspconfig.csharp_ls.setup({
   on_attach = on_attach,
   capabilities = capabilities,
   cmd = { vim.g.lsp_server_bin['csharp_ls'] },
-    root_dir = util.root_pattern('*.sln', '*.csproj', '*.fsproj', '.git'),
-    filetypes = { 'cs' },
-    init_options = {
-      AutomaticWorkspaceInit = true,
-    }
+  root_dir = util.root_pattern('*.sln', '*.csproj', '*.fsproj', '.git'),
+  filetypes = { 'cs' },
+  init_options = {
+    AutomaticWorkspaceInit = true,
+  }
 })
 
 -- metals = scala language server.
@@ -359,7 +361,7 @@ lspconfig.pyright.setup({
 -- markdown
 lspconfig.marksman.setup({
   on_attach = on_attach,
-  cmd ={ vim.g.lsp_server_bin['marksman'] },
+  cmd = { vim.g.lsp_server_bin['marksman'] },
   filetypes = { 'markdown', 'telekasten' },
   root_dir = function(fname)
     local root_files = { '.marksman.toml' }
@@ -380,13 +382,13 @@ lspconfig.lemminx.setup({
 })
 
 -- toml
-lspconfig.taplo.setup ({
+lspconfig.taplo.setup({
   on_attach = on_attach,
   capabilities = capabilities,
   cmd = { vim.g.lsp_server_bin['taplo'], 'lsp', 'stdio' },
   filetypes = { 'toml' },
   root_dir = function(fname)
-    return util.root_pattern '*.toml'(fname) or util.find_git_ancestor(fname)
+    return util.root_pattern '*.toml' (fname) or util.find_git_ancestor(fname)
   end,
   single_file_support = true
 })
@@ -410,7 +412,7 @@ lspconfig.lua_ls.setup {
     if root and root ~= vim.env.HOME then
       return root
     end
-    root = util.root_pattern 'lua/'(fname)
+    root = util.root_pattern 'lua/' (fname)
     if root then
       return root .. '/lua/'
     end
@@ -421,7 +423,7 @@ lspconfig.lua_ls.setup {
     Lua = {
       diagnostics = {
         globals = { "vim" },
-          workspaceEvent = "OnSave",
+        workspaceEvent = "OnSave",
         disable = {
           "param-type-mismatch",
           "undefined-field",
@@ -460,7 +462,7 @@ do
   })
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
-     -- delay update diagnostics
+      -- delay update diagnostics
       update_in_insert = false,
     }
   )
@@ -511,7 +513,7 @@ if vim.diagnostic then
         user_data = diagnostic.user_data or {}
         user_data = user_data.lsp or user_data.null_ls or user_data
         local code = (
-          -- TODO: symbol is specific to pylint (will be removed)
+        -- TODO: symbol is specific to pylint (will be removed)
           diagnostic.symbol
           or diagnostic.code
           or user_data.symbol
@@ -552,4 +554,3 @@ do
 end
 
 vim.diagnostic.config({ virtual_text = true, update_in_insert = false })
-

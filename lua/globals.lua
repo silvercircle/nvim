@@ -557,6 +557,7 @@ function M.notify(msg, level, ...)
     vim.g.notifier.notify(msg, level, params)
   end
 end
+
 --- toggle the debug mode and display the new status.
 function M.toggle_debug()
   M.perm_config.debug = not M.perm_config.debug
@@ -680,4 +681,5 @@ function M.configure_treesitter()
     vim.treesitter.query.set("typescript", "injections", "")
   end
 end
+
 return M
