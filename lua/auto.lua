@@ -3,8 +3,8 @@
 -- autogroups
 local autocmd = vim.api.nvim_create_autocmd
 local globals = require("globals")
-local agroup_views = vim.api.nvim_create_augroup("views", {} )
-local agroup_hl = vim.api.nvim_create_augroup("hl", {} )
+local agroup_views = vim.api.nvim_create_augroup("views", {})
+local agroup_hl = vim.api.nvim_create_augroup("hl", {})
 local wsplit = require("local_utils.wsplit")
 local usplit = require("local_utils.usplit")
 
@@ -41,7 +41,7 @@ autocmd({ 'UIEnter' }, {
     globals.main_winid = vim.fn.win_getid()
     if vim.g.config.plain == false then
       if globals.perm_config.tree.active == true then
-        require('nvim-tree.api').tree.toggle({focus = false})
+        require('nvim-tree.api').tree.toggle({ focus = false })
       end
       if globals.perm_config.terminal.active == true then
         globals.termToggle(globals.perm_config.terminal.height)
@@ -83,24 +83,24 @@ autocmd({ 'UIEnter' }, {
         group = agroup_views
       })
       vim.api.nvim_command("wincmd p")
---      require("local_utils.blist").setup({
---        symbols = {
---          current = "+", -- default 
---          split = "s", -- default 
---          alternate = "a", -- default 
---          hidden = "~", -- default ﬘
---          unloaded = "-",
---          locked = "L", -- default 
---          ro = "r", -- default 
---          edited = "*", -- default 
---          terminal = "t", -- default 
---  --        default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
---          terminal_symbol = ">" -- Filetype icon for a terminal split. Default 
---        }
---      })
---      if globals.perm_config.blist == true then
-        --require("local_utils.blist").open(true, 0, globals.perm_config.blist_height)
---      end
+      --      require("local_utils.blist").setup({
+      --        symbols = {
+      --          current = "+", -- default 
+      --          split = "s", -- default 
+      --          alternate = "a", -- default 
+      --          hidden = "~", -- default ﬘
+      --          unloaded = "-",
+      --          locked = "L", -- default 
+      --          ro = "r", -- default 
+      --          edited = "*", -- default 
+      --          terminal = "t", -- default 
+      --  --        default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
+      --          terminal_symbol = ">" -- Filetype icon for a terminal split. Default 
+      --        }
+      --      })
+      --      if globals.perm_config.blist == true then
+      --require("local_utils.blist").open(true, 0, globals.perm_config.blist_height)
+      --      end
       if globals.perm_config.weather.active == true then
         wsplit.content = globals.perm_config.weather.content
         wsplit.content_set_winid(globals.main_winid)
@@ -119,7 +119,7 @@ autocmd({ 'UIEnter' }, {
 
 
 -- create a view to save folds when saving the file
-autocmd( { 'bufwritepre' }, {
+autocmd({ 'bufwritepre' }, {
   pattern = "*",
   callback = function()
     globals.mkview()
@@ -128,7 +128,7 @@ autocmd( { 'bufwritepre' }, {
 })
 
 -- when config.mkview_on_leave is true, create a view when a buffer loses focus
-autocmd( { 'bufwinleave' }, {
+autocmd({ 'bufwinleave' }, {
   pattern = "*",
   callback = function()
     if vim.g.config.mkview_on_leave == true then
@@ -140,7 +140,7 @@ autocmd( { 'bufwinleave' }, {
 
 -- just recalculate buffer size in bytes when entering a buffer.
 -- We need this for some performance tweaks
-autocmd( { 'BufEnter' }, {
+autocmd({ 'BufEnter' }, {
   pattern = "*",
   callback = function(args)
     globals.get_bufsize()
@@ -148,13 +148,13 @@ autocmd( { 'BufEnter' }, {
     if wsplit.content == 'info' then
       vim.schedule(function() wsplit.refresh() end)
     end
-    marks.BufWinEnterHandler(args)  -- update marks in sign column
+    marks.BufWinEnterHandler(args) -- update marks in sign column
   end,
   group = agroup_views
 })
 
 -- restore view when reading a file
-autocmd( { 'bufread' }, {
+autocmd({ 'bufread' }, {
   pattern = "*",
   callback = function()
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then
@@ -164,11 +164,12 @@ autocmd( { 'bufread' }, {
   group = agroup_views
 })
 
-autocmd( { 'FileType' }, {
+autocmd({ 'FileType' }, {
   pattern = { 'tex', 'markdown', 'text', 'telekasten', 'liquid' },
   callback = function()
     if vim.bo.modifiable == true then
-      vim.cmd("setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nwqtc | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
+      vim.cmd(
+      "setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nwqtc | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
     end
   end,
   group = agroup_views
@@ -177,7 +178,7 @@ autocmd( { 'FileType' }, {
 local treesitter_configured = false
 
 -- handle treesitter configuration and start it on supported filetypes.
-autocmd( { "Filetype" }, {
+autocmd({ "Filetype" }, {
   pattern = vim.g.config.treesitter_types,
   callback = function()
     if not treesitter_configured then
@@ -189,17 +190,21 @@ autocmd( { "Filetype" }, {
   group = agroup_hl
 })
 -- pattern for which the indent and tabstop options must be set.
-local tabstop_pattern = { 'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go'}
+local tabstop_pattern = { 'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go' }
 local conceal_pattern = { "markdown", "telekasten", "liquid" }
 
 -- generic FileType handler adressing common actions
-autocmd( { 'FileType' }, {
+autocmd({ 'FileType' }, {
   pattern = { "aerial", "Outline", "DressingSelect", "DressingInput", "query", "mail", "qf", "replacer",
-              'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go',
-              "markdown", "telekasten", "liquid", "Glance" },
+    'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go',
+    "markdown", "telekasten", "liquid", "Glance" },
   callback = function(args)
     if args.match == "aerial" or args.match == "Outline" then
-      vim.cmd("silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=\\ \\ Outline" .. "\\ (" .. globals.perm_config.outline_filetype.. ") | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=0")
+      vim.cmd(
+      "silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=\\ \\ Outline" ..
+      "\\ (" ..
+      globals.perm_config.outline_filetype ..
+      ") | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=0")
       -- aerial can set its own statuscolumn
       if args.match == 'Outline' then
         vim.cmd("silent! setlocal statuscolumn=")
@@ -210,9 +215,11 @@ autocmd( { 'FileType' }, {
     elseif args.match == "DressingInput" then
       vim.cmd("hi nCursor blend=0")
     elseif args.match == "mail" then
-      vim.cmd("setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
+      vim.cmd(
+      "setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
     elseif args.match == "query" then
-      vim.cmd("silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal norelativenumber | silent! setlocal nonumber | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC")
+      vim.cmd(
+      "silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal norelativenumber | silent! setlocal nonumber | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC")
     elseif args.match == "Glance" then
       vim.defer_fn(function() vim.cmd("setlocal cursorline") end, 400)
     elseif args.match == "qf" or args.match == "replacer" then
@@ -223,7 +230,8 @@ autocmd( { 'FileType' }, {
       end
       vim.api.nvim_win_set_height(globals.term.winid, globals.perm_config.terminal.height)
     elseif vim.tbl_contains(tabstop_pattern, args.match) then
-      vim.cmd("setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal fo-=c")
+      vim.cmd(
+      "setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal fo-=c")
     elseif vim.tbl_contains(conceal_pattern, args.match) then
       vim.cmd("setlocal conceallevel=2 | setlocal concealcursor=nc | setlocal formatexpr=")
     end
@@ -231,7 +239,7 @@ autocmd( { 'FileType' }, {
   group = agroup_hl
 })
 
-autocmd( { 'CmdLineEnter' }, {
+autocmd({ 'CmdLineEnter' }, {
   pattern = '*',
   callback = function()
     vim.cmd("hi nCursor blend = 0")
@@ -244,7 +252,7 @@ autocmd( { 'CmdLineEnter' }, {
 local enter_leave_filetypes = { "DressingSelect", "aerial", "Outline", "NvimTree" }
 local old_mode
 
-autocmd( { 'WinEnter' }, {
+autocmd({ 'WinEnter' }, {
   pattern = '*',
   callback = function()
     wsplit.content_set_winid(vim.fn.win_getid())
@@ -267,7 +275,7 @@ autocmd( { 'WinEnter' }, {
   group = agroup_hl
 })
 
-autocmd( { 'WinLeave' }, {
+autocmd({ 'WinLeave' }, {
   pattern = '*',
   callback = function()
     local filetype = vim.bo.filetype
@@ -276,7 +284,7 @@ autocmd( { 'WinLeave' }, {
     end
     -- HACK: restore the insert mode if it was active when changing to the NvimTree or outline
     -- split.
-    if filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial"  then
+    if filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial" then
       if old_mode == 'i' then
         old_mode = ''
         vim.cmd.startinsert()
@@ -285,4 +293,3 @@ autocmd( { 'WinLeave' }, {
   end,
   group = agroup_hl
 })
-
