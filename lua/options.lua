@@ -56,7 +56,7 @@ vim.opt.list = true
 -- this only customizes the fill chars. statuscolumn is set at the end
 -- via the globals function
 if vim.fn.has('nvim-0.9') == 1 then
-  if require("tweaks").use_foldlevel_patch == true then
+  if vim.g.tweaks.use_foldlevel_patch == true then
     o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]
     --o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
   else

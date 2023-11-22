@@ -8,7 +8,7 @@ local globals = require("globals")
 
 local opts = { noremap = true, silent = true }
 local utils = require('local_utils')
-local utility_key = require("tweaks").utility_key
+local utility_key = vim.g.tweaks.utility_key
 
 --- peform a key press
 --- @param key string a key sequence

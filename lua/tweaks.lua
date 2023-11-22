@@ -77,4 +77,8 @@ Tweaks.utility_key = "<C-l>"
 Tweaks.treesitter = {
   perf_tweaks = true
 }
+Tweaks.cokeline = {
+  enabled = true,
+  closebutton = false
+}
 return Tweaks

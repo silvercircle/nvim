@@ -17,7 +17,7 @@ Wsplit.content_winid = nil -- window of interest.
 Wsplit.freeze = false      -- do not refresh when set
 Wsplit.cookie = {}
 
-Wsplit.cookie_source = require("tweaks").cookie_source
+Wsplit.cookie_source = vim.g.tweaks.cookie_source
 
 local watch = nil            -- file watcher (for weather content)
 local timer = nil            -- timer (for info content)

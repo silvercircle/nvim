@@ -5,8 +5,10 @@ if vim.g.config.breadcrumb == 'navic' then
   navic = require('nvim-navic')
 end
 
+-- use either cokeline or lualine's internal buffer line, depending on 
+-- configuration choice.
 local function actual_tabline()
-  if vim.g.config.cokeline.enabled == true then
+  if vim.g.tweaks.cokeline.enabled == true then
     return {}
   else return {
     lualine_a = { { "buffers", mode = 2 } },

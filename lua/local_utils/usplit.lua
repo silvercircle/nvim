@@ -1,5 +1,4 @@
 local globals = require("globals")
-local tweaks = require("tweaks")
 
 local Usplit = {}
 Usplit.winid = nil -- window id
@@ -8,11 +7,11 @@ Usplit.content = "fortune"
 Usplit.cookie = {}
 
 local timer = nil
-local num_cookies = tweaks.fortune.numcookies or 1
-local cookie_command = tweaks.fortune.command
+local num_cookies = vim.g.tweaks.fortune.numcookies or 1
+local cookie_command = vim.g.tweaks.fortune.command
 
 -- timer interval is in minutes. We accept nothing lower than one minute
-local timer_interval = tweaks.fortune.refresh * 60 * 1000
+local timer_interval = vim.g.tweaks.fortune.refresh * 60 * 1000
 if timer_interval < 60000 then
   timer_interval = 60000
 end

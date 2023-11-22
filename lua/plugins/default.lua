@@ -1,4 +1,5 @@
 local globals = require("globals")
+local show_close = vim.g.tweaks.cokeline.closebutton
 
 -- devicons for lua plugins (e.g. Telescope, neotree, nvim-tree among others  need them)
 require("nvim-web-devicons").setup({
@@ -68,7 +69,7 @@ require('cokeline').setup({
       style = function(buffer) return buffer.is_focused and 'bold' or nil end
     },
     {
-       text = function(buffer) return buffer.is_modified and ' ●' or (vim.g.config.cokeline.show_close == true and  '' or '') end,
+       text = function(buffer) return buffer.is_modified and ' ●' or (show_close == true and  '' or '') end,
        fg = function(buffer) return buffer.is_modified and Cokeline_theme().unsaved or nil end,
     },
     { text = ' ' }

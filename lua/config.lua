@@ -22,10 +22,6 @@ vim.g.config = {
   telescope_fname_width = tweaks.telescope_fname_width,
   telescope_vertical_preview_layout = tweaks.telescope_vertical_preview_layout,
   nightly = nvim_10,
-  cokeline = {
-    enabled = true,                             -- when false, lualine handles the bufferline
-    show_close = false                          -- showa close button on the tabs
-  },
   telescope_dropdown='bottom',                  -- position for the input box in the dropdown theme. 'bottom' or 'top'
   cpalette_dropdown = 'top',                    -- same for the command palette
   -- the minipicker is the small telescope picker used for references, symbols and
