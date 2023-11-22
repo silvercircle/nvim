@@ -68,8 +68,8 @@ cmp.setup({
   preselect = cmp.PreselectMode.Item,
   enabled = true,
   completion = {
-    autocomplete = vim.g.config.cmp.autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or { },
-    keyword_length = vim.g.config.cmp.autocomplete_kwlen,
+    autocomplete = Config.cmp.autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or { },
+    keyword_length = Config.cmp.autocomplete_kwlen,
     completeopt = "menu,menuone",
   },
   snippet = {
@@ -78,7 +78,7 @@ cmp.setup({
     end,
   },
   experimental = {
-    ghost_text = vim.g.config.cmp.ghost_text
+    ghost_text = Config.cmp.ghost_text
   },
   window = {
     documentation = {
@@ -132,10 +132,10 @@ cmp.setup({
   formatting = {
     format = function(entry, vim_item)
       -- Truncate the item if it is too long
-      vim_item.abbr = globals.truncate(vim_item.abbr, vim.g.config.cmp.max_abbr_item_width)
+      vim_item.abbr = globals.truncate(vim_item.abbr, Config.cmp.max_abbr_item_width)
         -- fancy icons and a name of kind
       vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
-      vim_item.kind = " " .. vim_item.kind_symbol .. " " .. vim.g.config.iconpad .. vim_item.kind
+      vim_item.kind = " " .. vim_item.kind_symbol .. " " .. Config.iconpad .. vim_item.kind
       -- The 'menu' section: source, detail information (lsp, snippet), etc.
       -- set a name for each source (see the sources section below)
       vim_item.menu = ({
@@ -168,7 +168,7 @@ cmp.setup({
             local label = (cmp_item.labelDetails or {}).description
             return label and (" " .. globals.truncate(label, 20)) or nil
           else
-            return globals.truncate(cmp_item.detail, vim.g.config.cmp.max_detail_item_width)
+            return globals.truncate(cmp_item.detail, Config.cmp.max_detail_item_width)
           end
         end)(cmp_item)
         if detail_txt then
@@ -195,10 +195,10 @@ cmp.setup({
         get_bufnrs = function()
           local buf = vim.api.nvim_get_current_buf()
           local ft = vim.api.nvim_buf_get_option(buf, "filetype")
-          if vim.g.config.cmp.buffer_ft_allowed[ft] == nil then
+          if Config.cmp.buffer_ft_allowed[ft] == nil then
             return {}
           end
-          if globals.cur_bufsize > vim.g.config.cmp.buffer_maxsize then -- 300kb
+          if globals.cur_bufsize > Config.cmp.buffer_maxsize then -- 300kb
             print("file too big, cmp_buffer disabled")
             return {}
           end

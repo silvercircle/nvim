@@ -68,7 +68,7 @@ end
 
 -- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 
 -- indentation-based folding.
-if vim.g.config.treesitter == true then
+if Config.treesitter == true then
   o.foldmethod = "expr"
   vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
   -- vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"

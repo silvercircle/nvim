@@ -47,7 +47,7 @@ local function stopinsert_ins(callback)
     vim.schedule(function()
       callback(prompt_bufnr)
     end)
-    if current.prompt_prefix == vim.g.config.minipicker_iprefix then
+    if current.prompt_prefix == Config.minipicker_iprefix then
       vim.schedule(function() vim.api.nvim_input("i") end)
     end
     vim.schedule(function() vim.api.nvim_input("<Left>") end)
@@ -57,7 +57,7 @@ end
 local function close_insertmode(prompt_bufnr)
   local current = actionstate.get_current_picker(prompt_bufnr)
   actions.close(prompt_bufnr)
-  if current.prompt_prefix == vim.g.config.minipicker_iprefix then
+  if current.prompt_prefix == Config.minipicker_iprefix then
     vim.api.nvim_input("i")
   end
 end

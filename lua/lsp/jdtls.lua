@@ -13,7 +13,7 @@ local function get_cache_dir()
 end
 
 local on_attach = function(client, bufnr)
-  if vim.g.config.breadcrumb == 'navic' then
+  if Config.breadcrumb == 'navic' then
     require("nvim-navic").attach(client, bufnr)
   end
 end

@@ -19,12 +19,12 @@ M.term = {
 M.perm_config_default = {
   sysmon = {
     active = false,
-    width = vim.g.config.sysmon.width,
+    width = Config.sysmon.width,
     content = "sysmon",
   },
   weather = {
     active = false,
-    width = vim.g.config.weather.width,
+    width = Config.weather.width,
     content = "info",
   },
   terminal = {
@@ -32,11 +32,11 @@ M.perm_config_default = {
     height = 12,
   },
   tree = {
-    width = vim.g.config.filetree_width,
+    width = Config.filetree_width,
     active = true,
   },
   outline = {
-    width = vim.g.config.outline_width,
+    width = Config.outline_width,
   },
   statuscol_current = "normal",
   blist = true,
@@ -132,7 +132,7 @@ function M.set_statuscol(mode)
     return
   end
   M.perm_config.statuscol_current = mode
-  vim.o.statuscolumn = vim.g.config["statuscol_" .. mode]
+  vim.o.statuscolumn = Config["statuscol_" .. mode]
   if mode == "normal" then
     vim.o.relativenumber = false
     vim.o.numberwidth = vim.g.tweaks.numberwidth
@@ -159,20 +159,20 @@ function M.toggle_statuscol()
 end
 
 -- toggle the right colorcolumn value (right margin).
--- this can be different, depending on filetype. The relevant table is in vim.g.config.colorcolumn.
+-- this can be different, depending on filetype. The relevant table is in Config.colorcolumn.
 -- by default, this is mapped to <C-l><C-k>
 function M.toggle_colorcolumn()
   if #vim.opt_local.colorcolumn:get() ~= 0 then
     vim.opt_local.colorcolumn = ""
   else
     local filetype = vim.bo.filetype
-    for _, v in pairs(vim.g.config.colorcolumns) do
+    for _, v in pairs(Config.colorcolumns) do
       if string.find(v.filetype, filetype) then
         vim.opt_local.colorcolumn = v.value
         return
       end
     end
-    vim.opt_local.colorcolumn = vim.g.config.colorcolumns.all.value
+    vim.opt_local.colorcolumn = Config.colorcolumns.all.value
   end
 end
 
@@ -381,7 +381,7 @@ end
 --- write the configuration to the json file
 --- do not write it when running in plain mode (without additional frames and content)
 function M.write_config()
-  if vim.g.config.plain == true then
+  if Config.plain == true then
     return
   end
   local file = get_permconfig_filename()

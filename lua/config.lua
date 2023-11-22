@@ -15,10 +15,7 @@ end
 
 local nvim_10 = vim.fn.has("nvim-0.10")
 
--- this is the global config table. Since the migration to lazy, the features table is gone and
--- no longer needed. load_lazy.lua handles all the plugin loading and deals with optional plugins.
-
-vim.g.config = {
+Config = {
   telescope_fname_width = tweaks.telescope_fname_width,
   telescope_vertical_preview_layout = tweaks.telescope_vertical_preview_layout,
   nightly = nvim_10,

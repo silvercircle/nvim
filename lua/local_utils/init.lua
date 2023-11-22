@@ -19,7 +19,7 @@ Utils.default_file = ""
 Utils.terminal_symbol = ""
 
 function Utils.schedule_mkview()
-  if vim.g.config.mkview_on_fold == true then
+  if Config.mkview_on_fold == true then
     vim.api.nvim_input("<f4>")
   end
 end
@@ -109,7 +109,7 @@ end
 --- get prompt prefix to determine whether a picker has been called in insert mode
 --- this is hack-ish, but works.
 function Utils.getTelescopePromptPrefix()
-  return vim.api.nvim_get_mode().mode == "i" and vim.g.config.minipicker_iprefix or "> "
+  return vim.api.nvim_get_mode().mode == "i" and Config.minipicker_iprefix or "> "
 end
 
 --- this function determines the path where a latex-generated PDF may reside. It depends on the
@@ -119,7 +119,7 @@ end
 --- @param _useglobal boolean: use the global texoutput directory
 function Utils.getLatexPreviewPath(_filename, _useglobal)
   local useglobal = _useglobal or false
-  local path = vim.fn.expand(vim.g.config.texoutput)
+  local path = vim.fn.expand(Config.texoutput)
   local finalpath
   Utils.debugmsg("The preview path is: " .. path)
   if useglobal == true and #path > 0 and vim.fn.isdirectory(path) == 1 then
@@ -138,7 +138,7 @@ function Utils.view_latex()
   return function()
     local result, path = Utils.getLatexPreviewPath(vim.fn.expand("%"), true)
     if result == true then
-      local viewer = vim.g.config.texviewer or "zathura"
+      local viewer = Config.texviewer or "zathura"
       local cmd = "silent !" .. viewer .. " '" .. path .. "' &"
       vim.cmd.stopinsert()
       vim.schedule(function()
@@ -158,7 +158,7 @@ function Utils.compile_latex()
     local cwd = "cd " .. vim.fn.expand("%:p:h")
     vim.cmd(cwd)
     local cmd = "!lualatex --output-directory="
-      .. vim.fn.expand(vim.g.config.texoutput)
+      .. vim.fn.expand(Config.texoutput)
       .. " '"
       .. vim.fn.expand("%:p")
       .. "'"
@@ -439,16 +439,16 @@ local border_layout_prompt_bottom = {
 function Utils.Telescope_dropdown_theme(opts)
   local lopts = opts or {}
   local defaults = require("telescope.themes").get_dropdown({
-    -- borderchars = vim.g.config.telescope_dropdown == 'bottom' and border_layout_bottom_vertical or border_layout_top_center,
-    borderchars = vim.g.config.telescope_dropdown == "bottom" and border_layout_prompt_bottom
+    -- borderchars = Config.telescope_dropdown == 'bottom' and border_layout_bottom_vertical or border_layout_top_center,
+    borderchars = Config.telescope_dropdown == "bottom" and border_layout_prompt_bottom
       or border_layout_prompt_top,
     layout_config = {
       anchor = "N",
       width = lopts.width or 0.5,
       height = lopts.height or 0.5,
-      prompt_position = vim.g.config.telescope_dropdown,
+      prompt_position = Config.telescope_dropdown,
     },
-    -- layout_strategy=vim.g.config.telescope_dropdown == 'bottom' and 'vertical' or 'center',
+    -- layout_strategy=Config.telescope_dropdown == 'bottom' and 'vertical' or 'center',
     previewer = false,
     winblend = vim.g.float_winblend,
   })
@@ -471,11 +471,11 @@ function Utils.Telescope_vertical_dropdown_theme(opts)
       prompt = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
       preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
     },
-    fname_width = vim.g.config["telescope_fname_width"],
+    fname_width = Config["telescope_fname_width"],
     sorting_strategy = "ascending",
     layout_strategy = "vertical",
     path_display = { smart = true },
-    symbol_width = vim.g.config.minipicker_symbolwidth,
+    symbol_width = Config.minipicker_symbolwidth,
     layout_config = {
       width = lopts.width or 0.8,
       height = lopts.height or 0.9,
@@ -502,15 +502,15 @@ end
 function Utils.command_center_theme(opts)
   local lopts = opts or {}
   local defaults = require("telescope.themes").get_dropdown({
-    borderchars = vim.g.config.cpalette_dropdown == "bottom" and border_layout_prompt_bottom
+    borderchars = Config.cpalette_dropdown == "bottom" and border_layout_prompt_bottom
       or border_layout_prompt_top,
     layout_config = {
       anchor = "N",
       width = lopts.width or 120,
       height = lopts.height or 0.4,
-      prompt_position = vim.g.config.cpalette_dropdown,
+      prompt_position = Config.cpalette_dropdown,
     },
-    -- layout_strategy=vim.g.config.telescope_dropdown == 'bottom' and 'vertical' or 'center',
+    -- layout_strategy=Config.telescope_dropdown == 'bottom' and 'vertical' or 'center',
     previewer = false,
     winblend = vim.g.float_winblend,
   })

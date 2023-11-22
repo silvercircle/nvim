@@ -1,11 +1,11 @@
-if vim.g.config.plain == false then
+if Config.plain == false then
   local theme = require("alpha.themes.startify")
   theme.section.top_buttons.val = {}
   for _,v in ipairs(vim.g.startify_top) do
     table.insert(theme.section.top_buttons.val, theme.button( v.key, v.text, v.command ))
   end
   theme.section.bottom_buttons.val = {}
-  if vim.fn.has("linux") > 0 and (vim.g.config.fortunecookie ~= false and #vim.g.config.fortunecookie > 0) then
+  if vim.fn.has("linux") > 0 and (Config.fortunecookie ~= false and #Config.fortunecookie > 0) then
     local handle = io.popen("fortune science politics -s -n500 | cowsay -W 120")
     local result = {"",""}
     if handle ~= nil then

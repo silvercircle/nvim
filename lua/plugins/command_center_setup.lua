@@ -79,7 +79,7 @@ command_center.add({
       _t.extensions.vim_bookmarks.all(Telescope_vertical_dropdown_theme({
         prompt_title = "All Bookmarks",
         hide_filename = false,
-        layout_config = vim.g.config.telescope_vertical_preview_layout
+        layout_config = Config.telescope_vertical_preview_layout
       }))
     end,
     keys = { "n", "<A-b>", noremap },
@@ -89,7 +89,7 @@ command_center.add({
     desc = "Show bookmarks in current file (Telescope)",
     cmd = function()
       _t.extensions.vim_bookmarks.current_file(Telescope_vertical_dropdown_theme({
-        layout_config = vim.g.config.telescope_vertical_preview_layout,
+        layout_config = Config.telescope_vertical_preview_layout,
         prompt_title = "File Bookmarks" }))
     end,
     keys = { "n", "<A-B>", noremap },
@@ -167,7 +167,7 @@ command_center.add({
     desc = "Show references (Telescope)",
     cmd = function()
       _tb.lsp_references(Telescope_vertical_dropdown_theme({
-        fname_width = vim.g.config.telescope_fname_width,
+        fname_width = Config.telescope_fname_width,
         layout_config = {
           width = 0.9 }
       }))
@@ -191,7 +191,7 @@ command_center.add({
       _tb.lsp_document_symbols(Telescope_vertical_dropdown_theme({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
         ignore_symbols = ignore_symbols,
-        layout_config = vim.g.config.minipicker_layout }))
+        layout_config = Config.minipicker_layout }))
     end,
     keys = { {"n", "i"}, "<A-o>", noremap },
     category = "@LSP Telescope"
@@ -201,7 +201,7 @@ command_center.add({
     cmd = function()
       _t.extensions.aerial.aerial(Telescope_vertical_dropdown_theme({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
-        layout_config = vim.g.config.minipicker_layout }))
+        layout_config = Config.minipicker_layout }))
     end,
     keys = { {"n", "i"}, "<A-a>", noremap },
     category = "@LSP Telescope Aerial"
@@ -213,7 +213,7 @@ command_center.add({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
         path_display = { truncate = 9 },
         show_line = false,
-        layout_config = vim.g.config.minipicker_layout
+        layout_config = Config.minipicker_layout
       }))
     end,
     keys = { {"n", "i"}, "<A-r>", noremap },
@@ -224,7 +224,7 @@ command_center.add({
     cmd = function()
       _tb.treesitter(Telescope_vertical_dropdown_theme({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
-        layout_config = vim.g.config.minipicker_layout
+        layout_config = Config.minipicker_layout
       }))
     end,
     keys = { {"n", "i"}, "<A-t>", noremap },
@@ -263,7 +263,7 @@ command_center.add({
   {
     desc = "Pick from dropbar",
     cmd = function()
-      if vim.g.config.breadcrumb == 'dropbar' then
+      if Config.breadcrumb == 'dropbar' then
         require("dropbar.api").pick()
       end
     end,
@@ -456,7 +456,7 @@ command_center.add({
       _tb.jumplist(Telescope_vertical_dropdown_theme({
         show_line = false,
         prompt_prefix = lutils.getTelescopePromptPrefix(),
-        layout_config = vim.g.config.telescope_vertical_preview_layout
+        layout_config = Config.telescope_vertical_preview_layout
       }))
     end,
     keys = { {"n", "i"}, "<A-Backspace>", noremap },
@@ -490,7 +490,7 @@ command_center.add({
     desc = "Fuzzy search in current buffer",
     cmd = function()
       _tb.current_buffer_fuzzy_find(Telescope_vertical_dropdown_theme({
-        layout_config = vim.g.config.telescope_vertical_preview_layout,
+        layout_config = Config.telescope_vertical_preview_layout,
         prompt_title = "Fuzzy Find in current buffer" }))
     end,
     keys = { "n", "<C-x><C-f>", noremap },

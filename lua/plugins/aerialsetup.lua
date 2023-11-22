@@ -16,7 +16,7 @@ require("aerial").setup({
     -- max_width = {40, 0.2} means "the lesser of 40 columns or 20% of total"
     max_width = { globals.perm_config.outline.width },
     width = nil,
-    min_width = vim.g.config.outline_width,
+    min_width = Config.outline_width,
     -- do not enforce width, let control it from outside.
     ignore_width = true,
 

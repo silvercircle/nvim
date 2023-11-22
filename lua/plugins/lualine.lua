@@ -1,7 +1,7 @@
 local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
 local globals = require("globals")
 local navic
-if vim.g.config.breadcrumb == 'navic' then
+if Config.breadcrumb == 'navic' then
   navic = require('nvim-navic')
 end
 
@@ -21,7 +21,7 @@ local function actual_tabline()
 end
 
 local function getWordsV2()
-  if globals.cur_bufsize > vim.g.config.wordcount_limit * 1024 * 1024 then
+  if globals.cur_bufsize > Config.wordcount_limit * 1024 * 1024 then
     return "NaN"
   end
   local wc = vim.fn.wordcount()
@@ -122,7 +122,7 @@ require("lualine").setup({
     lualine_z = {},
   },
   tabline = actual_tabline(),
-  winbar = vim.g.config.breadcrumb == 'navic' and {
+  winbar = Config.breadcrumb == 'navic' and {
     --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
       {
@@ -157,7 +157,7 @@ require("lualine").setup({
       'tabs'
     }
   } or {},
-  inactive_winbar = vim.g.config.breadcrumb == 'navic' and {
+  inactive_winbar = Config.breadcrumb == 'navic' and {
     -- lualine_x = { { win_pad, color = 'Normal' } },
     lualine_z = { { full_filename, color = 'WinBarNC' }, 'tabs' }
   } or {},

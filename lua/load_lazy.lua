@@ -110,13 +110,13 @@ local plugins = {
     event = { "LspAttach" },
     dependencies = {
       'onsails/lspkind-nvim',
-      {'Bekaboo/dropbar.nvim', cond = vim.g.config.breadcrumb == 'dropbar' and vim.fn.has("nvim-0.10") == 1,
+      {'Bekaboo/dropbar.nvim', cond = Config.breadcrumb == 'dropbar' and vim.fn.has("nvim-0.10") == 1,
         event = "LspAttach",
         config = function()
           require("plugins.dropbar")
         end
       },
-      {'SmiteshP/nvim-navic',lazy=true, cond = vim.g.config.breadcrumb == 'navic', event = "LspAttach" },
+      {'SmiteshP/nvim-navic',lazy=true, cond = Config.breadcrumb == 'navic', event = "LspAttach" },
       {'dnlhc/glance.nvim',
         config = function()
           require("plugins.glance")
@@ -220,7 +220,7 @@ local plugins = {
   },
   { 'silvercircle/alpha-nvim',
     branch = "mine",
-    cond = vim.g.config.plain == false,
+    cond = Config.plain == false,
     config = function ()
       require("plugins.alpha")
     end

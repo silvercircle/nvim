@@ -69,7 +69,7 @@ function Wsplit.set_minheight()
   if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) then
     vim.api.nvim_win_set_height(
       Wsplit.winid,
-      (Wsplit.content == "info") and vim.g.config.weather.required_height or vim.g.config.weather.required_height - 2
+      (Wsplit.content == "info") and Config.weather.required_height or Config.weather.required_height - 2
     )
   end
 end
@@ -239,7 +239,7 @@ function Wsplit.open(_weatherfile)
   if #wid > 0 and vim.fn.filereadable(Wsplit.weatherfile) then
     vim.fn.win_gotoid(wid[1])
     vim.cmd(
-      (vim.g.config.weather.splitright == true and "setlocal splitright | " or "")
+      (Config.weather.splitright == true and "setlocal splitright | " or "")
       .. globals.perm_config.weather.width
       .. " vsp new"
     )
@@ -263,7 +263,7 @@ end
 function Wsplit.openleftsplit(_weatherfile)
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   Wsplit.weatherfile = vim.fn.expand(_weatherfile)
-  Wsplit.winid = require("globals").splittree(vim.g.config.weather.required_height)
+  Wsplit.winid = require("globals").splittree(Config.weather.required_height)
   if Wsplit.winid == 0 then
     Wsplit.close()
     return

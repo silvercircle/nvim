@@ -34,7 +34,7 @@ end
 --- required for the lualine plugin
 -- setup cokeline plugin. It provides a buffer line (aka tab-bar)
 -- local sidebar_or_tree = vim.g.features['sidebar']['enable'] == true and true or false
--- local treename = vim.g.config.nvim_tree == true and 'NvimTree' or 'neo-tree'
+-- local treename = Config.nvim_tree == true and 'NvimTree' or 'neo-tree'
 local treename = 'NvimTree'
 require('cokeline').setup({
   -- Cokeline_theme() is defined in config.lua
@@ -63,9 +63,9 @@ require('cokeline').setup({
       text = function(buffer) return buffer.devicon.icon end,
       fg = function(buffer) return buffer.devicon.color end
     },
-    { text = vim.g.config.iconpad },
+    { text = Config.iconpad },
     {
-      text = function(buffer) return globals.truncate(buffer.filename, vim.g.config.cokeline_filename_width) end,
+      text = function(buffer) return globals.truncate(buffer.filename, Config.cokeline_filename_width) end,
       style = function(buffer) return buffer.is_focused and 'bold' or nil end
     },
     {

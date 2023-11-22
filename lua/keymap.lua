@@ -363,7 +363,7 @@ end, opts) -- usplit (system monitor)
 kms({ 'n', 'i', 't', 'v' }, '<A-8>', function()
   local wspl = require('local_utils.wsplit')
   if wspl.winid == nil then
-    wspl.openleftsplit(vim.g.config.weather.file)
+    wspl.openleftsplit(Config.weather.file)
   else
     if wspl.winid ~= vim.fn.win_getid() then
       vim.fn.win_gotoid(wspl.winid)

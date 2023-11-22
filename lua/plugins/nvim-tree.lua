@@ -140,7 +140,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
     icons = {
       webdev_colors = true,
       git_placement = 'after',
-      padding = ' ' .. vim.g.config.iconpad,
+      padding = ' ' .. Config.iconpad,
       symlink_arrow = ' ➛ ',
       show = {
         file = true,
@@ -314,7 +314,7 @@ api.events.subscribe(Event.TreeOpen, function(_)
   if globals.perm_config.weather.active == true then
     wsplit.content = globals.perm_config.weather.content
     if wsplit.winid == nil then
-      wsplit.openleftsplit(vim.g.config.weather.file)
+      wsplit.openleftsplit(Config.weather.file)
     end
   end
 end)

@@ -1,7 +1,7 @@
 local lspconfig = require("lspconfig")
 local util = require('lspconfig.util')
 local navic
-if vim.g.config.breadcrumb == 'navic' then
+if Config.breadcrumb == 'navic' then
   navic = require('nvim-navic')
 end
 
@@ -16,7 +16,7 @@ end
 
 -- Customize LSP behavior via on_attach
 local on_attach = function(client, bufnr)
-  if vim.g.config.breadcrumb == 'navic' then
+  if Config.breadcrumb == 'navic' then
     navic.attach(client, bufnr)
   end
   if client.name == 'gopls' then

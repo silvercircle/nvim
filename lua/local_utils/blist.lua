@@ -421,7 +421,7 @@ function M.closeBufNum(win)
 end
 
 function M.parseLs(buf)
-  local lineformat = "%4d%s%s " .. vim.g.config.iconpad
+  local lineformat = "%4d%s%s " .. Config.iconpad
   for i, ls_line in ipairs(M.bopen) do
     -- extract data from ls string
     local match_cmd = '(%d+)%s+([^%s]*)%s+([^%s]?)%s+"(.*)"'

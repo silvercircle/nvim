@@ -1,6 +1,6 @@
 require("nvim-treesitter").setup({
   auto_install = true,
-  ensure_installed = vim.g.config.treesitter_types,
+  ensure_installed = Config.treesitter_types,
   textobjects = {
     enable = false
   },

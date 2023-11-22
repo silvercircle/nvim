@@ -15,7 +15,7 @@ local marks = require("local_utils.marks")
 --- on leave, write the permanent settings file
 autocmd({ 'VimLeave' }, {
   callback = function()
-    if vim.g.config.plain == false then
+    if Config.plain == false then
       globals.write_config()
     end
   end,
@@ -39,7 +39,7 @@ autocmd({ 'UIEnter' }, {
     end
     did_UIEnter = true
     globals.main_winid = vim.fn.win_getid()
-    if vim.g.config.plain == false then
+    if Config.plain == false then
       if globals.perm_config.tree.active == true then
         require('nvim-tree.api').tree.toggle({ focus = false })
       end
@@ -69,13 +69,13 @@ autocmd({ 'UIEnter' }, {
               globals.perm_config.outline.width = vim.api.nvim_win_get_width(status.aerial)
               -- print("Aerial (" .. status.aerial .. ") width set to: " .. globals.perm_config.outline.width, 3)
             end
-            if globals.perm_config.outline.width < vim.g.config.outline_width then
-              globals.perm_config.outline.width = vim.g.config.outline_width
+            if globals.perm_config.outline.width < Config.outline_width then
+              globals.perm_config.outline.width = Config.outline_width
             end
             if #tree > 0 and tree[1] ~= nil then
               globals.perm_config.tree.width = vim.api.nvim_win_get_width(tree[1])
-              if globals.perm_config.tree.width < vim.g.config.filetree_width then
-                globals.perm_config.tree.width = vim.g.config.filetree_width
+              if globals.perm_config.tree.width < Config.filetree_width then
+                globals.perm_config.tree.width = Config.filetree_width
               end
             end
           end
@@ -131,7 +131,7 @@ autocmd({ 'bufwritepre' }, {
 autocmd({ 'bufwinleave' }, {
   pattern = "*",
   callback = function()
-    if vim.g.config.mkview_on_leave == true then
+    if Config.mkview_on_leave == true then
       globals.mkview()
     end
   end,
@@ -179,7 +179,7 @@ local treesitter_configured = false
 
 -- handle treesitter configuration and start it on supported filetypes.
 autocmd({ "Filetype" }, {
-  pattern = vim.g.config.treesitter_types,
+  pattern = Config.treesitter_types,
   callback = function()
     if not treesitter_configured then
       globals.configure_treesitter()

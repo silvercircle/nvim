@@ -73,7 +73,7 @@ function Usplit.refresh()
   local lines = {}
   vim.api.nvim_buf_set_option(Usplit.bufid, "modifiable", true)
   -- prevent the winbar from appearing (nvim 0.10 or higher)
-  if vim.g.config.nightly > 0 then
+  if Config.nightly > 0 then
     vim.api.nvim_buf_set_option(Usplit.bufid, "winbar", "")
   end
   vim.api.nvim_buf_clear_namespace(Usplit.bufid, -1, 0, -1)
@@ -131,7 +131,7 @@ function Usplit.open()
         "rightbelow "
           .. width
           .. " vsplit|terminal glances --disable-plugin all --disable-bg --enable-plugin "
-          .. vim.g.config.sysmon.modules
+          .. Config.sysmon.modules
           .. " --time 3"
       )
       Usplit.winid = vim.fn.win_getid()
