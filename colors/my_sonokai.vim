@@ -905,3 +905,5 @@ hi! link SatelliteCursor WarningMsg
 hi! link SatelliteSearch PurpleBold
 hi! link SatelliteSearchCurrent PurpleBold
 
+hi! @ibl.scope.char.1 guibg=none
+

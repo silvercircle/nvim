@@ -254,11 +254,11 @@ local plugins = {
     'willothy/nvim-cokeline', branch = "main"
   },
   {
-    'silvercircle/outline.nvim', branch = "mine", cmd = { "Outline", "OutlineOpen", "OutlineClose" },
-    --'https://gitlab.com/silvercircle74/symbols-outline.nvim', branch = 'mine', cmd = { "Outline", "OutlineOpen", "OutlineClose" },
+    --'silvercircle/outline.nvim', branch = "mine", cmd = { "Outline", "OutlineOpen", "OutlineClose" },
+    'https://gitlab.com/silvercircle74/symbols-outline.nvim', branch = 'mine', cmd = { "Outline", "OutlineOpen", "OutlineClose" },
     lazy = true,
     config = function()
-      require("plugins.symbols_outline-forked")
+      require("plugins.symbols_outline")
     end
   },
   { 'silvercircle/aerial.nvim',

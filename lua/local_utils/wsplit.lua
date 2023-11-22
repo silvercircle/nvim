@@ -7,20 +7,20 @@ local plenary = require("plenary.path")
 local utils = require("local_utils")
 
 local Wsplit = {}
-Wsplit.winid = nil -- window id
-Wsplit.bufid = nil -- buffer id
+Wsplit.winid = nil     -- window id
+Wsplit.bufid = nil     -- buffer id
 Wsplit.win_width = nil -- horizontal requirement
 Wsplit.win_height = nil
 Wsplit.weatherfile = ""
-Wsplit.content = "info" -- content type (info or weather as of now)
+Wsplit.content = "info"    -- content type (info or weather as of now)
 Wsplit.content_winid = nil -- window of interest.
-Wsplit.freeze = false -- do not refresh when set
+Wsplit.freeze = false      -- do not refresh when set
 Wsplit.cookie = {}
 
 Wsplit.cookie_source = require("tweaks").cookie_source
 
-local watch = nil -- file watcher (for weather content)
-local timer = nil -- timer (for info content)
+local watch = nil            -- file watcher (for weather content)
+local timer = nil            -- timer (for info content)
 local cookie_timer = nil
 local timer_interval = 60000 -- timer interval
 local cookie_timer_interval = 300000
@@ -73,6 +73,7 @@ function Wsplit.set_minheight()
     )
   end
 end
+
 -- reconfigure the rendering
 function Wsplit.on_content_change()
   globals.perm_config.weather.content = Wsplit.content
@@ -239,8 +240,8 @@ function Wsplit.open(_weatherfile)
     vim.fn.win_gotoid(wid[1])
     vim.cmd(
       (vim.g.config.weather.splitright == true and "setlocal splitright | " or "")
-        .. globals.perm_config.weather.width
-        .. " vsp new"
+      .. globals.perm_config.weather.width
+      .. " vsp new"
     )
     Wsplit.winid = vim.fn.win_getid()
     Wsplit.bufid = vim.api.nvim_get_current_buf()
@@ -284,6 +285,7 @@ function Wsplit.openleftsplit(_weatherfile)
   Wsplit.installwatch()
   globals.perm_config.weather.active = true
 end
+
 --- prepare a line with two elements
 --- @param _left string: the left part of the line
 --- @param _right string: The right part
@@ -376,6 +378,7 @@ function Wsplit.refresh_cookie()
     end,
   })
 end
+
 -- refresh on timer. But only for info content. Weather content ist handled by the
 -- file watcher plugin
 function Wsplit.refresh_on_timer()
@@ -384,6 +387,7 @@ function Wsplit.refresh_on_timer()
   end
   Wsplit.refresh()
 end
+
 --- refresh the buffer. Called when the window is resized or the file watcher detects a change
 --- in the weather file. For info content, this is called when:
 ---   a) one option of interest changes
@@ -460,11 +464,11 @@ function Wsplit.refresh()
           lines,
           Wsplit.prepare_line(
             " Textwidth: "
-              .. vim.api.nvim_get_option_value("textwidth", { buf = curbuf })
-              .. " / "
-              .. (
-                vim.api.nvim_get_option_value("wrap", { win = Wsplit.content_winid }) == false and "No Wrap" or "Wrap"
-              ),
+            .. vim.api.nvim_get_option_value("textwidth", { buf = curbuf })
+            .. " / "
+            .. (
+              vim.api.nvim_get_option_value("wrap", { win = Wsplit.content_winid }) == false and "No Wrap" or "Wrap"
+            ),
             "Fmt: " .. (vim.api.nvim_get_option_value("fo", { buf = curbuf })),
             4
           )
