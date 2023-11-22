@@ -29,6 +29,7 @@ require("symbols-outline").setup({
     unfold_all = "E",
     fold_reset = "R",
   },
+  unfold_on_goto = "zv",
   lsp_blacklist = {},
   symbol_blacklist = {"Array"}, -- avoid extremely long trees in some languages (lua for example)
   symbols = {

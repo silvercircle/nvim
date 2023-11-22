@@ -152,6 +152,7 @@ if g:theme_variant == 'cold'
   let s:accent = [ g:theme['accent_color'], 209 ]
   let s:accent_fg = [ g:theme['accent_fg'], 210 ]
   let s:tablinebg = [ g:cokeline_colors['bg'], 214]
+  let s:contextbg = [ g:theme['cold'].contextbg, 215]
 else
   let s:darkbg = ['#131010', 237]
   let s:darkred = ['#601010', 249]
@@ -165,6 +166,7 @@ else
   let s:accent = [ g:theme['accent_color'], 209 ]
   let s:accent_fg = [ g:theme['accent_fg'], 210 ]
   let s:tablinebg = [ g:cokeline_colors['bg'], 214]
+  let s:contextbg = [ g:theme['warm'].contextbg, 215]
 endif
 
 let g:colors_name = 'my_sonokai'
@@ -884,7 +886,9 @@ call my_sonokai#highlight('NeoTreeNormal', s:palette.fg, s:palette.neotreebg)
 call my_sonokai#highlight('NeoTreeFloatBorder', s:palette.grey_dim, s:palette.neotreebg)
 call my_sonokai#highlight('NeoTreeFileNameOpened', s:palette.blue, s:palette.neotreebg, 'italic')
 call my_sonokai#highlight('SymbolsOutlineConnector', s:palette.bg4, s:palette.none)
-
+call my_sonokai#highlight('TreesitterContext', s:palette.none, s:contextbg)
+call my_sonokai#highlight('TreesitterContextBottom', s:palette.none, s:palette.none, 'underline', s:accent)
+hi! link TreesitterContextSeparator Normal
 hi! link NvimTreeIndentMarker SymbolsOutlineConnector
 hi! link OutlineGuides SymbolsOutlineConnector
 hi! link NeoTreeCursorLine Visual
@@ -906,4 +910,3 @@ hi! link SatelliteSearch PurpleBold
 hi! link SatelliteSearchCurrent PurpleBold
 
 hi! @ibl.scope.char.1 guibg=none
-

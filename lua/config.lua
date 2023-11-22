@@ -117,12 +117,14 @@ vim.g.theme = {
   cold = {
     bg = '#141414',
     treebg = '#18181c',
-    gutterbg = '#101013'
+    gutterbg = '#101013',
+    contextbg = '#302a2a'
   },
   warm = {
     bg = '#161414',
     treebg = '#1b1818',
-    gutterbg = '#131010'
+    gutterbg = '#131010',
+    contextbg = '#2a2a30'
   }
 }
 vim.g.theme_variant = 'warm'

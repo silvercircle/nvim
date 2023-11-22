@@ -52,6 +52,7 @@ M.perm_config_default = {
   scrollbar = true,
   statusline_declutter = 0,
   outline_filetype = "Outline",
+  treesitter_context = true
 }
 
 M.perm_config = {}
@@ -680,6 +681,25 @@ function M.configure_treesitter()
     vim.treesitter.query.set("javascript", "injections", "")
     vim.treesitter.query.set("typescript", "injections", "")
   end
+  M.setup_treesitter_context(true)
 end
 
+--- enable or disable the treesitter-context plugin
+--- @param silent boolean: supress notification about the status change
+function M.setup_treesitter_context(silent)
+  local tsc = require("treesitter-context")
+  if M.perm_config.treesitter_context == true then
+    tsc.enable()
+  else
+    tsc.disable()
+  end
+  if not silent then
+    M.notify("Treesitter-Context is now " .. (M.perm_config.treesitter_context == true and "enabled" or "disabled"), vim.log.levels.INFO)
+  end
+end
+
+function M.toggle_treesitter_context()
+  M.perm_config.treesitter_context = not M.perm_config.treesitter_context
+  M.setup_treesitter_context(false)
+end
 return M

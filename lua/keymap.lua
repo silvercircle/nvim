@@ -433,5 +433,7 @@ kms({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
   globals.toggle_outline_type()
 end, opts)
 
+kms({ 'n', 'i', 'v' }, "<C-x><C-c>", function() globals.toggle_treesitter_context() end, opts)
+kms({ 'n', 'i', 'v' }, "<C-x><C-c", function() require("treesitter-context").go_to_context() end, opts)
 require("local_utils.marks").set_keymaps()
 
