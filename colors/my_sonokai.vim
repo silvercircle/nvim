@@ -499,6 +499,7 @@ highlight! link @type.qualifier TSTypeQualifier
 highlight! link @uri TSURI
 highlight! link @variable TSVariable
 highlight! link @variable.builtin TSVariableBuiltin
+highlight! link @text.emphasis.latex TSEmphasis
 
 " Treesitter semantic
 highlight! link @lsp.type.parameter FgDimBoldItalic

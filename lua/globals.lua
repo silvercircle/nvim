@@ -482,6 +482,7 @@ function M.toggle_theme_variant()
     M.perm_config.theme_variant = "warm"
   end
   vim.cmd("colorscheme " .. M.perm_config.theme_name)
+  M.notify("Theme variant is now: " .. M.perm_config.theme_variant, vim.log.levels.INFO, "Theme")
 end
 
 --- toggle theme saturate state. By default bound to C-l C-d
@@ -489,13 +490,7 @@ end
 function M.toggle_theme_desaturate()
   vim.g.theme_desaturate = not vim.g.theme_desaturate
   vim.cmd("colorscheme " .. M.perm_config.theme_name)
-end
-
---- function called when the automaton workspace changes
---- @param ws table: the new workspace
---- currently not in use
-function M.workspace_changed(ws)
-  print(ws)
+  M.notify("Theme is now " .. (vim.g.theme_desaturate == true and "desaturated" or "vivid"), vim.log.levels.INFO, "Theme")
 end
 
 --- try to format a souce file by using one of the defined formatter programs

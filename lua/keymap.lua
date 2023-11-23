@@ -435,5 +435,17 @@ end, opts)
 
 kms({ 'n', 'i', 'v' }, "<C-x><C-c>", function() globals.toggle_treesitter_context() end, opts)
 kms({ 'n', 'i', 'v' }, "<C-x>c", function() require("treesitter-context").go_to_context() end, opts)
+
+kms({ 'n', 'i', 'v' }, "<C-x>te",
+  function()
+    vim.cmd("TSBufEnable highlight")
+    globals.notify("Highlights enabled", vim.log.levels.INFO, "Treesitter")
+  end, opts)
+kms({ 'n', 'i', 'v' }, "<C-x>td",
+  function()
+    vim.cmd("TSBufDisable highlight")
+    globals.notify("Highlight disabled", vim.log.levels.INFO, "Treesitter")
+  end, opts)
+
 require("local_utils.marks").set_keymaps()
 

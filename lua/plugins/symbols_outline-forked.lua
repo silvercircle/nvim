@@ -49,6 +49,7 @@ outline_window = {
     -- Note that if you're adding highlight changes, you should append to this
     -- default value, otherwise details/lineno will not have highlights.
     winhl = "SymbolsOutlineDetails:Comment,SymbolsOutlineLineno:LineNr",
+    unfold_on_goto = "zv"
   },
 
   outline_items = {
