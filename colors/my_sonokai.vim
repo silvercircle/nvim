@@ -887,7 +887,7 @@ call my_sonokai#highlight('NeoTreeFloatBorder', s:palette.grey_dim, s:palette.ne
 call my_sonokai#highlight('NeoTreeFileNameOpened', s:palette.blue, s:palette.neotreebg, 'italic')
 call my_sonokai#highlight('SymbolsOutlineConnector', s:palette.bg4, s:palette.none)
 call my_sonokai#highlight('TreesitterContext', s:palette.none, s:contextbg)
-call my_sonokai#highlight('TreesitterContextBottom', s:palette.none, s:palette.none, 'underline', s:accent)
+call my_sonokai#highlight('TreesitterContextBottom', s:palette.none, s:palette.none, 'underline', s:palette.yellow)
 hi! link TreesitterContextSeparator Normal
 hi! link NvimTreeIndentMarker SymbolsOutlineConnector
 hi! link OutlineGuides SymbolsOutlineConnector

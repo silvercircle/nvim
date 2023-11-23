@@ -69,7 +69,7 @@ function Wsplit.set_minheight()
   if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) then
     vim.api.nvim_win_set_height(
       Wsplit.winid,
-      (Wsplit.content == "info") and Config.weather.required_height or Config.weather.required_height - 2
+      (Wsplit.content == "info") and Config.weather.required_height or Config.weather.required_height - 3
     )
   end
 end
@@ -421,6 +421,8 @@ function Wsplit.refresh()
       local name = path_truncate(plenary:new(vim.api.nvim_buf_get_name(curbuf)):make_relative(), Wsplit.win_width - 3)
 
       local fn_symbol, fn_symbol_hl = utils.getFileSymbol(vim.api.nvim_buf_get_name(curbuf))
+      local ft = vim.api.nvim_get_option_value("filetype", { buf = curbuf })
+
       table.insert(lines, utils.pad("Buffer Info", Wsplit.win_width + 1, " "))
       table.insert(lines, " " .. utils.pad(name, Wsplit.win_width, " ") .. "  ")
       table.insert(lines, " ")
@@ -454,7 +456,7 @@ function Wsplit.refresh()
         table.insert(
           lines,
           Wsplit.prepare_line(
-            " Type: " .. vim.api.nvim_get_option_value("filetype", { buf = curbuf }) .. " " .. fn_symbol,
+            " Type: " .. ft .. " " .. fn_symbol,
             "Enc: " .. vim.opt.fileencoding:get(),
             4
           )
@@ -486,6 +488,10 @@ function Wsplit.refresh()
         else
           table.insert(lines, " ")
         end
+        if vim.tbl_contains(Config.treesitter_types, ft) then
+          table.insert(lines, Wsplit.prepare_line(" Treesitter: On",
+            "Context: " .. (globals.perm_config.treesitter_context == true and "On" or "Off"), 4))
+        end
         table.insert(lines, " ")
         -- add the cookie
         if Wsplit.cookie ~= nil and #Wsplit.cookie >= 1 then
@@ -506,6 +512,7 @@ function Wsplit.refresh()
       vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Debug", 6, 0, Wsplit.win_width + 1)
       vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Keyword", 7, 0, Wsplit.win_width + 1)
       vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Keyword", 8, 0, Wsplit.win_width + 1)
+      vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Number", 9, 0, Wsplit.win_width + 1)
       vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", false)
     end
   elseif Wsplit.content == "weather" then

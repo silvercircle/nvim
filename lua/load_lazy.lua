@@ -74,8 +74,17 @@ local plugins = {
             -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
             separator = nil,
             zindex = 20, -- The Z-index of the context window
-            on_attach = nil -- (fun(buf: integer): boolean) return false to disable attaching
+            on_attach = function(buf)
+              if buf then
+                local ft = vim.bo[buf].filetype
+                if vim.tbl_contains(Config.treesitter_types, ft) then
+                  return true
+                end
+              end
+              return false
+            end
           }
+          require("globals").setup_treesitter_context(true)
         end
       }
     }

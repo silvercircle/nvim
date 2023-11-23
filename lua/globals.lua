@@ -528,9 +528,10 @@ end
 
 --- output a debug message als notification. Does nothing when debug mode is disabled.
 --- @param msg string: The message to show
+--- it uses a log level of DEBUG by default.
 function M.debugmsg(msg)
   if M.perm_config.debug == true then
-    vim.notify(msg, 3)
+    M.notify(msg, vim.log.levels.DEBUG, "Debug")
   end
 end
 
@@ -560,6 +561,8 @@ function M.notify(msg, level, ...)
 end
 
 --- toggle the debug mode and display the new status.
+--- when enabled, additional debug messages will be shown using
+--- the notifier
 function M.toggle_debug()
   M.perm_config.debug = not M.perm_config.debug
   if M.perm_config.debug == true then
@@ -681,7 +684,6 @@ function M.configure_treesitter()
     vim.treesitter.query.set("javascript", "injections", "")
     vim.treesitter.query.set("typescript", "injections", "")
   end
-  M.setup_treesitter_context(true)
 end
 
 --- enable or disable the treesitter-context plugin

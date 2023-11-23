@@ -80,7 +80,7 @@ Config = {
     width = 42,
     file = "~/.weather/weather",
     splitright = false,
-    required_height = 14
+    required_height = 15
   },
   -- this is a table of filetype <> colorcolumns associations. it's used by globals.toggle_colorcolumn()
   -- to figure out where the color column for the given filetype should be.
