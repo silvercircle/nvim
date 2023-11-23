@@ -703,5 +703,6 @@ end
 function M.toggle_treesitter_context()
   M.perm_config.treesitter_context = not M.perm_config.treesitter_context
   M.setup_treesitter_context(false)
+  require("local_utils.wsplit").refresh()
 end
 return M

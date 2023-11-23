@@ -440,7 +440,7 @@ lspconfig.lua_ls.setup {
         enable = false
       },
       window = {
-        progressBar = false
+        --progressBar = false
       }
     }
   }
