@@ -671,6 +671,7 @@ end
 -- configure the treesitter core component. This is called once before
 -- treesitter is first started (in auto.lua)
 function M.configure_treesitter()
+  local opts = { noremap = true, silent = true }
   vim.treesitter.language.register("objc", "objcpp")
   vim.treesitter.language.register("markdown", "telekasten")
   -- disable injections for these languages, because they can be slow
@@ -679,6 +680,21 @@ function M.configure_treesitter()
     vim.treesitter.query.set("javascript", "injections", "")
     vim.treesitter.query.set("typescript", "injections", "")
   end
+  -- enable/disable treesitter-context plugin
+  vim.keymap.set({ 'n', 'i', 'v' }, "<C-x><C-c>", function() M.toggle_treesitter_context() end, opts)
+  -- jump to current context start
+  vim.keymap.set({ 'n', 'i', 'v' }, "<C-x>c", function() require("treesitter-context").go_to_context() end, opts)
+
+  vim.keymap.set({ 'n', 'i', 'v' }, "<C-x>te",
+    function()
+      vim.treesitter.start()
+      M.notify("Highlights enabled", vim.log.levels.INFO, "Treesitter")
+    end, opts)
+  vim.keymap.set({ 'n', 'i', 'v' }, "<C-x>td",
+    function()
+      vim.treesitter.stop()
+      M.notify("Highlight disabled", vim.log.levels.INFO, "Treesitter")
+    end, opts)
 end
 
 --- enable or disable the treesitter-context plugin

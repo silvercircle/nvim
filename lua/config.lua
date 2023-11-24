@@ -98,7 +98,8 @@ Config = {
   treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp",
                        "scala", "java", "kdl", "ada", "json", "nim", "d",
                        "yaml", "rust", "javascript" },
-  treesitter_context_types = { "tex", "markdown", "telekasten" }
+  treesitter_context_types = { "tex", "markdown", "telekasten" },
+  outline_plugin = nil
 }
 
 vim.g.theme = {

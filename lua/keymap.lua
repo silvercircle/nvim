@@ -433,21 +433,17 @@ kms({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
   globals.toggle_outline_type()        -- toggle the outline plugin (aerial <> symbols-outline)
 end, opts)
 
--- enable/disable treesitter-context plugin
-kms({ 'n', 'i', 'v' }, "<C-x><C-c>", function() globals.toggle_treesitter_context() end, opts)
--- jump to current context start
-kms({ 'n', 'i', 'v' }, "<C-x>c", function() require("treesitter-context").go_to_context() end, opts)
-
-kms({ 'n', 'i', 'v' }, "<C-x>te",
+kms({ 'n', 'i', 'v' }, "<C-x>o",
   function()
-    vim.treesitter.start()
-    globals.notify("Highlights enabled", vim.log.levels.INFO, "Treesitter")
+    if globals.perm_config.outline_filetype ~= "Outline" then
+      globals.notify("Feature requires Outline or symbols-outline plugin", vim.log.levels.INFO, "Outline")
+      return
+    end
+    local win = globals.findwinbyBufType("Outline")
+    if #win > 0 then
+      vim.api.nvim_win_set_cursor(win[1], { 1, 0 })
+      Config.outline_plugin._highlight_current_item()
+    end
   end, opts)
-kms({ 'n', 'i', 'v' }, "<C-x>td",
-  function()
-    vim.treesitter.stop()
-    globals.notify("Highlight disabled", vim.log.levels.INFO, "Treesitter")
-  end, opts)
-
 require("local_utils.marks").set_keymaps()
 
