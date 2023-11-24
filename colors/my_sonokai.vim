@@ -887,7 +887,7 @@ call my_sonokai#highlight('NeoTreeNormal', s:palette.fg, s:palette.neotreebg)
 call my_sonokai#highlight('NeoTreeFloatBorder', s:palette.grey_dim, s:palette.neotreebg)
 call my_sonokai#highlight('NeoTreeFileNameOpened', s:palette.blue, s:palette.neotreebg, 'italic')
 call my_sonokai#highlight('SymbolsOutlineConnector', s:palette.bg4, s:palette.none)
-call my_sonokai#highlight('TreesitterContext', s:palette.none, s:contextbg)
+call my_sonokai#highlight('TreesitterContext', s:palette.none, s:bg)
 " call my_sonokai#highlight('TreesitterContextBottom', s:palette.none, s:palette.none, 'underline', s:palette.yellow)
 hi! link TreesitterContextSeparator Type
 hi! link NvimTreeIndentMarker SymbolsOutlineConnector
@@ -895,12 +895,12 @@ hi! link OutlineGuides SymbolsOutlineConnector
 hi! link NeoTreeCursorLine Visual
 hi! link AerialGuide SymbolsOutlineConnector
 
-" winbar 
-call my_sonokai#highlight('WinBarFilename', s:teal, s:palette.none, 'underline', s:accent)                      " Filename (right hand)
+" winbar
+call my_sonokai#highlight('WinBarFilename', s:palette.grey, s:accent, 'underline', s:accent)                      " Filename (right hand)
 call my_sonokai#highlight('WinBarContext', s:palette.darkyellow, s:palette.none, 'underline', s:accent) " LSP context (left hand)
 " WinBarInvis is for the central padding item. It should be transparent and invisible (fg = bg)
 " This is a somewhat hack-ish way to make the lualine-controlle winbar transparent.
-call my_sonokai#highlight('WinBarInvis', s:bg, s:palette.none, 'underline', s:accent)
+call my_sonokai#highlight('WinBarInvis', s:bg, s:bg, 'underline', s:accent)
 hi! link WinBarNC StatusLineNC
 hi! link WinBar WinBarContext
 " Lazy

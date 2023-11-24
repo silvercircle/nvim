@@ -522,4 +522,5 @@ function Utils.command_center_theme(opts)
   end
   return vim.tbl_deep_extend("force", defaults, lopts)
 end
+
 return Utils

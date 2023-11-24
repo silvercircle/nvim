@@ -56,7 +56,7 @@ Tweaks.signcolumn = "yes:3"
 -- valid are 'dropbar' and 'navic'. Defaults to 'navic' when unrecognized
 -- note that dropbar requires neovim 0.10 which is currently in development
 -- and only available as nightly build.
-Tweaks.breadcrumb = 'dropbar'
+Tweaks.breadcrumb = 'aerial'
 Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
 
 -- settings for the fortune cookie split

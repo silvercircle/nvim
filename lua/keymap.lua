@@ -435,7 +435,7 @@ end, opts)
 
 kms({ 'n', 'i', 'v' }, "<C-x>o",
   function()
-    if globals.perm_config.outline_filetype ~= "Outline" then
+    if globals.perm_config.outline_filetype ~= "Outline" or Config.outline_plugin == nil then
       globals.notify("Feature requires Outline or symbols-outline plugin", vim.log.levels.INFO, "Outline")
       return
     end

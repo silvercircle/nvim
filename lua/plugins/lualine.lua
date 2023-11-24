@@ -34,6 +34,7 @@ end
 
 --- hack-ish. just return a very long string for the central section. Set the
 --- highlight group to bg=none and fg=bg and it will appear "transparent"
+--- uses the WinBarInvis hl group
 local function padding()
   return string.rep(" ", 250)
 end
@@ -122,22 +123,43 @@ require("lualine").setup({
     lualine_z = {},
   },
   tabline = actual_tabline(),
-  winbar = Config.breadcrumb == 'navic' and {
+  winbar = Config.breadcrumb ~= 'dropbar' and {
     --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
+--      {
+--        navic_context,
+--        fmt = function(string)
+--          if #string < 2 then
+--            return ""
+--          else
+--           return string.format("Context: %s", string)
+--         end
+--        end,
+--        -- separator = { right ="", left = "" },
+--        separator = "",
+--        color = 'WinBarContext',
+--      }
       {
-        navic_context,
-        fmt = function(string)
-          if #string < 2 then
-            return ""
-          else
-           return string.format("Context: %s", string)
-         end
-        end,
-        -- separator = { right ="", left = "" },
-        separator = "",
-        color = 'WinBarContext',
-      }
+        "aerial",
+        -- The separator to be used to separate symbols in status line.
+        sep = " ) ",
+
+        -- The number of symbols to render top-down. In order to render only 'N' last
+        -- symbols, negative numbers may be supplied. For instance, 'depth = -1' can
+        -- be used in order to render only current symbol.
+        depth = nil,
+
+        -- When 'dense' mode is on, icons are not rendered near their symbols. Only
+        -- a single icon that represents the kind of current symbol is rendered at
+        -- the beginning of status line.
+        dense = false,
+
+        -- The separator to be used to separate symbols in dense mode.
+        dense_sep = ".",
+
+        -- Color the symbol icons.
+        colored = true,
+      },
     },
     lualine_c = {
       {
@@ -148,16 +170,25 @@ require("lualine").setup({
     },
     lualine_z = {
       {
-        full_filename,
+        "",
+        padding = 0,
         separator = { left = "", right = "" },
-        -- separator = { left ="", right = "" },
-        --separator = "",
+        draw_empty = true,
+        color = { fg = vim.g.theme.accent_color, bg = vim.g.theme[globals.perm_config.theme_variant].bg },
+        fmt = function()
+          return ""
+        end
+      },
+      {
+        full_filename,
+        --separator = "",
+        separator = { left = "", right = "" },
         color = 'WinBarFilename'
       },
       'tabs'
     }
   } or {},
-  inactive_winbar = Config.breadcrumb == 'navic' and {
+  inactive_winbar = Config.breadcrumb ~= 'dropbar' and {
     -- lualine_x = { { win_pad, color = 'Normal' } },
     lualine_z = { { full_filename, color = 'WinBarNC' }, 'tabs' }
   } or {},

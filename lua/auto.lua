@@ -7,7 +7,8 @@ local agroup_views = vim.api.nvim_create_augroup("views", {})
 local agroup_hl = vim.api.nvim_create_augroup("hl", {})
 local wsplit = require("local_utils.wsplit")
 local usplit = require("local_utils.usplit")
-
+local tsc = require("treesitter-context")
+local utils = require("local_utils")
 local marks = require("local_utils.marks")
 
 -- local ibl = require('indent_blankline')
@@ -143,6 +144,12 @@ autocmd({ 'bufwinleave' }, {
 autocmd({ 'BufEnter' }, {
   pattern = "*",
   callback = function(args)
+    local val = globals.get_buffer_var(0, "tsc")
+    if val == true then
+      tsc.enable()
+    else
+      tsc.disable()
+    end
     globals.get_bufsize()
     wsplit.content_set_winid(vim.fn.win_getid())
     if wsplit.content == 'info' then
@@ -157,6 +164,7 @@ autocmd({ 'BufEnter' }, {
 autocmd({ 'bufread' }, {
   pattern = "*",
   callback = function()
+    vim.api.nvim_buf_set_var(0, "tsc", globals.perm_config.treesitter_context)
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then
       vim.cmd("silent! loadview")
     end

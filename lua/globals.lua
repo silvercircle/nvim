@@ -712,8 +712,22 @@ function M.setup_treesitter_context(silent)
 end
 
 function M.toggle_treesitter_context()
-  M.perm_config.treesitter_context = not M.perm_config.treesitter_context
+  vim.api.nvim_buf_set_var(0, "tsc", not vim.api.nvim_buf_get_var(0, "tsc"))
+  M.perm_config.treesitter_context = M.get_buffer_var(0, "tsc")
   M.setup_treesitter_context(false)
   require("local_utils.wsplit").refresh()
 end
+
+--- get a custom buffer variable
+--- @param bufnr number: The buffer id
+--- @param varname string: The variable's name
+function M.get_buffer_var(bufnr, varname)
+  local status, value = pcall(vim.api.nvim_buf_get_var, bufnr, varname)
+  if status == false then
+    return nil
+  else
+    return value
+  end
+end
+
 return M

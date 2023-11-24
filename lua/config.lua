@@ -62,7 +62,7 @@ Config = {
   mkview_on_leave = true,                     -- set to true if you want to save views on BufWinLeave
                                               -- when false, views are only written on write/update or manually (f4)
   mkview_on_fold = false,                     -- always create a view when using the folding keys (f2/f3)
-  breadcrumb = ((nvim_10 == 1) and (tweaks.breadcrumb == 'navic' or tweaks.breadcrumb == 'dropbar')) and tweaks.breadcrumb or 'navic',
+  breadcrumb = (nvim_10 == 1 and tweaks.breadcrumb == 'dropbar') and 'dropbar' or (tweaks.breadcrumb ~= 'dropbar' and tweaks.breadcrumb or 'navic'),
   termheight = 11,
   iconpad = ' ',                              -- additional padding for devicons.
   texoutput = "~/Documents/TEXOUTPUT/",
@@ -272,7 +272,7 @@ vim.g.statuslinebg = LuaLineColors.statuslinebg
 vim.g.cokeline_colors = {
   --bg = LuaLineColors.statuslinebg,
   bg = LuaLineColors.statuslinebg,
-  focus_bg = vim.g.theme.accent_color,
+  focus_bg = vim.g.theme.selbg,
   fg = LuaLineColors.gray7,
   focus_fg = vim.g.theme.accent_fg,
 }

@@ -493,8 +493,9 @@ function Wsplit.refresh()
         if vim.tbl_contains(Config.treesitter_types, ft) then
           treesitter = "On"
         end
+        local val = globals.get_buffer_var(curbuf, "tsc")
         table.insert(lines, Wsplit.prepare_line(" Treesitter: " .. treesitter,
-          "Context: " .. (globals.perm_config.treesitter_context == true and "On" or "Off"), 4))
+          "Context: " .. ((val == true) and "On" or "Off"), 4))
         table.insert(lines, " ")
         -- add the cookie
         if Wsplit.cookie ~= nil and #Wsplit.cookie >= 1 then
