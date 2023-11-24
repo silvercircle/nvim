@@ -1,8 +1,5 @@
 -- configuration variables
 
--- NOTE: the environment variable NVIM_USE_PRIVATE_FORKS must be set (to anything) in order to use the private
--- forks of some plugins.
-
 -- when NVIM_PLAIN is set (to whatever value), the editor will start plain without a neotree and
 -- terminal split.
 local env_plain = os.getenv("NVIM_PLAIN")

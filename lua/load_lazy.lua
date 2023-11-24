@@ -72,7 +72,7 @@ local plugins = {
             mode = 'cursor',          -- Line used to calculate context. Choices: 'cursor', 'topline'
             -- Separator between context and content. Should be a single character string, like '-'.
             -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-            separator = nil,
+            separator = "─",
             zindex = 20, -- The Z-index of the context window
             on_attach = function(buf)
               if buf then
@@ -284,11 +284,11 @@ local plugins = {
     'willothy/nvim-cokeline', branch = "main"
   },
   {
-    'silvercircle/outline.nvim', branch = "mine", cmd = { "Outline", "OutlineOpen", "OutlineClose" },
-    --'https://gitlab.com/silvercircle74/symbols-outline.nvim', branch = 'mine', cmd = { "Outline", "OutlineOpen", "OutlineClose" },
+    --'silvercircle/outline.nvim', branch = "mine", cmd = { "Outline", "OutlineOpen", "OutlineClose" },
+    'https://gitlab.com/silvercircle74/symbols-outline.nvim', branch = 'mine', cmd = { "Outline", "OutlineOpen", "OutlineClose" },
     lazy = true,
     config = function()
-      require("plugins.symbols_outline-forked")
+      require("plugins.symbols_outline")
     end
   },
   { 'silvercircle/aerial.nvim',
