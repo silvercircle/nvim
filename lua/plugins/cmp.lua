@@ -213,12 +213,12 @@ cmp.setup({
       cmp.config.compare.offset,
       cmp.config.compare.exact,
       cmp.config.compare.score,
-      function(...)
-        return cmp_helper.compare.prioritize_argument(...)
-      end,
-      function(...)
-        return cmp_helper.compare.deprioritize_underscore(...)
-      end,
+--      function(...)
+--        return cmp_helper.compare.prioritize_argument(...)
+--      end,
+--      function(...)
+--        return cmp_helper.compare.deprioritize_underscore(...)
+--      end,
       cmp.config.compare.recently_used,
       cmp.config.compare.locality,
       cmp.config.compare.kind,

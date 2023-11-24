@@ -2,6 +2,7 @@
 -- weather display depends on my ~/.weather/weather data file, created by fetchweather
 -- this is useless without.
 -- requires a NERDFont
+
 local globals = require("globals")
 local plenary = require("plenary.path")
 local utils = require("local_utils")
@@ -65,6 +66,7 @@ local function path_truncate(path, maxlen)
   return "..." .. string.sub(path, len - effective_width, len)
 end
 
+-- set minimum height of the window. Depends on the content type.
 function Wsplit.set_minheight()
   if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) then
     vim.api.nvim_win_set_height(
@@ -313,7 +315,6 @@ function Wsplit.close()
   if timer ~= nil then
     timer:stop()
   end
-  print("close wsplit")
 end
 
 --- set a highlight group for the given temperature

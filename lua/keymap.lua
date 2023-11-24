@@ -427,13 +427,15 @@ kms({ 'n', 'i', 't', 'v' }, '<C-x>ft', function()
 end, opts)
 
 kms({ 'n', 'i', 't', 'v' }, utility_key .. '#', function()
-  require("aerial").refetch_symbols(0)
+  require("aerial").refetch_symbols(0) -- aerial plugin, refresh symbols
 end, opts)
 kms({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
-  globals.toggle_outline_type()
+  globals.toggle_outline_type()        -- toggle the outline plugin (aerial <> symbols-outline)
 end, opts)
 
+-- enable/disable treesitter-context plugin
 kms({ 'n', 'i', 'v' }, "<C-x><C-c>", function() globals.toggle_treesitter_context() end, opts)
+-- jump to current context start
 kms({ 'n', 'i', 'v' }, "<C-x>c", function() require("treesitter-context").go_to_context() end, opts)
 
 kms({ 'n', 'i', 'v' }, "<C-x>te",
