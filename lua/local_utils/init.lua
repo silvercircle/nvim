@@ -523,4 +523,17 @@ function Utils.command_center_theme(opts)
   return vim.tbl_deep_extend("force", defaults, lopts)
 end
 
+--- truncate the path and display the rightmost maxlen characters
+--- @param path string: A filepath
+--- @param maxlen integer: the desired length
+--- @return string: the truncated path
+function Utils.path_truncate(path, maxlen)
+  local len = string.len(path)
+  if len <= maxlen then
+    return path
+  end
+  local effective_width = maxlen - 3 -- make space for leading ...
+  return "..." .. string.sub(path, len - effective_width, len)
+end
+
 return Utils

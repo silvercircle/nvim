@@ -53,19 +53,6 @@ local fdm = {
   diff = "Diff",
 }
 
---- truncate the path and display the rightmost maxlen characters
---- @param path string: A filepath
---- @param maxlen integer: the desired length
---- @return string: the truncated path
-local function path_truncate(path, maxlen)
-  local len = string.len(path)
-  if len <= maxlen then
-    return path
-  end
-  local effective_width = maxlen - 3 -- make space for leading ...
-  return "..." .. string.sub(path, len - effective_width, len)
-end
-
 -- set minimum height of the window. Depends on the content type.
 function Wsplit.set_minheight()
   if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) then
@@ -419,7 +406,7 @@ function Wsplit.refresh()
 
       vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", true)
       local lines = {}
-      local name = path_truncate(plenary:new(vim.api.nvim_buf_get_name(curbuf)):make_relative(), Wsplit.win_width - 3)
+      local name = utils.path_truncate(plenary:new(vim.api.nvim_buf_get_name(curbuf)):make_relative(), Wsplit.win_width - 3)
 
       local fn_symbol, fn_symbol_hl = utils.getFileSymbol(vim.api.nvim_buf_get_name(curbuf))
       local ft = vim.api.nvim_get_option_value("filetype", { buf = curbuf })

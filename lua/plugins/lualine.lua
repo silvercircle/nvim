@@ -20,6 +20,12 @@ local function actual_tabline()
   end
 end
 
+local function status_indicators()
+  return (globals.perm_config.treesitter_context == true and "C" or "c") ..
+         (globals.perm_config.debug == true and "D" or "d") ..
+         (globals.perm_config.transbg == true and "T" or "t")
+end
+
 local function getWordsV2()
   if globals.cur_bufsize > Config.wordcount_limit * 1024 * 1024 then
     return "NaN"
@@ -32,11 +38,12 @@ local function getWordsV2()
   end
 end
 
+local pad_string = string.rep(" ", 250)
 --- hack-ish. just return a very long string for the central section. Set the
 --- highlight group to bg=none and fg=bg and it will appear "transparent"
 --- uses the WinBarInvis hl group
 local function padding()
-  return string.rep(" ", 250)
+  return pad_string
 end
 
 local function full_filename()
@@ -63,6 +70,11 @@ local function theme()
     return vim.g.theme.lualine
   end
 end
+local _bg = vim.api.nvim_get_hl(0, { name="Visual" }).bg
+--local _bg = theme().normal.b.bg
+
+vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = vim.g.theme[globals.perm_config.theme_variant].bg })
+vim.api.nvim_set_hl(0, "WinBarUL", { fg = theme().normal.b.fg, bg = _bg })
 
 local navic_component = {
   navic_context,
@@ -99,6 +111,7 @@ local aerial_component = {
 
   -- Color the symbol icons.
   colored = true,
+--  color = 'WinBarContext'
 }
 
 require("lualine").setup({
@@ -172,6 +185,24 @@ require("lualine").setup({
         separator = { left = "", right = "" }
       }
     },
+    lualine_y = {
+      {
+        "",
+        padding = 0,
+        separator = { left = "", right = "" },
+        color = "WinBarULSep",
+        fmt = function()
+          return ""
+        end,
+        cond = function() return globals.perm_config.show_indicators end
+      },
+      {
+        status_indicators,
+        color = "WinBarUL",
+        padding = 0,
+        cond = function() return globals.perm_config.show_indicators end
+      }
+    },
     lualine_z = {
       {
         "",
@@ -181,15 +212,17 @@ require("lualine").setup({
         color = { fg = vim.g.theme.accent_color, bg = vim.g.theme[globals.perm_config.theme_variant].bg },
         fmt = function()
           return ""
-        end
+        end,
+        cond = function() return not globals.perm_config.show_indicators end
       },
       {
         full_filename,
+        padding = 0,
         --separator = "",
-        separator = { left = "", right = "" },
+        --separator = { left = "", right = "" },
         color = 'WinBarFilename'
       },
-      'tabs'
+      'tabs',
     }
   } or {},
   inactive_winbar = Config.breadcrumb ~= 'dropbar' and {

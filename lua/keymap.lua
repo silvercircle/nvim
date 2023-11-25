@@ -321,7 +321,7 @@ local function focus_term_split(dir)
   end
   vim.cmd.startinsert()
   if dir and #dir > 0 then
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("cd " .. dir .. "<cr>", true, false, true), 'i', false)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("cd '" .. dir .. "'<cr>", true, false, true), 'i', false)
   end
 end
 
@@ -419,6 +419,13 @@ kms({ 'n', 'i', 't', 'v' }, utility_key .. 'st', function()
 end, opts)
 kms({ 'n', 'i', 't', 'v' }, utility_key .. 'sr', function()
   require("local_utils.usplit").refresh_cookie()
+end, opts)
+
+-- toggle the display of single-letter status indicators in the winbar.
+kms({ 'n', 'i', 't', 'v' }, utility_key .. 'wb', function()
+  globals.perm_config.show_indicators = not globals.perm_config.show_indicators
+  globals.notify("WinBar status indicators are now: " .. (globals.perm_config.show_indicators == true and "On" or "Off"),
+    vim.log.levels.INFO)
 end, opts)
 
 -- debug keymap, print the filetype of the current buffer

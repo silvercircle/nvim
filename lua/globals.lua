@@ -52,7 +52,8 @@ M.perm_config_default = {
   scrollbar = true,
   statusline_declutter = 0,
   outline_filetype = "Outline",
-  treesitter_context = true
+  treesitter_context = true,
+  show_indicators = true
 }
 
 M.perm_config = {}
