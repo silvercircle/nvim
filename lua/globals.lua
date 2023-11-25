@@ -723,11 +723,7 @@ end
 --- @param varname string: The variable's name
 function M.get_buffer_var(bufnr, varname)
   local status, value = pcall(vim.api.nvim_buf_get_var, bufnr, varname)
-  if status == false then
-    return nil
-  else
-    return value
-  end
+  return (status == false) and nil or value
 end
 
 return M

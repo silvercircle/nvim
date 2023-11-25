@@ -141,6 +141,7 @@ autocmd({ 'bufwinleave' }, {
 
 -- just recalculate buffer size in bytes when entering a buffer.
 -- We need this for some performance tweaks
+-- also: set treesitter-context status (per buffer)
 autocmd({ 'BufEnter' }, {
   pattern = "*",
   callback = function(args)

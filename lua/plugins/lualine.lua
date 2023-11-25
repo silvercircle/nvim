@@ -64,6 +64,43 @@ local function theme()
   end
 end
 
+local navic_component = {
+  navic_context,
+  fmt = function(string)
+    if #string < 2 then
+      return ""
+    else
+     return string.format("Context: %s", string)
+   end
+  end,
+  -- separator = { right ="", left = "" },
+  separator = "",
+  color = 'WinBarContext',
+}
+
+local aerial_component = {
+  "aerial",
+  -- The separator to be used to separate symbols in status line.
+  sep = "  ",
+  sep_highlight = "Debug",
+
+  -- The number of symbols to render top-down. In order to render only 'N' last
+  -- symbols, negative numbers may be supplied. For instance, 'depth = -1' can
+  -- be used in order to render only current symbol.
+  depth = nil,
+
+  -- When 'dense' mode is on, icons are not rendered near their symbols. Only
+  -- a single icon that represents the kind of current symbol is rendered at
+  -- the beginning of status line.
+  dense = false,
+
+  -- The separator to be used to separate symbols in dense mode.
+  dense_sep = ".",
+
+  -- Color the symbol icons.
+  colored = true,
+}
+
 require("lualine").setup({
   options = {
     icons_enabled = true,
@@ -126,40 +163,7 @@ require("lualine").setup({
   winbar = Config.breadcrumb ~= 'dropbar' and {
     --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
---      {
---        navic_context,
---        fmt = function(string)
---          if #string < 2 then
---            return ""
---          else
---           return string.format("Context: %s", string)
---         end
---        end,
---        -- separator = { right ="", left = "" },
---        separator = "",
---        color = 'WinBarContext',
---      }
-      {
-        "aerial",
-        -- The separator to be used to separate symbols in status line.
-        sep = " ) ",
-
-        -- The number of symbols to render top-down. In order to render only 'N' last
-        -- symbols, negative numbers may be supplied. For instance, 'depth = -1' can
-        -- be used in order to render only current symbol.
-        depth = nil,
-
-        -- When 'dense' mode is on, icons are not rendered near their symbols. Only
-        -- a single icon that represents the kind of current symbol is rendered at
-        -- the beginning of status line.
-        dense = false,
-
-        -- The separator to be used to separate symbols in dense mode.
-        dense_sep = ".",
-
-        -- Color the symbol icons.
-        colored = true,
-      },
+      Config.breadcrumb == 'navic' and navic_component or aerial_component
     },
     lualine_c = {
       {
