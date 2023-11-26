@@ -343,20 +343,20 @@ _Config_SetKey('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cw
 -- Alt-d: Detach all TUI sessions from the (headless) master
 _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-d>', function() globals.detach_all_tui() end, "Detach all TUI")
 
-kms({ 'n', 'i', 't', 'v' }, utility_key .. 'za', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'za', function()
   require("cmp_wordlist").add_cword()
-end, opts)
+end, "Add current word to wordlist")
 
-kms({ 'n', 'i', 't', 'v' }, utility_key .. 'zt', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'zt', function()
   require("cmp_wordlist").add_cword_with_translation()
-end, opts)
+end, "Add current word with translation to wordlist")
 
-kms({ 'n', 'i', 't', 'v' }, utility_key .. 'wt', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'wt', function()
   require("local_utils.wsplit").toggle_content()
-end, opts)
-kms({ 'n', 'i', 't', 'v' }, utility_key .. 'st', function()
+end, "Toggle weather/info content")
+_Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'st', function()
   require("local_utils.usplit").toggle_content()
-end, opts)
+end, "Toggle sysmon/fortune content")
 _Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'sr', function()
   require("local_utils.usplit").refresh_cookie()
 end, "Fortune refresh cookie")
