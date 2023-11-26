@@ -482,7 +482,7 @@ function M.toggle_theme_variant()
     vim.g.theme_variant = "warm"
     M.perm_config.theme_variant = "warm"
   end
-  vim.cmd("colorscheme " .. M.perm_config.theme_name)
+  require("colors.mine").set()
   M.notify("Theme variant is now: " .. M.perm_config.theme_variant, vim.log.levels.INFO, "Theme")
 end
 
@@ -490,7 +490,7 @@ end
 --- desaturated means a more pastel and less vivid color contrast
 function M.toggle_theme_desaturate()
   vim.g.theme_desaturate = not vim.g.theme_desaturate
-  vim.cmd("colorscheme " .. M.perm_config.theme_name)
+  require("colors.mine").set()
   M.notify("Theme is now " .. (vim.g.theme_desaturate == true and "desaturated" or "vivid"), vim.log.levels.INFO, "Theme")
 end
 

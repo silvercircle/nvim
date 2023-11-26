@@ -37,129 +37,128 @@ local function link_hl(hl, target)
   set_hl(0, hl, { link = target })
 end
 
-if vim.g.theme_desaturate == true then
-  theme = {
-    orange     = { '#ab6a6c', 215 },
-    string     = vim.g.theme.string == "yellow" and { '#9a9a60', 231 } or { '#40804f', 231 },
-    blue       = { '#5a6acf', 239 },
-    purple     = { '#b070b0', 241 },
-    teal       = { '#508080', 238 },
-    brightteal = { '#70a0c0', 238 },
-    darkpurple = { '#705070', 240 },
-    red        = { '#bb4d5c', 203 }
-  }
-else
-  theme = {
-    string     = vim .. theme.string == "yellow" and { '#cccc60', 231 } or { '#10801f', 231 },
-    orange     = { '#c36630', 215 },
-    blue       = { '#4a4adf', 239 },
-    purple     = { '#c030c0', 241 },
-    teal       = { '#108080', 238 },
-    brightteal = { '#30a0c0', 238 },
-    darkpurple = { '#803090', 240 },
-    red        = { '#cc2d4c', 203 }
-  }
+local function configure()
+  if vim.g.theme_desaturate == true then
+    theme = {
+      orange     = { '#ab6a6c', 215 },
+      string     = vim.g.theme.string == "yellow" and { '#9a9a60', 231 } or { '#40804f', 231 },
+      blue       = { '#5a6acf', 239 },
+      purple     = { '#b070b0', 241 },
+      teal       = { '#508080', 238 },
+      brightteal = { '#70a0c0', 238 },
+      darkpurple = { '#705070', 240 },
+      red        = { '#bb4d5c', 203 }
+    }
+  else
+    theme = {
+      string     = vim.g.theme.string == "yellow" and { '#cccc60', 231 } or { '#10801f', 231 },
+      orange     = { '#c36630', 215 },
+      blue       = { '#4a4adf', 239 },
+      purple     = { '#c030c0', 241 },
+      teal       = { '#108080', 238 },
+      brightteal = { '#30a0c0', 238 },
+      darkpurple = { '#803090', 240 },
+      red        = { '#cc2d4c', 203 }
+    }
+  end
+
+  if vim.g.theme_variant == 'cold' then
+    theme.darkbg       = { '#101013', 237 }
+    theme.darkred      = { '#601010', 249 }
+    theme.darkestred   = { '#161616', 249 }
+    theme.darkestblue  = { '#10101a', 247 }
+    theme.bg           = { vim.g.theme['cold'].bg, 0 }
+    theme.statuslinebg = { vim.g.statuslinebg, 208 }
+    theme.pmenubg      = { '#241a20', 156 }
+    theme.accent       = { vim.g.theme['accent_color'], 209 }
+    theme.accent_fg    = { vim.g.theme['accent_fg'], 210 }
+    theme.tablinebg    = { vim.g.cokeline_colors['bg'], 214 }
+    theme.contextbg    = { vim.g.theme['cold'].contextbg, 215 }
+  else
+    theme.darkbg       = { '#131010', 237 }
+    theme.darkred      = { '#601010', 249 }
+    theme.darkestred   = { '#161616', 249 }
+    theme.darkestblue  = { '#10101a', 247 }
+    theme.bg           = { vim.g.theme['warm'].bg, 0 }
+    theme.statuslinebg = { vim.g.statuslinebg, 208 }
+    theme.pmenubg      = { '#241a20', 156 }
+    theme.accent       = { vim.g.theme['accent_color'], 209 }
+    theme.accent_fg    = { vim.g.theme['accent_fg'], 210 }
+    theme.tablinebg    = { vim.g.cokeline_colors['bg'], 214 }
+    theme.contextbg    = { vim.g.theme['warm'].contextbg, 215 }
+  end
+
+  if vim.g.theme_variant == 'cold' then
+    palette = {
+      fg          = { '#a2a0ac', 1 },
+      grey        = { '#707070', 2 },
+      black       = { '#121215', 232 },
+      bg_dim      = { '#222327', 232 },
+      bg0         = { '#2c2e34', 235 },
+      bg1         = { '#33353f', 236 },
+      bg2         = { '#363944', 236 },
+      bg3         = { '#3b3e48', 237 },
+      bg4         = { '#414550', 237 },
+      bg_red      = { '#ff6077', 203 },
+      diff_red    = { '#55393d', 52 },
+      bg_green    = { '#a7df78', 107 },
+      diff_green  = { '#697664', 22 },
+      bg_blue     = { '#85d3f2', 110 },
+      diff_blue   = { '#354157', 17 },
+      diff_yellow = { '#4e432f', 54 },
+      fg_dim      = { '#959290', 251 },
+      red         = { theme.red[1], theme.red[2] },
+      palered     = { '#8b2d3c', 203 },
+      orange      = { theme.orange[1], theme.orange[2] },
+      yellow      = { '#e7c664', 179 },
+      darkyellow  = { '#a78624', 180 },
+      green       = { '#9ed072', 107 },
+      blue        = { '#469c70', 110 },
+      purple      = { '#b39df3', 176 },
+      grey_dim    = { '#595f6f', 240 },
+      neotreebg   = { vim.g.theme['cold'].treebg, 232 },
+      selfg       = { '#cccc20', 233 },
+      selbg       = { vim.g.theme['selbg'], 234 },
+      none        = { 'NONE', 'NONE' }
+    }
+  else
+    --the "warm" variant features a slight red-ish tint in the background colors
+    --all other colors are identical to the cold variant.
+    palette = {
+      fg          = { '#aaa0a5', 1 },
+      grey        = { '#707070', 2 },
+      black       = { '#151212', 232 },
+      bg_dim      = { '#242020', 232 },
+      bg0         = { '#302c2e', 235 },
+      bg1         = { '#322a2a', 236 },
+      bg2         = { '#403936', 236 },
+      bg3         = { '#483e3b', 237 },
+      bg4         = { '#504531', 237 },
+      bg_red      = { '#ff6077', 203 },
+      diff_red    = { '#55393d', 52, },
+      bg_green    = { '#a7df78', 107 },
+      diff_green  = { '#697664', 22 },
+      bg_blue     = { '#85d3f2', 110 },
+      diff_blue   = { '#354157', 17 },
+      diff_yellow = { '#4e432f', 54 },
+      fg_dim      = { '#959290', 251 },
+      red         = { theme.red[1], theme.red[2] },
+      palered     = { '#8b2d3c', 203 },
+      orange      = { theme.orange[1], theme.orange[2] },
+      yellow      = { '#e7c664', 179 },
+      darkyellow  = { '#a78624', 180 },
+      green       = { '#9ed072', 107 },
+      blue        = { '#469c70', 110 },
+      purple      = { '#b39df3', 176 },
+      grey_dim    = { '#595f6f', 240 },
+      neotreebg   = { vim.g.theme['warm'].treebg, 232 },
+      selfg       = { '#cccc20', 233 },
+      selbg       = { vim.g.theme['selbg'], 234 },
+      none        = { 'NONE', 0 }
+    }
+  end
 end
 
-if vim.g.theme_variant == 'cold' then
-  theme.darkbg       = { '#101013', 237 }
-  theme.darkred      = { '#601010', 249 }
-  theme.darkestred   = { '#161616', 249 }
-  theme.darkestblue  = { '#10101a', 247 }
-  theme.bg           = { vim.g.theme['cold'].bg, 0 }
-  theme.statuslinebg = { vim.g.statuslinebg, 208 }
-  palette.fg         = { '#a2a0ac', 1 }
-  palette.grey       = { '#707070', 2 }
-  theme.pmenubg      = { '#241a20', 156 }
-  theme.accent       = { vim.g.theme['accent_color'], 209 }
-  theme.accent_fg    = { vim.g.theme['accent_fg'], 210 }
-  theme.tablinebg    = { vim.g.cokeline_colors['bg'], 214 }
-  theme.contextbg    = { vim.g.theme['cold'].contextbg, 215 }
-else
-  theme.darkbg       = { '#131010', 237 }
-  theme.darkred      = { '#601010', 249 }
-  theme.darkestred   = { '#161616', 249 }
-  theme.darkestblue  = { '#10101a', 247 }
-  theme.bg           = { vim.g.theme['warm'].bg, 0 }
-  theme.statuslinebg = { vim.g.statuslinebg, 208 }
-  palette.fg         = { '#aaa0a5', 1 }
-  palette.grey       = { '#707070', 2 }
-  theme.pmenubg      = { '#241a20', 156 }
-  theme.accent       = { vim.g.theme['accent_color'], 209 }
-  theme.accent_fg    = { vim.g.theme['accent_fg'], 210 }
-  theme.tablinebg    = { vim.g.cokeline_colors['bg'], 214 }
-  theme.contextbg    = { vim.g.theme['warm'].contextbg, 215 }
-end
-
-if vim.g.theme_variant == 'cold' then
-  palette = {
-    black       = { '#121215', 232 },
-    bg_dim      = { '#222327', 232 },
-    bg0         = { '#2c2e34', 235 },
-    bg1         = { '#33353f', 236 },
-    bg2         = { '#363944', 236 },
-    bg3         = { '#3b3e48', 237 },
-    bg4         = { '#414550', 237 },
-    bg_red      = { '#ff6077', 203 },
-    diff_red    = { '#55393d', 52 },
-    bg_green    = { '#a7df78', 107 },
-    diff_green  = { '#697664', 22 },
-    bg_blue     = { '#85d3f2', 110 },
-    diff_blue   = { '#354157', 17 },
-    diff_yellow = { '#4e432f', 54 },
-    fg          = { '#d2c2c0', 250 },
-    fg_dim      = { '#959290', 251 },
-    red         = { theme.red[1], theme.red[2] },
-    palered     = { '#8b2d3c', 203 },
-    orange      = { theme.orange[1], theme.orange[2] },
-    yellow      = { '#e7c664', 179 },
-    darkyellow  = { '#a78624', 180 },
-    green       = { '#9ed072', 107 },
-    blue        = { '#469c70', 110 },
-    purple      = { '#b39df3', 176 },
-    grey        = { '#7f8490', 246 },
-    grey_dim    = { '#595f6f', 240 },
-    neotreebg   = { vim.g.theme['cold'].treebg, 232 },
-    selfg       = { '#cccc20', 233 },
-    selbg       = { vim.g.theme['selbg'], 234 },
-    none        = { 'NONE', 'NONE' }
-  }
-else
-  --the "warm" variant features a slight red-ish tint in the background colors
-  --all other colors are identical to the cold variant.
-  palette = {
-    black       = { '#151212', 232 },
-    bg_dim      = { '#242020', 232 },
-    bg0         = { '#302c2e', 235 },
-    bg1         = { '#322a2a', 236 },
-    bg2         = { '#403936', 236 },
-    bg3         = { '#483e3b', 237 },
-    bg4         = { '#504531', 237 },
-    bg_red      = { '#ff6077', 203 },
-    diff_red    = { '#55393d', 52, },
-    bg_green    = { '#a7df78', 107 },
-    diff_green  = { '#697664', 22 },
-    bg_blue     = { '#85d3f2', 110 },
-    diff_blue   = { '#354157', 17 },
-    diff_yellow = { '#4e432f', 54 },
-    fg          = { '#d2c2c0', 250 },
-    fg_dim      = { '#959290', 251 },
-    red         = { theme.red[1], theme.red[2] },
-    palered     = { '#8b2d3c', 203 },
-    orange      = { theme.orange[1], theme.orange[2] },
-    yellow      = { '#e7c664', 179 },
-    darkyellow  = { '#a78624', 180 },
-    green       = { '#9ed072', 107 },
-    blue        = { '#469c70', 110 },
-    purple      = { '#b39df3', 176 },
-    grey        = { '#7f8490', 246 },
-    grey_dim    = { '#595f6f', 240 },
-    neotreebg   = { vim.g.theme['warm'].treebg, 232 },
-    selfg       = { '#cccc20', 233 },
-    selbg       = { vim.g.theme['selbg'], 234 },
-    none        = { 'NONE', 0 }
-  }
-end
 local function set_all()
   simple_hl("Braces", palette.red, palette.none)
   simple_hl('ScrollView', theme.teal, theme.blue)
@@ -784,11 +783,91 @@ local function set_all()
   link_hl("matlabRelationalOperator", "Red")
   link_hl("matlabRelationalOperator", "Red")
   link_hl("matlabLogicalOperator", "Red")
+
+  -- syn_begin: help
+  merged_hl('helpNote', palette.purple, palette.none, { bold = true })
+  merged_hl('helpHeadline', palette.red, palette.none, { bold = true })
+  merged_hl('helpHeader', palette.orange, palette.none, { bold = true })
+  merged_hl('helpURL', palette.green, palette.none, { underline = true })
+  merged_hl('helpHyperTextEntry', palette.blue, palette.none, { bold = true })
+  link_hl("helpHyperTextJump", "Blue")
+  link_hl("helpCommand", "Yellow")
+  link_hl("helpExample", "Green")
+  link_hl("helpSpecial", "Purple")
+  link_hl("helpSectionDelim", "Grey")
+
+  -- CMP (with custom menu setup)
+  set_hl(0, "CmpItemKindDefault", {fg = "#cc5de8"})
+  link_hl("CmpItemKind", "CmpItemKindDefault")
+  set_hl(0, "CmpItemMenu", {fg = "#ededcf"})
+  set_hl(0, "CmpItemMenuDetail", {fg = "#ffe066"})
+  set_hl(0, "CmpItemMenuBuffer", {fg = "#898989"})
+  set_hl(0, "CmpItemMenuSnippet", {fg = "#cc5de8"})
+  set_hl(0, "CmpItemMenuLSP", {fg = "#cfa050"})
+  link_hl("CmpItemMenuPath", "CmpItemMenu")
+
+  simple_hl('CmpPmenu', palette.fg, palette.bg_dim)
+  simple_hl('CmpPmenuBorder', palette.grey_dim, palette.bg_dim)
+  simple_hl('CmpGhostText', palette.grey, palette.none)
+  set_hl(0, "CmpItemAbbr", {fg = "#d0b1d0"})
+
+  set_hl(0, "CmpItemAbbrDeprecated", {bg = 'NONE', strikethrough = true, fg = "#808080"})
+  set_hl(0, "mpItemAbbrMatch", {bg = 'NONE', fg = "#f03e3e", bold = true})
+  set_hl(0, "CmpItemAbbrMatchFuzzy", { bg = 'NONE', fg = "#fd7e14", bold = true})
+
+  set_hl(0, "CmpItemKindModule", {bg = 'NONE', fg = '#FF7F50'})
+  set_hl(0, "CmpItemKindClass", {bg='none', fg = "#FFAF00"})
+  link_hl("CmpItemKindStruct", "CmpItemKindClass")
+  set_hl(0, "CmpItemKindVariable", {bg='none', fg = "#9CDCFE"})
+  set_hl(0, "CmpItemKindProperty", {bg='none', fg = "#9CDCFE"})
+  set_hl(0, "CmpItemKindFunction", {bg='none', fg = "#C586C0"})
+  link_hl("CmpItemKindConstructor", "CmpItemKindFunction")
+  link_hl("CmpItemKindMethod", "CmpItemKindFunction")
+  set_hl(0, "CmpItemKindKeyword", {bg='none', fg = "#FF5FFF"})
+  set_hl(0, "CmpItemKindText", {bg='none', fg = "#D4D4D4"})
+  set_hl(0, "CmpItemKindUnit", {bg='none', fg = "#D4D4D4"})
+  set_hl(0, "CmpItemKindConstant", {bg='none', fg = "#409F31"})
+  set_hl(0, "CmpItemKindSnippet", {bg='none', fg = "#E3E300"})
+
+-- Glance plugin: https://github.com/DNLHC/glance.nvim
+  simple_hl('GlancePreviewNormal', palette.fg, palette.black)
+  simple_hl('GlancePreviewMatch', palette.yellow, palette.none)
+  simple_hl('GlanceListMatch', palette.yellow, palette.none)
+  link_hl("GlanceListCursorLine", "Visual")
+-- allow neotree and other addon panels have different backgrounds
+  simple_hl('NeoTreeNormalNC', palette.fg, palette.neotreebg)
+  simple_hl('NeoTreeNormal', palette.fg, palette.neotreebg)
+  simple_hl('NeoTreeFloatBorder', palette.grey_dim, palette.neotreebg)
+  merged_hl('NeoTreeFileNameOpened', palette.blue, palette.neotreebg, { italic = true })
+  simple_hl('SymbolsOutlineConnector', palette.bg4, palette.none)
+  simple_hl('TreesitterContext', palette.none, theme.bg)
+
+  link_hl("TreesitterContextSeparator", "Type")
+  link_hl("NvimTreeIndentMarker", "SymbolsOutlineConnector")
+  link_hl("OutlineGuides", "SymbolsOutlineConnector")
+  link_hl("NeoTreeCursorLine", "Visual")
+  link_hl("AerialGuide", "SymbolsOutlineConnector")
+
+  simple_hl('WinBarFilename', palette.fg, theme.accent) -- Filename (right hand)
+  merged_hl('WinBarContext', palette.darkyellow, palette.none, { underline = true, sp = theme.accent[1] }) -- LSP context (left hand)
+-- WinBarInvis is for the central padding item. It should be transparent and invisible (fg = bg)
+-- This is a somewhat hack-ish way to make the lualine-controlle winbar transparent.
+  merged_hl('WinBarInvis', theme.bg, theme.bg, { underline = true, sp = theme.accent[1]})
+  link_hl("WinBarNC", "StatusLineNC")
+  link_hl("WinBar", "WinBarContext")
+
+  link_hl("LazyNoCond", "RedBold")
+  link_hl("VirtColumn", "IndentBlankLineChar")
+  link_hl("SatelliteCursor", "WarningMsg")
+  link_hl("SatelliteSearch", "PurpleBold")
+  link_hl("SatelliteSearchCurrent", "PurpleBold")
+  set_hl(0, "@ibl.scope.char.1", { bg = 'none' })
 end
 
 local scheme = {}
 
 function scheme.set()
+  configure()
   set_all()
 end
 return scheme
