@@ -407,8 +407,8 @@ function M.write_config()
       tree = {
         active = #M.findwinbyBufType("NvimTree") > 0 and true or false,
       },
-      theme_variant = vim.g.theme_variant,
-      theme_desaturate = vim.g.theme_desaturate,
+      theme_variant = require("colors.mine").theme_variant,
+      theme_desaturate = require("colors.mine").theme_desaturate,
     }
     if wsplit_id ~= nil then
       state.weather.width = vim.api.nvim_win_get_width(wsplit_id)
@@ -446,8 +446,7 @@ function M.restore_config()
   else
     M.perm_config = M.perm_config_default
   end
-  vim.g.theme_variant = M.perm_config.theme_variant
-  vim.g.theme_desaturate = M.perm_config.theme_desaturate
+  require("colors.mine").setup(M.perm_config.theme_variant, M.perm_config.theme_desaturate)
 end
 
 --- adjust the optional frames so they will keep their width when the side tree opens or closes
@@ -475,22 +474,24 @@ end
 --- bound to a hotkey ("C-l C-t" by default)
 --- toggle between warm and cold theme variants
 function M.toggle_theme_variant()
-  if vim.g.theme_variant == "warm" then
-    vim.g.theme_variant = "cold"
+  local colors = require("colors.mine")
+  if colors.theme_variant == "warm" then
+    colors.theme_variant = "cold"
     M.perm_config.theme_variant = "cold"
   else
-    vim.g.theme_variant = "warm"
+    colors.theme_variant = "warm"
     M.perm_config.theme_variant = "warm"
   end
-  require("colors.mine").set()
+  colors.set()
   M.notify("Theme variant is now: " .. M.perm_config.theme_variant, vim.log.levels.INFO, "Theme")
 end
 
 --- toggle theme saturate state. By default bound to C-l C-d
 --- desaturated means a more pastel and less vivid color contrast
 function M.toggle_theme_desaturate()
-  vim.g.theme_desaturate = not vim.g.theme_desaturate
-  require("colors.mine").set()
+  local colors = require("colors.mine")
+  colors.theme_desaturate = not colors.theme_desaturate
+  colors.set()
   M.notify("Theme is now " .. (vim.g.theme_desaturate == true and "desaturated" or "vivid"), vim.log.levels.INFO, "Theme")
 end
 

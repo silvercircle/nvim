@@ -19,12 +19,14 @@ require("nvim-web-devicons").setup({
   default = true
 })
 
+local colors = require("colors.mine")
+
 -- crete the cokeline theme. Global function
 local function Cokeline_theme()
   return {
     hl = {
-      fg = function(buffer) return buffer.is_focused and vim.g.cokeline_colors.focus_fg or vim.g.cokeline_colors.fg end,
-      bg = function(buffer) return buffer.is_focused and vim.g.cokeline_colors.focus_bg or vim.g.cokeline_colors.bg end
+      fg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_fg or colors.cokeline_colors.fg end,
+      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.bg end
     },
     unsaved = '#ff6060' -- the unsaved indicator on the tab
   }

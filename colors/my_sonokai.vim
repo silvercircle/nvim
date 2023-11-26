@@ -499,7 +499,6 @@ highlight! link @uri TSURI
 highlight! link @variable TSVariable
 highlight! link @variable.builtin TSVariableBuiltin
 highlight! link @text.emphasis.latex TSEmphasis
-" TODO: from here
 " Treesitter semantic
 highlight! link @lsp.type.parameter FgDimBoldItalic
 highlight! link @lsp.type.variable Fg

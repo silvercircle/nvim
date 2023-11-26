@@ -15,7 +15,40 @@
 --
 local set_hl = vim.api.nvim_set_hl
 local palette = {}
-local theme = {}
+local localtheme = {}
+
+local M = {}
+
+M.theme = {
+  string = 'yellow',    -- yellow strings, default is green. Respects desaturate
+  -- accent color is used for important highlights like the currently selected tab (buffer)
+  -- and more.
+  --accent_color = '#cbaf00',
+  accent_color = '#305030',
+  --alt_accent_color = '#bd2f4f',
+  alt_accent_color = '#501010',
+  accent_fg = '#cccc80',
+  lualine = 'internal',  -- use 'internal' for the integrated theme or any valid lualine theme name
+  selbg = '#104090',
+  cold = {
+    bg = '#141414',
+    treebg = '#18181c',
+    gutterbg = '#101013',
+    contextbg = '#302a2a'
+  },
+  warm = {
+    bg = '#161414',
+    treebg = '#1b1818',
+    gutterbg = '#131010',
+    contextbg = '#2a2a30'
+  }
+}
+M.theme_variant = 'warm'
+M.theme_desaturate = true
+M.cokeline_colors = {}
+M.statuslinebg = nil
+
+local LuaLineColors = {}
 
 local diff = vim.api.nvim_win_get_option(0, "diff")
 
@@ -38,10 +71,10 @@ local function link_hl(hl, target)
 end
 
 local function configure()
-  if vim.g.theme_desaturate == true then
-    theme = {
+  if M.theme_desaturate == true then
+    localtheme = {
       orange     = { '#ab6a6c', 215 },
-      string     = vim.g.theme.string == "yellow" and { '#9a9a60', 231 } or { '#40804f', 231 },
+      string     = M.theme.string == "yellow" and { '#9a9a60', 231 } or { '#40804f', 231 },
       blue       = { '#5a6acf', 239 },
       purple     = { '#b070b0', 241 },
       teal       = { '#508080', 238 },
@@ -50,8 +83,8 @@ local function configure()
       red        = { '#bb4d5c', 203 }
     }
   else
-    theme = {
-      string     = vim.g.theme.string == "yellow" and { '#cccc60', 231 } or { '#10801f', 231 },
+    localtheme = {
+      string     = M.theme.string == "yellow" and { '#cccc60', 231 } or { '#10801f', 231 },
       orange     = { '#c36630', 215 },
       blue       = { '#4a4adf', 239 },
       purple     = { '#c030c0', 241 },
@@ -62,33 +95,81 @@ local function configure()
     }
   end
 
-  if vim.g.theme_variant == 'cold' then
-    theme.darkbg       = { '#101013', 237 }
-    theme.darkred      = { '#601010', 249 }
-    theme.darkestred   = { '#161616', 249 }
-    theme.darkestblue  = { '#10101a', 247 }
-    theme.bg           = { vim.g.theme['cold'].bg, 0 }
-    theme.statuslinebg = { vim.g.statuslinebg, 208 }
-    theme.pmenubg      = { '#241a20', 156 }
-    theme.accent       = { vim.g.theme['accent_color'], 209 }
-    theme.accent_fg    = { vim.g.theme['accent_fg'], 210 }
-    theme.tablinebg    = { vim.g.cokeline_colors['bg'], 214 }
-    theme.contextbg    = { vim.g.theme['cold'].contextbg, 215 }
+  if M.theme_variant == 'cold' then
+    LuaLineColors = {
+      white          = '#ffffff',
+      darkestgreen   = M.theme.accent_fg,
+      brightgreen    = M.theme.accent_color,
+      darkestcyan    = '#005f5f',
+      mediumcyan     = '#87dfff',
+      darkestblue    = '#005f87',
+      darkred        = '#870000',
+      brightred      = M.theme.alt_accent_color,
+      brightorange   = '#2f47df',
+      gray1          = '#262626',
+      gray2          = '#303030',
+      gray4          = '#585858',
+      gray5          = '#404050',
+      gray7          = '#9e9e9e',
+      gray10         = '#f0f0f0',
+      statuslinebg   = '#262636'
+    }
   else
-    theme.darkbg       = { '#131010', 237 }
-    theme.darkred      = { '#601010', 249 }
-    theme.darkestred   = { '#161616', 249 }
-    theme.darkestblue  = { '#10101a', 247 }
-    theme.bg           = { vim.g.theme['warm'].bg, 0 }
-    theme.statuslinebg = { vim.g.statuslinebg, 208 }
-    theme.pmenubg      = { '#241a20', 156 }
-    theme.accent       = { vim.g.theme['accent_color'], 209 }
-    theme.accent_fg    = { vim.g.theme['accent_fg'], 210 }
-    theme.tablinebg    = { vim.g.cokeline_colors['bg'], 214 }
-    theme.contextbg    = { vim.g.theme['warm'].contextbg, 215 }
+    LuaLineColors = {
+      white          = '#ffffff',
+      darkestgreen   = M.theme.accent_fg,
+      brightgreen    = M.theme.accent_color,
+      darkestcyan    = '#005f5f',
+      mediumcyan     = '#87dfff',
+      darkestblue    = '#005f87',
+      darkred        = '#870000',
+      brightred      = M.theme.alt_accent_color,
+      brightorange   = '#2f47df',
+      gray1          = '#262626',
+      gray2          = '#303030',
+      gray4          = '#585858',
+      gray5          = '#474040',
+      gray7          = '#9e9e9e',
+      gray10         = '#f0f0f0',
+      statuslinebg   = '#2c2626'
+    }
+  end
+  M.cokeline_colors = {
+    --bg = LuaLineColors.statuslinebg,
+    bg = LuaLineColors.statuslinebg,
+    focus_bg = vim.g.theme.selbg,
+    fg = LuaLineColors.gray7,
+    focus_fg = vim.g.theme.accent_fg,
+  }
+  M.statuslinebg = LuaLineColors.statuslinebg
+
+  if M.theme_variant == 'cold' then
+    localtheme.darkbg       = { '#101013', 237 }
+    localtheme.darkred      = { '#601010', 249 }
+    localtheme.darkestred   = { '#161616', 249 }
+    localtheme.darkestblue  = { '#10101a', 247 }
+    localtheme.bg           = { M.theme['cold'].bg, 0 }
+    localtheme.statuslinebg = { M.statuslinebg, 208 }
+    localtheme.pmenubg      = { '#241a20', 156 }
+    localtheme.accent       = { M.theme['accent_color'], 209 }
+    localtheme.accent_fg    = { M.theme['accent_fg'], 210 }
+    localtheme.tablinebg    = { M.cokeline_colors['bg'], 214 }
+    localtheme.contextbg    = { M.theme['cold'].contextbg, 215 }
+  else
+    localtheme.darkbg       = { '#131010', 237 }
+    localtheme.darkred      = { '#601010', 249 }
+    localtheme.darkestred   = { '#161616', 249 }
+    localtheme.darkestblue  = { '#10101a', 247 }
+    localtheme.bg           = { M.theme['warm'].bg, 0 }
+    localtheme.statuslinebg = { M.statuslinebg, 208 }
+    localtheme.pmenubg      = { '#241a20', 156 }
+    localtheme.accent       = { M.theme['accent_color'], 209 }
+    localtheme.accent_fg    = { M.theme['accent_fg'], 210 }
+    localtheme.tablinebg    = { M.cokeline_colors['bg'], 214 }
+    localtheme.contextbg    = { M.theme['warm'].contextbg, 215 }
   end
 
-  if vim.g.theme_variant == 'cold' then
+  if M.theme_variant == 'cold' then
     palette = {
       fg          = { '#a2a0ac', 1 },
       grey        = { '#707070', 2 },
@@ -107,18 +188,18 @@ local function configure()
       diff_blue   = { '#354157', 17 },
       diff_yellow = { '#4e432f', 54 },
       fg_dim      = { '#959290', 251 },
-      red         = { theme.red[1], theme.red[2] },
+      red         = { localtheme.red[1], localtheme.red[2] },
       palered     = { '#8b2d3c', 203 },
-      orange      = { theme.orange[1], theme.orange[2] },
+      orange      = { localtheme.orange[1], localtheme.orange[2] },
       yellow      = { '#e7c664', 179 },
       darkyellow  = { '#a78624', 180 },
       green       = { '#9ed072', 107 },
       blue        = { '#469c70', 110 },
       purple      = { '#b39df3', 176 },
       grey_dim    = { '#595f6f', 240 },
-      neotreebg   = { vim.g.theme['cold'].treebg, 232 },
+      neotreebg   = { M.theme['cold'].treebg, 232 },
       selfg       = { '#cccc20', 233 },
-      selbg       = { vim.g.theme['selbg'], 234 },
+      selbg       = { M.theme['selbg'], 234 },
       none        = { 'NONE', 'NONE' }
     }
   else
@@ -142,18 +223,18 @@ local function configure()
       diff_blue   = { '#354157', 17 },
       diff_yellow = { '#4e432f', 54 },
       fg_dim      = { '#959290', 251 },
-      red         = { theme.red[1], theme.red[2] },
+      red         = { localtheme.red[1], localtheme.red[2] },
       palered     = { '#8b2d3c', 203 },
-      orange      = { theme.orange[1], theme.orange[2] },
+      orange      = { localtheme.orange[1], localtheme.orange[2] },
       yellow      = { '#e7c664', 179 },
       darkyellow  = { '#a78624', 180 },
       green       = { '#9ed072', 107 },
       blue        = { '#469c70', 110 },
       purple      = { '#b39df3', 176 },
       grey_dim    = { '#595f6f', 240 },
-      neotreebg   = { vim.g.theme['warm'].treebg, 232 },
+      neotreebg   = { M.theme['warm'].treebg, 232 },
       selfg       = { '#cccc20', 233 },
-      selbg       = { vim.g.theme['selbg'], 234 },
+      selbg       = { M.theme['selbg'], 234 },
       none        = { 'NONE', 0 }
     }
   end
@@ -161,16 +242,16 @@ end
 
 local function set_all()
   simple_hl("Braces", palette.red, palette.none)
-  simple_hl('ScrollView', theme.teal, theme.blue)
-  simple_hl('Normal', palette.fg, theme.bg)
-  simple_hl('Accent', palette.black, theme.accent)
+  simple_hl('ScrollView', localtheme.teal, localtheme.blue)
+  simple_hl('Normal', palette.fg, localtheme.bg)
+  simple_hl('Accent', palette.black, localtheme.accent)
   simple_hl('Terminal', palette.fg, palette.neotreebg)
   simple_hl('EndOfBuffer', palette.bg4, palette.none)
   simple_hl('Folded', palette.fg, palette.diff_blue)
   simple_hl('ToolbarLine', palette.fg, palette.none)
-  simple_hl('FoldColumn', palette.bg4, theme.darkbg)
-  simple_hl('SignColumn', palette.fg, theme.darkbg)
-  simple_hl('IncSearch', palette.yellow, theme.darkred)
+  simple_hl('FoldColumn', palette.bg4, localtheme.darkbg)
+  simple_hl('SignColumn', palette.fg, localtheme.darkbg)
+  simple_hl('IncSearch', palette.yellow, localtheme.darkred)
   simple_hl('Search', palette.black, palette.diff_green)
   simple_hl('ColorColumn', palette.none, palette.bg1)
   simple_hl('Conceal', palette.grey_dim, palette.none)
@@ -191,7 +272,7 @@ local function set_all()
     simple_hl('CursorColumn', palette.none, palette.bg1)
   end
 
-  simple_hl('LineNr', palette.grey_dim, theme.darkbg)
+  simple_hl('LineNr', palette.grey_dim, localtheme.darkbg)
   if diff then
     merged_hl('CursorLineNr', palette.yellow, palette.none, { underline = true })
   else
@@ -202,20 +283,20 @@ local function set_all()
   simple_hl('DiffChange', palette.none, palette.diff_blue)
   simple_hl('DiffDelete', palette.none, palette.diff_red)
   simple_hl('DiffText', palette.bg0, palette.blue)
-  merged_hl('Directory', theme.blue, palette.none, { bold = true })
+  merged_hl('Directory', localtheme.blue, palette.none, { bold = true })
   merged_hl('ErrorMsg', palette.red, palette.none, { bold = true, underline = true })
   merged_hl('WarningMsg', palette.yellow, palette.none, { bold = true })
   merged_hl('ModeMsg', palette.fg, palette.none, { bold = true })
   merged_hl('MoreMsg', palette.blue, palette.none, { bold = true })
-  simple_hl('MatchParen', palette.yellow, theme.darkred)
+  simple_hl('MatchParen', palette.yellow, localtheme.darkred)
 
   simple_hl('NonText', palette.bg4, palette.none)
   simple_hl('Whitespace', palette.green, palette.none)
   simple_hl('ExtraWhitespace', palette.green, palette.none)
   simple_hl('SpecialKey', palette.green, palette.none)
-  simple_hl('Pmenu', palette.fg, theme.pmenubg)
+  simple_hl('Pmenu', palette.fg, localtheme.pmenubg)
   simple_hl('PmenuSbar', palette.none, palette.bg2)
-  simple_hl('PmenuSel', palette.yellow, theme.blue)
+  simple_hl('PmenuSel', palette.yellow, localtheme.blue)
 
   link_hl("WildMenu", "PmenuSel")
 
@@ -227,14 +308,14 @@ local function set_all()
   merged_hl('SpellCap', palette.none, palette.none, { undercurl = true, sp = palette.yellow[1] })
   merged_hl('SpellLocal', palette.none, palette.none, { undercurl = true, sp = palette.blue[1] })
   merged_hl('SpellRare', palette.none, palette.none, { undercurl = true, sp = palette.purple[1] })
-  simple_hl('StatusLine', palette.fg, theme.statuslinebg)
+  simple_hl('StatusLine', palette.fg, localtheme.statuslinebg)
   simple_hl('StatusLineTerm', palette.fg, palette.none)
-  simple_hl('StatusLineNC', palette.grey, theme.statuslinebg)
+  simple_hl('StatusLineNC', palette.grey, localtheme.statuslinebg)
   simple_hl('StatusLineTermNC', palette.grey, palette.none)
-  simple_hl('TabLine', palette.fg, theme.statuslinebg)
-  simple_hl('TabLineFill', palette.grey, theme.tablinebg)
+  simple_hl('TabLine', palette.fg, localtheme.statuslinebg)
+  simple_hl('TabLineFill', palette.grey, localtheme.tablinebg)
   simple_hl('TabLineSel', palette.bg0, palette.bg_red)
-  simple_hl('VertSplit', theme.statuslinebg, palette.neotreebg)
+  simple_hl('VertSplit', localtheme.statuslinebg, palette.neotreebg)
 
   link_hl("WinSeparator", "VertSplit")
 
@@ -298,15 +379,15 @@ local function set_all()
   link_hl("healthSuccess", "Green")
   link_hl("healthWarning", "Yellow")
 
-  merged_hl('Type', theme.darkpurple, palette.none, { bold = true })
-  merged_hl('Structure', theme.darkpurple, palette.none, { bold = true })
-  merged_hl('StorageClass', theme.purple, palette.none, { bold = true })
+  merged_hl('Type', localtheme.darkpurple, palette.none, { bold = true })
+  merged_hl('Structure', localtheme.darkpurple, palette.none, { bold = true })
+  merged_hl('StorageClass', localtheme.purple, palette.none, { bold = true })
   simple_hl('Identifier', palette.orange, palette.none)
   simple_hl('Constant', palette.purple, palette.none)
   merged_hl('PreProc', palette.darkyellow, palette.none, { bold = true })
   merged_hl('PreCondit', palette.darkyellow, palette.none, { bold = true })
   simple_hl('Include', palette.green, palette.none)
-  merged_hl('Keyword', theme.blue, palette.none, { bold = true })
+  merged_hl('Keyword', localtheme.blue, palette.none, { bold = true })
   simple_hl('Define', palette.red, palette.none)
   merged_hl('Typedef', palette.red, palette.none, { bold = true })
   simple_hl('Exception', palette.red, palette.none)
@@ -316,15 +397,15 @@ local function set_all()
   simple_hl('Macro', palette.purple, palette.none)
   simple_hl('Error', palette.red, palette.none)
   simple_hl('Label', palette.purple, palette.none)
-  merged_hl('Special', theme.darkpurple, palette.none, { bold = true })
+  merged_hl('Special', localtheme.darkpurple, palette.none, { bold = true })
   simple_hl('SpecialChar', palette.purple, palette.none)
   simple_hl('Boolean', palette.palered, palette.none)
-  simple_hl('String', theme.string, palette.none)
+  simple_hl('String', localtheme.string, palette.none)
   simple_hl('Character', palette.yellow, palette.none)
-  merged_hl('Number', theme.purple, palette.none, { bold = true })
+  merged_hl('Number', localtheme.purple, palette.none, { bold = true })
   simple_hl('Float', palette.purple, palette.none)
-  merged_hl('Function', theme.teal, palette.none, { bold = true })
-  merged_hl('Method', theme.brightteal, palette.none, { bold = true })
+  merged_hl('Function', localtheme.teal, palette.none, { bold = true })
+  merged_hl('Method', localtheme.brightteal, palette.none, { bold = true })
 
   merged_hl('Operator', palette.red, palette.none, { bold = true })
   merged_hl('Title', palette.red, palette.none, { bold = true })
@@ -348,15 +429,15 @@ local function set_all()
   merged_hl('OrangeBold', palette.orange, palette.none, { bold = true })
   simple_hl('Yellow', palette.yellow, palette.none)
   simple_hl('Green', palette.green, palette.none)
-  simple_hl('Blue', theme.blue, palette.none)
-  merged_hl('BlueBold', theme.blue, palette.none, { bold = true })
-  simple_hl('Purple', theme.purple, palette.none)
-  merged_hl('PurpleBold', theme.purple, palette.none, { bold = true })
-  simple_hl('DarkPurple', theme.darkpurple, palette.none)
-  merged_hl('DarkPurpleBold', theme.darkpurple, palette.none, { bold = true })
+  simple_hl('Blue', localtheme.blue, palette.none)
+  merged_hl('BlueBold', localtheme.blue, palette.none, { bold = true })
+  simple_hl('Purple', localtheme.purple, palette.none)
+  merged_hl('PurpleBold', localtheme.purple, palette.none, { bold = true })
+  simple_hl('DarkPurple', localtheme.darkpurple, palette.none)
+  merged_hl('DarkPurpleBold', localtheme.darkpurple, palette.none, { bold = true })
   merged_hl('RedBold', palette.red, palette.none, { bold = true })
-  simple_hl('Teal', theme.teal, palette.none)
-  merged_hl('TealBold', theme.teal, palette.none, { bold = true })
+  simple_hl('Teal', localtheme.teal, palette.none)
+  merged_hl('TealBold', localtheme.teal, palette.none, { bold = true })
 
   simple_hl('RedItalic', palette.red, palette.none)
   simple_hl('OrangeItalic', palette.orange, palette.none)
@@ -367,7 +448,7 @@ local function set_all()
   simple_hl('RedSign', palette.red, palette.none)
   simple_hl('OrangeSign', palette.orange, palette.none)
   simple_hl('YellowSign', palette.yellow, palette.none)
-  simple_hl('GreenSign', theme.string, palette.none)
+  simple_hl('GreenSign', localtheme.string, palette.none)
   simple_hl('BlueSign', palette.blue, palette.none)
   simple_hl('PurpleSign', palette.purple, palette.none)
   merged_hl('ErrorText', palette.none, palette.none, { undercurl = true, sp = palette.red[1] })
@@ -513,11 +594,11 @@ local function set_all()
   link_hl("BookmarkAnnotationLine", "DiffAdd")
 
   merged_hl('TelescopeMatching', palette.palered, palette.none, { bold = true })
-  simple_hl('TelescopeBorder', theme.accent, palette.bg_dim)
-  simple_hl('TelescopePromptBorder', theme.accent, palette.bg_dim)
+  simple_hl('TelescopeBorder', localtheme.accent, palette.bg_dim)
+  simple_hl('TelescopePromptBorder', localtheme.accent, palette.bg_dim)
   merged_hl('TelescopePromptNormal', palette.fg_dim, palette.bg_dim, { bold = true })
   simple_hl('TelescopeNormal', palette.fg_dim, palette.bg_dim)
-  merged_hl('TelescopeTitle', theme.accent_fg, theme.accent, { bold = true })
+  merged_hl('TelescopeTitle', localtheme.accent_fg, localtheme.accent, { bold = true })
 
   link_hl("MiniPickBorder", "TelescopeBorder")
   link_hl("MiniPickBorderBusy", "TelescopeBorder")
@@ -652,7 +733,7 @@ local function set_all()
   merged_hl('mkdItalic', palette.grey, palette.none, { italic = true })
   link_hl("mkdCodeDelimiter", "Green")
   link_hl("mkdBold", "Grey")
-  merged_hl('mkdLink', theme.blue, palette.none, { underline = true })
+  merged_hl('mkdLink', localtheme.blue, palette.none, { underline = true })
   link_hl("mkdHeading", "Grey")
   link_hl("mkdListItem", "Red")
   link_hl("mkdRule", "Purple")
@@ -840,7 +921,7 @@ local function set_all()
   simple_hl('NeoTreeFloatBorder', palette.grey_dim, palette.neotreebg)
   merged_hl('NeoTreeFileNameOpened', palette.blue, palette.neotreebg, { italic = true })
   simple_hl('SymbolsOutlineConnector', palette.bg4, palette.none)
-  simple_hl('TreesitterContext', palette.none, theme.bg)
+  simple_hl('TreesitterContext', palette.none, localtheme.bg)
 
   link_hl("TreesitterContextSeparator", "Type")
   link_hl("NvimTreeIndentMarker", "SymbolsOutlineConnector")
@@ -848,11 +929,11 @@ local function set_all()
   link_hl("NeoTreeCursorLine", "Visual")
   link_hl("AerialGuide", "SymbolsOutlineConnector")
 
-  simple_hl('WinBarFilename', palette.fg, theme.accent) -- Filename (right hand)
-  merged_hl('WinBarContext', palette.darkyellow, palette.none, { underline = true, sp = theme.accent[1] }) -- LSP context (left hand)
+  simple_hl('WinBarFilename', palette.fg, localtheme.accent) -- Filename (right hand)
+  merged_hl('WinBarContext', palette.darkyellow, palette.none, { underline = true, sp = localtheme.accent[1] }) -- LSP context (left hand)
 -- WinBarInvis is for the central padding item. It should be transparent and invisible (fg = bg)
 -- This is a somewhat hack-ish way to make the lualine-controlle winbar transparent.
-  merged_hl('WinBarInvis', theme.bg, theme.bg, { underline = true, sp = theme.accent[1]})
+  merged_hl('WinBarInvis', localtheme.bg, localtheme.bg, { underline = true, sp = localtheme.accent[1]})
   link_hl("WinBarNC", "StatusLineNC")
   link_hl("WinBar", "WinBarContext")
 
@@ -862,15 +943,50 @@ local function set_all()
   link_hl("SatelliteSearch", "PurpleBold")
   link_hl("SatelliteSearchCurrent", "PurpleBold")
   set_hl(0, "@ibl.scope.char.1", { bg = 'none' })
+
+  vim.g.VM_Mono_hl = 'DiffText'
+  vim.g.VM_Extend_hl = 'DiffAdd'
+  vim.g.VM_Cursor_hl = 'Visual'
+  vim.g.VM_Insert_hl = 'DiffChange'
 end
 
-local scheme = {}
-
-function scheme.set()
+function M.set()
   configure()
+-- cokeline colors for the buffer line
   set_all()
 end
-return scheme
+
+function M.setup(variant, desaturate)
+  M.theme_variant = variant
+  M.theme_desaturate = desaturate
+end
+
+--- internal global function to create the lualine color theme
+--- @return table
+function M.Lualine_internal_theme()
+  return {
+    normal = {
+      a = { fg = LuaLineColors.darkestgreen, bg = LuaLineColors.brightgreen--[[, gui = 'bold']] },
+      b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
+      c = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
+      x = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
+    },
+    insert = {
+      a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' },
+      b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
+      c = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
+    },
+    visual = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightorange--[[, gui = 'bold']] } },
+    replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' } },
+    inactive = {
+      a = { fg = LuaLineColors.gray4, bg = LuaLineColors.statuslinebg, gui = 'bold' },
+      b = { fg = LuaLineColors.gray4, bg = LuaLineColors.statuslinebg },
+      c = { fg = LuaLineColors.gray4, bg = LuaLineColors.statuslinebg }
+    },
+  }
+end
+
+return M
 
 --print(vim.inspect(theme))
 --print(vim.inspect(palette))

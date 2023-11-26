@@ -102,33 +102,6 @@ Config = {
   outline_plugin = nil
 }
 
-vim.g.theme = {
-  string = 'yellow',    -- yellow strings, default is green. Respects desaturate
-  -- accent color is used for important highlights like the currently selected tab (buffer)
-  -- and more.
-  --accent_color = '#cbaf00',
-  accent_color = '#305030',
-  --alt_accent_color = '#bd2f4f',
-  alt_accent_color = '#501010',
-  accent_fg = '#cccc80',
-  lualine = 'internal',  -- use 'internal' for the integrated theme or any valid lualine theme name
-  selbg = '#104090',
-  cold = {
-    bg = '#141414',
-    treebg = '#18181c',
-    gutterbg = '#101013',
-    contextbg = '#302a2a'
-  },
-  warm = {
-    bg = '#161414',
-    treebg = '#1b1818',
-    gutterbg = '#131010',
-    contextbg = '#2a2a30'
-  }
-}
-vim.g.theme_variant = 'warm'
-vim.g.theme_desaturate = true
-
 vim.g.formatters = {
   lua = {
     cmd = "stylua",
@@ -166,6 +139,7 @@ local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'
 local localbin = vim.fn.getenv('HOME') .. '/.local/bin/'
 local homepath = vim.fn.getenv('HOME')
 
+vim.g.theme = require("colors.mine").theme
 -- this table holds full path information for lsp server binaries. They can be installed with mason or
 -- manually. plugins/lsp.lua does all the real work. Mason and mason-lspconfig are optional.
 -- They allow easy installation and upgrading of your lsp servers, but if you do this manually,
@@ -219,88 +193,6 @@ g.loaded_tar = 1
 
 g.loaded_gzipPlugin= 1
 g.loaded_gzip = 1
-
--- this color table is used when g.lualine_theme is set to 'internal'. otherwise, the variable can specify
--- a builtin lualine theme (e.g. 'dracula')
--- the internal theme is designed to blend into the global color scheme.
-
-local LuaLineColors
-
-if vim.g.theme.variant == 'cold' then
-  LuaLineColors = {
-    white          = '#ffffff',
-    darkestgreen   =  vim.g.theme.accent_fg,
-    brightgreen    =  vim.g.theme.accent_color,
-    darkestcyan    = '#005f5f',
-    mediumcyan     = '#87dfff',
-    darkestblue    = '#005f87',
-    darkred        = '#870000',
-    brightred      = vim.g.theme.alt_accent_color,
-    brightorange   = '#2f47df',
-    gray1          = '#262626',
-    gray2          = '#303030',
-    gray4          = '#585858',
-    gray5          = '#404050',
-    gray7          = '#9e9e9e',
-    gray10         = '#f0f0f0',
-    statuslinebg   = '#262636'
-  }
-else
-  LuaLineColors = {
-    white          = '#ffffff',
-    darkestgreen   = vim.g.theme.accent_fg,
-    brightgreen    = vim.g.theme.accent_color,
-    darkestcyan    = '#005f5f',
-    mediumcyan     = '#87dfff',
-    darkestblue    = '#005f87',
-    darkred        = '#870000',
-    brightred      = vim.g.theme.alt_accent_color,
-    brightorange   = '#2f47df',
-    gray1          = '#262626',
-    gray2          = '#303030',
-    gray4          = '#585858',
-    gray5          = '#474040',
-    gray7          = '#9e9e9e',
-    gray10         = '#f0f0f0',
-    statuslinebg   = '#2c2626'
-  }
-end
-
-vim.g.statuslinebg = LuaLineColors.statuslinebg
-
--- cokeline colors for the buffer line
-vim.g.cokeline_colors = {
-  --bg = LuaLineColors.statuslinebg,
-  bg = LuaLineColors.statuslinebg,
-  focus_bg = vim.g.theme.selbg,
-  fg = LuaLineColors.gray7,
-  focus_fg = vim.g.theme.accent_fg,
-}
-
---- internal global function to create the lualine color theme
---- @return table
-function Lualine_internal_theme()
-  return {
-    normal = {
-      a = { fg = LuaLineColors.darkestgreen, bg = LuaLineColors.brightgreen--[[, gui = 'bold']] },
-      b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
-      c = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
-      x = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
-    },
-    insert = {
-      a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' },
-      b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
-      c = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
-    },
-    visual = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightorange--[[, gui = 'bold']] } },
-    replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' } },
-    inactive = {
-      a = { fg = LuaLineColors.gray4, bg = LuaLineColors.statuslinebg, gui = 'bold' },
-      b = { fg = LuaLineColors.gray4, bg = LuaLineColors.statuslinebg },
-      c = { fg = LuaLineColors.gray4, bg = LuaLineColors.statuslinebg }
-    },
-  }
-end
 
 -- global variables for plugins
 g.mapleader = ','
