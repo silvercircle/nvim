@@ -141,7 +141,7 @@ require("telescope").setup({
       components = {
         command_center.component.DESC,
         command_center.component.KEYS,
-        command_center.component.CMD,
+--        command_center.component.CMD,
         command_center.component.CATEGORY,
       },
       -- Spcify by what components the commands is sorted

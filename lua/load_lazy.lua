@@ -191,8 +191,10 @@ local plugins = {
   'lewis6991/gitsigns.nvim',
   {'lukas-reineke/indent-blankline.nvim', config = function() require("plugins.ibl") end },
   {'petertriho/nvim-scrollbar',
+    event = "BufReadPre",
     config = function()
       require("plugins.nvim-scrollbar")
+      require("globals").set_scrollbar()
     end
   },
 --  {'lewis6991/satellite.nvim',

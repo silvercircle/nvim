@@ -506,7 +506,7 @@ function Utils.command_center_theme(opts)
       or border_layout_prompt_top,
     layout_config = {
       anchor = "N",
-      width = lopts.width or 120,
+      width = lopts.width or 100,
       height = lopts.height or 0.4,
       prompt_position = Config.cpalette_dropdown,
     },

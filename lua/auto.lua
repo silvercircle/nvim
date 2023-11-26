@@ -112,7 +112,6 @@ autocmd({ 'UIEnter' }, {
       if globals.perm_config.transbg == true then
         globals.set_bg()
       end
-      globals.set_scrollbar()
     end
     vim.fn.win_gotoid(globals.main_winid)
   end
