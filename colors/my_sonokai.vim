@@ -242,7 +242,6 @@ call my_sonokai#highlight('TabLineFill', s:palette.grey, s:tablinebg)
 call my_sonokai#highlight('TabLineSel', s:palette.bg0, s:palette.bg_red)
 call my_sonokai#highlight('VertSplit', s:statuslinebg, s:palette.neotreebg)
 highlight! link WinSeparator VertSplit
-
 call my_sonokai#highlight('Visual', s:palette.selfg, s:palette.selbg)
 call my_sonokai#highlight('VisualNOS', s:palette.none, s:palette.bg3, 'underline')
 call my_sonokai#highlight('QuickFixLine', s:palette.blue, s:palette.none, 'bold')
@@ -500,7 +499,7 @@ highlight! link @uri TSURI
 highlight! link @variable TSVariable
 highlight! link @variable.builtin TSVariableBuiltin
 highlight! link @text.emphasis.latex TSEmphasis
-
+" TODO: from here
 " Treesitter semantic
 highlight! link @lsp.type.parameter FgDimBoldItalic
 highlight! link @lsp.type.variable Fg

@@ -115,5 +115,7 @@ o.cmdheight=vim.g.tweaks.cmdheight
 
 local globals = require("globals")
 globals.restore_config()
-vim.cmd("colorscheme " .. globals.perm_config.theme_name)
+-- vim.cmd("colorscheme " .. globals.perm_config.theme_name)
+--vim.cmd("colorscheme mine")
+require("colors.mine").set()
 globals.set_statuscol(globals.perm_config.statuscol_current)
