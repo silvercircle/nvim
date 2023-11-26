@@ -896,7 +896,7 @@ hi! link NeoTreeCursorLine Visual
 hi! link AerialGuide SymbolsOutlineConnector
 
 " winbar
-call my_sonokai#highlight('WinBarFilename', s:palette.fg, s:accent, 'underline', s:accent)                      " Filename (right hand)
+call my_sonokai#highlight('WinBarFilename', s:palette.fg, s:accent)                      " Filename (right hand)
 call my_sonokai#highlight('WinBarContext', s:palette.darkyellow, s:palette.none, 'underline', s:accent) " LSP context (left hand)
 " WinBarInvis is for the central padding item. It should be transparent and invisible (fg = bg)
 " This is a somewhat hack-ish way to make the lualine-controlle winbar transparent.

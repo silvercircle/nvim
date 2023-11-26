@@ -97,7 +97,7 @@ Config = {
   },
   treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp",
                        "scala", "java", "kdl", "ada", "json", "nim", "d",
-                       "yaml", "rust", "javascript" },
+                       "yaml", "rust", "javascript", "ruby" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   outline_plugin = nil
 }

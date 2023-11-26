@@ -216,8 +216,10 @@ require("lualine").setup({
         cond = function() return not globals.perm_config.show_indicators end
       },
       {
-        full_filename,
+        'filename',
         padding = 0,
+        path = 4,
+        shorting_target = 60,
         --separator = "",
         --separator = { left = "", right = "" },
         color = 'WinBarFilename'
