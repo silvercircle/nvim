@@ -75,14 +75,13 @@ local plugins = {
             separator = "─",
             zindex = 100, -- The Z-index of the context window
             on_attach = function(buf)
-              return true
 --              if buf then
 --                local ft = vim.bo[buf].filetype
 --                if vim.tbl_contains(Config.treesitter_types, ft) or vim.tbl_contains(Config.treesitter_context_types, ft) then
 --                  return true
 --                end
 --              end
---              return false
+              return true
             end
           }
           require("globals").setup_treesitter_context(true)
@@ -319,6 +318,24 @@ local plugins = {
         },
         layout = {
           height = { max = 10 }
+        }
+      })
+    end
+  },
+  {
+    'nvimdev/lspsaga.nvim',
+    event = "LspAttach",
+    cond = false,
+    config = function()
+      require('lspsaga').setup({
+        code_action_lightbulb = { enable = false },
+        outline = {
+          win_width = 36,
+          auto_refresh = true,
+          auto_preview = false
+        },
+        symbol_in_winbar = {
+          in_custom = true
         }
       })
     end

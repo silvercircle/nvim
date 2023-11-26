@@ -113,6 +113,10 @@ function M.is_outline_open()
   if #_a > 0 and _a[1] ~= nil then
     status.outline = _a[1]
   end
+  local _s = M.findwinbyBufType("sagaoutline")
+  if #_s > 0 and _s[1] ~= nil then
+    status.outline = _s[1]
+  end
   return status
 end
 
@@ -615,6 +619,7 @@ end
 --- Needs terminal with transparency support (kitty, alacritty etc.)
 --- this will not work with different color schemes.
 function M.set_bg()
+  local colors = require("colors.mine")
   if M.perm_config.transbg == true then
     vim.api.nvim_set_hl(0, "Normal", { bg = "none", fg = "fg" })
     vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
@@ -625,13 +630,13 @@ function M.set_bg()
     vim.cmd("hi SignColumn guibg=none")
   else
     local variant = M.perm_config.theme_variant
-    vim.api.nvim_set_hl(0, "Normal", { bg = vim.g.theme[variant].bg, fg = "fg" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = vim.g.theme[variant].treebg, fg = "fg" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = vim.g.theme[variant].treebg, fg = "fg" })
-    vim.cmd("hi VertSplit guibg=" .. vim.g.theme[variant].treebg)
-    vim.cmd("hi LineNr guibg=" .. vim.g.theme[variant].gutterbg)
-    vim.cmd("hi FoldColumn guibg=" .. vim.g.theme[variant].gutterbg)
-    vim.cmd("hi SignColumn guibg=" .. vim.g.theme[variant].gutterbg)
+    vim.api.nvim_set_hl(0, "Normal", { bg = colors.theme[variant].bg, fg = "fg" })
+    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = colors.theme[variant].treebg, fg = "fg" })
+    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = colors.theme[variant].treebg, fg = "fg" })
+    vim.cmd("hi VertSplit guibg=" .. colors.theme[variant].treebg)
+    vim.cmd("hi LineNr guibg=" .. colors.theme[variant].gutterbg)
+    vim.cmd("hi FoldColumn guibg=" .. colors.theme[variant].gutterbg)
+    vim.cmd("hi SignColumn guibg=" .. colors.theme[variant].gutterbg)
   end
 end
 

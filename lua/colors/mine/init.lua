@@ -8,10 +8,8 @@
 --Website:      https://github.com/sainnhe/sonokai/
 --License:      MIT
 -------------------------------------------------------------------------------
---things no longer used because of LSP.
---desaturate means that some colors are less intense and less vivid but retain their basic color
---tint, resulting in a more "pastel" look with less contrast. the basic color scheme is unaffected
---by this setting.
+--rewritten and heavily modified for my personal Neovim config at:
+--https://gitlab.com/silvercircle74/nvim
 --
 local set_hl = vim.api.nvim_set_hl
 local palette = {}
@@ -43,10 +41,12 @@ M.theme = {
     contextbg = '#2a2a30'
   }
 }
+
 M.theme_variant = 'warm'
 M.theme_desaturate = true
 M.cokeline_colors = {}
 M.statuslinebg = nil
+M.theme_string = "yellow"
 
 local LuaLineColors = {}
 
@@ -70,11 +70,12 @@ local function link_hl(hl, target)
   set_hl(0, hl, { link = target })
 end
 
+-- configure the theme data.
 local function configure()
   if M.theme_desaturate == true then
     localtheme = {
       orange     = { '#ab6a6c', 215 },
-      string     = M.theme.string == "yellow" and { '#9a9a60', 231 } or { '#40804f', 231 },
+      string     = M.theme_string == "yellow" and { '#9a9a60', 231 } or { '#40804f', 231 },
       blue       = { '#5a6acf', 239 },
       purple     = { '#b070b0', 241 },
       teal       = { '#508080', 238 },
@@ -84,7 +85,7 @@ local function configure()
     }
   else
     localtheme = {
-      string     = M.theme.string == "yellow" and { '#cccc60', 231 } or { '#10801f', 231 },
+      string     = M.theme_string == "yellow" and { '#cccc60', 231 } or { '#10801f', 231 },
       orange     = { '#c36630', 215 },
       blue       = { '#4a4adf', 239 },
       purple     = { '#c030c0', 241 },
@@ -97,49 +98,49 @@ local function configure()
 
   if M.theme_variant == 'cold' then
     LuaLineColors = {
-      white          = '#ffffff',
-      darkestgreen   = M.theme.accent_fg,
-      brightgreen    = M.theme.accent_color,
-      darkestcyan    = '#005f5f',
-      mediumcyan     = '#87dfff',
-      darkestblue    = '#005f87',
-      darkred        = '#870000',
-      brightred      = M.theme.alt_accent_color,
-      brightorange   = '#2f47df',
-      gray1          = '#262626',
-      gray2          = '#303030',
-      gray4          = '#585858',
-      gray5          = '#404050',
-      gray7          = '#9e9e9e',
-      gray10         = '#f0f0f0',
-      statuslinebg   = '#262636'
+      white        = '#ffffff',
+      darkestgreen = M.theme.accent_fg,
+      brightgreen  = M.theme.accent_color,
+      darkestcyan  = '#005f5f',
+      mediumcyan   = '#87dfff',
+      darkestblue  = '#005f87',
+      darkred      = '#870000',
+      brightred    = M.theme.alt_accent_color,
+      brightorange = '#2f47df',
+      gray1        = '#262626',
+      gray2        = '#303030',
+      gray4        = '#585858',
+      gray5        = '#404050',
+      gray7        = '#9e9e9e',
+      gray10       = '#f0f0f0',
+      statuslinebg = '#262636'
     }
   else
     LuaLineColors = {
-      white          = '#ffffff',
-      darkestgreen   = M.theme.accent_fg,
-      brightgreen    = M.theme.accent_color,
-      darkestcyan    = '#005f5f',
-      mediumcyan     = '#87dfff',
-      darkestblue    = '#005f87',
-      darkred        = '#870000',
-      brightred      = M.theme.alt_accent_color,
-      brightorange   = '#2f47df',
-      gray1          = '#262626',
-      gray2          = '#303030',
-      gray4          = '#585858',
-      gray5          = '#474040',
-      gray7          = '#9e9e9e',
-      gray10         = '#f0f0f0',
-      statuslinebg   = '#2c2626'
+      white        = '#ffffff',
+      darkestgreen = M.theme.accent_fg,
+      brightgreen  = M.theme.accent_color,
+      darkestcyan  = '#005f5f',
+      mediumcyan   = '#87dfff',
+      darkestblue  = '#005f87',
+      darkred      = '#870000',
+      brightred    = M.theme.alt_accent_color,
+      brightorange = '#2f47df',
+      gray1        = '#262626',
+      gray2        = '#303030',
+      gray4        = '#585858',
+      gray5        = '#474040',
+      gray7        = '#9e9e9e',
+      gray10       = '#f0f0f0',
+      statuslinebg = '#2c2626'
     }
   end
   M.cokeline_colors = {
     --bg = LuaLineColors.statuslinebg,
     bg = LuaLineColors.statuslinebg,
-    focus_bg = vim.g.theme.selbg,
+    focus_bg = M.theme.selbg,
     fg = LuaLineColors.gray7,
-    focus_fg = vim.g.theme.accent_fg,
+    focus_fg = M.theme.accent_fg,
   }
   M.statuslinebg = LuaLineColors.statuslinebg
 
@@ -240,6 +241,7 @@ local function configure()
   end
 end
 
+-- set all hl groups
 local function set_all()
   simple_hl("Braces", palette.red, palette.none)
   simple_hl('ScrollView', localtheme.teal, localtheme.blue)
@@ -296,8 +298,7 @@ local function set_all()
   simple_hl('SpecialKey', palette.green, palette.none)
   simple_hl('Pmenu', palette.fg, localtheme.pmenubg)
   simple_hl('PmenuSbar', palette.none, palette.bg2)
-  simple_hl('PmenuSel', palette.yellow, localtheme.blue)
-
+  link_hl('PmenuSel', "Visual")
   link_hl("WildMenu", "PmenuSel")
 
   simple_hl('PmenuThumb', palette.none, palette.grey)
@@ -637,7 +638,7 @@ local function set_all()
   merged_hl('IndentBlanklineChar', palette.bg1, palette.none, { nocombine = true })
   link_hl("IndentBlanklineSpaceChar", "IndentBlanklineChar")
   link_hl("IndentBlanklineSpaceCharBlankline", "IndentBlanklineChar")
-  -- rainbow colors, supported but not in use.
+  -- rainbow colors
   set_hl(0, "IndentBlanklineIndent1", { fg = "#401C15", nocombine = true })
   set_hl(0, "IndentBlanklineIndent2", { fg = "#15401B", nocombine = true })
   set_hl(0, "IndentBlanklineIndent3", { fg = "#583329", nocombine = true })
@@ -727,7 +728,7 @@ local function set_all()
   link_hl("markdownIdDeclaration", "markdownLinkText")
   link_hl("markdownBoldDelimiter", "Grey")
   link_hl("markdownId", "Yellow")
--- vim-markdown: https://github.com/gabrielelana/vim-markdown{{{
+  -- vim-markdown: https://github.com/gabrielelana/vim-markdown{{{
   merged_hl('mdURL', palette.blue, palette.none, { underline = true })
   merged_hl('mkdInineURL', palette.blue, palette.none, { underline = true })
   merged_hl('mkdItalic', palette.grey, palette.none, { italic = true })
@@ -878,44 +879,44 @@ local function set_all()
   link_hl("helpSectionDelim", "Grey")
 
   -- CMP (with custom menu setup)
-  set_hl(0, "CmpItemKindDefault", {fg = "#cc5de8"})
+  set_hl(0, "CmpItemKindDefault", { fg = "#cc5de8" })
   link_hl("CmpItemKind", "CmpItemKindDefault")
-  set_hl(0, "CmpItemMenu", {fg = "#ededcf"})
-  set_hl(0, "CmpItemMenuDetail", {fg = "#ffe066"})
-  set_hl(0, "CmpItemMenuBuffer", {fg = "#898989"})
-  set_hl(0, "CmpItemMenuSnippet", {fg = "#cc5de8"})
-  set_hl(0, "CmpItemMenuLSP", {fg = "#cfa050"})
+  set_hl(0, "CmpItemMenu", { fg = "#ededcf" })
+  set_hl(0, "CmpItemMenuDetail", { fg = "#ffe066" })
+  set_hl(0, "CmpItemMenuBuffer", { fg = "#898989" })
+  set_hl(0, "CmpItemMenuSnippet", { fg = "#cc5de8" })
+  set_hl(0, "CmpItemMenuLSP", { fg = "#cfa050" })
   link_hl("CmpItemMenuPath", "CmpItemMenu")
 
   simple_hl('CmpPmenu', palette.fg, palette.bg_dim)
   simple_hl('CmpPmenuBorder', palette.grey_dim, palette.bg_dim)
   simple_hl('CmpGhostText', palette.grey, palette.none)
-  set_hl(0, "CmpItemAbbr", {fg = "#d0b1d0"})
+  set_hl(0, "CmpItemAbbr", { fg = "#d0b1d0" })
 
-  set_hl(0, "CmpItemAbbrDeprecated", {bg = 'NONE', strikethrough = true, fg = "#808080"})
-  set_hl(0, "mpItemAbbrMatch", {bg = 'NONE', fg = "#f03e3e", bold = true})
-  set_hl(0, "CmpItemAbbrMatchFuzzy", { bg = 'NONE', fg = "#fd7e14", bold = true})
+  set_hl(0, "CmpItemAbbrDeprecated", { bg = 'NONE', strikethrough = true, fg = "#808080" })
+  set_hl(0, "mpItemAbbrMatch", { bg = 'NONE', fg = "#f03e3e", bold = true })
+  set_hl(0, "CmpItemAbbrMatchFuzzy", { bg = 'NONE', fg = "#fd7e14", bold = true })
 
-  set_hl(0, "CmpItemKindModule", {bg = 'NONE', fg = '#FF7F50'})
-  set_hl(0, "CmpItemKindClass", {bg='none', fg = "#FFAF00"})
+  set_hl(0, "CmpItemKindModule", { bg = 'NONE', fg = '#FF7F50' })
+  set_hl(0, "CmpItemKindClass", { bg = 'none', fg = "#FFAF00" })
   link_hl("CmpItemKindStruct", "CmpItemKindClass")
-  set_hl(0, "CmpItemKindVariable", {bg='none', fg = "#9CDCFE"})
-  set_hl(0, "CmpItemKindProperty", {bg='none', fg = "#9CDCFE"})
-  set_hl(0, "CmpItemKindFunction", {bg='none', fg = "#C586C0"})
+  set_hl(0, "CmpItemKindVariable", { bg = 'none', fg = "#9CDCFE" })
+  set_hl(0, "CmpItemKindProperty", { bg = 'none', fg = "#9CDCFE" })
+  set_hl(0, "CmpItemKindFunction", { bg = 'none', fg = "#C586C0" })
   link_hl("CmpItemKindConstructor", "CmpItemKindFunction")
   link_hl("CmpItemKindMethod", "CmpItemKindFunction")
-  set_hl(0, "CmpItemKindKeyword", {bg='none', fg = "#FF5FFF"})
-  set_hl(0, "CmpItemKindText", {bg='none', fg = "#D4D4D4"})
-  set_hl(0, "CmpItemKindUnit", {bg='none', fg = "#D4D4D4"})
-  set_hl(0, "CmpItemKindConstant", {bg='none', fg = "#409F31"})
-  set_hl(0, "CmpItemKindSnippet", {bg='none', fg = "#E3E300"})
+  set_hl(0, "CmpItemKindKeyword", { bg = 'none', fg = "#FF5FFF" })
+  set_hl(0, "CmpItemKindText", { bg = 'none', fg = "#D4D4D4" })
+  set_hl(0, "CmpItemKindUnit", { bg = 'none', fg = "#D4D4D4" })
+  set_hl(0, "CmpItemKindConstant", { bg = 'none', fg = "#409F31" })
+  set_hl(0, "CmpItemKindSnippet", { bg = 'none', fg = "#E3E300" })
 
--- Glance plugin: https://github.com/DNLHC/glance.nvim
+  -- Glance plugin: https://github.com/DNLHC/glance.nvim
   simple_hl('GlancePreviewNormal', palette.fg, palette.black)
   simple_hl('GlancePreviewMatch', palette.yellow, palette.none)
   simple_hl('GlanceListMatch', palette.yellow, palette.none)
   link_hl("GlanceListCursorLine", "Visual")
--- allow neotree and other addon panels have different backgrounds
+  -- allow neotree and other addon panels have different backgrounds
   simple_hl('NeoTreeNormalNC', palette.fg, palette.neotreebg)
   simple_hl('NeoTreeNormal', palette.fg, palette.neotreebg)
   simple_hl('NeoTreeFloatBorder', palette.grey_dim, palette.neotreebg)
@@ -929,11 +930,11 @@ local function set_all()
   link_hl("NeoTreeCursorLine", "Visual")
   link_hl("AerialGuide", "SymbolsOutlineConnector")
 
-  simple_hl('WinBarFilename', palette.fg, localtheme.accent) -- Filename (right hand)
+  simple_hl('WinBarFilename', palette.fg, localtheme.accent)                                                    -- Filename (right hand)
   merged_hl('WinBarContext', palette.darkyellow, palette.none, { underline = true, sp = localtheme.accent[1] }) -- LSP context (left hand)
--- WinBarInvis is for the central padding item. It should be transparent and invisible (fg = bg)
--- This is a somewhat hack-ish way to make the lualine-controlle winbar transparent.
-  merged_hl('WinBarInvis', localtheme.bg, localtheme.bg, { underline = true, sp = localtheme.accent[1]})
+  -- WinBarInvis is for the central padding item. It should be transparent and invisible (fg = bg)
+  -- This is a somewhat hack-ish way to make the lualine-controlle winbar transparent.
+  merged_hl('WinBarInvis', localtheme.bg, localtheme.bg, { underline = true, sp = localtheme.accent[1] })
   link_hl("WinBarNC", "StatusLineNC")
   link_hl("WinBar", "WinBarContext")
 
@@ -966,7 +967,7 @@ end
 function M.Lualine_internal_theme()
   return {
     normal = {
-      a = { fg = LuaLineColors.darkestgreen, bg = LuaLineColors.brightgreen--[[, gui = 'bold']] },
+      a = { fg = LuaLineColors.darkestgreen, bg = LuaLineColors.brightgreen --[[, gui = 'bold']] },
       b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
       c = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
       x = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
@@ -976,7 +977,7 @@ function M.Lualine_internal_theme()
       b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
       c = { fg = LuaLineColors.gray7, bg = LuaLineColors.statuslinebg },
     },
-    visual = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightorange--[[, gui = 'bold']] } },
+    visual = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightorange --[[, gui = 'bold']] } },
     replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' } },
     inactive = {
       a = { fg = LuaLineColors.gray4, bg = LuaLineColors.statuslinebg, gui = 'bold' },
@@ -987,6 +988,3 @@ function M.Lualine_internal_theme()
 end
 
 return M
-
---print(vim.inspect(theme))
---print(vim.inspect(palette))

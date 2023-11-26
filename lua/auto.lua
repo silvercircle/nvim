@@ -110,7 +110,7 @@ autocmd({ 'UIEnter' }, {
         usplit.content = globals.perm_config.sysmon.content
       end
       if globals.perm_config.transbg == true then
-        --globals.set_bg()
+        globals.set_bg()
       end
     end
     vim.fn.win_gotoid(globals.main_winid)
@@ -144,11 +144,13 @@ autocmd({ 'bufwinleave' }, {
 autocmd({ 'BufEnter' }, {
   pattern = "*",
   callback = function(args)
-    local val = globals.get_buffer_var(0, "tsc")
-    if val == true then
-      tsc.enable()
-    else
-      tsc.disable()
+    if vim.api.nvim_buf_get_option(0, "buftype") == '' then
+      local val = globals.get_buffer_var(0, "tsc")
+      if val == true then
+        tsc.enable()
+      else
+        tsc.disable()
+      end
     end
     globals.get_bufsize()
     wsplit.content_set_winid(vim.fn.win_getid())

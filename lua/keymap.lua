@@ -138,13 +138,13 @@ vim.api.nvim_set_keymap(
   [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
   opts
 )
-_Config_SetKey('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], opts)
-_Config_SetKey('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], opts)
-_Config_SetKey('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], opts)
-_Config_SetKey('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], opts)
+_Config_SetKey('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], "hlslens*")
+_Config_SetKey('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], "hlslens#")
+_Config_SetKey('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], "hlslens")
+_Config_SetKey('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], "hlslens")
 
 -- run `:nohlsearch` and export results to quickfix
-_Config_SetKey({ 'n', 'x' }, '<Leader>#', function()
+vim.keymap.set({ 'n', 'x' }, '<Leader>#', function()
   vim.schedule(function()
     if require('hlslens').exportLastSearchToQuickfix() then
       vim.cmd('cw')
@@ -337,7 +337,7 @@ map('t', '<Esc>', '<C-\\><C-n>', opts)
 
 _Config_SetKey('n', '<f32>', '<CMD>RnvimrToggle<CR>', "Ranger in Floaterm")
 _Config_SetKey('n', '<leader>wr', function() globals.toggle_wrap() end, "Toggle word wrap")
-_Config_SetKey('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cword>') end,
+vim.keymap.set('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cword>') end,
   { expr = true, desc = "Inc Rename", noremap = true, silent = true })
 
 -- Alt-d: Detach all TUI sessions from the (headless) master

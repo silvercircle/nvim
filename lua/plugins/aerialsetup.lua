@@ -39,6 +39,7 @@ require("aerial").setup({
 
     -- Preserve window size equality with (:help CTRL-W_=)
     preserve_equality = false,
+    resize_to_content = false
   },
 
   -- Determines how the aerial window decides which buffer to display symbols for

@@ -1,6 +1,7 @@
 local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
 local globals = require("globals")
 local navic
+local colors = require("colors.mine")
 if Config.breadcrumb == 'navic' then
   navic = require('nvim-navic')
 end
@@ -64,16 +65,12 @@ end
 
 -- the internal theme is defined in config.lua
 local function theme()
-  if vim.g.theme.lualine == 'internal' then
-    return require("colors.mine").Lualine_internal_theme()
-  else
-    return vim.g.theme.lualine
-  end
+  return colors.Lualine_internal_theme()
 end
 local _bg = vim.api.nvim_get_hl(0, { name="Visual" }).bg
 --local _bg = theme().normal.b.bg
 
-vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = vim.g.theme[globals.perm_config.theme_variant].bg })
+vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = colors.theme[globals.perm_config.theme_variant].bg })
 vim.api.nvim_set_hl(0, "WinBarUL", { fg = theme().normal.b.fg, bg = _bg })
 
 local navic_component = {
@@ -209,7 +206,7 @@ require("lualine").setup({
         padding = 0,
         separator = { left = "", right = "" },
         draw_empty = true,
-        color = { fg = vim.g.theme.accent_color, bg = vim.g.theme[globals.perm_config.theme_variant].bg },
+        color = { fg = colors.theme.accent_color, bg = colors.theme[globals.perm_config.theme_variant].bg },
         fmt = function()
           return ""
         end,

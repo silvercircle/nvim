@@ -139,7 +139,6 @@ local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'
 local localbin = vim.fn.getenv('HOME') .. '/.local/bin/'
 local homepath = vim.fn.getenv('HOME')
 
-vim.g.theme = require("colors.mine").theme
 -- this table holds full path information for lsp server binaries. They can be installed with mason or
 -- manually. plugins/lsp.lua does all the real work. Mason and mason-lspconfig are optional.
 -- They allow easy installation and upgrading of your lsp servers, but if you do this manually,
