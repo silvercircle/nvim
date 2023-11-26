@@ -144,12 +144,12 @@ autocmd({ 'bufwinleave' }, {
 autocmd({ 'BufEnter' }, {
   pattern = "*",
   callback = function(args)
-    if vim.api.nvim_buf_get_option(0, "buftype") == '' then
-      local val = globals.get_buffer_var(0, "tsc")
+    if vim.api.nvim_buf_get_option(args.buf, "buftype") == '' then
+      local val = globals.get_buffer_var(args.buf, "tsc")
       if val == true then
-        tsc.enable()
+        vim.schedule(function() tsc.enable() end)
       else
-        tsc.disable()
+        vim.schedule(function() tsc.disable() end)
       end
     end
     globals.get_bufsize()
