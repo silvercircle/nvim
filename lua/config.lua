@@ -308,3 +308,7 @@ g.mapleader = ','
 Telescope_dropdown_theme = require("local_utils").Telescope_dropdown_theme
 Telescope_vertical_dropdown_theme = require("local_utils").Telescope_vertical_dropdown_theme
 
+function _Config_SetKey(modes, lhs, rhs, _desc)
+  vim.keymap.set(modes, lhs, rhs, { noremap = true, silent = true, desc = _desc })
+end
+

@@ -28,109 +28,87 @@ local function perform_command(cmd)
 end
 
 kms({ 'n', 'i' }, '<C-c>', '<NOP>', opts)
+kms({ 'n', 'i' }, '<C-l>', '<NOP>', opts)
 -- disable <ins> toggling the (annoying) replace mode. Instead use <c-ins> to switch to replace
 map('i', '<ins>', '<nop>', opts)
 
--- file tree
-kms({'n', 'v'}, '<leader>r', function() perform_command('NvimTreeFindFile') end, opts) -- sync Nvim-Tree with current
--- toggle NvimTree
-kms('n', '<leader>,', function() require('nvim-tree.api').tree.toggle() end, opts)
+_Config_SetKey({'n', 'v'}, '<leader>r', function() perform_command('NvimTreeFindFile') end, "Sync NvimTree with current Buffer")
+_Config_SetKey('n', '<leader>,', function() require('nvim-tree.api').tree.toggle() end, "Toggle NvimTree")
 
--- change NvimTree current directory to the root of current project
-kms('n', '<leader>R', function() require('nvim-tree.api').tree.change_root(utils.getroot_current()) end, opts)
--- same, but use the directory of the current buffer
-kms('n', '<leader>nr', function() require('nvim-tree.api').tree.change_root(vim.fn.expand('%:p:h')) end, opts)
---end
+_Config_SetKey('n', '<leader>R', function() require('nvim-tree.api').tree.change_root(utils.getroot_current()) end, "Change NvimTree cwd to current project root")
+_Config_SetKey('n', '<leader>nr', function() require('nvim-tree.api').tree.change_root(vim.fn.expand('%:p:h')) end, "Change NvimTree cwd to current Buffer's dir")
 
 map('n', '<C-Tab>', '<CMD>bnext<CR>', opts)
 map('n', '<leader><Tab>', '<CMD>bnext<CR>', opts)
 
-kms({ 'i', 'n' }, '<C-f><C-a>', function() globals.toggle_fo('a') end, opts)
-kms({ 'i', 'n' }, '<C-f><C-c>', function() globals.toggle_fo('c') end, opts)
-kms({ 'i', 'n' }, '<C-f><C-w>', function() globals.toggle_fo('w') end, opts)
-kms({ 'i', 'n' }, '<C-f><C-t>', function() globals.toggle_fo('t') end, opts)
+_Config_SetKey({ 'i', 'n' }, '<C-f><C-a>', function() globals.toggle_fo('a') end, "Toggle 'a' format option")
+_Config_SetKey({ 'i', 'n' }, '<C-f><C-c>', function() globals.toggle_fo('c') end, "Toggle 'c' format option")
+_Config_SetKey({ 'i', 'n' }, '<C-f><C-w>', function() globals.toggle_fo('w') end, "Toggle 'w' format option")
+_Config_SetKey({ 'i', 'n' }, '<C-f><C-t>', function() globals.toggle_fo('t') end, "Toggle 't' format option")
 
-kms({ 'i', 'n' }, '<C-f>1', function() globals.set_fo('w')  globals.set_fo('a') end, opts)
-kms({ 'i', 'n' }, '<C-f>2', function() globals.clear_fo('w') globals.clear_fo('a') end, opts)
+_Config_SetKey({ 'i', 'n' }, '<C-f>1', function() globals.set_fo('w')  globals.set_fo('a') end, "Set 'w' and 'a' format options")
+_Config_SetKey({ 'i', 'n' }, '<C-f>2', function() globals.clear_fo('w') globals.clear_fo('a') end, "Clear 'w' and 'a' format options")
 
-kms({ 'i', 'n' }, '<C-f>f', function()
+_Config_SetKey({ 'i', 'n' }, '<C-f>f', function()
   globals.clear_fo('w')
   globals.clear_fo('a')
   globals.clear_fo('c')
   globals.clear_fo('q')
   globals.clear_fo('t')
   globals.clear_fo('l')
-end, opts)
-kms({ 'i', 'n' }, '<C-f>a', function()
+end, "Clear all formatting options")
+_Config_SetKey({ 'i', 'n' }, '<C-f>a', function()
   globals.set_fo('w')
   globals.set_fo('a')
   globals.set_fo('c')
   globals.set_fo('q')
   globals.set_fo('t')
   globals.set_fo('l')
-end, opts)
+end, "Set all formatting options")
 
 map('v', '<leader>V', ':!fmt -110<CR>', opts)
 map('v', '<leader>y', ':!fmt -85<CR>', opts)
 
--- format a paragraph, different in normal and insert modes
-kms('n', '<A-C-w>', function()
+_Config_SetKey('n', '<A-C-w>', function()
   vim.api.nvim_feedkeys('}kV{jgq', 'i', true)
-end, opts)
-kms('i', '<A-C-w>', function()
+end, "Format paragraph to textwidth")
+_Config_SetKey('i', '<A-C-w>', function()
   local key = vim.api.nvim_replace_termcodes('<C-o>}<C-o>V{jgq', true, false, true)
   vim.api.nvim_feedkeys(key, 'i', false)
-end, opts)
+end, "Format paragraph to textwidth")
 
 map('n', '<leader>v', '}kV{j', opts) -- select current paragraph
 
--- save file,
-kms({'i', 'n', 'v'}, '<C-s><C-s>', function() perform_command("update!") end, opts)
+_Config_SetKey({'i', 'n', 'v'}, '<C-s><C-s>', function() perform_command("update!") end, "Save file")
 
--- Ctrl-x Ctrl-c close the file, do NOT save it(!) but create the view to save folding state and
--- cursor position. if g.confirm_actions['buffer_close'] is true then a warning message and a
--- selection dialog will appear..
-kms({'n', 'i', 'v'}, '<C-s><C-c>', function() require("local_utils").BufClose() end, opts)
+_Config_SetKey({'n', 'i', 'v'}, '<C-s><C-c>', function() require("local_utils").BufClose() end, "Close Buffer")
+_Config_SetKey({'n', 'i', 'v'}, '<f5>', function() perform_command('nohl') end, "Clear highlighted search results")
 
--- switch off highlighted search results
-
-kms({'n', 'i', 'v'}, '<f5>', function() perform_command('nohl') end, opts)
-
-kms('i', '<C-z>', function() perform_command("undo") end, opts)
+_Config_SetKey('i', '<C-z>', function() perform_command("undo") end, "Undo (insert mode)")
 
 -- various
 map('i', '<C-y>-', '—', opts) -- emdash
 map('i', '<C-y>"', '„”', opts) -- typographic quotes („”)
--- close window
-kms({ 'n', 'i' }, '<A-w>', function()
-  if vim.fn.win_getid() ~= globals.main_winid then
-    vim.cmd('close')
-  end
-end, opts)
+_Config_SetKey({ 'n', 'i' }, '<A-w>', function() if vim.fn.win_getid() ~= globals.main_winid then vim.cmd('close') end end, "Close Window")
 
--- quickfix/loclist navigation
-kms({'n', 'i'}, '<C-f>c', function()
-  globals.close_qf_or_loc()
-end, opts)
+_Config_SetKey({'n', 'i'}, '<C-f>c', function() globals.close_qf_or_loc() end, "Close quickfix/loclist window")
 
 --- mini picker shortcuts, all start with <C-m>
 kms({ 'n', 'i' }, '<C-a>f', function()
   utils.PickFoldingMode(vim.o.foldmethod)
 end, opts)
 
---- open mini explorer at current directory
-kms('n', '<C-a>e', function()
+_Config_SetKey('n', '<C-a>e', function()
   require("mini.extra").pickers.explorer(
   { cwd = vim.fn.expand("%:p:h")  },
   { window = { config = globals.mini_pick_center(60, 0.6, 0.2) } })
-end, opts)
+end, "Open Mini.Explorer at current directory")
 
---- open mini explorer at project root
-kms( 'n', '<C-a><C-e>', function()
+_Config_SetKey( 'n', '<C-a><C-e>', function()
   require("mini.extra").pickers.explorer(
   { cwd = utils.getroot_current()  },
   { window = { config = globals.mini_pick_center(60, 0.6, 0.2) } })
-end, opts)
+end, "Open Mini.Explorer at project root")
 
 --- open mini picker for marks
 kms('n', '<C-a>m', function()
@@ -384,19 +362,14 @@ kms({ 'n', 'i', 't', 'v' }, '<A-7>', function()
 end, opts) -- open or activate quickfix
 
 -- terminal mappings
-kms({ 'n', 'i', 't' }, '<f11>', function()
-  globals.termToggle(12)
-end, opts)
+_Config_SetKey({ 'n', 'i', 't' }, '<f11>', function() globals.termToggle(12) end, "Toggle Terminal split at bottom")
 --map('t', "<f11>", "<C-\\><C-n><CMD>call TermToggle(12)<CR>", opts)
 map('t', '<Esc>', '<C-\\><C-n>', opts)
 
-map('n', '<f32>', '<CMD>RnvimrToggle<CR>', opts)
-kms('n', '<leader>wr', function()
-  globals.toggle_wrap()
-end, opts)
-kms('n', 'ren', function()
-  return ':IncRename ' .. vim.fn.expand('<cword>')
-end, { expr = true })
+_Config_SetKey('n', '<f32>', '<CMD>RnvimrToggle<CR>', "Ranger in Floaterm")
+_Config_SetKey('n', '<leader>wr', function() globals.toggle_wrap() end, "Toggle word wrap")
+_Config_SetKey('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cword>') end,
+  { expr = true, desc = "Inc Rename", noremap = true, silent = true })
 
 -- Alt-d: Detach all TUI sessions from the (headless) master
 kms({ 'n', 'i', 't', 'v' }, '<A-d>', function()
@@ -417,30 +390,30 @@ end, opts)
 kms({ 'n', 'i', 't', 'v' }, utility_key .. 'st', function()
   require("local_utils.usplit").toggle_content()
 end, opts)
-kms({ 'n', 'i', 't', 'v' }, utility_key .. 'sr', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'sr', function()
   require("local_utils.usplit").refresh_cookie()
-end, opts)
+end, "Fortune refresh cookie")
 
 -- toggle the display of single-letter status indicators in the winbar.
-kms({ 'n', 'i', 't', 'v' }, utility_key .. 'wb', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'wb', function()
   globals.perm_config.show_indicators = not globals.perm_config.show_indicators
   globals.notify("WinBar status indicators are now: " .. (globals.perm_config.show_indicators == true and "On" or "Off"),
     vim.log.levels.INFO)
-end, opts)
+end, "Toggle WinBar status indicators")
 
 -- debug keymap, print the filetype of the current buffer
-kms({ 'n', 'i', 't', 'v' }, '<C-x>ft', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, '<C-x>ft', function()
   globals.notify("Filetype is: " .. vim.api.nvim_get_option_value("filetype", { buf = 0 }), 2, " ")
-end, opts)
+end, "Show filetype of current buffer")
 
-kms({ 'n', 'i', 't', 'v' }, utility_key .. '#', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. '#', function()
   require("aerial").refetch_symbols(0) -- aerial plugin, refresh symbols
-end, opts)
-kms({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
+end, "Refresh aerial outline symbols")
+_Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
   globals.toggle_outline_type()        -- toggle the outline plugin (aerial <> symbols-outline)
-end, opts)
+end, "Toggle Outline plugin type")
 
-kms({ 'n', 'i', 'v' }, "<C-x>o",
+_Config_SetKey({ 'n', 'i', 'v' }, "<C-x>o",
   function()
     if globals.perm_config.outline_filetype ~= "Outline" or Config.outline_plugin == nil then
       globals.notify("Feature requires Outline or symbols-outline plugin", vim.log.levels.INFO, "Outline")
@@ -451,6 +424,6 @@ kms({ 'n', 'i', 'v' }, "<C-x>o",
       vim.api.nvim_win_set_cursor(win[1], { 1, 0 })
       Config.outline_plugin._highlight_current_item()
     end
-  end, opts)
+  end, "Sync Outline view")
 require("local_utils.marks").set_keymaps()
 

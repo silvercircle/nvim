@@ -299,6 +299,27 @@ local plugins = {
     config = function()
       require("plugins.aerialsetup")
     end
+  },
+  {
+    "folke/which-key.nvim",
+    keys = { "<c-h>" },
+    config = function()
+      require("which-key").setup({
+        plugins = {
+          registers = false,
+          marks = false,
+          spelling = {
+            enabled = false
+          }
+        },
+        window = {
+          border = 'single',
+        },
+        layout = {
+          height = { max = 10 }
+        }
+      })
+    end
   }
 }
 
