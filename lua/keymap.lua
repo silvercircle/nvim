@@ -94,9 +94,7 @@ _Config_SetKey({ 'n', 'i' }, '<A-w>', function() if vim.fn.win_getid() ~= global
 _Config_SetKey({'n', 'i'}, '<C-f>c', function() globals.close_qf_or_loc() end, "Close quickfix/loclist window")
 
 --- mini picker shortcuts, all start with <C-m>
-kms({ 'n', 'i' }, '<C-a>f', function()
-  utils.PickFoldingMode(vim.o.foldmethod)
-end, opts)
+_Config_SetKey({ 'n', 'i' }, '<C-a>f', function() utils.PickFoldingMode(vim.o.foldmethod) end, "Pick folding mode")
 
 _Config_SetKey('n', '<C-a>e', function()
   require("mini.extra").pickers.explorer(
@@ -110,23 +108,22 @@ _Config_SetKey( 'n', '<C-a><C-e>', function()
   { window = { config = globals.mini_pick_center(60, 0.6, 0.2) } })
 end, "Open Mini.Explorer at project root")
 
---- open mini picker for marks
-kms('n', '<C-a>m', function()
+_Config_SetKey('n', '<C-a>m', function()
   require("mini.extra").pickers.marks(
   { },
   { window = { config = globals.mini_pick_center(50, 0.6, 0.2) } })
-end, opts)
---- open mini picker help tags
-kms('n', '<C-a>h', function()
+end, "Mini.Picker for marks")
+
+_Config_SetKey('n', '<C-a>h', function()
   require("mini.pick").builtin.help(
   { },
   { window = { config = globals.mini_pick_center(60, 0.5, 0.2) } })
-end, opts)
+end, "Mini.Picker for help tags")
 ---
-kms({'n', 'i', 'v'}, '<C-S-Down>', function() perform_command('cnext') end, opts)
-kms({'n', 'i', 'v'}, '<C-S-Up>', function() perform_command('cprev') end, opts)
-kms({'n', 'i', 'v'}, '<C-S-PageDown>', function() perform_command('lnext') end, opts)
-kms({'n', 'i', 'v'}, '<C-S-PageUp>', function() perform_command('lprev') end, opts)
+_Config_SetKey({'n', 'i', 'v'}, '<C-S-Down>', function() perform_command('cnext') end, "Quickfix next entry")
+_Config_SetKey({'n', 'i', 'v'}, '<C-S-Up>', function() perform_command('cprev') end, "Quickfix previous entry")
+_Config_SetKey({'n', 'i', 'v'}, '<C-S-PageDown>', function() perform_command('lnext') end, "Loclist next entry")
+_Config_SetKey({'n', 'i', 'v'}, '<C-S-PageUp>', function() perform_command('lprev') end, "Loclist previous entry")
 
 -- hlslens
 vim.api.nvim_set_keymap(
@@ -141,109 +138,85 @@ vim.api.nvim_set_keymap(
   [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
   opts
 )
-vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], opts)
-vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], opts)
-vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], opts)
-vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], opts)
+_Config_SetKey('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], opts)
+_Config_SetKey('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], opts)
+_Config_SetKey('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], opts)
+_Config_SetKey('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], opts)
 
 -- run `:nohlsearch` and export results to quickfix
-kms({ 'n', 'x' }, '<Leader>#', function()
+_Config_SetKey({ 'n', 'x' }, '<Leader>#', function()
   vim.schedule(function()
     if require('hlslens').exportLastSearchToQuickfix() then
       vim.cmd('cw')
     end
   end)
   return ':noh<CR>'
-end, { expr = true })
+end, { expr = true, desc = "Export HlsLens results to Quickfix list" })
 
 map('n', 'hl', "<CMD>Inspect<CR>", opts)
 
--- Shift-F1 show lsp signature help
-kms({ 'i', 'n' }, '<f13>', function()
-  vim.lsp.buf.signature_help()
-end, opts)
--- F1 show lsp hover (symbol help in most cases)
-kms({ 'i', 'n' }, '<f1>', function()
-  vim.lsp.buf.hover()
-end, opts)
+_Config_SetKey({ 'i', 'n' }, '<f13>', function() vim.lsp.buf.signature_help() end, "Show signature help")
+_Config_SetKey({ 'i', 'n' }, '<f1>', function() vim.lsp.buf.hover() end, "LSP Hover help")
 
-kms({ 'n', 'i' }, '<f4>', function()
-  globals.mkview()
-end, opts)
---
 -- toggle current fold
-kms({'n', 'i', 'v'}, '<F2>', function() perform_key('za') end, opts)
+_Config_SetKey({'n', 'i', 'v'}, '<F2>', function() perform_key('za') end, "Toggle current fold")
 
 -- close current fold (Shift-F2)
-kms({'n', 'i', 'v'}, '<f14>', function() perform_key('zc') end, opts)
+_Config_SetKey({'n', 'i', 'v'}, '<f14>', function() perform_key('zc') end, "Close current fold")
 
 -- open current fold (Ctrl-F2)
-kms({'n', 'i', 'v'}, '<f26>', function() perform_key('zo') end, opts)
+_Config_SetKey({'n', 'i', 'v'}, '<f26>', function() perform_key('zo') end, "Open current fold")
 
 -- toggle all folds at current line
-kms({'n', 'i', 'v'}, '<F3>', function() perform_key('zA') end, opts)
+_Config_SetKey({'n', 'i', 'v'}, '<F3>', function() perform_key('zA') end, "Toggle all folds at current line")
 
 -- close all folds at current line (Shift-F3)
-kms({'n', 'i', 'v'}, '<f15>', function() perform_key('zC') end, opts)
+_Config_SetKey({'n', 'i', 'v'}, '<f15>', function() perform_key('zC') end, "Close all folds at current line")
 
 -- open all folds at current line (Ctrl-F3)
-kms({'n', 'i', 'v'}, '<f27>', function() perform_key('zO') end, opts)
+_Config_SetKey({'n', 'i', 'v'}, '<f27>', function() perform_key('zO') end, "Open all folds at current line")
 
 -- jump list
-kms({'n', 'i', 'v'}, '<C-S-Left>', function() perform_key('<C-o>') end, opts)
-kms({'n', 'i', 'v'}, '<C-S-Right>', function() perform_key('<C-i>') end , opts)
+_Config_SetKey({'n', 'i', 'v'}, '<C-S-Left>', function() perform_key('<C-o>') end, "Jump list back")
+_Config_SetKey({'n', 'i', 'v'}, '<C-S-Right>', function() perform_key('<C-i>') end , "Jump list forward")
 
 -- change list
-kms({'n', 'i'}, '<A-Left>', function() perform_key('g;') end, opts)
-kms({'n', 'i'}, '<A-Right>', function() perform_key('g,') end, opts)
+_Config_SetKey({'n', 'i'}, '<A-Left>', function() perform_key('g;') end, "Change list prev")
+_Config_SetKey({'n', 'i'}, '<A-Right>', function() perform_key('g,') end, "Change list next")
 
-kms('n', '<f23>', function() perform_command('Lazy') end, opts)
+_Config_SetKey('n', '<f23>', function() perform_command('Lazy') end, "Open Lazy plugin manager UI")
 
 -- utility functions
 -- they use a prefix key, by default <C-l>. Can be customized in tweaks.lua
 
-kms({ 'n', 'i' }, utility_key .. '<C-l>', function()
-  globals.toggle_statuscol()          -- switch status column absolute/relative line numbers
-end, opts)
-kms({ 'n', 'i' }, utility_key .. '<C-k>', function()
-  globals.toggle_colorcolumn()        -- toggle the colorcolumn display
-end, opts)
-kms({ 'n', 'i' }, utility_key .. '<C-t>', function()
-  globals.toggle_theme_variant()      -- toggle the theme variant ("warm" / "cold")
-end, opts)
-kms({ 'n', 'i' }, utility_key .. '<C-d>', function()
-  globals.toggle_theme_desaturate()   -- desaturate theme colors
-end, opts)
-kms({ 'n', 'i' }, utility_key .. '<C-p>', function()
-  globals.toggle_ibl_rainbow()        -- toggle indent-blankline rainbow guides
-end, opts)
-kms({ 'n', 'i' }, utility_key .. '<C-o>', function()
-  globals.toggle_ibl()                -- toggle indent-blankline active
-end, opts)
-kms({ 'n', 'i' }, utility_key .. '<C-u>', function()
-  globals.toggle_ibl_context()        -- toggle indent-blankline context display
-end, opts)
-kms({ 'n', 'i' }, utility_key .. '<C-z>', function()
+_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-l>', function() globals.toggle_statuscol() end, "Toggle absolute/relative line numbers")
+_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-k>', function() globals.toggle_colorcolumn() end, "Toggle color column display")
+_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-t>', function() globals.toggle_theme_variant() end, "Toggle theme variant warm/cold")
+_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-d>', function() globals.toggle_theme_desaturate() end, "Toggle theme desaturate")
+_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-p>', function() globals.toggle_ibl_rainbow() end, "Toggle indent-blankline rainbow mode")
+_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-o>', function() globals.toggle_ibl() end, "Toggle indent-blankline active")
+_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-u>', function() globals.toggle_ibl_context() end, "Toggle indent-blankline context")
+_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-z>', function()
   globals.perm_config.scrollbar = not globals.perm_config.scrollbar
   globals.set_scrollbar()             -- toggle scrollbar visibility
-end, opts)
-kms({ 'n', 'i' }, utility_key .. '<C-h>', function()
+end, "Toggle scrollbar")
+_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-h>', function()
   globals.perm_config.transbg = not globals.perm_config.transbg
   globals.set_bg()                    -- toggle transparent background (may not work on all terminals)
-end, opts)
-kms({ 'n', 'i' }, utility_key .. '<C-g>', function()
+end, "Toggle transparent background")
+_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-g>', function()
   -- declutter status line. There are 4 levels. 0 displays all components, 1-3 disables some
   -- lesser needed
   globals.perm_config.statusline_declutter = globals.perm_config.statusline_declutter + 1
   if globals.perm_config.statusline_declutter == 4 then
     globals.perm_config.statusline_declutter = 0
   end
-end, opts)
+end, "Declutter status line")
 
-kms('n', '<A-q>', function()
+_Config_SetKey('n', '<A-q>', function()
   utils.Quitapp()
-end, opts)
-kms({ 'n', 'i' }, '<C-e>', function()
+end, "Quit Neovim")
+_Config_SetKey({ 'n', 'i' }, '<C-e>', function()
   require('telescope.builtin').buffers(
     Telescope_dropdown_theme({
       title = 'Buffer list',
@@ -257,31 +230,31 @@ kms({ 'n', 'i' }, '<C-e>', function()
       sorter = require('telescope.sorters').get_substr_matcher(),
     })
   )
-end, opts)
-kms({ 'n', 'i' }, '<A-e>', function()
+end, "Telescope Buffer list")
+_Config_SetKey({ 'n', 'i' }, '<A-e>', function()
   require("mini.pick").builtin.buffers({include_current=false}, {window = { config = require("globals").mini_pick_center(100, 20, 0.1) } } )
-end, opts)
+end, "Mini.Picker Buffer list")
 
-kms({'n', 'i'}, '<C-p>', function()
+_Config_SetKey({'n', 'i'}, '<C-p>', function()
   require('telescope.builtin').oldfiles(
     Telescope_dropdown_theme({ prompt_prefix = utils.getTelescopePromptPrefix(), title = 'Old files', width = 100, height = 0.5 })
   )
-end, opts)
-kms('n', '<A-p>', function()
+end, "Telescope old files")
+_Config_SetKey('n', '<A-p>', function()
   require('telescope').extensions.command_center.command_center({ filter={ mode = 'n' }})
-end, opts)
+end, "Telescope command palette")
 
 -- quick-focus the four main areas
-kms({ 'n', 'i', 't', 'v' }, '<A-1>', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-1>', function()
   globals.findbufbyType('NvimTree')
-end, opts) -- Nvim-tree
+end, "Focus NvimTree") -- Nvim-tree
 
-kms({ 'n', 'i', 't', 'v' }, '<A-2>', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-2>', function()
   vim.fn.win_gotoid(globals.main_winid)
-end, opts) -- main window
+end, "Focus Main Window") -- main window
 
 -- focus or toggle the outline window
-kms({ 'n', 'i', 't', 'v' }, '<A-3>', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   -- if the outline window is focused, close it.
   if vim.api.nvim_buf_get_option(0, "filetype") == globals.perm_config.outline_filetype then
     globals.close_outline()
@@ -291,7 +264,7 @@ kms({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   if globals.findbufbyType(globals.perm_config.outline_filetype) == false then
     globals.open_outline()
   end
-end, opts) -- Outline
+end, "Focus Outline window") -- Outline
 
 local function focus_term_split(dir)
   if globals.findbufbyType('terminal') == false then
@@ -303,28 +276,25 @@ local function focus_term_split(dir)
   end
 end
 
--- focus the terminal split when available
-kms({ 'n', 'i', 't', 'v' }, '<A-4>', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-4>', function()
   focus_term_split(nil)
-end, opts) -- Terminal
+end, "Focus Terminal split")
 
--- focus the terminal split and set root
-kms({ 'n', 'i', 't', 'v' }, '<A-5>', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-5>', function()
   local dir = vim.fn.expand("%:p:h")
   focus_term_split(dir)
-end, opts) -- Buffer List
+end, "Focus Terminal split and change to current dir")
 
--- focus the terminal split and set root to project root
-kms({ 'n', 'i', 't', 'v' }, '<A-6>', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-6>', function()
   local dir = utils.getroot_current()
   focus_term_split(dir)
-end, opts) -- Buffer List
+end, "Focus Terminal split and change to project root")
 
 kms({ 'n', 'i', 't', 'v' }, '<A-0>', function()
   globals.main_winid = vim.fn.win_getid()
 end, opts) -- save current winid as main window id
 
-kms({ 'n', 'i', 't', 'v' }, '<A-9>', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
   local uspl = require('local_utils.usplit')
   if uspl.winid == nil then
     uspl.open()
@@ -336,9 +306,9 @@ kms({ 'n', 'i', 't', 'v' }, '<A-9>', function()
       vim.fn.win_gotoid(globals.main_winid)
     end
   end
-end, opts) -- usplit (system monitor)
+end, "Open the sysmon/fortune window")
 
-kms({ 'n', 'i', 't', 'v' }, '<A-8>', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-8>', function()
   local wspl = require('local_utils.wsplit')
   if wspl.winid == nil then
     wspl.openleftsplit(Config.weather.file)
@@ -350,18 +320,17 @@ kms({ 'n', 'i', 't', 'v' }, '<A-8>', function()
       vim.fn.win_gotoid(globals.main_winid)
     end
   end
-end, opts) -- wsplit (weather)
+end, "Open the info/weather window")
 
 -- focus quickfix list (when open)
-kms({ 'n', 'i', 't', 'v' }, '<A-7>', function()
+_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-7>', function()
   if globals.findbufbyType('qf') == false then
     vim.cmd('copen')
   else
     vim.fn.win_gotoid(globals.findwinbyBufType('qf')[1])
   end
-end, opts) -- open or activate quickfix
+end, "Focus the quickfix list")
 
--- terminal mappings
 _Config_SetKey({ 'n', 'i', 't' }, '<f11>', function() globals.termToggle(12) end, "Toggle Terminal split at bottom")
 --map('t', "<f11>", "<C-\\><C-n><CMD>call TermToggle(12)<CR>", opts)
 map('t', '<Esc>', '<C-\\><C-n>', opts)
@@ -372,9 +341,7 @@ _Config_SetKey('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cw
   { expr = true, desc = "Inc Rename", noremap = true, silent = true })
 
 -- Alt-d: Detach all TUI sessions from the (headless) master
-kms({ 'n', 'i', 't', 'v' }, '<A-d>', function()
-  globals.detach_all_tui()
-end, opts)
+_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-d>', function() globals.detach_all_tui() end, "Detach all TUI")
 
 kms({ 'n', 'i', 't', 'v' }, utility_key .. 'za', function()
   require("cmp_wordlist").add_cword()
