@@ -191,8 +191,9 @@ _Config_SetKey('n', '<f23>', function() perform_command('Lazy') end, "Open Lazy 
 
 _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-l>', function() globals.toggle_statuscol() end, "Toggle absolute/relative line numbers")
 _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-k>', function() globals.toggle_colorcolumn() end, "Toggle color column display")
-_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-t>', function() globals.toggle_theme_variant() end, "Toggle theme variant warm/cold")
-_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-d>', function() globals.toggle_theme_desaturate() end, "Toggle theme desaturate")
+_Config_SetKey({ 'n', 'i' }, utility_key .. 'tv', function() globals.toggle_theme_variant() end, "Toggle theme variant warm/cold")
+_Config_SetKey({ 'n', 'i' }, utility_key .. 'td', function() globals.toggle_theme_desaturate() end, "Toggle theme desaturate")
+_Config_SetKey({ 'n', 'i' }, utility_key .. 'ts', function() globals.toggle_theme_strings() end, "Toggle theme string color")
 _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-p>', function() globals.toggle_ibl_rainbow() end, "Toggle indent-blankline rainbow mode")
 _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-o>', function() globals.toggle_ibl() end, "Toggle indent-blankline active")
 _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-u>', function() globals.toggle_ibl_context() end, "Toggle indent-blankline context")

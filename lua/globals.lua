@@ -44,7 +44,7 @@ M.perm_config_default = {
   theme_variant = "warm",
   transbg = false,
   theme_desaturate = true,
-  theme_name = "my_sonokai",
+  theme_strings = "yellow",
   debug = false,
   ibl_rainbow = false,
   ibl_enabled = true,
@@ -450,7 +450,7 @@ function M.restore_config()
   else
     M.perm_config = M.perm_config_default
   end
-  require("colors.mine").setup(M.perm_config.theme_variant, M.perm_config.theme_desaturate)
+  require("colors.mine").setup(M.perm_config.theme_variant, M.perm_config.theme_desaturate, M.perm_config.theme_strings)
 end
 
 --- adjust the optional frames so they will keep their width when the side tree opens or closes
@@ -499,6 +499,17 @@ function M.toggle_theme_desaturate()
   M.notify("Theme is now " .. (vim.g.theme_desaturate == true and "desaturated" or "vivid"), vim.log.levels.INFO, "Theme")
 end
 
+function M.toggle_theme_strings()
+  local colors = require("colors.mine")
+  if colors.theme_string ~= "yellow" then
+    colors.theme_string = "yellow"
+  else
+    colors.theme_string = "green"
+  end
+  M.perm_config.theme_strings = colors.theme_string
+  colors.set()
+  M.notify("Theme string color set to: " .. M.perm_config.theme_strings, vim.log.levels.INFO, "Theme")
+end
 --- try to format a souce file by using one of the defined formatter programs
 function M.format_source()
   local ft = vim.api.nvim_buf_get_option(0, "filetype")

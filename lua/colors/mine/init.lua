@@ -11,6 +11,9 @@
 --rewritten and heavily modified for my personal Neovim config at:
 --https://gitlab.com/silvercircle74/nvim
 --
+--it features two background modes (cold and warm) and two levels of color saturation.
+--desaturated and vivid.
+--
 local set_hl = vim.api.nvim_set_hl
 local palette = {}
 local localtheme = {}
@@ -957,9 +960,14 @@ function M.set()
   set_all()
 end
 
-function M.setup(variant, desaturate)
+--- set color variant (warm or cold), desaturation and string color
+--- @param variant string - the color variant
+--- @param desaturate boolean - set desaturated colors
+--- @param string string - set string color (yellow, any other values sets green)
+function M.setup(variant, desaturate, string)
   M.theme_variant = variant
   M.theme_desaturate = desaturate
+  M.theme_string = string
 end
 
 --- internal global function to create the lualine color theme
