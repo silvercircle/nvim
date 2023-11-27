@@ -44,7 +44,7 @@ command C Kwbd
 function! Foobar(event)
   echo "UIEnter vimscript"
   let chan = a:event["chan"]
-  lua require("globals").set_session(vim.fn.eval("chan"))
+  lua __Globals.set_session(vim.fn.eval("chan"))
 endfunction
 
 augroup filetypes
