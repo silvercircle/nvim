@@ -1,5 +1,4 @@
 --- global functions for my Neovim configuration
---- use with require("globals")
 local colors = require("colors.mine")
 
 local M = {}
@@ -620,32 +619,6 @@ function M.set_scrollbar()
     else
       vim.cmd("ScrollbarHide")
     end
-  end
-end
-
---- set the background transparent or solid
---- this changes the relevant highlight groups to use a transparent background.
---- Needs terminal with transparency support (kitty, alacritty etc.)
---- this will not work with different color schemes.
-function M.set_bg()
-  local colors = require("colors.mine")
-  if M.perm_config.transbg == true then
-    vim.api.nvim_set_hl(0, "Normal", { bg = "none", fg = "fg" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
-    vim.cmd("hi VertSplit guibg=none")
-    vim.cmd("hi LineNr guibg=none")
-    vim.cmd("hi FoldColumn guibg=none")
-    vim.cmd("hi SignColumn guibg=none")
-  else
-    local variant = M.perm_config.theme_variant
-    vim.api.nvim_set_hl(0, "Normal", { bg = colors.theme[variant].bg, fg = "fg" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = colors.theme[variant].treebg, fg = "fg" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = colors.theme[variant].treebg, fg = "fg" })
-    vim.cmd("hi VertSplit guibg=" .. colors.theme[variant].treebg)
-    vim.cmd("hi LineNr guibg=" .. colors.theme[variant].gutterbg)
-    vim.cmd("hi FoldColumn guibg=" .. colors.theme[variant].gutterbg)
-    vim.cmd("hi SignColumn guibg=" .. colors.theme[variant].gutterbg)
   end
 end
 

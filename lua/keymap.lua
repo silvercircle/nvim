@@ -200,9 +200,9 @@ _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-z>', function()
   __Globals.perm_config.scrollbar = not __Globals.perm_config.scrollbar
   __Globals.set_scrollbar()             -- toggle scrollbar visibility
 end, "Toggle scrollbar")
-_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-h>', function()
+_Config_SetKey({ 'n', 'i' }, utility_key .. 'tt', function()
   __Globals.perm_config.transbg = not __Globals.perm_config.transbg
-  __Globals.set_bg()                    -- toggle transparent background (may not work on all terminals)
+  require("colors.mine").set_bg(__Globals.perm_config.transbg)  -- toggle transparent background (may not work on all terminals)
 end, "Toggle transparent background")
 _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-g>', function()
   -- declutter status line. There are 4 levels. 0 displays all components, 1-3 disables some

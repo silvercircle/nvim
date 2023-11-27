@@ -8,7 +8,7 @@
 --Website:      https://github.com/sainnhe/sonokai/
 --License:      MIT
 -------------------------------------------------------------------------------
---rewritten and heavily modified for my personal Neovim config at:
+--rewritten to lua and heavily modified for my personal Neovim config at:
 --https://gitlab.com/silvercircle74/nvim
 --
 --it features two background modes (cold and warm) and two levels of color saturation.
@@ -977,6 +977,31 @@ function M.Lualine_internal_theme()
       c = { fg = LuaLineColors.gray4, bg = LuaLineColors.statuslinebg }
     },
   }
+end
+
+--- set the background transparent or solid
+--- this changes the relevant highlight groups to use a transparent background.
+--- Needs terminal with transparency support (kitty, alacritty etc.)
+--- this will not work with different color schemes.
+function M.set_bg(trans)
+  if trans == true then
+    vim.api.nvim_set_hl(0, "Normal", { bg = "none", fg = "fg" })
+    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
+    vim.cmd("hi VertSplit guibg=none")
+    vim.cmd("hi LineNr guibg=none")
+    vim.cmd("hi FoldColumn guibg=none")
+    vim.cmd("hi SignColumn guibg=none")
+  else
+    local variant = M.theme_variant
+    vim.api.nvim_set_hl(0, "Normal", { bg = M.theme[variant].bg, fg = "fg" })
+    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = M.theme[variant].treebg, fg = "fg" })
+    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = M.theme[variant].treebg, fg = "fg" })
+    vim.cmd("hi VertSplit guibg=" .. M.theme[variant].treebg)
+    vim.cmd("hi LineNr guibg=" .. M.theme[variant].gutterbg)
+    vim.cmd("hi FoldColumn guibg=" .. M.theme[variant].gutterbg)
+    vim.cmd("hi SignColumn guibg=" .. M.theme[variant].gutterbg)
+  end
 end
 
 return M
