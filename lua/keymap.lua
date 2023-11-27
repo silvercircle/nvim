@@ -4,7 +4,6 @@
 
 local map = vim.api.nvim_set_keymap
 local kms = vim.keymap.set
-local globals = require("globals")
 
 local opts = { noremap = true, silent = true }
 local utils = require('local_utils')
@@ -41,29 +40,29 @@ _Config_SetKey('n', '<leader>nr', function() require('nvim-tree.api').tree.chang
 map('n', '<C-Tab>', '<CMD>bnext<CR>', opts)
 map('n', '<leader><Tab>', '<CMD>bnext<CR>', opts)
 
-_Config_SetKey({ 'i', 'n' }, '<C-f><C-a>', function() globals.toggle_fo('a') end, "Toggle 'a' format option")
-_Config_SetKey({ 'i', 'n' }, '<C-f><C-c>', function() globals.toggle_fo('c') end, "Toggle 'c' format option")
-_Config_SetKey({ 'i', 'n' }, '<C-f><C-w>', function() globals.toggle_fo('w') end, "Toggle 'w' format option")
-_Config_SetKey({ 'i', 'n' }, '<C-f><C-t>', function() globals.toggle_fo('t') end, "Toggle 't' format option")
+_Config_SetKey({ 'i', 'n' }, '<C-f><C-a>', function() __Globals.toggle_fo('a') end, "Toggle 'a' format option")
+_Config_SetKey({ 'i', 'n' }, '<C-f><C-c>', function() __Globals.toggle_fo('c') end, "Toggle 'c' format option")
+_Config_SetKey({ 'i', 'n' }, '<C-f><C-w>', function() __Globals.toggle_fo('w') end, "Toggle 'w' format option")
+_Config_SetKey({ 'i', 'n' }, '<C-f><C-t>', function() __Globals.toggle_fo('t') end, "Toggle 't' format option")
 
-_Config_SetKey({ 'i', 'n' }, '<C-f>1', function() globals.set_fo('w')  globals.set_fo('a') end, "Set 'w' and 'a' format options")
-_Config_SetKey({ 'i', 'n' }, '<C-f>2', function() globals.clear_fo('w') globals.clear_fo('a') end, "Clear 'w' and 'a' format options")
+_Config_SetKey({ 'i', 'n' }, '<C-f>1', function() __Globals.set_fo('w')  __Globals.set_fo('a') end, "Set 'w' and 'a' format options")
+_Config_SetKey({ 'i', 'n' }, '<C-f>2', function() __Globals.clear_fo('w') __Globals.clear_fo('a') end, "Clear 'w' and 'a' format options")
 
 _Config_SetKey({ 'i', 'n' }, '<C-f>f', function()
-  globals.clear_fo('w')
-  globals.clear_fo('a')
-  globals.clear_fo('c')
-  globals.clear_fo('q')
-  globals.clear_fo('t')
-  globals.clear_fo('l')
+  __Globals.clear_fo('w')
+  __Globals.clear_fo('a')
+  __Globals.clear_fo('c')
+  __Globals.clear_fo('q')
+  __Globals.clear_fo('t')
+  __Globals.clear_fo('l')
 end, "Clear all formatting options")
 _Config_SetKey({ 'i', 'n' }, '<C-f>a', function()
-  globals.set_fo('w')
-  globals.set_fo('a')
-  globals.set_fo('c')
-  globals.set_fo('q')
-  globals.set_fo('t')
-  globals.set_fo('l')
+  __Globals.set_fo('w')
+  __Globals.set_fo('a')
+  __Globals.set_fo('c')
+  __Globals.set_fo('q')
+  __Globals.set_fo('t')
+  __Globals.set_fo('l')
 end, "Set all formatting options")
 
 map('v', '<leader>V', ':!fmt -110<CR>', opts)
@@ -89,9 +88,9 @@ _Config_SetKey('i', '<C-z>', function() perform_command("undo") end, "Undo (inse
 -- various
 map('i', '<C-y>-', '—', opts) -- emdash
 map('i', '<C-y>"', '„”', opts) -- typographic quotes („”)
-_Config_SetKey({ 'n', 'i' }, '<A-w>', function() if vim.fn.win_getid() ~= globals.main_winid then vim.cmd('close') end end, "Close Window")
+_Config_SetKey({ 'n', 'i' }, '<A-w>', function() if vim.fn.win_getid() ~= __Globals.main_winid then vim.cmd('close') end end, "Close Window")
 
-_Config_SetKey({'n', 'i'}, '<C-f>c', function() globals.close_qf_or_loc() end, "Close quickfix/loclist window")
+_Config_SetKey({'n', 'i'}, '<C-f>c', function() __Globals.close_qf_or_loc() end, "Close quickfix/loclist window")
 
 --- mini picker shortcuts, all start with <C-m>
 _Config_SetKey({ 'n', 'i' }, '<C-a>f', function() utils.PickFoldingMode(vim.o.foldmethod) end, "Pick folding mode")
@@ -99,25 +98,25 @@ _Config_SetKey({ 'n', 'i' }, '<C-a>f', function() utils.PickFoldingMode(vim.o.fo
 _Config_SetKey('n', '<C-a>e', function()
   require("mini.extra").pickers.explorer(
   { cwd = vim.fn.expand("%:p:h")  },
-  { window = { config = globals.mini_pick_center(60, 0.6, 0.2) } })
+  { window = { config = __Globals.mini_pick_center(60, 0.6, 0.2) } })
 end, "Open Mini.Explorer at current directory")
 
 _Config_SetKey( 'n', '<C-a><C-e>', function()
   require("mini.extra").pickers.explorer(
   { cwd = utils.getroot_current()  },
-  { window = { config = globals.mini_pick_center(60, 0.6, 0.2) } })
+  { window = { config = __Globals.mini_pick_center(60, 0.6, 0.2) } })
 end, "Open Mini.Explorer at project root")
 
 _Config_SetKey('n', '<C-a>m', function()
   require("mini.extra").pickers.marks(
   { },
-  { window = { config = globals.mini_pick_center(50, 0.6, 0.2) } })
+  { window = { config = __Globals.mini_pick_center(50, 0.6, 0.2) } })
 end, "Mini.Picker for marks")
 
 _Config_SetKey('n', '<C-a>h', function()
   require("mini.pick").builtin.help(
   { },
-  { window = { config = globals.mini_pick_center(60, 0.5, 0.2) } })
+  { window = { config = __Globals.mini_pick_center(60, 0.5, 0.2) } })
 end, "Mini.Picker for help tags")
 ---
 _Config_SetKey({'n', 'i', 'v'}, '<C-S-Down>', function() perform_command('cnext') end, "Quickfix next entry")
@@ -189,28 +188,28 @@ _Config_SetKey('n', '<f23>', function() perform_command('Lazy') end, "Open Lazy 
 -- utility functions
 -- they use a prefix key, by default <C-l>. Can be customized in tweaks.lua
 
-_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-l>', function() globals.toggle_statuscol() end, "Toggle absolute/relative line numbers")
-_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-k>', function() globals.toggle_colorcolumn() end, "Toggle color column display")
-_Config_SetKey({ 'n', 'i' }, utility_key .. 'tv', function() globals.toggle_theme_variant() end, "Toggle theme variant warm/cold")
-_Config_SetKey({ 'n', 'i' }, utility_key .. 'td', function() globals.toggle_theme_desaturate() end, "Toggle theme desaturate")
-_Config_SetKey({ 'n', 'i' }, utility_key .. 'ts', function() globals.toggle_theme_strings() end, "Toggle theme string color")
-_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-p>', function() globals.toggle_ibl_rainbow() end, "Toggle indent-blankline rainbow mode")
-_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-o>', function() globals.toggle_ibl() end, "Toggle indent-blankline active")
-_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-u>', function() globals.toggle_ibl_context() end, "Toggle indent-blankline context")
+_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-l>', function() __Globals.toggle_statuscol() end, "Toggle absolute/relative line numbers")
+_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-k>', function() __Globals.toggle_colorcolumn() end, "Toggle color column display")
+_Config_SetKey({ 'n', 'i' }, utility_key .. 'tv', function() __Globals.toggle_theme_variant() end, "Toggle theme variant warm/cold")
+_Config_SetKey({ 'n', 'i' }, utility_key .. 'td', function() __Globals.toggle_theme_desaturate() end, "Toggle theme desaturate")
+_Config_SetKey({ 'n', 'i' }, utility_key .. 'ts', function() __Globals.toggle_theme_strings() end, "Toggle theme string color")
+_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-p>', function() __Globals.toggle_ibl_rainbow() end, "Toggle indent-blankline rainbow mode")
+_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-o>', function() __Globals.toggle_ibl() end, "Toggle indent-blankline active")
+_Config_SetKey({ 'n', 'i' }, utility_key .. '<C-u>', function() __Globals.toggle_ibl_context() end, "Toggle indent-blankline context")
 _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-z>', function()
-  globals.perm_config.scrollbar = not globals.perm_config.scrollbar
-  globals.set_scrollbar()             -- toggle scrollbar visibility
+  __Globals.perm_config.scrollbar = not __Globals.perm_config.scrollbar
+  __Globals.set_scrollbar()             -- toggle scrollbar visibility
 end, "Toggle scrollbar")
 _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-h>', function()
-  globals.perm_config.transbg = not globals.perm_config.transbg
-  globals.set_bg()                    -- toggle transparent background (may not work on all terminals)
+  __Globals.perm_config.transbg = not __Globals.perm_config.transbg
+  __Globals.set_bg()                    -- toggle transparent background (may not work on all terminals)
 end, "Toggle transparent background")
 _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-g>', function()
   -- declutter status line. There are 4 levels. 0 displays all components, 1-3 disables some
   -- lesser needed
-  globals.perm_config.statusline_declutter = globals.perm_config.statusline_declutter + 1
-  if globals.perm_config.statusline_declutter == 4 then
-    globals.perm_config.statusline_declutter = 0
+  __Globals.perm_config.statusline_declutter = __Globals.perm_config.statusline_declutter + 1
+  if __Globals.perm_config.statusline_declutter == 4 then
+    __Globals.perm_config.statusline_declutter = 0
   end
 end, "Declutter status line")
 
@@ -233,7 +232,7 @@ _Config_SetKey({ 'n', 'i' }, '<C-e>', function()
   )
 end, "Telescope Buffer list")
 _Config_SetKey({ 'n', 'i' }, '<A-e>', function()
-  require("mini.pick").builtin.buffers({include_current=false}, {window = { config = require("globals").mini_pick_center(100, 20, 0.1) } } )
+  require("mini.pick").builtin.buffers({include_current=false}, {window = { config = __Globals.mini_pick_center(100, 20, 0.1) } } )
 end, "Mini.Picker Buffer list")
 
 _Config_SetKey({'n', 'i'}, '<C-p>', function()
@@ -247,28 +246,28 @@ end, "Telescope command palette")
 
 -- quick-focus the four main areas
 _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-1>', function()
-  globals.findbufbyType('NvimTree')
+  __Globals.findbufbyType('NvimTree')
 end, "Focus NvimTree") -- Nvim-tree
 
 _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-2>', function()
-  vim.fn.win_gotoid(globals.main_winid)
+  vim.fn.win_gotoid(__Globals.main_winid)
 end, "Focus Main Window") -- main window
 
 -- focus or toggle the outline window
 _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   -- if the outline window is focused, close it.
-  if vim.api.nvim_buf_get_option(0, "filetype") == globals.perm_config.outline_filetype then
-    globals.close_outline()
+  if vim.api.nvim_buf_get_option(0, "filetype") == __Globals.perm_config.outline_filetype then
+    __Globals.close_outline()
     return
   end
   -- otherwise search it and if none is found, open it.
-  if globals.findbufbyType(globals.perm_config.outline_filetype) == false then
-    globals.open_outline()
+  if __Globals.findbufbyType(__Globals.perm_config.outline_filetype) == false then
+    __Globals.open_outline()
   end
 end, "Focus Outline window") -- Outline
 
 local function focus_term_split(dir)
-  if globals.findbufbyType('terminal') == false then
+  if __Globals.findbufbyType('terminal') == false then
     vim.api.nvim_input('<f11>')
   end
   vim.cmd.startinsert()
@@ -292,7 +291,7 @@ _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-6>', function()
 end, "Focus Terminal split and change to project root")
 
 kms({ 'n', 'i', 't', 'v' }, '<A-0>', function()
-  globals.main_winid = vim.fn.win_getid()
+  __Globals.main_winid = vim.fn.win_getid()
 end, opts) -- save current winid as main window id
 
 _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
@@ -304,7 +303,7 @@ _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
       vim.fn.win_gotoid(uspl.winid)
     else
       uspl.close()
-      vim.fn.win_gotoid(globals.main_winid)
+      vim.fn.win_gotoid(__Globals.main_winid)
     end
   end
 end, "Open the sysmon/fortune window")
@@ -318,31 +317,31 @@ _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-8>', function()
       vim.fn.win_gotoid(wspl.winid)
     else
       wspl.close()
-      vim.fn.win_gotoid(globals.main_winid)
+      vim.fn.win_gotoid(__Globals.main_winid)
     end
   end
 end, "Open the info/weather window")
 
 -- focus quickfix list (when open)
 _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-7>', function()
-  if globals.findbufbyType('qf') == false then
+  if __Globals.findbufbyType('qf') == false then
     vim.cmd('copen')
   else
-    vim.fn.win_gotoid(globals.findwinbyBufType('qf')[1])
+    vim.fn.win_gotoid(__Globals.findwinbyBufType('qf')[1])
   end
 end, "Focus the quickfix list")
 
-_Config_SetKey({ 'n', 'i', 't' }, '<f11>', function() globals.termToggle(12) end, "Toggle Terminal split at bottom")
+_Config_SetKey({ 'n', 'i', 't' }, '<f11>', function() __Globals.termToggle(12) end, "Toggle Terminal split at bottom")
 --map('t', "<f11>", "<C-\\><C-n><CMD>call TermToggle(12)<CR>", opts)
 map('t', '<Esc>', '<C-\\><C-n>', opts)
 
 _Config_SetKey('n', '<f32>', '<CMD>RnvimrToggle<CR>', "Ranger in Floaterm")
-_Config_SetKey('n', '<leader>wr', function() globals.toggle_wrap() end, "Toggle word wrap")
+_Config_SetKey('n', '<leader>wr', function() __Globals.toggle_wrap() end, "Toggle word wrap")
 vim.keymap.set('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cword>') end,
   { expr = true, desc = "Inc Rename", noremap = true, silent = true })
 
 -- Alt-d: Detach all TUI sessions from the (headless) master
-_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-d>', function() globals.detach_all_tui() end, "Detach all TUI")
+_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-d>', function() __Globals.detach_all_tui() end, "Detach all TUI")
 
 _Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'za', function()
   require("cmp_wordlist").add_cword()
@@ -364,30 +363,30 @@ end, "Fortune refresh cookie")
 
 -- toggle the display of single-letter status indicators in the winbar.
 _Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'wb', function()
-  globals.perm_config.show_indicators = not globals.perm_config.show_indicators
-  globals.notify("WinBar status indicators are now: " .. (globals.perm_config.show_indicators == true and "On" or "Off"),
+  __Globals.perm_config.show_indicators = not __Globals.perm_config.show_indicators
+  __Globals.notify("WinBar status indicators are now: " .. (__Globals.perm_config.show_indicators == true and "On" or "Off"),
     vim.log.levels.INFO)
 end, "Toggle WinBar status indicators")
 
 -- debug keymap, print the filetype of the current buffer
 _Config_SetKey({ 'n', 'i', 't', 'v' }, '<C-x>ft', function()
-  globals.notify("Filetype is: " .. vim.api.nvim_get_option_value("filetype", { buf = 0 }), 2, " ")
+  __Globals.notify("Filetype is: " .. vim.api.nvim_get_option_value("filetype", { buf = 0 }), 2, " ")
 end, "Show filetype of current buffer")
 
 _Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. '#', function()
   require("aerial").refetch_symbols(0) -- aerial plugin, refresh symbols
 end, "Refresh aerial outline symbols")
 _Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
-  globals.toggle_outline_type()        -- toggle the outline plugin (aerial <> symbols-outline)
+  __Globals.toggle_outline_type()        -- toggle the outline plugin (aerial <> symbols-outline)
 end, "Toggle Outline plugin type")
 
 _Config_SetKey({ 'n', 'i', 'v' }, "<C-x>o",
   function()
-    if globals.perm_config.outline_filetype ~= "Outline" or Config.outline_plugin == nil then
-      globals.notify("Feature requires Outline or symbols-outline plugin", vim.log.levels.INFO, "Outline")
+    if __Globals.perm_config.outline_filetype ~= "Outline" or Config.outline_plugin == nil then
+      __Globals.notify("Feature requires Outline or symbols-outline plugin", vim.log.levels.INFO, "Outline")
       return
     end
-    local win = globals.findwinbyBufType("Outline")
+    local win = __Globals.findwinbyBufType("Outline")
     if #win > 0 then
       vim.api.nvim_win_set_cursor(win[1], { 1, 0 })
       Config.outline_plugin._highlight_current_item()

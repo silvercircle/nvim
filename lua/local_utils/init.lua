@@ -1,7 +1,6 @@
 -- local utils
 -- can be used without calling setup(), but you can use it to set some (few) options.
 
-local globals = require("globals")
 local Utils = {}
 
 local default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", ".vscode" }
@@ -162,7 +161,7 @@ function Utils.compile_latex()
       .. " '"
       .. vim.fn.expand("%:p")
       .. "'"
-    globals.debugmsg(cmd)
+    __Globals.debugmsg(cmd)
     vim.cmd.stopinsert()
     vim.schedule(function()
       vim.cmd(cmd)
@@ -353,7 +352,7 @@ function Utils.PickFoldingMode(currentmode)
       name = "Foldmethod",
       choose = function(item)
         if item.val ~= "none" then
-          globals.debugmsg("Selected folding method: " .. item.val)
+          __Globals.debugmsg("Selected folding method: " .. item.val)
           vim.schedule(function()
             vim.o.foldmethod = item.val
           end)
@@ -366,7 +365,7 @@ function Utils.PickFoldingMode(currentmode)
       end,
     },
     window = {
-      config = globals.mini_pick_center(25, 6, 0.3),
+      config = __Globals.mini_pick_center(25, 6, 0.3),
     },
   })
 end

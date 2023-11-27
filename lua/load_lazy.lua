@@ -84,7 +84,7 @@ local plugins = {
               return true
             end
           }
-          require("globals").setup_treesitter_context(true)
+          __Globals.setup_treesitter_context(true)
         end
       }
     }
@@ -193,7 +193,7 @@ local plugins = {
     event = "BufReadPre",
     config = function()
       require("plugins.nvim-scrollbar")
-      require("globals").set_scrollbar()
+      __Globals.set_scrollbar()
     end
   },
 --  {'lewis6991/satellite.nvim',

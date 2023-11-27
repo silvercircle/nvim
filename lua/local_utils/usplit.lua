@@ -1,5 +1,3 @@
-local globals = require("globals")
-
 local Usplit = {}
 Usplit.winid = nil -- window id
 Usplit.bufid = nil -- buffer id
@@ -27,7 +25,7 @@ function Usplit.resize_or_closed()
     Usplit.winid = nil
   elseif Usplit.winid ~= nil then
     Usplit.refresh()
-    globals.perm_config.sysmon.width = vim.api.nvim_win_get_width(Usplit.winid)
+    __Globals.perm_config.sysmon.width = vim.api.nvim_win_get_width(Usplit.winid)
   end
 end
 
@@ -38,7 +36,7 @@ function Usplit.toggle_content()
   elseif Usplit.content == "fortune" then
     Usplit.content = "sysmon"
   end
-  globals.perm_config.sysmon.content = Usplit.content
+  __Globals.perm_config.sysmon.content = Usplit.content
   Usplit.close()
   Usplit.open()
 end
@@ -116,8 +114,8 @@ end
 --- this opens a split next to the terminal split and launches an instance of glances
 --- system monitor in it. See: https://nicolargo.github.io/glances/
 function Usplit.open()
-  local width = globals.perm_config.sysmon.width
-  local wid = globals.findwinbyBufType("terminal")
+  local width = __Globals.perm_config.sysmon.width
+  local wid = __Globals.findwinbyBufType("terminal")
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   -- glances must be executable otherwise do nothing
   -- also, a terminal split must be present.
@@ -146,10 +144,10 @@ function Usplit.open()
       vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(wid[1]), "modifiable", false)
     end
     vim.schedule(function()
-      vim.api.nvim_win_set_width(Usplit.winid, globals.perm_config.sysmon.width - 2)
+      vim.api.nvim_win_set_width(Usplit.winid, __Globals.perm_config.sysmon.width - 2)
     end)
     vim.schedule(function()
-      vim.api.nvim_win_set_width(Usplit.winid, globals.perm_config.sysmon.width)
+      vim.api.nvim_win_set_width(Usplit.winid, __Globals.perm_config.sysmon.width)
     end)
     Usplit.bufid = vim.api.nvim_get_current_buf()
     vim.api.nvim_buf_set_option(Usplit.bufid, "buflisted", false)

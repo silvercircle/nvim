@@ -1,5 +1,4 @@
 local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
-local globals = require("globals")
 local navic
 local colors = require("colors.mine")
 if Config.breadcrumb == 'navic' then
@@ -22,13 +21,13 @@ local function actual_tabline()
 end
 
 local function status_indicators()
-  return (globals.perm_config.treesitter_context == true and "C" or "c") ..
-         (globals.perm_config.debug == true and "D" or "d") ..
-         (globals.perm_config.transbg == true and "T" or "t")
+  return (__Globals.perm_config.treesitter_context == true and "C" or "c") ..
+         (__Globals.perm_config.debug == true and "D" or "d") ..
+         (__Globals.perm_config.transbg == true and "T" or "t")
 end
 
 local function getWordsV2()
-  if globals.cur_bufsize > Config.wordcount_limit * 1024 * 1024 then
+  if __Globals.cur_bufsize > Config.wordcount_limit * 1024 * 1024 then
     return "NaN"
   end
   local wc = vim.fn.wordcount()
@@ -56,7 +55,7 @@ local function navic_context()
 end
 
 local function indentstats()
-  if globals.perm_config.statusline_declutter > 0 then
+  if __Globals.perm_config.statusline_declutter > 0 then
     return string.format("%d:%d:%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n')
   else
     return string.format("%d:%d:%s|%s%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n', vim.g.theme_variant, vim.g.theme_desaturate == true and ",D" or "")
@@ -70,7 +69,7 @@ end
 local _bg = vim.api.nvim_get_hl(0, { name="Visual" }).bg
 --local _bg = theme().normal.b.bg
 
-vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = colors.theme[globals.perm_config.theme_variant].bg })
+vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = colors.theme[__Globals.perm_config.theme_variant].bg })
 vim.api.nvim_set_hl(0, "WinBarUL", { fg = theme().normal.b.fg, bg = _bg })
 
 local navic_component = {
@@ -155,9 +154,9 @@ require("lualine").setup({
       },
       "filetype",
       "fileformat",
-      { "encoding", draw_empty=false, cond = function() return globals.perm_config.statusline_declutter < 3 and true or false end }
+      { "encoding", draw_empty=false, cond = function() return __Globals.perm_config.statusline_declutter < 3 and true or false end }
     },
-    lualine_y = { { "progress", cond = function() return globals.perm_config.statusline_declutter < 2 and true or false end, draw_empty=false} },
+    lualine_y = { { "progress", cond = function() return __Globals.perm_config.statusline_declutter < 2 and true or false end, draw_empty=false} },
     -- word counter via custom function
     lualine_z = { { getWordsV2 }, "location" },
   },
@@ -191,13 +190,13 @@ require("lualine").setup({
         fmt = function()
           return ""
         end,
-        cond = function() return globals.perm_config.show_indicators end
+        cond = function() return __Globals.perm_config.show_indicators end
       },
       {
         status_indicators,
         color = "WinBarUL",
         padding = 0,
-        cond = function() return globals.perm_config.show_indicators end
+        cond = function() return __Globals.perm_config.show_indicators end
       }
     },
     lualine_z = {
@@ -206,11 +205,11 @@ require("lualine").setup({
         padding = 0,
         separator = { left = "", right = "" },
         draw_empty = true,
-        color = { fg = colors.theme.accent_color, bg = colors.theme[globals.perm_config.theme_variant].bg },
+        color = { fg = colors.theme.accent_color, bg = colors.theme[__Globals.perm_config.theme_variant].bg },
         fmt = function()
           return ""
         end,
-        cond = function() return not globals.perm_config.show_indicators end
+        cond = function() return not __Globals.perm_config.show_indicators end
       },
       {
         'filename',

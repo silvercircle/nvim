@@ -7,7 +7,6 @@
 
 local M = {}
 local api = vim.api
-local globals = require("globals")
 
 -- JABS main popup
 M.main_win = nil
@@ -608,14 +607,14 @@ end
 -- Floating buffer list
 function M.open(_mode, _width, _height)
   local mode = _mode or false
-  local width = _width or globals.perm_config.tree.width
+  local width = _width or __Globals.perm_config.tree.width
 
   local ls_result = api.nvim_exec(M.sort_mru and ":ls t" or ":ls", true)
   M.bopen = iter2array(string.gmatch(ls_result, "([^\n]+)"))
 
   M.back_win = api.nvim_get_current_win()
   if M.back_win == nil or vim.api.nvim_win_is_valid(M.back_win) ~= true then
-    M.back_win = globals.main_winid
+    M.back_win = __Globals.main_winid
   end
 
   -- Create the buffer for the window
@@ -627,7 +626,7 @@ function M.open(_mode, _width, _height)
       M.main_win = api.nvim_open_win(M.main_buf, 1, M.win_conf)
     else
       M.is_docked = true
-      M.main_win = require("globals").splittree(_height)
+      M.main_win = __Globals.splittree(_height)
       if M.main_win == 0 then
         print("Could not find split")
         M.close()
@@ -658,7 +657,7 @@ function M.autorefresh()
   end
   local ls_result = api.nvim_exec(M.sort_mru and ":ls t" or ":ls", true)
   M.bopen = iter2array(string.gmatch(ls_result, "([^\n]+)"))
-  globals.perm_config.blist_height = vim.api.nvim_win_get_height(M.main_win)
+  __Globals.perm_config.blist_height = vim.api.nvim_win_get_height(M.main_win)
   M.refresh(M.main_buf)
 end
 return M

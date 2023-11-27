@@ -200,3 +200,5 @@ function _Config_SetKey(modes, lhs, rhs, _desc)
   vim.keymap.set(modes, lhs, rhs, { noremap = true, silent = true, desc = _desc })
 end
 
+__Globals = require("globals")
+

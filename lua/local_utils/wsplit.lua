@@ -3,7 +3,6 @@
 -- this is useless without.
 -- requires a NERDFont
 
-local globals = require("globals")
 local plenary = require("plenary.path")
 local utils = require("local_utils")
 
@@ -65,7 +64,7 @@ end
 
 -- reconfigure the rendering
 function Wsplit.on_content_change()
-  globals.perm_config.weather.content = Wsplit.content
+  __Globals.perm_config.weather.content = Wsplit.content
   Wsplit.content_winid = vim.fn.win_getid()
   if Wsplit.content ~= "weather" then
     if timer ~= nil then
@@ -216,7 +215,7 @@ function Wsplit.installwatch()
 end
 
 function Wsplit.open(_weatherfile)
-  local wid = globals.findwinbyBufType("terminal")
+  local wid = __Globals.findwinbyBufType("terminal")
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   Wsplit.weatherfile = vim.fn.expand(_weatherfile)
 
@@ -229,7 +228,7 @@ function Wsplit.open(_weatherfile)
     vim.fn.win_gotoid(wid[1])
     vim.cmd(
       (Config.weather.splitright == true and "setlocal splitright | " or "")
-      .. globals.perm_config.weather.width
+      .. __Globals.perm_config.weather.width
       .. " vsp new"
     )
     Wsplit.winid = vim.fn.win_getid()
@@ -245,14 +244,14 @@ function Wsplit.open(_weatherfile)
   end
   Wsplit.refresh()
   Wsplit.installwatch()
-  globals.perm_config.weather.active = true
+  __Globals.perm_config.weather.active = true
 end
 
 --- open the weather split in a split of the nvim-tree
 function Wsplit.openleftsplit(_weatherfile)
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   Wsplit.weatherfile = vim.fn.expand(_weatherfile)
-  Wsplit.winid = require("globals").splittree(Config.weather.required_height)
+  Wsplit.winid = __Globals.splittree(Config.weather.required_height)
   if Wsplit.winid == 0 then
     Wsplit.close()
     return
@@ -272,7 +271,7 @@ function Wsplit.openleftsplit(_weatherfile)
   vim.fn.win_gotoid(curwin)
   Wsplit.refresh()
   Wsplit.installwatch()
-  globals.perm_config.weather.active = true
+  __Globals.perm_config.weather.active = true
 end
 
 --- prepare a line with two elements
@@ -415,8 +414,8 @@ function Wsplit.refresh()
       table.insert(lines, " " .. utils.pad(name, Wsplit.win_width, " ") .. "  ")
       table.insert(lines, " ")
       -- size of buffer. Bytes, KB or MB
-      if globals.cur_bufsize > 1 then
-        local size = globals.cur_bufsize
+      if __Globals.cur_bufsize > 1 then
+        local size = __Globals.cur_bufsize
         if size < 1024 then
           table.insert(
             lines,
@@ -480,7 +479,7 @@ function Wsplit.refresh()
         if vim.tbl_contains(Config.treesitter_types, ft) then
           treesitter = "On"
         end
-        local val = globals.get_buffer_var(curbuf, "tsc")
+        local val = __Globals.get_buffer_var(curbuf, "tsc")
         table.insert(lines, Wsplit.prepare_line(" Treesitter: " .. treesitter,
           "Context: " .. ((val == true) and "On" or "Off"), 4))
         table.insert(lines, " ")

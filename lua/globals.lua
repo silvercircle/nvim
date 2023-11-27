@@ -114,11 +114,7 @@ function M.is_outline_open()
   end
   local _a = M.findwinbyBufType("aerial")
   if #_a > 0 and _a[1] ~= nil then
-    status.outline = _a[1]
-  end
-  local _s = M.findwinbyBufType("sagaoutline")
-  if #_s > 0 and _s[1] ~= nil then
-    status.outline = _s[1]
+    status.aerial = _a[1]
   end
   return status
 end
@@ -453,17 +449,17 @@ function M.restore_config()
   else
     M.perm_config = M.perm_config_default
   end
-  require("colors.mine").setup(M.perm_config.theme_variant, M.perm_config.theme_desaturate, M.perm_config.theme_strings)
+  -- configure the theme
+  colors.setup(M.perm_config.theme_variant, M.perm_config.theme_desaturate, M.perm_config.theme_strings)
 end
 
 --- adjust the optional frames so they will keep their width when the side tree opens or closes
 function M.adjust_layout()
-  local globals = require("globals")
   local usplit = require("local_utils.usplit").winid
   --local wsplit = require("local_utils.wsplit").winid
   vim.o.cmdheight = vim.g.tweaks.cmdheight
   if usplit ~= nil then
-    vim.api.nvim_win_set_width(usplit, globals.perm_config.sysmon.width)
+    vim.api.nvim_win_set_width(usplit, M.perm_config.sysmon.width)
   end
   vim.api.nvim_win_set_height(M.main_winid, 200)
   if M.term.winid ~= nil then

@@ -15,7 +15,6 @@ local snippy = require("snippy")
 
 local cmp = require("cmp")
 local cmp_types = require("cmp.types.cmp")
-local globals = require("globals")
 
 -- make the completion popup a little more fancy with lspkind. Now mandatory.
 local lspkind = require("lspkind")
@@ -132,7 +131,7 @@ cmp.setup({
   formatting = {
     format = function(entry, vim_item)
       -- Truncate the item if it is too long
-      vim_item.abbr = globals.truncate(vim_item.abbr, Config.cmp.max_abbr_item_width)
+      vim_item.abbr = __Globals.truncate(vim_item.abbr, Config.cmp.max_abbr_item_width)
         -- fancy icons and a name of kind
       vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
       vim_item.kind = " " .. vim_item.kind_symbol .. " " .. Config.iconpad .. vim_item.kind
@@ -166,9 +165,9 @@ cmp.setup({
           end
           if lspserver_name == "pyright" and cmp_item.detail == "Auto-import" then
             local label = (cmp_item.labelDetails or {}).description
-            return label and (" " .. globals.truncate(label, 20)) or nil
+            return label and (" " .. __Globals.truncate(label, 20)) or nil
           else
-            return globals.truncate(cmp_item.detail, Config.cmp.max_detail_item_width)
+            return __Globals.truncate(cmp_item.detail, Config.cmp.max_detail_item_width)
           end
         end)(cmp_item)
         if detail_txt then
@@ -198,7 +197,7 @@ cmp.setup({
           if Config.cmp.buffer_ft_allowed[ft] == nil then
             return {}
           end
-          if globals.cur_bufsize > Config.cmp.buffer_maxsize then -- 300kb
+          if __Globals.cur_bufsize > Config.cmp.buffer_maxsize then -- 300kb
             print("file too big, cmp_buffer disabled")
             return {}
           end

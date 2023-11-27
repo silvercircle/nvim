@@ -7,7 +7,6 @@ local lsputil = require('lspconfig.util')
 local lutils = require("local_utils")
 local _t = require("telescope")
 local _tb = require("telescope.builtin")
-local globals = require("globals")
 
 -- this is a helper for mini pickers like references and symbols.
 -- local fzf_vertical_winops = { width = 0.6, preview = { layout = 'vertical', vertical = "up:30%" } }
@@ -185,8 +184,8 @@ command_center.add({
     desc = "Mini Document symbols",
     cmd = function()
       local ignore_symbols = {}
-      if globals.ignore_symbols[vim.bo.filetype] ~= nil then
-        ignore_symbols = globals.ignore_symbols[vim.bo.filetype]
+      if __Globals.ignore_symbols[vim.bo.filetype] ~= nil then
+        ignore_symbols = __Globals.ignore_symbols[vim.bo.filetype]
       end
       _tb.lsp_document_symbols(__Telescope_vertical_dropdown_theme({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
@@ -418,7 +417,7 @@ command_center.add({
   -- format with the configured utility
   {
     desc = "Format document using the configured utility",
-    cmd = function() globals.format_source() end,
+    cmd = function() __Globals.format_source() end,
     keys = {
       { "n", "<f55>", noremap },
       { "i", "<f55>", noremap },
@@ -581,7 +580,7 @@ command_center.add({
   {
     desc = "Debug toggle",
     cmd = function()
-      globals.toggle_debug()
+      __Globals.toggle_debug()
     end,
     keys = { "n", "dbg", noremap },
     category = "@Neovim"
@@ -597,13 +596,13 @@ command_center.add({
   },
   {
     desc = "Quickfix list (Mini)",
-    cmd = function() require("mini.extra").pickers.list({ scope="quickfix" }, { window={ config=globals.mini_pick_center(110, 25, 0.1) } }) end,
+    cmd = function() require("mini.extra").pickers.list({ scope="quickfix" }, { window={ config=__Globals.mini_pick_center(110, 25, 0.1) } }) end,
     keys = { "n", "qfl", noremap },
     category = "@Neovim"
   },
   {
     desc = "Location list (Mini)",
-    cmd = function() require("mini.extra").pickers.list({ scope="location" }, { window={ config=globals.mini_pick_center(110, 25, 0.1) } }) end,
+    cmd = function() require("mini.extra").pickers.list({ scope="location" }, { window={ config=__Globals.mini_pick_center(110, 25, 0.1) } }) end,
     keys = { "n", "lll", noremap },
     category = "@Neovim"
   },

@@ -113,7 +113,6 @@ o.exrc=true
 o.cmdheight=vim.g.tweaks.cmdheight
 -- o.secure=true
 
-local globals = require("globals")
-globals.restore_config()
+__Globals.restore_config()
 require("colors.mine").set()
-globals.set_statuscol(globals.perm_config.statuscol_current)
+__Globals.set_statuscol(__Globals.perm_config.statuscol_current)

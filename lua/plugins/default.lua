@@ -1,4 +1,3 @@
-local globals = require("globals")
 local show_close = vim.g.tweaks.cokeline.closebutton
 
 -- devicons for lua plugins (e.g. Telescope, neotree, nvim-tree among others  need them)
@@ -67,7 +66,7 @@ require('cokeline').setup({
     },
     { text = Config.iconpad },
     {
-      text = function(buffer) return globals.truncate(buffer.filename, Config.cokeline_filename_width) end,
+      text = function(buffer) return __Globals.truncate(buffer.filename, Config.cokeline_filename_width) end,
       style = function(buffer) return buffer.is_focused and 'bold' or nil end
     },
     {
