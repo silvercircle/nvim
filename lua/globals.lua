@@ -723,5 +723,4 @@ function M.get_buffer_var(bufnr, varname)
   local status, value = pcall(vim.api.nvim_buf_get_var, bufnr, varname)
   return (status == false) and nil or value
 end
-
 return M

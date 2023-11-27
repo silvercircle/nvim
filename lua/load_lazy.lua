@@ -74,13 +74,7 @@ local plugins = {
             -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
             separator = "─",
             zindex = 100, -- The Z-index of the context window
-            on_attach = function(buf)
---              if buf then
---                local ft = vim.bo[buf].filetype
---                if vim.tbl_contains(Config.treesitter_types, ft) or vim.tbl_contains(Config.treesitter_context_types, ft) then
---                  return true
---                end
---              end
+            on_attach = function()
               return true
             end
           }
@@ -323,21 +317,17 @@ local plugins = {
     end
   },
   {
-    'nvimdev/lspsaga.nvim',
-    event = "LspAttach",
-    cond = false,
+    '3rd/image.nvim',
+    lazy = true,
     config = function()
-      require('lspsaga').setup({
-        code_action_lightbulb = { enable = false },
-        outline = {
-          win_width = 36,
-          auto_refresh = true,
-          auto_preview = false
-        },
-        symbol_in_winbar = {
-          in_custom = true
-        }
-      })
+      require("plugins.image-nvim")
+    end
+  },
+  {
+    'edluffy/hologram.nvim',
+    lazy = true,
+    config = function()
+      require("hologram").setup({})
     end
   }
 }
