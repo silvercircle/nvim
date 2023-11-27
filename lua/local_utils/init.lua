@@ -277,7 +277,7 @@ function Utils.StopLsp()
       :find()
   end
   lspselector(
-    Telescope_dropdown_theme({
+    __Telescope_dropdown_theme({
       width = 0.4,
       height = 0.4,
       prompt_title = "Active LSP clients (Enter = terminate, ESC cancels)",

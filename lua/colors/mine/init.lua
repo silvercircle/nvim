@@ -795,27 +795,6 @@ local function set_all()
   link_hl("htmlSpecialTagName", "RedItalic")
   link_hl("htmlString", "Green")
 
-  -- vim-less: https://github.com/groenewege/vim-less
-  link_hl("lessMixinChar", "Grey")
-  link_hl("lessClass", "Red")
-  link_hl("lessFunction", "Orange")
-  -- syn_begin: javascript/javascriptreact
-  -- builtin: http://www.fleiner.com/vim/syntax/javascript.vim
-  link_hl("javaScriptNull", "OrangeItalic")
-  link_hl("javaScriptIdentifier", "BlueItalic")
-  link_hl("javaScriptParens", "Fg")
-  link_hl("javaScriptBraces", "Fg")
-  link_hl("javaScriptNumber", "Purple")
-  link_hl("javaScriptLabel", "Red")
-  link_hl("javaScriptGlobal", "BlueItalic")
-  link_hl("javaScriptMessage", "BlueItalic")
-  -- syn_begin: objc
-  link_hl("objcModuleImport", "Red")
-  link_hl("objcException", "Red")
-  link_hl("objcProtocolList", "Fg")
-  link_hl("objcDirective", "Red")
-  link_hl("objcPropertyAttribute", "Purple")
-  link_hl("objcHiddenArgument", "Fg")
   -- syn_begin: python
   -- builtin
   link_hl("pythonBuiltin", "BlueItalic")
@@ -919,20 +898,23 @@ local function set_all()
   simple_hl('GlancePreviewMatch', palette.yellow, palette.none)
   simple_hl('GlanceListMatch', palette.yellow, palette.none)
   link_hl("GlanceListCursorLine", "Visual")
+
   -- allow neotree and other addon panels have different backgrounds
   simple_hl('NeoTreeNormalNC', palette.fg, palette.neotreebg)
   simple_hl('NeoTreeNormal', palette.fg, palette.neotreebg)
   simple_hl('NeoTreeFloatBorder', palette.grey_dim, palette.neotreebg)
   merged_hl('NeoTreeFileNameOpened', palette.blue, palette.neotreebg, { italic = true })
   simple_hl('SymbolsOutlineConnector', palette.bg4, palette.none)
-  simple_hl('TreesitterContext', palette.none, localtheme.bg)
 
+  -- Treesitter stuff
+  simple_hl('TreesitterContext', palette.none, localtheme.bg)
   link_hl("TreesitterContextSeparator", "Type")
   link_hl("NvimTreeIndentMarker", "SymbolsOutlineConnector")
   link_hl("OutlineGuides", "SymbolsOutlineConnector")
   link_hl("NeoTreeCursorLine", "Visual")
   link_hl("AerialGuide", "SymbolsOutlineConnector")
 
+  -- WinBar
   simple_hl('WinBarFilename', palette.fg, localtheme.accent)                                                    -- Filename (right hand)
   merged_hl('WinBarContext', palette.darkyellow, palette.none, { underline = true, sp = localtheme.accent[1] }) -- LSP context (left hand)
   -- WinBarInvis is for the central padding item. It should be transparent and invisible (fg = bg)
@@ -941,6 +923,7 @@ local function set_all()
   link_hl("WinBarNC", "StatusLineNC")
   link_hl("WinBar", "WinBarContext")
 
+  -- Lazy plugin manager
   link_hl("LazyNoCond", "RedBold")
   link_hl("VirtColumn", "IndentBlankLineChar")
   link_hl("SatelliteCursor", "WarningMsg")
@@ -948,6 +931,7 @@ local function set_all()
   link_hl("SatelliteSearchCurrent", "PurpleBold")
   set_hl(0, "@ibl.scope.char.1", { bg = 'none' })
 
+  -- multiple cursor plugin
   vim.g.VM_Mono_hl = 'DiffText'
   vim.g.VM_Extend_hl = 'DiffAdd'
   vim.g.VM_Cursor_hl = 'Visual'

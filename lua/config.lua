@@ -97,7 +97,7 @@ Config = {
   },
   treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp",
                        "scala", "java", "kdl", "ada", "json", "nim", "d",
-                       "yaml", "rust", "javascript", "ruby" },
+                       "yaml", "rust", "javascript", "ruby", "objc", "objcpp" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   outline_plugin = nil
 }
@@ -195,9 +195,6 @@ g.loaded_gzip = 1
 
 -- global variables for plugins
 g.mapleader = ','
-
-Telescope_dropdown_theme = require("local_utils").Telescope_dropdown_theme
-Telescope_vertical_dropdown_theme = require("local_utils").Telescope_vertical_dropdown_theme
 
 function _Config_SetKey(modes, lhs, rhs, _desc)
   vim.keymap.set(modes, lhs, rhs, { noremap = true, silent = true, desc = _desc })

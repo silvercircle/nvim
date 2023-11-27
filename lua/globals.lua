@@ -1,5 +1,7 @@
 --- global functions for my Neovim configuration
 --- use with require("globals")
+local colors = require("colors.mine")
+
 local M = {}
 
 M.winid_bufferlist = 0
@@ -12,6 +14,20 @@ M.term = {
   winid = nil,
   height = 12,
   visible = false,
+}
+-- use multiple colors for indentation guides ("rainbow colors")
+-- theme is responsible for defining the colors
+M.ibl_rainbow_highlight = {
+  "IndentBlanklineIndent1",
+  "IndentBlanklineIndent2",
+  "IndentBlanklineIndent3",
+  "IndentBlanklineIndent4",
+  "IndentBlanklineIndent5",
+  "IndentBlanklineIndent6",
+}
+-- use single color for ibl highlight
+M.ibl_highlight = {
+  "IndentBlanklineChar",
 }
 
 -- these are the defaults for the permanent configuration structure. it will be saved to a JSON
@@ -63,19 +79,6 @@ M.sessions = {}
 -- ignore symbol types for the fast symbol browser (telescope)
 M.ignore_symbols = {
   lua = { "string", "object", "boolean", "number", "array", "variable" },
-}
--- use multiple colors for indentation guides ("rainbow colors")
-M.ibl_rainbow_highlight = {
-  "IndentBlanklineIndent1",
-  "IndentBlanklineIndent2",
-  "IndentBlanklineIndent3",
-  "IndentBlanklineIndent4",
-  "IndentBlanklineIndent5",
-  "IndentBlanklineIndent6",
-}
--- use single color for ibl highlight
-M.ibl_highlight = {
-  "IndentBlanklineChar",
 }
 
 local function get_permconfig_filename()
@@ -478,7 +481,6 @@ end
 --- bound to a hotkey ("C-l C-t" by default)
 --- toggle between warm and cold theme variants
 function M.toggle_theme_variant()
-  local colors = require("colors.mine")
   if colors.theme_variant == "warm" then
     colors.theme_variant = "cold"
     M.perm_config.theme_variant = "cold"
@@ -493,14 +495,13 @@ end
 --- toggle theme saturate state. By default bound to C-l C-d
 --- desaturated means a more pastel and less vivid color contrast
 function M.toggle_theme_desaturate()
-  local colors = require("colors.mine")
   colors.theme_desaturate = not colors.theme_desaturate
   colors.set()
   M.notify("Theme is now " .. (vim.g.theme_desaturate == true and "desaturated" or "vivid"), vim.log.levels.INFO, "Theme")
 end
 
+--- toggle theme string color between yellow and green
 function M.toggle_theme_strings()
-  local colors = require("colors.mine")
   if colors.theme_string ~= "yellow" then
     colors.theme_string = "yellow"
   else
@@ -510,6 +511,7 @@ function M.toggle_theme_strings()
   colors.set()
   M.notify("Theme string color set to: " .. M.perm_config.theme_strings, vim.log.levels.INFO, "Theme")
 end
+
 --- try to format a souce file by using one of the defined formatter programs
 function M.format_source()
   local ft = vim.api.nvim_buf_get_option(0, "filetype")

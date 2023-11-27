@@ -219,7 +219,7 @@ _Config_SetKey('n', '<A-q>', function()
 end, "Quit Neovim")
 _Config_SetKey({ 'n', 'i' }, '<C-e>', function()
   require('telescope.builtin').buffers(
-    Telescope_dropdown_theme({
+    __Telescope_dropdown_theme({
       title = 'Buffer list',
       width = 100,
       prompt_prefix = utils.getTelescopePromptPrefix(),
@@ -238,7 +238,7 @@ end, "Mini.Picker Buffer list")
 
 _Config_SetKey({'n', 'i'}, '<C-p>', function()
   require('telescope.builtin').oldfiles(
-    Telescope_dropdown_theme({ prompt_prefix = utils.getTelescopePromptPrefix(), title = 'Old files', width = 100, height = 0.5 })
+    __Telescope_dropdown_theme({ prompt_prefix = utils.getTelescopePromptPrefix(), title = 'Old files', width = 100, height = 0.5 })
   )
 end, "Telescope old files")
 _Config_SetKey('n', '<A-p>', function()

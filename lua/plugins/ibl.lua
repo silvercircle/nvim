@@ -1,6 +1,7 @@
 -- indent blankline setup
 -- note: ibl requires version 3
 local globals = require("globals")
+
 require("ibl").setup({
   -- for example, context is off by default, use this to turn it on
   enabled = globals.perm_config.ibl_enabled,
@@ -26,3 +27,4 @@ require("ibl").setup({
     }
   }
 })
+

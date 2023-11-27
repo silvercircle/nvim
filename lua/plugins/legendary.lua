@@ -101,12 +101,12 @@ require('legendary').setup({
         },
         {
           '<A-b>',
-          function() _t.extensions.vim_bookmarks.all(Telescope_vertical_dropdown_theme({prompt_title="All Bookmarks", hide_filename=false, width_text=120})) end,
+          function() _t.extensions.vim_bookmarks.all(__Telescope_vertical_dropdown_theme({prompt_title="All Bookmarks", hide_filename=false, width_text=120})) end,
           description = "Show all bookmarks (Telescope)",
         },
         {
           '<A-B',
-          function() _t.extensions.vim_bookmarks.current_file(Telescope_vertical_dropdown_theme({prompt_title="File Bookmarks"})) end,
+          function() _t.extensions.vim_bookmarks.current_file(__Telescope_vertical_dropdown_theme({prompt_title="File Bookmarks"})) end,
           description = "Show bookmarks in current file (Telescope)",
         },
         {

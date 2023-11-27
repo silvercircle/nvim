@@ -30,7 +30,7 @@ local did_UIEnter = false
 -- environment variable or command line option forbids it for better startup performance and
 -- a clean UI
 autocmd({ 'UIEnter' }, {
-  callback = function(event)
+  callback = function()
     -- this should only run on initial UIEnter (nvim start), exactly ONCE. UIEnter is also
     -- fired when nvim resumes from suspend (Ctrl-Z) in which case this code is no longer needed
     -- because all the sub splits have already been created
@@ -38,6 +38,9 @@ autocmd({ 'UIEnter' }, {
     if did_UIEnter == true then
       return
     end
+    -- create custom telescope themes as globals
+    __Telescope_dropdown_theme = utils.Telescope_dropdown_theme
+    __Telescope_vertical_dropdown_theme = utils.Telescope_vertical_dropdown_theme
     did_UIEnter = true
     globals.main_winid = vim.fn.win_getid()
     if Config.plain == false then

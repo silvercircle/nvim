@@ -76,7 +76,7 @@ command_center.add({
   {
     desc = "Show all bookmarks (Telescope)",
     cmd = function()
-      _t.extensions.vim_bookmarks.all(Telescope_vertical_dropdown_theme({
+      _t.extensions.vim_bookmarks.all(__Telescope_vertical_dropdown_theme({
         prompt_title = "All Bookmarks",
         hide_filename = false,
         layout_config = Config.telescope_vertical_preview_layout
@@ -88,7 +88,7 @@ command_center.add({
   {
     desc = "Show bookmarks in current file (Telescope)",
     cmd = function()
-      _t.extensions.vim_bookmarks.current_file(Telescope_vertical_dropdown_theme({
+      _t.extensions.vim_bookmarks.current_file(__Telescope_vertical_dropdown_theme({
         layout_config = Config.telescope_vertical_preview_layout,
         prompt_title = "File Bookmarks" }))
     end,
@@ -159,14 +159,14 @@ command_center.add({
   -- Telescope LSP code navigation and diagnostics
   {
     desc = "Jump to definition (Telescope)",
-    cmd = function() _tb.lsp_definitions(Telescope_vertical_dropdown_theme({})) end,
+    cmd = function() _tb.lsp_definitions(__Telescope_vertical_dropdown_theme({})) end,
     keys = { "n", "tde", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Show references (Telescope)",
     cmd = function()
-      _tb.lsp_references(Telescope_vertical_dropdown_theme({
+      _tb.lsp_references(__Telescope_vertical_dropdown_theme({
         fname_width = Config.telescope_fname_width,
         layout_config = {
           width = 0.9 }
@@ -188,7 +188,7 @@ command_center.add({
       if globals.ignore_symbols[vim.bo.filetype] ~= nil then
         ignore_symbols = globals.ignore_symbols[vim.bo.filetype]
       end
-      _tb.lsp_document_symbols(Telescope_vertical_dropdown_theme({
+      _tb.lsp_document_symbols(__Telescope_vertical_dropdown_theme({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
         ignore_symbols = ignore_symbols,
         layout_config = Config.minipicker_layout }))
@@ -199,7 +199,7 @@ command_center.add({
   {
     desc = "Aerial Symbols",
     cmd = function()
-      _t.extensions.aerial.aerial(Telescope_vertical_dropdown_theme({
+      _t.extensions.aerial.aerial(__Telescope_vertical_dropdown_theme({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
         layout_config = Config.minipicker_layout }))
     end,
@@ -209,7 +209,7 @@ command_center.add({
   {
     desc = "Mini Document references",
     cmd = function()
-      _tb.lsp_references(Telescope_vertical_dropdown_theme({
+      _tb.lsp_references(__Telescope_vertical_dropdown_theme({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
         path_display = { truncate = 9 },
         show_line = false,
@@ -222,7 +222,7 @@ command_center.add({
   {
     desc = "Mini Document Treesitter",
     cmd = function()
-      _tb.treesitter(Telescope_vertical_dropdown_theme({
+      _tb.treesitter(__Telescope_vertical_dropdown_theme({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
         layout_config = Config.minipicker_layout
       }))
@@ -232,13 +232,13 @@ command_center.add({
   },
   {
     desc = "Dynamic workspace symbols (Telescope)",
-    cmd = function() _tb.lsp_dynamic_workspace_symbols(Telescope_vertical_dropdown_theme({})) end,
+    cmd = function() _tb.lsp_dynamic_workspace_symbols(__Telescope_vertical_dropdown_theme({})) end,
     keys = { "n", "tds", noremap },
     category = "@LSP Telescope"
   },
   {
     desc = "Workspace symbols (Telescope)",
-    cmd = function() _tb.lsp_workspace_symbols(Telescope_vertical_dropdown_theme({})) end,
+    cmd = function() _tb.lsp_workspace_symbols(__Telescope_vertical_dropdown_theme({})) end,
     keys = { "n", "tws", noremap },
     category = "@LSP Telescope"
   },
@@ -430,7 +430,7 @@ command_center.add({
   {
     desc = "Find files in current directory (Telescope)",
     cmd = function()
-      _tb.find_files(Telescope_vertical_dropdown_theme({
+      _tb.find_files(__Telescope_vertical_dropdown_theme({
         hidden = true,
         prompt_title = "Find Files",
         cwd = vim.fn.expand('%:p:h')
@@ -442,7 +442,7 @@ command_center.add({
   {
     desc = "Find files from current project root",
     cmd = function()
-      _tb.find_files(Telescope_vertical_dropdown_theme({
+      _tb.find_files(__Telescope_vertical_dropdown_theme({
         prompt_title = "Find Files",
         cwd = lutils.getroot_current()
       }))
@@ -453,7 +453,7 @@ command_center.add({
   {
     desc = "Jumplist (Telescope)",
     cmd = function()
-      _tb.jumplist(Telescope_vertical_dropdown_theme({
+      _tb.jumplist(__Telescope_vertical_dropdown_theme({
         show_line = false,
         prompt_prefix = lutils.getTelescopePromptPrefix(),
         layout_config = Config.telescope_vertical_preview_layout
@@ -464,19 +464,19 @@ command_center.add({
   },
   {
     desc = "Command history (Telescope)",
-    cmd = function() _tb.command_history(Telescope_dropdown_theme { title = 'Command history', width = 0.4, height = 0.7 }) end,
+    cmd = function() _tb.command_history(__Telescope_dropdown_theme { title = 'Command history', width = 0.4, height = 0.7 }) end,
     keys = { "n", "<A-C>", noremap },
     category = "@Telescope"
   },
   {
     desc = "Command list (Telescope)",
-    cmd = function() _tb.commands(Telescope_dropdown_theme { title = 'Commands', width = 0.6, height = 0.7 }) end,
+    cmd = function() _tb.commands(__Telescope_dropdown_theme { title = 'Commands', width = 0.6, height = 0.7 }) end,
     keys = { "n", "<A-c>", noremap },
     category = "@Telescope"
   },
   {
     desc = "Registers (Telescope)",
-    cmd = function() _tb.registers(Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix() }) end,
+    cmd = function() _tb.registers(__Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix() }) end,
     keys = { {"n", "i"}, "<C-x><C-r>", noremap },
     category = "@Telescope"
   },
@@ -489,7 +489,7 @@ command_center.add({
   {
     desc = "Fuzzy search in current buffer",
     cmd = function()
-      _tb.current_buffer_fuzzy_find(Telescope_vertical_dropdown_theme({
+      _tb.current_buffer_fuzzy_find(__Telescope_vertical_dropdown_theme({
         layout_config = Config.telescope_vertical_preview_layout,
         prompt_title = "Fuzzy Find in current buffer" }))
     end,
@@ -505,7 +505,7 @@ command_center.add({
   {
     desc = "Live Grep (current directory)",
     cmd = function()
-      _tb.live_grep(Telescope_vertical_dropdown_theme({
+      _tb.live_grep(__Telescope_vertical_dropdown_theme({
         layout_config = { width = 130 },
         prompt_title = "Live Grep Folder (current)",
         search_dirs = { vim.fn.expand("%:p:h") }
@@ -517,7 +517,7 @@ command_center.add({
   {
     desc = "Live Grep (project root)",
     cmd = function()
-      _tb.live_grep(Telescope_vertical_dropdown_theme({
+      _tb.live_grep(__Telescope_vertical_dropdown_theme({
         layout_config = { width = 130 },
         prompt_title = "Live Grep Folder (project root)",
         search_dirs = { lutils.getroot_current() }
@@ -528,20 +528,20 @@ command_center.add({
   },
   {
     desc = "Spell suggestions",
-    cmd = function() _tb.spell_suggest(Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix(), title = 'Spell suggestions', height = 0.5, width = 0.2 }) end,
+    cmd = function() _tb.spell_suggest(__Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix(), title = 'Spell suggestions', height = 0.5, width = 0.2 }) end,
     keys = { {"n", "i"}, "<A-s>", noremap },
     category = "@Telescope"
   },
   {
     desc = "Tags list (Telescope)",
-    cmd = function() _tb.tags(Telescope_vertical_dropdown_theme({ prompt_title = "Tags", cwd = lutils.getroot_current() })) end,
+    cmd = function() _tb.tags(__Telescope_vertical_dropdown_theme({ prompt_title = "Tags", cwd = lutils.getroot_current() })) end,
     keys = { "n", "<leader>t", },
     category = "@Telescope"
   },
   {
     desc = "Todo List Project Root",
     cmd = function()
-      require('telescope._extensions.todo-comments').exports.todo(Telescope_vertical_dropdown_theme({
+      require('telescope._extensions.todo-comments').exports.todo(__Telescope_vertical_dropdown_theme({
         layout_config = { width=120 }, prompt_title = "Todo Comments (Project)", cwd = lutils.getroot_current(), hidden = true }))
     end,
     keys = { "n", "tdp", noremap },
@@ -551,7 +551,7 @@ command_center.add({
     desc = "Todo List Current Directory",
     cmd = function()
       local dir = vim.fn.expand("%:p:h")
-      require('telescope._extensions.todo-comments').exports.todo(Telescope_vertical_dropdown_theme({
+      require('telescope._extensions.todo-comments').exports.todo(__Telescope_vertical_dropdown_theme({
         layout_config = { width=120 }, prompt_title = "Todo Comments (Current Directory)", cwd = dir }))
     end,
     keys = { "n", "tdo", noremap },

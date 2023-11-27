@@ -43,7 +43,7 @@ local plugins = {
         lazy = true,
         config = function()
           require("quickfavs").setup({
-           telescope_theme = Telescope_dropdown_theme,
+           telescope_theme = __Telescope_dropdown_theme,
           })
         end
       }
@@ -124,7 +124,7 @@ local plugins = {
             debug = false,
             read_on_setup = false,
             watch_files = true,
-            telescope_theme = Telescope_dropdown_theme
+            telescope_theme = __Telescope_dropdown_theme
           })
         end
       },
