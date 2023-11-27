@@ -473,7 +473,7 @@ function M.adjust_layout()
   end
 end
 
---- bound to a hotkey ("C-l C-t" by default)
+--- bound to a hotkey ("<C-l>tv by default)
 --- toggle between warm and cold theme variants
 function M.toggle_theme_variant()
   if colors.theme_variant == "warm" then
@@ -484,14 +484,20 @@ function M.toggle_theme_variant()
     M.perm_config.theme_variant = "warm"
   end
   colors.set()
+  if M.perm_config.transbg == true then
+    colors.set_bg(M.perm_config.transbg)
+  end
   M.notify("Theme variant is now: " .. M.perm_config.theme_variant, vim.log.levels.INFO, "Theme")
 end
 
---- toggle theme saturate state. By default bound to C-l C-d
+--- toggle theme saturate state. By default bound to <C-l>td
 --- desaturated means a more pastel and less vivid color contrast
 function M.toggle_theme_desaturate()
   colors.theme_desaturate = not colors.theme_desaturate
   colors.set()
+  if M.perm_config.transbg == true then
+    colors.set_bg(M.perm_config.transbg)
+  end
   M.notify("Theme is now " .. (vim.g.theme_desaturate == true and "desaturated" or "vivid"), vim.log.levels.INFO, "Theme")
 end
 
@@ -504,6 +510,9 @@ function M.toggle_theme_strings()
   end
   M.perm_config.theme_strings = colors.theme_string
   colors.set()
+  if M.perm_config.transbg == true then
+    colors.set_bg(M.perm_config.transbg)
+  end
   M.notify("Theme string color set to: " .. M.perm_config.theme_strings, vim.log.levels.INFO, "Theme")
 end
 

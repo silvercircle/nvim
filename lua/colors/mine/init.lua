@@ -57,7 +57,7 @@ local diff = vim.api.nvim_win_get_option(0, "diff")
 
 --- set a highlight group with only colors
 --- @param hlg string: highlight group name
---- @param fg table: foreground color defintion containind a gui color and a cterm color index
+--- @param fg table: foreground color defintion containing a gui color and a cterm color index
 --- @param bg table: as above, but for the background.
 --- for both gui colors "none" is allowed to set no color.
 local function hl_with_defaults(hlg, fg, bg)
@@ -86,41 +86,43 @@ local function link(hlg, target)
   set_hl(0, hlg, { link = target })
 end
 
-LuaLineColors.cold = {
-  white        = '#ffffff',
-  darkestgreen = M.theme.accent_fg,
-  brightgreen  = M.theme.accent_color,
-  darkestcyan  = '#005f5f',
-  mediumcyan   = '#87dfff',
-  darkestblue  = '#005f87',
-  darkred      = '#870000',
-  brightred    = M.theme.alt_accent_color,
-  brightorange = '#2f47df',
-  gray1        = '#262626',
-  gray2        = '#303030',
-  gray4        = '#585858',
-  gray5        = '#404050',
-  gray7        = '#9e9e9e',
-  gray10       = '#f0f0f0',
-  statuslinebg = '#262636'
-}
-LuaLineColors.warm = {
-  white        = '#ffffff',
-  darkestgreen = M.theme.accent_fg,
-  brightgreen  = M.theme.accent_color,
-  darkestcyan  = '#005f5f',
-  mediumcyan   = '#87dfff',
-  darkestblue  = '#005f87',
-  darkred      = '#870000',
-  brightred    = M.theme.alt_accent_color,
-  brightorange = '#2f47df',
-  gray1        = '#262626',
-  gray2        = '#303030',
-  gray4        = '#585858',
-  gray5        = '#474040',
-  gray7        = '#9e9e9e',
-  gray10       = '#f0f0f0',
-  statuslinebg = '#2c2626'
+LuaLineColors = {
+  cold = {
+    white        = '#ffffff',
+    darkestgreen = M.theme.accent_fg,
+    brightgreen  = M.theme.accent_color,
+    darkestcyan  = '#005f5f',
+    mediumcyan   = '#87dfff',
+    darkestblue  = '#005f87',
+    darkred      = '#870000',
+    brightred    = M.theme.alt_accent_color,
+    brightorange = '#2f47df',
+    gray1        = '#262626',
+    gray2        = '#303030',
+    gray4        = '#585858',
+    gray5        = '#404050',
+    gray7        = '#9e9e9e',
+    gray10       = '#f0f0f0',
+    statuslinebg = '#262636'
+  },
+  warm = {
+    white        = '#ffffff',
+    darkestgreen = M.theme.accent_fg,
+    brightgreen  = M.theme.accent_color,
+    darkestcyan  = '#005f5f',
+    mediumcyan   = '#87dfff',
+    darkestblue  = '#005f87',
+    darkred      = '#870000',
+    brightred    = M.theme.alt_accent_color,
+    brightorange = '#2f47df',
+    gray1        = '#262626',
+    gray2        = '#303030',
+    gray4        = '#585858',
+    gray5        = '#474040',
+    gray7        = '#9e9e9e',
+    gray10       = '#f0f0f0',
+    statuslinebg = '#2c2626'
+  }
 }
 
 -- configure the theme data.
