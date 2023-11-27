@@ -41,11 +41,11 @@ endif
 " a key mapping for the kwbd macro to close a buffer
 command C Kwbd
 
-function! Foobar(event)
-  echo "UIEnter vimscript"
-  let chan = a:event["chan"]
-  lua __Globals.set_session(vim.fn.eval("chan"))
-endfunction
+" function! Foobar(event)
+"   echo "UIEnter vimscript"
+"   let chan = a:event["chan"]
+"   lua __Globals.set_session(vim.fn.eval("chan"))
+" endfunction
 
 augroup filetypes
   autocmd!

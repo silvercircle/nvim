@@ -975,20 +975,21 @@ function M.Lualine_internal_theme()
     normal = {
       a = { fg = ll_colors.darkestgreen, bg = ll_colors.brightgreen --[[, gui = 'bold']] },
       b = { fg = ll_colors.gray10, bg = ll_colors.gray5 },
-      c = { fg = ll_colors.gray7, bg = ll_colors.statuslinebg },
-      x = { fg = ll_colors.gray7, bg = ll_colors.statuslinebg },
+      c = "StatusLine",
+      x = "StatusLine"
     },
     insert = {
       a = { fg = ll_colors.white, bg = ll_colors.brightred, gui = 'bold' },
       b = { fg = ll_colors.gray10, bg = ll_colors.gray5 },
-      c = { fg = ll_colors.gray7, bg = ll_colors.statuslinebg },
+      c = "StatusLine",
+      x = "StatusLine",
     },
     visual = { a = { fg = ll_colors.white, bg = ll_colors.brightorange --[[, gui = 'bold']] } },
     replace = { a = { fg = ll_colors.white, bg = ll_colors.brightred, gui = 'bold' } },
     inactive = {
-      a = { fg = ll_colors.gray4, bg = ll_colors.statuslinebg, gui = 'bold' },
-      b = { fg = ll_colors.gray4, bg = ll_colors.statuslinebg },
-      c = { fg = ll_colors.gray4, bg = ll_colors.statuslinebg }
+      a = "StatusLine",
+      b = "StatusLine",
+      c = "StatusLine"
     },
   }
 end
