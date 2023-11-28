@@ -35,21 +35,18 @@ M.theme = {
     bg = '#141414',
     treebg = '#18181c',
     gutterbg = '#101013',
-    contextbg = '#302a2a',
     kittybg = '#18181c'
   },
   warm = {
     bg = '#161414',
     treebg = '#1b1818',
     gutterbg = '#131010',
-    contextbg = '#2a2a30',
     kittybg = '#1b1818'
   },
   deepblack = {
     bg = '#0a0a0a',
     treebg = '#121212',
-    gutterbg = '#101010',
-    contextbg = '#2a2a2a',
+    gutterbg = '#0f0f0f',
     kittybg = '#111111'
   }
 }
@@ -195,7 +192,7 @@ local function configure()
   M.statuslinebg = LuaLineColors[conf.variant].statuslinebg
 
   if conf.variant == 'cold' or conf.variant == 'deepblack' then
-    localtheme.darkbg       = { '#101013', 237 }
+    localtheme.darkbg       = { M.theme[conf.variant].gutterbg, 237 }
     localtheme.darkred      = { '#601010', 249 }
     localtheme.darkestred   = { '#161616', 249 }
     localtheme.darkestblue  = { '#10101a', 247 }
@@ -205,9 +202,8 @@ local function configure()
     localtheme.accent       = { M.theme['accent_color'], 209 }
     localtheme.accent_fg    = { M.theme['accent_fg'], 210 }
     localtheme.tablinebg    = { M.cokeline_colors['bg'], 214 }
-    localtheme.contextbg    = { M.theme[conf.variant].contextbg, 215 }
   else
-    localtheme.darkbg       = { '#131010', 237 }
+    localtheme.darkbg       = { M.theme[conf.variant].gutterbg, 237 }
     localtheme.darkred      = { '#601010', 249 }
     localtheme.darkestred   = { '#161616', 249 }
     localtheme.darkestblue  = { '#10101a', 247 }
@@ -217,7 +213,6 @@ local function configure()
     localtheme.accent       = { M.theme['accent_color'], 209 }
     localtheme.accent_fg    = { M.theme['accent_fg'], 210 }
     localtheme.tablinebg    = { M.cokeline_colors['bg'], 214 }
-    localtheme.contextbg    = { M.theme[conf.variant].contextbg, 215 }
   end
 
   if conf.variant == 'cold' or conf.variant == 'deepblack' then
@@ -328,7 +323,7 @@ local function set_all()
   if diff then
     hl('CursorLineNr', palette.yellow, palette.none, { underline = true })
   else
-    hl_with_defaults('CursorLineNr', palette.yellow, palette.none)
+    hl_with_defaults('CursorLineNr', palette.yellow, localtheme.darkbg)
   end
 
   hl_with_defaults('DiffAdd', palette.none, palette.diff_green)
@@ -395,6 +390,7 @@ local function set_all()
   link("DiagnosticUnderlineWarn", "WarningText")
   link("DiagnosticUnderlineInfo", "InfoText")
   link("DiagnosticUnderlineHint", "HintText")
+  link("DiagnosticSignOk", "GreenSign")
   link("DiagnosticSignError", "RedSign")
   link("DiagnosticSignWarn", "YellowSign")
   link("DiagnosticSignInfo", "BlueSign")
@@ -496,12 +492,12 @@ local function set_all()
   hl_with_defaults('GreenItalic', palette.green, palette.none)
   hl_with_defaults('BlueItalic', palette.blue, palette.none)
   hl_with_defaults('PurpleItalic', palette.purple, palette.none)
-  hl_with_defaults('RedSign', palette.red, palette.none)
-  hl_with_defaults('OrangeSign', palette.orange, palette.none)
-  hl_with_defaults('YellowSign', palette.yellow, palette.none)
-  hl_with_defaults('GreenSign', localtheme.string, palette.none)
-  hl_with_defaults('BlueSign', palette.blue, palette.none)
-  hl_with_defaults('PurpleSign', palette.purple, palette.none)
+  hl_with_defaults('RedSign', palette.red, localtheme.darkbg)
+  hl_with_defaults('OrangeSign', palette.orange, localtheme.darkbg)
+  hl_with_defaults('YellowSign', palette.yellow, localtheme.darkbg)
+  hl_with_defaults('GreenSign', palette.green, localtheme.darkbg)
+  hl_with_defaults('BlueSign', palette.blue, localtheme.darkbg)
+  hl_with_defaults('PurpleSign', palette.purple, localtheme.darkbg)
   hl('ErrorText', palette.none, palette.none, { undercurl = true, sp = palette.red[1] })
   hl('WarningText', palette.none, palette.none, { undercurl = true, sp = palette.yellow[1] })
   hl('InfoText', palette.none, palette.none, { undercurl = true, sp = palette.blue[1] })
@@ -668,15 +664,15 @@ local function set_all()
   -- lewis6991/gitsigns.nvim {{{
   link("GitSignsAdd", "GreenSign")
   link("GitSignsAddNr", "GreenSign")
-  link("GitSignsChange", "BlueBold")
-  link("GitSignsChangeNr", "BlueBold")
+  link("GitSignsChange", "BlueSign")
+  link("GitSignsChangeNr", "BlueSign")
   link("GitSignsDelete", "RedSign")
   link("GitSignsDeleteNr", "Red")
   link("GitSignsAddLn", "DiffAdd")
   link("GitSignsChangeLn", "DiffChange")
   link("GitSignsDeleteLn", "DiffDelete")
   link("GitSignsCurrentLineBlame", "Grey")
-
+ 
   -- phaazon/hop.nvim {{{
   hl('HopNextKey', palette.red, palette.none, { bold = true })
   hl('HopNextKey1', palette.blue, palette.none, { bold = true })
@@ -990,7 +986,6 @@ function M.set()
   set_all()
   if conf.sync_kittybg == true and conf.kittysocket ~= nil and conf.kittenexec ~= nil then
     if vim.fn.filereadable(conf.kittysocket) == 1 and vim.fn.executable(conf.kittenexec) == 1 then
-      print("Setting kitty background to: " .. M.theme[conf.variant].kittybg)
       vim.fn.jobstart(conf.kittenexec .. " @ --to unix:" .. conf.kittysocket .. " set-colors background=" .. M.theme[conf.variant].kittybg)
     else
       vim.notify("Either the kitty socket or the kitten executable is not available", vim.log.levels.WARN)
@@ -1002,7 +997,6 @@ end
 --- @param opt table - the options to set
 function M.setup(opt)
   conf = vim.tbl_deep_extend("force", conf, opt)
-  print(vim.inspect(conf))
 end
 
 --- return the full configuration
@@ -1054,6 +1048,8 @@ function M.Lualine_internal_theme()
   }
 end
 
+local signgroups = { 'RedSign', 'OrangeSign', 'YellowSign', 'GreenSign', 'BlueSign', 'PurpleSign', 'CursorLineNr' }
+
 --- set the background transparent or solid
 --- this changes the relevant highlight groups to use a transparent background.
 --- Needs terminal with transparency support (kitty, alacritty etc.)
@@ -1068,6 +1064,9 @@ function M.set_bg(trans)
     vim.cmd("hi LineNr guibg=none")
     vim.cmd("hi FoldColumn guibg=none")
     vim.cmd("hi SignColumn guibg=none")
+    for _, v in ipairs(signgroups) do
+      vim.cmd("hi " .. v .. " guibg=none")
+    end
   else
     local variant = conf.variant
     vim.api.nvim_set_hl(0, "Normal", { bg = M.theme[variant].bg, fg = "fg" })
@@ -1077,6 +1076,9 @@ function M.set_bg(trans)
     vim.cmd("hi LineNr guibg=" .. M.theme[variant].gutterbg)
     vim.cmd("hi FoldColumn guibg=" .. M.theme[variant].gutterbg)
     vim.cmd("hi SignColumn guibg=" .. M.theme[variant].gutterbg)
+    for _, v in ipairs(signgroups) do
+      vim.cmd("hi " .. v .. " guibg=" .. M.theme[variant].gutterbg)
+    end
   end
 end
 

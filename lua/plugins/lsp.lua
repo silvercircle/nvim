@@ -558,15 +558,10 @@ end
 -- Redefine signs (:help diagnostic-signs)
 
 do
-  vim.fn.sign_define("DiagnosticSignError", { text = "✘", texthl = "DiagnosticSignError" })
-  vim.fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "DiagnosticSignWarn" })
-  vim.fn.sign_define("DiagnosticSignInfo", { text = "◉", texthl = "DiagnosticSignInfo" })
-  vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
-  vim.cmd([[
-    hi DiagnosticSignError    guifg=#e6645f ctermfg=167
-    hi DiagnosticSignWarn     guifg=#b1b14d ctermfg=143
-    hi DiagnosticSignHint     guifg=#3e6e9e ctermfg=75
-  ]])
+  vim.fn.sign_define("DiagnosticSignError", { text = "✘", texthl = "RedSign" })
+  vim.fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "YellowSign" })
+  vim.fn.sign_define("DiagnosticSignInfo", { text = "◉", texthl = "BlueSign" })
+  vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "GreenSign" })
 end
 
 -- Commands for temporarily turning on and off diagnostics (for the current buffer or globally)
