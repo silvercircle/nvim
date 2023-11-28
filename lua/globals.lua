@@ -59,6 +59,7 @@ M.perm_config_default = {
   theme_variant = "warm",
   transbg = false,
   theme_desaturate = true,
+  theme_dlevel = 1,
   theme_strings = "yellow",
   debug = false,
   ibl_rainbow = false,
@@ -411,6 +412,7 @@ function M.write_config()
       },
       theme_variant = theme_conf.variant,
       theme_desaturate = theme_conf.desaturate,
+      theme_dlevel = theme_conf.dlevel
     }
     if wsplit_id ~= nil then
       state.weather.width = vim.api.nvim_win_get_width(wsplit_id)
@@ -450,7 +452,7 @@ function M.restore_config()
   end
   -- configure the theme
   colors.setup({ variant = M.perm_config.theme_variant,
-                 desaturate = M.perm_config.theme_desaturate,
+                 desaturate = M.perm_config.theme_desaturate, dlevel = M.perm_config.theme_dlevel,
                  theme_strings = M.perm_config.theme_strings,
                  sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
                  kittysocket = vim.g.tweaks.theme.kittysocket,
@@ -479,18 +481,20 @@ function M.adjust_layout()
 end
 
 --- bound to a hotkey ("<C-l>tv by default)
---- toggle between warm and cold theme variants
 function M.toggle_theme_variant()
   M.perm_config.theme_variant = colors.ui_select_variant()
+  if M.perm_config.transbg == true then
+    colors.set_bg(M.perm_config.transbg)
+  end
   M.notify("Theme variant is now: " .. M.perm_config.theme_variant, vim.log.levels.INFO, "Theme")
 end
 
 --- toggle theme saturate state. By default bound to <C-l>td
 --- desaturated means a more pastel and less vivid color contrast
 function M.toggle_theme_desaturate()
-  local desaturated = not colors.get_conf_value("desaturate")
-  colors.setup({ desaturate = desaturated })
-  colors.set()
+  local desaturated, level = colors.ui_select_colorweight()
+  M.perm_config.theme_desaturate = desaturated
+  M.perm_config.theme_dlevel = level
   if M.perm_config.transbg == true then
     colors.set_bg(M.perm_config.transbg)
   end

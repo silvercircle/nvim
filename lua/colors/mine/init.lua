@@ -56,6 +56,7 @@ local supported_variants = { "warm", "cold", "deepdark" }
 local conf = {
   variant = 'warm',
   desaturate = true,
+  dlevel = 1,               -- desaturation level (1 = mild, 2 = strong, pastel-like")
   theme_strings = 'yellow',
   sync_kittybg = true,
   kittysocket = nil,
@@ -160,14 +161,15 @@ LuaLineColors = {
 local function configure()
   if conf.desaturate == true then
     localtheme = {
-      orange     = { '#ab6a6c', 215 },
-      string     = conf.theme_strings == "yellow" and { '#9a9a60', 231 } or { '#40804f', 231 },
+      orange     = (conf.dlevel == 1) and { '#ab6a6c', 215 } or { '#9b7a7c', 215 },
+      string     = conf.theme_strings == "yellow" and (conf.dlevel == 1 and { '#aaaa60', 231 } or { '#909060', 231 })
+                   or (conf.dlevel == 1 and { '#30603f', 231 } or { '#355045', 231 }),
       blue       = { '#5a6acf', 239 },
       purple     = { '#b070b0', 241 },
       teal       = { '#508080', 238 },
       brightteal = { '#70a0c0', 238 },
       darkpurple = { '#705070', 240 },
-      red        = { '#bb4d5c', 203 }
+      red        = (conf.dlevel == 1) and { '#bb4d5c', 203 } or { '#ab5d6c', 203 }
     }
   else
     localtheme = {
@@ -672,7 +674,7 @@ local function set_all()
   link("GitSignsChangeLn", "DiffChange")
   link("GitSignsDeleteLn", "DiffDelete")
   link("GitSignsCurrentLineBlame", "Grey")
- 
+
   -- phaazon/hop.nvim {{{
   hl('HopNextKey', palette.red, palette.none, { bold = true })
   hl('HopNextKey1', palette.blue, palette.none, { bold = true })
@@ -1048,6 +1050,9 @@ function M.Lualine_internal_theme()
   }
 end
 
+-- these groups are all relevant to the signcolumn and need their bg updated when
+-- switching from / to transparency mode. They are used for GitSigns, LSP diagnostics
+-- marks among other things. TODO: 
 local signgroups = { 'RedSign', 'OrangeSign', 'YellowSign', 'GreenSign', 'BlueSign', 'PurpleSign', 'CursorLineNr' }
 
 --- set the background transparent or solid
@@ -1092,7 +1097,7 @@ function M.ui_select_variant()
     border = "single",
     format_item = function(item)
       return utils.pad(item, 40, " ")
-    end,
+    end
   }, function(choice)
     local short = string.sub(choice, 1, 4)
     if short == "Warm" then
@@ -1106,5 +1111,30 @@ function M.ui_select_variant()
     M.set()
   end)
   return conf.variant
+end
+
+function M.ui_select_colorweight()
+  local utils = require("local_utils")
+  vim.ui.select({ "Vivid (rich colors, high contrast)", "Medium (somewhat desaturated colors)", "Pastel (low intensity colors)" }, {
+    prompt = "Select a color intensity",
+    border = "single",
+    format_item = function(item)
+      return utils.pad(item, 50, " ")
+    end
+  }, function(choice)
+    local short = string.sub(choice, 1, 6)
+    if short == "Vivid " then
+      conf.desaturate = false
+      conf.level = 1
+    elseif short == "Medium" then
+      conf.desaturate = true
+      conf.dlevel = 1
+    elseif short == "Pastel" then
+      conf.desaturate = true
+      conf.dlevel = 2
+    end
+    M.set()
+  end)
+  return conf.desaturate, conf.dlevel
 end
 return M
