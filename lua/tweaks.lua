@@ -87,4 +87,6 @@ Tweaks.theme = {
   kittenexec = "kitten",
   kittysocket = "/tmp/mykittysocket"
 }
+Tweaks.tree = "Nvim"
+
 return Tweaks

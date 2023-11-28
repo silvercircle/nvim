@@ -163,13 +163,14 @@ local function configure()
     localtheme = {
       orange     = (conf.dlevel == 1) and { '#ab6a6c', 215 } or { '#9b7a7c', 215 },
       string     = conf.theme_strings == "yellow" and (conf.dlevel == 1 and { '#aaaa60', 231 } or { '#909060', 231 })
-                   or (conf.dlevel == 1 and { '#30603f', 231 } or { '#355045', 231 }),
+                   or (conf.dlevel == 1 and { '#60906f', 231 } or { '#658075', 231 }),
       blue       = { '#5a6acf', 239 },
-      purple     = { '#b070b0', 241 },
+      purple     = (conf.dlevl == 1) and { '#b070b0', 241 } or { '#a070a0', 241 },
       teal       = { '#508080', 238 },
       brightteal = { '#70a0c0', 238 },
       darkpurple = { '#705070', 240 },
-      red        = (conf.dlevel == 1) and { '#bb4d5c', 203 } or { '#ab5d6c', 203 }
+      red        = (conf.dlevel == 1) and { '#bb4d5c', 203 } or { '#ab5d6c', 203 },
+      yellow     = (conf.dlevel == 1) and { '#aaaa60', 231 } or { '#909060', 231 }
     }
   else
     localtheme = {
@@ -180,7 +181,8 @@ local function configure()
       teal       = { '#108080', 238 },
       brightteal = { '#30a0c0', 238 },
       darkpurple = { '#803090', 240 },
-      red        = { '#cc2d4c', 203 }
+      red        = { '#cc2d4c', 203 },
+      yellow     = { '#cccc60', 231 }
     }
   end
 
@@ -194,6 +196,7 @@ local function configure()
   M.statuslinebg = LuaLineColors[conf.variant].statuslinebg
 
   if conf.variant == 'cold' or conf.variant == 'deepblack' then
+    localtheme.fg           = { '#a2a0ac', 1 }
     localtheme.darkbg       = { M.theme[conf.variant].gutterbg, 237 }
     localtheme.darkred      = { '#601010', 249 }
     localtheme.darkestred   = { '#161616', 249 }
@@ -204,7 +207,15 @@ local function configure()
     localtheme.accent       = { M.theme['accent_color'], 209 }
     localtheme.accent_fg    = { M.theme['accent_fg'], 210 }
     localtheme.tablinebg    = { M.cokeline_colors['bg'], 214 }
+    localtheme.black        = { '#121215', 232 }
+    localtheme.bg_dim       = { '#222327', 232 }
+    localtheme.bg0          = { '#2c2e34', 235 }
+    localtheme.bg1          = { '#33353f', 236 }
+    localtheme.bg2          = { '#363944', 236 }
+    localtheme.bg3          = { '#3b3e48', 237 }
+    localtheme.bg4          = { '#414550', 237 }
   else
+    localtheme.fg           = { '#aaa0a5', 1 }
     localtheme.darkbg       = { M.theme[conf.variant].gutterbg, 237 }
     localtheme.darkred      = { '#601010', 249 }
     localtheme.darkestred   = { '#161616', 249 }
@@ -215,77 +226,46 @@ local function configure()
     localtheme.accent       = { M.theme['accent_color'], 209 }
     localtheme.accent_fg    = { M.theme['accent_fg'], 210 }
     localtheme.tablinebg    = { M.cokeline_colors['bg'], 214 }
+    localtheme.black        = { '#151212', 232 }
+    localtheme.bg_dim       = { '#242020', 232 }
+    localtheme.bg0          = { '#302c2e', 235 }
+    localtheme.bg1          = { '#322a2a', 236 }
+    localtheme.bg2          = { '#403936', 236 }
+    localtheme.bg3          = { '#483e3b', 237 }
+    localtheme.bg4          = { '#504531', 237 }
   end
-
-  if conf.variant == 'cold' or conf.variant == 'deepblack' then
-    palette = {
-      fg          = { '#a2a0ac', 1 },
-      grey        = { '#707070', 2 },
-      black       = { '#121215', 232 },
-      bg_dim      = { '#222327', 232 },
-      bg0         = { '#2c2e34', 235 },
-      bg1         = { '#33353f', 236 },
-      bg2         = { '#363944', 236 },
-      bg3         = { '#3b3e48', 237 },
-      bg4         = { '#414550', 237 },
-      bg_red      = { '#ff6077', 203 },
-      diff_red    = { '#55393d', 52 },
-      bg_green    = { '#a7df78', 107 },
-      diff_green  = { '#697664', 22 },
-      bg_blue     = { '#85d3f2', 110 },
-      diff_blue   = { '#354157', 17 },
-      diff_yellow = { '#4e432f', 54 },
-      fg_dim      = { '#959290', 251 },
-      red         = { localtheme.red[1], localtheme.red[2] },
-      palered     = { '#8b2d3c', 203 },
-      orange      = { localtheme.orange[1], localtheme.orange[2] },
-      yellow      = { '#e7c664', 179 },
-      darkyellow  = { '#a78624', 180 },
-      green       = { '#9ed072', 107 },
-      blue        = { '#469c70', 110 },
-      purple      = { '#b39df3', 176 },
-      grey_dim    = { '#595f6f', 240 },
-      neotreebg   = { M.theme[conf.variant].treebg, 232 },
-      selfg       = { '#cccc20', 233 },
-      selbg       = { M.theme['selbg'], 234 },
-      none        = { 'NONE', 'NONE' }
-    }
-  else
-    --the "warm" variant features a slight red-ish tint in the background colors
-    --all other colors are identical to the cold variant.
-    palette = {
-      fg          = { '#aaa0a5', 1 },
-      grey        = { '#707070', 2 },
-      black       = { '#151212', 232 },
-      bg_dim      = { '#242020', 232 },
-      bg0         = { '#302c2e', 235 },
-      bg1         = { '#322a2a', 236 },
-      bg2         = { '#403936', 236 },
-      bg3         = { '#483e3b', 237 },
-      bg4         = { '#504531', 237 },
-      bg_red      = { '#ff6077', 203 },
-      diff_red    = { '#55393d', 52, },
-      bg_green    = { '#a7df78', 107 },
-      diff_green  = { '#697664', 22 },
-      bg_blue     = { '#85d3f2', 110 },
-      diff_blue   = { '#354157', 17 },
-      diff_yellow = { '#4e432f', 54 },
-      fg_dim      = { '#959290', 251 },
-      red         = { localtheme.red[1], localtheme.red[2] },
-      palered     = { '#8b2d3c', 203 },
-      orange      = { localtheme.orange[1], localtheme.orange[2] },
-      yellow      = { '#e7c664', 179 },
-      darkyellow  = { '#a78624', 180 },
-      green       = { '#9ed072', 107 },
-      blue        = { '#469c70', 110 },
-      purple      = { '#b39df3', 176 },
-      grey_dim    = { '#595f6f', 240 },
-      neotreebg   = { M.theme[conf.variant].treebg, 232 },
-      selfg       = { '#cccc20', 233 },
-      selbg       = { M.theme['selbg'], 234 },
-      none        = { 'NONE', 0 }
-    }
-  end
+  palette = {
+    fg          = { localtheme.fg[1], localtheme.fg[2] },
+    grey        = { '#707070', 2 },
+    black       = { localtheme.black[1], localtheme.black[2] },
+    bg_dim      = { localtheme.bg_dim[1], localtheme.bg_dim[2] },
+    bg0         = { localtheme.bg0[1], localtheme.bg0[2] },
+    bg1         = { localtheme.bg1[1], localtheme.bg1[2] },
+    bg2         = { localtheme.bg2[1], localtheme.bg2[2] },
+    bg3         = { localtheme.bg3[1], localtheme.bg3[2] },
+    bg4         = { localtheme.bg4[1], localtheme.bg4[2] },
+    bg_red      = { '#ff6077', 203 },
+    diff_red    = { '#55393d', 52 },
+    bg_green    = { '#a7df78', 107 },
+    diff_green  = { '#697664', 22 },
+    bg_blue     = { '#85d3f2', 110 },
+    diff_blue   = { '#354157', 17 },
+    diff_yellow = { '#4e432f', 54 },
+    fg_dim      = { '#959290', 251 },
+    red         = { localtheme.red[1], localtheme.red[2] },
+    palered     = { '#8b2d3c', 203 },
+    orange      = { localtheme.orange[1], localtheme.orange[2] },
+    yellow      = { localtheme.yellow[1], localtheme.yellow[2] },
+    darkyellow  = { '#a78624', 180 },
+    green       = { '#9ed072', 107 },
+    blue        = { '#469c70', 110 },
+    purple      = { '#b39df3', 176 },
+    grey_dim    = { '#595f6f', 240 },
+    neotreebg   = { M.theme[conf.variant].treebg, 232 },
+    selfg       = { '#cccc20', 233 },
+    selbg       = { M.theme['selbg'], 234 },
+    none        = { 'NONE', 'NONE' }
+  }
 end
 
 -- set all hl groups
@@ -674,7 +654,7 @@ local function set_all()
   link("GitSignsChangeLn", "DiffChange")
   link("GitSignsDeleteLn", "DiffDelete")
   link("GitSignsCurrentLineBlame", "Grey")
-
+ 
   -- phaazon/hop.nvim {{{
   hl('HopNextKey', palette.red, palette.none, { bold = true })
   hl('HopNextKey1', palette.blue, palette.none, { bold = true })

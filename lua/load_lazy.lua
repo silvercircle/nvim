@@ -240,6 +240,7 @@ local plugins = {
   {
     'nvim-tree/nvim-tree.lua',
     lazy = true,
+    cond = vim.g.tweaks.tree == "Nvim",
     config = function()
       require("plugins.nvim-tree")
     end
