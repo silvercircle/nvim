@@ -81,4 +81,10 @@ Tweaks.cokeline = {
   enabled = true,
   closebutton = false
 }
+
+Tweaks.theme = {
+  sync_kittybg = true,
+  kittenexec = "kitten",
+  kittysocket = "/tmp/mykittysocket"
+}
 return Tweaks

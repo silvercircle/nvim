@@ -394,7 +394,7 @@ function M.write_config()
     local wsplit_id = require("local_utils.wsplit").winid
     local usplit_id = require("local_utils.usplit").winid
     local blist_id = require("local_utils.blist").main_win
-
+    local theme_conf = require("colors.mine").get_conf()
     local state = {
       terminal = {
         active = M.term.winid ~= nil and true or false,
@@ -409,8 +409,8 @@ function M.write_config()
       tree = {
         active = #M.findwinbyBufType("NvimTree") > 0 and true or false,
       },
-      theme_variant = require("colors.mine").theme_variant,
-      theme_desaturate = require("colors.mine").theme_desaturate,
+      theme_variant = theme_conf.variant,
+      theme_desaturate = theme_conf.desaturate,
     }
     if wsplit_id ~= nil then
       state.weather.width = vim.api.nvim_win_get_width(wsplit_id)
@@ -449,7 +449,12 @@ function M.restore_config()
     M.perm_config = M.perm_config_default
   end
   -- configure the theme
-  colors.setup(M.perm_config.theme_variant, M.perm_config.theme_desaturate, M.perm_config.theme_strings)
+  colors.setup({ variant = M.perm_config.theme_variant,
+                 desaturate = M.perm_config.theme_desaturate,
+                 theme_strings = M.perm_config.theme_strings,
+                 sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
+                 kittysocket = vim.g.tweaks.theme.kittysocket,
+                 kittenexec = vim.g.tweaks.theme.kittenexec})
 end
 
 --- adjust the optional frames so they will keep their width when the side tree opens or closes
@@ -476,39 +481,32 @@ end
 --- bound to a hotkey ("<C-l>tv by default)
 --- toggle between warm and cold theme variants
 function M.toggle_theme_variant()
-  if colors.theme_variant == "warm" then
-    colors.theme_variant = "cold"
-    M.perm_config.theme_variant = "cold"
-  else
-    colors.theme_variant = "warm"
-    M.perm_config.theme_variant = "warm"
-  end
-  colors.set()
-  if M.perm_config.transbg == true then
-    colors.set_bg(M.perm_config.transbg)
-  end
+  M.perm_config.theme_variant = colors.ui_select_variant()
   M.notify("Theme variant is now: " .. M.perm_config.theme_variant, vim.log.levels.INFO, "Theme")
 end
 
 --- toggle theme saturate state. By default bound to <C-l>td
 --- desaturated means a more pastel and less vivid color contrast
 function M.toggle_theme_desaturate()
-  colors.theme_desaturate = not colors.theme_desaturate
+  local desaturated = not colors.get_conf_value("desaturate")
+  colors.setup({ desaturate = desaturated })
   colors.set()
   if M.perm_config.transbg == true then
     colors.set_bg(M.perm_config.transbg)
   end
-  M.notify("Theme is now " .. (vim.g.theme_desaturate == true and "desaturated" or "vivid"), vim.log.levels.INFO, "Theme")
+  M.notify("Theme is now " .. (desaturated == true and "desaturated" or "vivid"), vim.log.levels.INFO, "Theme")
 end
 
 --- toggle theme string color between yellow and green
 function M.toggle_theme_strings()
-  if colors.theme_string ~= "yellow" then
-    colors.theme_string = "yellow"
+  local strings = colors.get_conf_value("theme_strings")
+  if strings ~= "yellow" then
+    strings = "yellow"
   else
-    colors.theme_string = "green"
+    strings = "green"
   end
-  M.perm_config.theme_strings = colors.theme_string
+  M.perm_config.theme_strings = strings
+  colors.setup({ theme_strings = strings })
   colors.set()
   if M.perm_config.transbg == true then
     colors.set_bg(M.perm_config.transbg)
@@ -710,10 +708,12 @@ function M.setup_treesitter_context(silent)
 end
 
 function M.toggle_treesitter_context()
+  local wsplit = require("local_utils.wsplit")
   vim.api.nvim_buf_set_var(0, "tsc", not vim.api.nvim_buf_get_var(0, "tsc"))
   M.perm_config.treesitter_context = M.get_buffer_var(0, "tsc")
   M.setup_treesitter_context(false)
-  require("local_utils.wsplit").refresh()
+  wsplit.freeze = false
+  vim.schedule(function() wsplit.refresh() end)
 end
 
 --- get a custom buffer variable

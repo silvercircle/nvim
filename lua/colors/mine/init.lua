@@ -35,21 +35,37 @@ M.theme = {
     bg = '#141414',
     treebg = '#18181c',
     gutterbg = '#101013',
-    contextbg = '#302a2a'
+    contextbg = '#302a2a',
+    kittybg = '#18181c'
   },
   warm = {
     bg = '#161414',
     treebg = '#1b1818',
     gutterbg = '#131010',
-    contextbg = '#2a2a30'
+    contextbg = '#2a2a30',
+    kittybg = '#1b1818'
+  },
+  deepblack = {
+    bg = '#0a0a0a',
+    treebg = '#121212',
+    gutterbg = '#101010',
+    contextbg = '#2a2a2a',
+    kittybg = '#111111'
   }
 }
 
-M.theme_variant = 'warm'
-M.theme_desaturate = true
+local supported_variants = { "warm", "cold", "deepdark" }
+
+local conf = {
+  variant = 'warm',
+  desaturate = true,
+  theme_strings = 'yellow',
+  sync_kittybg = true,
+  kittysocket = nil,
+  kittenexec = nil
+}
 M.cokeline_colors = {}
 M.statuslinebg = nil
-M.theme_string = "yellow"
 
 local LuaLineColors = {}
 
@@ -122,15 +138,33 @@ LuaLineColors = {
     gray7        = '#9e9e9e',
     gray10       = '#f0f0f0',
     statuslinebg = '#2c2626'
+  },
+  deepblack = {
+    white        = '#ffffff',
+    darkestgreen = M.theme.accent_fg,
+    brightgreen  = M.theme.accent_color,
+    darkestcyan  = '#005f5f',
+    mediumcyan   = '#87dfff',
+    darkestblue  = '#005f87',
+    darkred      = '#870000',
+    brightred    = M.theme.alt_accent_color,
+    brightorange = '#2f47df',
+    gray1        = '#262626',
+    gray2        = '#303030',
+    gray4        = '#585858',
+    gray5        = '#474040',
+    gray7        = '#9e9e9e',
+    gray10       = '#f0f0f0',
+    statuslinebg = '#181822'
   }
 }
 
 -- configure the theme data.
 local function configure()
-  if M.theme_desaturate == true then
+  if conf.desaturate == true then
     localtheme = {
       orange     = { '#ab6a6c', 215 },
-      string     = M.theme_string == "yellow" and { '#9a9a60', 231 } or { '#40804f', 231 },
+      string     = conf.theme_strings == "yellow" and { '#9a9a60', 231 } or { '#40804f', 231 },
       blue       = { '#5a6acf', 239 },
       purple     = { '#b070b0', 241 },
       teal       = { '#508080', 238 },
@@ -140,7 +174,7 @@ local function configure()
     }
   else
     localtheme = {
-      string     = M.theme_string == "yellow" and { '#cccc60', 231 } or { '#10801f', 231 },
+      string     = conf.theme_strings == "yellow" and { '#cccc60', 231 } or { '#10801f', 231 },
       orange     = { '#c36630', 215 },
       blue       = { '#4a4adf', 239 },
       purple     = { '#c030c0', 241 },
@@ -153,40 +187,40 @@ local function configure()
 
   M.cokeline_colors = {
     --bg = LuaLineColors.statuslinebg,
-    bg = LuaLineColors[M.theme_variant].statuslinebg,
+    bg = LuaLineColors[conf.variant].statuslinebg,
     focus_bg = M.theme.selbg,
-    fg = LuaLineColors[M.theme_variant].gray7,
+    fg = LuaLineColors[conf.variant].gray7,
     focus_fg = M.theme.accent_fg,
   }
-  M.statuslinebg = LuaLineColors[M.theme_variant].statuslinebg
+  M.statuslinebg = LuaLineColors[conf.variant].statuslinebg
 
-  if M.theme_variant == 'cold' then
+  if conf.variant == 'cold' or conf.variant == 'deepblack' then
     localtheme.darkbg       = { '#101013', 237 }
     localtheme.darkred      = { '#601010', 249 }
     localtheme.darkestred   = { '#161616', 249 }
     localtheme.darkestblue  = { '#10101a', 247 }
-    localtheme.bg           = { M.theme['cold'].bg, 0 }
+    localtheme.bg           = { M.theme[conf.variant].bg, 0 }
     localtheme.statuslinebg = { M.statuslinebg, 208 }
     localtheme.pmenubg      = { '#241a20', 156 }
     localtheme.accent       = { M.theme['accent_color'], 209 }
     localtheme.accent_fg    = { M.theme['accent_fg'], 210 }
     localtheme.tablinebg    = { M.cokeline_colors['bg'], 214 }
-    localtheme.contextbg    = { M.theme['cold'].contextbg, 215 }
+    localtheme.contextbg    = { M.theme[conf.variant].contextbg, 215 }
   else
     localtheme.darkbg       = { '#131010', 237 }
     localtheme.darkred      = { '#601010', 249 }
     localtheme.darkestred   = { '#161616', 249 }
     localtheme.darkestblue  = { '#10101a', 247 }
-    localtheme.bg           = { M.theme['warm'].bg, 0 }
+    localtheme.bg           = { M.theme[conf.variant].bg, 0 }
     localtheme.statuslinebg = { M.statuslinebg, 208 }
     localtheme.pmenubg      = { '#241a20', 156 }
     localtheme.accent       = { M.theme['accent_color'], 209 }
     localtheme.accent_fg    = { M.theme['accent_fg'], 210 }
     localtheme.tablinebg    = { M.cokeline_colors['bg'], 214 }
-    localtheme.contextbg    = { M.theme['warm'].contextbg, 215 }
+    localtheme.contextbg    = { M.theme[conf.variant].contextbg, 215 }
   end
 
-  if M.theme_variant == 'cold' then
+  if conf.variant == 'cold' or conf.variant == 'deepblack' then
     palette = {
       fg          = { '#a2a0ac', 1 },
       grey        = { '#707070', 2 },
@@ -214,7 +248,7 @@ local function configure()
       blue        = { '#469c70', 110 },
       purple      = { '#b39df3', 176 },
       grey_dim    = { '#595f6f', 240 },
-      neotreebg   = { M.theme['cold'].treebg, 232 },
+      neotreebg   = { M.theme[conf.variant].treebg, 232 },
       selfg       = { '#cccc20', 233 },
       selbg       = { M.theme['selbg'], 234 },
       none        = { 'NONE', 'NONE' }
@@ -249,7 +283,7 @@ local function configure()
       blue        = { '#469c70', 110 },
       purple      = { '#b39df3', 176 },
       grey_dim    = { '#595f6f', 240 },
-      neotreebg   = { M.theme['warm'].treebg, 232 },
+      neotreebg   = { M.theme[conf.variant].treebg, 232 },
       selfg       = { '#cccc20', 233 },
       selbg       = { M.theme['selbg'], 234 },
       none        = { 'NONE', 0 }
@@ -953,24 +987,50 @@ end
 
 function M.set()
   configure()
--- cokeline colors for the buffer line
   set_all()
+  if conf.sync_kittybg == true and conf.kittysocket ~= nil and conf.kittenexec ~= nil then
+    if vim.fn.filereadable(conf.kittysocket) == 1 and vim.fn.executable(conf.kittenexec) == 1 then
+      print("Setting kitty background to: " .. M.theme[conf.variant].kittybg)
+      vim.fn.jobstart(conf.kittenexec .. " @ --to unix:" .. conf.kittysocket .. " set-colors background=" .. M.theme[conf.variant].kittybg)
+    else
+      vim.notify("Either the kitty socket or the kitten executable is not available", vim.log.levels.WARN)
+    end
+  end
 end
 
 --- set color variant (warm or cold), desaturation and string color
---- @param variant string - the color variant
---- @param desaturate boolean - set desaturated colors
---- @param string string - set string color (yellow, any other values sets green)
-function M.setup(variant, desaturate, string)
-  M.theme_variant = variant
-  M.theme_desaturate = desaturate
-  M.theme_string = string
+--- @param opt table - the options to set
+function M.setup(opt)
+  conf = vim.tbl_deep_extend("force", conf, opt)
+  print(vim.inspect(conf))
+end
+
+--- return the full configuration
+--- @return table the color theme configuration
+function M.get_conf()
+  return conf
+end
+
+--- return a configuration value
+--- @param val string: the value to get
+function M.get_conf_value(val)
+  if val ~= nil and conf[val] ~= nil then
+    return conf[val]
+  end
+end
+
+--- set a theme variant. Does not activate it, caller must use set()
+--- @param variant string: A known color variant. Unsupported values are discarded
+function M.set_variant(variant)
+  if vim.tbl_contains(supported_variants, variant) then
+    conf.variant = variant
+  end
 end
 
 --- internal global function to create the lualine color theme
 --- @return table
 function M.Lualine_internal_theme()
-  local ll_colors = LuaLineColors[M.theme_variant]
+  local ll_colors = LuaLineColors[conf.variant]
   return {
     normal = {
       a = { fg = ll_colors.darkestgreen, bg = ll_colors.brightgreen --[[, gui = 'bold']] },
@@ -1009,7 +1069,7 @@ function M.set_bg(trans)
     vim.cmd("hi FoldColumn guibg=none")
     vim.cmd("hi SignColumn guibg=none")
   else
-    local variant = M.theme_variant
+    local variant = conf.variant
     vim.api.nvim_set_hl(0, "Normal", { bg = M.theme[variant].bg, fg = "fg" })
     vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = M.theme[variant].treebg, fg = "fg" })
     vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = M.theme[variant].treebg, fg = "fg" })
@@ -1020,4 +1080,29 @@ function M.set_bg(trans)
   end
 end
 
+-- use vim.ui.select to choose from a list of themes
+function M.ui_select_variant()
+  local variant = 'deepblack'
+
+  local utils = require("local_utils")
+  vim.ui.select({ "Warm (red tint)?", "Cold (blue tint)", "Deep dark" }, {
+    prompt = "Select a theme variant",
+    border = "single",
+    format_item = function(item)
+      return utils.pad(item, 40, " ")
+    end,
+  }, function(choice)
+    local short = string.sub(choice, 1, 4)
+    if short == "Warm" then
+      variant = "warm"
+    elseif short == "Cold" then
+      variant = "cold"
+    else
+      variant = "deepblack"
+    end
+    conf.variant = variant
+    M.set()
+  end)
+  return conf.variant
+end
 return M

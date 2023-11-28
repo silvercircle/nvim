@@ -13,7 +13,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
-  {'nvim-lualine/lualine.nvim',
+  {
+    'nvim-lualine/lualine.nvim',
     config = function()
       require("plugins.lualine")
     end
@@ -21,17 +22,18 @@ local plugins = {
   -- multiple cursors.
   {
     'mg979/vim-visual-multi',
-     event = "BufReadPre"
+    event = "BufReadPre"
   },
   -- telescope + extensions, mandatory
   {
-    'nvim-telescope/telescope.nvim',--  branch = '0.1.x',
+    'nvim-telescope/telescope.nvim', --  branch = '0.1.x',
     lazy = true,
     dependencies = {
       -- 'nvim-telescope/telescope-file-browser.nvim',
       'tom-anders/telescope-vim-bookmarks.nvim',
       { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
-      { 'FeiyouG/commander.nvim',
+      {
+        'FeiyouG/commander.nvim',
         tag = "v0.1.0",
         event = { "BufReadPost" },
         config = function()
@@ -43,7 +45,7 @@ local plugins = {
         lazy = true,
         config = function()
           require("quickfavs").setup({
-           telescope_theme = __Telescope_dropdown_theme,
+            telescope_theme = __Telescope_dropdown_theme,
           })
         end
       }
@@ -52,19 +54,22 @@ local plugins = {
       require("plugins.telescope_setup")
     end
   },
-  {'nvim-treesitter/nvim-treesitter',
+  {
+    'nvim-treesitter/nvim-treesitter',
     branch = "master",
     event = { "BufReadPre" },
     config = function()
-      --require("plugins.treesitter")
+      require("plugins.treesitter")
     end,
     dependencies = {
       {
         'nvim-treesitter/nvim-treesitter-context',
+        lazy = true,
+        event = { "BufReadPre" },
         config = function()
           require('treesitter-context').setup {
             enable = true,            -- Enable this plugin (Can be enabled/disabled later via commands)
-            max_lines = 12,            -- How many lines the window should span. Values <= 0 mean no limit.
+            max_lines = 12,           -- How many lines the window should span. Values <= 0 mean no limit.
             min_window_height = 0,    -- Minimum editor window height to enable context. Values <= 0 mean no limit.
             line_numbers = true,
             multiline_threshold = 20, -- Maximum number of lines to show for a single context
@@ -78,14 +83,14 @@ local plugins = {
               return true
             end
           }
-          __Globals.setup_treesitter_context(true)
         end
       }
     }
   },
-  {'dcampos/nvim-snippy',
-    lazy=true,
-    config=function()
+  {
+    'dcampos/nvim-snippy',
+    lazy = true,
+    config = function()
       require('snippy').setup({
         mappings = {
           is = {
@@ -100,21 +105,23 @@ local plugins = {
     end
   },
   -- cmp and all its helpers
-  { 'hrsh7th/nvim-cmp',
+  {
+    'hrsh7th/nvim-cmp',
     lazy = true,
     event = { "InsertEnter", "CmdLineEnter" },
     dependencies = {
       'hrsh7th/cmp-cmdline',
-      {'hrsh7th/cmp-nvim-lsp'},
+      { 'hrsh7th/cmp-nvim-lsp' },
       'hrsh7th/cmp-path',
-      {'hrsh7th/cmp-emoji'},
-      {'dcampos/cmp-snippy'},
-      {'hrsh7th/cmp-nvim-lua'},
-      {'hrsh7th/cmp-nvim-lsp-signature-help'},
-      {'https://gitlab.com/silvercircle74/cmp-wordlist.nvim',
+      { 'hrsh7th/cmp-emoji' },
+      { 'dcampos/cmp-snippy' },
+      { 'hrsh7th/cmp-nvim-lua' },
+      { 'hrsh7th/cmp-nvim-lsp-signature-help' },
+      {
+        'https://gitlab.com/silvercircle74/cmp-wordlist.nvim',
         config = function()
           require("cmp_wordlist").setup({
-            wordfiles={'wordlist.txt', "personal.txt" },
+            wordfiles = { 'wordlist.txt', "personal.txt" },
             debug = false,
             read_on_setup = false,
             watch_files = true,
@@ -122,31 +129,36 @@ local plugins = {
           })
         end
       },
-      {'hrsh7th/cmp-buffer'}
+      { 'hrsh7th/cmp-buffer' }
     },
     config = function()
       require("plugins.cmp")
     end
   },
   -- lsp
-  { 'neovim/nvim-lspconfig',
+  {
+    'neovim/nvim-lspconfig',
     lazy = true,
     event = { "LspAttach" },
     dependencies = {
       'onsails/lspkind-nvim',
-      {'Bekaboo/dropbar.nvim', cond = Config.breadcrumb == 'dropbar' and vim.fn.has("nvim-0.10") == 1,
+      {
+        'Bekaboo/dropbar.nvim',
+        cond = Config.breadcrumb == 'dropbar' and vim.fn.has("nvim-0.10") == 1,
         event = "LspAttach",
         config = function()
           require("plugins.dropbar")
         end
       },
-      {'SmiteshP/nvim-navic',lazy=true, cond = Config.breadcrumb == 'navic', event = "LspAttach" },
-      {'dnlhc/glance.nvim',
+      { 'SmiteshP/nvim-navic', lazy = true, cond = Config.breadcrumb == 'navic', event = "LspAttach" },
+      {
+        'dnlhc/glance.nvim',
         config = function()
           require("plugins.glance")
         end
       },
-      {'vigoux/notifier.nvim',
+      {
+        'vigoux/notifier.nvim',
         event = "LspAttach",
         lazy = true,
         config = function()
@@ -168,13 +180,14 @@ local plugins = {
     end
   },
   {
-    'williamboman/mason.nvim', cmd = "Mason",
-    config =function()
+    'williamboman/mason.nvim',
+    cmd = "Mason",
+    config = function()
       require("mason").setup()
     end
   },
---  { 'williamboman/mason-lspconfig.nvim' },
-  {'tpope/vim-liquid', ft = "liquid" },
+  --  { 'williamboman/mason-lspconfig.nvim' },
+  { 'tpope/vim-liquid',                    ft = "liquid" },
   'nvim-tree/nvim-web-devicons',
   'nvim-lua/plenary.nvim',
   'MattesGroeger/vim-bookmarks',
@@ -182,28 +195,30 @@ local plugins = {
   'BurntSushi/ripgrep',
   'kevinhwang91/nvim-hlslens',
   'lewis6991/gitsigns.nvim',
-  {'lukas-reineke/indent-blankline.nvim', config = function() require("plugins.ibl") end },
-  {'petertriho/nvim-scrollbar',
+  { 'lukas-reineke/indent-blankline.nvim', config = function() require("plugins.ibl") end },
+  {
+    'petertriho/nvim-scrollbar',
     event = "BufReadPre",
     config = function()
       require("plugins.nvim-scrollbar")
       __Globals.set_scrollbar()
     end
   },
---  {'lewis6991/satellite.nvim',
---    config = function()
---      require("plugins.satellite")
---    end
---  },
-  { 'stevearc/dressing.nvim',
+  --  {'lewis6991/satellite.nvim',
+  --    config = function()
+  --      require("plugins.satellite")
+  --    end
+  --  },
+  {
+    'stevearc/dressing.nvim',
     event = { "UIEnter" },
     config = function()
       require("plugins.dressing")
     end
   },
-  { 'voldikss/vim-floaterm', cmd = {"FloatermNew", "FloatermToggle"} },
+  { 'voldikss/vim-floaterm',      cmd = { "FloatermNew", "FloatermToggle" } },
   --{ 'numToStr/FTerm.nvim', lazy=true },
-  { 'preservim/vim-markdown', ft = "markdown" },
+  { 'preservim/vim-markdown',     ft = "markdown" },
   { 'norcalli/nvim-colorizer.lua' },
   'echasnovski/mini.move',
   {
@@ -230,7 +245,9 @@ local plugins = {
     end
   },
   {
-    'renerocksai/telekasten.nvim', lazy = true, ft={"telekasten", "markdown"},
+    'renerocksai/telekasten.nvim',
+    lazy = true,
+    ft = { "telekasten", "markdown" },
     dependencies = {
       { 'renerocksai/calendar-vim' },
     },
@@ -244,17 +261,20 @@ local plugins = {
       require("plugins.todo")
     end
   },
-  { 'silvercircle/alpha-nvim',
+  {
+    'silvercircle/alpha-nvim',
     branch = "mine",
     cond = Config.plain == false,
-    config = function ()
+    config = function()
       require("plugins.alpha")
     end
   },
-  { 'mfussenegger/nvim-dap',
+  {
+    'mfussenegger/nvim-dap',
     lazy = true,
     dependencies = {
-      { 'rcarriga/nvim-dap-ui',
+      {
+        'rcarriga/nvim-dap-ui',
         config = function()
           require("dap.nvim_dap_ui")
         end
@@ -264,7 +284,7 @@ local plugins = {
       require("dap.nvim_dap")
     end
   },
-  { 'kevinhwang91/rnvimr', lazy=true, cmd={"RnvimrToggle"} },
+  { 'kevinhwang91/rnvimr', lazy = true, cmd = { "RnvimrToggle" } },
   {
     "smjonas/inc-rename.nvim",
     event = { "BufRead" },
@@ -281,13 +301,16 @@ local plugins = {
   },
   {
     --'silvercircle/outline.nvim', branch = "mine", cmd = { "Outline", "OutlineOpen", "OutlineClose" },
-    'https://gitlab.com/silvercircle74/symbols-outline.nvim', branch = 'mine', cmd = { "Outline", "OutlineOpen", "OutlineClose" },
+    'https://gitlab.com/silvercircle74/symbols-outline.nvim',
+    branch = 'mine',
+    cmd = { "Outline", "OutlineOpen", "OutlineClose" },
     lazy = true,
     config = function()
       require("plugins.symbols_outline")
     end
   },
-  { 'silvercircle/aerial.nvim',
+  {
+    'silvercircle/aerial.nvim',
     event = "LspAttach",
     branch = 'mine',
     verylazy = true,

@@ -24,7 +24,7 @@ autocmd({ 'VimLeave' }, {
 
 --- remember if UIEnter already done
 local did_UIEnter = false
-
+local treesitter_configured = false
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
 -- environment variable or command line option forbids it for better startup performance and
 -- a clean UI
@@ -185,16 +185,10 @@ autocmd({ 'FileType' }, {
   group = agroup_views
 })
 
-local treesitter_configured = false
-
 -- handle treesitter configuration and start it on supported filetypes.
 autocmd({ "Filetype" }, {
   pattern = Config.treesitter_types,
   callback = function()
-    if not treesitter_configured then
-      __Globals.configure_treesitter()
-      treesitter_configured = true
-    end
     vim.treesitter.start()
   end,
   group = agroup_hl

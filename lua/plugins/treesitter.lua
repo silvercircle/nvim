@@ -39,3 +39,5 @@ require("nvim-treesitter").setup({
     }
   }
 })
+__Globals.configure_treesitter()
+
