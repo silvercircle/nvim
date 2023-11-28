@@ -1,6 +1,6 @@
 local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
 local navic
-local colors = require("colors.mine")
+local colors = Config.theme
 if Config.breadcrumb == 'navic' then
   navic = require('nvim-navic')
 end

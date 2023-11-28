@@ -18,7 +18,7 @@ require("nvim-web-devicons").setup({
   default = true
 })
 
-local colors = require("colors.mine")
+local colors = Config.theme
 
 -- crete the cokeline theme. Global function
 local function Cokeline_theme()

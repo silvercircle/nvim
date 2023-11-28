@@ -114,5 +114,5 @@ o.cmdheight=vim.g.tweaks.cmdheight
 -- o.secure=true
 
 __Globals.restore_config()
-require("colors.mine").set()
+Config.theme.set()
 __Globals.set_statuscol(__Globals.perm_config.statuscol_current)

@@ -110,7 +110,7 @@ autocmd({ 'UIEnter' }, {
         usplit.content = __Globals.perm_config.sysmon.content
       end
       if __Globals.perm_config.transbg == true then
-        require("colors.mine").set_bg(true)
+        Config.theme.set_bg(true)
       end
     end
     vim.fn.win_gotoid(__Globals.main_winid)

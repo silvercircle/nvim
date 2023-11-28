@@ -1,5 +1,5 @@
 --- global functions for my Neovim configuration
-local colors = require("colors.mine")
+local colors = Config.theme
 
 local M = {}
 
@@ -395,7 +395,7 @@ function M.write_config()
     local wsplit_id = require("local_utils.wsplit").winid
     local usplit_id = require("local_utils.usplit").winid
     local blist_id = require("local_utils.blist").main_win
-    local theme_conf = require("colors.mine").get_conf()
+    local theme_conf = Config.theme.get_conf()
     local state = {
       terminal = {
         active = M.term.winid ~= nil and true or false,

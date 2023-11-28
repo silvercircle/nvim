@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
---Name:         my_Sonokai
+--Name:         Darkmatter
 --
 --BASED ON original work by:
 --Name:         Sonokai
@@ -10,10 +10,10 @@
 -------------------------------------------------------------------------------
 --rewritten to lua and heavily modified for my personal Neovim config at:
 --https://gitlab.com/silvercircle74/nvim
---
---it features two background modes (cold and warm) and two levels of color saturation.
---desaturated and vivid.
---
+--License:      MIT
+--it features multiple background modes (cold, warm and deepdark) and three levels of color saturation.
+--bright vivid and two desaturated modes
+
 local set_hl = vim.api.nvim_set_hl
 local palette = {}
 local localtheme = {}
@@ -258,7 +258,7 @@ local function configure()
     yellow      = { localtheme.yellow[1], localtheme.yellow[2] },
     darkyellow  = { '#a78624', 180 },
     green       = { '#9ed072', 107 },
-    blue        = { '#469c70', 110 },
+    blue        = { localtheme.blue[1], localtheme.blue[2] },
     purple      = { '#b39df3', 176 },
     grey_dim    = { '#595f6f', 240 },
     neotreebg   = { M.theme[conf.variant].treebg, 232 },
@@ -649,12 +649,12 @@ local function set_all()
   link("GitSignsChange", "BlueSign")
   link("GitSignsChangeNr", "BlueSign")
   link("GitSignsDelete", "RedSign")
-  link("GitSignsDeleteNr", "Red")
-  link("GitSignsAddLn", "DiffAdd")
-  link("GitSignsChangeLn", "DiffChange")
-  link("GitSignsDeleteLn", "DiffDelete")
+  link("GitSignsDeleteNr", "RedSign")
+  link("GitSignsAddLn", "GreenSign")
+  link("GitSignsChangeLn", "BlueSign")
+  link("GitSignsDeleteLn", "RedSign")
   link("GitSignsCurrentLineBlame", "Grey")
- 
+
   -- phaazon/hop.nvim {{{
   hl('HopNextKey', palette.red, palette.none, { bold = true })
   hl('HopNextKey1', palette.blue, palette.none, { bold = true })
@@ -1069,7 +1069,7 @@ end
 
 -- use vim.ui.select to choose from a list of themes
 function M.ui_select_variant()
-  local variant = 'deepblack'
+  local variant_old = conf.variant
 
   local utils = require("local_utils")
   vim.ui.select({ "Warm (red tint)?", "Cold (blue tint)", "Deep dark" }, {
@@ -1081,14 +1081,16 @@ function M.ui_select_variant()
   }, function(choice)
     local short = string.sub(choice, 1, 4)
     if short == "Warm" then
-      variant = "warm"
+      conf.variant = "warm"
     elseif short == "Cold" then
-      variant = "cold"
+      conf.variant = "cold"
     else
-      variant = "deepblack"
+      conf.variant = "deepblack"
     end
-    conf.variant = variant
-    M.set()
+    if conf.variant ~= variant_old then
+      conf.variant = variant_old
+      M.set()
+    end
   end)
   return conf.variant
 end

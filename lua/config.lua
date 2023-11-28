@@ -99,7 +99,8 @@ Config = {
                        "scala", "java", "kdl", "ada", "json", "nim", "d",
                        "yaml", "rust", "javascript", "ruby", "objc", "objcpp" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
-  outline_plugin = nil
+  outline_plugin = nil,
+  theme = require("colors.darkmatter")
 }
 
 vim.g.formatters = {
