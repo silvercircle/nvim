@@ -155,6 +155,7 @@ local function configure()
 
   LuaLineColors.statuslinebg = M.theme[conf.variant].statuslinebg
 
+  -- TODO: allow cokeline colors per theme variant
   M.cokeline_colors = {
     --bg = LuaLineColors.statuslinebg,
     bg = M.theme[conf.variant].statuslinebg,
@@ -203,15 +204,7 @@ local function configure()
     localtheme.bg4          = { '#504531', 237 }
   end
   palette = {
-    fg          = { localtheme.fg[1], localtheme.fg[2] },
     grey        = { '#707070', 2 },
-    black       = { localtheme.black[1], localtheme.black[2] },
-    bg_dim      = { localtheme.bg_dim[1], localtheme.bg_dim[2] },
-    bg0         = { localtheme.bg0[1], localtheme.bg0[2] },
-    bg1         = { localtheme.bg1[1], localtheme.bg1[2] },
-    bg2         = { localtheme.bg2[1], localtheme.bg2[2] },
-    bg3         = { localtheme.bg3[1], localtheme.bg3[2] },
-    bg4         = { localtheme.bg4[1], localtheme.bg4[2] },
     bg_red      = { '#ff6077', 203 },
     diff_red    = { '#55393d', 52 },
     bg_green    = { '#a7df78', 107 },
@@ -220,10 +213,7 @@ local function configure()
     diff_blue   = { '#354157', 17 },
     diff_yellow = { '#4e432f', 54 },
     fg_dim      = { '#959290', 251 },
-    red         = { localtheme.red[1], localtheme.red[2] },
     palered     = { '#8b2d3c', 203 },
-    orange      = { localtheme.orange[1], localtheme.orange[2] },
-    yellow      = { localtheme.yellow[1], localtheme.yellow[2] },
     darkyellow  = { '#a78624', 180 },
     green       = { '#9ed072', 107 },
     blue        = { localtheme.blue[1], localtheme.blue[2] },
@@ -238,91 +228,91 @@ end
 
 -- set all hl groups
 local function set_all()
-  hl_with_defaults("Braces", palette.red, palette.none)
+  hl_with_defaults("Braces", localtheme.red, palette.none)
   hl_with_defaults('ScrollView', localtheme.teal, localtheme.blue)
-  hl_with_defaults('Normal', palette.fg, localtheme.bg)
-  hl_with_defaults('Accent', palette.black, localtheme.accent)
-  hl_with_defaults('Terminal', palette.fg, palette.neotreebg)
-  hl_with_defaults('EndOfBuffer', palette.bg4, palette.none)
-  hl_with_defaults('Folded', palette.fg, palette.diff_blue)
-  hl_with_defaults('ToolbarLine', palette.fg, palette.none)
-  hl_with_defaults('FoldColumn', palette.bg4, localtheme.darkbg)
-  hl_with_defaults('SignColumn', palette.fg, localtheme.darkbg)
-  hl_with_defaults('IncSearch', palette.yellow, localtheme.darkred)
-  hl_with_defaults('Search', palette.black, palette.diff_green)
-  hl_with_defaults('ColorColumn', palette.none, palette.bg1)
+  hl_with_defaults('Normal', localtheme.fg, localtheme.bg)
+  hl_with_defaults('Accent', localtheme.black, localtheme.accent)
+  hl_with_defaults('Terminal', localtheme.fg, palette.neotreebg)
+  hl_with_defaults('EndOfBuffer', localtheme.bg4, palette.none)
+  hl_with_defaults('Folded', localtheme.fg, palette.diff_blue)
+  hl_with_defaults('ToolbarLine', localtheme.fg, palette.none)
+  hl_with_defaults('FoldColumn', localtheme.bg4, localtheme.darkbg)
+  hl_with_defaults('SignColumn', localtheme.fg, localtheme.darkbg)
+  hl_with_defaults('IncSearch', localtheme.yellow, localtheme.darkred)
+  hl_with_defaults('Search', localtheme.black, palette.diff_green)
+  hl_with_defaults('ColorColumn', palette.none, localtheme.bg1)
   hl_with_defaults('Conceal', palette.grey_dim, palette.none)
-  hl_with_defaults('Cursor', palette.fg, palette.fg)
-  hl_with_defaults('nCursor', palette.fg, palette.fg)
-  hl_with_defaults('iCursor', palette.yellow, palette.yellow)
-  hl_with_defaults('vCursor', palette.red, palette.red)
+  hl_with_defaults('Cursor', localtheme.fg, localtheme.fg)
+  hl_with_defaults('nCursor', localtheme.fg, localtheme.fg)
+  hl_with_defaults('iCursor', localtheme.yellow, localtheme.yellow)
+  hl_with_defaults('vCursor', localtheme.red, localtheme.red)
 
   link("CursorIM", "iCursor")
 
-  hl('FocusedSymbol', palette.yellow, palette.none, { bold = true })
+  hl('FocusedSymbol', localtheme.yellow, palette.none, { bold = true })
 
   if diff then
     hl('CursorLine', palette.none, palette.none, { underline = true })
     hl('CursorColumn', palette.none, palette.none, { bold = true })
   else
-    hl_with_defaults('CursorLine', palette.none, palette.bg0)
-    hl_with_defaults('CursorColumn', palette.none, palette.bg1)
+    hl_with_defaults('CursorLine', palette.none, localtheme.bg0)
+    hl_with_defaults('CursorColumn', palette.none, localtheme.bg1)
   end
 
   hl_with_defaults('LineNr', palette.grey_dim, localtheme.darkbg)
   if diff then
-    hl('CursorLineNr', palette.yellow, palette.none, { underline = true })
+    hl('CursorLineNr', localtheme.yellow, palette.none, { underline = true })
   else
-    hl_with_defaults('CursorLineNr', palette.yellow, localtheme.darkbg)
+    hl_with_defaults('CursorLineNr', localtheme.yellow, localtheme.darkbg)
   end
 
   hl_with_defaults('DiffAdd', palette.none, palette.diff_green)
   hl_with_defaults('DiffChange', palette.none, palette.diff_blue)
   hl_with_defaults('DiffDelete', palette.none, palette.diff_red)
-  hl_with_defaults('DiffText', palette.bg0, palette.blue)
+  hl_with_defaults('DiffText', localtheme.bg0, localtheme.blue)
   hl('Directory', localtheme.blue, palette.none, { bold = true })
-  hl('ErrorMsg', palette.red, palette.none, { bold = true, underline = true })
-  hl('WarningMsg', palette.yellow, palette.none, { bold = true })
-  hl('ModeMsg', palette.fg, palette.none, { bold = true })
-  hl('MoreMsg', palette.blue, palette.none, { bold = true })
-  hl_with_defaults('MatchParen', palette.yellow, localtheme.darkred)
+  hl('ErrorMsg', localtheme.red, palette.none, { bold = true, underline = true })
+  hl('WarningMsg', localtheme.yellow, palette.none, { bold = true })
+  hl('ModeMsg', localtheme.fg, palette.none, { bold = true })
+  hl('MoreMsg', localtheme.blue, palette.none, { bold = true })
+  hl_with_defaults('MatchParen', localtheme.yellow, localtheme.darkred)
 
-  hl_with_defaults('NonText', palette.bg4, palette.none)
+  hl_with_defaults('NonText', localtheme.bg4, palette.none)
   hl_with_defaults('Whitespace', palette.green, palette.none)
   hl_with_defaults('ExtraWhitespace', palette.green, palette.none)
   hl_with_defaults('SpecialKey', palette.green, palette.none)
-  hl_with_defaults('Pmenu', palette.fg, localtheme.pmenubg)
-  hl_with_defaults('PmenuSbar', palette.none, palette.bg2)
+  hl_with_defaults('Pmenu', localtheme.fg, localtheme.pmenubg)
+  hl_with_defaults('PmenuSbar', palette.none, localtheme.bg2)
   link('PmenuSel', "Visual")
   link("WildMenu", "PmenuSel")
 
   hl_with_defaults('PmenuThumb', palette.none, palette.grey)
-  hl_with_defaults('NormalFloat', palette.fg, palette.bg_dim)
-  hl_with_defaults('FloatBorder', palette.grey_dim, palette.bg_dim)
-  hl_with_defaults('Question', palette.yellow, palette.none)
-  hl('SpellBad', palette.none, palette.none, { undercurl = true, sp = palette.red[1] })
-  hl('SpellCap', palette.none, palette.none, { undercurl = true, sp = palette.yellow[1] })
-  hl('SpellLocal', palette.none, palette.none, { undercurl = true, sp = palette.blue[1] })
+  hl_with_defaults('NormalFloat', localtheme.fg, localtheme.bg_dim)
+  hl_with_defaults('FloatBorder', palette.grey_dim, localtheme.bg_dim)
+  hl_with_defaults('Question', localtheme.yellow, palette.none)
+  hl('SpellBad', palette.none, palette.none, { undercurl = true, sp = localtheme.red[1] })
+  hl('SpellCap', palette.none, palette.none, { undercurl = true, sp = localtheme.yellow[1] })
+  hl('SpellLocal', palette.none, palette.none, { undercurl = true, sp = localtheme.blue[1] })
   hl('SpellRare', palette.none, palette.none, { undercurl = true, sp = palette.purple[1] })
-  hl_with_defaults('StatusLine', palette.fg, localtheme.statuslinebg)
-  hl_with_defaults('StatusLineTerm', palette.fg, palette.none)
+  hl_with_defaults('StatusLine', localtheme.fg, localtheme.statuslinebg)
+  hl_with_defaults('StatusLineTerm', localtheme.fg, palette.none)
   hl_with_defaults('StatusLineNC', palette.grey, localtheme.statuslinebg)
   hl_with_defaults('StatusLineTermNC', palette.grey, palette.none)
-  hl_with_defaults('TabLine', palette.fg, localtheme.statuslinebg)
+  hl_with_defaults('TabLine', localtheme.fg, localtheme.statuslinebg)
   hl_with_defaults('TabLineFill', palette.grey, localtheme.tablinebg)
-  hl_with_defaults('TabLineSel', palette.bg0, palette.bg_red)
+  hl_with_defaults('TabLineSel', localtheme.bg0, palette.bg_red)
   hl_with_defaults('VertSplit', localtheme.statuslinebg, palette.neotreebg)
 
   link("WinSeparator", "VertSplit")
 
   hl_with_defaults('Visual', palette.selfg, palette.selbg)
-  hl('VisualNOS', palette.none, palette.bg3, { underline = true })
-  hl('QuickFixLine', palette.blue, palette.none, { bold = true })
-  hl_with_defaults('Debug', palette.yellow, palette.none)
-  hl_with_defaults('debugPC', palette.bg0, palette.green)
-  hl_with_defaults('debugBreakpoint', palette.bg0, palette.red)
-  hl_with_defaults('ToolbarButton', palette.bg0, palette.bg_blue)
-  hl_with_defaults('Substitute', palette.bg0, palette.yellow)
+  hl('VisualNOS', palette.none, localtheme.bg3, { underline = true })
+  hl('QuickFixLine', localtheme.blue, palette.none, { bold = true })
+  hl_with_defaults('Debug', localtheme.yellow, palette.none)
+  hl_with_defaults('debugPC', localtheme.bg0, palette.green)
+  hl_with_defaults('debugBreakpoint', localtheme.bg0, localtheme.red)
+  hl_with_defaults('ToolbarButton', localtheme.bg0, palette.bg_blue)
+  hl_with_defaults('Substitute', localtheme.bg0, localtheme.yellow)
 
   link("DiagnosticFloatingError", "ErrorFloat")
   link("DiagnosticFloatingWarn", "WarningFloat")
@@ -379,52 +369,52 @@ local function set_all()
   hl('Type', localtheme.darkpurple, palette.none, { bold = true })
   hl('Structure', localtheme.darkpurple, palette.none, { bold = true })
   hl('StorageClass', localtheme.purple, palette.none, { bold = true })
-  hl_with_defaults('Identifier', palette.orange, palette.none)
+  hl_with_defaults('Identifier', localtheme.orange, palette.none)
   hl_with_defaults('Constant', palette.purple, palette.none)
   hl('PreProc', palette.darkyellow, palette.none, { bold = true })
   hl('PreCondit', palette.darkyellow, palette.none, { bold = true })
   hl_with_defaults('Include', palette.green, palette.none)
   hl('Keyword', localtheme.blue, palette.none, { bold = true })
-  hl_with_defaults('Define', palette.red, palette.none)
-  hl('Typedef', palette.red, palette.none, { bold = true })
-  hl_with_defaults('Exception', palette.red, palette.none)
+  hl_with_defaults('Define', localtheme.red, palette.none)
+  hl('Typedef', localtheme.red, palette.none, { bold = true })
+  hl_with_defaults('Exception', localtheme.red, palette.none)
   hl('Conditional', palette.darkyellow, palette.none, { bold = true })
-  hl('Repeat', palette.blue, palette.none, { bold = true })
-  hl('Statement', palette.blue, palette.none, { bold = true })
+  hl('Repeat', localtheme.blue, palette.none, { bold = true })
+  hl('Statement', localtheme.blue, palette.none, { bold = true })
   hl_with_defaults('Macro', palette.purple, palette.none)
-  hl_with_defaults('Error', palette.red, palette.none)
+  hl_with_defaults('Error', localtheme.red, palette.none)
   hl_with_defaults('Label', palette.purple, palette.none)
   hl('Special', localtheme.darkpurple, palette.none, { bold = true })
   hl_with_defaults('SpecialChar', palette.purple, palette.none)
   hl_with_defaults('Boolean', palette.palered, palette.none)
   hl_with_defaults('String', localtheme.string, palette.none)
-  hl_with_defaults('Character', palette.yellow, palette.none)
+  hl_with_defaults('Character', localtheme.yellow, palette.none)
   hl('Number', localtheme.purple, palette.none, { bold = true })
   hl_with_defaults('Float', palette.purple, palette.none)
   hl('Function', localtheme.teal, palette.none, { bold = true })
   hl('Method', localtheme.brightteal, palette.none, { bold = true })
 
-  hl('Operator', palette.red, palette.none, { bold = true })
-  hl('Title', palette.red, palette.none, { bold = true })
-  hl_with_defaults('Tag', palette.orange, palette.none)
-  hl('Delimiter', palette.red, palette.none, { bold = true })
+  hl('Operator', localtheme.red, palette.none, { bold = true })
+  hl('Title', localtheme.red, palette.none, { bold = true })
+  hl_with_defaults('Tag', localtheme.orange, palette.none)
+  hl('Delimiter', localtheme.red, palette.none, { bold = true })
   hl_with_defaults('Comment', palette.grey, palette.none)
   hl_with_defaults('SpecialComment', palette.grey, palette.none)
-  hl_with_defaults('Todo', palette.blue, palette.none)
+  hl_with_defaults('Todo', localtheme.blue, palette.none)
   hl_with_defaults('Ignore', palette.grey, palette.none)
   hl('Underlined', palette.none, palette.none, { underline = true })
 
-  hl_with_defaults('Fg', palette.fg, palette.none)
-  hl('FgBold', palette.fg, palette.none, { bold = true })
-  hl('FgItalic', palette.fg, palette.none, { italic = true })
+  hl_with_defaults('Fg', localtheme.fg, palette.none)
+  hl('FgBold', localtheme.fg, palette.none, { bold = true })
+  hl('FgItalic', localtheme.fg, palette.none, { italic = true })
   hl('FgDimBold', palette.fg_dim, palette.none, { bold = true })
   hl('FgDimBoldItalic', palette.fg_dim, palette.none, { bold = true, italic = true })
   hl_with_defaults('Grey', palette.grey, palette.none)
-  hl_with_defaults('Red', palette.red, palette.none)
+  hl_with_defaults('Red', localtheme.red, palette.none)
   hl('PaleRed', palette.palered, palette.none, { bold = true })
-  hl_with_defaults('Orange', palette.orange, palette.none)
-  hl('OrangeBold', palette.orange, palette.none, { bold = true })
-  hl_with_defaults('Yellow', palette.yellow, palette.none)
+  hl_with_defaults('Orange', localtheme.orange, palette.none)
+  hl('OrangeBold', localtheme.orange, palette.none, { bold = true })
+  hl_with_defaults('Yellow', localtheme.yellow, palette.none)
   hl_with_defaults('Green', palette.green, palette.none)
   hl_with_defaults('Blue', localtheme.blue, palette.none)
   hl('BlueBold', localtheme.blue, palette.none, { bold = true })
@@ -432,25 +422,25 @@ local function set_all()
   hl('PurpleBold', localtheme.purple, palette.none, { bold = true })
   hl_with_defaults('DarkPurple', localtheme.darkpurple, palette.none)
   hl('DarkPurpleBold', localtheme.darkpurple, palette.none, { bold = true })
-  hl('RedBold', palette.red, palette.none, { bold = true })
+  hl('RedBold', localtheme.red, palette.none, { bold = true })
   hl_with_defaults('Teal', localtheme.teal, palette.none)
   hl('TealBold', localtheme.teal, palette.none, { bold = true })
 
-  hl_with_defaults('RedItalic', palette.red, palette.none)
-  hl_with_defaults('OrangeItalic', palette.orange, palette.none)
-  hl_with_defaults('YellowItalic', palette.yellow, palette.none)
+  hl_with_defaults('RedItalic', localtheme.red, palette.none)
+  hl_with_defaults('OrangeItalic', localtheme.orange, palette.none)
+  hl_with_defaults('YellowItalic', localtheme.yellow, palette.none)
   hl_with_defaults('GreenItalic', palette.green, palette.none)
-  hl_with_defaults('BlueItalic', palette.blue, palette.none)
+  hl_with_defaults('BlueItalic', localtheme.blue, palette.none)
   hl_with_defaults('PurpleItalic', palette.purple, palette.none)
-  hl_with_defaults('RedSign', palette.red, localtheme.darkbg)
-  hl_with_defaults('OrangeSign', palette.orange, localtheme.darkbg)
-  hl_with_defaults('YellowSign', palette.yellow, localtheme.darkbg)
+  hl_with_defaults('RedSign', localtheme.red, localtheme.darkbg)
+  hl_with_defaults('OrangeSign', localtheme.orange, localtheme.darkbg)
+  hl_with_defaults('YellowSign', localtheme.yellow, localtheme.darkbg)
   hl_with_defaults('GreenSign', palette.green, localtheme.darkbg)
-  hl_with_defaults('BlueSign', palette.blue, localtheme.darkbg)
+  hl_with_defaults('BlueSign', localtheme.blue, localtheme.darkbg)
   hl_with_defaults('PurpleSign', palette.purple, localtheme.darkbg)
-  hl('ErrorText', palette.none, palette.none, { undercurl = true, sp = palette.red[1] })
-  hl('WarningText', palette.none, palette.none, { undercurl = true, sp = palette.yellow[1] })
-  hl('InfoText', palette.none, palette.none, { undercurl = true, sp = palette.blue[1] })
+  hl('ErrorText', palette.none, palette.none, { undercurl = true, sp = localtheme.red[1] })
+  hl('WarningText', palette.none, palette.none, { undercurl = true, sp = localtheme.yellow[1] })
+  hl('InfoText', palette.none, palette.none, { undercurl = true, sp = localtheme.blue[1] })
   hl('HintText', palette.none, palette.none, { undercurl = true, sp = palette.green[1] })
   --highlight clear ErrorLine
   --highlight clear WarningLine
@@ -461,17 +451,17 @@ local function set_all()
   link("VirtualTextInfo", "Grey")
   link("VirtualTextHint", "Grey")
 
-  hl_with_defaults('ErrorFloat', palette.red, palette.none) -- was palette.bg2"
-  hl_with_defaults('WarningFloat', palette.yellow, palette.none)
-  hl_with_defaults('InfoFloat', palette.blue, palette.none)
+  hl_with_defaults('ErrorFloat', localtheme.red, palette.none) -- was localtheme.bg2"
+  hl_with_defaults('WarningFloat', localtheme.yellow, palette.none)
+  hl_with_defaults('InfoFloat', localtheme.blue, palette.none)
   hl_with_defaults('HintFloat', palette.green, palette.none)
 
   hl('TSStrong', palette.none, palette.none, { bold = true })
   hl('TSEmphasis', palette.none, palette.none, { italic = true })
   hl('TSUnderline', palette.none, palette.none, { underline = true })
-  hl('TSNote', palette.bg0, palette.blue, { bold = true })
-  hl('TSWarning', palette.bg0, palette.yellow, { bold = true })
-  hl('TSDanger', palette.bg0, palette.red, { bold = true })
+  hl('TSNote', localtheme.bg0, localtheme.blue, { bold = true })
+  hl('TSWarning', localtheme.bg0, localtheme.yellow, { bold = true })
+  hl('TSDanger', localtheme.bg0, localtheme.red, { bold = true })
 
   link("TSAnnotation", "BlueItalic")
   link("TSAttribute", "BlueItalic")
@@ -582,7 +572,7 @@ local function set_all()
   link("multiple_cursors_cursor", "Cursor")
   link("multiple_cursors_visual", "Visual")
 
-  hl_with_defaults('VMCursor', palette.blue, palette.grey_dim)
+  hl_with_defaults('VMCursor', localtheme.blue, palette.grey_dim)
 
   link("FloatermBorder", "Grey")
   link("BookmarkSign", "BlueSign")
@@ -591,10 +581,10 @@ local function set_all()
   link("BookmarkAnnotationLine", "DiffAdd")
 
   hl('TelescopeMatching', palette.palered, palette.none, { bold = true })
-  hl_with_defaults('TelescopeBorder', localtheme.accent, palette.bg_dim)
-  hl_with_defaults('TelescopePromptBorder', localtheme.accent, palette.bg_dim)
-  hl('TelescopePromptNormal', palette.fg_dim, palette.bg_dim, { bold = true })
-  hl_with_defaults('TelescopeNormal', palette.fg_dim, palette.bg_dim)
+  hl_with_defaults('TelescopeBorder', localtheme.accent, localtheme.bg_dim)
+  hl_with_defaults('TelescopePromptBorder', localtheme.accent, localtheme.bg_dim)
+  hl('TelescopePromptNormal', palette.fg_dim, localtheme.bg_dim, { bold = true })
+  hl_with_defaults('TelescopeNormal', palette.fg_dim, localtheme.bg_dim)
   hl('TelescopeTitle', localtheme.accent_fg, localtheme.accent, { bold = true })
 
   link("MiniPickBorder", "TelescopeBorder")
@@ -624,14 +614,14 @@ local function set_all()
   link("GitSignsCurrentLineBlame", "Grey")
 
   -- phaazon/hop.nvim {{{
-  hl('HopNextKey', palette.red, palette.none, { bold = true })
-  hl('HopNextKey1', palette.blue, palette.none, { bold = true })
+  hl('HopNextKey', localtheme.red, palette.none, { bold = true })
+  hl('HopNextKey1', localtheme.blue, palette.none, { bold = true })
   link("HopNextKey2", "Blue")
   link("HopUnmatched", "Grey")
 
   -- lukas-reineke/indent-blankline.nvim
   hl('IndentBlanklineContextChar', palette.diff_green, palette.none, { nocombine = true })
-  hl('IndentBlanklineChar', palette.bg1, palette.none, { nocombine = true })
+  hl('IndentBlanklineChar', localtheme.bg1, palette.none, { nocombine = true })
   link("IndentBlanklineSpaceChar", "IndentBlanklineChar")
   link("IndentBlanklineSpaceCharBlankline", "IndentBlanklineChar")
   -- rainbow colors
@@ -659,7 +649,7 @@ local function set_all()
   link("NotifyDEBUGTitle", "Grey")
   link("NotifyTRACETitle", "Purple")
 
-  hl_with_defaults('InclineNormalNC', palette.grey, palette.bg2)
+  hl_with_defaults('InclineNormalNC', palette.grey, localtheme.bg2)
 
   link("diffAdded", "Green")
   link("diffRemoved", "Red")
@@ -671,9 +661,9 @@ local function set_all()
   link("diffIndexLine", "Purple")
 
   -- https://github.com/kyazdani42/nvim-tree.lua
-  hl_with_defaults('NvimTreeNormal', palette.fg, palette.neotreebg)
-  hl_with_defaults('NvimTreeEndOfBuffer', palette.bg_dim, palette.neotreebg)
-  hl_with_defaults('NvimTreeVertSplit', palette.bg0, palette.bg0)
+  hl_with_defaults('NvimTreeNormal', localtheme.fg, palette.neotreebg)
+  hl_with_defaults('NvimTreeEndOfBuffer', localtheme.bg_dim, palette.neotreebg)
+  hl_with_defaults('NvimTreeVertSplit', localtheme.bg0, localtheme.bg0)
   link("NvimTreeSymlink", "Fg")
   link("NvimTreeFolderName", "BlueBold")
   link("NvimTreeRootFolder", "Yellow")
@@ -697,13 +687,13 @@ local function set_all()
   link("NvimTreeLspDiagnosticsInformation", "BlueSign")
   link("NvimTreeLspDiagnosticsHint", "GreenSign")
 
-  hl('markdownH1', palette.red, palette.none, { bold = true })
-  hl('markdownH2', palette.orange, palette.none, { bold = true })
-  hl('markdownH3', palette.yellow, palette.none, { bold = true })
+  hl('markdownH1', localtheme.red, palette.none, { bold = true })
+  hl('markdownH2', localtheme.orange, palette.none, { bold = true })
+  hl('markdownH3', localtheme.yellow, palette.none, { bold = true })
   hl('markdownH4', palette.green, palette.none, { bold = true })
-  hl('markdownH5', palette.blue, palette.none, { bold = true })
+  hl('markdownH5', localtheme.blue, palette.none, { bold = true })
   hl('markdownH6', palette.purple, palette.none, { bold = true })
-  hl('markdownUrl', palette.blue, palette.none, { underline = true })
+  hl('markdownUrl', localtheme.blue, palette.none, { underline = true })
   hl('markdownItalic', palette.none, palette.none, { italic = true })
   hl('markdownBold', palette.none, palette.none, { bold = true })
   hl('markdownItalicDelimiter', palette.grey, palette.none, { italic = true })
@@ -725,8 +715,8 @@ local function set_all()
   link("markdownBoldDelimiter", "Grey")
   link("markdownId", "Yellow")
   -- vim-markdown: https://github.com/gabrielelana/vim-markdown{{{
-  hl('mdURL', palette.blue, palette.none, { underline = true })
-  hl('mkdInineURL', palette.blue, palette.none, { underline = true })
+  hl('mdURL', localtheme.blue, palette.none, { underline = true })
+  hl('mkdInineURL', localtheme.blue, palette.none, { underline = true })
   hl('mkdItalic', palette.grey, palette.none, { italic = true })
   link("mkdCodeDelimiter", "Green")
   link("mkdBold", "Grey")
@@ -765,11 +755,11 @@ local function set_all()
 
   -- syn_begin: html/markdown/javascriptreact/typescriptreact {{{
   -- builtin: https://notabug.org/jorgesumle/vim-html-syntax{{{
-  hl('htmlH1', palette.blue, palette.none, { bold = true })
-  hl('htmlH2', palette.orange, palette.none, { bold = true })
-  hl('htmlH3', palette.yellow, palette.none, { bold = true })
+  hl('htmlH1', localtheme.blue, palette.none, { bold = true })
+  hl('htmlH2', localtheme.orange, palette.none, { bold = true })
+  hl('htmlH3', localtheme.yellow, palette.none, { bold = true })
   hl('htmlH4', palette.green, palette.none, { bold = true })
-  hl('htmlH5', palette.blue, palette.none, { bold = true })
+  hl('htmlH5', localtheme.blue, palette.none, { bold = true })
   hl('htmlH6', palette.purple, palette.none, { bold = true })
   hl('htmlLink', palette.none, palette.none, { underline = true })
   hl('htmlBold', palette.none, palette.none, { bold = true })
@@ -843,10 +833,10 @@ local function set_all()
 
   -- syn_begin: help
   hl('helpNote', palette.purple, palette.none, { bold = true })
-  hl('helpHeadline', palette.red, palette.none, { bold = true })
-  hl('helpHeader', palette.orange, palette.none, { bold = true })
+  hl('helpHeadline', localtheme.red, palette.none, { bold = true })
+  hl('helpHeader', localtheme.orange, palette.none, { bold = true })
   hl('helpURL', palette.green, palette.none, { underline = true })
-  hl('helpHyperTextEntry', palette.blue, palette.none, { bold = true })
+  hl('helpHyperTextEntry', localtheme.blue, palette.none, { bold = true })
   link("helpHyperTextJump", "Blue")
   link("helpCommand", "Yellow")
   link("helpExample", "Green")
@@ -863,8 +853,8 @@ local function set_all()
   set_hl(0, "CmpItemMenuLSP", { fg = "#cfa050" })
   link("CmpItemMenuPath", "CmpItemMenu")
 
-  hl_with_defaults('CmpPmenu', palette.fg, palette.bg_dim)
-  hl_with_defaults('CmpPmenuBorder', palette.grey_dim, palette.bg_dim)
+  hl_with_defaults('CmpPmenu', localtheme.fg, localtheme.bg_dim)
+  hl_with_defaults('CmpPmenuBorder', palette.grey_dim, localtheme.bg_dim)
   hl_with_defaults('CmpGhostText', palette.grey, palette.none)
   set_hl(0, "CmpItemAbbr", { fg = "#d0b1d0" })
 
@@ -887,17 +877,17 @@ local function set_all()
   set_hl(0, "CmpItemKindSnippet", { bg = 'none', fg = "#E3E300" })
 
   -- Glance plugin: https://github.com/DNLHC/glance.nvim
-  hl_with_defaults('GlancePreviewNormal', palette.fg, palette.black)
-  hl_with_defaults('GlancePreviewMatch', palette.yellow, palette.none)
-  hl_with_defaults('GlanceListMatch', palette.yellow, palette.none)
+  hl_with_defaults('GlancePreviewNormal', localtheme.fg, localtheme.black)
+  hl_with_defaults('GlancePreviewMatch', localtheme.yellow, palette.none)
+  hl_with_defaults('GlanceListMatch', localtheme.yellow, palette.none)
   link("GlanceListCursorLine", "Visual")
 
   -- allow neotree and other addon panels have different backgrounds
-  hl_with_defaults('NeoTreeNormalNC', palette.fg, palette.neotreebg)
-  hl_with_defaults('NeoTreeNormal', palette.fg, palette.neotreebg)
+  hl_with_defaults('NeoTreeNormalNC', localtheme.fg, palette.neotreebg)
+  hl_with_defaults('NeoTreeNormal', localtheme.fg, palette.neotreebg)
   hl_with_defaults('NeoTreeFloatBorder', palette.grey_dim, palette.neotreebg)
-  hl('NeoTreeFileNameOpened', palette.blue, palette.neotreebg, { italic = true })
-  hl_with_defaults('SymbolsOutlineConnector', palette.bg4, palette.none)
+  hl('NeoTreeFileNameOpened', localtheme.blue, palette.neotreebg, { italic = true })
+  hl_with_defaults('SymbolsOutlineConnector', localtheme.bg4, palette.none)
 
   -- Treesitter stuff
   hl_with_defaults('TreesitterContext', palette.none, localtheme.bg)
@@ -908,7 +898,7 @@ local function set_all()
   link("AerialGuide", "SymbolsOutlineConnector")
 
   -- WinBar
-  hl_with_defaults('WinBarFilename', palette.fg, localtheme.accent)                                                    -- Filename (right hand)
+  hl_with_defaults('WinBarFilename', localtheme.fg, localtheme.accent)                                                    -- Filename (right hand)
   hl('WinBarContext', palette.darkyellow, palette.none, { underline = true, sp = localtheme.accent[1] }) -- LSP context (left hand)
   -- WinBarInvis is for the central padding item. It should be transparent and invisible (fg = bg)
   -- This is a somewhat hack-ish way to make the lualine-controlle winbar transparent.
@@ -1003,13 +993,13 @@ end
 
 -- these groups are all relevant to the signcolumn and need their bg updated when
 -- switching from / to transparency mode. They are used for GitSigns, LSP diagnostics
--- marks among other things. TODO: 
+
+-- marks among other things
 local signgroups = { 'RedSign', 'OrangeSign', 'YellowSign', 'GreenSign', 'BlueSign', 'PurpleSign', 'CursorLineNr' }
 
 --- set the background transparent or solid
 --- this changes the relevant highlight groups to use a transparent background.
 --- Needs terminal with transparency support (kitty, alacritty etc.)
---- @param trans boolean: set transparent when true, opaque otherwise
 function M.set_bg()
   if conf.is_trans == true then
     -- remove background colors from all relevant areas
@@ -1081,7 +1071,7 @@ function M.ui_select_colorweight()
     local short = string.sub(choice, 1, 6)
     if short == "Vivid " then
       conf.desaturate = false
-      conf.level = 1
+      conf.dlevel = 1
     elseif short == "Medium" then
       conf.desaturate = true
       conf.dlevel = 1
