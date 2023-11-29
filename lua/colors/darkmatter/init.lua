@@ -32,14 +32,14 @@ M.theme = {
   lualine = 'internal',  -- use 'internal' for the integrated theme or any valid lualine theme name
   selbg = '#104090',
   cold = {
-    statuslinebg = '#262636',
+    statuslinebg = '#262630',
     bg = '#141414',
     treebg = '#18181c',
     gutterbg = '#101013',
     kittybg = '#18181c'
   },
   warm = {
-    statuslinebg = '#302626',
+    statuslinebg = '#2a2626',
     bg = '#161414',
     treebg = '#1b1818',
     gutterbg = '#131010',
