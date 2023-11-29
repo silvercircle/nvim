@@ -32,18 +32,21 @@ M.theme = {
   lualine = 'internal',  -- use 'internal' for the integrated theme or any valid lualine theme name
   selbg = '#104090',
   cold = {
+    statuslinebg = '#262636',
     bg = '#141414',
     treebg = '#18181c',
     gutterbg = '#101013',
     kittybg = '#18181c'
   },
   warm = {
+    statuslinebg = '#302626',
     bg = '#161414',
     treebg = '#1b1818',
     gutterbg = '#131010',
     kittybg = '#1b1818'
   },
   deepblack = {
+    statuslinebg = '#222228',
     bg = '#0a0a0a',
     treebg = '#121212',
     gutterbg = '#0f0f0f',
@@ -63,7 +66,6 @@ local conf = {
   kittenexec = nil
 }
 M.cokeline_colors = {}
-M.statuslinebg = nil
 
 local LuaLineColors = {}
 
@@ -100,63 +102,6 @@ local function link(hlg, target)
   set_hl(0, hlg, { link = target })
 end
 
-LuaLineColors = {
-  cold = {
-    white        = '#ffffff',
-    darkestgreen = M.theme.accent_fg,
-    brightgreen  = M.theme.accent_color,
-    darkestcyan  = '#005f5f',
-    mediumcyan   = '#87dfff',
-    darkestblue  = '#005f87',
-    darkred      = '#870000',
-    brightred    = M.theme.alt_accent_color,
-    brightorange = '#2f47df',
-    gray1        = '#262626',
-    gray2        = '#303030',
-    gray4        = '#585858',
-    gray5        = '#404050',
-    gray7        = '#9e9e9e',
-    gray10       = '#f0f0f0',
-    statuslinebg = '#262636'
-  },
-  warm = {
-    white        = '#ffffff',
-    darkestgreen = M.theme.accent_fg,
-    brightgreen  = M.theme.accent_color,
-    darkestcyan  = '#005f5f',
-    mediumcyan   = '#87dfff',
-    darkestblue  = '#005f87',
-    darkred      = '#870000',
-    brightred    = M.theme.alt_accent_color,
-    brightorange = '#2f47df',
-    gray1        = '#262626',
-    gray2        = '#303030',
-    gray4        = '#585858',
-    gray5        = '#474040',
-    gray7        = '#9e9e9e',
-    gray10       = '#f0f0f0',
-    statuslinebg = '#2c2626'
-  },
-  deepblack = {
-    white        = '#ffffff',
-    darkestgreen = M.theme.accent_fg,
-    brightgreen  = M.theme.accent_color,
-    darkestcyan  = '#005f5f',
-    mediumcyan   = '#87dfff',
-    darkestblue  = '#005f87',
-    darkred      = '#870000',
-    brightred    = M.theme.alt_accent_color,
-    brightorange = '#2f47df',
-    gray1        = '#262626',
-    gray2        = '#303030',
-    gray4        = '#585858',
-    gray5        = '#474040',
-    gray7        = '#9e9e9e',
-    gray10       = '#f0f0f0',
-    statuslinebg = '#222228'
-  }
-}
-
 -- configure the theme data.
 local function configure()
   if conf.desaturate == true then
@@ -186,14 +131,32 @@ local function configure()
     }
   end
 
+  LuaLineColors = {
+    white        = '#ffffff',
+    darkestgreen = M.theme.accent_fg,
+    brightgreen  = M.theme.accent_color,
+    darkestcyan  = '#005f5f',
+    mediumcyan   = '#87dfff',
+    darkestblue  = '#005f87',
+    darkred      = '#870000',
+    brightred    = M.theme.alt_accent_color,
+    brightorange = '#2f47df',
+    gray1        = '#262626',
+    gray2        = '#303030',
+    gray4        = '#585858',
+    gray5        = '#404050',
+    gray7        = '#9e9e9e',
+    gray10       = '#f0f0f0',
+    statuslinebg = M.theme[conf.variant].statuslinebg
+  }
+
   M.cokeline_colors = {
     --bg = LuaLineColors.statuslinebg,
-    bg = LuaLineColors[conf.variant].statuslinebg,
+    bg = M.theme[conf.variant].statuslinebg,
     focus_bg = M.theme.selbg,
-    fg = LuaLineColors[conf.variant].gray7,
+    fg = LuaLineColors.gray7,
     focus_fg = M.theme.accent_fg,
   }
-  M.statuslinebg = LuaLineColors[conf.variant].statuslinebg
 
   if conf.variant == 'cold' or conf.variant == 'deepblack' then
     localtheme.fg           = { '#a2a0ac', 1 }
@@ -202,7 +165,7 @@ local function configure()
     localtheme.darkestred   = { '#161616', 249 }
     localtheme.darkestblue  = { '#10101a', 247 }
     localtheme.bg           = { M.theme[conf.variant].bg, 0 }
-    localtheme.statuslinebg = { M.statuslinebg, 208 }
+    localtheme.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
     localtheme.pmenubg      = { '#241a20', 156 }
     localtheme.accent       = { M.theme['accent_color'], 209 }
     localtheme.accent_fg    = { M.theme['accent_fg'], 210 }
@@ -221,7 +184,7 @@ local function configure()
     localtheme.darkestred   = { '#161616', 249 }
     localtheme.darkestblue  = { '#10101a', 247 }
     localtheme.bg           = { M.theme[conf.variant].bg, 0 }
-    localtheme.statuslinebg = { M.statuslinebg, 208 }
+    localtheme.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
     localtheme.pmenubg      = { '#241a20', 156 }
     localtheme.accent       = { M.theme['accent_color'], 209 }
     localtheme.accent_fg    = { M.theme['accent_fg'], 210 }
@@ -1006,22 +969,21 @@ end
 --- internal global function to create the lualine color theme
 --- @return table
 function M.Lualine_internal_theme()
-  local ll_colors = LuaLineColors[conf.variant]
   return {
     normal = {
-      a = { fg = ll_colors.darkestgreen, bg = ll_colors.brightgreen --[[, gui = 'bold']] },
-      b = { fg = ll_colors.gray10, bg = ll_colors.gray5 },
+      a = { fg = LuaLineColors.darkestgreen, bg = LuaLineColors.brightgreen --[[, gui = 'bold']] },
+      b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
       c = "StatusLine",
       x = "StatusLine"
     },
     insert = {
-      a = { fg = ll_colors.white, bg = ll_colors.brightred, gui = 'bold' },
-      b = { fg = ll_colors.gray10, bg = ll_colors.gray5 },
+      a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' },
+      b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
       c = "StatusLine",
       x = "StatusLine",
     },
-    visual = { a = { fg = ll_colors.white, bg = ll_colors.brightorange --[[, gui = 'bold']] } },
-    replace = { a = { fg = ll_colors.white, bg = ll_colors.brightred, gui = 'bold' } },
+    visual = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightorange --[[, gui = 'bold']] } },
+    replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = 'bold' } },
     inactive = {
       a = "StatusLine",
       b = "StatusLine",
@@ -1069,9 +1031,8 @@ end
 
 -- use vim.ui.select to choose from a list of themes
 function M.ui_select_variant()
-  local variant_old = conf.variant
-
   local utils = require("local_utils")
+
   vim.ui.select({ "Warm (red tint)?", "Cold (blue tint)", "Deep dark" }, {
     prompt = "Select a theme variant",
     border = "single",
@@ -1084,13 +1045,12 @@ function M.ui_select_variant()
       conf.variant = "warm"
     elseif short == "Cold" then
       conf.variant = "cold"
-    else
+    elseif short == 'Deep' then
       conf.variant = "deepblack"
+    else
+      return
     end
-    if conf.variant ~= variant_old then
-      conf.variant = variant_old
-      M.set()
-    end
+    M.set()
   end)
   return conf.variant
 end
