@@ -61,13 +61,31 @@ local conf = {
   desaturate = true,
   dlevel = 1,               -- desaturation level (1 = mild, 2 = strong, pastel-like")
   theme_strings = 'yellow',
-  sync_kittybg = true,
+  -- kitty features are disabled by default.
+  sync_kittybg = false,
   kittysocket = nil,
   kittenexec = nil
 }
 M.cokeline_colors = {}
 
-local LuaLineColors = {}
+local  LuaLineColors = {
+  white        = '#ffffff',
+  darkestgreen = M.theme.accent_fg,
+  brightgreen  = M.theme.accent_color,
+  darkestcyan  = '#005f5f',
+  mediumcyan   = '#87dfff',
+  darkestblue  = '#005f87',
+  darkred      = '#870000',
+  brightred    = M.theme.alt_accent_color,
+  brightorange = '#2f47df',
+  gray1        = '#262626',
+  gray2        = '#303030',
+  gray4        = '#585858',
+  gray5        = '#404050',
+  gray7        = '#9e9e9e',
+  gray10       = '#f0f0f0',
+  statuslinebg = M.theme[conf.variant].statuslinebg
+}
 
 local diff = vim.api.nvim_win_get_option(0, "diff")
 
@@ -131,24 +149,7 @@ local function configure()
     }
   end
 
-  LuaLineColors = {
-    white        = '#ffffff',
-    darkestgreen = M.theme.accent_fg,
-    brightgreen  = M.theme.accent_color,
-    darkestcyan  = '#005f5f',
-    mediumcyan   = '#87dfff',
-    darkestblue  = '#005f87',
-    darkred      = '#870000',
-    brightred    = M.theme.alt_accent_color,
-    brightorange = '#2f47df',
-    gray1        = '#262626',
-    gray2        = '#303030',
-    gray4        = '#585858',
-    gray5        = '#404050',
-    gray7        = '#9e9e9e',
-    gray10       = '#f0f0f0',
-    statuslinebg = M.theme[conf.variant].statuslinebg
-  }
+  LuaLineColors.statuslinebg = M.theme[conf.variant].statuslinebg
 
   M.cokeline_colors = {
     --bg = LuaLineColors.statuslinebg,
