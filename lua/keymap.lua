@@ -190,9 +190,6 @@ _Config_SetKey('n', '<f23>', function() perform_command('Lazy') end, "Open Lazy 
 
 _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-l>', function() __Globals.toggle_statuscol() end, "Toggle absolute/relative line numbers")
 _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-k>', function() __Globals.toggle_colorcolumn() end, "Toggle color column display")
-_Config_SetKey({ 'n', 'i' }, utility_key .. 'tv', function() __Globals.toggle_theme_variant() end, "Toggle theme variant warm/cold")
-_Config_SetKey({ 'n', 'i' }, utility_key .. 'td', function() __Globals.toggle_theme_desaturate() end, "Toggle theme desaturate")
-_Config_SetKey({ 'n', 'i' }, utility_key .. 'ts', function() __Globals.toggle_theme_strings() end, "Toggle theme string color")
 _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-p>', function() __Globals.toggle_ibl_rainbow() end, "Toggle indent-blankline rainbow mode")
 _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-o>', function() __Globals.toggle_ibl() end, "Toggle indent-blankline active")
 _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-u>', function() __Globals.toggle_ibl_context() end, "Toggle indent-blankline context")
@@ -200,10 +197,6 @@ _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-z>', function()
   __Globals.perm_config.scrollbar = not __Globals.perm_config.scrollbar
   __Globals.set_scrollbar()             -- toggle scrollbar visibility
 end, "Toggle scrollbar")
-_Config_SetKey({ 'n', 'i' }, utility_key .. 'tt', function()
-  __Globals.perm_config.transbg = not __Globals.perm_config.transbg
-  Config.theme.set_bg(__Globals.perm_config.transbg)  -- toggle transparent background (may not work on all terminals)
-end, "Toggle transparent background")
 _Config_SetKey({ 'n', 'i' }, utility_key .. '<C-g>', function()
   -- declutter status line. There are 4 levels. 0 displays all components, 1-3 disables some
   -- lesser needed

@@ -19,6 +19,7 @@ local palette = {}
 local localtheme = {}
 
 local M = {}
+M.keys_set = false
 
 M.theme = {
   string = 'yellow',    -- yellow strings, default is green. Respects desaturate
@@ -64,7 +65,10 @@ local conf = {
   -- kitty features are disabled by default.
   sync_kittybg = false,
   kittysocket = nil,
-  kittenexec = nil
+  kittenexec = nil,
+  is_trans = false,
+  keyprefix = "<leader>",
+  callback = nil
 }
 M.cokeline_colors = {}
 
@@ -943,6 +947,18 @@ end
 --- @param opt table - the options to set
 function M.setup(opt)
   conf = vim.tbl_deep_extend("force", conf, opt)
+  -- bind keys, but do this only once
+  if M.keys_set == false then
+    M.keys_set = true
+    vim.keymap.set({'n'}, conf.keyprefix .. "tv", function() M.ui_select_variant() end,
+                   { silent = true, noremap = true, desc = "Select theme variant" })
+    vim.keymap.set({'n'}, conf.keyprefix .. "td", function() M.ui_select_colorweight() end,
+                   { silent = true, noremap = true, desc = "Select theme color weight" })
+    vim.keymap.set({'n'}, conf.keyprefix .. "ts", function() M.toggle_strings_color() end,
+                   { silent = true, noremap = true, desc = "Toggle theme strings color" })
+    vim.keymap.set({'n'}, conf.keyprefix .. "tt", function() M.toggle_transparency() end,
+                   { silent = true, noremap = true, desc = "Toggle theme transparency" })
+  end
 end
 
 --- return the full configuration
@@ -956,14 +972,6 @@ end
 function M.get_conf_value(val)
   if val ~= nil and conf[val] ~= nil then
     return conf[val]
-  end
-end
-
---- set a theme variant. Does not activate it, caller must use set()
---- @param variant string: A known color variant. Unsupported values are discarded
-function M.set_variant(variant)
-  if vim.tbl_contains(supported_variants, variant) then
-    conf.variant = variant
   end
 end
 
@@ -1002,8 +1010,8 @@ local signgroups = { 'RedSign', 'OrangeSign', 'YellowSign', 'GreenSign', 'BlueSi
 --- this changes the relevant highlight groups to use a transparent background.
 --- Needs terminal with transparency support (kitty, alacritty etc.)
 --- @param trans boolean: set transparent when true, opaque otherwise
-function M.set_bg(trans)
-  if trans == true then
+function M.set_bg()
+  if conf.is_trans == true then
     -- remove background colors from all relevant areas
     vim.api.nvim_set_hl(0, "Normal", { bg = "none", fg = "fg" })
     vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
@@ -1041,6 +1049,7 @@ function M.ui_select_variant()
       return utils.pad(item, 40, " ")
     end
   }, function(choice)
+    if choice == nil or #choice < 4 then return end
     local short = string.sub(choice, 1, 4)
     if short == "Warm" then
       conf.variant = "warm"
@@ -1052,6 +1061,9 @@ function M.ui_select_variant()
       return
     end
     M.set()
+    if conf.callback ~= nil and type(conf.callback) == "function" then
+      conf.callback("variant")
+    end
   end)
   return conf.variant
 end
@@ -1065,6 +1077,7 @@ function M.ui_select_colorweight()
       return utils.pad(item, 50, " ")
     end
   }, function(choice)
+    if choice == nil or #choice < 6 then return end
     local short = string.sub(choice, 1, 6)
     if short == "Vivid " then
       conf.desaturate = false
@@ -1077,7 +1090,31 @@ function M.ui_select_colorweight()
       conf.dlevel = 2
     end
     M.set()
+    if conf.callback ~= nil and type(conf.callback) == "function" then
+      conf.callback("desaturate")
+    end
   end)
   return conf.desaturate, conf.dlevel
 end
+
+function M.toggle_strings_color()
+  if conf.theme_strings ~= "yellow" then
+    conf.theme_strings = "yellow"
+  else
+    conf.theme_strings = "green"
+  end
+  M.set()
+  if conf.callback ~= nil and type(conf.callback) == "function" then
+    conf.callback("strings")
+  end
+end
+
+function M.toggle_transparency()
+  conf.is_trans = not conf.is_trans
+  M.set_bg()
+  if conf.callback ~= nil and type(conf.callback) == "function" then
+    conf.callback("trans")
+  end
+end
+
 return M

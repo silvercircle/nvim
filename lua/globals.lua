@@ -412,7 +412,9 @@ function M.write_config()
       },
       theme_variant = theme_conf.variant,
       theme_desaturate = theme_conf.desaturate,
-      theme_dlevel = theme_conf.dlevel
+      theme_dlevel = theme_conf.dlevel,
+      transbg = theme_conf.is_trans,
+      theme_strings = theme_conf.theme_strings
     }
     if wsplit_id ~= nil then
       state.weather.width = vim.api.nvim_win_get_width(wsplit_id)
@@ -453,10 +455,36 @@ function M.restore_config()
   -- configure the theme
   colors.setup({ variant = M.perm_config.theme_variant,
                  desaturate = M.perm_config.theme_desaturate, dlevel = M.perm_config.theme_dlevel,
-                 theme_strings = M.perm_config.theme_strings,
+                 theme_strings = M.perm_config.theme_strings, is_trans = M.perm_config.transbg,
                  sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
                  kittysocket = vim.g.tweaks.theme.kittysocket,
-                 kittenexec = vim.g.tweaks.theme.kittenexec})
+                 kittenexec = vim.g.tweaks.theme.kittenexec,
+                 callback = M.theme_callback })
+end
+
+--- the callback is called from internal theme functions that change its
+--- configuration.
+--- @param what string: description what has changed
+function M.theme_callback(what)
+  local conf = colors.get_conf()
+  if what == 'variant' then
+    M.perm_config.theme_variant = conf.variant
+    M.notify("Theme variant is now: " .. conf.variant, vim.log.levels.INFO, "Theme")
+  elseif what == 'desaturate' then
+    M.perm_config.theme_desaturate = conf.desaturate
+    M.perm_config.theme_dlevel = conf.dlevel
+    if conf.desaturate == false then
+      M.notify("Selected vivid color scheme", vim.log.levels.INFO, "Theme")
+    else
+      M.notify("Selected desaturated (Level " .. conf.dlevel .. ") color scheme", vim.log.levels.INFO, "Theme")
+    end
+  elseif what == 'strings' then
+    M.notify("Theme strings set to: " .. conf.theme_strings, vim.log.levels.INFO, "Theme")
+    M.perm_config.theme_strings = conf.theme_strings
+  elseif what == "trans" then
+    M.perm_config.transbg = conf.is_trans
+    M.notify("Theme transparency is now " .. (conf.is_trans == true and "On" or "Off"), vim.log.levels.INFO, "Theme")
+  end
 end
 
 --- adjust the optional frames so they will keep their width when the side tree opens or closes
@@ -478,44 +506,6 @@ function M.adjust_layout()
   if #outline > 0 then
     vim.api.nvim_win_set_width(outline[1], M.perm_config.outline.width)
   end
-end
-
---- bound to a hotkey ("<C-l>tv by default)
-function M.toggle_theme_variant()
-  M.perm_config.theme_variant = colors.ui_select_variant()
-  if M.perm_config.transbg == true then
-    colors.set_bg(M.perm_config.transbg)
-  end
-  M.notify("Theme variant is now: " .. M.perm_config.theme_variant, vim.log.levels.INFO, "Theme")
-end
-
---- toggle theme saturate state. By default bound to <C-l>td
---- desaturated means a more pastel and less vivid color contrast
-function M.toggle_theme_desaturate()
-  local desaturated, level = colors.ui_select_colorweight()
-  M.perm_config.theme_desaturate = desaturated
-  M.perm_config.theme_dlevel = level
-  if M.perm_config.transbg == true then
-    colors.set_bg(M.perm_config.transbg)
-  end
-  M.notify("Theme is now " .. (desaturated == true and "desaturated" or "vivid"), vim.log.levels.INFO, "Theme")
-end
-
---- toggle theme string color between yellow and green
-function M.toggle_theme_strings()
-  local strings = colors.get_conf_value("theme_strings")
-  if strings ~= "yellow" then
-    strings = "yellow"
-  else
-    strings = "green"
-  end
-  M.perm_config.theme_strings = strings
-  colors.setup({ theme_strings = strings })
-  colors.set()
-  if M.perm_config.transbg == true then
-    colors.set_bg(M.perm_config.transbg)
-  end
-  M.notify("Theme string color set to: " .. M.perm_config.theme_strings, vim.log.levels.INFO, "Theme")
 end
 
 --- try to format a souce file by using one of the defined formatter programs
