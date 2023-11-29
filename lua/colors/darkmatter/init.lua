@@ -153,7 +153,7 @@ LuaLineColors = {
     gray5        = '#474040',
     gray7        = '#9e9e9e',
     gray10       = '#f0f0f0',
-    statuslinebg = '#181822'
+    statuslinebg = '#222228'
   }
 }
 
