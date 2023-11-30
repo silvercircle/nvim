@@ -133,26 +133,24 @@ local function link(hlg, target)
   set_hl(0, hlg, { link = target })
 end
 
--- configure the theme data. this must always be called after using setup() or 
+-- configure the theme data. this must always be called after using setup() or
 -- other means to change the conf table.
 -- set() automatically calls it.
 local function configure()
   if conf.desaturate == true then
     localtheme = {
       orange     = (conf.dlevel == 1) and { '#ab6a6c', 215 } or { '#9b7a7c', 215 },
-      string     = conf.theme_strings == "yellow" and (conf.dlevel == 1 and { '#aaaa60', 231 } or { '#909060', 231 })
-                   or (conf.dlevel == 1 and { '#60906f', 231 } or { '#658075', 231 }),
       blue       = { '#5a6acf', 239 },
       purple     = (conf.dlevl == 1) and { '#b070b0', 241 } or { '#a070a0', 241 },
       teal       = { '#508080', 238 },
       brightteal = { '#70a0c0', 238 },
       darkpurple = { '#705070', 240 },
       red        = (conf.dlevel == 1) and { '#bb4d5c', 203 } or { '#ab5d6c', 203 },
-      yellow     = (conf.dlevel == 1) and { '#aaaa60', 231 } or { '#909060', 231 }
+      yellow     = (conf.dlevel == 1) and { '#aaaa60', 231 } or { '#909870', 231 },
+      green      = (conf.dlevel == 1) and { '#60906f', 231 } or { '#658075', 231 }
     }
   else
     localtheme = {
-      string     = conf.theme_strings == "yellow" and { '#cccc60', 231 } or { '#10801f', 231 },
       orange     = { '#c36630', 215 },
       blue       = { '#4a4adf', 239 },
       purple     = { '#c030c0', 241 },
@@ -160,9 +158,12 @@ local function configure()
       brightteal = { '#30a0c0', 238 },
       darkpurple = { '#803090', 240 },
       red        = { '#cc2d4c', 203 },
-      yellow     = { '#cccc60', 231 }
+      yellow     = { '#cccc60', 231 },
+      green      = { '#10801f', 232 }
     }
   end
+
+  localtheme.string = conf.theme_strings == "yellow" and localtheme.yellow or localtheme.green
 
   LuaLineColors.statuslinebg = M.theme[conf.variant].statuslinebg
 
