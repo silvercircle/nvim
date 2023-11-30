@@ -120,7 +120,7 @@ function Utils.getLatexPreviewPath(_filename, _useglobal)
   local useglobal = _useglobal or false
   local path = vim.fn.expand(Config.texoutput)
   local finalpath
-  Utils.debugmsg("The preview path is: " .. path)
+  __Globals.debugmsg("The preview path is: " .. path)
   if useglobal == true and #path > 0 and vim.fn.isdirectory(path) == 1 then
     finalpath = path .. vim.fn.expand(vim.fn.fnamemodify(_filename, ":t:r")) .. ".pdf"
   else
@@ -423,15 +423,29 @@ end
 -----------------------------------------------------------------
 
 local border_layout_prompt_top = {
-  results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
-  prompt = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-  preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+  squared = {
+    results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
+    prompt =  { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+    preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" }
+  },
+  rounded = {
+    results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+    prompt  = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
+  }
 }
 
 local border_layout_prompt_bottom = {
-  prompt = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-  results = { "─", "│", "─", "│", "┌", "┐", "┤", "├" },
-  preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+  squared = {
+    results = { "─", "│", "─", "│", "┌", "┐", "┤", "├" },
+    prompt =  { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+    preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" }
+  },
+  rounded = {
+    results = { "─", "│", "─", "│", "╭", "╮", "┤", "├" },
+    prompt =  { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
+  }
 }
 
 -- private modified version of the dropdown theme with a square border
@@ -439,8 +453,8 @@ function Utils.Telescope_dropdown_theme(opts)
   local lopts = opts or {}
   local defaults = require("telescope.themes").get_dropdown({
     -- borderchars = Config.telescope_dropdown == 'bottom' and border_layout_bottom_vertical or border_layout_top_center,
-    borderchars = Config.telescope_dropdown == "bottom" and border_layout_prompt_bottom
-      or border_layout_prompt_top,
+    borderchars = Config.telescope_dropdown == "bottom" and border_layout_prompt_bottom[__Globals.perm_config.telescope_borders]
+      or border_layout_prompt_top[__Globals.perm_config.telescope_borders],
     layout_config = {
       anchor = "N",
       width = lopts.width or 0.5,
@@ -460,16 +474,25 @@ function Utils.Telescope_dropdown_theme(opts)
   return vim.tbl_deep_extend("force", defaults, lopts)
 end
 
+local border_layout_vertical_dropdown = {
+  squared = {
+    results = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
+    prompt =  { "─", "│", "─", "│", "├", "┤", "┘", "└" },
+    preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" }
+  },
+  rounded = {
+    results = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+    prompt =  { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+    preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
+  }
+}
+
 --- a dropdown theme with vertical layout strategy
 --- @param opts table of valid telescope options
 function Utils.Telescope_vertical_dropdown_theme(opts)
   local lopts = opts or {}
   local defaults = require("telescope.themes").get_dropdown({
-    borderchars = {
-      results = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
-      prompt = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
-      preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-    },
+    borderchars = border_layout_vertical_dropdown[__Globals.perm_config.telescope_borders],
     fname_width = Config["telescope_fname_width"],
     sorting_strategy = "ascending",
     layout_strategy = "vertical",

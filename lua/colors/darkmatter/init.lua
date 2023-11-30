@@ -55,23 +55,27 @@ M.theme = {
   }
 }
 
-local supported_variants = { "warm", "cold", "deepdark" }
-
 local conf = {
   variant = 'warm',
   desaturate = true,
-  dlevel = 1,               -- desaturation level (1 = mild, 2 = strong, pastel-like")
+  dlevel = 1, -- desaturation level (1 = mild, 2 = strong, pastel-like")
   theme_strings = 'yellow',
   -- kitty features are disabled by default.
+  -- if configured properly, the theme's set() function can also set kitty's background
+  -- color via remote control. It needs a valid unix socket and kitten executable.
+  -- use setup() to set sync_kittybg to true and submit kittysocket and kittenexec.
   sync_kittybg = false,
   kittysocket = nil,
   kittenexec = nil,
   is_trans = false,
   keyprefix = "<leader>",
+  -- the callback will be called by all functions that change the theme's configuration
+  -- Callback must be of type("function") and receives one parameter: a string describing what has changed. Possible
+  -- values are "variant", "strings", "desaturate" and "trans"
+  -- The callback can use get_conf() to retrieve the current configuration
   callback = nil
 }
 M.cokeline_colors = {}
-
 local  LuaLineColors = {
   white        = '#ffffff',
   darkestgreen = M.theme.accent_fg,
@@ -216,7 +220,6 @@ local function configure()
     palered     = { '#8b2d3c', 203 },
     darkyellow  = { '#a78624', 180 },
     green       = { '#9ed072', 107 },
-    blue        = { localtheme.blue[1], localtheme.blue[2] },
     purple      = { '#b39df3', 176 },
     grey_dim    = { '#595f6f', 240 },
     neotreebg   = { M.theme[conf.variant].treebg, 232 },
@@ -1034,7 +1037,7 @@ function M.ui_select_variant()
 
   vim.ui.select({ "Warm (red tint)?", "Cold (blue tint)", "Deep dark" }, {
     prompt = "Select a theme variant",
-    border = "single",
+    border = "rounded",
     format_item = function(item)
       return utils.pad(item, 40, " ")
     end
@@ -1062,7 +1065,7 @@ function M.ui_select_colorweight()
   local utils = require("local_utils")
   vim.ui.select({ "Vivid (rich colors, high contrast)", "Medium (somewhat desaturated colors)", "Pastel (low intensity colors)" }, {
     prompt = "Select a color intensity",
-    border = "single",
+    border = "rounded",
     format_item = function(item)
       return utils.pad(item, 50, " ")
     end

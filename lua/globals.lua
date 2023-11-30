@@ -69,7 +69,8 @@ M.perm_config_default = {
   statusline_declutter = 0,
   outline_filetype = "Outline",
   treesitter_context = true,
-  show_indicators = true
+  show_indicators = true,
+  telescope_borders = "rounded"
 }
 
 M.perm_config = {}

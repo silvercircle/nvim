@@ -284,7 +284,9 @@ _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-6>', function()
 end, "Focus Terminal split and change to project root")
 
 kms({ 'n', 'i', 't', 'v' }, '<A-0>', function()
-  __Globals.main_winid = vim.fn.win_getid()
+  local wid = vim.fn.win_getid()
+  vim.api.nvim_win_set_option(wid, "winfixwidth", false)
+  __Globals.main_winid = wid
 end, opts) -- save current winid as main window id
 
 _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
