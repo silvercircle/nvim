@@ -422,6 +422,8 @@ end
 --- TELESCOPE stuff, some global themes that are needed elsewhere
 -----------------------------------------------------------------
 
+-- perm_config.telescope_borders decides which style is used. It can be
+-- "squared", "rounded" or "none"
 local border_layout_prompt_top = {
   squared = {
     results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },

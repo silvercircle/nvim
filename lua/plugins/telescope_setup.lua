@@ -9,6 +9,11 @@ local actionstate = require("telescope.actions.state")
 -- since this is a lot of code, it's outsourced but really belongs here.
 local command_center = require('command_center')
 
+-- ensure a valid border style and set a default in case none is found
+if vim.tbl_contains( { "squared", "rounded", "none" }, __Globals.perm_config.telescope_borders) ~= true then
+  __Globals.perm_config.telescope_borders = "squared"
+end
+
 -- the following two functions are helpers for Telescope to workaround a bug
 -- with creating/restoring views via autocmd when picking files via telescope.
 -- the problem affects file browser, buffer list and the „oldfiles“ picker. Maybe 
