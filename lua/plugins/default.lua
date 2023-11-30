@@ -114,16 +114,6 @@ require("gitsigns").setup({
   },
 })
 
-require("hlslens").setup({
-  calm_down = false,    -- set to true to clear all lenses when cursor moves 
-  nearest_float_when = "never",
-  nearest_only = true,
-  -- this is for the nvim-scrollbar plugin. Otherwise not required.
---  build_position_cb = function(plist, _, _, _)
---    require("scrollbar.handlers.search").handler.show(plist.start_pos)
---  end
-})
-
 require 'colorizer'.setup {
   'css';
   'scss';

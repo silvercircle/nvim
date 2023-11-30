@@ -932,6 +932,7 @@ local function set_all()
   vim.g.VM_Insert_hl = 'DiffChange'
 end
 
+-- this activates the theme.
 function M.set()
   configure()
   set_all()

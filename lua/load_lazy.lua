@@ -84,12 +84,12 @@ local plugins = {
           }
         end
       },
---      {
---        'nvim-treesitter/nvim-treesitter-textobjects',
---        lazy = true,
---        config = function()
---        end
---      }
+      {
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        lazy = true,
+        config = function()
+        end
+      }
     }
   },
   {
@@ -198,9 +198,21 @@ local plugins = {
   'MattesGroeger/vim-bookmarks',
   'sharkdp/fd',
   'BurntSushi/ripgrep',
-  'kevinhwang91/nvim-hlslens',
+  {
+    'kevinhwang91/nvim-hlslens', event = "BufReadPre",
+    config = function()
+      require("hlslens").setup({
+        calm_down = false,    -- set to true to clear all lenses when cursor moves 
+        nearest_float_when = "never",
+        nearest_only = true
+      -- this is for the nvim-scrollbar plugin. Otherwise not required.
+      --  build_position_cb = function(plist, _, _, _)
+      --    require("scrollbar.handlers.search").handler.show(plist.start_pos)
+      })
+    end
+  },
   'lewis6991/gitsigns.nvim',
-  { 'lukas-reineke/indent-blankline.nvim', config = function() require("plugins.ibl") end },
+  { 'lukas-reineke/indent-blankline.nvim', event = "BufReadPre", config = function() require("plugins.ibl") end },
   {
     'petertriho/nvim-scrollbar',
     event = "BufReadPre",
@@ -324,27 +336,27 @@ local plugins = {
       require("plugins.aerialsetup")
     end
   },
-  {
-    "folke/which-key.nvim",
-    keys = { "<c-h>" },
-    config = function()
-      require("which-key").setup({
-        plugins = {
-          registers = false,
-          marks = false,
-          spelling = {
-            enabled = false
-          }
-        },
-        window = {
-          border = 'single',
-        },
-        layout = {
-          height = { max = 10 }
-        }
-      })
-    end
-  },
+--  {
+--    "folke/which-key.nvim",
+--    keys = { "<c-h>" },
+--    config = function()
+--      require("which-key").setup({
+--        plugins = {
+--          registers = false,
+--          marks = false,
+--          spelling = {
+--            enabled = false
+--          }
+--        },
+--        window = {
+--          border = 'single',
+--        },
+--        layout = {
+--          height = { max = 10 }
+--        }
+--      })
+--    end
+--  },
   {
     '3rd/image.nvim',
     lazy = true,
@@ -358,6 +370,20 @@ local plugins = {
     config = function()
       require("hologram").setup({})
     end
+  },
+  {
+    'kevinhwang91/nvim-ufo',
+    event = "UIEnter",
+    config = function()
+      require('ufo').setup({
+        provider_selector = function(bufnr, filetype, buftype)
+          return {'treesitter', 'indent'}
+        end
+      })
+    end,
+    dependencies = {
+      'kevinhwang91/promise-async'
+    }
   }
 }
 

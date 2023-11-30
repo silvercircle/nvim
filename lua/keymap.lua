@@ -160,11 +160,8 @@ _Config_SetKey({ 'i', 'n' }, '<f1>', function() vim.lsp.buf.hover() end, "LSP Ho
 -- toggle current fold
 _Config_SetKey({'n', 'i', 'v'}, '<F2>', function() perform_key('za') end, "Toggle current fold")
 
--- close current fold (Shift-F2)
-_Config_SetKey({'n', 'i', 'v'}, '<f14>', function() perform_key('zc') end, "Close current fold")
-
--- open current fold (Ctrl-F2)
-_Config_SetKey({'n', 'i', 'v'}, '<f26>', function() perform_key('zo') end, "Open current fold")
+-- open current fold (Shift-F2)
+_Config_SetKey({'n', 'i', 'v'}, '<f14>', function() perform_key('zf') end, "Create Fold")
 
 -- toggle all folds at current line
 _Config_SetKey({'n', 'i', 'v'}, '<F3>', function() perform_key('zA') end, "Toggle all folds at current line")
