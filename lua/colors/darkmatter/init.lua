@@ -1031,6 +1031,16 @@ function M.set_bg()
   end
 end
 
+--- call the configured (if any) callback function to indicate what
+--- has changed in the theme's configuration
+--- @param what string: what was changed. can be "variant", "strings"
+--- "desaturate" or "trans"
+local function conf_callback(what)
+  if conf.callback ~= nil and type(conf.callback) == "function" then
+    conf.callback(what)
+  end
+end
+
 -- use vim.ui.select to choose from a list of themes
 function M.ui_select_variant()
   local utils = require("local_utils")
@@ -1054,9 +1064,7 @@ function M.ui_select_variant()
       return
     end
     M.set()
-    if conf.callback ~= nil and type(conf.callback) == "function" then
-      conf.callback("variant")
-    end
+    conf_callback("variant")
   end)
   return conf.variant
 end
@@ -1083,9 +1091,7 @@ function M.ui_select_colorweight()
       conf.dlevel = 2
     end
     M.set()
-    if conf.callback ~= nil and type(conf.callback) == "function" then
-      conf.callback("desaturate")
-    end
+    conf_callback("desaturate")
   end)
   return conf.desaturate, conf.dlevel
 end
@@ -1097,17 +1103,13 @@ function M.toggle_strings_color()
     conf.theme_strings = "green"
   end
   M.set()
-  if conf.callback ~= nil and type(conf.callback) == "function" then
-    conf.callback("strings")
-  end
+  conf_callback("strings")
 end
 
 function M.toggle_transparency()
   conf.is_trans = not conf.is_trans
   M.set_bg()
-  if conf.callback ~= nil and type(conf.callback) == "function" then
-    conf.callback("trans")
-  end
+  conf_callback("trans")
 end
 
 return M

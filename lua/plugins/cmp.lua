@@ -80,14 +80,15 @@ cmp.setup({
     ghost_text = Config.cmp.ghost_text
   },
   window = {
+    -- respect the perm_config.telescope_borders setting. "squared", "rounded" or "none"
     documentation = {
-      -- border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' }, a rounded
-      -- variant
-      border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }, -- square
+      border = __Globals.perm_config.telescope_borders == "squared" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+               or ( __Globals.perm_config.telescope_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
       winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
     },
     completion = {
-      border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
+      border = __Globals.perm_config.telescope_borders == "squared" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+               or ( __Globals.perm_config.telescope_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
       winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
     },
   },
