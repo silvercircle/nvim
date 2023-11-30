@@ -662,7 +662,6 @@ end
 -- configure the treesitter core component. This is called once before
 -- treesitter is first started (in auto.lua)
 function M.configure_treesitter()
-  local opts = { noremap = true, silent = true }
   vim.treesitter.language.register("objc", "objcpp")
   vim.treesitter.language.register("markdown", "telekasten")
   -- disable injections for these languages, because they can be slow

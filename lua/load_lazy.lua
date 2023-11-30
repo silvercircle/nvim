@@ -65,7 +65,6 @@ local plugins = {
       {
         'nvim-treesitter/nvim-treesitter-context',
         lazy = true,
-        event = { "BufReadPre" },
         config = function()
           require('treesitter-context').setup {
             enable = true,            -- Enable this plugin (Can be enabled/disabled later via commands)
@@ -84,7 +83,13 @@ local plugins = {
             end
           }
         end
-      }
+      },
+--      {
+--        'nvim-treesitter/nvim-treesitter-textobjects',
+--        lazy = true,
+--        config = function()
+--        end
+--      }
     }
   },
   {

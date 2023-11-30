@@ -85,7 +85,8 @@ require("telescope").setup({
     scroll_strategy = 'limit',
     winblend = vim.g.float_winblend,
     -- square borders (just to be consistend with other UI elements like CMP)
-    borderchars = __Globals.perm_config.telescope_borders == "squared" and { '─', '│', '─', '│', '┌', '┐', '┘', '└'} or (__Globals.perm_config.telescope_borders == "rounded" and { '─', '│', '─', '│', '╭', '╮', '╯', '╰'} or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '} ),
+    borderchars = __Globals.perm_config.telescope_borders == "squared" and { '─', '│', '─', '│', '┌', '┐', '┘', '└'}
+                  or (__Globals.perm_config.telescope_borders == "rounded" and { '─', '│', '─', '│', '╭', '╮', '╯', '╰'} or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '} ),
     color_devicons = true,
     disable_devicons = false,
     mappings = {

@@ -56,9 +56,14 @@ M.theme = {
 }
 
 local conf = {
+  -- color variant. as of now, 3 types are supported:
+  -- a) "warm" - the default, a medium-dark grey background with a slightly red-ish tint.
+  -- b) "cold" - about the same, but with a blue-ish flavor
+  -- c) "deepblack" - very dark, almost black background. neutral grey tone.
   variant = 'warm',
   desaturate = true,
   dlevel = 1, -- desaturation level (1 = mild, 2 = strong, pastel-like")
+  -- Supported are "yellow" and "green".
   theme_strings = 'yellow',
   -- kitty features are disabled by default.
   -- if configured properly, the theme's set() function can also set kitty's background
@@ -128,7 +133,9 @@ local function link(hlg, target)
   set_hl(0, hlg, { link = target })
 end
 
--- configure the theme data.
+-- configure the theme data. this must always be called after using setup() or 
+-- other means to change the conf table.
+-- set() automatically calls it.
 local function configure()
   if conf.desaturate == true then
     localtheme = {

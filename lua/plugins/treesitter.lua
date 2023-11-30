@@ -2,7 +2,7 @@ require("nvim-treesitter").setup({
   auto_install = true,
   ensure_installed = Config.treesitter_types,
   textobjects = {
-    enable = false
+    enable = true
   },
   incremental_selection = {
     enable = false,

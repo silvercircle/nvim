@@ -24,7 +24,6 @@ autocmd({ 'VimLeave' }, {
 
 --- remember if UIEnter already done
 local did_UIEnter = false
-local treesitter_configured = false
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
 -- environment variable or command line option forbids it for better startup performance and
 -- a clean UI
@@ -110,7 +109,7 @@ autocmd({ 'UIEnter' }, {
         usplit.content = __Globals.perm_config.sysmon.content
       end
       if __Globals.perm_config.transbg == true then
-        Config.theme.set_bg(true)
+        Config.theme.set_bg()
       end
     end
     vim.fn.win_gotoid(__Globals.main_winid)
@@ -165,7 +164,7 @@ autocmd({ 'BufEnter' }, {
 -- restore view when reading a file
 autocmd({ 'bufread' }, {
   pattern = "*",
-  callback = function()
+  callback = function(args)
     vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then
       vim.cmd("silent! loadview")
