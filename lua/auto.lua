@@ -121,7 +121,9 @@ autocmd({ 'UIEnter' }, {
 autocmd({ 'bufwritepre' }, {
   pattern = "*",
   callback = function()
-    __Globals.mkview()
+    if vim.g.tweaks.mkview_on_save == true then
+      __Globals.mkview()
+    end
   end,
   group = agroup_views
 })
@@ -130,7 +132,7 @@ autocmd({ 'bufwritepre' }, {
 autocmd({ 'bufwinleave' }, {
   pattern = "*",
   callback = function()
-    if Config.mkview_on_leave == true then
+    if vim.g.tweaks.mkview_on_leave == true then
       __Globals.mkview()
     end
   end,

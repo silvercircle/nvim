@@ -44,7 +44,12 @@ Tweaks.outline_plugin = "Outline"
 
 -- list of filetypes for which no views are created when saving or leaving the buffer
 -- by default, help files and terminals don't need views
+-- you can add other filetypes here if you wish.
 Tweaks.mkview_exclude = { "help", "terminal", "floaterm" }
+-- create a view when leaving a buffer.
+Tweaks.mkview_on_leave = true
+-- create a view when saving a buffer
+Tweaks.mkview_on_save = true
 Tweaks.cmdheight = 0
 
 -- width of line number (absolute numbers)

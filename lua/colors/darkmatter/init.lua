@@ -137,7 +137,7 @@ end
 
 -- configure the theme data. this must always be called after using setup() or
 -- other means to change the conf table.
--- set() automatically calls it.
+-- set() automatically calls it before setting any highlight groups.
 local function configure()
   if conf.desaturate == true then
     localtheme = {
