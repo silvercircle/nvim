@@ -31,8 +31,6 @@ local function Cokeline_theme()
   }
 end
 
---- count words in either the entire document or the current visual mode selection.
---- required for the lualine plugin
 -- setup cokeline plugin. It provides a buffer line (aka tab-bar)
 -- local sidebar_or_tree = vim.g.features['sidebar']['enable'] == true and true or false
 -- local treename = Config.nvim_tree == true and 'NvimTree' or 'neo-tree'
@@ -124,6 +122,7 @@ require 'colorizer'.setup {
 
 require('mini.move').setup()
 
+-- support a textwidth property in editorconfig files
 require('editorconfig').properties.textwidth = function(bufnr, val, _)
   -- print("editorconfig textwidth to " .. val .. " for " .. bufnr)
   vim.api.nvim_buf_set_option(bufnr, "textwidth", tonumber(val))

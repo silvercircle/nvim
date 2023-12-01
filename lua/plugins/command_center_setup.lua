@@ -7,6 +7,7 @@ local lsputil = require('lspconfig.util')
 local lutils = require("local_utils")
 local _t = require("telescope")
 local _tb = require("telescope.builtin")
+local bm = require("bookmarks")
 
 -- this is a helper for mini pickers like references and symbols.
 -- local fzf_vertical_winops = { width = 0.6, preview = { layout = 'vertical', vertical = "up:30%" } }
@@ -14,68 +15,32 @@ local _tb = require("telescope.builtin")
 command_center.add({
   {
     desc = "Bookmark Toggle",
-    cmd = "<Plug>BookmarkToggle",
+    cmd = function() bm.bookmark_toggle() end,
     keys = { "n", "<leader>bt", noremap },
     category = "@Bookmarks"
   },
   {
     desc = "Bookmark Annotate",
-    cmd = "<Plug>BookmarkAnnotate",
+    cmd = function() bm.bookmark_ann() end,
     keys = { "n", "<leader>by", noremap },
     category = "@Bookmarks"
   },
   {
-    desc = "Bookmarks show all",
-    cmd = "<Plug>BookmarkShowAll",
-    keys = { "n", "<leader>ba", noremap },
-    category = "@Bookmarks"
-  },
-  {
-    desc = "Bookmark next",
-    cmd = "<Plug>BookmarkNext",
-    keys = { "n", "<leader>bn", noremap },
-    category = "@Bookmarks"
-  },
-  {
-    desc = "Bookmark previous",
-    cmd = "<Plug>BookmarkPrev",
-    keys = { "n", "<leader>bp", noremap },
-    category = "@Bookmarks"
-  },
-  {
     desc = "Bookmark delete",
-    cmd = "<Plug>BookmarkClear",
+    cmd = function() bm.bookmark_clean() end,
     keys = { "n", "<leader>bd", noremap },
     category = "@Bookmarks"
   },
   {
-    desc = "Bookmark del,rete All",
-    cmd = "<Plug>BookmarkClearAll",
-    keys = { "n", "<leader>bx", noremap },
-    category = "@Bookmarks"
-  },
-  {
-    desc = "Bookmark move down",
-    cmd = "<Plug>BookmarkMoveDown",
-    keys = { "n", "<leader>bb", noremap },
-    category = "@Bookmarks"
-  },
-  {
-    desc = "Bookmark move up",
-    cmd = "<Plug>BookmarkMoveUp",
-    keys = { "n", "<leader>bu", noremap },
-    category = "@Bookmarks"
-  },
-  {
-    desc = "Bookmark move to line",
-    cmd = "<Plug>BookmarkMoveToLine",
+    desc = "Bookmark list in quickfix",
+    cmd = function() bm.bookmark_list() end,
     keys = { "n", "<leader>bm", noremap },
     category = "@Bookmarks"
   },
   {
     desc = "Show all bookmarks (Telescope)",
     cmd = function()
-      _t.extensions.vim_bookmarks.all(__Telescope_vertical_dropdown_theme({
+      _t.extensions.bookmarks.list(__Telescope_vertical_dropdown_theme({
         prompt_title = "All Bookmarks",
         hide_filename = false,
         layout_config = Config.telescope_vertical_preview_layout

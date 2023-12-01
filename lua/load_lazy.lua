@@ -29,8 +29,6 @@ local plugins = {
     'nvim-telescope/telescope.nvim', --  branch = '0.1.x',
     lazy = true,
     dependencies = {
-      -- 'nvim-telescope/telescope-file-browser.nvim',
-      'tom-anders/telescope-vim-bookmarks.nvim',
       { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
       {
         'FeiyouG/commander.nvim',
@@ -195,7 +193,22 @@ local plugins = {
   { 'tpope/vim-liquid',                    ft = "liquid" },
   'nvim-tree/nvim-web-devicons',
   'nvim-lua/plenary.nvim',
-  'MattesGroeger/vim-bookmarks',
+  -- 'MattesGroeger/vim-bookmarks',
+  {
+    'tomasky/bookmarks.nvim',
+    config = function()
+      require('bookmarks').setup({
+        -- sign_priority = 8,  --set bookmark sign priority to cover other sign
+        save_file = vim.fn.stdpath("state") .. "/.bookmarks", -- bookmarks save file path
+        keywords = {
+          ["@t"] = "☑️ ", -- mark annotation startswith @t ,signs this icon as `Todo`
+          ["@w"] = "⚠️ ", -- mark annotation startswith @w ,signs this icon as `Warn`
+          ["@f"] = "⛏ ", -- mark annotation startswith @f ,signs this icon as `Fix`
+          ["@n"] = " ", -- mark annotation startswith @n ,signs this icon as `Note`
+        }
+      })
+    end
+  },
   'sharkdp/fd',
   'BurntSushi/ripgrep',
   {
@@ -380,7 +393,7 @@ local plugins = {
         provider_selector = function(bufnr, filetype, buftype)
           return {'lsp', 'indent'}
         end,
-        --fold_virt_text_handler = __Globals.ufo_virtual_text_handler,
+        fold_virt_text_handler = __Globals.ufo_virtual_text_handler,
         preview = {
           mappings = {
             scrollU = "<Up>",
