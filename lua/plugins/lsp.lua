@@ -12,6 +12,10 @@ if status then
 else
   vim.notify("cmp_lsp not installed")
 end
+capabilities.textDocument.foldingRange = {
+  dynamicRegistration = false,
+  lineFoldingOnly = true
+}
 -- capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
 
 -- Customize LSP behavior via on_attach
@@ -53,32 +57,6 @@ lspconfig.texlab.setup({
   on_attach = on_attach,
   capabilities = capabilities
 })
-
-local ltex_language_id_mapping = {
-  bib = 'bibtex',
-  plaintex = 'tex',
-  rnoweb = 'sweave',
-  rst = 'restructuredtext',
-  tex = 'latex',
-  xhtml = 'xhtml',
-  pandoc = 'markdown',
-}
-
---lspconfig.ltex.setup({
---  on_attach = on_attach,
---  cmd = { vim.g.lsp_server_bin["ltex"] },
---  filetypes = { 'bib', 'gitcommit', 'markdown', 'org', 'plaintex', 'rst', 'rnoweb', 'tex', 'pandoc', 'quarto', 'rmd' },
---  root_dir = util.find_git_ancestor,
---  single_file_support = true,
---  get_language_id = function(_, filetype)
---    local language_id = ltex_language_id_mapping[filetype]
---    if language_id then
---      return language_id
---    else
---      return filetype
---    end
---  end,
---})
 
 lspconfig.nimls.setup({
   on_attach = on_attach,
@@ -132,6 +110,7 @@ lspconfig.clangd.setup({
 
 -- ada language server
 lspconfig.als.setup({
+  capabilities = capabilities,
   on_attach = on_attach,
   cmd = { vim.g.lsp_server_bin['als'] },
   filetypes = { 'ada' },
@@ -144,6 +123,7 @@ lspconfig.als.setup({
 })
 
 lspconfig.dartls.setup({
+  capabilities = capabilities,
   cmd = { vim.g.lsp_server_bin['dartls'], 'language-server', '--protocol=lsp' },
   on_attach = on_attach,
   filetypes = { 'dart' },
@@ -235,6 +215,7 @@ lspconfig.rust_analyzer.setup({
   }
 })
 lspconfig.emmet_language_server.setup({
+  capabilities = capabilities,
   cmd = { vim.g.lsp_server_bin['emmet'], '--stdio' },
   filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass",
                 "scss", "svelte", "pug", "typescriptreact", "vue", "liquid" },
@@ -370,11 +351,12 @@ lspconfig.metals.setup({
       snippetAutoIndent = false,
     },
   },
-  capabilities = {
-    workspace = {
-      configuration = false,
-    },
-  },
+  capabilities = capabilities,
+--  capabilities = {
+--    workspace = {
+--      configuration = false,
+--    },
+--  },
 })
 
 -- python pyright

@@ -164,7 +164,7 @@ local plugins = {
       },
       {
         'vigoux/notifier.nvim',
-        event = "LspAttach",
+        event = "UIEnter",
         lazy = true,
         config = function()
           require("notifier").setup({
@@ -378,9 +378,9 @@ local plugins = {
       require('ufo').setup({
         open_fold_hl_timeout = 0,
         provider_selector = function(bufnr, filetype, buftype)
-          return {'treesitter', 'indent'}
+          return {'lsp', 'indent'}
         end,
-        fold_virt_text_handler = __Globals.ufo_virtual_text_handler,
+        --fold_virt_text_handler = __Globals.ufo_virtual_text_handler,
         preview = {
           mappings = {
             scrollU = "<Up>",
