@@ -321,7 +321,7 @@ local function set_all()
 
   hl_with_defaults('Visual', palette.selfg, palette.selbg)
   hl('VisualNOS', palette.none, localtheme.bg3, { underline = true })
-  hl('QuickFixLine', localtheme.blue, palette.none, { bold = true })
+  hl_with_defaults('QuickFixLine', localtheme.blue, palette.neotreebg)
   hl_with_defaults('Debug', localtheme.yellow, palette.none)
   hl_with_defaults('debugPC', localtheme.bg0, palette.green)
   hl_with_defaults('debugBreakpoint', localtheme.bg0, localtheme.red)
@@ -1081,6 +1081,9 @@ function M.ui_select_variant()
   return conf.variant
 end
 
+-- use UI to present a selection of possible color configurations
+-- this uses vim.ui.select and works best with plugins like dressing or
+-- mini.picker that can enhance ui.select
 function M.ui_select_colorweight()
   local utils = require("local_utils")
   vim.ui.select({ "Vivid (rich colors, high contrast)", "Medium (somewhat desaturated colors)", "Pastel (low intensity colors)" }, {
@@ -1108,6 +1111,7 @@ function M.ui_select_colorweight()
   return conf.desaturate, conf.dlevel
 end
 
+-- toggle strings color. Allowed values are either "yellow" or "green"
 function M.toggle_strings_color()
   if conf.theme_strings ~= "yellow" then
     conf.theme_strings = "yellow"
@@ -1118,6 +1122,8 @@ function M.toggle_strings_color()
   conf_callback("strings")
 end
 
+-- toggle background transparency and notify the registered callback
+-- subscriber.
 function M.toggle_transparency()
   conf.is_trans = not conf.is_trans
   M.set_bg()

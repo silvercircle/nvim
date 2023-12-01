@@ -33,14 +33,14 @@ Tweaks.cmp = {
   keywordlen = 2,
   --enable experimental ghost text feature. Set to false (disable) or a table
   --containing the highlight group to use for ghost text.
-  --M.cmp_ghost = { hl_group = 'CmpGhostText' }
+  --for example: ghost = { hl_group = 'CmpGhostText' }
   ghost = false
 }
 
 -- set this to "Outline" to use the symbols-outline plugin.
 -- set it to "aerial" to use the Aerial plugin.
 -- this is a default, it can be switched at runtime
-Tweaks.outline_plugin = "Outline"
+Tweaks.outline_plugin = "aerial"
 
 -- list of filetypes for which no views are created when saving or leaving the buffer
 -- by default, help files and terminals don't need views

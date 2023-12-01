@@ -175,6 +175,7 @@ autocmd({ 'bufread' }, {
   group = agroup_views
 })
 
+-- for these file types we want spellcheck
 autocmd({ 'FileType' }, {
   pattern = { 'tex', 'markdown', 'text', 'telekasten', 'liquid' },
   callback = function()
@@ -196,6 +197,7 @@ autocmd({ "Filetype" }, {
 })
 -- pattern for which the indent and tabstop options must be set.
 local tabstop_pattern = { 'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go' }
+-- filetypes for which we want conceal enabled
 local conceal_pattern = { "markdown", "telekasten", "liquid" }
 
 -- generic FileType handler adressing common actions

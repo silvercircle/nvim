@@ -49,12 +49,12 @@ command C Kwbd
 "   lua __Globals.set_session(vim.fn.eval("chan"))
 " endfunction
 
-augroup filetypes
-  autocmd!
-  autocmd FileType ada,d,nim,objc,objcpp,javascript,scala,typescript syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
-  autocmd FileType lua syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\+]'
-  " autocmd UIEnter * call Foobar(v:event)
-augroup end
+" augroup filetypes
+"   autocmd!
+"   autocmd FileType ada,d,nim,objc,objcpp,javascript,scala,typescript syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
+"   autocmd FileType lua syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\+]'
+"   " autocmd UIEnter * call Foobar(v:event)
+" augroup end
 
 " This is for adding fortune cookies. User will be prompted for a section
 " (multiple sections can be entered separated with spaces) and the fortune
