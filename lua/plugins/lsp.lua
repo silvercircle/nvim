@@ -484,7 +484,7 @@ require("lsp.jdtls")
 do
   local on_references = vim.lsp.handlers["textDocument/references"]
   local lsp_handlers_hover = vim.lsp.with(vim.lsp.handlers.hover, {
-    border = "single",
+    border = __Globals.perm_config.telescope_borders
   })
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -511,7 +511,7 @@ do
   -- Bound to C-p in insert mode
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
     vim.lsp.handlers.signature_help, {
-      border = "single",
+      border = __Globals.perm_config.telescope_borders == "rounded" and "rounded" or "single",
       focusable = false
     })
 end

@@ -82,12 +82,12 @@ cmp.setup({
   window = {
     -- respect the perm_config.telescope_borders setting. "squared", "rounded" or "none"
     documentation = {
-      border = __Globals.perm_config.telescope_borders == "squared" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+      border = __Globals.perm_config.telescope_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
                or ( __Globals.perm_config.telescope_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
       winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
     },
     completion = {
-      border = __Globals.perm_config.telescope_borders == "squared" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+      border = __Globals.perm_config.telescope_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
                or ( __Globals.perm_config.telescope_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
       winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
     },

@@ -75,9 +75,11 @@ local conf = {
   is_trans = false,
   keyprefix = "<leader>",
   -- the callback will be called by all functions that change the theme's configuration
-  -- Callback must be of type("function") and receives one parameter: a string describing what has changed. Possible
-  -- values are "variant", "strings", "desaturate" and "trans"
-  -- The callback can use get_conf() to retrieve the current configuration
+  -- Callback must be of type("function") and receives one parameter:
+  -- a string describing what has changed. Possible values are "variant", "strings",
+  -- "desaturate" and "trans"
+  -- The callback can use get_conf() to retrieve the current configuration and setup() to
+  -- change it.
   callback = nil
 }
 M.cokeline_colors = {}

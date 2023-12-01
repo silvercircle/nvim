@@ -425,7 +425,7 @@ end
 -- perm_config.telescope_borders decides which style is used. It can be
 -- "squared", "rounded" or "none"
 local border_layout_prompt_top = {
-  squared = {
+  single = {
     results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
     prompt =  { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
     preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" }
@@ -443,7 +443,7 @@ local border_layout_prompt_top = {
 }
 
 local border_layout_prompt_bottom = {
-  squared = {
+  single = {
     results = { "─", "│", "─", "│", "┌", "┐", "┤", "├" },
     prompt =  { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
     preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" }
@@ -487,7 +487,7 @@ function Utils.Telescope_dropdown_theme(opts)
 end
 
 local border_layout_vertical_dropdown = {
-  squared = {
+  single = {
     results = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
     prompt =  { "─", "│", "─", "│", "├", "┤", "┘", "└" },
     preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" }

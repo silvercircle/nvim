@@ -10,8 +10,8 @@ local actionstate = require("telescope.actions.state")
 local command_center = require('command_center')
 
 -- ensure a valid border style and set a default in case none is found
-if vim.tbl_contains( { "squared", "rounded", "none" }, __Globals.perm_config.telescope_borders) ~= true then
-  __Globals.perm_config.telescope_borders = "squared"
+if vim.tbl_contains( { "single", "rounded", "none" }, __Globals.perm_config.telescope_borders) ~= true then
+  __Globals.perm_config.telescope_borders = "single"
 end
 
 -- the following two functions are helpers for Telescope to workaround a bug
@@ -85,7 +85,7 @@ require("telescope").setup({
     scroll_strategy = 'limit',
     winblend = vim.g.float_winblend,
     -- square borders (just to be consistend with other UI elements like CMP)
-    borderchars = __Globals.perm_config.telescope_borders == "squared" and { '─', '│', '─', '│', '┌', '┐', '┘', '└'}
+    borderchars = __Globals.perm_config.telescope_borders == "single" and { '─', '│', '─', '│', '┌', '┐', '┘', '└'}
                   or (__Globals.perm_config.telescope_borders == "rounded" and { '─', '│', '─', '│', '╭', '╮', '╯', '╰'} or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '} ),
     color_devicons = true,
     disable_devicons = false,

@@ -389,7 +389,8 @@ local plugins = {
             jumpBot = "<End>"
           },
           win_config = {
-            max_height = 30
+            max_height = 30,
+            border = __Globals.perm_config.telescope_borders
           }
         }
       })

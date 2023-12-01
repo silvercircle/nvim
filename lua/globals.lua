@@ -233,7 +233,6 @@ end
 -- list of filetypes we never want to create views for.'
 local _mkview_exclude = vim.g.tweaks.mkview_exclude
 
---- global function to create a view
 --- this creates a view using mkview unless the buffer has no file name or is not a file at all.
 --- it also respects the filetype exclusion list to avoid unwanted clutter in the views folder
 function M.mkview()
@@ -718,6 +717,7 @@ function M.get_buffer_var(bufnr, varname)
   return (status == false) and nil or value
 end
 
+--- this handles ufo-nvim fold preview.
 M.ufo_virtual_text_handler = function(virtText, lnum, endLnum, width, truncate)
     local newVirtText = {}
     local suffix = (' 󰁂 %d '):format(endLnum - lnum)
