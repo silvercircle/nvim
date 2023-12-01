@@ -155,7 +155,12 @@ end, { expr = true, desc = "Export HlsLens results to Quickfix list" })
 map('n', 'hl', "<CMD>Inspect<CR>", opts)
 
 _Config_SetKey({ 'i', 'n' }, '<f13>', function() vim.lsp.buf.signature_help() end, "Show signature help")
-_Config_SetKey({ 'i', 'n' }, '<f1>', function() vim.lsp.buf.hover() end, "LSP Hover help")
+_Config_SetKey({ 'i', 'n' }, '<f1>', function()
+  local wid = require("ufo").peekFoldedLinesUnderCursor()
+  if not wid then
+    vim.lsp.buf.hover()
+  end
+end, "LSP Hover help")
 
 -- toggle current fold
 _Config_SetKey({'n', 'i', 'v'}, '<F2>', function() perform_key('za') end, "Toggle current fold")

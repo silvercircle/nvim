@@ -376,9 +376,22 @@ local plugins = {
     event = "UIEnter",
     config = function()
       require('ufo').setup({
+        open_fold_hl_timeout = 0,
         provider_selector = function(bufnr, filetype, buftype)
           return {'treesitter', 'indent'}
-        end
+        end,
+        fold_virt_text_handler = __Globals.ufo_virtual_text_handler,
+        preview = {
+          mappings = {
+            scrollU = "<Up>",
+            scrollD = "<Down>",
+            jumpTop = "<Home>",
+            jumpBot = "<End>"
+          },
+          win_config = {
+            max_height = 30
+          }
+        }
       })
     end,
     dependencies = {

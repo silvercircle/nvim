@@ -222,7 +222,7 @@ local function configure()
     bg_green    = { '#a7df78', 107 },
     diff_green  = { '#697664', 22 },
     bg_blue     = { '#85d3f2', 110 },
-    diff_blue   = { '#354157', 17 },
+    diff_blue   = { '#253147', 17 },
     diff_yellow = { '#4e432f', 54 },
     fg_dim      = { '#959290', 251 },
     palered     = { '#8b2d3c', 203 },
@@ -314,6 +314,7 @@ local function set_all()
   hl_with_defaults('TabLineSel', localtheme.bg0, palette.bg_red)
   hl_with_defaults('VertSplit', localtheme.statuslinebg, palette.neotreebg)
 
+  link("MsgArea", "StatusLine")
   link("WinSeparator", "VertSplit")
 
   hl_with_defaults('Visual', palette.selfg, palette.selbg)
