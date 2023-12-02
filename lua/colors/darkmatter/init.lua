@@ -220,9 +220,9 @@ local function configure()
   palette = {
     grey        = { '#707070', 2 },
     bg_red      = { '#ff6077', 203 },
-    diff_red    = { '#55393d', 52 },
+    diff_red    = { '#45292d', 52 },
     bg_green    = { '#a7df78', 107 },
-    diff_green  = { '#697664', 22 },
+    diff_green  = { '#10320a', 22 },
     bg_blue     = { '#85d3f2', 110 },
     diff_blue   = { '#253147', 17 },
     diff_yellow = { '#4e432f', 54 },
@@ -252,7 +252,7 @@ local function set_all()
   hl_with_defaults('FoldColumn', localtheme.bg4, localtheme.darkbg)
   hl_with_defaults('SignColumn', localtheme.fg, localtheme.darkbg)
   hl_with_defaults('IncSearch', localtheme.yellow, localtheme.darkred)
-  hl_with_defaults('Search', localtheme.black, palette.diff_green)
+  hl_with_defaults('Search', localtheme.black, palette.darkyellow)
   hl_with_defaults('ColorColumn', palette.none, localtheme.bg1)
   hl_with_defaults('Conceal', palette.grey_dim, palette.none)
   hl_with_defaults('Cursor', localtheme.fg, localtheme.fg)
@@ -626,6 +626,9 @@ local function set_all()
   link("GitSignsChangeLn", "BlueSign")
   link("GitSignsDeleteLn", "RedSign")
   link("GitSignsCurrentLineBlame", "Grey")
+  link("GitSignsAddInline", "Visual")
+  link("GitSignsChangeInline", "Visual")
+  link("GitSignsDeleteInline", "Visual")
 
   -- phaazon/hop.nvim {{{
   hl('HopNextKey', localtheme.red, palette.none, { bold = true })
@@ -634,7 +637,7 @@ local function set_all()
   link("HopUnmatched", "Grey")
 
   -- lukas-reineke/indent-blankline.nvim
-  hl('IndentBlanklineContextChar', palette.diff_green, palette.none, { nocombine = true })
+  hl('IndentBlanklineContextChar', localtheme.darkpurple, palette.none, { nocombine = true })
   hl('IndentBlanklineChar', localtheme.bg1, palette.none, { nocombine = true })
   link("IndentBlanklineSpaceChar", "IndentBlanklineChar")
   link("IndentBlanklineSpaceCharBlankline", "IndentBlanklineChar")
@@ -902,6 +905,8 @@ local function set_all()
   hl_with_defaults('NeoTreeFloatBorder', palette.grey_dim, palette.neotreebg)
   hl('NeoTreeFileNameOpened', localtheme.blue, palette.neotreebg, { italic = true })
   hl_with_defaults('SymbolsOutlineConnector', localtheme.bg4, palette.none)
+  hl_with_defaults('NotifierTitle', localtheme.yellow, palette.none)
+  link("NotifierContent", "NeoTreeNormalNC")
 
   -- Treesitter stuff
   hl_with_defaults('TreesitterContext', palette.none, localtheme.bg)
@@ -948,10 +953,13 @@ function M.set()
   end
 end
 
---- set color variant (warm or cold), desaturation and string color
---- @param opt table - the options to set
+--- setup the theme
+--- @param opt table - the options to set. will be merged with local
+--- conf table.
 function M.setup(opt)
+  opt = (opt ~= nil and type(opt) == 'table') and opt or {}
   conf = vim.tbl_deep_extend("force", conf, opt)
+  -- TODO: validate and sanitize conf data
   -- bind keys, but do this only once
   if M.keys_set == false then
     M.keys_set = true
@@ -978,6 +986,7 @@ function M.get_conf_value(val)
   if val ~= nil and conf[val] ~= nil then
     return conf[val]
   end
+  return nil
 end
 
 --- internal global function to create the lualine color theme

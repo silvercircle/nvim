@@ -50,16 +50,6 @@ command_center.add({
     category = "@Bookmarks"
   },
   {
-    desc = "Show bookmarks in current file (Telescope)",
-    cmd = function()
-      _t.extensions.vim_bookmarks.current_file(__Telescope_vertical_dropdown_theme({
-        layout_config = Config.telescope_vertical_preview_layout,
-        prompt_title = "File Bookmarks" }))
-    end,
-    keys = { "n", "<A-B>", noremap },
-    category = "@Bookmarks"
-  },
-  {
     desc = "Show favorite folders",
     cmd = function() require "quickfavs".Quickfavs(false) end,
     keys = { "n", "<f12>", },
@@ -594,6 +584,42 @@ command_center.add({
     cmd = function() require('telekasten').search_notes() end,
     keys = { "n", "<leader>zs", noremap },
     category = "@Telekasten"
+  },
+  {
+    desc = "GitSigns next hunk",
+    cmd = function() require('gitsigns').next_hunk() end,
+    keys = {
+      { "n", "<C-x><Down>", noremap },
+      { "i", "<C-x><Down>", noremap }
+    },
+    category = "@GIT"
+  },
+  {
+    desc = "GitSigns previous hunk",
+    cmd = function() require('gitsigns').prev_hunk() end,
+    keys = {
+      { "n", "<C-x><Up>", noremap },
+      { "i", "<C-x><Up>", noremap }
+    },
+    category = "@GIT"
+  },
+  {
+    desc = "GitSigns preview Hunk",
+    cmd = function() require('gitsigns').preview_hunk() end,
+    keys = {
+      { "n", "<C-x>h", noremap },
+      { "i", "<C-x>h", noremap }
+    },
+    category = "@GIT"
+  },
+  {
+    desc = "GitSigns Diff this",
+    cmd = function() require('gitsigns').diffthis() end,
+    keys = {
+      { "n", "<C-x><C-d>", noremap },
+      { "i", "<C-x><C-d>", noremap }
+    },
+    category = "@GIT"
   }
 -- unused stuff keep it here in case we need it at some point
 --  {

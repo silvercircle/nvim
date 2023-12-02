@@ -196,6 +196,7 @@ local plugins = {
   -- 'MattesGroeger/vim-bookmarks',
   {
     'tomasky/bookmarks.nvim',
+    event = "UIEnter",
     config = function()
       require('bookmarks').setup({
         -- sign_priority = 8,  --set bookmark sign priority to cover other sign

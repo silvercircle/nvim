@@ -12,6 +12,7 @@ if status then
 else
   vim.notify("cmp_lsp not installed")
 end
+-- needed so nvim-ufo can use LSP as folding provider
 capabilities.textDocument.foldingRange = {
   dynamicRegistration = false,
   lineFoldingOnly = true

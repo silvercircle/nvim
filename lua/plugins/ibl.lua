@@ -11,7 +11,7 @@ require("ibl").setup({
   },
   scope = {
     enabled = __Globals.perm_config.ibl_context,
-    highlight = "Normal",
+    highlight = "IndentBlanklineContextChar",
     exclude = {  language = {"vim"} }
   },
   viewport_buffer = {
