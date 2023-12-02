@@ -246,6 +246,7 @@ end, "Focus NvimTree") -- Nvim-tree
 
 _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-2>', function()
   vim.fn.win_gotoid(__Globals.main_winid)
+  vim.cmd("hi nCursor blend=0")
 end, "Focus Main Window") -- main window
 
 -- focus or toggle the outline window

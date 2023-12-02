@@ -412,6 +412,10 @@ local plugins = {
     dependencies = {
       'kevinhwang91/promise-async'
     }
+  },
+  {
+    'mfussenegger/nvim-jdtls',
+    lazy = true
   }
 }
 

@@ -456,7 +456,7 @@ lspconfig.lua_ls.setup {
 }
 
 -- outsourced because it's too big
-require("lsp.jdtls")
+-- require("lsp.jdtls")
 -- require("lsp.pylyzer")
 -- require("lsp.omnisharp")
 -- require("lsp.hls")      -- hls (haskell)
