@@ -345,7 +345,7 @@ local plugins = {
     'silvercircle/aerial.nvim',
     event = "LspAttach",
     branch = 'mine',
-    verylazy = true,
+    lazy = true,
     config = function()
       require("plugins.aerialsetup")
     end
