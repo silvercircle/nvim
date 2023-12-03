@@ -215,7 +215,7 @@ _Config_SetKey({ 'n', 'i' }, '<C-e>', function()
   require('telescope.builtin').buffers(
     __Telescope_dropdown_theme({
       title = 'Buffer list',
-      width = 100,
+      width = 120,
       prompt_prefix = utils.getTelescopePromptPrefix(),
       height = 0.4,
       sort_lastused = true,
@@ -232,7 +232,7 @@ end, "Mini.Picker Buffer list")
 
 _Config_SetKey({'n', 'i'}, '<C-p>', function()
   require('telescope.builtin').oldfiles(
-    __Telescope_dropdown_theme({ prompt_prefix = utils.getTelescopePromptPrefix(), title = 'Old files', width = 100, height = 0.5 })
+    __Telescope_dropdown_theme({ prompt_prefix = utils.getTelescopePromptPrefix(), title = 'Old files', width = 120, height = 0.5 })
   )
 end, "Telescope old files")
 _Config_SetKey('n', '<A-p>', function()

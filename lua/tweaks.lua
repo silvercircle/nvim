@@ -94,4 +94,9 @@ Tweaks.theme = {
 }
 Tweaks.tree = "Nvim"
 
+-- a list of filename patterns that define a project root. This will be used as some kind of
+-- fallback when no other means of finding a project's root are successfull. This is highly
+-- incomplete and inaccurate, but you can expand this with whatever you want.
+Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", ".vscode", "settings.gradle", "pom.xml" }
+
 return Tweaks

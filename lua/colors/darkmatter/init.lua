@@ -143,10 +143,10 @@ local function configure()
     localtheme = {
       orange     = (conf.dlevel == 1) and { '#ab6a6c', 215 } or { '#9b7a7c', 215 },
       blue       = { '#5a6acf', 239 },
-      purple     = (conf.dlevl == 1) and { '#b070b0', 241 } or { '#a070a0', 241 },
+      purple     = (conf.dlevel == 1) and { '#b070b0', 241 } or { '#a070a0', 241 },
       teal       = { '#508080', 238 },
       brightteal = { '#70a0c0', 238 },
-      darkpurple = { '#705070', 240 },
+      darkpurple = (conf.dlevel == 1) and { '#705070', 240 } or { '#806a80', 240 },
       red        = (conf.dlevel == 1) and { '#bb4d5c', 203 } or { '#ab5d6c', 203 },
       yellow     = (conf.dlevel == 1) and { '#aaaa60', 231 } or { '#909870', 231 },
       green      = (conf.dlevel == 1) and { '#60906f', 231 } or { '#658075', 231 }

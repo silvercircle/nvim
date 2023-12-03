@@ -3,10 +3,8 @@
 
 local Utils = {}
 
-local default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", ".vscode" }
-
 local conf = {
-  root_patterns = default_root_patterns,
+  root_patterns = vim.g.tweaks.default_root_patterns,
   debugmode = false,
   -- experimental, try root patterns ONLY. not recommended, git_ancestor() is more relieable
   ignore_git = false,
@@ -49,7 +47,7 @@ end
 
 function Utils.setup(opts)
   opts = opts or {}
-  conf.root_patterns = opts.root_patterns or default_root_patterns
+  conf.root_patterns = opts.root_patterns or vim.g.tweaks.default_root_patterns
   conf.debugmode = opts.debug or false
   conf.ignore_git = opts.ignore_git or false
   if conf.debugmode then
