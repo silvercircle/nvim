@@ -44,6 +44,7 @@ _Config_SetKey({ 'i', 'n' }, '<C-f><C-a>', function() __Globals.toggle_fo('a') e
 _Config_SetKey({ 'i', 'n' }, '<C-f><C-c>', function() __Globals.toggle_fo('c') end, "Toggle 'c' format option")
 _Config_SetKey({ 'i', 'n' }, '<C-f><C-w>', function() __Globals.toggle_fo('w') end, "Toggle 'w' format option")
 _Config_SetKey({ 'i', 'n' }, '<C-f><C-t>', function() __Globals.toggle_fo('t') end, "Toggle 't' format option")
+_Config_SetKey({ 'i', 'n' }, '<C-f><C-l>', function() __Globals.toggle_fo('l') end, "Toggle 'l' format option")
 
 _Config_SetKey({ 'i', 'n' }, '<C-f>1', function() __Globals.set_fo('w')  __Globals.set_fo('a') end, "Set 'w' and 'a' format options")
 _Config_SetKey({ 'i', 'n' }, '<C-f>2', function() __Globals.clear_fo('w') __Globals.clear_fo('a') end, "Clear 'w' and 'a' format options")
