@@ -455,6 +455,15 @@ lspconfig.lua_ls.setup {
   }
 }
 
+lspconfig.groovyls.setup {
+  capabilities = capabilities,
+  on_attach = on_attach,
+  cmd = { vim.g.lsp_server_bin['groovy'] },
+  filetypes = { 'groovy' },
+  root_dir = function(fname)
+    return util.root_pattern 'settings.gradle'(fname) or util.find_git_ancestor(fname)
+  end
+}
 -- outsourced because it's too big
 -- require("lsp.jdtls")
 -- require("lsp.pylyzer")

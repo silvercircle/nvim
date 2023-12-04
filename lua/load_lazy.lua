@@ -392,7 +392,7 @@ local plugins = {
       require('ufo').setup({
         open_fold_hl_timeout = 0,
         provider_selector = function(bufnr, filetype, buftype)
-          return {'lsp', 'indent'}
+          return {'treesitter', 'indent'}
         end,
         fold_virt_text_handler = __Globals.ufo_virtual_text_handler,
         preview = {

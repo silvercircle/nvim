@@ -55,14 +55,19 @@ M.theme = {
   }
 }
 
+-- the theme configuration. This can be changed by calling setup({...})
+-- after changing the configuration configure() must be called before the theme
+-- can be activated with set()
 local conf = {
   -- color variant. as of now, 3 types are supported:
   -- a) "warm" - the default, a medium-dark grey background with a slightly red-ish tint.
   -- b) "cold" - about the same, but with a blue-ish flavor
   -- c) "deepblack" - very dark, almost black background. neutral grey tone.
   variant = 'warm',
+  -- color brightness. Set to false to get very vivid and strong colors.
   desaturate = true,
   dlevel = 1, -- desaturation level (1 = mild, 2 = strong, pastel-like")
+  -- The color of strings. Some prefer yellow, others not so.
   -- Supported are "yellow" and "green".
   theme_strings = 'yellow',
   -- kitty features are disabled by default.
@@ -72,8 +77,24 @@ local conf = {
   sync_kittybg = false,
   kittysocket = nil,
   kittenexec = nil,
+  -- when true, background colors will be set to none, making text area and side panels
+  -- transparent.
   is_trans = false,
+  -- the prefix key for accessing the keymappings (see below in setup() ). These mappings
+  -- can be used to change theme settings at runtime.
   keyprefix = "<leader>",
+  -- a table describing attributes for certain highlight groups
+  -- these are directly passed to nvim_set_hl(), so all supported attributes can be used
+  -- here
+  attrib = {
+    keywords = { bold = true },
+    types    = { bold = true },
+    storage  = { bold = true },
+    number   = { bold = true },
+    func =     { bold = true },
+    method   = { bold = true },
+    operator = { bold = true }
+  },
   -- the callback will be called by all functions that change the theme's configuration
   -- Callback must be of type("function") and receives one parameter:
   -- a string describing what has changed. Possible values are "variant", "strings",
@@ -82,6 +103,7 @@ local conf = {
   -- change it.
   callback = nil
 }
+
 M.cokeline_colors = {}
 local  LuaLineColors = {
   white        = '#ffffff',
@@ -328,73 +350,21 @@ local function set_all()
   hl_with_defaults('ToolbarButton', localtheme.bg0, palette.bg_blue)
   hl_with_defaults('Substitute', localtheme.bg0, localtheme.yellow)
 
-  link("DiagnosticFloatingError", "ErrorFloat")
-  link("DiagnosticFloatingWarn", "WarningFloat")
-  link("DiagnosticFloatingInfo", "InfoFloat")
-  link("DiagnosticFloatingHint", "HintFloat")
-  link("DiagnosticError", "ErrorText")
-  link("DiagnosticWarn", "WarningText")
-  link("DiagnosticInfo", "InfoText")
-  link("DiagnosticHint", "HintText")
-  link("DiagnosticVirtualTextError", "VirtualTextError")
-  link("DiagnosticVirtualTextWarn", "VirtualTextWarning")
-  link("DiagnosticVirtualTextInfo", "VirtualTextInfo")
-  link("DiagnosticVirtualTextHint", "VirtualTextHint")
-  link("DiagnosticUnderlineError", "ErrorText")
-  link("DiagnosticUnderlineWarn", "WarningText")
-  link("DiagnosticUnderlineInfo", "InfoText")
-  link("DiagnosticUnderlineHint", "HintText")
-  link("DiagnosticSignOk", "GreenSign")
-  link("DiagnosticSignError", "RedSign")
-  link("DiagnosticSignWarn", "YellowSign")
-  link("DiagnosticSignInfo", "BlueSign")
-  link("DiagnosticSignHint", "GreenSign")
-  link("LspDiagnosticsFloatingError", "DiagnosticFloatingError")
-  link("LspDiagnosticsFloatingWarning", "DiagnosticFloatingWarn")
-  link("LspDiagnosticsFloatingInformation", "DiagnosticFloatingInfo")
-  link("LspDiagnosticsFloatingHint", "DiagnosticFloatingHint")
-  link("LspDiagnosticsDefaultError", "DiagnosticError")
-  link("LspDiagnosticsDefaultWarning", "DiagnosticWarn")
-  link("LspDiagnosticsDefaultInformation", "DiagnosticInfo")
-  link("LspDiagnosticsDefaultHint", "DiagnosticHint")
-  link("LspDiagnosticsVirtualTextError", "DiagnosticVirtualTextError")
-  link("LspDiagnosticsVirtualTextWarning", "DiagnosticVirtualTextWarn")
-  link("LspDiagnosticsVirtualTextInformation", "DiagnosticVirtualTextInfo")
-  link("LspDiagnosticsVirtualTextHint", "DiagnosticVirtualTextHint")
-  link("LspDiagnosticsUnderlineError", "DiagnosticUnderlineError")
-  link("LspDiagnosticsUnderlineWarning", "DiagnosticUnderlineWarn")
-  link("LspDiagnosticsUnderlineInformation", "DiagnosticUnderlineInfo")
-  link("LspDiagnosticsUnderlineHint", "DiagnosticUnderlineHint")
-  link("LspDiagnosticsSignError", "DiagnosticSignError")
-  link("LspDiagnosticsSignWarning", "DiagnosticSignWarn")
-  link("LspDiagnosticsSignInformation", "DiagnosticSignInfo")
-  link("LspDiagnosticsSignHint", "DiagnosticSignHint")
-  link("LspReferenceText", "CurrentWord")
-  link("LspReferenceRead", "CurrentWord")
-  link("LspReferenceWrite", "CurrentWord")
-  link("LspCodeLens", "VirtualTextInfo")
-  link("LspCodeLensSeparator", "VirtualTextHint")
-  link("LspSignatureActiveParameter", "Yellow")
-  link("TermCursor", "Cursor")
-  link("healthError", "Red")
-  link("healthSuccess", "Green")
-  link("healthWarning", "Yellow")
-
-  hl('Type', localtheme.darkpurple, palette.none, { bold = true })
-  hl('Structure', localtheme.darkpurple, palette.none, { bold = true })
-  hl('StorageClass', localtheme.purple, palette.none, { bold = true })
+  hl('Type', localtheme.darkpurple, palette.none, conf.attrib.types)
+  hl('Structure', localtheme.darkpurple, palette.none, conf.attrib.types)
+  hl('StorageClass', localtheme.purple, palette.none, conf.attrib.storage)
   hl_with_defaults('Identifier', localtheme.orange, palette.none)
   hl_with_defaults('Constant', palette.purple, palette.none)
   hl('PreProc', palette.darkyellow, palette.none, { bold = true })
   hl('PreCondit', palette.darkyellow, palette.none, { bold = true })
   link('Include', "OliveBold")
-  hl('Keyword', localtheme.blue, palette.none, { bold = true })
+  hl('Keyword', localtheme.blue, palette.none, conf.attrib.keywords)
   hl_with_defaults('Define', localtheme.red, palette.none)
-  hl('Typedef', localtheme.red, palette.none, { bold = true })
-  hl_with_defaults('Exception', localtheme.red, palette.none)
-  hl('Conditional', palette.darkyellow, palette.none, { bold = true })
-  hl('Repeat', localtheme.blue, palette.none, { bold = true })
-  hl('Statement', localtheme.blue, palette.none, { bold = true })
+  hl('Typedef', localtheme.red, palette.none, conf.attrib.types)
+  hl('Exception', conf.theme_strings == "yellow" and localtheme.green or localtheme.yellow, palette.none, conf.attrib.keywords)
+  hl('Conditional', palette.darkyellow, palette.none, conf.attrib.keywords)
+  hl('Repeat', localtheme.blue, palette.none, conf.attrib.keywords)
+  hl('Statement', localtheme.blue, palette.none, conf.attrib.keywords)
   hl_with_defaults('Macro', palette.purple, palette.none)
   hl_with_defaults('Error', localtheme.red, palette.none)
   hl_with_defaults('Label', palette.purple, palette.none)
@@ -403,12 +373,12 @@ local function set_all()
   hl_with_defaults('Boolean', palette.palered, palette.none)
   hl_with_defaults('String', localtheme.string, palette.none)
   hl_with_defaults('Character', localtheme.yellow, palette.none)
-  hl('Number', localtheme.purple, palette.none, { bold = true })
+  hl('Number', localtheme.purple, palette.none, conf.attrib.number)
   hl_with_defaults('Float', palette.purple, palette.none)
-  hl('Function', localtheme.teal, palette.none, { bold = true })
-  hl('Method', localtheme.brightteal, palette.none, { bold = true })
+  hl('Function', localtheme.teal, palette.none, conf.attrib.func)
+  hl('Method', localtheme.brightteal, palette.none, conf.attrib.method)
 
-  hl('Operator', localtheme.red, palette.none, { bold = true })
+  hl('Operator', localtheme.red, palette.none, conf.attrib.operator)
   hl('Title', localtheme.red, palette.none, { bold = true })
   hl_with_defaults('Tag', localtheme.orange, palette.none)
   hl('Delimiter', localtheme.red, palette.none, { bold = true })
@@ -481,6 +451,58 @@ local function set_all()
   hl('TSWarning', localtheme.bg0, localtheme.yellow, { bold = true })
   hl('TSDanger', localtheme.bg0, localtheme.red, { bold = true })
 
+  link("DiagnosticFloatingError", "ErrorFloat")
+  link("DiagnosticFloatingWarn", "WarningFloat")
+  link("DiagnosticFloatingInfo", "InfoFloat")
+  link("DiagnosticFloatingHint", "HintFloat")
+  link("DiagnosticError", "ErrorText")
+  link("DiagnosticWarn", "WarningText")
+  link("DiagnosticInfo", "InfoText")
+  link("DiagnosticHint", "HintText")
+  link("DiagnosticVirtualTextError", "VirtualTextError")
+  link("DiagnosticVirtualTextWarn", "VirtualTextWarning")
+  link("DiagnosticVirtualTextInfo", "VirtualTextInfo")
+  link("DiagnosticVirtualTextHint", "VirtualTextHint")
+  link("DiagnosticUnderlineError", "ErrorText")
+  link("DiagnosticUnderlineWarn", "WarningText")
+  link("DiagnosticUnderlineInfo", "InfoText")
+  link("DiagnosticUnderlineHint", "HintText")
+  link("DiagnosticSignOk", "GreenSign")
+  link("DiagnosticSignError", "RedSign")
+  link("DiagnosticSignWarn", "YellowSign")
+  link("DiagnosticSignInfo", "BlueSign")
+  link("DiagnosticSignHint", "GreenSign")
+  link("LspDiagnosticsFloatingError", "DiagnosticFloatingError")
+  link("LspDiagnosticsFloatingWarning", "DiagnosticFloatingWarn")
+  link("LspDiagnosticsFloatingInformation", "DiagnosticFloatingInfo")
+  link("LspDiagnosticsFloatingHint", "DiagnosticFloatingHint")
+  link("LspDiagnosticsDefaultError", "DiagnosticError")
+  link("LspDiagnosticsDefaultWarning", "DiagnosticWarn")
+  link("LspDiagnosticsDefaultInformation", "DiagnosticInfo")
+  link("LspDiagnosticsDefaultHint", "DiagnosticHint")
+  link("LspDiagnosticsVirtualTextError", "DiagnosticVirtualTextError")
+  link("LspDiagnosticsVirtualTextWarning", "DiagnosticVirtualTextWarn")
+  link("LspDiagnosticsVirtualTextInformation", "DiagnosticVirtualTextInfo")
+  link("LspDiagnosticsVirtualTextHint", "DiagnosticVirtualTextHint")
+  link("LspDiagnosticsUnderlineError", "DiagnosticUnderlineError")
+  link("LspDiagnosticsUnderlineWarning", "DiagnosticUnderlineWarn")
+  link("LspDiagnosticsUnderlineInformation", "DiagnosticUnderlineInfo")
+  link("LspDiagnosticsUnderlineHint", "DiagnosticUnderlineHint")
+  link("LspDiagnosticsSignError", "DiagnosticSignError")
+  link("LspDiagnosticsSignWarning", "DiagnosticSignWarn")
+  link("LspDiagnosticsSignInformation", "DiagnosticSignInfo")
+  link("LspDiagnosticsSignHint", "DiagnosticSignHint")
+  link("LspReferenceText", "CurrentWord")
+  link("LspReferenceRead", "CurrentWord")
+  link("LspReferenceWrite", "CurrentWord")
+  link("LspCodeLens", "VirtualTextInfo")
+  link("LspCodeLensSeparator", "VirtualTextHint")
+  link("LspSignatureActiveParameter", "Yellow")
+  link("TermCursor", "Cursor")
+  link("healthError", "Red")
+  link("healthSuccess", "Green")
+  link("healthWarning", "Yellow")
+
   link("TSAnnotation", "BlueItalic")
   link("TSAttribute", "BlueItalic")
   link("TSBoolean", "PaleRed")
@@ -491,14 +513,14 @@ local function set_all()
   link("TSConstMacro", "OrangeItalic")
   link("TSConstant", "Constant")
   link("TSConstructor", "Yellow")
-  link("TSException", conf.theme_strings == "yellow" and "GreenBold" or "YellowBold")
+  link("TSException", "Exception")
   link("TSField", "Orange")
   link("TSFloat", "Purple")
   link("TSFuncBuiltin", "TealBold")
   link("TSFuncMacro", "TealBold")
   link("TSFunction", "Teal")
   link("TSInclude", "OliveBold")
-  link("TSKeyword", "BlueBold")
+  link("TSKeyword", "Keyword")
   link("TSKeywordFunction", "PaleRed")
   link("TSKeywordOperator", "RedBold")
   link("TSLabel", "Red")
@@ -802,7 +824,7 @@ local function set_all()
   -- syn_begin: python
   -- builtin
   link("pythonBuiltin", "BlueItalic")
-  link("pythonExceptions", "Red")
+  link("pythonExceptions", "Exception")
   link("pythonDecoratorName", "OrangeItalic")
   -- syn_begin: lua
   -- builtin:

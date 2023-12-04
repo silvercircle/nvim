@@ -171,7 +171,8 @@ vim.g.lsp_server_bin = {
   pylyzer       =   localbin .. "pylyzer",
   taplo         =   masonbinpath .. 'taplo',
   emmet         =   masonbinpath .. 'emmet-language-server',
-  ltex          =   "/opt/ltex/bin/ltex-ls"
+  ltex          =   "/opt/ltex/bin/ltex-ls",
+  groovy        =   masonbinpath .. 'groovy-language-server'
 }
 
 vim.g.confirm_actions = {

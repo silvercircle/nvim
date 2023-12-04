@@ -500,9 +500,9 @@ function Wsplit.refresh()
         vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, fn_symbol_hl, 4, 0, Wsplit.win_width + 1)
       end
       vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Debug", 6, 0, Wsplit.win_width + 1)
-      vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Keyword", 7, 0, Wsplit.win_width + 1)
-      vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Keyword", 8, 0, Wsplit.win_width + 1)
-      vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Number", 9, 0, Wsplit.win_width + 1)
+      vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "BlueBold", 7, 0, Wsplit.win_width + 1)
+      vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "BlueBold", 8, 0, Wsplit.win_width + 1)
+      vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "PurpleBold", 9, 0, Wsplit.win_width + 1)
       vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", false)
     end
   elseif Wsplit.content == "weather" then
