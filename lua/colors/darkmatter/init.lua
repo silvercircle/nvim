@@ -94,16 +94,16 @@ local conf = {
   -- italic and bolditalic groups respectively. Same goes for semantic types like keywords
   -- or strings
   attrib = {
-    keywords = { bold = true },
-    types = { bold = true },
-    storage = { bold = true },
-    number = { bold = true },
-    func = { bold = true },
-    method = { bold = true },
-    operator = { bold = true },
+    keywords = conf.attrib.bold,
+    types = conf.attrib.bold,
+    storage = conf.attrib.bold,
+    number = conf.attrib.bold,
+    func = conf.attrib.bold,
+    method = conf.attrib.bold,
+    operator = conf.attrib.bold,
     string = {},
-    bold = { bold = true },
-    italic = { bold = true },
+    bold = conf.attrib.bold,
+    italic = conf.attrib.bold,
     bolditalic = { bold = true, italic = true },
   },
   -- the callback will be called by all functions that change the theme's configuration
@@ -292,11 +292,11 @@ local function set_all()
 
   link("CursorIM", "iCursor")
 
-  hl("FocusedSymbol", localtheme.yellow, palette.none, { bold = true })
+  hl("FocusedSymbol", localtheme.yellow, palette.none, conf.attrib.bold)
 
   if diff then
     hl("CursorLine", palette.none, palette.none, { underline = true })
-    hl("CursorColumn", palette.none, palette.none, { bold = true })
+    hl("CursorColumn", palette.none, palette.none, conf.attrib.bold)
   else
     hl_with_defaults("CursorLine", palette.none, localtheme.bg0)
     hl_with_defaults("CursorColumn", palette.none, localtheme.bg1)
@@ -313,11 +313,11 @@ local function set_all()
   hl_with_defaults("DiffChange", palette.none, palette.diff_blue)
   hl_with_defaults("DiffDelete", palette.none, palette.diff_red)
   hl_with_defaults("DiffText", localtheme.bg0, localtheme.blue)
-  hl("Directory", localtheme.blue, palette.none, { bold = true })
+  hl("Directory", localtheme.blue, palette.none, conf.attrib.bold)
   hl("ErrorMsg", localtheme.red, palette.none, { bold = true, underline = true })
-  hl("WarningMsg", localtheme.yellow, palette.none, { bold = true })
-  hl("ModeMsg", localtheme.fg, palette.none, { bold = true })
-  hl("MoreMsg", localtheme.blue, palette.none, { bold = true })
+  hl("WarningMsg", localtheme.yellow, palette.none, conf.attrib.bold)
+  hl("ModeMsg", localtheme.fg, palette.none, conf.attrib.bold)
+  hl("MoreMsg", localtheme.blue, palette.none, conf.attrib.bold)
   hl_with_defaults("MatchParen", localtheme.yellow, localtheme.darkred)
 
   hl_with_defaults("NonText", localtheme.bg4, palette.none)
@@ -363,8 +363,8 @@ local function set_all()
   hl("StorageClass", localtheme.purple, palette.none, conf.attrib.storage)
   hl_with_defaults("Identifier", localtheme.orange, palette.none)
   hl_with_defaults("Constant", palette.purple, palette.none)
-  hl("PreProc", palette.darkyellow, palette.none, { bold = true })
-  hl("PreCondit", palette.darkyellow, palette.none, { bold = true })
+  hl("PreProc", palette.darkyellow, palette.none, conf.attrib.bold)
+  hl("PreCondit", palette.darkyellow, palette.none, conf.attrib.bold)
   link("Include", "OliveBold")
   link("Boolean", "PaleRed")
   hl("Keyword", localtheme.blue, palette.none, conf.attrib.keywords)
@@ -382,7 +382,7 @@ local function set_all()
   hl_with_defaults("Macro", palette.purple, palette.none)
   hl_with_defaults("Error", localtheme.red, palette.none)
   hl_with_defaults("Label", palette.purple, palette.none)
-  hl("Special", localtheme.darkpurple, palette.none, { bold = true })
+  hl("Special", localtheme.darkpurple, palette.none, conf.attrib.bold)
   hl_with_defaults("SpecialChar", palette.purple, palette.none)
   hl("String", localtheme.string, palette.none, conf.attrib.string)
   hl_with_defaults("Character", localtheme.yellow, palette.none)
@@ -392,9 +392,9 @@ local function set_all()
   hl("Method", localtheme.brightteal, palette.none, conf.attrib.method)
 
   hl("Operator", localtheme.red, palette.none, conf.attrib.operator)
-  hl("Title", localtheme.red, palette.none, { bold = true })
+  hl("Title", localtheme.red, palette.none, conf.attrib.bold)
   hl_with_defaults("Tag", localtheme.orange, palette.none)
-  hl("Delimiter", localtheme.red, palette.none, { bold = true })
+  hl("Delimiter", localtheme.red, palette.none, conf.attrib.bold)
   hl_with_defaults("Comment", palette.grey, palette.none)
   hl_with_defaults("SpecialComment", palette.grey, palette.none)
   hl_with_defaults("Todo", localtheme.blue, palette.none)
@@ -408,7 +408,7 @@ local function set_all()
   hl("FgDimBoldItalic", palette.fg_dim, palette.none, conf.attrib.bolditalic)
   hl_with_defaults("Grey", palette.grey, palette.none)
   hl_with_defaults("Red", localtheme.red, palette.none)
-  hl("RedBold", localtheme.red, palette.none, { bold = true })
+  hl("RedBold", localtheme.red, palette.none, conf.attrib.bold)
   hl("PaleRed", palette.palered, palette.none, conf.attrib.bold)
   hl_with_defaults("Orange", localtheme.orange, palette.none)
   hl("OrangeBold", localtheme.orange, palette.none, conf.attrib.bold)
@@ -457,12 +457,12 @@ local function set_all()
   hl_with_defaults("InfoFloat", localtheme.blue, palette.none)
   hl_with_defaults("HintFloat", localtheme.green, palette.none)
 
-  hl("TSStrong", palette.none, palette.none, { bold = true })
-  hl("TSEmphasis", palette.none, palette.none, { italic = true })
+  hl("TSStrong", palette.none, palette.none, conf.attrib.bold)
+  hl("TSEmphasis", palette.none, palette.none, conf.attrib.italic)
   hl("TSUnderline", palette.none, palette.none, { underline = true })
-  hl("TSNote", localtheme.bg0, localtheme.blue, { bold = true })
-  hl("TSWarning", localtheme.bg0, localtheme.yellow, { bold = true })
-  hl("TSDanger", localtheme.bg0, localtheme.red, { bold = true })
+  hl("TSNote", localtheme.bg0, localtheme.blue, conf.attrib.bold)
+  hl("TSWarning", localtheme.bg0, localtheme.yellow, conf.attrib.bold)
+  hl("TSDanger", localtheme.bg0, localtheme.red, conf.attrib.bold)
 
   link("DiagnosticFloatingError", "ErrorFloat")
   link("DiagnosticFloatingWarn", "WarningFloat")
@@ -633,12 +633,12 @@ local function set_all()
   link("BookmarkLine", "DiffChange")
   link("BookmarkAnnotationLine", "DiffAdd")
 
-  hl("TelescopeMatching", palette.palered, palette.none, { bold = true })
+  hl("TelescopeMatching", palette.palered, palette.none, conf.attrib.bold)
   hl_with_defaults("TelescopeBorder", localtheme.accent, localtheme.bg_dim)
   hl_with_defaults("TelescopePromptBorder", localtheme.accent, localtheme.bg_dim)
-  hl("TelescopePromptNormal", palette.fg_dim, localtheme.bg_dim, { bold = true })
+  hl("TelescopePromptNormal", palette.fg_dim, localtheme.bg_dim, conf.attrib.bold)
   hl_with_defaults("TelescopeNormal", palette.fg_dim, localtheme.bg_dim)
-  hl("TelescopeTitle", localtheme.accent_fg, localtheme.accent, { bold = true })
+  hl("TelescopeTitle", localtheme.accent_fg, localtheme.accent, conf.attrib.bold)
 
   link("MiniPickBorder", "TelescopeBorder")
   link("MiniPickBorderBusy", "TelescopeBorder")
@@ -670,8 +670,8 @@ local function set_all()
   link("GitSignsDeleteInline", "Visual")
 
   -- phaazon/hop.nvim {{{
-  hl("HopNextKey", localtheme.red, palette.none, { bold = true })
-  hl("HopNextKey1", localtheme.blue, palette.none, { bold = true })
+  hl("HopNextKey", localtheme.red, palette.none, conf.attrib.bold)
+  hl("HopNextKey1", localtheme.blue, palette.none, conf.attrib.bold)
   link("HopNextKey2", "Blue")
   link("HopUnmatched", "Grey")
 
@@ -743,16 +743,16 @@ local function set_all()
   link("NvimTreeLspDiagnosticsInformation", "BlueSign")
   link("NvimTreeLspDiagnosticsHint", "GreenSign")
 
-  hl("markdownH1", localtheme.red, palette.none, { bold = true })
-  hl("markdownH2", localtheme.orange, palette.none, { bold = true })
-  hl("markdownH3", localtheme.yellow, palette.none, { bold = true })
-  hl("markdownH4", localtheme.green, palette.none, { bold = true })
-  hl("markdownH5", localtheme.blue, palette.none, { bold = true })
-  hl("markdownH6", palette.purple, palette.none, { bold = true })
+  hl("markdownH1", localtheme.red, palette.none, conf.attrib.bold)
+  hl("markdownH2", localtheme.orange, palette.none, conf.attrib.bold)
+  hl("markdownH3", localtheme.yellow, palette.none, conf.attrib.bold)
+  hl("markdownH4", localtheme.green, palette.none, conf.attrib.bold)
+  hl("markdownH5", localtheme.blue, palette.none, conf.attrib.bold)
+  hl("markdownH6", palette.purple, palette.none, conf.attrib.bold)
   hl("markdownUrl", localtheme.blue, palette.none, { underline = true })
-  hl("markdownItalic", palette.none, palette.none, { italic = true })
-  hl("markdownBold", palette.none, palette.none, { bold = true })
-  hl("markdownItalicDelimiter", palette.grey, palette.none, { italic = true })
+  hl("markdownItalic", palette.none, palette.none, conf.attrib.italic)
+  hl("markdownBold", palette.none, palette.none, conf.attrib.bold)
+  hl("markdownItalicDelimiter", palette.grey, palette.none, conf.attrib.italic)
   link("markdownCode", "Purple")
   link("markdownCodeBlock", "Green")
   link("markdownCodeDelimiter", "Green")
@@ -773,7 +773,7 @@ local function set_all()
   -- vim-markdown: https://github.com/gabrielelana/vim-markdown{{{
   hl("mdURL", localtheme.blue, palette.none, { underline = true })
   hl("mkdInineURL", localtheme.blue, palette.none, { underline = true })
-  hl("mkdItalic", palette.grey, palette.none, { italic = true })
+  hl("mkdItalic", palette.grey, palette.none, conf.attrib.italic)
   link("mkdCodeDelimiter", "Green")
   link("mkdBold", "Grey")
   hl("mkdLink", localtheme.blue, palette.none, { underline = true })
@@ -811,20 +811,20 @@ local function set_all()
 
   -- syn_begin: html/markdown/javascriptreact/typescriptreact {{{
   -- builtin: https://notabug.org/jorgesumle/vim-html-syntax{{{
-  hl("htmlH1", localtheme.blue, palette.none, { bold = true })
-  hl("htmlH2", localtheme.orange, palette.none, { bold = true })
-  hl("htmlH3", localtheme.yellow, palette.none, { bold = true })
-  hl("htmlH4", localtheme.green, palette.none, { bold = true })
-  hl("htmlH5", localtheme.blue, palette.none, { bold = true })
-  hl("htmlH6", palette.purple, palette.none, { bold = true })
+  hl("htmlH1", localtheme.blue, palette.none, conf.attrib.bold)
+  hl("htmlH2", localtheme.orange, palette.none, conf.attrib.bold)
+  hl("htmlH3", localtheme.yellow, palette.none, conf.attrib.bold)
+  hl("htmlH4", localtheme.green, palette.none, conf.attrib.bold)
+  hl("htmlH5", localtheme.blue, palette.none, conf.attrib.bold)
+  hl("htmlH6", palette.purple, palette.none, conf.attrib.bold)
   hl("htmlLink", palette.none, palette.none, { underline = true })
-  hl("htmlBold", palette.none, palette.none, { bold = true })
+  hl("htmlBold", palette.none, palette.none, conf.attrib.bold)
   hl("htmlBoldUnderline", palette.none, palette.none, { bold = true, underline = true })
   hl("htmlBoldItalic", palette.none, palette.none, { bold = true, italic = true })
   hl("htmlBoldUnderlineItalic", palette.none, palette.none, { bold = true, underline = true, italic = true })
   hl("htmlUnderline", palette.none, palette.none, { underline = true })
   hl("htmlUnderlineItalic", palette.none, palette.none, { underline = true, italic = true })
-  hl("htmlItalic", palette.none, palette.none, { italic = true })
+  hl("htmlItalic", palette.none, palette.none, conf.attrib.italic)
   link("htmlTag", "Green")
   link("htmlEndTag", "Blue")
   link("htmlTagN", "RedItalic")
@@ -845,35 +845,6 @@ local function set_all()
   link("luaFunction", "Red")
   link("luaTable", "Fg")
   link("luaIn", "Red")
-  -- syn_begin: java
-  -- builtin:
-  link("javaClassDecl", "Red")
-  link("javaMethodDecl", "Red")
-  link("javaVarArg", "Fg")
-  link("javaAnnotation", "Purple")
-  link("javaUserLabel", "Purple")
-  link("javaTypedef", "OrangeItalic")
-  link("javaParen", "Fg")
-  link("javaParen1", "Fg")
-  link("javaParen2", "Fg")
-  link("javaParen3", "Fg")
-  link("javaParen4", "Fg")
-  link("javaParen5", "Fg")
-  -- syn_begin: kotlin
-  -- kotlin-vim: https://github.com/udalov/kotlin-vim
-  link("ktSimpleInterpolation", "Purple")
-  link("ktComplexInterpolation", "Purple")
-  link("ktComplexInterpolationBrace", "Purple")
-  link("ktStructure", "Red")
-  link("ktKeyword", "OrangeItalic")
-  -- syn_begin: swift
-  -- swift.vim: https://github.com/keith/swift.vim
-  link("swiftInterpolatedWrapper", "Purple")
-  link("swiftInterpolatedString", "Purple")
-  link("swiftProperty", "Fg")
-  link("swiftTypeDeclaration", "Red")
-  link("swiftClosureArgument", "OrangeItalic")
-  link("swiftStructure", "Red")
   -- syn_begin: matlab
   -- builtin:
   link("matlabSemicolon", "Fg")
@@ -888,11 +859,11 @@ local function set_all()
   link("matlabLogicalOperator", "Red")
 
   -- syn_begin: help
-  hl("helpNote", palette.purple, palette.none, { bold = true })
-  hl("helpHeadline", localtheme.red, palette.none, { bold = true })
-  hl("helpHeader", localtheme.orange, palette.none, { bold = true })
+  hl("helpNote", palette.purple, palette.none, conf.attrib.bold)
+  hl("helpHeadline", localtheme.red, palette.none, conf.attrib.bold)
+  hl("helpHeader", localtheme.orange, palette.none, conf.attrib.bold)
   hl("helpURL", localtheme.green, palette.none, { underline = true })
-  hl("helpHyperTextEntry", localtheme.blue, palette.none, { bold = true })
+  hl("helpHyperTextEntry", localtheme.blue, palette.none, conf.attrib.bold)
   link("helpHyperTextJump", "Blue")
   link("helpCommand", "Yellow")
   link("helpExample", "Green")
@@ -942,7 +913,7 @@ local function set_all()
   hl_with_defaults("NeoTreeNormalNC", localtheme.fg, palette.neotreebg)
   hl_with_defaults("NeoTreeNormal", localtheme.fg, palette.neotreebg)
   hl_with_defaults("NeoTreeFloatBorder", palette.grey_dim, palette.neotreebg)
-  hl("NeoTreeFileNameOpened", localtheme.blue, palette.neotreebg, { italic = true })
+  hl("NeoTreeFileNameOpened", localtheme.blue, palette.neotreebg, conf.attrib.italic)
   hl_with_defaults("SymbolsOutlineConnector", localtheme.bg4, palette.none)
   hl_with_defaults("NotifierTitle", localtheme.yellow, palette.none)
   link("NotifierContent", "NeoTreeNormalNC")
