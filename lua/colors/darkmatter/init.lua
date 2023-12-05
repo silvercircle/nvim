@@ -956,7 +956,7 @@ local function set_all()
   link("AerialGuide", "SymbolsOutlineConnector")
 
   -- WinBar
-  hl_with_defaults("WinBarFilename", localtheme.fg, localtheme.accent) -- Filename (right hand)
+  hl_with_defaults("WinBarFilename", localtheme.fg, localtheme.accent)                                   -- Filename (right hand)
   hl("WinBarContext", palette.darkyellow, palette.none, { underline = true, sp = localtheme.accent[1] }) -- LSP context (left hand)
   -- WinBarInvis is for the central padding item. It should be transparent and invisible (fg = bg)
   -- This is a somewhat hack-ish way to make the lualine-controlle winbar transparent.
@@ -987,10 +987,10 @@ function M.set()
     if vim.fn.filereadable(conf.kittysocket) == 1 and vim.fn.executable(conf.kittenexec) == 1 then
       vim.fn.jobstart(
         conf.kittenexec
-          .. " @ --to unix:"
-          .. conf.kittysocket
-          .. " set-colors background="
-          .. M.theme[conf.variant].kittybg
+        .. " @ --to unix:"
+        .. conf.kittysocket
+        .. " set-colors background="
+        .. M.theme[conf.variant].kittybg
       )
     else
       vim.notify("Either the kitty socket or the kitten executable is not available", vim.log.levels.WARN)
@@ -1045,7 +1045,7 @@ function M.Lualine_internal_theme()
     normal = {
       a = {
         fg = LuaLineColors.darkestgreen,
-        bg = LuaLineColors.brightgreen,--[[, gui = 'bold']]
+        bg = LuaLineColors.brightgreen, --[[, gui = 'bold']]
       },
       b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
       c = "StatusLine",
@@ -1060,7 +1060,7 @@ function M.Lualine_internal_theme()
     visual = {
       a = {
         fg = LuaLineColors.white,
-        bg = LuaLineColors.brightorange,--[[, gui = 'bold']]
+        bg = LuaLineColors.brightorange, --[[, gui = 'bold']]
       },
     },
     replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = "bold" } },
