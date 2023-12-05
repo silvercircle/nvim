@@ -109,7 +109,9 @@ local conf = {
     string     = {},
     bold       = { bold = true },
     italic     = { italic = true },
-    bolditalic = { bold = true, italic = true }
+    bolditalic = { bold = true, italic = true },
+    attribute  = { bold = true },
+    annotation = { bold = true, italic = true }
   },
   -- the callback will be called by all functions that change the theme's configuration
   -- Callback must be of type("function") and receives one parameter:
@@ -121,8 +123,16 @@ local conf = {
   custom_colors = {
     '#ff0000', '#00ff00', '#0000ff', '#ff00ff'
   },
+  -- plugins. there are 3 kinds of plugins:
+  -- customize: executed after configure() but before colors are set. Allows
+  --            you to customize the color tables
+  -- hl:        list of additional highlighting. This can be used to support plugins
+  --            that are not supported by default
+  -- post:      called after theme has been set
   plugins = {
-    "markdown", "matlab"
+    customize =  {},
+    hl = { "markdown", "syntax" },
+    post = {}
   }
 }
 
@@ -202,6 +212,7 @@ local function configure()
         green = { "#309020", 232 },
         blue = { "#8a8adf", 239 },
         purple = { "#904090", 241 },
+        storage = { "#855069", 241 },
         fg = { M.theme[conf.variant].fg , 1 },
       }
     }
@@ -222,6 +233,7 @@ local function configure()
         green = { "#10801f", 232 },
         blue = { "#6060cf", 239 },
         purple = { "#c030c0", 241 },
+        storage = { "#952060", 241 },
         fg = { M.theme[conf.variant].fg , 1 },
       }
     }
@@ -289,9 +301,9 @@ local function configure()
     diff_blue = { "#253147", 17 },
     diff_yellow = { "#4e432f", 54 },
     fg_dim = { "#959290", 251 },
-    palered = { "#8b2d3c", 203 },
+    deepred = { "#8b2d3c", 203 },
     darkyellow = { "#a78624", 180 },
-    olive = { "#777722", 181 },
+    olive = { "#708422", 181 },
     purple = { "#b39df3", 176 },
     grey_dim = { "#595f6f", 240 },
     neotreebg = { M.theme[conf.variant].treebg, 232 },
@@ -396,13 +408,13 @@ local function set_all()
 
   M.hl("Type", M.localtheme.darkpurple, M.palette.none, conf.attrib.types)
   M.hl("Structure", M.localtheme.darkpurple, M.palette.none, conf.attrib.types)
-  M.hl("StorageClass", M.localtheme.purple, M.palette.none, conf.attrib.storage)
+  M.hl("StorageClass", M.localtheme.special.storage, M.palette.none, conf.attrib.storage)
   M.hl_with_defaults("Identifier", M.localtheme.orange, M.palette.none)
   M.hl_with_defaults("Constant", M.palette.purple, M.palette.none)
   M.hl("PreProc", M.palette.darkyellow, M.palette.none, conf.attrib.bold)
   M.hl("PreCondit", M.palette.darkyellow, M.palette.none, conf.attrib.bold)
   M.link("Include", "OliveBold")
-  M.link("Boolean", "PaleRed")
+  M.link("Boolean", "DeepRedBold")
   M.hl("Keyword", M.localtheme.blue, M.palette.none, conf.attrib.keywords)
   M.hl("Conditional", M.palette.darkyellow, M.palette.none, conf.attrib.conditional)
   M.hl_with_defaults("Define", M.localtheme.red, M.palette.none)
@@ -435,6 +447,8 @@ local function set_all()
   M.hl_with_defaults("Ignore", M.palette.grey, M.palette.none)
   M.hl("Underlined", M.palette.none, M.palette.none, { underline = true })
 
+  M.hl("Attribute", M.palette.olive, M.palette.none, conf.attrib.attribute)
+  M.hl("Annotation", M.palette.olive, M.palette.none, conf.attrib.annotation)
   M.hl_with_defaults("Fg", M.localtheme.fg, M.palette.none)
   M.hl("FgBold", M.localtheme.fg, M.palette.none, conf.attrib.bold)
   M.hl("FgItalic", M.localtheme.fg, M.palette.none, conf.attrib.italic)
@@ -443,7 +457,8 @@ local function set_all()
   M.hl_with_defaults("Grey", M.palette.grey, M.palette.none)
   M.hl_with_defaults("Red", M.localtheme.red, M.palette.none)
   M.hl("RedBold", M.localtheme.red, M.palette.none, conf.attrib.bold)
-  M.hl("PaleRed", M.palette.palered, M.palette.none, conf.attrib.bold)
+  M.hl_with_defaults("DeepRed", M.palette.deepred, M.palette.none)
+  M.hl("DeepRedBold", M.palette.deepred, M.palette.none, conf.attrib.bold)
   M.hl_with_defaults("Orange", M.localtheme.orange, M.palette.none)
   M.hl("OrangeBold", M.localtheme.orange, M.palette.none, conf.attrib.bold)
   M.hl_with_defaults("Yellow", M.localtheme.yellow, M.palette.none)
@@ -500,6 +515,7 @@ local function set_all()
   M.hl("TSWarning", M.localtheme.bg0, M.localtheme.yellow, conf.attrib.bold)
   M.hl("TSDanger", M.localtheme.bg0, M.localtheme.red, conf.attrib.bold)
 
+  -- LSP and diagnostics stuff
   M.link("DiagnosticFloatingError", "ErrorFloat")
   M.link("DiagnosticFloatingWarn", "WarningFloat")
   M.link("DiagnosticFloatingInfo", "InfoFloat")
@@ -552,9 +568,10 @@ local function set_all()
   M.link("healthSuccess", "Green")
   M.link("healthWarning", "Yellow")
 
-  M.link("TSAnnotation", "BlueItalic")
-  M.link("TSAttribute", "BlueItalic")
-  M.link("TSBoolean", "PaleRed")
+  -- Treesitter highlight classes
+  M.link("TSAnnotation", "Annotation")
+  M.link("TSAttribute", "Attribute")
+  M.link("TSBoolean", "DeepRedBold")
   M.link("TSCharacter", "Yellow")
   M.link("TSComment", "Comment")
   M.link("TSConditional", "Conditional")
@@ -570,7 +587,7 @@ local function set_all()
   M.link("TSFunction", "Teal")
   M.link("TSInclude", "OliveBold")
   M.link("TSKeyword", "Keyword")
-  M.link("TSKeywordFunction", "PaleRed")
+  M.link("TSKeywordFunction", "DeepRedBold")
   M.link("TSKeywordOperator", "Operator")
   M.link("TSLabel", "Red")
   M.link("TSMethod", "Method")
@@ -597,7 +614,7 @@ local function set_all()
   M.link("TSMath", "Yellow")
   M.link("TSType", "Type")
   M.link("TSTypeBuiltin", "BlueItalic")
-  M.link("TSTypeDefinition", "Red")
+  M.link("TSTypeDefinition", "DeepRedBold")
   M.link("TSTypeQualifier", "StorageClass")
   M.link("TSURI", "markdownUrl")
   M.link("TSVariable", "Fg")
@@ -669,7 +686,7 @@ local function set_all()
   M.link("BookmarkLine", "DiffChange")
   M.link("BookmarkAnnotationLine", "DiffAdd")
 
-  M.hl("TelescopeMatching", M.palette.palered, M.palette.none, conf.attrib.bold)
+  M.hl("TelescopeMatching", M.palette.deepred, M.palette.none, conf.attrib.bold)
   M.hl_with_defaults("TelescopeBorder", M.localtheme.accent, M.localtheme.bg_dim)
   M.hl_with_defaults("TelescopePromptBorder", M.localtheme.accent, M.localtheme.bg_dim)
   M.hl("TelescopePromptNormal", M.palette.fg_dim, M.localtheme.bg_dim, conf.attrib.bold)
@@ -762,55 +779,6 @@ local function set_all()
   M.link("NvimTreeLspDiagnosticsInformation", "BlueSign")
   M.link("NvimTreeLspDiagnosticsHint", "GreenSign")
 
-  -- syn_begin: html/markdown/javascriptreact/typescriptreact {{{
-  -- builtin: https://notabug.org/jorgesumle/vim-html-syntax{{{
-  M.hl("htmlH1", M.localtheme.blue, M.palette.none, conf.attrib.bold)
-  M.hl("htmlH2", M.localtheme.orange, M.palette.none, conf.attrib.bold)
-  M.hl("htmlH3", M.localtheme.yellow, M.palette.none, conf.attrib.bold)
-  M.hl("htmlH4", M.localtheme.green, M.palette.none, conf.attrib.bold)
-  M.hl("htmlH5", M.localtheme.blue, M.palette.none, conf.attrib.bold)
-  M.hl("htmlH6", M.palette.purple, M.palette.none, conf.attrib.bold)
-  M.hl("htmlLink", M.palette.none, M.palette.none, { underline = true })
-  M.hl("htmlBold", M.palette.none, M.palette.none, conf.attrib.bold)
-  M.hl("htmlBoldUnderline", M.palette.none, M.palette.none, { bold = true, underline = true })
-  M.hl("htmlBoldItalic", M.palette.none, M.palette.none, { bold = true, italic = true })
-  M.hl("htmlBoldUnderlineItalic", M.palette.none, M.palette.none, { bold = true, underline = true, italic = true })
-  M.hl("htmlUnderline", M.palette.none, M.palette.none, { underline = true })
-  M.hl("htmlUnderlineItalic", M.palette.none, M.palette.none, { underline = true, italic = true })
-  M.hl("htmlItalic", M.palette.none, M.palette.none, conf.attrib.italic)
-  M.link("htmlTag", "Green")
-  M.link("htmlEndTag", "Blue")
-  M.link("htmlTagN", "RedItalic")
-  M.link("htmlTagName", "RedItalic")
-  M.link("htmlArg", "Blue")
-  M.link("htmlScriptTag", "Purple")
-  M.link("htmlSpecialTagName", "RedItalic")
-  M.link("htmlString", "String")
-
-  -- syn_begin: python
-  -- builtin
-  M.link("pythonBuiltin", "BlueItalic")
-  M.link("pythonExceptions", "Exception")
-  M.link("pythonDecoratorName", "OrangeItalic")
-  -- syn_begin: lua
-  -- builtin:
-  M.link("luaFunc", "Green")
-  M.link("luaFunction", "Red")
-  M.link("luaTable", "Fg")
-  M.link("luaIn", "Red")
-
-  -- syn_begin: help
-  M.hl("helpNote", M.palette.purple, M.palette.none, conf.attrib.bold)
-  M.hl("helpHeadline", M.localtheme.red, M.palette.none, conf.attrib.bold)
-  M.hl("helpHeader", M.localtheme.orange, M.palette.none, conf.attrib.bold)
-  M.hl("helpURL", M.localtheme.green, M.palette.none, { underline = true })
-  M.hl("helpHyperTextEntry", M.localtheme.blue, M.palette.none, conf.attrib.bold)
-  M.link("helpHyperTextJump", "Blue")
-  M.link("helpCommand", "Yellow")
-  M.link("helpExample", "Green")
-  M.link("helpSpecial", "Purple")
-  M.link("helpSectionDelim", "Grey")
-
   -- CMP (with custom menu setup)
   M.set_hl(0, "CmpItemKindDefault", { fg = "#cc5de8" })
   M.link("CmpItemKind", "CmpItemKindDefault")
@@ -894,8 +862,11 @@ end
 -- this activates the theme.
 function M.set()
   configure()
+  for _, v in ipairs(conf.plugins.customize) do
+    require("colors.darkmatter.plugins." .. v)
+  end
   set_all()
-  for _, v in ipairs(conf.plugins) do
+  for _, v in ipairs(conf.plugins.hl) do
     require("colors.darkmatter.plugins." .. v)
   end
   if conf.sync_kittybg == true and conf.kittysocket ~= nil and conf.kittenexec ~= nil then
@@ -910,6 +881,9 @@ function M.set()
     else
       vim.notify("Either the kitty socket or the kitten executable is not available", vim.log.levels.WARN)
     end
+  end
+  for _, v in ipairs(conf.plugins.post) do
+    require("colors.darkmatter.plugins." .. v)
   end
 end
 
