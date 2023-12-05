@@ -11,8 +11,11 @@
 --rewritten to lua and heavily modified for my personal Neovim config at:
 --https://gitlab.com/silvercircle74/nvim
 --License:      MIT
---it features multiple background modes (cold, warm and deepdark) and three levels of color saturation.
---bright vivid and two desaturated modes
+--it features multiple background modes (cold, warm and deepdark) and three levels
+--of color saturation: bright vivid and two desaturated modes
+--
+--TODO: * cleanup, organize the highlight groups better
+--      * maybe (just maybe) a bright background variant
 
 local set_hl = vim.api.nvim_set_hl
 local palette = {}
@@ -85,15 +88,21 @@ local conf = {
   keyprefix = "<leader>",
   -- a table describing attributes for certain highlight groups
   -- these are directly passed to nvim_set_hl(), so all supported attributes can be used
-  -- here
+  -- here. For example, if you don't want to have any italics, then you can redefine the
+  -- italic and bolditalic groups respectively. Same goes for semantic types like keywords
+  -- or strings
   attrib = {
-    keywords = { bold = true },
-    types    = { bold = true },
-    storage  = { bold = true },
-    number   = { bold = true },
-    func =     { bold = true },
-    method   = { bold = true },
-    operator = { bold = true }
+    keywords   = { bold = true },
+    types      = { bold = true },
+    storage    = { bold = true },
+    number     = { bold = true },
+    func       = { bold = true },
+    method     = { bold = true },
+    operator   = { bold = true },
+    string     = {},
+    bold       = { bold = true },
+    italic     = { bold = true },
+    bolditalic = { bold = true, italic = true }
   },
   -- the callback will be called by all functions that change the theme's configuration
   -- Callback must be of type("function") and receives one parameter:
@@ -263,6 +272,8 @@ end
 
 -- set all hl groups
 local function set_all()
+
+  -- basic highlights
   hl_with_defaults("Braces", localtheme.red, palette.none)
   hl_with_defaults('ScrollView', localtheme.teal, localtheme.blue)
   hl_with_defaults('Normal', localtheme.fg, localtheme.bg)
@@ -371,7 +382,7 @@ local function set_all()
   hl('Special', localtheme.darkpurple, palette.none, { bold = true })
   hl_with_defaults('SpecialChar', palette.purple, palette.none)
   hl_with_defaults('Boolean', palette.palered, palette.none)
-  hl_with_defaults('String', localtheme.string, palette.none)
+  hl('String', localtheme.string, palette.none, conf.attrib.string)
   hl_with_defaults('Character', localtheme.yellow, palette.none)
   hl('Number', localtheme.purple, palette.none, conf.attrib.number)
   hl_with_defaults('Float', palette.purple, palette.none)
@@ -389,37 +400,37 @@ local function set_all()
   hl('Underlined', palette.none, palette.none, { underline = true })
 
   hl_with_defaults('Fg', localtheme.fg, palette.none)
-  hl('FgBold', localtheme.fg, palette.none, { bold = true })
-  hl('FgItalic', localtheme.fg, palette.none, { italic = true })
-  hl('FgDimBold', palette.fg_dim, palette.none, { bold = true })
-  hl('FgDimBoldItalic', palette.fg_dim, palette.none, { bold = true, italic = true })
+  hl('FgBold', localtheme.fg, palette.none, conf.attrib.bold)
+  hl('FgItalic', localtheme.fg, palette.none, conf.attrib.italic)
+  hl('FgDimBold', palette.fg_dim, palette.none, conf.attrib.bold)
+  hl('FgDimBoldItalic', palette.fg_dim, palette.none, conf.attrib.bolditalic)
   hl_with_defaults('Grey', palette.grey, palette.none)
   hl_with_defaults('Red', localtheme.red, palette.none)
-  hl('PaleRed', palette.palered, palette.none, { bold = true })
-  hl_with_defaults('Orange', localtheme.orange, palette.none)
-  hl('OrangeBold', localtheme.orange, palette.none, { bold = true })
-  hl_with_defaults('Yellow', localtheme.yellow, palette.none)
-  hl('YellowBold', localtheme.yellow, palette.none, { bold = true })
-  hl_with_defaults('Green', localtheme.green, palette.none)
-  hl('GreenBold', localtheme.green, palette.none, { bold = true })
-  hl_with_defaults('Blue', localtheme.blue, palette.none)
-  hl('BlueBold', localtheme.blue, palette.none, { bold = true })
-  hl_with_defaults('Olive', palette.olive, palette.none)
-  hl('OliveBold', palette.olive, palette.none, { bold = true })
-  hl_with_defaults('Purple', localtheme.purple, palette.none)
-  hl('PurpleBold', localtheme.purple, palette.none, { bold = true })
-  hl_with_defaults('DarkPurple', localtheme.darkpurple, palette.none)
-  hl('DarkPurpleBold', localtheme.darkpurple, palette.none, { bold = true })
   hl('RedBold', localtheme.red, palette.none, { bold = true })
+  hl('PaleRed', palette.palered, palette.none, conf.attrib.bold)
+  hl_with_defaults('Orange', localtheme.orange, palette.none)
+  hl('OrangeBold', localtheme.orange, palette.none, conf.attrib.bold)
+  hl_with_defaults('Yellow', localtheme.yellow, palette.none)
+  hl('YellowBold', localtheme.yellow, palette.none, conf.attrib.bold)
+  hl_with_defaults('Green', localtheme.green, palette.none)
+  hl('GreenBold', localtheme.green, palette.none, conf.attrib.bold)
+  hl_with_defaults('Blue', localtheme.blue, palette.none)
+  hl('BlueBold', localtheme.blue, palette.none, conf.attrib.bold)
+  hl_with_defaults('Olive', palette.olive, palette.none)
+  hl('OliveBold', palette.olive, palette.none, conf.attrib.bold)
+  hl_with_defaults('Purple', localtheme.purple, palette.none)
+  hl('PurpleBold', localtheme.purple, palette.none, conf.attrib.bold)
+  hl_with_defaults('DarkPurple', localtheme.darkpurple, palette.none)
+  hl('DarkPurpleBold', localtheme.darkpurple, palette.none, conf.attrib.bold)
   hl_with_defaults('Teal', localtheme.teal, palette.none)
-  hl('TealBold', localtheme.teal, palette.none, { bold = true })
+  hl('TealBold', localtheme.teal, palette.none, conf.attrib.bold)
 
-  hl_with_defaults('RedItalic', localtheme.red, palette.none)
-  hl_with_defaults('OrangeItalic', localtheme.orange, palette.none)
-  hl_with_defaults('YellowItalic', localtheme.yellow, palette.none)
-  hl_with_defaults('GreenItalic', localtheme.green, palette.none)
-  hl_with_defaults('BlueItalic', localtheme.blue, palette.none)
-  hl_with_defaults('PurpleItalic', palette.purple, palette.none)
+  hl('RedItalic', localtheme.red, palette.none, conf.attrib.italic)
+  hl('OrangeItalic', localtheme.orange, palette.none, conf.attrib.italic)
+  hl('YellowItalic', localtheme.yellow, palette.none, conf.attrib.italic)
+  hl('GreenItalic', localtheme.green, palette.none, conf.attrib.italic)
+  hl('BlueItalic', localtheme.blue, palette.none, conf.attrib.italic)
+  hl('PurpleItalic', palette.purple, palette.none, conf.attrib.italic)
   hl_with_defaults('RedSign', localtheme.red, localtheme.darkbg)
   hl_with_defaults('OrangeSign', localtheme.orange, localtheme.darkbg)
   hl_with_defaults('YellowSign', localtheme.yellow, localtheme.darkbg)
@@ -819,7 +830,7 @@ local function set_all()
   link("htmlArg", "Blue")
   link("htmlScriptTag", "Purple")
   link("htmlSpecialTagName", "RedItalic")
-  link("htmlString", "Green")
+  link("htmlString", "String")
 
   -- syn_begin: python
   -- builtin
