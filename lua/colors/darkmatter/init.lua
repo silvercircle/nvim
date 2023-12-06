@@ -104,7 +104,8 @@ local conf = {
     storage    = { bold = true },
     number     = { bold = true },
     func       = { bold = true },
-    method     = { bold = true },
+    method     = { },
+    member     = { },
     operator   = { bold = true },
     string     = {},
     bold       = { bold = true },
@@ -125,9 +126,9 @@ local conf = {
   },
   -- plugins. there are 3 kinds of plugins:
   -- customize: executed after configure() but before colors are set. Allows
-  --            you to customize the color tables
+  --            you to customize the color tables.
   -- hl:        list of additional highlighting. This can be used to support plugins
-  --            that are not supported by default
+  --            that are not supported by default. This 
   -- post:      called after theme has been set
   plugins = {
     customize =  {},
@@ -297,7 +298,7 @@ local function configure()
     diff_red = { "#45292d", 52 },
     bg_green = { "#a7df78", 107 },
     diff_green = { "#10320a", 22 },
-    bg_blue = { "#85d3f2", 110 },
+    bg_blue = { "#75a3f2", 110 },
     diff_blue = { "#253147", 17 },
     diff_yellow = { "#4e432f", 54 },
     fg_dim = { "#959290", 251 },
@@ -370,7 +371,6 @@ local function set_all()
 
   M.hl_with_defaults("NonText", M.localtheme.bg4, M.palette.none)
   M.hl_with_defaults("Whitespace", M.localtheme.green, M.palette.none)
-  M.hl_with_defaults("ExtraWhitespace", M.localtheme.green, M.palette.none)
   M.hl_with_defaults("SpecialKey", M.localtheme.green, M.palette.none)
   M.hl_with_defaults("Pmenu", M.localtheme.fg, M.localtheme.pmenubg)
   M.hl_with_defaults("PmenuSbar", M.palette.none, M.localtheme.bg2)
@@ -438,6 +438,7 @@ local function set_all()
   M.hl_with_defaults("Float", M.palette.purple, M.palette.none)
   M.hl("Function", M.localtheme.teal, M.palette.none, conf.attrib.func)
   M.hl("Method", M.localtheme.brightteal, M.palette.none, conf.attrib.method)
+  M.hl("Member", M.localtheme.orange, M.palette.none, conf.attrib.member)
   M.hl("Builtin", M.palette.bg_blue, M.palette.none, conf.attrib.bolditalic)
 
   M.hl("Title", M.localtheme.red, M.palette.none, conf.attrib.bold)
@@ -581,7 +582,7 @@ local function set_all()
   M.link("TSConstant", "Constant")
   M.link("TSConstructor", "Yellow")
   M.link("TSException", "Exception")
-  M.link("TSField", "Orange")
+  M.link("TSField", "Member")
   M.link("TSFloat", "Purple")
   M.link("TSFuncBuiltin", "Builtin")
   M.link("TSFuncMacro", "TealBold")
@@ -757,12 +758,13 @@ local function set_all()
   M.hl_with_defaults("NvimTreeNormal", M.localtheme.fg, M.palette.neotreebg)
   M.hl_with_defaults("NvimTreeEndOfBuffer", M.localtheme.bg_dim, M.palette.neotreebg)
   M.hl_with_defaults("NvimTreeVertSplit", M.localtheme.bg0, M.localtheme.bg0)
-  M.link("NvimTreeSymlink", "Fg")
-  M.link("NvimTreeFolderName", "BlueBold")
-  M.link("NvimTreeRootFolder", "Yellow")
-  M.link("NvimTreeFolderIcon", "Blue")
-  M.link("NvimTreeEmptyFolderName", "Green")
-  M.link("NvimTreeOpenedFolderName", "BlueBold")
+  M.link("NvimTreeSymlinkFolderName", "Blue")
+  M.link("NvimTreeSymlinkFolderIcon", "BlueBold")
+  M.link("NvimTreeFolderName", "Green")
+  M.link("NvimTreeRootFolder", "Darkyellow")
+  M.link("NvimTreeFolderIcon", "GreenBold")
+  M.link("NvimTreeEmptyFolderName", "Fg")
+  M.link("NvimTreeOpenedFolderName", "GreenBold")
   M.link("NvimTreeExecFile", "Fg")
   M.link("NvimTreeOpenedFile", "PurpleBold")
   M.link("NvimTreeSpecialFile", "Fg")
@@ -963,9 +965,9 @@ function M.Lualine_internal_theme()
 end
 
 -- these groups are all relevant to the signcolumn and need their bg updated when
--- switching from / to transparency mode. They are used for GitSigns, LSP diagnostics
-
--- marks among other things
+-- switching from / to transparency mode since we want a transparent gutter area with
+-- no background. These hlg are used for GitSigns, LSP diagnostics, marks among 
+-- other things.
 local signgroups = { "RedSign", "OrangeSign", "YellowSign", "GreenSign", "BlueSign", "PurpleSign", "CursorLineNr" }
 
 --- set the background transparent or solid
