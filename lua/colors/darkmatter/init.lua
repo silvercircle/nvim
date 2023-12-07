@@ -439,7 +439,7 @@ local function set_all()
   M.hl("Function", M.localtheme.teal, M.palette.none, conf.attrib.func)
   M.hl("Method", M.localtheme.brightteal, M.palette.none, conf.attrib.method)
   M.hl("Member", M.localtheme.orange, M.palette.none, conf.attrib.member)
-  M.hl("Builtin", M.palette.bg_blue, M.palette.none, conf.attrib.bolditalic)
+  M.hl("Builtin", M.palette.bg_blue, M.palette.none, conf.attrib.bold)
 
   M.hl("Title", M.localtheme.red, M.palette.none, conf.attrib.bold)
   M.hl_with_defaults("Tag", M.localtheme.orange, M.palette.none)

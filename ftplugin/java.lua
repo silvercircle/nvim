@@ -1,12 +1,35 @@
 --local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
-local project_name = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":p:h:t")
+--local project_name = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":p:h:t")
+local lsputil = require("lspconfig.util")
+-- this tries to find a project root directory using common patterns. It searches
+-- for maven or gradle configuration files, eclipse or IDEA configurations and if all
+-- fails, a .git root.
+-- TODO: this is probably incomplete and sub-optimal. improvements possible
+local root_patterns = { "pom.xml", "settings.gradle", "gradlew", ".settings",
+                        "nbproject", ".idea", ".git" }
 
--- edit the following two
+local project_root = lsputil.root_pattern(root_patterns)(vim.fn.expand("%:p"))
+--if project_root == nil or #project_root < 1 then
+--  vim.notify("ftplugin/jdtls setup: No root found for " .. vim.fn.expand("%"))
+--  return
+--end
+-- extract the basename and use it as project name for the data (cache) dir
+local project_name = vim.fn.fnamemodify(project_root, ":p:h:t")
+vim.notify("Project name is: " .. project_name)
+
+-- edit the following to reflect your configuration
 local workspace_dir = "/home/alex/.cache/jdtls_workspace/" .. project_name
 local jdtls_install_dir = "/home/alex/.local/share/nvim/mason/packages/jdtls/"
 local equinox_version = "1.6.600.v20231012-1237"
 local java_executable = "/usr/bin/java"
+local use_lombok = true
+-- stop edit
 
+-- configure special buffers
+if vim.bo.buftype == "nofile" and vim.startswith(vim.fn.expand("%"), "jdt://") then
+  vim.cmd("setlocal number|setlocal signcolumn=yes:3|setlocal foldcolumn=1")
+  __Globals.set_statuscol("normal")
+end
 local config = {
   -- The command that starts the language server
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
@@ -21,8 +44,8 @@ local config = {
     "-Dlog.protocol=true",
     "-Dlog.level=ALL",
     "-Xmx1g",
-    "-javaagent:" .. jdtls_install_dir .. "lombok.jar",
-    "-Xbootclasspath/a:" .. jdtls_install_dir .. "lombok.jar",
+    use_lombok and "-javaagent:" .. jdtls_install_dir .. "lombok.jar" or "",
+    use_lombok and "-Xbootclasspath/a:" .. jdtls_install_dir .. "lombok.jar" or "",
     "--add-modules=ALL-SYSTEM",
     "--add-opens", "java.base/java.util=ALL-UNNAMED",
     "--add-opens", "java.base/java.lang=ALL-UNNAMED",
@@ -36,13 +59,19 @@ local config = {
 
   -- This is the default if not provided, you can remove it. Or adjust as needed.
   -- One dedicated LSP server & client will be started per unique root_dir
-  root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", ".gradle" }),
+  root_dir = require("jdtls.setup").find_root({ ".git", "pom.xml", ".gradle" }),
 
   -- Here you can configure eclipse.jdt.ls specific settings
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
   -- for a list of options
   settings = {
     java = {
+      format = {
+        settings = {
+          url = vim.fn.stdpath("config") .. "/addons/jdtls_format.xml",
+          profile = "GoogleStyle"
+        }
+      }
     }
   },
   -- Language server `initializationOptions`
