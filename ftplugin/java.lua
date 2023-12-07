@@ -25,7 +25,8 @@ local java_executable = "/usr/bin/java"
 local use_lombok = true
 -- stop edit
 
--- configure special buffers
+-- configure special buffers. These are opened when using a jdt:// link to decompile
+-- classes.
 if vim.bo.buftype == "nofile" and vim.startswith(vim.fn.expand("%"), "jdt://") then
   vim.cmd("setlocal number|setlocal signcolumn=yes:3|setlocal foldcolumn=1")
   __Globals.set_statuscol("normal")
@@ -43,7 +44,18 @@ local config = {
     "-Declipse.product=org.eclipse.jdt.ls.core.product",
     "-Dlog.protocol=true",
     "-Dlog.level=ALL",
-    "-Xmx1g",
+    "-Xmx768m",
+    "-XX:-TieredCompilation",
+    "-XX:+UseStringDeduplication",
+    "-XX:+UseCompressedOops",
+
+    "-XX:+UseParallelGC",
+    "-XX:MaxGCPauseMillis=200",
+    "-XX:+ScavengeBeforeFullGC",
+    "-XX:MaxHeapFreeRatio=85",
+    "-XX:ConcGCThreads=2",
+    "-XX:ParallelGCThreads=2",
+
     use_lombok and "-javaagent:" .. jdtls_install_dir .. "lombok.jar" or "",
     use_lombok and "-Xbootclasspath/a:" .. jdtls_install_dir .. "lombok.jar" or "",
     "--add-modules=ALL-SYSTEM",
@@ -66,9 +78,16 @@ local config = {
   -- for a list of options
   settings = {
     java = {
+      -- configure the code formatter with a formatting style
+      -- this uses a slightly modified version of Google's Java Coding Style
+      -- you can use anything here
+      -- full documentation on the formatting options available here.
+      -- https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FDefaultCodeFormatterConstants.html
       format = {
         settings = {
           url = vim.fn.stdpath("config") .. "/addons/jdtls_format.xml",
+          -- basically only needed when the xml contains multiple styles.
+          -- you could insert some logic here to allow per project formatting styles
           profile = "GoogleStyle"
         }
       }

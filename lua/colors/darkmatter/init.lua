@@ -22,7 +22,6 @@ M.keys_set = false
 M.palette = {}
 M.localtheme = {}
 
-
 M.theme = {
   -- accent color is used for important highlights like the currently selected tab (buffer)
   -- and more.

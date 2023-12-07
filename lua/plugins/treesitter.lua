@@ -1,11 +1,11 @@
-require("nvim-treesitter").setup({
+require("nvim-treesitter.configs").setup({
   auto_install = true,
   ensure_installed = Config.treesitter_types,
   textobjects = {
     enable = true
   },
   incremental_selection = {
-    enable = false,
+    enable = true,
     keymaps = {
       init_selection = '<Space>',
       scope_incremental = '<Space>',
