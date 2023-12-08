@@ -847,12 +847,6 @@ local function set_all()
   M.link("SatelliteSearch", "PurpleBold")
   M.link("SatelliteSearchCurrent", "PurpleBold")
   M.set_hl(0, "@ibl.scope.char.1", { bg = "none" })
-
-  -- multiple cursor plugin
-  vim.g.VM_Mono_hl = "DiffText"
-  vim.g.VM_Extend_hl = "DiffAdd"
-  vim.g.VM_Cursor_hl = "Visual"
-  vim.g.VM_Insert_hl = "DiffChange"
 end
 
 -- this activates the theme.

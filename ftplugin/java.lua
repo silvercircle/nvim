@@ -13,20 +13,19 @@ local root_patterns = { "pom.xml", "settings.gradle", "gradlew", ".settings",
                         "nbproject", ".idea", ".git" }
 
 local project_root = lsputil.root_pattern(root_patterns)(vim.fn.expand("%:p"))
---if project_root == nil or #project_root < 1 then
---  vim.notify("ftplugin/jdtls setup: No root found for " .. vim.fn.expand("%"))
---  return
---end
--- extract the basename and use it as project name for the data (cache) dir
--- local project_name = vim.fn.fnamemodify(project_root, ":p:h:t")
---
 
+-- the project name is basically the name of the root directory of the project
+-- since the jdtls workspace folder must be unique on a "per project" basis,
+-- in order to support multiple project with the same base folder name, we just
+-- hash the full path.
 if vim.bo.buftype == "nofile" or project_root == nil or #project_root < 2 then
   vim.notify("No project root")
-else
+elseif project_root ~= nil and #project_root > 1 then
   hash = md5.new()
   hash:update(project_root)
   project_name = md5.tohex(hash:finish())
+else
+  return
 end
 
 vim.notify("Project name is: " .. project_name)

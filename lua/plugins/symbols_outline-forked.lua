@@ -66,7 +66,7 @@ outline_window = {
     auto_set_cursor = true,
     auto_update_events = {
       follow = { "CursorHold" },
-      items = { 'InsertLeave', 'WinEnter', 'BufEnter', 'BufWinEnter', 'TabEnter', 'BufWritePost' }
+      items = { 'InsertLeave', --[['WinEnter',]] 'BufEnter', --[['BufWinEnter',]] --[['TabEnter',]] 'BufWritePost' }
     },
     lock = "window"
   },
@@ -120,7 +120,7 @@ outline_window = {
   },
 
   -- These keymaps can be a string or a table for multiple keys
-  keymaps = { 
+  keymaps = {
     show_help = '?',
     close = {"<Esc>", "q"},
     -- Jump to symbol under cursor.

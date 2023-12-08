@@ -4,7 +4,8 @@ let g:vim_markdown_frontmatter = 1
 
 let g:rnvimr_enable_picker = 1
 let g:rnvimr_draw_border = 1
-
+let g:VM_theme = 'sand'
+'
 " Customize the initial layout
 " Rnvimr plugin (ranger filemanager integration)
 " Activate with <C-f8>
