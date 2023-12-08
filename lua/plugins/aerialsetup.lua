@@ -108,16 +108,22 @@ require("aerial").setup({
   -- To see all available values, see :help SymbolKind
   filter_kind = {
     ['_'] = false,
---    lua = {
---      "Class",
---      "Constructor",
---      "Enum",
---      "Function",
---      "Interface",
---      "Module",
---      "Method",
---      "Struct"
---    }
+    lua = {
+      "Class",
+      "Constant",
+      "Constructor",
+      "Enum",
+      "Function",
+      "Interface",
+      "Module",
+      "Method",
+      "StaticMethod",
+      "Struct",
+      "Event",
+      "Property",
+      "Field",
+      "Namespace"
+    }
   },
 
   -- Determines line highlighting mode when multiple splits are visible.

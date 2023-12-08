@@ -1,6 +1,9 @@
 --local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 --local project_name = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":p:h:t")
 local lsputil = require("lspconfig.util")
+local md5 = require("local_utils.md5")
+local hash = md5.new()
+
 -- this tries to find a project root directory using common patterns. It searches
 -- for maven or gradle configuration files, eclipse or IDEA configurations and if all
 -- fails, a .git root.
@@ -14,7 +17,11 @@ local project_root = lsputil.root_pattern(root_patterns)(vim.fn.expand("%:p"))
 --  return
 --end
 -- extract the basename and use it as project name for the data (cache) dir
-local project_name = vim.fn.fnamemodify(project_root, ":p:h:t")
+-- local project_name = vim.fn.fnamemodify(project_root, ":p:h:t")
+--
+hash:update(project_root)
+local project_name = md5.tohex(hash:finish())
+
 vim.notify("Project name is: " .. project_name)
 
 -- edit the following to reflect your configuration

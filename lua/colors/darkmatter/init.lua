@@ -723,12 +723,6 @@ local function set_all()
   M.link("GitSignsChangeInline", "Visual")
   M.link("GitSignsDeleteInline", "Visual")
 
-  -- phaazon/hop.nvim {{{
-  M.hl("HopNextKey", M.localtheme.red, M.palette.none, conf.attrib.bold)
-  M.hl("HopNextKey1", M.localtheme.blue, M.palette.none, conf.attrib.bold)
-  M.link("HopNextKey2", "Blue")
-  M.link("HopUnmatched", "Grey")
-
   -- lukas-reineke/indent-blankline.nvim
   M.hl("IndentBlanklineContextChar", M.localtheme.darkpurple, M.palette.none, { nocombine = true })
   M.hl("IndentBlanklineChar", M.localtheme.bg1, M.palette.none, { nocombine = true })
