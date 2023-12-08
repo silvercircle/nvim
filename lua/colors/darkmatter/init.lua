@@ -131,7 +131,7 @@ local conf = {
   -- post:      called after theme has been set
   plugins = {
     customize =  {},
-    hl = { "markdown", "syntax" },
+    hl = { "markdown", "syntax", "common" },
     post = {}
   }
 }
@@ -687,42 +687,6 @@ local function set_all()
   M.link("BookmarkLine", "DiffChange")
   M.link("BookmarkAnnotationLine", "DiffAdd")
 
-  M.hl("TelescopeMatching", M.palette.deepred, M.palette.none, conf.attrib.bold)
-  M.hl_with_defaults("TelescopeBorder", M.localtheme.accent, M.localtheme.bg_dim)
-  M.hl_with_defaults("TelescopePromptBorder", M.localtheme.accent, M.localtheme.bg_dim)
-  M.hl("TelescopePromptNormal", M.palette.fg_dim, M.localtheme.bg_dim, conf.attrib.bold)
-  M.hl_with_defaults("TelescopeNormal", M.palette.fg_dim, M.localtheme.bg_dim)
-  M.hl("TelescopeTitle", M.localtheme.accent_fg, M.localtheme.accent, conf.attrib.bold)
-
-  M.link("MiniPickBorder", "TelescopeBorder")
-  M.link("MiniPickBorderBusy", "TelescopeBorder")
-  M.link("MiniPickBorderText", "TelescopeBorder")
-  M.link("MiniPickNormal", "TelescopeNormal")
-  M.link("MiniPickHeader", "TelescopeTitle")
-  M.link("MiniPickMatchCurrent", "Visual")
-
-  M.link("TelescopeResultsLineNr", "Yellow")
-  M.link("TelescopePromptPrefix", "Blue")
-  M.link("TelescopeSelection", "Visual")
-
-  M.link("FzfLuaNormal", "TelescopeNormal")
-  M.link("FzfLuaBorder", "TelescopeBorder")
-  M.link("FzfLuaSearch", "TelescopeMatching")
-  -- lewis6991/gitsigns.nvim {{{
-  M.link("GitSignsAdd", "GreenSign")
-  M.link("GitSignsAddNr", "GreenSign")
-  M.link("GitSignsChange", "BlueSign")
-  M.link("GitSignsChangeNr", "BlueSign")
-  M.link("GitSignsDelete", "RedSign")
-  M.link("GitSignsDeleteNr", "RedSign")
-  M.link("GitSignsAddLn", "GreenSign")
-  M.link("GitSignsChangeLn", "BlueSign")
-  M.link("GitSignsDeleteLn", "RedSign")
-  M.link("GitSignsCurrentLineBlame", "Grey")
-  M.link("GitSignsAddInline", "Visual")
-  M.link("GitSignsChangeInline", "Visual")
-  M.link("GitSignsDeleteInline", "Visual")
-
   -- lukas-reineke/indent-blankline.nvim
   M.hl("IndentBlanklineContextChar", M.localtheme.darkpurple, M.palette.none, { nocombine = true })
   M.hl("IndentBlanklineChar", M.localtheme.bg1, M.palette.none, { nocombine = true })
@@ -746,67 +710,6 @@ local function set_all()
   M.link("diffFile", "Purple")
   M.link("diffLine", "Grey")
   M.link("diffIndexLine", "Purple")
-
-  -- https://github.com/kyazdani42/nvim-tree.lua
-  M.hl_with_defaults("NvimTreeNormal", M.localtheme.fg, M.palette.neotreebg)
-  M.hl_with_defaults("NvimTreeEndOfBuffer", M.localtheme.bg_dim, M.palette.neotreebg)
-  M.hl_with_defaults("NvimTreeVertSplit", M.localtheme.bg0, M.localtheme.bg0)
-  M.link("NvimTreeSymlinkFolderName", "Blue")
-  M.link("NvimTreeSymlinkFolderIcon", "BlueBold")
-  M.link("NvimTreeFolderName", "Green")
-  M.link("NvimTreeRootFolder", "Darkyellow")
-  M.link("NvimTreeFolderIcon", "GreenBold")
-  M.link("NvimTreeEmptyFolderName", "Fg")
-  M.link("NvimTreeOpenedFolderName", "GreenBold")
-  M.link("NvimTreeExecFile", "Fg")
-  M.link("NvimTreeOpenedFile", "PurpleBold")
-  M.link("NvimTreeSpecialFile", "Fg")
-  M.link("NvimTreeImageFile", "Fg")
-  M.link("NvimTreeMarkdownFile", "Fg")
-  M.link("NvimTreeIndentMarker", "Grey")
-  M.link("NvimTreeGitDirty", "Yellow")
-  M.link("NvimTreeGitStaged", "Blue")
-  M.link("NvimTreeGitMerge", "Orange")
-  M.link("NvimTreeGitRenamed", "Purple")
-  M.link("NvimTreeGitNew", "Green")
-  M.link("NvimTreeGitDeleted", "Red")
-  M.link("NvimTreeLspDiagnosticsError", "RedSign")
-  M.link("NvimTreeLspDiagnosticsWarning", "YellowSign")
-  M.link("NvimTreeLspDiagnosticsInformation", "BlueSign")
-  M.link("NvimTreeLspDiagnosticsHint", "GreenSign")
-
-  -- CMP (with custom menu setup)
-  M.set_hl(0, "CmpItemKindDefault", { fg = "#cc5de8" })
-  M.link("CmpItemKind", "CmpItemKindDefault")
-  M.set_hl(0, "CmpItemMenu", { fg = "#ededcf" })
-  M.set_hl(0, "CmpItemMenuDetail", { fg = "#ffe066" })
-  M.set_hl(0, "CmpItemMenuBuffer", { fg = "#898989" })
-  M.set_hl(0, "CmpItemMenuSnippet", { fg = "#cc5de8" })
-  M.set_hl(0, "CmpItemMenuLSP", { fg = "#cfa050" })
-  M.link("CmpItemMenuPath", "CmpItemMenu")
-
-  M.hl_with_defaults("CmpPmenu", M.localtheme.fg, M.localtheme.bg_dim)
-  M.hl_with_defaults("CmpPmenuBorder", M.palette.grey_dim, M.localtheme.bg_dim)
-  M.hl_with_defaults("CmpGhostText", M.palette.grey, M.palette.none)
-  M.set_hl(0, "CmpItemAbbr", { fg = "#d0b1d0" })
-
-  M.set_hl(0, "CmpItemAbbrDeprecated", { bg = "NONE", strikethrough = true, fg = "#808080" })
-  M.set_hl(0, "mpItemAbbrMatch", { bg = "NONE", fg = "#f03e3e", bold = true })
-  M.set_hl(0, "CmpItemAbbrMatchFuzzy", { bg = "NONE", fg = "#fd7e14", bold = true })
-
-  M.set_hl(0, "CmpItemKindModule", { bg = "NONE", fg = "#FF7F50" })
-  M.set_hl(0, "CmpItemKindClass", { bg = "none", fg = "#FFAF00" })
-  M.link("CmpItemKindStruct", "CmpItemKindClass")
-  M.set_hl(0, "CmpItemKindVariable", { bg = "none", fg = "#9CDCFE" })
-  M.set_hl(0, "CmpItemKindProperty", { bg = "none", fg = "#9CDCFE" })
-  M.set_hl(0, "CmpItemKindFunction", { bg = "none", fg = "#C586C0" })
-  M.link("CmpItemKindConstructor", "CmpItemKindFunction")
-  M.link("CmpItemKindMethod", "CmpItemKindFunction")
-  M.set_hl(0, "CmpItemKindKeyword", { bg = "none", fg = "#FF5FFF" })
-  M.set_hl(0, "CmpItemKindText", { bg = "none", fg = "#D4D4D4" })
-  M.set_hl(0, "CmpItemKindUnit", { bg = "none", fg = "#D4D4D4" })
-  M.set_hl(0, "CmpItemKindConstant", { bg = "none", fg = "#409F31" })
-  M.set_hl(0, "CmpItemKindSnippet", { bg = "none", fg = "#E3E300" })
 
   -- Glance plugin: https://github.com/DNLHC/glance.nvim
   M.hl_with_defaults("GlancePreviewNormal", M.localtheme.fg, M.localtheme.black)
