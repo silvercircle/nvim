@@ -373,7 +373,12 @@ _Config_SetKey({ 'n', 'i', 't', 'v' }, '<C-x>ft', function()
 end, "Show filetype of current buffer")
 
 _Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
-  require("aerial").refetch_symbols(0) -- aerial plugin, refresh symbols
+  local status = __Globals.is_outline_open()
+  if status.aerial ~= 0 then
+    require("aerial").refetch_symbols(0) -- aerial plugin, refresh symbols
+  elseif status.outline ~= 0 then
+    require("outline").refresh_outline()
+  end
 end, "Refresh aerial outline symbols")
 _Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
   __Globals.toggle_outline_type()        -- toggle the outline plugin (aerial <> symbols-outline)

@@ -117,12 +117,12 @@ require("aerial").setup({
       "Interface",
       "Module",
       "Method",
-      "StaticMethod",
       "Struct",
       "Event",
       "Property",
       "Field",
-      "Namespace"
+      "Namespace",
+      "Variable"
     }
   },
 

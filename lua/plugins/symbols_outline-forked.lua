@@ -55,7 +55,7 @@ outline_window = {
 
   outline_items = {
     -- Whether to highlight the currently hovered symbol (high cpu usage)
-    highlight_hovered_item = true,
+    highlight_hovered_item = false,
     -- Show extra details with the symbols (lsp dependent)
     show_symbol_details = true,
     -- Only in this fork.
@@ -65,8 +65,10 @@ outline_window = {
     show_symbol_lineno = false,
     auto_set_cursor = true,
     auto_update_events = {
-      follow = { "CursorHold" }
-    }
+      follow = { "CursorHold" },
+      items = { 'InsertLeave', 'WinEnter', 'BufEnter', 'BufWinEnter', 'TabEnter', 'BufWritePost' }
+    },
+    lock = "window"
   },
 
   -- Options for outline guides.
@@ -83,7 +85,7 @@ outline_window = {
 
   symbol_folding = {
     -- Depth past which nodes will be folded by default
-    autofold_depth = nil,
+    autofold_depth = false,
     -- Automatically unfold hovered symbol
     auto_unfold_hover = true,
     markers = { '', '' },

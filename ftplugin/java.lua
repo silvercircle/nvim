@@ -2,7 +2,8 @@
 --local project_name = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":p:h:t")
 local lsputil = require("lspconfig.util")
 local md5 = require("local_utils.md5")
-local hash = md5.new()
+local hash
+local project_name = "tmp"
 
 -- this tries to find a project root directory using common patterns. It searches
 -- for maven or gradle configuration files, eclipse or IDEA configurations and if all
@@ -19,8 +20,14 @@ local project_root = lsputil.root_pattern(root_patterns)(vim.fn.expand("%:p"))
 -- extract the basename and use it as project name for the data (cache) dir
 -- local project_name = vim.fn.fnamemodify(project_root, ":p:h:t")
 --
-hash:update(project_root)
-local project_name = md5.tohex(hash:finish())
+
+if vim.bo.buftype == "nofile" or project_root == nil or #project_root < 2 then
+  vim.notify("No project root")
+else
+  hash = md5.new()
+  hash:update(project_root)
+  project_name = md5.tohex(hash:finish())
+end
 
 vim.notify("Project name is: " .. project_name)
 
