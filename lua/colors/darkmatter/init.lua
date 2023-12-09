@@ -515,17 +515,13 @@ local function set_all()
   M.link("VirtualTextInfo", "Grey")
   M.link("VirtualTextHint", "Grey")
 
-  M.hl_with_defaults("ErrorFloat", M.localtheme.red, M.palette.none) -- was localtheme.bg2"
+  M.hl_with_defaults("ErrorFloat", M.localtheme.red, M.palette.none)
   M.hl_with_defaults("WarningFloat", M.localtheme.yellow, M.palette.none)
   M.hl_with_defaults("InfoFloat", M.localtheme.blue, M.palette.none)
   M.hl_with_defaults("HintFloat", M.localtheme.green, M.palette.none)
 
-  M.hl("TSStrong", M.palette.none, M.palette.none, conf.attrib.bold)
-  M.hl("TSEmphasis", M.palette.none, M.palette.none, conf.attrib.italic)
-  M.hl("TSUnderline", M.palette.none, M.palette.none, { underline = true })
-  M.hl("TSNote", M.localtheme.bg0, M.localtheme.blue, conf.attrib.bold)
-  M.hl("TSWarning", M.localtheme.bg0, M.localtheme.yellow, conf.attrib.bold)
-  M.hl("TSDanger", M.localtheme.bg0, M.localtheme.red, conf.attrib.bold)
+  M.hl("Strong", M.palette.none, M.palette.none, conf.attrib.bold)
+  M.hl("Emphasis", M.palette.none, M.palette.none, conf.attrib.italic)
   M.hl("URI", M.localtheme.special.blue, M.palette.none, conf.attrib.uri)
 
   -- LSP and diagnostics stuff
@@ -632,7 +628,7 @@ local function set_all()
   M.link("@text.uri", "URI")
   M.link("@variable", "FgDim")
   M.link("@variable.builtin", "Builtin")
-  M.link("@text.emphasis.latex", "TSEmphasis")
+  M.link("@text.emphasis.latex", "Emphasis")
 
   -- semantic lsp types
   M.link("@lsp.type.parameter", "TSParameter")
