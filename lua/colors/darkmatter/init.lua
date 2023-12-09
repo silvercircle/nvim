@@ -99,23 +99,27 @@ local conf = {
   -- attributes for various highlight classes. They allow all standard
   -- highlighting attributes like bold, italic, underline, sp.
   attrib = {
-    keyword    = { bold = true },
-    conditional= { bold = true },
-    types      = { bold = true },
-    storage    = { bold = true },
-    number     = { bold = true },
-    func       = { bold = true },
-    method     = { },
-    member     = { },
-    operator   = { bold = true },
-    delim      = { bold = true },
-    brace      = { bold = true },
-    string     = {},
-    bold       = { bold = true },
-    italic     = { italic = true },
-    bolditalic = { bold = true, italic = true },
-    attribute  = { bold = true },
-    annotation = { bold = true, italic = true }
+    keyword      = { bold = true },   -- keywords
+    conditional  = { bold = true },   -- special keywords (if, then...)
+    types        = {},                -- types (classes, interfaces)
+    storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
+    struct       = { bold = true },
+    class        = { bold = true },
+    interface    = { bold = true, italic = true },
+    number       = { bold = true },
+    func         = { bold = true },   -- functions
+    method       = { },               -- class methods
+    staticmethod = { italic = true },
+    member       = { },               -- class member (=field)
+    operator     = { bold = true },   -- operators
+    delim        = { bold = true },   -- delimiters
+    brace        = { bold = true },   -- braces, brackets, parenthesis
+    string       = {},
+    bold         = { bold = true },
+    italic       = { italic = true },
+    bolditalic   = { bold = true, italic = true },
+    attribute    = { bold = true },
+    annotation   = { bold = true, italic = true }
   },
   -- the callback will be called by all functions that change the theme's configuration
   -- Callback must be of type("function") and receives one parameter:
@@ -410,7 +414,9 @@ local function set_all()
   M.hl_with_defaults("Substitute", M.localtheme.bg0, M.localtheme.yellow)
 
   M.hl("Type", M.localtheme.darkpurple, M.palette.none, conf.attrib.types)
-  M.hl("Structure", M.localtheme.darkpurple, M.palette.none, conf.attrib.types)
+  M.hl("Structure", M.localtheme.darkpurple, M.palette.none, conf.attrib.struct)
+  M.hl("Class", M.localtheme.special.blue, M.palette.none, conf.attrib.class)
+  M.hl("Interface", conf.theme_strings == "yellow" and M.localtheme.green or M.localtheme.yellow, M.palette.none, conf.attrib.interface)
   M.hl("StorageClass", M.localtheme.special.storage, M.palette.none, conf.attrib.storage)
   M.hl_with_defaults("Identifier", M.localtheme.orange, M.palette.none)
   M.hl_with_defaults("Constant", M.palette.purple, M.palette.none)
@@ -441,6 +447,7 @@ local function set_all()
   M.hl_with_defaults("Float", M.palette.purple, M.palette.none)
   M.hl("Function", M.localtheme.teal, M.palette.none, conf.attrib.func)
   M.hl("Method", M.localtheme.brightteal, M.palette.none, conf.attrib.method)
+  M.hl("StaticMethod", M.localtheme.brightteal, M.palette.none, conf.attrib.staticmethod)
   M.hl("Member", M.localtheme.orange, M.palette.none, conf.attrib.member)
   M.hl("Builtin", M.palette.bg_blue, M.palette.none, conf.attrib.bold)
 
@@ -672,14 +679,15 @@ local function set_all()
   M.link("@variable.builtin", "TSVariableBuiltin")
   M.link("@text.emphasis.latex", "TSEmphasis")
 
+  -- semantic lsp types
   M.link("@lsp.type.parameter", "FgDimBoldItalic")
   M.link("@lsp.type.variable", "Fg")
   M.link("@lsp.type.selfKeyword", "TSTypeBuiltin")
   M.link("@lsp.type.method", "Method")
-  M.link("multiple_cursors_cursor", "Cursor")
-  M.link("multiple_cursors_visual", "Visual")
-
-  M.hl_with_defaults("VMCursor", M.localtheme.blue, M.palette.grey_dim)
+  M.link("@lsp.type.class", "Class")
+  M.link("@lsp.type.structure", "Structure")
+  M.link("@lsp.type.interface", "Interface")
+  M.link("@lsp.typemod.method.static", "StaticMethod")
 
   M.link("FloatermBorder", "Grey")
   M.link("BookmarkSign", "BlueSign")
