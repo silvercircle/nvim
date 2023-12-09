@@ -96,8 +96,10 @@ local conf = {
     braces = "blue",
     delim = "red"
   },
+  -- attributes for various highlight classes. They allow all standard
+  -- highlighting attributes like bold, italic, underline, sp.
   attrib = {
-    keywords   = { bold = true },
+    keyword    = { bold = true },
     conditional= { bold = true },
     types      = { bold = true },
     storage    = { bold = true },
@@ -106,6 +108,8 @@ local conf = {
     method     = { },
     member     = { },
     operator   = { bold = true },
+    delim      = { bold = true },
+    brace      = { bold = true },
     string     = {},
     bold       = { bold = true },
     italic     = { italic = true },
@@ -316,9 +320,9 @@ end
 -- set all hl groups
 local function set_all()
   -- basic highlights
-  M.hl("Braces", M.localtheme.special[conf.special.braces], M.palette.none, conf.attrib.bold)
+  M.hl("Braces", M.localtheme.special[conf.special.braces], M.palette.none, conf.attrib.brace)
   M.hl("Operator", M.localtheme.special[conf.special.operator], M.palette.none, conf.attrib.operator)
-  M.hl("PunctDelim", M.localtheme.special[conf.special.delim], M.palette.none, conf.attrib.bold)
+  M.hl("PunctDelim", M.localtheme.special[conf.special.delim], M.palette.none, conf.attrib.delim)
   M.hl("PunctSpecial", M.localtheme.special[conf.special.delim], M.palette.none, conf.attrib.bold)
   M.hl_with_defaults("ScrollView", M.localtheme.teal, M.localtheme.blue)
   M.hl_with_defaults("Normal", M.localtheme.fg, M.localtheme.bg)
@@ -414,7 +418,7 @@ local function set_all()
   M.hl("PreCondit", M.palette.darkyellow, M.palette.none, conf.attrib.bold)
   M.link("Include", "OliveBold")
   M.link("Boolean", "DeepRedBold")
-  M.hl("Keyword", M.localtheme.blue, M.palette.none, conf.attrib.keywords)
+  M.hl("Keyword", M.localtheme.blue, M.palette.none, conf.attrib.keyword)
   M.hl("Conditional", M.palette.darkyellow, M.palette.none, conf.attrib.conditional)
   M.hl_with_defaults("Define", M.localtheme.red, M.palette.none)
   M.hl("Typedef", M.localtheme.red, M.palette.none, conf.attrib.types)
@@ -422,10 +426,10 @@ local function set_all()
     "Exception",
     conf.theme_strings == "yellow" and M.localtheme.green or M.localtheme.yellow,
     M.palette.none,
-    conf.attrib.keywords
+    conf.attrib.keyword
   )
-  M.hl("Repeat", M.localtheme.blue, M.palette.none, conf.attrib.keywords)
-  M.hl("Statement", M.localtheme.blue, M.palette.none, conf.attrib.keywords)
+  M.hl("Repeat", M.localtheme.blue, M.palette.none, conf.attrib.keyword)
+  M.hl("Statement", M.localtheme.blue, M.palette.none, conf.attrib.keyword)
   M.hl_with_defaults("Macro", M.palette.purple, M.palette.none)
   M.hl_with_defaults("Error", M.localtheme.red, M.palette.none)
   M.hl_with_defaults("Label", M.palette.purple, M.palette.none)
