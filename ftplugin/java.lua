@@ -11,7 +11,7 @@ local debug = true
 -- fails, a .git root.
 -- TODO: this is probably incomplete and sub-optimal. improvements possible
 local root_patterns = { "pom.xml", "settings.gradle", "gradlew", ".settings",
-                        "nbproject", ".idea", ".git" }
+                        "nbproject", ".idea", ".git", ".project" }
 
 local project_root = lsputil.root_pattern(root_patterns)(vim.fn.expand("%:p"))
 
@@ -26,7 +26,6 @@ elseif project_root ~= nil and #project_root > 1 then
   hash:update(project_root)
   project_name = md5.tohex(hash:finish())
 else
-  return
 end
 
 if debug then vim.notify("Project name is: " .. project_name) end

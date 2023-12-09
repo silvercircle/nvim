@@ -25,7 +25,7 @@ outline_window = {
     show_relative_numbers = false,
 
     -- Only in this fork (this and the one below)
-    show_cursorline = true,
+    show_cursorline = false,
     -- Enable this when you enabled cursorline so your cursor color can
     -- blend with the cursorline, in effect, as if your cursor is hidden
     -- in the outline window.

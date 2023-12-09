@@ -220,7 +220,8 @@ local function configure()
         green = { "#309020", 232 },
         blue = { "#8a8adf", 239 },
         purple = { "#904090", 241 },
-        storage = { "#855069", 241 },
+        storage = { "#707080", 242 },
+        class = { "#905070", 243 },
         fg = { M.theme[conf.variant].fg , 1 },
       }
     }
@@ -241,7 +242,8 @@ local function configure()
         green = { "#10801f", 232 },
         blue = { "#6060cf", 239 },
         purple = { "#c030c0", 241 },
-        storage = { "#952060", 241 },
+        storage = { "#606070", 242 },
+        class = { "#804060", 243 },
         fg = { M.theme[conf.variant].fg , 1 },
       }
     }
@@ -308,7 +310,7 @@ local function configure()
     bg_blue = { "#75a3f2", 110 },
     diff_blue = { "#253147", 17 },
     diff_yellow = { "#4e432f", 54 },
-    fg_dim = { "#959290", 251 },
+    fg_dim = { "#92908c", 251 },
     deepred = { "#8b2d3c", 203 },
     darkyellow = { "#a78624", 180 },
     olive = { "#708422", 181 },
@@ -415,7 +417,7 @@ local function set_all()
 
   M.hl("Type", M.localtheme.darkpurple, M.palette.none, conf.attrib.types)
   M.hl("Structure", M.localtheme.darkpurple, M.palette.none, conf.attrib.struct)
-  M.hl("Class", M.localtheme.special.blue, M.palette.none, conf.attrib.class)
+  M.hl("Class", M.localtheme.special.class, M.palette.none, conf.attrib.class)
   M.hl("Interface", conf.theme_strings == "yellow" and M.localtheme.green or M.localtheme.yellow, M.palette.none, conf.attrib.interface)
   M.hl("StorageClass", M.localtheme.special.storage, M.palette.none, conf.attrib.storage)
   M.hl_with_defaults("Identifier", M.localtheme.orange, M.palette.none)
@@ -464,6 +466,7 @@ local function set_all()
   M.hl_with_defaults("Fg", M.localtheme.fg, M.palette.none)
   M.hl("FgBold", M.localtheme.fg, M.palette.none, conf.attrib.bold)
   M.hl("FgItalic", M.localtheme.fg, M.palette.none, conf.attrib.italic)
+  M.hl_with_defaults("FgDim", M.palette.fg_dim, M.palette.none)
   M.hl("FgDimBold", M.palette.fg_dim, M.palette.none, conf.attrib.bold)
   M.hl("FgDimBoldItalic", M.palette.fg_dim, M.palette.none, conf.attrib.bolditalic)
   M.hl_with_defaults("Grey", M.palette.grey, M.palette.none)
@@ -625,7 +628,7 @@ local function set_all()
   M.link("TSTypeDefinition", "DeepRedBold")
   M.link("TSTypeQualifier", "StorageClass")
   M.link("TSURI", "markdownUrl")
-  M.link("TSVariable", "Fg")
+  M.link("TSVariable", "FgDim")
   M.link("TSVariableBuiltin", "Builtin")
   M.link("@annotation", "TSAnnotation")
   M.link("@attribute", "TSAttribute")
@@ -680,8 +683,8 @@ local function set_all()
   M.link("@text.emphasis.latex", "TSEmphasis")
 
   -- semantic lsp types
-  M.link("@lsp.type.parameter", "FgDimBoldItalic")
-  M.link("@lsp.type.variable", "Fg")
+  M.link("@lsp.type.parameter", "TSParameter")
+  M.link("@lsp.type.variable", "TSVariable")
   M.link("@lsp.type.selfKeyword", "TSTypeBuiltin")
   M.link("@lsp.type.method", "Method")
   M.link("@lsp.type.class", "Class")
