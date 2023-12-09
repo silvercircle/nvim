@@ -495,10 +495,6 @@ local function set_all()
   M.hl("WarningText", M.palette.none, M.palette.none, { undercurl = true, sp = M.localtheme.yellow[1] })
   M.hl("InfoText", M.palette.none, M.palette.none, { undercurl = true, sp = M.localtheme.blue[1] })
   M.hl("HintText", M.palette.none, M.palette.none, { undercurl = true, sp = M.localtheme.green[1] })
-  --highlight clear ErrorLine
-  --highlight clear WarningLine
-  --highlight clear InfoLine
-  --highlight clear HintLine
   M.link("VirtualTextWarning", "Grey")
   M.link("VirtualTextError", "Grey")
   M.link("VirtualTextInfo", "Grey")

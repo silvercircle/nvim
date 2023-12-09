@@ -1,7 +1,3 @@
--- This version is needed when the command_center plugin is installed and configure. It will
--- overtake many of the original keyboar mappings.
--- The majority of the more complex mappings for LSP are in setup_command_center.lua
-
 local map = vim.api.nvim_set_keymap
 local kms = vim.keymap.set
 
