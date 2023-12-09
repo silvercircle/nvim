@@ -4,6 +4,7 @@ local lsputil = require("lspconfig.util")
 local md5 = require("local_utils.md5")
 local hash
 local project_name = "tmp"
+local debug = true
 
 -- this tries to find a project root directory using common patterns. It searches
 -- for maven or gradle configuration files, eclipse or IDEA configurations and if all
@@ -19,7 +20,7 @@ local project_root = lsputil.root_pattern(root_patterns)(vim.fn.expand("%:p"))
 -- in order to support multiple project with the same base folder name, we just
 -- hash the full path.
 if vim.bo.buftype == "nofile" or project_root == nil or #project_root < 2 then
-  vim.notify("No project root")
+  if debug then vim.notify("No project root") end
 elseif project_root ~= nil and #project_root > 1 then
   hash = md5.new()
   hash:update(project_root)
@@ -28,7 +29,7 @@ else
   return
 end
 
-vim.notify("Project name is: " .. project_name)
+if debug then vim.notify("Project name is: " .. project_name) end
 
 -- edit the following to reflect your configuration
 local workspace_dir = "/home/alex/.cache/jdtls_workspace/" .. project_name
@@ -41,7 +42,7 @@ local use_lombok = true
 -- configure special buffers. These are opened when using a jdt:// link to decompile
 -- classes.
 if vim.bo.buftype == "nofile" and vim.startswith(vim.fn.expand("%"), "jdt://") then
-  vim.cmd("setlocal number|setlocal signcolumn=yes:3|setlocal foldcolumn=1")
+  vim.cmd("setlocal number | setlocal signcolumn=yes:3 | setlocal foldcolumn=1 | setlocal nospell")
   __Globals.set_statuscol("normal")
 end
 local config = {
@@ -62,7 +63,8 @@ local config = {
     "-XX:+UseStringDeduplication",
     "-XX:+UseCompressedOops",
 
-    "-XX:+UseParallelGC",
+    -- "-XX:+UseParallelGC",
+    "-XX:+UseSerialGC",
     "-XX:MaxGCPauseMillis=200",
     "-XX:+ScavengeBeforeFullGC",
     "-XX:MaxHeapFreeRatio=85",

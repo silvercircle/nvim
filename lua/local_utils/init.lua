@@ -227,9 +227,13 @@ function Utils.StopLsp()
   local entries = {}
   local clients = vim.lsp.get_active_clients()
   for _, client in ipairs(clients) do
+    local attached = client["attached_buffers"]
+    local count = 0
+    for _ in pairs(attached) do count = count + 1 end
     local entry = Utils.rpad(tostring(client["id"]), 10, " ")
       .. Utils.rpad(client["name"], 20, " ")
-      .. Utils.rpad(client["config"]["cmd"][1], 40, " ")
+      .. Utils.rpad(count .. " Buffer(s)  ", 15, " ")
+      .. Utils.rpad(vim.fn.fnamemodify(client["config"]["cmd"][1], ":t"), 40, " ")
     table.insert(entries, entry)
   end
   local pickers = require("telescope.pickers")
