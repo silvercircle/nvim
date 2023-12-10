@@ -289,6 +289,7 @@ local plugins = {
   },
   {
     'folke/todo-comments.nvim',
+    event = "UIEnter",
     config = function()
       require("plugins.todo")
     end
@@ -416,6 +417,10 @@ local plugins = {
   {
     'mfussenegger/nvim-jdtls',
     lazy = true
+  },
+  {
+    "scalameta/nvim-metals",
+    ft = { "scala", "sbt" },
   }
 }
 

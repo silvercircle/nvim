@@ -204,7 +204,7 @@ local conceal_pattern = { "markdown", "telekasten", "liquid" }
 autocmd({ 'FileType' }, {
   pattern = { "aerial", "Outline", "DressingSelect", "DressingInput", "query", "mail", "qf", "replacer",
     'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go',
-    "markdown", "telekasten", "liquid", "Glance" },
+    "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
     if args.match == "aerial" or args.match == "Outline" then
       vim.cmd(
@@ -241,6 +241,12 @@ autocmd({ 'FileType' }, {
       "setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal fo-=c")
     elseif vim.tbl_contains(conceal_pattern, args.match) then
       vim.cmd("setlocal conceallevel=2 | setlocal concealcursor=nc | setlocal formatexpr=")
+    elseif args.match == "scala" or args.match == "sbt" then
+      require("metals").initialize_or_attach({
+        settings = {
+          metalsBinaryPath = vim.g.lsp_server_bin["metals"]
+        }
+      })
     end
   end,
   group = agroup_hl

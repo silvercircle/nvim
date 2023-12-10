@@ -88,6 +88,10 @@ end
 
 --- open the outline window
 function M.open_outline()
+  local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+  if buftype == 'nofile' or buftype == 'terminal' then
+    return
+  end
   if M.perm_config.outline_filetype == "Outline" then
     vim.cmd("OutlineOpen")
   elseif M.perm_config.outline_filetype == "aerial" then

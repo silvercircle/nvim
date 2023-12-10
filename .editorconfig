@@ -34,5 +34,5 @@ indent_size = 2
 tab_width = 2
 quote_style = double
 continuation_indent = 4
-max_line_length = 120
+max_line_length = 160
 

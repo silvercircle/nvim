@@ -10,10 +10,23 @@ local debug = true
 -- for maven or gradle configuration files, eclipse or IDEA configurations and if all
 -- fails, a .git root.
 -- TODO: this is probably incomplete and sub-optimal. improvements possible
-local root_patterns = { "pom.xml", "settings.gradle", "gradlew", ".settings",
-                        "nbproject", ".idea", ".git", ".project" }
 
-local project_root = lsputil.root_pattern(root_patterns)(vim.fn.expand("%:p"))
+-- try two levels of patterns. Safe are considered gradle and maven project files
+--
+local root_patterns = {
+  safe =  { "pom.xml", "settings.gradle", ".settings", ".gradle" },
+  guess = { ".project", "nbproject", ".git", ".idea" }
+}
+
+local function find_root(file)
+  local try = lsputil.root_pattern(root_patterns.safe)(file)
+  if try == nil or #try < 2 then
+    try = lsputil.root_pattern(root_patterns.guess)(file)
+  end
+  return try
+end
+
+local project_root = find_root(vim.fn.expand("%:p"))
 
 -- the project name is basically the name of the root directory of the project
 -- since the jdtls workspace folder must be unique on a "per project" basis,

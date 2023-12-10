@@ -339,26 +339,26 @@ lspconfig.csharp_ls.setup({
 })
 
 -- metals = scala language server.
-lspconfig.metals.setup({
-  on_attach = on_attach,
-  cmd = { vim.g.lsp_server_bin['metals'] },
-  filetypes = { 'scala' },
-  root_dir = util.root_pattern('build.sbt', 'build.sc', 'build.gradle', 'pom.xml'),
-  message_level = vim.lsp.protocol.MessageType.Error,
-  init_options = {
-    statusBarProvider = 'show-message',
-    isHttpEnabled = true,
-    compilerOptions = {
-      snippetAutoIndent = false,
-    },
-  },
-  capabilities = capabilities,
---  capabilities = {
---    workspace = {
---      configuration = false,
+--lspconfig.metals.setup({
+--  on_attach = on_attach,
+--  cmd = { vim.g.lsp_server_bin['metals'] },
+--  filetypes = { 'scala' },
+--  root_dir = util.root_pattern('build.sbt', 'build.sc', 'build.gradle', 'pom.xml'),
+--  message_level = vim.lsp.protocol.MessageType.Error,
+--  init_options = {
+--    statusBarProvider = 'show-message',
+--    isHttpEnabled = true,
+--    compilerOptions = {
+--      snippetAutoIndent = false,
 --    },
 --  },
-})
+--  capabilities = capabilities,
+----  capabilities = {
+----    workspace = {
+----      configuration = false,
+----    },
+----  },
+--})
 
 -- python pyright
 lspconfig.pyright.setup({

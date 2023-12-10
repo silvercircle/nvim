@@ -4,6 +4,9 @@ local o = vim.o
 
 o.shada = "!,'200,<20,s10,h,f1,%20,:500,rreplacer://,rterm://,rOUTLINE,rNvimTree_1,rMERGE_MSG"
 o.termguicolors = true
+if Config.nightly == 1 then
+  o.termsync = false
+end
 o.background = "dark"
 o.cursorline = true
 o.sessionoptions = "buffers"

@@ -221,7 +221,7 @@ local function configure()
         green = { "#309020", 232 },
         blue = { "#8a8adf", 239 },
         purple = { "#904090", 241 },
-        storage = { "#707080", 242 },
+        storage = { "#607560", 242 },
         class = { "#905070", 243 },
         fg = { M.theme[conf.variant].fg , 1 },
       }
@@ -243,7 +243,7 @@ local function configure()
         green = { "#10801f", 232 },
         blue = { "#6060cf", 239 },
         purple = { "#c030c0", 241 },
-        storage = { "#606070", 242 },
+        storage = { "#507050", 242 },
         class = { "#804060", 243 },
         fg = { M.theme[conf.variant].fg , 1 },
       }

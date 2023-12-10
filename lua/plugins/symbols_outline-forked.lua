@@ -34,7 +34,7 @@ outline_window = {
     -- be distracting, rendering lineno/guides/icons unreadable.
     -- This makes your line of cursor look the same as if the cursor wasn't
     -- focused on the outline window.
-    hide_cursor = true,
+    hide_cursor = false,
 
     -- Whether to wrap long lines, or let them flow off the window
     wrap = false,
