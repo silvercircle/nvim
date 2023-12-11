@@ -46,7 +46,7 @@ local basepalette = {
     bg_blue = { "#75a3f2", 110 },
     diff_blue = { "#253147", 17 },
     diff_yellow = { "#4e432f", 54 },
-    fg_dim = { "#202020", 251 },
+    fg_dim = { "#101010", 251 },
     deepred = { "#8b2d3c", 203 },
     darkyellow = { "#a78624", 180 },
     olive = { "#708422", 181 },
@@ -67,12 +67,12 @@ local rainbowpalette = {
    "#56186D"
   },
   light = {
-   "#dd9090",
-   "#90d990",
-   "#583329",
-   "#163642",
-   "#112F6F",
-   "#56186D"
+   "#ddbbbb",
+   "#bbddbb",
+   "#ddddbb",
+   "#bbdddd",
+   "#bbbbdd",
+   "#ddbbdd"
   }
 }
 
@@ -119,34 +119,34 @@ M.basetheme = {
     }
   },
   light = {
-    accent_color = "#305030",
+    accent_color = "#103010",
     alt_accent_color = "#501010",
     accent_fg = "#cccc80",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
     selbg = "#104090",
     cold = {
-      statuslinebg = "#262630",
-      bg = "#141414",
-      treebg = "#18181c",
-      gutterbg = "#101013",
+      statuslinebg = "#b0b0b5",
+      bg = "#e5e5ea",
+      treebg = "#d0d0d5",
+      gutterbg = "#e0e0e5",
       kittybg = "#18181c",
       fg = "#a2a0ac",
     },
     warm = {
-      statuslinebg = "#2a2626",
-      bg = "#161414",
-      treebg = "#1b1818",
-      gutterbg = "#131010",
+      statuslinebg = "#b5b0b0",
+      bg = "#eae5e5",
+      treebg = "#d5d0d0",
+      gutterbg = "#e5e0e0",
       kittybg = "#1b1818",
       fg = "#aaa0a5",
     },
     deepblack = {
       statuslinebg = "#b0b0b0",
-      bg = "#dddddd",
+      bg = "#e5e5e5",
       treebg = "#d0d0d0",
       gutterbg = "#d1d1d1",
       kittybg = "#111111",
-      fg = "#101010",
+      fg = "#0a0a0a",
     }
   }
 }
@@ -341,8 +341,8 @@ local function configure()
         brightteal = (conf.dlevel == 1) and { "#70a0c0", 238 } or { "#7090b0", 238 },
         darkpurple = (conf.dlevel == 1) and { "#705070", 240 } or { "#806a80", 240 },
         red = (conf.dlevel == 1) and { "#bb4d5c", 203 } or { "#ab5d6c", 203 },
-        yellow = (conf.dlevel == 1) and { "#aaaa60", 231 } or { "#909870", 231 },
-        green = (conf.dlevel == 1) and { "#60906f", 231 } or { "#658075", 231 },
+        yellow = (conf.dlevel == 1) and { "#404000", 231 } or { "#404010", 231 },
+        green = (conf.dlevel == 1) and { "#105010", 231 } or { "#205020", 231 },
         special = {
           red = { "#bb4d5c", 203 },
           yellow = { "#aaaa20", 231 },
@@ -363,7 +363,7 @@ local function configure()
         brightteal = { "#30a0c0", 238 },
         darkpurple = { "#803090", 240 },
         red = { "#cc2d4c", 203 },
-        yellow = { "#cccc60", 231 },
+        yellow = { "#606000", 231 },
         green = { "#10801f", 232 },
         special = {
           red = { "#cc2d4c", 203 },
@@ -380,10 +380,10 @@ local function configure()
   elseif conf.scheme == "light" then
     if conf.desaturate == true then
       M.localtheme = {
-        orange = (conf.dlevel == 1) and { "#ab6a6c", 215 } or { "#9b7a7c", 215 },
-        blue = { "#5a6acf", 239 },
+        orange = (conf.dlevel == 1) and { "#3b2a1c", 215 } or { "#3b2a25", 215 },
+        blue = { "#202080", 239 },
         purple = (conf.dlevel == 1) and { "#b070b0", 241 } or { "#a070a0", 241 },
-        teal = (conf.dlevel == 1) and { "#609090", 238 } or { "#709090", 238 },
+        teal = (conf.dlevel == 1) and { "#003030", 238 } or { "#103030", 238 },
         brightteal = (conf.dlevel == 1) and { "#70a0c0", 238 } or { "#7090b0", 238 },
         darkpurple = (conf.dlevel == 1) and { "#705070", 240 } or { "#806a80", 240 },
         red = (conf.dlevel == 1) and { "#bb4d5c", 203 } or { "#ab5d6c", 203 },
@@ -442,17 +442,18 @@ local function configure()
     focus_fg = M.theme.accent_fg,
   }
 
+  M.localtheme.fg = { M.theme[conf.variant].fg, 1 }
+  M.localtheme.darkbg = { M.theme[conf.variant].gutterbg, 237 }
+  M.localtheme.bg = { M.theme[conf.variant].bg, 0 }
+  M.localtheme.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
+  M.localtheme.accent = { M.theme["accent_color"], 209 }
+  M.localtheme.accent_fg = { M.theme["accent_fg"], 210 }
+  M.localtheme.tablinebg = { M.cokeline_colors["bg"], 214 }
+
   if conf.scheme == "dark" then
     if conf.variant == "cold" or conf.variant == "deepblack" then
-      M.localtheme.fg = { M.theme[conf.variant].fg, 1 }
-      M.localtheme.darkbg = { M.theme[conf.variant].gutterbg, 237 }
       M.localtheme.darkred = { "#601010", 249 }
-      M.localtheme.bg = { M.theme[conf.variant].bg, 0 }
-      M.localtheme.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
       M.localtheme.pmenubg = { "#241a20", 156 }
-      M.localtheme.accent = { M.theme["accent_color"], 209 }
-      M.localtheme.accent_fg = { M.theme["accent_fg"], 210 }
-      M.localtheme.tablinebg = { M.cokeline_colors["bg"], 214 }
       M.localtheme.black = { "#121215", 232 }
       M.localtheme.bg_dim = { "#222327", 232 }
       M.localtheme.bg0 = { "#2c2e34", 235 }
@@ -461,15 +462,8 @@ local function configure()
       M.localtheme.bg3 = { "#3b3e48", 237 }
       M.localtheme.bg4 = { "#414550", 237 }
     else
-      M.localtheme.fg = { M.theme[conf.variant].fg, 1 }
-      M.localtheme.darkbg = { M.theme[conf.variant].gutterbg, 237 }
       M.localtheme.darkred = { "#601010", 249 }
-      M.localtheme.bg = { M.theme[conf.variant].bg, 0 }
-      M.localtheme.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
       M.localtheme.pmenubg = { "#241a20", 156 }
-      M.localtheme.accent = { M.theme["accent_color"], 209 }
-      M.localtheme.accent_fg = { M.theme["accent_fg"], 210 }
-      M.localtheme.tablinebg = { M.cokeline_colors["bg"], 214 }
       M.localtheme.black = { "#151212", 232 }
       M.localtheme.bg_dim = { "#242020", 232 }
       M.localtheme.bg0 = { "#302c2e", 235 }
@@ -480,35 +474,21 @@ local function configure()
     end
   elseif conf.scheme == "light" then
     if conf.variant == "cold" or conf.variant == "deepblack" then
-      M.localtheme.fg = { M.theme[conf.variant].fg, 1 }
-      M.localtheme.darkbg = { M.theme[conf.variant].gutterbg, 237 }
       M.localtheme.darkred = { "#601010", 249 }
-      M.localtheme.bg = { M.theme[conf.variant].bg, 0 }
-      M.localtheme.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
       M.localtheme.pmenubg = { "#241a20", 156 }
-      M.localtheme.accent = { M.theme["accent_color"], 209 }
-      M.localtheme.accent_fg = { M.theme["accent_fg"], 210 }
-      M.localtheme.tablinebg = { M.cokeline_colors["bg"], 214 }
       M.localtheme.black = { "#121215", 232 }
       M.localtheme.bg_dim = { "#222327", 232 }
-      M.localtheme.bg0 = { "#2c2e34", 235 }
+      M.localtheme.bg0 = { "#b0b0b0", 235 }
       M.localtheme.bg1 = { "#a0a0a0", 236 }
       M.localtheme.bg2 = { "#363944", 236 }
       M.localtheme.bg3 = { "#3b3e48", 237 }
       M.localtheme.bg4 = { "#b0b0b0", 237 }
     else
-      M.localtheme.fg = { M.theme[conf.variant].fg, 1 }
-      M.localtheme.darkbg = { M.theme[conf.variant].gutterbg, 237 }
       M.localtheme.darkred = { "#601010", 249 }
-      M.localtheme.bg = { M.theme[conf.variant].bg, 0 }
-      M.localtheme.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
       M.localtheme.pmenubg = { "#241a20", 156 }
-      M.localtheme.accent = { M.theme["accent_color"], 209 }
-      M.localtheme.accent_fg = { M.theme["accent_fg"], 210 }
-      M.localtheme.tablinebg = { M.cokeline_colors["bg"], 214 }
       M.localtheme.black = { "#151212", 232 }
       M.localtheme.bg_dim = { "#242020", 232 }
-      M.localtheme.bg0 = { "#302c2e", 235 }
+      M.localtheme.bg0 = { "#b0b0b0", 235 }
       M.localtheme.bg1 = { "#a0a0a0", 236 }
       M.localtheme.bg2 = { "#403936", 236 }
       M.localtheme.bg3 = { "#483e3b", 237 }
@@ -828,9 +808,9 @@ local function set_all()
   M.link("@text.emphasis.latex", "Emphasis")
 
   -- semantic lsp types
-  M.link("@lsp.type.parameter", "TSParameter")
-  M.link("@lsp.type.variable", "TSVariable")
-  M.link("@lsp.type.selfKeyword", "TSTypeBuiltin")
+  M.link("@lsp.type.parameter", "@parameter")
+  M.link("@lsp.type.variable", "@variable")
+  M.link("@lsp.type.selfKeyword", "Builtin")
   M.link("@lsp.type.method", "Method")
   M.link("@lsp.type.class", "Class")
   M.link("@lsp.type.structure", "Structure")
@@ -936,7 +916,7 @@ function M.set()
   end
 end
 
-local supported_variants = { "warm", "cold", "deepdark" }
+local supported_variants = { "warm", "cold", "deepblack" }
 --- setup the theme
 --- @param opt table - the options to set. will be merged with local
 --- conf table.

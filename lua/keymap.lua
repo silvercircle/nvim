@@ -116,10 +116,10 @@ _Config_SetKey('n', '<C-a>h', function()
   { window = { config = __Globals.mini_pick_center(60, 0.5, 0.2) } })
 end, "Mini.Picker for help tags")
 ---
-_Config_SetKey({'n', 'i', 'v'}, '<C-S-Down>', function() perform_command('cnext') end, "Quickfix next entry")
-_Config_SetKey({'n', 'i', 'v'}, '<C-S-Up>', function() perform_command('cprev') end, "Quickfix previous entry")
-_Config_SetKey({'n', 'i', 'v'}, '<C-S-PageDown>', function() perform_command('lnext') end, "Loclist next entry")
-_Config_SetKey({'n', 'i', 'v'}, '<C-S-PageUp>', function() perform_command('lprev') end, "Loclist previous entry")
+_Config_SetKey({'n', 'i', 'v'}, '<C-S-Down>', function() perform_command('silent! cnext') end, "Quickfix next entry")
+_Config_SetKey({'n', 'i', 'v'}, '<C-S-Up>', function() perform_command('silent! cprev') end, "Quickfix previous entry")
+_Config_SetKey({'n', 'i', 'v'}, '<C-S-PageDown>', function() perform_command('silent! lnext') end, "Loclist next entry")
+_Config_SetKey({'n', 'i', 'v'}, '<C-S-PageUp>', function() perform_command('silent! lprev') end, "Loclist previous entry")
 
 -- hlslens
 vim.api.nvim_set_keymap(
