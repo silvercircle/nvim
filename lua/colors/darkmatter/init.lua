@@ -46,7 +46,7 @@ local basepalette = {
     bg_blue = { "#75a3f2", 110 },
     diff_blue = { "#253147", 17 },
     diff_yellow = { "#4e432f", 54 },
-    fg_dim = { "#92908c", 251 },
+    fg_dim = { "#202020", 251 },
     deepred = { "#8b2d3c", 203 },
     darkyellow = { "#a78624", 180 },
     olive = { "#708422", 181 },
@@ -54,6 +54,25 @@ local basepalette = {
     grey_dim = { "#595f6f", 240 },
     selfg = { "#cccc20", 233 },
     none = { "NONE", "NONE" },
+  }
+}
+
+local rainbowpalette = {
+  dark = {
+   "#401C15",
+   "#15401B",
+   "#583329",
+   "#163642",
+   "#112F6F",
+   "#56186D"
+  },
+  light = {
+   "#dd9090",
+   "#90d990",
+   "#583329",
+   "#163642",
+   "#112F6F",
+   "#56186D"
   }
 }
 
@@ -122,12 +141,12 @@ M.basetheme = {
       fg = "#aaa0a5",
     },
     deepblack = {
-      statuslinebg = "#222228",
-      bg = "#0a0a0a",
-      treebg = "#121212",
-      gutterbg = "#0f0f0f",
+      statuslinebg = "#b0b0b0",
+      bg = "#dddddd",
+      treebg = "#d0d0d0",
+      gutterbg = "#d1d1d1",
       kittybg = "#111111",
-      fg = "#a2a0ac",
+      fg = "#101010",
     }
   }
 }
@@ -423,40 +442,78 @@ local function configure()
     focus_fg = M.theme.accent_fg,
   }
 
-  if conf.variant == "cold" or conf.variant == "deepblack" then
-    M.localtheme.fg = { M.theme[conf.variant].fg, 1 }
-    M.localtheme.darkbg = { M.theme[conf.variant].gutterbg, 237 }
-    M.localtheme.darkred = { "#601010", 249 }
-    M.localtheme.bg = { M.theme[conf.variant].bg, 0 }
-    M.localtheme.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
-    M.localtheme.pmenubg = { "#241a20", 156 }
-    M.localtheme.accent = { M.theme["accent_color"], 209 }
-    M.localtheme.accent_fg = { M.theme["accent_fg"], 210 }
-    M.localtheme.tablinebg = { M.cokeline_colors["bg"], 214 }
-    M.localtheme.black = { "#121215", 232 }
-    M.localtheme.bg_dim = { "#222327", 232 }
-    M.localtheme.bg0 = { "#2c2e34", 235 }
-    M.localtheme.bg1 = { "#33353f", 236 }
-    M.localtheme.bg2 = { "#363944", 236 }
-    M.localtheme.bg3 = { "#3b3e48", 237 }
-    M.localtheme.bg4 = { "#414550", 237 }
-  else
-    M.localtheme.fg = { M.theme[conf.variant].fg, 1 }
-    M.localtheme.darkbg = { M.theme[conf.variant].gutterbg, 237 }
-    M.localtheme.darkred = { "#601010", 249 }
-    M.localtheme.bg = { M.theme[conf.variant].bg, 0 }
-    M.localtheme.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
-    M.localtheme.pmenubg = { "#241a20", 156 }
-    M.localtheme.accent = { M.theme["accent_color"], 209 }
-    M.localtheme.accent_fg = { M.theme["accent_fg"], 210 }
-    M.localtheme.tablinebg = { M.cokeline_colors["bg"], 214 }
-    M.localtheme.black = { "#151212", 232 }
-    M.localtheme.bg_dim = { "#242020", 232 }
-    M.localtheme.bg0 = { "#302c2e", 235 }
-    M.localtheme.bg1 = { "#322a2a", 236 }
-    M.localtheme.bg2 = { "#403936", 236 }
-    M.localtheme.bg3 = { "#483e3b", 237 }
-    M.localtheme.bg4 = { "#504531", 237 }
+  if conf.scheme == "dark" then
+    if conf.variant == "cold" or conf.variant == "deepblack" then
+      M.localtheme.fg = { M.theme[conf.variant].fg, 1 }
+      M.localtheme.darkbg = { M.theme[conf.variant].gutterbg, 237 }
+      M.localtheme.darkred = { "#601010", 249 }
+      M.localtheme.bg = { M.theme[conf.variant].bg, 0 }
+      M.localtheme.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
+      M.localtheme.pmenubg = { "#241a20", 156 }
+      M.localtheme.accent = { M.theme["accent_color"], 209 }
+      M.localtheme.accent_fg = { M.theme["accent_fg"], 210 }
+      M.localtheme.tablinebg = { M.cokeline_colors["bg"], 214 }
+      M.localtheme.black = { "#121215", 232 }
+      M.localtheme.bg_dim = { "#222327", 232 }
+      M.localtheme.bg0 = { "#2c2e34", 235 }
+      M.localtheme.bg1 = { "#33353f", 236 }
+      M.localtheme.bg2 = { "#363944", 236 }
+      M.localtheme.bg3 = { "#3b3e48", 237 }
+      M.localtheme.bg4 = { "#414550", 237 }
+    else
+      M.localtheme.fg = { M.theme[conf.variant].fg, 1 }
+      M.localtheme.darkbg = { M.theme[conf.variant].gutterbg, 237 }
+      M.localtheme.darkred = { "#601010", 249 }
+      M.localtheme.bg = { M.theme[conf.variant].bg, 0 }
+      M.localtheme.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
+      M.localtheme.pmenubg = { "#241a20", 156 }
+      M.localtheme.accent = { M.theme["accent_color"], 209 }
+      M.localtheme.accent_fg = { M.theme["accent_fg"], 210 }
+      M.localtheme.tablinebg = { M.cokeline_colors["bg"], 214 }
+      M.localtheme.black = { "#151212", 232 }
+      M.localtheme.bg_dim = { "#242020", 232 }
+      M.localtheme.bg0 = { "#302c2e", 235 }
+      M.localtheme.bg1 = { "#322a2a", 236 }
+      M.localtheme.bg2 = { "#403936", 236 }
+      M.localtheme.bg3 = { "#483e3b", 237 }
+      M.localtheme.bg4 = { "#504531", 237 }
+    end
+  elseif conf.scheme == "light" then
+    if conf.variant == "cold" or conf.variant == "deepblack" then
+      M.localtheme.fg = { M.theme[conf.variant].fg, 1 }
+      M.localtheme.darkbg = { M.theme[conf.variant].gutterbg, 237 }
+      M.localtheme.darkred = { "#601010", 249 }
+      M.localtheme.bg = { M.theme[conf.variant].bg, 0 }
+      M.localtheme.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
+      M.localtheme.pmenubg = { "#241a20", 156 }
+      M.localtheme.accent = { M.theme["accent_color"], 209 }
+      M.localtheme.accent_fg = { M.theme["accent_fg"], 210 }
+      M.localtheme.tablinebg = { M.cokeline_colors["bg"], 214 }
+      M.localtheme.black = { "#121215", 232 }
+      M.localtheme.bg_dim = { "#222327", 232 }
+      M.localtheme.bg0 = { "#2c2e34", 235 }
+      M.localtheme.bg1 = { "#a0a0a0", 236 }
+      M.localtheme.bg2 = { "#363944", 236 }
+      M.localtheme.bg3 = { "#3b3e48", 237 }
+      M.localtheme.bg4 = { "#b0b0b0", 237 }
+    else
+      M.localtheme.fg = { M.theme[conf.variant].fg, 1 }
+      M.localtheme.darkbg = { M.theme[conf.variant].gutterbg, 237 }
+      M.localtheme.darkred = { "#601010", 249 }
+      M.localtheme.bg = { M.theme[conf.variant].bg, 0 }
+      M.localtheme.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
+      M.localtheme.pmenubg = { "#241a20", 156 }
+      M.localtheme.accent = { M.theme["accent_color"], 209 }
+      M.localtheme.accent_fg = { M.theme["accent_fg"], 210 }
+      M.localtheme.tablinebg = { M.cokeline_colors["bg"], 214 }
+      M.localtheme.black = { "#151212", 232 }
+      M.localtheme.bg_dim = { "#242020", 232 }
+      M.localtheme.bg0 = { "#302c2e", 235 }
+      M.localtheme.bg1 = { "#a0a0a0", 236 }
+      M.localtheme.bg2 = { "#403936", 236 }
+      M.localtheme.bg3 = { "#483e3b", 237 }
+      M.localtheme.bg4 = { "#b0b0b0", 237 }
+    end
   end
 
   M.palette = basepalette[conf.scheme]
@@ -792,12 +849,12 @@ local function set_all()
   M.link("IndentBlanklineSpaceChar", "IndentBlanklineChar")
   M.link("IndentBlanklineSpaceCharBlankline", "IndentBlanklineChar")
   -- rainbow colors
-  M.set_hl(0, "IndentBlanklineIndent1", { fg = "#401C15", nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent2", { fg = "#15401B", nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent3", { fg = "#583329", nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent4", { fg = "#163642", nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent5", { fg = "#112F6F", nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent6", { fg = "#56186D", nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent1", { fg = rainbowpalette[conf.scheme][1], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent2", { fg = rainbowpalette[conf.scheme][2], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent3", { fg = rainbowpalette[conf.scheme][3], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent4", { fg = rainbowpalette[conf.scheme][4], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent5", { fg = rainbowpalette[conf.scheme][5], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent6", { fg = rainbowpalette[conf.scheme][6], nocombine = true })
 
   M.hl_with_defaults("InclineNormalNC", M.palette.grey, M.localtheme.bg2)
 
@@ -879,13 +936,23 @@ function M.set()
   end
 end
 
+local supported_variants = { "warm", "cold", "deepdark" }
 --- setup the theme
 --- @param opt table - the options to set. will be merged with local
 --- conf table.
 function M.setup(opt)
   opt = (opt ~= nil and type(opt) == "table") and opt or {}
   conf = vim.tbl_deep_extend("force", conf, opt)
-  -- TODO: validate and sanitize conf data
+
+  -- TODO: sanitizing
+  if conf.scheme ~= "dark" and conf.scheme ~= "light" then
+    conf.scheme = "dark"
+  end
+
+  if vim.tbl_contains(supported_variants, conf.variant) == false then
+    conf.variant = "cold"
+  end
+
   -- bind keys, but do this only once
   if M.keys_set == false then
     M.keys_set = true
