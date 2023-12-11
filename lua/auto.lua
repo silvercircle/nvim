@@ -241,8 +241,11 @@ autocmd({ 'FileType' }, {
       "setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal fo-=c")
     elseif vim.tbl_contains(conceal_pattern, args.match) then
       vim.cmd("setlocal conceallevel=2 | setlocal concealcursor=nc | setlocal formatexpr=")
+    -- metals, attach on filetype
     elseif args.match == "scala" or args.match == "sbt" then
       require("metals").initialize_or_attach({
+        -- TODO: review config
+        capabilities = __Globals.get_lsp_capabilities(),
         settings = {
           metalsBinaryPath = vim.g.lsp_server_bin["metals"]
         }

@@ -7,6 +7,7 @@ M.winid_bufferlist = 0
 M.main_winid = 0
 M.cur_bufsize = 0
 M.outline_is_open = false
+M.lsp_capabilities = nil
 
 M.term = {
   bufid = nil,
@@ -56,6 +57,7 @@ M.perm_config_default = {
   statuscol_current = "normal",
   blist = true,
   blist_height = 0.33,
+  theme_scheme = "dark",
   theme_variant = "warm",
   transbg = false,
   theme_desaturate = true,
@@ -418,7 +420,8 @@ function M.write_config()
       theme_desaturate = theme_conf.desaturate,
       theme_dlevel = theme_conf.dlevel,
       transbg = theme_conf.is_trans,
-      theme_strings = theme_conf.theme_strings
+      theme_strings = theme_conf.theme_strings,
+      theme_scheme = theme_conf.scheme
     }
     if wsplit_id ~= nil then
       state.weather.width = vim.api.nvim_win_get_width(wsplit_id)
@@ -457,7 +460,7 @@ function M.restore_config()
     M.perm_config = M.perm_config_default
   end
   -- configure the theme
-  colors.setup({ variant = M.perm_config.theme_variant,
+  colors.setup({ scheme = M.perm_config.theme_scheme, variant = M.perm_config.theme_variant,
                  desaturate = M.perm_config.theme_desaturate, dlevel = M.perm_config.theme_dlevel,
                  theme_strings = M.perm_config.theme_strings, is_trans = M.perm_config.transbg,
                  sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
@@ -749,6 +752,19 @@ M.ufo_virtual_text_handler = function(virtText, lnum, endLnum, width, truncate)
   end
   table.insert(newVirtText, { suffix, 'MoreMsg' })
   return newVirtText
+end
+
+function M.get_lsp_capabilities()
+  if M.lsp_capabilities == nil then
+    local cmp_lsp = require("cmp_nvim_lsp")
+    M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+    M.lsp_capabilities = cmp_lsp.default_capabilities(M.lsp_capabilities)
+    M.lsp_capabilities.textDocument.foldingRange = {
+      dynamicRegistration = false,
+      lineFoldingOnly = true
+    }
+  end
+  return M.lsp_capabilities
 end
 
 return M

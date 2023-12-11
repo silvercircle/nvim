@@ -18,50 +18,125 @@
 --      * maybe (just maybe) a bright background variant
 
 local M = {}
+local basepalette = {
+  dark = {
+    grey = { "#707070", 2 },
+    bg_red = { "#ff6077", 203 },
+    diff_red = { "#45292d", 52 },
+    bg_green = { "#a7df78", 107 },
+    diff_green = { "#10320a", 22 },
+    bg_blue = { "#75a3f2", 110 },
+    diff_blue = { "#253147", 17 },
+    diff_yellow = { "#4e432f", 54 },
+    fg_dim = { "#92908c", 251 },
+    deepred = { "#8b2d3c", 203 },
+    darkyellow = { "#a78624", 180 },
+    olive = { "#708422", 181 },
+    purple = { "#b39df3", 176 },
+    grey_dim = { "#595f6f", 240 },
+    selfg = { "#cccc20", 233 },
+    none = { "NONE", "NONE" },
+  },
+  light = {
+    grey = { "#707070", 2 },
+    bg_red = { "#ff6077", 203 },
+    diff_red = { "#45292d", 52 },
+    bg_green = { "#a7df78", 107 },
+    diff_green = { "#10320a", 22 },
+    bg_blue = { "#75a3f2", 110 },
+    diff_blue = { "#253147", 17 },
+    diff_yellow = { "#4e432f", 54 },
+    fg_dim = { "#92908c", 251 },
+    deepred = { "#8b2d3c", 203 },
+    darkyellow = { "#a78624", 180 },
+    olive = { "#708422", 181 },
+    purple = { "#b39df3", 176 },
+    grey_dim = { "#595f6f", 240 },
+    selfg = { "#cccc20", 233 },
+    none = { "NONE", "NONE" },
+  }
+}
+
 M.keys_set = false
 M.palette = {}
 M.localtheme = {}
+M.theme = nil
 
-M.theme = {
-  -- accent color is used for important highlights like the currently selected tab (buffer)
-  -- and more.
-  --accent_color = '#cbaf00',
-  accent_color = "#305030",
-  --alt_accent_color = '#bd2f4f',
-  alt_accent_color = "#501010",
-  accent_fg = "#cccc80",
-  lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
-  selbg = "#104090",
-  cold = {
-    statuslinebg = "#262630",
-    bg = "#141414",
-    treebg = "#18181c",
-    gutterbg = "#101013",
-    kittybg = "#18181c",
-    fg = "#a2a0ac",
+
+M.basetheme = {
+  dark = {
+    -- accent color is used for important highlights like the currently selected tab (buffer)
+    -- and more.
+    --accent_color = '#cbaf00',
+    accent_color = "#305030",
+    --alt_accent_color = '#bd2f4f',
+    alt_accent_color = "#501010",
+    accent_fg = "#cccc80",
+    lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
+    selbg = "#104090",
+    cold = {
+      statuslinebg = "#262630",
+      bg = "#141414",
+      treebg = "#18181c",
+      gutterbg = "#101013",
+      kittybg = "#18181c",
+      fg = "#a2a0ac",
+    },
+    warm = {
+      statuslinebg = "#2a2626",
+      bg = "#161414",
+      treebg = "#1b1818",
+      gutterbg = "#131010",
+      kittybg = "#1b1818",
+      fg = "#aaa0a5",
+    },
+    deepblack = {
+      statuslinebg = "#222228",
+      bg = "#0a0a0a",
+      treebg = "#121212",
+      gutterbg = "#0f0f0f",
+      kittybg = "#111111",
+      fg = "#a2a0ac",
+    }
   },
-  warm = {
-    statuslinebg = "#2a2626",
-    bg = "#161414",
-    treebg = "#1b1818",
-    gutterbg = "#131010",
-    kittybg = "#1b1818",
-    fg = "#aaa0a5",
-  },
-  deepblack = {
-    statuslinebg = "#222228",
-    bg = "#0a0a0a",
-    treebg = "#121212",
-    gutterbg = "#0f0f0f",
-    kittybg = "#111111",
-    fg = "#a2a0ac",
-  },
+  light = {
+    accent_color = "#305030",
+    alt_accent_color = "#501010",
+    accent_fg = "#cccc80",
+    lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
+    selbg = "#104090",
+    cold = {
+      statuslinebg = "#262630",
+      bg = "#141414",
+      treebg = "#18181c",
+      gutterbg = "#101013",
+      kittybg = "#18181c",
+      fg = "#a2a0ac",
+    },
+    warm = {
+      statuslinebg = "#2a2626",
+      bg = "#161414",
+      treebg = "#1b1818",
+      gutterbg = "#131010",
+      kittybg = "#1b1818",
+      fg = "#aaa0a5",
+    },
+    deepblack = {
+      statuslinebg = "#222228",
+      bg = "#0a0a0a",
+      treebg = "#121212",
+      gutterbg = "#0f0f0f",
+      kittybg = "#111111",
+      fg = "#a2a0ac",
+    }
+  }
 }
 
 -- the theme configuration. This can be changed by calling setup({...})
 -- after changing the configuration configure() must be called before the theme
 -- can be activated with set()
 local conf = {
+  scheme = "dark",
   -- color variant. as of now, 3 types are supported:
   -- a) "warm" - the default, a medium-dark grey background with a slightly red-ish tint.
   -- b) "cold" - about the same, but with a blue-ish flavor
@@ -98,30 +173,59 @@ local conf = {
   },
   -- attributes for various highlight classes. They allow all standard
   -- highlighting attributes like bold, italic, underline, sp.
-  attrib = {
-    keyword      = { bold = true },   -- keywords
-    conditional  = { bold = true },   -- special keywords (if, then...)
-    types        = {},                -- types (classes, interfaces)
-    storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
-    struct       = { bold = true },
-    class        = { bold = true },
-    interface    = { bold = true, italic = true },
-    number       = { bold = true },
-    func         = { bold = true },   -- functions
-    method       = { },               -- class methods
-    staticmethod = { italic = true },
-    member       = { },               -- class member (=field)
-    operator     = { bold = true },   -- operators
-    delim        = { bold = true },   -- delimiters
-    brace        = { bold = true },   -- braces, brackets, parenthesis
-    string       = {},
-    bold         = { bold = true },
-    italic       = { italic = true },
-    bolditalic   = { bold = true, italic = true },
-    attribute    = { bold = true },
-    annotation   = { bold = true, italic = true },
-    uri          = {}
+  baseattrib = {
+    dark = {
+      keyword      = { bold = true },   -- keywords
+      conditional  = { bold = true },   -- special keywords (if, then...)
+      types        = {},                -- types (classes, interfaces)
+      storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
+      struct       = { bold = true },
+      class        = { bold = true },
+      interface    = { bold = true, italic = true },
+      number       = { bold = true },
+      func         = { bold = true },   -- functions
+      method       = { },               -- class methods
+      staticmethod = { italic = true },
+      member       = { },               -- class member (=field)
+      operator     = { bold = true },   -- operators
+      delim        = { bold = true },   -- delimiters
+      brace        = { bold = true },   -- braces, brackets, parenthesis
+      string       = {},
+      bold         = { bold = true },
+      italic       = { italic = true },
+      bolditalic   = { bold = true, italic = true },
+      attribute    = { bold = true },
+      annotation   = { bold = true, italic = true },
+      uri          = {}
+    },
+    -- for reasons of contrast and readability, the light scheme shall have
+    -- different attributes.
+    light = {
+      keyword      = { bold = true },   -- keywords
+      conditional  = { bold = true },   -- special keywords (if, then...)
+      types        = {},                -- types (classes, interfaces)
+      storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
+      struct       = { bold = true },
+      class        = { bold = true },
+      interface    = { bold = true, italic = true },
+      number       = { bold = true },
+      func         = { bold = true },   -- functions
+      method       = { },               -- class methods
+      staticmethod = { italic = true },
+      member       = { },               -- class member (=field)
+      operator     = { bold = true },   -- operators
+      delim        = { bold = true },   -- delimiters
+      brace        = { bold = true },   -- braces, brackets, parenthesis
+      string       = {},
+      bold         = { bold = true },
+      italic       = { italic = true },
+      bolditalic   = { bold = true, italic = true },
+      attribute    = { bold = true },
+      annotation   = { bold = true, italic = true },
+      uri          = {}
+    },
   },
+  attrib = {},
   -- the callback will be called by all functions that change the theme's configuration
   -- Callback must be of type("function") and receives one parameter:
   -- a string describing what has changed. Possible values are "variant", "strings",
@@ -146,24 +250,7 @@ local conf = {
 }
 
 M.cokeline_colors = {}
-local LuaLineColors = {
-  white = "#ffffff",
-  darkestgreen = M.theme.accent_fg,
-  brightgreen = M.theme.accent_color,
-  darkestcyan = "#005f5f",
-  mediumcyan = "#87dfff",
-  darkestblue = "#005f87",
-  darkred = "#870000",
-  brightred = M.theme.alt_accent_color,
-  brightorange = "#2f47df",
-  gray1 = "#262626",
-  gray2 = "#303030",
-  gray4 = "#585858",
-  gray5 = "#404050",
-  gray7 = "#9e9e9e",
-  gray10 = "#f0f0f0",
-  statuslinebg = M.theme[conf.variant].statuslinebg,
-}
+local LuaLineColors = {}
 
 local diff = vim.api.nvim_win_get_option(0, "diff")
 
@@ -204,50 +291,119 @@ end
 -- other means to change the conf table.
 -- set() automatically calls it before setting any highlight groups.
 local function configure()
-  if conf.desaturate == true then
-    M.localtheme = {
-      orange = (conf.dlevel == 1) and { "#ab6a6c", 215 } or { "#9b7a7c", 215 },
-      blue = { "#5a6acf", 239 },
-      purple = (conf.dlevel == 1) and { "#b070b0", 241 } or { "#a070a0", 241 },
-      teal = (conf.dlevel == 1) and { "#609090", 238 } or { "#709090", 238 },
-      brightteal = (conf.dlevel == 1) and { "#70a0c0", 238 } or { "#7090b0", 238 },
-      darkpurple = (conf.dlevel == 1) and { "#705070", 240 } or { "#806a80", 240 },
-      red = (conf.dlevel == 1) and { "#bb4d5c", 203 } or { "#ab5d6c", 203 },
-      yellow = (conf.dlevel == 1) and { "#aaaa60", 231 } or { "#909870", 231 },
-      green = (conf.dlevel == 1) and { "#60906f", 231 } or { "#658075", 231 },
-      special = {
-        red = { "#bb4d5c", 203 },
-        yellow = { "#aaaa20", 231 },
-        green = { "#309020", 232 },
-        blue = { "#8a8adf", 239 },
-        purple = { "#904090", 241 },
-        storage = { "#607560", 242 },
-        class = { "#905070", 243 },
-        fg = { M.theme[conf.variant].fg , 1 },
+  M.theme = M.basetheme[conf.scheme]
+  conf.attrib = conf.baseattrib[conf.scheme]
+
+  LuaLineColors = {
+    white = "#ffffff",
+    darkestgreen = M.theme.accent_fg,
+    brightgreen = M.theme.accent_color,
+    darkestcyan = "#005f5f",
+    mediumcyan = "#87dfff",
+    darkestblue = "#005f87",
+    darkred = "#870000",
+    brightred = M.theme.alt_accent_color,
+    brightorange = "#2f47df",
+    gray1 = "#262626",
+    gray2 = "#303030",
+    gray4 = "#585858",
+    gray5 = "#404050",
+    gray7 = "#9e9e9e",
+    gray10 = "#f0f0f0",
+    statuslinebg = M.theme[conf.variant].statuslinebg,
+  }
+  if conf.scheme == "dark" then
+    if conf.desaturate == true then
+      M.localtheme = {
+        orange = (conf.dlevel == 1) and { "#ab6a6c", 215 } or { "#9b7a7c", 215 },
+        blue = { "#5a6acf", 239 },
+        purple = (conf.dlevel == 1) and { "#b070b0", 241 } or { "#a070a0", 241 },
+        teal = (conf.dlevel == 1) and { "#609090", 238 } or { "#709090", 238 },
+        brightteal = (conf.dlevel == 1) and { "#70a0c0", 238 } or { "#7090b0", 238 },
+        darkpurple = (conf.dlevel == 1) and { "#705070", 240 } or { "#806a80", 240 },
+        red = (conf.dlevel == 1) and { "#bb4d5c", 203 } or { "#ab5d6c", 203 },
+        yellow = (conf.dlevel == 1) and { "#aaaa60", 231 } or { "#909870", 231 },
+        green = (conf.dlevel == 1) and { "#60906f", 231 } or { "#658075", 231 },
+        special = {
+          red = { "#bb4d5c", 203 },
+          yellow = { "#aaaa20", 231 },
+          green = { "#309020", 232 },
+          blue = { "#8a8adf", 239 },
+          purple = { "#904090", 241 },
+          storage = { "#607560", 242 },
+          class = { "#905070", 243 },
+          fg = { M.theme[conf.variant].fg , 1 },
+        }
       }
-    }
-  else
-    M.localtheme = {
-      orange = { "#c36630", 215 },
-      blue = { "#4a4adf", 239 },
-      purple = { "#c030c0", 241 },
-      teal = { "#108080", 238 },
-      brightteal = { "#30a0c0", 238 },
-      darkpurple = { "#803090", 240 },
-      red = { "#cc2d4c", 203 },
-      yellow = { "#cccc60", 231 },
-      green = { "#10801f", 232 },
-      special = {
+    else
+      M.localtheme = {
+        orange = { "#c36630", 215 },
+        blue = { "#4a4adf", 239 },
+        purple = { "#c030c0", 241 },
+        teal = { "#108080", 238 },
+        brightteal = { "#30a0c0", 238 },
+        darkpurple = { "#803090", 240 },
         red = { "#cc2d4c", 203 },
         yellow = { "#cccc60", 231 },
         green = { "#10801f", 232 },
-        blue = { "#6060cf", 239 },
-        purple = { "#c030c0", 241 },
-        storage = { "#507050", 242 },
-        class = { "#804060", 243 },
-        fg = { M.theme[conf.variant].fg , 1 },
+        special = {
+          red = { "#cc2d4c", 203 },
+          yellow = { "#cccc60", 231 },
+          green = { "#10801f", 232 },
+          blue = { "#6060cf", 239 },
+          purple = { "#c030c0", 241 },
+          storage = { "#507050", 242 },
+          class = { "#804060", 243 },
+          fg = { M.theme[conf.variant].fg , 1 },
+        }
       }
-    }
+    end
+  elseif conf.scheme == "light" then
+    if conf.desaturate == true then
+      M.localtheme = {
+        orange = (conf.dlevel == 1) and { "#ab6a6c", 215 } or { "#9b7a7c", 215 },
+        blue = { "#5a6acf", 239 },
+        purple = (conf.dlevel == 1) and { "#b070b0", 241 } or { "#a070a0", 241 },
+        teal = (conf.dlevel == 1) and { "#609090", 238 } or { "#709090", 238 },
+        brightteal = (conf.dlevel == 1) and { "#70a0c0", 238 } or { "#7090b0", 238 },
+        darkpurple = (conf.dlevel == 1) and { "#705070", 240 } or { "#806a80", 240 },
+        red = (conf.dlevel == 1) and { "#bb4d5c", 203 } or { "#ab5d6c", 203 },
+        yellow = (conf.dlevel == 1) and { "#aaaa60", 231 } or { "#909870", 231 },
+        green = (conf.dlevel == 1) and { "#60906f", 231 } or { "#658075", 231 },
+        special = {
+          red = { "#bb4d5c", 203 },
+          yellow = { "#aaaa20", 231 },
+          green = { "#309020", 232 },
+          blue = { "#8a8adf", 239 },
+          purple = { "#904090", 241 },
+          storage = { "#607560", 242 },
+          class = { "#905070", 243 },
+          fg = { M.theme[conf.variant].fg , 1 },
+        }
+      }
+    else
+      M.localtheme = {
+        orange = { "#c36630", 215 },
+        blue = { "#4a4adf", 239 },
+        purple = { "#c030c0", 241 },
+        teal = { "#108080", 238 },
+        brightteal = { "#30a0c0", 238 },
+        darkpurple = { "#803090", 240 },
+        red = { "#cc2d4c", 203 },
+        yellow = { "#cccc60", 231 },
+        green = { "#10801f", 232 },
+        special = {
+          red = { "#cc2d4c", 203 },
+          yellow = { "#cccc60", 231 },
+          green = { "#10801f", 232 },
+          blue = { "#6060cf", 239 },
+          purple = { "#c030c0", 241 },
+          storage = { "#507050", 242 },
+          class = { "#804060", 243 },
+          fg = { M.theme[conf.variant].fg , 1 },
+        }
+      }
+    end
   end
 
   M.localtheme.string = conf.theme_strings == "yellow" and M.localtheme.yellow or M.localtheme.green
@@ -302,26 +458,10 @@ local function configure()
     M.localtheme.bg3 = { "#483e3b", 237 }
     M.localtheme.bg4 = { "#504531", 237 }
   end
-  M.palette = {
-    grey = { "#707070", 2 },
-    bg_red = { "#ff6077", 203 },
-    diff_red = { "#45292d", 52 },
-    bg_green = { "#a7df78", 107 },
-    diff_green = { "#10320a", 22 },
-    bg_blue = { "#75a3f2", 110 },
-    diff_blue = { "#253147", 17 },
-    diff_yellow = { "#4e432f", 54 },
-    fg_dim = { "#92908c", 251 },
-    deepred = { "#8b2d3c", 203 },
-    darkyellow = { "#a78624", 180 },
-    olive = { "#708422", 181 },
-    purple = { "#b39df3", 176 },
-    grey_dim = { "#595f6f", 240 },
-    neotreebg = { M.theme[conf.variant].treebg, 232 },
-    selfg = { "#cccc20", 233 },
-    selbg = { M.theme["selbg"], 234 },
-    none = { "NONE", "NONE" },
-  }
+
+  M.palette = basepalette[conf.scheme]
+  M.palette.neotreebg = { M.theme[conf.variant].treebg, 232 }
+  M.palette.selbg = { M.theme["selbg"], 234 }
 end
 
 -- set all hl groups

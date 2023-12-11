@@ -5,19 +5,7 @@ if Config.breadcrumb == 'navic' then
   navic = require('nvim-navic')
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-local status, cmp_lsp = pcall(require, "cmp_nvim_lsp")
-if status then
-  capabilities = cmp_lsp.default_capabilities(capabilities)
-else
-  vim.notify("cmp_lsp not installed")
-end
--- needed so nvim-ufo can use LSP as folding provider
-capabilities.textDocument.foldingRange = {
-  dynamicRegistration = false,
-  lineFoldingOnly = true
-}
--- capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
+local capabilities = __Globals.get_lsp_capabilities()
 
 -- Customize LSP behavior via on_attach
 local on_attach = function(client, bufnr)
