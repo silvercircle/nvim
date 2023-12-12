@@ -1,5 +1,11 @@
---local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
---local project_name = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":p:h:t")
+------------------------------ edit the following to reflect your configuration
+local workspace_dir = "/home/alex/.cache/jdtls_workspace/"
+local jdtls_install_dir = "/home/alex/.local/share/nvim/mason/packages/jdtls/"
+local equinox_version = "1.6.600.v20231012-1237"
+local java_executable = "/usr/bin/java"
+local use_lombok = true
+------------------------------ stop edit ---------------------------
+
 local lsputil = require("lspconfig.util")
 local md5 = require("local_utils.md5")
 local hash
@@ -36,20 +42,14 @@ if vim.bo.buftype == "nofile" or project_root == nil or #project_root < 2 then
   if debug then vim.notify("No project root") end
 elseif project_root ~= nil and #project_root > 1 then
   hash = md5.new()
-  hash:update(project_root)
+  hash:update(string.lower(project_root))
   project_name = md5.tohex(hash:finish())
 else
 end
 
-if debug then vim.notify("Project name is: " .. project_name) end
+workspace_dir = workspace_dir .. project_name
 
--- edit the following to reflect your configuration
-local workspace_dir = "/home/alex/.cache/jdtls_workspace/" .. project_name
-local jdtls_install_dir = "/home/alex/.local/share/nvim/mason/packages/jdtls/"
-local equinox_version = "1.6.600.v20231012-1237"
-local java_executable = "/usr/bin/java"
-local use_lombok = true
--- stop edit
+if debug then vim.notify("Project name is: " .. project_name) end
 
 -- configure special buffers. These are opened when using a jdt:// link to decompile
 -- classes.
@@ -129,6 +129,7 @@ local config = {
   init_options = {
     bundles = {}
   },
+  on_attach = function() vim.lsp.codelens.refresh() end
 }
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
