@@ -44,7 +44,6 @@ elseif project_root ~= nil and #project_root > 1 then
   hash = md5.new()
   hash:update(string.lower(project_root))
   project_name = md5.tohex(hash:finish())
-else
 end
 
 workspace_dir = workspace_dir .. project_name
@@ -53,9 +52,9 @@ if debug then vim.notify("Project name is: " .. project_name) end
 
 -- configure special buffers. These are opened when using a jdt:// link to decompile
 -- classes.
-if vim.bo.buftype == "nofile" and vim.startswith(vim.fn.expand("%"), "jdt://") then
-  vim.cmd("setlocal number | setlocal signcolumn=yes:3 | setlocal foldcolumn=1 | setlocal nospell")
-  __Globals.set_statuscol("normal")
+if vim.startswith(vim.fn.expand("%"), "jdt://") then
+  vim.cmd("setlocal number | setlocal signcolumn=yes:3 | setlocal foldcolumn=1 | setlocal nospell | setlocal buftype=nowrite")
+  vim.o.statuscolumn = Config.statuscol_normal
 end
 local config = {
   -- The command that starts the language server
