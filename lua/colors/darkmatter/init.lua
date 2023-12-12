@@ -44,7 +44,7 @@ local basepalette = {
     bg_green = { "#a7df78", 107 },
     diff_green = { "#10320a", 22 },
     bg_blue = { "#75a3f2", 110 },
-    diff_blue = { "#253147", 17 },
+    diff_blue = { "#a0a0bb", 17 },
     diff_yellow = { "#4e432f", 54 },
     fg_dim = { "#101010", 251 },
     deepred = { "#8b2d3c", 203 },
@@ -80,7 +80,6 @@ M.keys_set = false
 M.palette = {}
 M.localtheme = {}
 M.theme = nil
-
 
 M.basetheme = {
   dark = {
@@ -144,7 +143,7 @@ M.basetheme = {
       statuslinebg = "#b0b0b0",
       bg = "#e5e5e5",
       treebg = "#d0d0d0",
-      gutterbg = "#d1d1d1",
+      gutterbg = "#e0e0e0",
       kittybg = "#111111",
       fg = "#0a0a0a",
     }
@@ -341,8 +340,8 @@ local function configure()
         brightteal = (conf.dlevel == 1) and { "#70a0c0", 238 } or { "#7090b0", 238 },
         darkpurple = (conf.dlevel == 1) and { "#705070", 240 } or { "#806a80", 240 },
         red = (conf.dlevel == 1) and { "#bb4d5c", 203 } or { "#ab5d6c", 203 },
-        yellow = (conf.dlevel == 1) and { "#404000", 231 } or { "#404010", 231 },
-        green = (conf.dlevel == 1) and { "#105010", 231 } or { "#205020", 231 },
+        yellow = (conf.dlevel == 1) and { "#aaaa60", 231 } or { "#909870", 231 },
+        green = (conf.dlevel == 1) and { "#60906f", 231 } or { "#658075", 231 },
         special = {
           red = { "#bb4d5c", 203 },
           yellow = { "#aaaa20", 231 },
@@ -381,44 +380,44 @@ local function configure()
     if conf.desaturate == true then
       M.localtheme = {
         orange = (conf.dlevel == 1) and { "#3b2a1c", 215 } or { "#3b2a25", 215 },
-        blue = { "#202080", 239 },
+        blue = { "#2020cc", 239 },
         purple = (conf.dlevel == 1) and { "#b070b0", 241 } or { "#a070a0", 241 },
-        teal = (conf.dlevel == 1) and { "#003030", 238 } or { "#103030", 238 },
+        teal = (conf.dlevel == 1) and { "#105050", 238 } or { "#206060", 238 },
         brightteal = (conf.dlevel == 1) and { "#70a0c0", 238 } or { "#7090b0", 238 },
         darkpurple = (conf.dlevel == 1) and { "#705070", 240 } or { "#806a80", 240 },
         red = (conf.dlevel == 1) and { "#bb4d5c", 203 } or { "#ab5d6c", 203 },
-        yellow = (conf.dlevel == 1) and { "#aaaa60", 231 } or { "#909870", 231 },
-        green = (conf.dlevel == 1) and { "#60906f", 231 } or { "#658075", 231 },
+        yellow = (conf.dlevel == 1) and { "#404000", 231 } or { "#404010", 231 },
+        green = (conf.dlevel == 1) and { "#105010", 231 } or { "#205020", 231 },
         special = {
-          red = { "#bb4d5c", 203 },
+          red = { "#aa2020", 203 },
           yellow = { "#aaaa20", 231 },
           green = { "#309020", 232 },
-          blue = { "#8a8adf", 239 },
-          purple = { "#904090", 241 },
+          blue = { "#2020cc", 239 },
+          purple = { "#aa20aa", 241 },
           storage = { "#607560", 242 },
-          class = { "#905070", 243 },
+          class = { "#700050", 243 },
           fg = { M.theme[conf.variant].fg , 1 },
         }
       }
     else
       M.localtheme = {
         orange = { "#c36630", 215 },
-        blue = { "#4a4adf", 239 },
+        blue = { "#2020cc", 239 },
         purple = { "#c030c0", 241 },
-        teal = { "#108080", 238 },
-        brightteal = { "#30a0c0", 238 },
+        teal = { "#005050", 238 },
+        brightteal = { "#006060", 238 },
         darkpurple = { "#803090", 240 },
-        red = { "#cc2d4c", 203 },
+        red = { "#aa2020", 203 },
         yellow = { "#cccc60", 231 },
-        green = { "#10801f", 232 },
+        green = { "#107000", 232 },
         special = {
-          red = { "#cc2d4c", 203 },
+          red = { "#aa2020", 203 },
           yellow = { "#cccc60", 231 },
-          green = { "#10801f", 232 },
-          blue = { "#6060cf", 239 },
+          green = { "#107000", 232 },
+          blue = { "#2020cc", 239 },
           purple = { "#c030c0", 241 },
           storage = { "#507050", 242 },
-          class = { "#804060", 243 },
+          class = { "#700050", 243 },
           fg = { M.theme[conf.variant].fg , 1 },
         }
       }
@@ -691,7 +690,6 @@ local function set_all()
   M.link("VirtualTextError", "Grey")
   M.link("VirtualTextInfo", "Grey")
   M.link("VirtualTextHint", "Grey")
-
   M.hl_with_defaults("ErrorFloat", M.localtheme.red, M.palette.none)
   M.hl_with_defaults("WarningFloat", M.localtheme.yellow, M.palette.none)
   M.hl_with_defaults("InfoFloat", M.localtheme.blue, M.palette.none)
@@ -746,7 +744,7 @@ local function set_all()
   M.link("LspReferenceText", "CurrentWord")
   M.link("LspReferenceRead", "CurrentWord")
   M.link("LspReferenceWrite", "CurrentWord")
-  M.link("LspCodeLens", "VirtualTextInfo")
+  M.link("LspCodeLens", conf.theme_strings == "yellow" and "Green" or "Yellow")
   M.link("LspCodeLensSeparator", "VirtualTextHint")
   M.link("LspSignatureActiveParameter", "Yellow")
   M.link("TermCursor", "Cursor")

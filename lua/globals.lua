@@ -754,11 +754,14 @@ M.ufo_virtual_text_handler = function(virtText, lnum, endLnum, width, truncate)
   return newVirtText
 end
 
+--- obtain lsp capabilities from lsp and cmp-lsp plugin
+--- @return table
 function M.get_lsp_capabilities()
   if M.lsp_capabilities == nil then
     local cmp_lsp = require("cmp_nvim_lsp")
     M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
     M.lsp_capabilities = cmp_lsp.default_capabilities(M.lsp_capabilities)
+    -- required for some plugins (ufo) to use lsp as a folding provider
     M.lsp_capabilities.textDocument.foldingRange = {
       dynamicRegistration = false,
       lineFoldingOnly = true

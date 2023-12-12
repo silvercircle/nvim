@@ -118,12 +118,13 @@ autocmd({ 'UIEnter' }, {
 
 
 -- create a view to save folds when saving the file
-autocmd({ 'bufwritepre' }, {
+autocmd({ 'bufwritepost' }, {
   pattern = "*",
   callback = function()
     if vim.g.tweaks.mkview_on_save == true then
       __Globals.mkview()
     end
+    pcall(vim.lsp.codelens.refresh)
   end,
   group = agroup_views
 })
