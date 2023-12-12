@@ -494,6 +494,7 @@ do
       border = __Globals.perm_config.telescope_borders == "rounded" and "rounded" or "single",
       focusable = false
     })
+  --require("lsp.notify-standalone").init()
 end
 
 
@@ -553,7 +554,5 @@ do
     command! DiagnosticsEnableAll   :lua vim.diagnostic.enable()
   ]])
 end
-
-require("lsp.nvim-notify-integration")
 
 vim.diagnostic.config({ virtual_text = true, update_in_insert = false })

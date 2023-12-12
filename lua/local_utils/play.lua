@@ -4,10 +4,10 @@ local api = require("image")
 local M = {}
 -- from a file (absolute path)
 function M.test()
-  local image = api.from_file("/home/alex/Downloads/shots/foo.png", {
+  local image = api.from_file("/home/alex/Downloads/shots/dns.png", {
     id = "my_image_id", -- optional, defaults to a random string
-    window = 1000, -- optional, binds image to a window and its bounds
-    -- buffer = 1000, -- optional, binds image to a buffer (paired with window binding)
+    --window = 1000, -- optional, binds image to a window and its bounds
+    buffer = vim.api.nvim_get_current_buf(), -- optional, binds image to a buffer (paired with window binding)
     with_virtual_padding = true, -- optional, pads vertically with extmarks
   })
   image:render() -- render image

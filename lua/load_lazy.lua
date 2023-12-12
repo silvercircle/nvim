@@ -192,7 +192,8 @@ local plugins = {
         level = 1,
         fps = 5,
         top_down = false,
-        minimum_width = 20,
+        minimum_width = 40,
+        max_width = 60,
         stages = "static"
       })
     end

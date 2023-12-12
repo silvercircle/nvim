@@ -73,30 +73,26 @@ local config = {
     "-XX:-TieredCompilation",
     "-XX:+UseStringDeduplication",
     "-XX:+UseCompressedOops",
-
     "-XX:+UseParallelGC",
     "-XX:MaxGCPauseMillis=200",
     "-XX:+ScavengeBeforeFullGC",
     "-XX:MaxHeapFreeRatio=85",
     "-XX:ConcGCThreads=2",
     "-XX:ParallelGCThreads=2",
-
     use_lombok and "-javaagent:" .. jdtls_install_dir .. "lombok.jar" or "",
     use_lombok and "-Xbootclasspath/a:" .. jdtls_install_dir .. "lombok.jar" or "",
     "--add-modules=ALL-SYSTEM",
     "--add-opens", "java.base/java.util=ALL-UNNAMED",
     "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-
     "-jar", jdtls_install_dir .. "plugins/org.eclipse.equinox.launcher_" .. equinox_version .. ".jar",
-
     "-configuration", jdtls_install_dir .. "config_linux",
-
     "-data", workspace_dir
   },
 
   -- This is the default if not provided, you can remove it. Or adjust as needed.
   -- One dedicated LSP server & client will be started per unique root_dir
-  root_dir = require("jdtls.setup").find_root({ ".git", "pom.xml", ".gradle" }),
+  root_dir = project_root,
+  --root_dir = require("jdtls.setup").find_root({ ".git", "pom.xml", ".gradle" }),
 
   -- Here you can configure eclipse.jdt.ls specific settings
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request

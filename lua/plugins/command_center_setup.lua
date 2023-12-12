@@ -70,7 +70,7 @@ command_center.add({
   },
   {
     desc = "Peek definitions (Glance Plugin)",
-    cmd = function() require("glance").open("definition") end,
+    cmd = function() require("glance").open("definitions") end,
     keys = { "n", "<f16>", noremap },
     category = "@LSP"
   },
