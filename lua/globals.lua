@@ -515,20 +515,6 @@ function M.adjust_layout()
   end
 end
 
---- try to format a souce file by using one of the defined formatter programs
-function M.format_source()
-  local ft = vim.api.nvim_buf_get_option(0, "filetype")
-  local done = false
-  if vim.g.formatters[ft] ~= nil then
-    local cmd = "!" .. vim.g.formatters[ft].cmd .. " " .. vim.fn.expand("%:p")
-    vim.cmd(cmd)
-    done = true
-  end
-  if not done then
-    M.notify("No formatter found for filetype " .. ft, vim.log.levels.INFO)
-  end
-end
-
 function M.set_session(session)
   M.sessions[session] = session
   vim.print(M.sessions)

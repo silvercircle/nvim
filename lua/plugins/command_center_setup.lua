@@ -369,17 +369,6 @@ command_center.add({
     },
     category = "@Formatting"
   },
-  -- format with the configured utility
-  {
-    desc = "Format document using the configured utility",
-    cmd = function() __Globals.format_source() end,
-    keys = {
-      { "n", "<f55>", noremap },
-      { "i", "<f55>", noremap },
-      { "v", "<f55>", noremap },
-    },
-    category = "@Formatting"
-  },
   -- Telescope pickers
   {
     desc = "Find files in current directory (Telescope)",

@@ -105,21 +105,6 @@ Config = {
   theme = require("colors.darkmatter")
 }
 
-vim.g.formatters = {
-  lua = {
-    cmd = "stylua",
-    range = false
-  },
-  rust = {
-    cmd = "rustfmt",
-    range = false
-  },
-  python = {
-    cmd = "autopep8",
-    range = false
-  }
-}
-
 -- quick actions for the alpha start screen
 vim.g.startify_top = {
   {

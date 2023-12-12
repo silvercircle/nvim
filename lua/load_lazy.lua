@@ -160,26 +160,41 @@ local plugins = {
           require("plugins.glance")
         end
       },
-      {
-        'vigoux/notifier.nvim',
-        event = "UIEnter",
-        lazy = true,
-        config = function()
-          require("notifier").setup({
-            components = {
-              "nvim",
-              "lsp"
-            },
-            notify = {
-              min_level = 0
-            }
-          })
-          vim.g.notifier = require("notifier")
-        end
-      },
+--      {
+--       'vigoux/notifier.nvim',
+--        event = "UIEnter",
+--        lazy = true,
+--        config = function()
+--          require("notifier").setup({
+--            components = {
+--              "nvim",
+--              "lsp"
+--            },
+--            notify = {
+--              min_level = 0
+--            }
+--          })
+--          vim.g.notifier = require("notifier")
+--        end
+--      },
     },
     config = function()
       require("plugins.lsp")
+    end
+  },
+  {
+    'rcarriga/nvim-notify',
+    event = "UIEnter",
+    config = function()
+      vim.g.notifier = require("notify")
+      vim.notify = require("notify")
+      require("notify").setup({
+        level = 1,
+        fps = 5,
+        top_down = false,
+        minimum_width = 20,
+        stages = "static"
+      })
     end
   },
   {
