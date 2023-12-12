@@ -1049,7 +1049,7 @@ end
 function M.ui_select_variant()
   local utils = require("local_utils")
 
-  vim.ui.select({ "Warm (red tint)?", "Cold (blue tint)", "Deep dark" }, {
+  vim.ui.select({ "Warm (red tint)", "Cold (blue tint)", "Deep dark" }, {
     prompt = "Select a theme variant",
     border = "rounded",
     format_item = function(item)

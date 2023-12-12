@@ -676,6 +676,7 @@ function M.configure_treesitter()
   if vim.g.tweaks.treesitter.perf_tweaks == true then
     vim.treesitter.query.set("javascript", "injections", "")
     vim.treesitter.query.set("typescript", "injections", "")
+    vim.treesitter.query.set("vimdoc", "injections", "")
   end
   -- enable/disable treesitter-context plugin
   _Config_SetKey({ 'n', 'i', 'v' }, "<C-x><C-c>", function() M.toggle_treesitter_context() end, "Toggle Treesitter Context")

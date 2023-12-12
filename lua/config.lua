@@ -3,7 +3,11 @@
 -- when NVIM_PLAIN is set (to whatever value), the editor will start plain without a neotree and
 -- terminal split.
 local env_plain = os.getenv("NVIM_PLAIN")
-vim.g.tweaks = require("tweaks")
+local status, tw = pcall(require, "tweaks")
+if status == false then
+  tw = require("tweaks-dist")
+end
+vim.g.tweaks = tw
 local tweaks = vim.g.tweaks
 
 if vim.fn.has("nvim-0.9") == 0 then
