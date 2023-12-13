@@ -21,6 +21,9 @@ local on_attach = function(client, bufnr)
       }
     }
   end
+  if client.name == 'csharp_ls' then
+    vim.lsp.codelens.refresh()
+  end
 end
 
 lspconfig.tsserver.setup({

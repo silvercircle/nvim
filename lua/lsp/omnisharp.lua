@@ -49,7 +49,7 @@ lspconfig.omnisharp.setup({
     table.insert(new_config.cmd, 'DotNet:enablePackageRestore=false')
     vim.list_extend(new_config.cmd, { '--encoding', 'utf-8' })
     table.insert(new_config.cmd, '--languageserver')
-    table.insert(new_config.cmd, 'csharp.semanticHighlighting.enabled=false')
+    table.insert(new_config.cmd, 'csharp.semanticHighlighting.enabled=true')
     table.insert(new_config.cmd, 'FormattingOptions:EnableEditorConfigSupport=true')
     if new_config.organize_imports_on_format then
       table.insert(new_config.cmd, 'FormattingOptions:OrganizeImports=true')

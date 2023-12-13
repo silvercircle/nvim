@@ -1,20 +1,7 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
--- bootstrap lazy
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
-end
-vim.opt.rtp:prepend(lazypath)
-
 local plugins = {
   {
     'nvim-lualine/lualine.nvim',
+    event = "UIEnter",
     config = function()
       require("plugins.lualine")
     end
@@ -160,23 +147,23 @@ local plugins = {
           require("plugins.glance")
         end
       },
---      {
---       'vigoux/notifier.nvim',
---        event = "UIEnter",
---        lazy = true,
---        config = function()
---          require("notifier").setup({
---            components = {
---              "nvim",
---              "lsp"
---            },
---            notify = {
---              min_level = 0
---            }
---          })
---          vim.g.notifier = require("notifier")
---        end
---      },
+      {
+        "vigoux/notifier.nvim",
+        event = "UIEnter",
+        lazy = true,
+        config = function()
+          require("notifier").setup({
+            components = {
+              --"nvim",
+              "lsp"
+            },
+            notify = {
+              min_level = 0
+            }
+          })
+          --vim.g.notifier = require("notifier")
+        end
+      },
     },
     config = function()
       require("plugins.lsp")
@@ -242,10 +229,10 @@ local plugins = {
     end
   },
   'lewis6991/gitsigns.nvim',
-  { 'lukas-reineke/indent-blankline.nvim', event = "BufReadPre", config = function() require("plugins.ibl") end },
+  { 'lukas-reineke/indent-blankline.nvim', event = "UIEnter", config = function() require("plugins.ibl") end },
   {
     'petertriho/nvim-scrollbar',
-    event = "BufReadPre",
+    event = "UIEnter",
     config = function()
       require("plugins.nvim-scrollbar")
       __Globals.set_scrollbar()
@@ -305,7 +292,7 @@ local plugins = {
   },
   {
     'folke/todo-comments.nvim',
-    event = "UIEnter",
+    event = "BufReadPre",
     config = function()
       require("plugins.todo")
     end
@@ -404,7 +391,7 @@ local plugins = {
   },
   {
     'kevinhwang91/nvim-ufo',
-    event = "UIEnter",
+--    event = "UIEnter",
     config = function()
       require('ufo').setup({
         open_fold_hl_timeout = 0,

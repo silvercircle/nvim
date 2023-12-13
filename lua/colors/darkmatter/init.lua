@@ -862,6 +862,7 @@ local function set_all()
 
   -- Treesitter stuff
   M.hl_with_defaults("TreesitterContext", M.palette.none, M.localtheme.bg)
+  --M.hl("TreesitterContextBottom", M.palette.none, M.localtheme.bg, { underline=true, sp=M.palette.purple[1] })
   M.link("TreesitterContextSeparator", "Type")
   M.link("NvimTreeIndentMarker", "SymbolsOutlineConnector")
   M.link("OutlineGuides", "SymbolsOutlineConnector")

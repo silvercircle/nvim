@@ -115,7 +115,4 @@ o.undofile=false
 o.exrc=true
 o.cmdheight=vim.g.tweaks.cmdheight
 -- o.secure=true
-
-__Globals.restore_config()
-Config.theme.set()
-__Globals.set_statuscol(__Globals.perm_config.statuscol_current)
+-- 

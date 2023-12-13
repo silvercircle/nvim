@@ -657,6 +657,7 @@ function M.configure_treesitter()
   vim.treesitter.language.register("objc", "objcpp")
   vim.treesitter.language.register("markdown", "telekasten")
   vim.treesitter.language.register("html", "jsp")
+  vim.treesitter.language.register("ini", "editorconfig")
   -- disable injections for these languages, because they can be slow
   -- can be tweaked
   if vim.g.tweaks.treesitter.perf_tweaks == true then

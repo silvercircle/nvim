@@ -1,7 +1,7 @@
 ------------------------------ edit the following to reflect your configuration
 local workspace_dir = "/home/alex/.cache/jdtls_workspace/"
 local jdtls_install_dir = "/home/alex/.local/share/nvim/mason/packages/jdtls/"
-local equinox_version = "1.6.600.v20231012-1237"
+local equinox_version = "1.6.600.v20231106-1826"
 local java_executable = "/usr/bin/java"
 local use_lombok = true
 ------------------------------ stop edit ---------------------------
@@ -17,8 +17,9 @@ local debug = true
 -- fails, a .git root.
 -- TODO: this is probably incomplete and sub-optimal. improvements possible
 
--- try two levels of patterns. Safe are considered gradle and maven project files
---
+-- try two levels of patterns. Gradle and maven project files are considered safe
+-- project roots, anything else *might* work.
+
 local root_patterns = {
   safe =  { "pom.xml", "settings.gradle", ".settings", ".gradle" },
   guess = { ".project", "nbproject", ".git", ".idea" }

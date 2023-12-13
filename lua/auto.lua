@@ -24,6 +24,15 @@ autocmd({ 'VimLeave' }, {
 
 --- remember if UIEnter already done
 local did_UIEnter = false
+
+autocmd({ 'VimEnter' }, {
+  callback = function()
+    if did_UIEnter == true then
+      return
+    end
+    Config.theme.set()
+  end
+})
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
 -- environment variable or command line option forbids it for better startup performance and
 -- a clean UI
@@ -124,7 +133,9 @@ autocmd({ 'bufwritepost' }, {
     if vim.g.tweaks.mkview_on_save == true then
       __Globals.mkview()
     end
-    pcall(vim.lsp.codelens.refresh)
+    if #vim.lsp.codelens.get() > 0 then
+      pcall(vim.lsp.codelens.refresh)
+    end
   end,
   group = agroup_views
 })
