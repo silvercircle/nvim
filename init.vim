@@ -19,6 +19,7 @@ let g:rnvimr_layout = {
             \ }
 
 lua << EOB
+vim.loader.enable()
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -37,7 +38,6 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-vim.loader.enable()
 require('options')
 require('load_lazy')
 require("auto")

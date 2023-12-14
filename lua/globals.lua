@@ -77,8 +77,6 @@ M.perm_config_default = {
 
 M.perm_config = {}
 
-M.sessions = {}
-
 -- ignore symbol types for the fast symbol browser (telescope)
 M.ignore_symbols = {
   lua = { "string", "object", "boolean", "number", "array", "variable" },
@@ -513,11 +511,6 @@ function M.adjust_layout()
   if #outline > 0 then
     vim.api.nvim_win_set_width(outline[1], M.perm_config.outline.width)
   end
-end
-
-function M.set_session(session)
-  M.sessions[session] = session
-  vim.print(M.sessions)
 end
 
 --- get the size (in bytes) of the current buffer.

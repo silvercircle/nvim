@@ -133,9 +133,7 @@ autocmd({ 'bufwritepost' }, {
     if vim.g.tweaks.mkview_on_save == true then
       __Globals.mkview()
     end
-    if #vim.lsp.codelens.get() > 0 then
-      pcall(vim.lsp.codelens.refresh)
-    end
+    pcall(vim.lsp.codelens.refresh)
   end,
   group = agroup_views
 })

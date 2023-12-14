@@ -199,7 +199,7 @@ local conf = {
       storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
       struct       = { bold = true },
       class        = { bold = true },
-      interface    = { bold = true, italic = true },
+      interface    = { bold = true },
       number       = { bold = true },
       func         = { bold = true },   -- functions
       method       = { },               -- class methods
@@ -225,7 +225,7 @@ local conf = {
       storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
       struct       = { bold = true },
       class        = { bold = true },
-      interface    = { bold = true, italic = true },
+      interface    = { bold = true },
       number       = { bold = true },
       func         = { bold = true },   -- functions
       method       = { },               -- class methods
@@ -362,7 +362,7 @@ local function configure()
         brightteal = { "#30a0c0", 238 },
         darkpurple = { "#803090", 240 },
         red = { "#cc2d4c", 203 },
-        yellow = { "#606000", 231 },
+        yellow = { "#aaaa20", 231 },
         green = { "#10801f", 232 },
         special = {
           red = { "#cc2d4c", 203 },
@@ -595,7 +595,7 @@ local function set_all()
   M.hl("Type", M.localtheme.darkpurple, M.palette.none, conf.attrib.types)
   M.hl("Structure", M.localtheme.darkpurple, M.palette.none, conf.attrib.struct)
   M.hl("Class", M.localtheme.special.class, M.palette.none, conf.attrib.class)
-  M.hl("Interface", conf.theme_strings == "yellow" and M.localtheme.green or M.localtheme.yellow, M.palette.none, conf.attrib.interface)
+  M.hl("Interface", conf.theme_strings == "yellow" and M.localtheme.special.green or M.localtheme.special.yellow, M.palette.none, conf.attrib.interface)
   M.hl("StorageClass", M.localtheme.special.storage, M.palette.none, conf.attrib.storage)
   M.hl_with_defaults("Identifier", M.localtheme.orange, M.palette.none)
   M.hl_with_defaults("Constant", M.palette.purple, M.palette.none)
@@ -790,8 +790,8 @@ local function set_all()
   M.link("@string.escape", "Green")
   M.link("@string.regex", "String")
   M.link("@symbol", "Fg")
-  M.link("@tag", "BlueItalic")
-  M.link("@tag.delimiter", "RedBold")
+  M.link("@tag", "Keyword")
+  M.link("@tag.delimiter", "Braces")
   M.link("@text", "Fg")
   M.link("@strike", "Grey")
   M.link("@math", "Yellow")
@@ -814,6 +814,9 @@ local function set_all()
   M.link("@lsp.type.structure", "Structure")
   M.link("@lsp.type.interface", "Interface")
   M.link("@lsp.typemod.method.static", "StaticMethod")
+  M.link("@lsp.type.field", "Member")
+  M.link("@lsp.type.property", "Member")
+
 
   M.link("FloatermBorder", "Grey")
   M.link("BookmarkSign", "BlueSign")

@@ -132,3 +132,4 @@ require("scrollbar").setup({
     search = true, -- Requires hlslens
   },
 })
+

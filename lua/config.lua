@@ -191,3 +191,9 @@ function _Config_SetKey(modes, lhs, rhs, _desc)
 end
 __Globals=require("globals")
 
+vim.filetype.add({
+  extension = {
+    axaml = "xml",
+    xaml = "xml"
+  }
+})

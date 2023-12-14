@@ -196,7 +196,6 @@ local plugins = {
   { 'tpope/vim-liquid',                    ft = "liquid" },
   'nvim-tree/nvim-web-devicons',
   'nvim-lua/plenary.nvim',
-  -- 'MattesGroeger/vim-bookmarks',
   {
     'tomasky/bookmarks.nvim',
     event = "UIEnter",
@@ -391,14 +390,15 @@ local plugins = {
   },
   {
     'kevinhwang91/nvim-ufo',
---    event = "UIEnter",
+    --cond = false,
+    --event = "UIEnter",
     config = function()
       require('ufo').setup({
         open_fold_hl_timeout = 0,
         provider_selector = function(bufnr, filetype, buftype)
           return {'treesitter', 'indent'}
         end,
-        fold_virt_text_handler = __Globals.ufo_virtual_text_handler,
+        -- fold_virt_text_handler = __Globals.ufo_virtual_text_handler,
         preview = {
           mappings = {
             scrollU = "<Up>",

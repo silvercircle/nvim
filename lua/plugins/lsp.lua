@@ -538,24 +538,11 @@ if vim.diagnostic then
     },
   })
 end
-
--- Redefine signs (:help diagnostic-signs)
-
 do
   vim.fn.sign_define("DiagnosticSignError", { text = "✘", texthl = "RedSign" })
   vim.fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "YellowSign" })
   vim.fn.sign_define("DiagnosticSignInfo", { text = "◉", texthl = "BlueSign" })
   vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "GreenSign" })
+  vim.diagnostic.config({ virtual_text = true, update_in_insert = false })
 end
 
--- Commands for temporarily turning on and off diagnostics (for the current buffer or globally)
-do
-  vim.cmd([[
-    command! DiagnosticsDisable     :lua vim.diagnostic.disable(0)
-    command! DiagnosticsEnable      :lua vim.diagnostic.enable(0)
-    command! DiagnosticsDisableAll  :lua vim.diagnostic.disable()
-    command! DiagnosticsEnableAll   :lua vim.diagnostic.enable()
-  ]])
-end
-
-vim.diagnostic.config({ virtual_text = true, update_in_insert = false })
