@@ -321,6 +321,9 @@ lspconfig.yamlls.setup({
 lspconfig.csharp_ls.setup({
   on_attach = on_attach,
   capabilities = capabilities,
+  handlers = {
+    ["textDocument/definition"] = require('csharpls_extended').handler
+  },
   cmd = { vim.g.lsp_server_bin['csharp_ls'] },
   root_dir = util.root_pattern('*.sln', '*.csproj', '*.fsproj', '.git'),
   filetypes = { 'cs' },
@@ -440,7 +443,7 @@ lspconfig.lua_ls.setup {
         enable = false
       },
       window = {
-        progressBar = false
+        progressBar = true
       }
     }
   }

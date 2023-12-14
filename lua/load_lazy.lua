@@ -1,4 +1,5 @@
-local plugins = {
+local lazy = require("lazy")
+lazy.setup({
   {
     'nvim-lualine/lualine.nvim',
     event = "UIEnter",
@@ -30,7 +31,7 @@ local plugins = {
         lazy = true,
         config = function()
           require("quickfavs").setup({
-            telescope_theme = __Telescope_dropdown_theme,
+            telescope_theme = require("local_utils").Telescope_dropdown_theme,
           })
         end
       }
@@ -131,6 +132,7 @@ local plugins = {
     lazy = true,
     event = { "LspAttach" },
     dependencies = {
+      'Decodetalkers/csharpls-extended-lsp.nvim',
       'onsails/lspkind-nvim',
       {
         'Bekaboo/dropbar.nvim',
@@ -147,41 +149,51 @@ local plugins = {
           require("plugins.glance")
         end
       },
-      {
-        "vigoux/notifier.nvim",
-        event = "UIEnter",
-        lazy = true,
-        config = function()
-          require("notifier").setup({
-            components = {
-              --"nvim",
-              "lsp"
-            },
-            notify = {
-              min_level = 0
-            }
-          })
-          --vim.g.notifier = require("notifier")
-        end
-      },
+--      {
+--        "vigoux/notifier.nvim",
+--        event = "UIEnter",
+--        cond = false,
+--        lazy = true,
+--        config = function()
+--          require("notifier").setup({
+--            components = {
+--              --"nvim",
+--              -- "lsp"
+--            },
+--            notify = {
+--              min_level = 0
+--            }
+--          })
+--          -- vim.g.notifier = require("notifier")
+--        end
+--      },
     },
     config = function()
       require("plugins.lsp")
     end
   },
   {
-    'rcarriga/nvim-notify',
+    'j-hui/fidget.nvim',
+    lazy = true,
     event = "UIEnter",
     config = function()
-      vim.g.notifier = require("notify")
-      vim.notify = require("notify")
-      require("notify").setup({
-        level = 1,
-        fps = 5,
-        top_down = false,
-        minimum_width = 40,
-        max_width = 60,
-        stages = "static"
+      vim.g.notifier = require("fidget")
+      require("fidget").setup({
+        progress = {
+          poll_rate = 1,
+          ignore_done_already = true,
+          display = {
+            render_limit = 2
+          }
+        },
+        notification = {
+          override_vim_notify = true,
+          history_size = 20,
+          filter = vim.log.levels.TRACE,
+          configs = {
+            default = require("fidget.notification").default_config
+          }
+        }
       })
     end
   },
@@ -425,6 +437,4 @@ local plugins = {
     "scalameta/nvim-metals",
     ft = { "scala", "sbt" },
   }
-}
-
-require("lazy").setup(plugins)
+})
