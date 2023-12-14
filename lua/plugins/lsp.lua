@@ -332,28 +332,6 @@ lspconfig.csharp_ls.setup({
   }
 })
 
--- metals = scala language server.
---lspconfig.metals.setup({
---  on_attach = on_attach,
---  cmd = { vim.g.lsp_server_bin['metals'] },
---  filetypes = { 'scala' },
---  root_dir = util.root_pattern('build.sbt', 'build.sc', 'build.gradle', 'pom.xml'),
---  message_level = vim.lsp.protocol.MessageType.Error,
---  init_options = {
---    statusBarProvider = 'show-message',
---    isHttpEnabled = true,
---    compilerOptions = {
---      snippetAutoIndent = false,
---    },
---  },
---  capabilities = capabilities,
-----  capabilities = {
-----    workspace = {
-----      configuration = false,
-----    },
-----  },
---})
-
 -- python pyright
 lspconfig.pyright.setup({
   cmd = { vim.g.lsp_server_bin['pyright'], '--stdio' },
@@ -510,16 +488,24 @@ end
 if vim.diagnostic then
   vim.diagnostic.config({
     -- No virtual text (distracting!), show popup window on hover.
-    virtual_text = false,
+    virtual_text = true,
     underline = {
       -- Do not underline text when severity is low (INFO or HINT).
       severity = { min = vim.diagnostic.severity.WARN },
+    },
+    signs = {
+      text = {
+        [vim.diagnostic.severity.HINT]  = "",
+        [vim.diagnostic.severity.ERROR] = "✘",
+        [vim.diagnostic.severity.INFO]  = "◉",
+        [vim.diagnostic.severity.WARN]  = ""
+      }
     },
     float = {
       source = "always",
       focusable = true,
       focus = false,
-      border = "single",
+      border = __Globals.perm_config.telescope_borders,
       -- Customize how diagnostic message will be shown: show error code.
       format = function(diagnostic)
         local user_data
@@ -542,18 +528,11 @@ if vim.diagnostic then
   })
 end
 do
-  vim.fn.sign_define("DiagnosticSignError", { text = "✘", texthl = "RedSign" })
-  vim.fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "YellowSign" })
-  vim.fn.sign_define("DiagnosticSignInfo", { text = "◉", texthl = "BlueSign" })
-  vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "GreenSign" })
-  vim.diagnostic.config({ signs = {
-                            text = {
-                              [vim.diagnostic.severity.HINT] = "",
-                              [vim.diagnostic.severity.ERROR] = "✘",
-                              [vim.diagnostic.severity.INFO] = "◉",
-                              [vim.diagnostic.severity.WARN] = "",
-                            }
-                          },
-                          virtual_text = true, update_in_insert = false })
+  if vim.fn.has("nvim-0.10") == 0 then
+    vim.fn.sign_define("DiagnosticSignError", { text = "✘", texthl = "RedSign" })
+    vim.fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "YellowSign" })
+    vim.fn.sign_define("DiagnosticSignInfo", { text = "◉", texthl = "BlueSign" })
+    vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "GreenSign" })
+  end
 end
 
