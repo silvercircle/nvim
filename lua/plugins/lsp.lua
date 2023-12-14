@@ -546,6 +546,14 @@ do
   vim.fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "YellowSign" })
   vim.fn.sign_define("DiagnosticSignInfo", { text = "◉", texthl = "BlueSign" })
   vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "GreenSign" })
-  vim.diagnostic.config({ virtual_text = true, update_in_insert = false })
+  vim.diagnostic.config({ signs = {
+                            text = {
+                              [vim.diagnostic.severity.HINT] = "",
+                              [vim.diagnostic.severity.ERROR] = "✘",
+                              [vim.diagnostic.severity.INFO] = "◉",
+                              [vim.diagnostic.severity.WARN] = "",
+                            }
+                          },
+                          virtual_text = true, update_in_insert = false })
 end
 
