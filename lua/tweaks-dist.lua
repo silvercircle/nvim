@@ -56,7 +56,7 @@ Tweaks.cmdheight = 0
 Tweaks.numberwidth = 6
 -- for relative numbers, 2 should normally be sufficient, but then 
 Tweaks.numberwidth_rel = 2
-Tweaks.signcolumn = "auto:3-5"
+Tweaks.signcolumn = "yes:3"
 
 -- valid are 'dropbar' and 'navic'. Defaults to 'navic' when unrecognized
 -- note that dropbar requires neovim 0.10 which is currently in development

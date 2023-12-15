@@ -123,7 +123,8 @@ vim.g.startify_top = {
     command = ":e ~/.config/nvim/init.vim<CR>:NvimTreeFindFile<CR>"
   }
 }
-local masonbinpath = vim.fn.stdpath('data') .. '/mason/bin/'
+local masonbasepath = vim.fn.stdpath('data') .. '/mason/'
+local masonbinpath = masonbasepath .. 'bin/'
 local localbin = vim.fn.getenv('HOME') .. '/.local/bin/'
 local homepath = vim.fn.getenv('HOME')
 
@@ -152,7 +153,7 @@ vim.g.lsp_server_bin = {
   yamlls        =   masonbinpath .. 'yaml-language-server',
   als           =   masonbinpath .. 'ada_language_server',
   jdtls         =   masonbinpath .. 'jdtls',
-  csharp_ls     =   homepath .. '/.dotnet/tools/csharp-ls',
+  csharp_ls     =   masonbasepath .. "packages/csharpls/CSharpLanguageServer",
   marksman      =   masonbinpath .. 'marksman',
   lemminx       =   masonbinpath .. 'lemminx',
   haskell       =   homepath .. '/.ghcup/hls/1.9.0.0/bin/haskell-language-server-9.4.4',
