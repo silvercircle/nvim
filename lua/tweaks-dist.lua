@@ -11,6 +11,7 @@
 -- if NO mytweaks.lua exists, then this file will be used instead, but be warned, that
 -- updating via git pull will overwrite your changes.
 local Tweaks = {}
+Tweaks.lsp = {}
 
 -- telescope field widths. These depend on the characters per line in the terminal
 -- setup. So it needs to be tweakable
@@ -21,15 +22,26 @@ Tweaks.telescope_vertical_preview_layout = {
   width = 120,
   preview_height = 15
 }
+-- the overall width for the "mini" telescope picker. These are used for LSP symbols
+-- and references.
+Tweaks.telescope_mini_picker_width = 76
+-- length of the filename in the cokeline winbar
+Tweaks.cokeline_filename_width = 25
 
 -- edit this to reflect your installation directories for lsp servers. Most will
 -- be in masonbinpath. Also supported are $HOME/.local/.bin and $HOME itself
--- for everything else, you can use full paths in 
+-- for everything else, you can use full paths in the server_bin table.
+-- for LSP servers that are in $PATH, the executable name alone should be enough.
+
+Tweaks.lsp.masonbasepath = vim.fn.stdpath('data') .. '/mason/'
+Tweaks.lsp.masonbinpath = Tweaks.lsp.masonbasepath .. 'bin/'
+Tweaks.lsp.localbin      = vim.fn.getenv('HOME') .. '/.local/bin/'
+Tweaks.lsp.homepath      = vim.fn.getenv('HOME')
+
 Tweaks.lsp = {
-  masonbasepath = vim.fn.stdpath('data') .. '/mason/',
-  masonbinpath  = Tweaks.lsp.masonbasepath .. 'bin/',
-  localbin      = vim.fn.getenv('HOME') .. '/.local/bin/',
-  homepath      = vim.fn.getenv('HOME'),
+  -- if verify is set to true, the config will, at startup, check for the
+  -- server executables to be present and warn you about missing ones.
+  verify        = false,
   server_bin = {
     phpactor      =   '/usr/local/bin/phpactor',
     rust_analyzer =   Tweaks.lsp.masonbinpath .. 'rust-analyzer',
@@ -49,7 +61,8 @@ Tweaks.lsp = {
     html          =   Tweaks.lsp.masonbinpath .. 'vscode-html-language-server',
     yamlls        =   Tweaks.lsp.masonbinpath .. 'yaml-language-server',
     als           =   Tweaks.lsp.masonbinpath .. 'ada_language_server',
-    jdtls         =   Tweaks.lsp.masonbinpath .. 'jdtls',
+    -- jdtls is unused.
+    -- jdtls         =   Tweaks.lsp.masonbinpath .. 'jdtls',
     csharp_ls     =   Tweaks.lsp.masonbasepath .. "packages/csharpls/CSharpLanguageServer",
     marksman      =   Tweaks.lsp.masonbinpath .. 'marksman',
     lemminx       =   Tweaks.lsp.masonbinpath .. 'lemminx',
@@ -62,12 +75,6 @@ Tweaks.lsp = {
     groovy        =   Tweaks.lsp.masonbinpath .. 'groovy-language-server'
   }
 }
-
--- the overall width for the "mini" telescope picker. These are used for LSP symbols
--- and references.
-Tweaks.telescope_mini_picker_width = 76
--- length of the filename in the cokeline winbar
-Tweaks.cokeline_filename_width = 25
 
 -- tweaks for the cmp autocompletion system
 Tweaks.cmp = {
@@ -88,26 +95,31 @@ Tweaks.cmp = {
 
 -- set this to "Outline" to use the symbols-outline plugin.
 -- set it to "aerial" to use the Aerial plugin.
--- this is a default, it can be switched at runtime
+-- this is a ONLY A DEFAULT, it can be switched at runtime and the setting
+-- will be remembered
 Tweaks.outline_plugin = "aerial"
 
 -- list of filetypes for which no views are created when saving or leaving the buffer
 -- by default, help files and terminals don't need views
--- you can add other filetypes here if you wish.
+-- you can add other filetypes here if you wish. This can help to declutter your
+-- statefolder/view directory.
 Tweaks.mkview_exclude = { "help", "terminal", "floaterm" }
 -- create a view when leaving a buffer.
 Tweaks.mkview_on_leave = true
 -- create a view when saving a buffer
 Tweaks.mkview_on_save = true
+-- directly affects vim.o.cmdheight
 Tweaks.cmdheight = 0
 
 -- width of line number (absolute numbers)
 Tweaks.numberwidth = 6
--- for relative numbers, 2 should normally be sufficient, but then 
+-- for relative numbers, 2 should normally be sufficient
 Tweaks.numberwidth_rel = 2
+-- 3 signs should be sufficient in most cases. If you don't mind a "jumping"
+-- signcolumn, you can use something like auto:3-5. see :h signcolumn
 Tweaks.signcolumn = "yes:3"
 
--- valid are 'dropbar' and 'navic'. Defaults to 'navic' when unrecognized
+-- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
 -- note that dropbar requires neovim 0.10 which is currently in development
 -- and only available as nightly build.
 Tweaks.breadcrumb = 'aerial'
@@ -122,15 +134,19 @@ Tweaks.fortune = {
   command = "fortune -s -n300"
 }
 
--- nvim-cmp tweak: enable ghost text with this highlight group. Set to false to
--- disable the feature.
+-- leave this alone. Do not set the environment variable unless you know what you're
+-- doing..
 Tweaks.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and true or false
 
 -- the key prefix used for various utility functions. See keymap.lua
 Tweaks.utility_key = "<C-l>"
 Tweaks.treesitter = {
+  -- disable injections which are known to slow down treesitter for a few file
+  -- types. mostly JavaScript.
   perf_tweaks = true
 }
+-- cokeline is used as a buffer line. Unless you disable it here in which case, lualine's
+-- buffer line is used.
 Tweaks.cokeline = {
   enabled = true,
   closebutton = false
