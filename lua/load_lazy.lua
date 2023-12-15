@@ -240,7 +240,7 @@ lazy.setup({
     end
   },
   'lewis6991/gitsigns.nvim',
-  { 'lukas-reineke/indent-blankline.nvim', event = "UIEnter", config = function() require("plugins.ibl") end },
+  { 'lukas-reineke/indent-blankline.nvim', event = "UIEnter", config = function() require("plugins.iblsetup") end },
   {
     'petertriho/nvim-scrollbar',
     event = "UIEnter",
