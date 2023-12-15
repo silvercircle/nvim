@@ -2,6 +2,14 @@
 -- most of this is for cosmetical or performance purpose. Other tweaks are still
 -- in config.lua and options.lua, but the goal is to have all user-tweakable options
 -- here. This is WIP.
+--
+-- how to use this file:
+-- 1. make a copy and name it mytweaks.lua
+-- 2. mytweaks can be edited and will be used instead of this file as long as it is 
+--    present. Updating the repo with git pull won't overwrite your changes.
+--
+-- if NO mytweaks.lua exists, then this file will be used instead, but be warned, that
+-- updating via git pull will overwrite your changes.
 local Tweaks = {}
 
 -- telescope field widths. These depend on the characters per line in the terminal
@@ -12,6 +20,47 @@ Tweaks.telescope_fname_width = 120
 Tweaks.telescope_vertical_preview_layout = {
   width = 120,
   preview_height = 15
+}
+
+-- edit this to reflect your installation directories for lsp servers. Most will
+-- be in masonbinpath. Also supported are $HOME/.local/.bin and $HOME itself
+-- for everything else, you can use full paths in 
+Tweaks.lsp = {
+  masonbasepath = vim.fn.stdpath('data') .. '/mason/',
+  masonbinpath  = Tweaks.lsp.masonbasepath .. 'bin/',
+  localbin      = vim.fn.getenv('HOME') .. '/.local/bin/',
+  homepath      = vim.fn.getenv('HOME'),
+  server_bin = {
+    phpactor      =   '/usr/local/bin/phpactor',
+    rust_analyzer =   Tweaks.lsp.masonbinpath .. 'rust-analyzer',
+    gopls         =   Tweaks.lsp.localbin .. 'gopls',
+    nimls         =   Tweaks.lsp.homepath .. '/.nimble/bin/nimlsp',
+    texlab        =   Tweaks.lsp.localbin .. 'texlab',
+    clangd        =   '/usr/bin/clangd',
+    dartls        =   '/opt/flutter/bin/dart',
+    vimlsp        =   Tweaks.lsp.masonbinpath .. 'vim-language-server',
+    omnisharp     =   Tweaks.lsp.masonbinpath .. 'omnisharp',
+    metals        =   '/home/alex/.local/share/coursier/bin/metals',
+    pyright       =   Tweaks.lsp.masonbinpath .. 'pyright-langserver',
+    lua_ls        =   Tweaks.lsp.masonbinpath .. 'lua-language-server',
+    serve_d       =   Tweaks.lsp.localbin .. 'serve-d',
+    cssls         =   Tweaks.lsp.masonbinpath .. 'vscode-css-language-server',
+    tsserver      =   Tweaks.lsp.masonbinpath .. 'typescript-language-server',
+    html          =   Tweaks.lsp.masonbinpath .. 'vscode-html-language-server',
+    yamlls        =   Tweaks.lsp.masonbinpath .. 'yaml-language-server',
+    als           =   Tweaks.lsp.masonbinpath .. 'ada_language_server',
+    jdtls         =   Tweaks.lsp.masonbinpath .. 'jdtls',
+    csharp_ls     =   Tweaks.lsp.masonbasepath .. "packages/csharpls/CSharpLanguageServer",
+    marksman      =   Tweaks.lsp.masonbinpath .. 'marksman',
+    lemminx       =   Tweaks.lsp.masonbinpath .. 'lemminx',
+    haskell       =   Tweaks.lsp.homepath .. '/.ghcup/hls/1.9.0.0/bin/haskell-language-server-9.4.4',
+    bashls        =   Tweaks.lsp.masonbinpath .. 'bash-language-server',
+    pylyzer       =   Tweaks.lsp.localbin .. "pylyzer",
+    taplo         =   Tweaks.lsp.masonbinpath .. 'taplo',
+    emmet         =   Tweaks.lsp.masonbinpath .. 'emmet-language-server',
+    ltex          =   "/opt/ltex/bin/ltex-ls",
+    groovy        =   Tweaks.lsp.masonbinpath .. 'groovy-language-server'
+  }
 }
 
 -- the overall width for the "mini" telescope picker. These are used for LSP symbols

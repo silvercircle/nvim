@@ -3,7 +3,7 @@
 -- when NVIM_PLAIN is set (to whatever value), the editor will start plain without a neotree and
 -- terminal split.
 local env_plain = os.getenv("NVIM_PLAIN")
-local status, tw = pcall(require, "tweaks")
+local status, tw = pcall(require, "mytweaks")
 if status == false then
   tw = require("tweaks-dist")
 end
@@ -123,47 +123,13 @@ vim.g.startify_top = {
     command = ":e ~/.config/nvim/init.vim<CR>:NvimTreeFindFile<CR>"
   }
 }
-local masonbasepath = vim.fn.stdpath('data') .. '/mason/'
-local masonbinpath = masonbasepath .. 'bin/'
-local localbin = vim.fn.getenv('HOME') .. '/.local/bin/'
-local homepath = vim.fn.getenv('HOME')
 
 -- this table holds full path information for lsp server binaries. They can be installed with mason or
 -- manually. plugins/lsp.lua does all the real work. Mason and mason-lspconfig are optional.
 -- They allow easy installation and upgrading of your lsp servers, but if you do this manually,
 -- nvim-lspconfig alone is enough for a working LSP setup.
 
-vim.g.lsp_server_bin = {
-  phpactor      =   '/usr/local/bin/phpactor',
-  rust_analyzer =   masonbinpath .. 'rust-analyzer',
-  gopls         =   localbin .. 'gopls',
-  nimls         =   homepath .. '/.nimble/bin/nimlsp',
-  texlab        =   localbin .. 'texlab',
-  clangd        =   '/usr/bin/clangd',
-  dartls        =   '/opt/flutter/bin/dart',
-  vimlsp        =   masonbinpath .. 'vim-language-server',
-  omnisharp     =   masonbinpath .. 'omnisharp',
-  metals        =   '/home/alex/.local/share/coursier/bin/metals',
-  pyright       =   masonbinpath .. 'pyright-langserver',
-  lua_ls        =   masonbinpath .. 'lua-language-server',
-  serve_d       =   localbin .. 'serve-d',
-  cssls         =   masonbinpath .. 'vscode-css-language-server',
-  tsserver      =   masonbinpath .. 'typescript-language-server',
-  html          =   masonbinpath .. 'vscode-html-language-server',
-  yamlls        =   masonbinpath .. 'yaml-language-server',
-  als           =   masonbinpath .. 'ada_language_server',
-  jdtls         =   masonbinpath .. 'jdtls',
-  csharp_ls     =   masonbasepath .. "packages/csharpls/CSharpLanguageServer",
-  marksman      =   masonbinpath .. 'marksman',
-  lemminx       =   masonbinpath .. 'lemminx',
-  haskell       =   homepath .. '/.ghcup/hls/1.9.0.0/bin/haskell-language-server-9.4.4',
-  bashls        =   masonbinpath .. 'bash-language-server',
-  pylyzer       =   localbin .. "pylyzer",
-  taplo         =   masonbinpath .. 'taplo',
-  emmet         =   masonbinpath .. 'emmet-language-server',
-  ltex          =   "/opt/ltex/bin/ltex-ls",
-  groovy        =   masonbinpath .. 'groovy-language-server'
-}
+vim.g.lsp_server_bin = tweaks.lsp.server_bin
 
 vim.g.confirm_actions = {
   exit = true,            -- ALWAYS confirm force-close (Alt-q), even when no buffers are modified
