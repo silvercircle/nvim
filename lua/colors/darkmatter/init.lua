@@ -914,6 +914,7 @@ function M.set()
     else
       vim.notify("Either the kitty socket or the kitten executable is not available", vim.log.levels.WARN)
     end
+    vim.fn.jobstart("alacritty msg config \"colors.primary.background='" .. M.theme[conf.variant].kittybg .. "'\"")
   end
   for _, v in ipairs(conf.plugins.post) do
     require("colors.darkmatter.plugins." .. v)

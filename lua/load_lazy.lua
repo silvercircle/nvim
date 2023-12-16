@@ -150,24 +150,24 @@ lazy.setup({
           require("plugins.glance")
         end
       },
---      {
---        "vigoux/notifier.nvim",
---        event = "UIEnter",
---        cond = false,
---        lazy = true,
---        config = function()
---          require("notifier").setup({
---            components = {
---              --"nvim",
---              -- "lsp"
---            },
---            notify = {
---              min_level = 0
---            }
---          })
---          -- vim.g.notifier = require("notifier")
---        end
---      },
+      --{
+      --  "vigoux/notifier.nvim",
+      --  event = "UIEnter",
+      --  cond = false,
+      --  lazy = true,
+      --  config = function()
+      --    require("notifier").setup({
+      --      components = {
+      --        --"nvim",
+      --        -- "lsp"
+      --      },
+      --      notify = {
+      --        min_level = 0
+      --      }
+      --    })
+      --    -- vim.g.notifier = require("notifier")
+      --  end
+      --},
     },
     config = function()
       require("plugins.lsp")
@@ -205,7 +205,7 @@ lazy.setup({
     end
   },
   --  { 'williamboman/mason-lspconfig.nvim' },
-  { 'tpope/vim-liquid',                    ft = "liquid" },
+  { 'tpope/vim-liquid', ft = "liquid" },
   'nvim-tree/nvim-web-devicons',
   'nvim-lua/plenary.nvim',
   {
@@ -216,9 +216,9 @@ lazy.setup({
         -- sign_priority = 8,  --set bookmark sign priority to cover other sign
         save_file = vim.fn.stdpath("state") .. "/.bookmarks", -- bookmarks save file path
         keywords = {
-          ["@t"] = "☑️ ", -- mark annotation startswith @t ,signs this icon as `Todo`
-          ["@w"] = "⚠️ ", -- mark annotation startswith @w ,signs this icon as `Warn`
-          ["@f"] = "⛏ ", -- mark annotation startswith @f ,signs this icon as `Fix`
+          ["@t"] = " ", -- mark annotation startswith @t ,signs this icon as `Todo`
+          ["@w"] = " ",  -- mark annotation startswith @w ,signs this icon as `Warn`
+          ["@f"] = " ", -- mark annotation startswith @f ,signs this icon as `Fix`
           ["@n"] = " ", -- mark annotation startswith @n ,signs this icon as `Note`
         }
       })
@@ -407,7 +407,8 @@ lazy.setup({
     config = function()
       require('ufo').setup({
         open_fold_hl_timeout = 0,
-        provider_selector = function(bufnr, filetype, buftype)
+        --provider_selector = function(bufnr, filetype, buftype)
+        provider_selector = function()
           return {'treesitter', 'indent'}
         end,
         -- fold_virt_text_handler = __Globals.ufo_virtual_text_handler,
