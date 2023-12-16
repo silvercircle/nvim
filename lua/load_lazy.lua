@@ -1,5 +1,9 @@
 local lazy = require("lazy")
 lazy.setup({
+  'sharkdp/fd',
+  'BurntSushi/ripgrep',
+  'nvim-tree/nvim-web-devicons',
+  'nvim-lua/plenary.nvim',
   {
     'nvim-lualine/lualine.nvim',
     event = "UIEnter",
@@ -191,7 +195,7 @@ lazy.setup({
           history_size = 20,
           filter = vim.log.levels.TRACE,
           configs = {
-            default = require("fidget.notification").default_config
+            --default = require("fidget.notification").default_config
           }
         }
       })
@@ -206,8 +210,6 @@ lazy.setup({
   },
   --  { 'williamboman/mason-lspconfig.nvim' },
   { 'tpope/vim-liquid', ft = "liquid" },
-  'nvim-tree/nvim-web-devicons',
-  'nvim-lua/plenary.nvim',
   {
     'tomasky/bookmarks.nvim',
     event = "UIEnter",
@@ -224,8 +226,6 @@ lazy.setup({
       })
     end
   },
-  'sharkdp/fd',
-  'BurntSushi/ripgrep',
   {
     'kevinhwang91/nvim-hlslens', event = "BufReadPre",
     config = function()
@@ -233,9 +233,6 @@ lazy.setup({
         calm_down = false,    -- set to true to clear all lenses when cursor moves 
         nearest_float_when = "never",
         nearest_only = true
-      -- this is for the nvim-scrollbar plugin. Otherwise not required.
-      --  build_position_cb = function(plist, _, _, _)
-      --    require("scrollbar.handlers.search").handler.show(plist.start_pos)
       })
     end
   },
@@ -365,27 +362,27 @@ lazy.setup({
       require("plugins.aerialsetup")
     end
   },
---  {
---    "folke/which-key.nvim",
---    keys = { "<c-h>" },
---    config = function()
---      require("which-key").setup({
---        plugins = {
---          registers = false,
---          marks = false,
---          spelling = {
---            enabled = false
---          }
---        },
---        window = {
---          border = 'single',
---        },
---        layout = {
---          height = { max = 10 }
---        }
---      })
---    end
---  },
+  --{
+  --  "folke/which-key.nvim",
+  --  keys = { "<c-h>" },
+  --  config = function()
+  --    require("which-key").setup({
+  --      plugins = {
+  --        registers = false,
+  --        marks = false,
+  --        spelling = {
+  --          enabled = false
+  --        }
+  --      },
+  --      window = {
+  --        border = 'single',
+  --      },
+  --      layout = {
+  --        height = { max = 10 }
+  --      }
+  --    })
+  --  end
+  --},
   {
     '3rd/image.nvim',
     lazy = true,

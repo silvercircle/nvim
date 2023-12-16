@@ -171,6 +171,7 @@ local conf = {
   -- color via remote control. It needs a valid unix socket and kitten executable.
   -- use setup() to set sync_kittybg to true and submit kittysocket and kittenexec.
   sync_kittybg = false,
+  sync_alacrittybg = false,
   kittysocket = nil,
   kittenexec = nil,
   -- when true, background colors will be set to none, making text area and side panels
@@ -911,10 +912,10 @@ function M.set()
         .. " set-colors background="
         .. M.theme[conf.variant].kittybg
       )
-    else
-      vim.notify("Either the kitty socket or the kitten executable is not available", vim.log.levels.WARN)
     end
-    vim.fn.jobstart("alacritty msg config \"colors.primary.background='" .. M.theme[conf.variant].kittybg .. "'\"")
+    if conf.sync_alacrittybg then
+      vim.fn.jobstart("alacritty msg config \"colors.primary.background='" .. M.theme[conf.variant].kittybg .. "'\"")
+    end
   end
   for _, v in ipairs(conf.plugins.post) do
     require("colors.darkmatter.plugins." .. v)
