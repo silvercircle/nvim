@@ -72,6 +72,7 @@ lazy.setup({
       },
       {
         'nvim-treesitter/nvim-treesitter-textobjects',
+        cond = false,
         lazy = true,
         config = function()
         end
@@ -174,8 +175,7 @@ lazy.setup({
   },
   {
     'j-hui/fidget.nvim',
-    lazy = true,
-    event = "UIEnter",
+    priorty = 9999,
     config = function()
       vim.g.notifier = require("fidget")
       require("fidget").setup({
@@ -243,7 +243,7 @@ lazy.setup({
   { 'lukas-reineke/indent-blankline.nvim', event = "UIEnter", config = function() require("plugins.iblsetup") end },
   {
     'petertriho/nvim-scrollbar',
-    event = "UIEnter",
+    event = "BufReadPre",
     config = function()
       require("plugins.nvim-scrollbar")
       __Globals.set_scrollbar()
@@ -437,4 +437,5 @@ lazy.setup({
     "scalameta/nvim-metals",
     ft = { "scala", "sbt" },
   }
+  --{ "catppuccin/nvim", name = "catppuccin", priority = 1000 }
 })

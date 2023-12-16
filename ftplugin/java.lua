@@ -1,10 +1,4 @@
------------------------------- edit the following to reflect your configuration
-local workspace_dir = "/home/alex/.cache/jdtls_workspace/"
-local jdtls_install_dir = "/home/alex/.local/share/nvim/mason/packages/jdtls/"
-local equinox_version = "1.6.600.v20231106-1826"
-local java_executable = "/usr/bin/java"
 local use_lombok = true
------------------------------- stop edit ---------------------------
 
 local lsputil = require("lspconfig.util")
 local md5 = require("local_utils.md5")
@@ -47,7 +41,7 @@ elseif project_root ~= nil and #project_root > 1 then
   project_name = md5.tohex(hash:finish())
 end
 
-workspace_dir = workspace_dir .. project_name
+local workspace_dir = vim.g.tweaks.jdtls.workspace_base .. project_name
 
 if debug then vim.notify("Project name is: " .. project_name) end
 
@@ -62,7 +56,7 @@ local config = {
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
   cmd = {
 
-    java_executable, -- or '/:path/to/java17_or_newer/bin/java'
+    vim.g.tweaks.jdtls.java_executable, -- or '/:path/to/java17_or_newer/bin/java'
     -- depends on if `java` is in your $PATH env variable and if it points to the right version.
 
     "-Declipse.application=org.eclipse.jdt.ls.core.id1",
@@ -80,13 +74,13 @@ local config = {
     "-XX:MaxHeapFreeRatio=85",
     "-XX:ConcGCThreads=2",
     "-XX:ParallelGCThreads=2",
-    use_lombok and "-javaagent:" .. jdtls_install_dir .. "lombok.jar" or "",
-    use_lombok and "-Xbootclasspath/a:" .. jdtls_install_dir .. "lombok.jar" or "",
+    use_lombok and "-javaagent:" .. vim.g.tweaks.jdtls.jdtls_install_dir .. "lombok.jar" or "",
+    use_lombok and "-Xbootclasspath/a:" .. vim.g.tweaks.jdtls.jdtls_install_dir .. "lombok.jar" or "",
     "--add-modules=ALL-SYSTEM",
     "--add-opens", "java.base/java.util=ALL-UNNAMED",
     "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-    "-jar", jdtls_install_dir .. "plugins/org.eclipse.equinox.launcher_" .. equinox_version .. ".jar",
-    "-configuration", jdtls_install_dir .. "config_linux",
+    "-jar", vim.g.tweaks.jdtls.jdtls_install_dir .. "plugins/org.eclipse.equinox.launcher_" .. vim.g.tweaks.jdtls.equinox_version .. ".jar",
+    "-configuration", vim.g.tweaks.jdtls.jdtls_install_dir .. vim.g.tweaks.jdtls.config,
     "-data", workspace_dir
   },
 

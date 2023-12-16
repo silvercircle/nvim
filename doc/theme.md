@@ -25,4 +25,8 @@ The theme is called **Darkmatter** and provides the following features:
 * Treesitter and LSP semantic tokens support. Support for some 3rd party syntax plugins is included or 
   can be added by theme plugins.
 
+* optionally, sync the background color when using the Kitty terminal.
+
+## Configuration
+
 

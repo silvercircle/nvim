@@ -45,7 +45,8 @@ require('plugins.default')
 require('keymap')
 EOB
 
-set guifont=Iosevka\ Mayukai\ Sonata\ Medium:h11:#e-subpixelantialias:#h-full
+" set guifont=JetBrains\ Mono\ Medium:h9:#e-subpixelantialias:#h-full
+" let g:neovide_fullscreen = v:true
 
 run macros/justify.vim
 filetype on

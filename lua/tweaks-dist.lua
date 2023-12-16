@@ -159,6 +159,13 @@ Tweaks.theme = {
 }
 Tweaks.tree = "Nvim"
 
+Tweaks.jdtls = {
+  workspace_base = "/home/alex/.cache/jdtls_workspace/",
+  java_executable = "/usr/bin/java",
+  jdtls_install_dir = "/home/alex/.local/share/nvim/mason/packages/jdtls/",
+  equinox_version = "1.6.600.v20231106-1826",
+  config = "config_linux"
+}
 -- a list of filename patterns that define a project root. This will be used as some kind of
 -- fallback when no other means of finding a project's root are successfull. This is highly
 -- incomplete and inaccurate, but you can expand this with whatever you want.
