@@ -206,6 +206,7 @@ local conf = {
       method       = { },               -- class methods
       staticmethod = { italic = true },
       member       = { },               -- class member (=field)
+      staticmember = { italic = true },
       operator     = { bold = true },   -- operators
       delim        = { bold = true },   -- delimiters
       brace        = { bold = true },   -- braces, brackets, parenthesis
@@ -232,6 +233,7 @@ local conf = {
       method       = { },               -- class methods
       staticmethod = { italic = true },
       member       = { },               -- class member (=field)
+      staticmember = { italic = true },
       operator     = { bold = true },   -- operators
       delim        = { bold = true },   -- delimiters
       brace        = { bold = true },   -- braces, brackets, parenthesis
@@ -629,6 +631,7 @@ local function set_all()
   M.hl("Method", M.localtheme.brightteal, M.palette.none, conf.attrib.method)
   M.hl("StaticMethod", M.localtheme.brightteal, M.palette.none, conf.attrib.staticmethod)
   M.hl("Member", M.localtheme.orange, M.palette.none, conf.attrib.member)
+  M.hl("StaticMember", M.localtheme.orange, M.palette.none, conf.attrib.staticmember)
   M.hl("Builtin", M.palette.bg_blue, M.palette.none, conf.attrib.bold)
 
   M.hl("Title", M.localtheme.red, M.palette.none, conf.attrib.bold)
@@ -817,7 +820,9 @@ local function set_all()
   M.link("@lsp.type.qualifier", "@type.qualifier")
   M.link("@lsp.type.field", "Member")
   M.link("@lsp.type.property", "Member")
+  M.link("@lsp.type.operator", "Operator")
   M.link("@lsp.typemod.method.static", "StaticMethod")
+  M.link("@lsp.typemod.property.static", "StaticMember")
   M.link("@lsp.mod.defaultLibrary", "Function")
 
 
