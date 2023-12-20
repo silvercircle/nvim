@@ -400,7 +400,7 @@ lazy.setup({
   },
   {
     'kevinhwang91/nvim-ufo',
-    --cond = false,
+    cond = false,
     --event = "UIEnter",
     config = function()
       require('ufo').setup({

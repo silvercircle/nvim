@@ -836,7 +836,6 @@ local function set_all()
   M.link("@lsp.typemod.property.static", "StaticMember")
   M.link("@lsp.mod.defaultLibrary", "Function")
 
-
   M.link("FloatermBorder", "Grey")
   M.link("BookmarkSign", "BlueSign")
   M.link("BookmarkAnnotationSign", "GreenSign")
