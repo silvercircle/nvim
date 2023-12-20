@@ -142,9 +142,9 @@ cmp.setup({
         buffer = "Buffer",
         nvim_lsp = "LSP",
         nvim_lua = "Lua",
+        nvim_lsp_signature_help = "Signature",
         latex_symbols = "Latex",
       })[entry.source.name] or string.format("%s", entry.source.name)
-
       -- highlight groups for item.menu
       vim_item.menu_hl_group = ({
         buffer = "CmpItemMenuBuffer",

@@ -233,7 +233,7 @@ function Utils.StopLsp()
     local entry = Utils.rpad(tostring(client["id"]), 10, " ")
       .. Utils.rpad(client["name"], 20, " ")
       .. Utils.rpad(count .. " Buffer(s)  ", 15, " ")
-      .. Utils.rpad(vim.fn.fnamemodify(client["config"]["cmd"][1], ":t"), 40, " ")
+      .. (type(client["config"]["cmd"]) == "table" and Utils.rpad(vim.fn.fnamemodify(client["config"]["cmd"][1], ":t"), 40, " ") or client["name"])
     table.insert(entries, entry)
   end
   local pickers = require("telescope.pickers")
