@@ -35,6 +35,7 @@ local basepalette = {
     purple = { "#b39df3", 176 },
     grey_dim = { "#595f6f", 240 },
     selfg = { "#cccc20", 233 },
+    brown = { "#905010", 233 },
     none = { "NONE", "NONE" },
   },
   light = {
@@ -53,6 +54,7 @@ local basepalette = {
     purple = { "#b39df3", 176 },
     grey_dim = { "#595f6f", 240 },
     selfg = { "#cccc20", 233 },
+    brown = { "#704010", 233 },
     none = { "NONE", "NONE" },
   }
 }
@@ -632,7 +634,7 @@ local function set_all()
   M.hl("StaticMethod", M.localtheme.brightteal, M.palette.none, conf.attrib.staticmethod)
   M.hl("Member", M.localtheme.orange, M.palette.none, conf.attrib.member)
   M.hl("StaticMember", M.localtheme.orange, M.palette.none, conf.attrib.staticmember)
-  M.hl("Builtin", M.palette.bg_blue, M.palette.none, conf.attrib.bold)
+  M.hl("Builtin", M.palette.brown, M.palette.none, conf.attrib.bold)
 
   M.hl("Title", M.localtheme.red, M.palette.none, conf.attrib.bold)
   M.hl_with_defaults("Tag", M.localtheme.orange, M.palette.none)
@@ -768,7 +770,7 @@ local function set_all()
   M.link("@constructor", "Yellow")
   M.link("@exception", "Exception")
   M.link("@field", "Member")
-  M.link("@float", "Purple")
+  M.link("@float", "Number")
   M.link("@function", "Teal")
   M.link("@function.builtin", "Builtin")
   M.link("@function.macro", "TealBold")
@@ -810,18 +812,27 @@ local function set_all()
   M.link("@text.emphasis.latex", "Emphasis")
 
   -- semantic lsp types
+  M.link("@lsp.type.namespace_name", "Type")
   M.link("@lsp.type.parameter", "@parameter")
   M.link("@lsp.type.variable", "@variable")
   M.link("@lsp.type.selfKeyword", "Builtin")
   M.link("@lsp.type.method", "Method")
   M.link("@lsp.type.class", "Class")
+  M.link("@lsp.type.class_name", "Class")
   M.link("@lsp.type.structure", "Structure")
   M.link("@lsp.type.interface", "Interface")
   M.link("@lsp.type.qualifier", "@type.qualifier")
   M.link("@lsp.type.field", "Member")
   M.link("@lsp.type.property", "Member")
+  M.link("@lsp.type.fieldName", "Member")
+  M.link("@lsp.type.property_name", "Member")
+  M.link("@lsp.type.field_name", "Member")
   M.link("@lsp.type.operator", "Operator")
+  M.link("@lsp.type.enum_name", "Structure")
+  M.link("@lsp.type.enum_member_name", "Constant")
   M.link("@lsp.typemod.method.static", "StaticMethod")
+  M.link("@lsp.typemod.method_name.static_symbol", "StaticMethod")
+  M.link("@lsp.typemod.property.static", "StaticMember")
   M.link("@lsp.typemod.property.static", "StaticMember")
   M.link("@lsp.mod.defaultLibrary", "Function")
 

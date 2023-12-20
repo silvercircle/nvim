@@ -315,19 +315,19 @@ lspconfig.yamlls.setup({
   }
 })
 
-lspconfig.csharp_ls.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-  handlers = {
-    ["textDocument/definition"] = require('csharpls_extended').handler
-  },
-  cmd = { vim.g.lsp_server_bin['csharp_ls'] },
-  root_dir = util.root_pattern('*.sln', '*.csproj', '*.fsproj', '.git'),
-  filetypes = { 'cs' },
-  init_options = {
-    AutomaticWorkspaceInit = true,
-  }
-})
+--lspconfig.csharp_ls.setup({
+--  on_attach = on_attach,
+--  capabilities = capabilities,
+--  handlers = {
+--    ["textDocument/definition"] = require('csharpls_extended').handler
+--  },
+--  cmd = { vim.g.lsp_server_bin['csharp_ls'] },
+--  root_dir = util.root_pattern('*.sln', '*.csproj', '*.fsproj', '.git'),
+--  filetypes = { 'cs' },
+--  init_options = {
+--    AutomaticWorkspaceInit = true,
+--  }
+--})
 
 -- python pyright
 lspconfig.pyright.setup({
@@ -484,6 +484,7 @@ end
 ------------------
 if vim.diagnostic then
   vim.diagnostic.config({
+    update_in_insert = false,
     -- No virtual text (distracting!), show popup window on hover.
     virtual_text = true,
     underline = {

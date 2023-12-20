@@ -137,7 +137,8 @@ lazy.setup({
     lazy = true,
     event = { "LspAttach" },
     dependencies = {
-      'Decodetalkers/csharpls-extended-lsp.nvim',
+      --'Hoffs/omnisharp-extended-lsp.nvim',
+      --'Decodetalkers/csharpls-extended-lsp.nvim',
       'onsails/lspkind-nvim',
       {
         'Bekaboo/dropbar.nvim',
@@ -434,6 +435,26 @@ lazy.setup({
   {
     "scalameta/nvim-metals",
     ft = { "scala", "sbt" },
+  },
+  {
+    'kkoomen/vim-doge',
+    lazy = true,
+    ft = { "lua", "cs", "java" },
+    config = function()
+      -- vim.cmd("call doge#install()")
+    end
+  },
+  {
+    'jmederosalvarado/roslyn.nvim',
+    lazy = true,
+    ft = { "cs" },
+    config = function()
+      require("roslyn").setup({
+        roslyn_version = "4.9.0-3.23604.10",
+        on_attach = function()
+        end,
+        capabilities = __Globals.get_lsp_capabilities()
+      })
+    end
   }
-  --{ "catppuccin/nvim", name = "catppuccin", priority = 1000 }
 })
