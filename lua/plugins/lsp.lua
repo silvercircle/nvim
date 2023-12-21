@@ -87,7 +87,7 @@ local clangd_root_files = {
   'configure.ac', -- AutoTools
 }
 lspconfig.clangd.setup({
-  cmd = { 'clangd', "--header-insertion-decorators" },
+  cmd = { 'clangd', "--header-insertion-decorators", "--malloc-trim", "--background-index", "--pch-storage=memory" },
   filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
   root_dir = function(fname)
     return util.root_pattern(unpack(clangd_root_files))(fname) or util.find_git_ancestor(fname)

@@ -451,7 +451,10 @@ lazy.setup({
     config = function()
       require("roslyn").setup({
         roslyn_version = "4.9.0-3.23604.10",
-        on_attach = function()
+        on_attach = function(client, bufnr)
+          if Config.breadcrumb == 'navic' then
+            require("nvim-navic").attach(client, bufnr)
+          end
         end,
         capabilities = __Globals.get_lsp_capabilities()
       })

@@ -142,6 +142,7 @@ cmp.setup({
         buffer = "Buffer",
         nvim_lsp = "LSP",
         nvim_lua = "Lua",
+        wordlist = "Wordlist translation",
         nvim_lsp_signature_help = "Signature",
         latex_symbols = "Latex",
       })[entry.source.name] or string.format("%s", entry.source.name)
