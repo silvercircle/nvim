@@ -437,6 +437,7 @@ lspconfig.groovyls.setup {
 -- require("lsp.jdtls")
 -- require("lsp.pylyzer")
 -- require("lsp.omnisharp")
+-- require("lsp.roslyn")
 -- require("lsp.hls")      -- hls (haskell)
 -------------------------
 -- LSP Handlers (general)

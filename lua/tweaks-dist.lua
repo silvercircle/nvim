@@ -72,7 +72,8 @@ Tweaks.lsp = {
     taplo         =   Tweaks.lsp.masonbinpath .. 'taplo',
     emmet         =   Tweaks.lsp.masonbinpath .. 'emmet-language-server',
     ltex          =   "/opt/ltex/bin/ltex-ls",
-    groovy        =   Tweaks.lsp.masonbinpath .. 'groovy-language-server'
+    groovy        =   Tweaks.lsp.masonbinpath .. 'groovy-language-server',
+    roslyn        =   vim.fn.stdpath("data") .. "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll"
   }
 }
 
