@@ -28,7 +28,6 @@ local basepalette = {
     bg_blue = { "#75a3f2", 110 },
     diff_blue = { "#253147", 17 },
     diff_yellow = { "#4e432f", 54 },
-    fg_dim = { "#92908c", 251 },
     deepred = { "#8b2d3c", 203 },
     darkyellow = { "#a78624", 180 },
     olive = { "#708422", 181 },
@@ -47,7 +46,6 @@ local basepalette = {
     bg_blue = { "#75a3f2", 110 },
     diff_blue = { "#a0a0bb", 17 },
     diff_yellow = { "#4e432f", 54 },
-    fg_dim = { "#101010", 251 },
     deepred = { "#8b2d3c", 203 },
     darkyellow = { "#a78624", 180 },
     olive = { "#708422", 181 },
@@ -101,6 +99,7 @@ M.basetheme = {
       gutterbg = "#101013",
       kittybg = "#18181c",
       fg = "#a2a0ac",
+      fg_dim = "#909096"
     },
     warm = {
       statuslinebg = "#2a2626",
@@ -109,6 +108,7 @@ M.basetheme = {
       gutterbg = "#131010",
       kittybg = "#1b1818",
       fg = "#aaa0a5",
+      fg_dim = "#969090"
     },
     deepblack = {
       statuslinebg = "#222228",
@@ -117,6 +117,7 @@ M.basetheme = {
       gutterbg = "#0f0f0f",
       kittybg = "#111111",
       fg = "#a2a0ac",
+      fg_dim = "#828282"
     }
   },
   light = {
@@ -453,6 +454,7 @@ local function configure()
   M.localtheme.accent = { M.theme["accent_color"], 209 }
   M.localtheme.accent_fg = { M.theme["accent_fg"], 210 }
   M.localtheme.tablinebg = { M.cokeline_colors["bg"], 214 }
+  M.localtheme.fg_dim = { M.theme[conf.variant].fg_dim, 2 }
 
   if conf.scheme == "dark" then
     if conf.variant == "cold" or conf.variant == "deepblack" then
@@ -649,9 +651,9 @@ local function set_all()
   M.hl_with_defaults("Fg", M.localtheme.fg, M.palette.none)
   M.hl("FgBold", M.localtheme.fg, M.palette.none, conf.attrib.bold)
   M.hl("FgItalic", M.localtheme.fg, M.palette.none, conf.attrib.italic)
-  M.hl_with_defaults("FgDim", M.palette.fg_dim, M.palette.none)
-  M.hl("FgDimBold", M.palette.fg_dim, M.palette.none, conf.attrib.bold)
-  M.hl("FgDimBoldItalic", M.palette.fg_dim, M.palette.none, conf.attrib.bolditalic)
+  M.hl_with_defaults("FgDim", M.localtheme.fg_dim, M.palette.none)
+  M.hl("FgDimBold", M.localtheme.fg_dim, M.palette.none, conf.attrib.bold)
+  M.hl("FgDimBoldItalic", M.localtheme.fg_dim, M.palette.none, conf.attrib.bolditalic)
   M.hl_with_defaults("Grey", M.palette.grey, M.palette.none)
   M.hl_with_defaults("Red", M.localtheme.red, M.palette.none)
   M.hl("RedBold", M.localtheme.red, M.palette.none, conf.attrib.bold)

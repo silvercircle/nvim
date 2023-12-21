@@ -68,9 +68,9 @@ c.link("CmpItemKindMethod", "CmpItemKindFunction")
 
 c.hl_with_defaults("TelescopeBorder", c.localtheme.accent, c.localtheme.bg_dim)
 c.hl_with_defaults("TelescopePromptBorder", c.localtheme.accent, c.localtheme.bg_dim)
-c.hl_with_defaults("TelescopeNormal", c.palette.fg_dim, c.localtheme.bg_dim)
+c.hl_with_defaults("TelescopeNormal", c.localtheme.fg_dim, c.localtheme.bg_dim)
 c.hl("TelescopeTitle", c.localtheme.accent_fg, c.localtheme.accent, conf.attrib.bold)
-c.hl("TelescopePromptNormal", c.palette.fg_dim, c.localtheme.bg_dim, conf.attrib.bold)
+c.hl("TelescopePromptNormal", c.localtheme.fg_dim, c.localtheme.bg_dim, conf.attrib.bold)
 c.hl("TelescopeMatching", c.palette.deepred, c.palette.none, conf.attrib.bold)
 
 c.link("MiniPickBorder", "TelescopeBorder")
