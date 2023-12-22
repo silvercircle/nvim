@@ -116,8 +116,8 @@ M.basetheme = {
       treebg = "#121212",
       gutterbg = "#0f0f0f",
       kittybg = "#111111",
-      fg = "#a2a0ac",
-      fg_dim = "#828282"
+      fg = "#b0b0b0",
+      fg_dim = "#959595"
     }
   },
   light = {
@@ -352,7 +352,7 @@ local function configure()
           red = { "#bb4d5c", 203 },
           yellow = { "#aaaa20", 231 },
           green = { "#309020", 232 },
-          blue = { "#8a8adf", 239 },
+          blue = { "#6060cf", 239 },
           purple = { "#904090", 241 },
           storage = { "#607560", 242 },
           class = { "#905070", 243 },
@@ -809,7 +809,7 @@ local function set_all()
   M.link("@type.qualifier", "StorageClass")
   M.link("@uri", "URI")
   M.link("@text.uri", "URI")
-  M.link("@variable", "FgDim")
+  M.link("@variable", conf.desaturate == true and "FgDim" or "Fg")
   M.link("@variable.builtin", "Builtin")
   M.link("@text.emphasis.latex", "Emphasis")
 
@@ -880,6 +880,7 @@ local function set_all()
   M.hl_with_defaults("NeoTreeFloatBorder", M.palette.grey_dim, M.palette.neotreebg)
   M.hl("NeoTreeFileNameOpened", M.localtheme.blue, M.palette.neotreebg, conf.attrib.italic)
   M.hl_with_defaults("SymbolsOutlineConnector", M.localtheme.bg4, M.palette.none)
+  M.link("NvimTreeIndentMarker", "SymbolsOutlineConnector")
   M.hl_with_defaults("NotifierTitle", M.localtheme.yellow, M.palette.none)
   M.link("NotifierContent", "NeoTreeNormalNC")
 

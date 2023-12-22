@@ -1,5 +1,12 @@
 local show_close = vim.g.tweaks.cokeline.closebutton
-
+local version = vim.version()
+local buildinfo = ' Neovim ' .. version.major .. "." .. version.minor .. "." .. version.patch
+if type(version.build) == "string" then
+  buildinfo = buildinfo .. "-" .. version.build
+end
+if type(version.prerelease) == "string" then
+  buildinfo = buildinfo .. "-" .. version.prerelease
+end
 -- devicons for lua plugins (e.g. Telescope, neotree, nvim-tree among others  need them)
 require("nvim-web-devicons").setup({
   override = {
@@ -47,7 +54,7 @@ require('cokeline').setup({
     filetype = treename,
     components = {
       {
-        text = '  File Explorer',
+        text = buildinfo,
         bg = vim.g.cokeline_bg,
         style = 'bold',
       },

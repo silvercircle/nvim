@@ -40,6 +40,22 @@ local conditions = {
     g = "󰖗 Showers",
     k = "󰖓 Thunderstorm",
   },
+  CC = {
+    c = "󰖕 Partly Cloudy",
+    a = "󰖙 Clear",
+    e = "󰖐 Cloudy",
+    f = "󰖐 Cloudy",
+    j = "󰖖 Rain",
+    o = "󰼶 Snow",
+    w = "󰼶 Snow",
+    g = "󰖗 Showers",
+    k = "󰖓 Thunderstorm",
+    x = " Sleet/Drizzle",
+    ['0'] = " Fog",
+    ['9'] = " Wind",
+    ['2'] = " Strong wind",
+    ['3'] = " Strong wind",
+  }
 }
 
 -- folding modes (translate foldmethod to readable terms)
@@ -338,7 +354,7 @@ local function wind_to_hl(wind)
   elseif w < 25 then
     return "Orange"
   elseif w < 50 then
-    return "PaleRed"
+    return "DeepRed"
   elseif w < 70 then
     return "Red"
   else
@@ -528,7 +544,7 @@ function Wsplit.refresh()
         table.insert(lines, "  ")
         table.insert(lines, Wsplit.prepare_line(" Temp: " .. results["3"], "Feels: " .. results["16"], 0))
         table.insert(lines, Wsplit.prepare_line(" Min:  " .. results["29"], "Max:   " .. results["30"], 0))
-        table.insert(lines, Wsplit.prepare_line(" Dew:  " .. results["17"], " " .. results["21"], 0))
+        table.insert(lines, Wsplit.prepare_line(" Dew:  " .. results["17"], " " .. results["21"], 1))
         table.insert(lines, Wsplit.prepare_line(" API:  " .. results["37"], " " .. results["31"], 0))
         table.insert(
           lines,
