@@ -220,14 +220,14 @@ autocmd({ 'FileType' }, {
       "silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=\\ \\ Outline" ..
       "\\ (" ..
       __Globals.perm_config.outline_filetype ..
-      ") | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | hi nCursor blend=0")
+      ") | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:TreeCursorLine | hi nCursor blend=0")
       -- aerial can set its own statuscolumn
       if args.match == 'Outline' then
         vim.cmd("silent! setlocal statuscolumn=")
       end
       vim.api.nvim_win_set_width(0, __Globals.perm_config.outline.width)
     elseif args.match == "DressingSelect" then
-      vim.cmd("setlocal winhl=CursorLine:Visual | hi nCursor blend=100")
+      vim.cmd("setlocal winhl=CursorLine:TreeCursorLine | hi nCursor blend=100")
     elseif args.match == "DressingInput" then
       vim.cmd("hi nCursor blend=0")
     elseif args.match == "mail" then
@@ -288,7 +288,7 @@ autocmd({ 'WinEnter' }, {
 
     local filetype = vim.bo.filetype
     if vim.tbl_contains(enter_leave_filetypes, filetype) then
-      vim.cmd("setlocal winhl=CursorLine:Visual,Normal:NeoTreeNormalNC | hi nCursor blend=100")
+      vim.cmd("setlocal winhl=CursorLine:TreeCursorLine,Normal:NeoTreeNormalNC | hi nCursor blend=100")
     end
     -- HACK: NvimTree and outline windows will complain about the buffer being not modifiable
     -- when insert mode is active. So stop it and remember its state

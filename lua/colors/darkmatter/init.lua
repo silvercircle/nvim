@@ -258,7 +258,7 @@ local conf = {
   -- change it.
   callback = nil,
   custom_colors = {
-    '#ff0000', '#00ff00', '#0000ff', '#ff00ff'
+    '#ff0000', '#00ff00', '#202060', '#ff00ff'
   },
   -- plugins. there are 3 kinds of plugins:
   -- customize: executed after configure() but before colors are set. Allows
@@ -514,7 +514,7 @@ local function set_all()
   M.hl("Operator", M.localtheme.special[conf.special.operator], M.palette.none, conf.attrib.operator)
   M.hl("PunctDelim", M.localtheme.special[conf.special.delim], M.palette.none, conf.attrib.delim)
   M.hl("PunctSpecial", M.localtheme.special[conf.special.delim], M.palette.none, conf.attrib.bold)
-  M.hl_with_defaults("ScrollView", M.localtheme.teal, M.localtheme.blue)
+  M.hl_with_defaults("ScrollView", M.localtheme.teal, M.localtheme.special.c3)
   M.hl_with_defaults("Normal", M.localtheme.fg, M.localtheme.bg)
   M.hl_with_defaults("Accent", M.localtheme.black, M.localtheme.accent)
   M.hl_with_defaults("Terminal", M.localtheme.fg, M.palette.neotreebg)
@@ -879,8 +879,8 @@ local function set_all()
   M.hl_with_defaults("NeoTreeNormal", M.localtheme.fg, M.palette.neotreebg)
   M.hl_with_defaults("NeoTreeFloatBorder", M.palette.grey_dim, M.palette.neotreebg)
   M.hl("NeoTreeFileNameOpened", M.localtheme.blue, M.palette.neotreebg, conf.attrib.italic)
-  M.hl_with_defaults("SymbolsOutlineConnector", M.localtheme.bg4, M.palette.none)
-  M.link("NvimTreeIndentMarker", "SymbolsOutlineConnector")
+  M.hl_with_defaults("SymbolsOutlineConnector", M.palette.grey_dim, M.palette.none)
+  M.hl_with_defaults("TreeCursorLine", M.localtheme.fg_dim, M.localtheme.special.c3)
   M.hl_with_defaults("NotifierTitle", M.localtheme.yellow, M.palette.none)
   M.link("NotifierContent", "NeoTreeNormalNC")
 
@@ -888,9 +888,9 @@ local function set_all()
   M.hl_with_defaults("TreesitterContext", M.palette.none, M.localtheme.bg)
   --M.hl("TreesitterContextBottom", M.palette.none, M.localtheme.bg, { underline=true, sp=M.palette.purple[1] })
   M.link("TreesitterContextSeparator", "Type")
-  M.link("NvimTreeIndentMarker", "SymbolsOutlineConnector")
   M.link("OutlineGuides", "SymbolsOutlineConnector")
-  M.link("NeoTreeCursorLine", "Visual")
+  M.link("OutlineFoldMarker", "SymbolsOutlineConnector")
+  M.link("NeoTreeCursorLine", "TreeCursorLine")
   M.link("AerialGuide", "SymbolsOutlineConnector")
 
   -- WinBar

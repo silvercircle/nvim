@@ -57,6 +57,7 @@ require('cokeline').setup({
         text = buildinfo,
         bg = vim.g.cokeline_bg,
         style = 'bold',
+        fg = "Yellow",
       },
     }
   },
