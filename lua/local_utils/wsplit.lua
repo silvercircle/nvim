@@ -45,6 +45,7 @@ local conditions = {
     a = "󰖙 Clear",
     e = "󰖐 Cloudy",
     f = "󰖐 Cloudy",
+    d = "󰖐 Mostly Cloudy",
     j = "󰖖 Rain",
     o = "󰼶 Snow",
     w = "󰼶 Snow",

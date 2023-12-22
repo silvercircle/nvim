@@ -162,7 +162,7 @@ cmp.setup({
         -- The details info hide the name of lsp server, but mostly we'll have one LSP
         -- per filetype, and we use special highlights so it's OK to hide it..
         local detail_txt = (function(cmp_item)
-          if not cmp_item.detail then
+          if not cmp_item.detail or lspserver_name == "omnisharp" then
             return nil
           end
           if lspserver_name == "pyright" and cmp_item.detail == "Auto-import" then

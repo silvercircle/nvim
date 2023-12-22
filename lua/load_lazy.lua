@@ -137,7 +137,7 @@ lazy.setup({
     lazy = true,
     event = { "LspAttach" },
     dependencies = {
-      --'Hoffs/omnisharp-extended-lsp.nvim',
+      'Hoffs/omnisharp-extended-lsp.nvim',
       --'Decodetalkers/csharpls-extended-lsp.nvim',
       'onsails/lspkind-nvim',
       {
@@ -444,20 +444,20 @@ lazy.setup({
       -- vim.cmd("call doge#install()")
     end
   },
-  {
-    'jmederosalvarado/roslyn.nvim',
-    lazy = true,
-    ft = { "cs" },
-    config = function()
-      require("roslyn").setup({
-        roslyn_version = "4.9.0-3.23604.10",
-        on_attach = function(client, bufnr)
-          if Config.breadcrumb == 'navic' then
-            require("nvim-navic").attach(client, bufnr)
-          end
-        end,
-        capabilities = __Globals.get_lsp_capabilities()
-      })
-    end
-  }
+  --{
+  --  'jmederosalvarado/roslyn.nvim',
+  --  lazy = true,
+  --  ft = { "cs" },
+  --  config = function()
+  --    require("roslyn").setup({
+  --      roslyn_version = "4.9.0-3.23604.10",
+  --      on_attach = function(client, bufnr)
+  --        if Config.breadcrumb == 'navic' then
+  --          require("nvim-navic").attach(client, bufnr)
+  --        end
+  --      end,
+  --      capabilities = __Globals.get_lsp_capabilities()
+  --    })
+  --  end
+  --}
 })
