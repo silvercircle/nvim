@@ -137,8 +137,8 @@ lazy.setup({
     lazy = true,
     event = { "LspAttach" },
     dependencies = {
-      'Hoffs/omnisharp-extended-lsp.nvim',
-      --'Decodetalkers/csharpls-extended-lsp.nvim',
+      'Hoffs/omnisharp-extended-lsp.nvim',          -- omnisharp decompilation support
+      --'Decodetalkers/csharpls-extended-lsp.nvim', -- this is for csharp_ls decompilation support
       'onsails/lspkind-nvim',
       {
         'Bekaboo/dropbar.nvim',
@@ -444,6 +444,18 @@ lazy.setup({
       -- vim.cmd("call doge#install()")
     end
   },
+  {
+    "folke/trouble.nvim",
+      event = "LspAttach",
+      config = function()
+        require("trouble").setup({
+          position = "bottom",
+          height = 15,
+          width = 50
+        })
+      end
+  }
+
   --{
   --  'jmederosalvarado/roslyn.nvim',
   --  lazy = true,

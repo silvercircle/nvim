@@ -62,12 +62,19 @@ autocmd({ 'UIEnter' }, {
       -- keep track of tree/outline window widths
       autocmd({ "WinClosed", "WinResized" }, {
         callback = function(sizeevent)
-          if __Globals.term.winid ~= nil then
-            __Globals.perm_config.terminal.height = vim.api.nvim_win_get_height(__Globals.term.winid)
-          end
           require("local_utils.usplit").resize_or_closed()
           -- require("local_utils.wsplit").resize_or_closed()
+          if sizeevent.event == "WinClosed" then
+            local id = sizeevent.match
+            local status, target = pcall(vim.api.nvim_win_get_var, tonumber(id), "termheight")
+            if status and __Globals.term.winid ~= nil then
+              vim.schedule(function() vim.api.nvim_win_set_height(__Globals.term.winid, tonumber(target)) end)
+            end
+          end
           if sizeevent.event == "WinResized" then
+            if __Globals.term.winid ~= nil then
+              __Globals.perm_config.terminal.height = vim.api.nvim_win_get_height(__Globals.term.winid)
+            end
             wsplit.set_minheight()
             wsplit.refresh()
             local status = __Globals.is_outline_open()
@@ -211,7 +218,7 @@ local conceal_pattern = { "markdown", "telekasten", "liquid" }
 
 -- generic FileType handler adressing common actions
 autocmd({ 'FileType' }, {
-  pattern = { "aerial", "Outline", "DressingSelect", "DressingInput", "query", "mail", "qf", "replacer",
+  pattern = { "aerial", "Outline", "DressingSelect", "DressingInput", "query", "mail", "qf", "replacer", "Trouble",
     'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go',
     "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
@@ -245,6 +252,10 @@ autocmd({ 'FileType' }, {
         vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber")
       end
       vim.api.nvim_win_set_height(__Globals.term.winid, __Globals.perm_config.terminal.height)
+    elseif args.match == "Trouble" then
+      if __Globals.term.winid ~= nil then
+        vim.api.nvim_win_set_var(0, "termheight", __Globals.perm_config.terminal.height)
+      end
     elseif vim.tbl_contains(tabstop_pattern, args.match) then
       vim.cmd(
       "setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal fo-=c")
@@ -318,3 +329,4 @@ autocmd({ 'WinLeave' }, {
   end,
   group = agroup_hl
 })
+
