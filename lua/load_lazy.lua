@@ -451,8 +451,13 @@ lazy.setup({
         require("trouble").setup({
           position = "bottom",
           height = 15,
-          width = 50
+          width = 50,
+          action_keys = {
+            open_tab = { }
+          }
         })
+        vim.cmd("hi TroubleText guibg=NONE")
+        vim.cmd("hi TroubleLocation guibg=NONE")
       end
   }
 

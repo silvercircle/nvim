@@ -2,6 +2,8 @@
 local actions = require("telescope.actions")
 local actionset = require("telescope.actions.set")
 local actionstate = require("telescope.actions.state")
+local trouble = require("trouble.providers.telescope")
+
 -- local actions_fb = require("telescope").extensions.file_browser.actions
 -- local themes = require("telescope.themes")
 
@@ -91,16 +93,18 @@ require("telescope").setup({
     disable_devicons = false,
     mappings = {
       i = {
+        ["<C-t>"] = trouble.open_with_trouble,
         ["<CR>"] = stopinsert_ins(actions.select_default),
         ["<C-x>"] = stopinsert(actions.select_horizontal),
         ["<C-v>"] = stopinsert(actions.select_vertical),
-        ["<C-t>"] = stopinsert(actions.select_tab),
+        ["<A-t>"] = stopinsert(actions.select_tab),
         -- remap C-Up and C-Down to scroll the previewer by one line
         ["<C-Up>"] = function(prompt_bufnr) actionset.scroll_previewer(prompt_bufnr, -1) end,
         ["<C-Down>"] = function(prompt_bufnr) actionset.scroll_previewer(prompt_bufnr, 1) end,
         ['<C-c>'] = function(prompt_bufnr) close_insertmode(prompt_bufnr) end
       },
       n = {
+        ["<c-t>"] = trouble.open_with_trouble,
         ['<esc>'] = function(prompt_bufnr) close_insertmode(prompt_bufnr) end
       }
     }

@@ -117,9 +117,9 @@ require("lualine").setup({
     component_separators = "│", -- {left = "", right = "" },
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
-    disabled_filetypes = {
-      statusline = { "Outline", 'terminal', 'query', 'qf', 'BufList', 'sysmon', 'weather', "NvimTree", "aerial" },
-      winbar = { 'Outline', 'terminal', 'query', 'qf', 'NvimTree', 'alpha', 'BufList', 'sysmon', 'weather', 'aerial' },
+      disabled_filetypes = {
+      statusline = { "Outline", 'terminal', 'query', 'qf', 'BufList', 'sysmon', 'weather', "NvimTree", "aerial", "Trouble" },
+      winbar = { 'Outline', 'terminal', 'query', 'qf', 'NvimTree', 'alpha', 'BufList', 'sysmon', 'weather', 'aerial', 'Trouble' },
       tabline = {},
     },
     -- ignore_focus = {'NvimTree'},

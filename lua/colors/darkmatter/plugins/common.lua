@@ -103,3 +103,5 @@ c.link("GitSignsAddInline", "Visual")
 c.link("GitSignsChangeInline", "Visual")
 c.link("GitSignsDeleteInline", "Visual")
 
+c.link("TroubleNormal", "NeoTreeNormalNC")
+

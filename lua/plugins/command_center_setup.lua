@@ -203,9 +203,13 @@ command_center.add({
     category = "@LSP (Telescope)"
   },
   {
-    desc = "Run diagnostics",
-    cmd = function() _tb.diagnostics({ bufnr = 0, layout_config = { height = 0.6, width = 0.8, preview_width = 0.5 } }) end,
-    keys = { "n", "te", noremap },
+    desc = "Run diagnostics (workspace)",
+    cmd = function() _tb.diagnostics(__Telescope_vertical_dropdown_theme({
+      prompt_prefix = lutils.getTelescopePromptPrefix(),
+      root_dir = lutils.getroot_current()
+    }))
+    end,
+    keys = { { "n", "i" }, "<C-t>d", noremap },
     category = "@LSP"
   },
   {
