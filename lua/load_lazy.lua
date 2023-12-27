@@ -289,6 +289,16 @@ lazy.setup({
     end
   },
   {
+    'nvim-neo-tree/neo-tree.nvim',
+    cond = vim.g.tweaks.tree == "Neo",
+    config = function()
+      require("plugins.neotree")
+    end,
+    dependencies = {
+      'MunifTanjim/nui.nvim'
+    }
+  },
+  {
     'renerocksai/telekasten.nvim',
     lazy = true,
     ft = { "telekasten", "markdown" },

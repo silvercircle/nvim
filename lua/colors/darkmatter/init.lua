@@ -157,6 +157,7 @@ M.basetheme = {
 -- after changing the configuration configure() must be called before the theme
 -- can be activated with set()
 local conf = {
+  disabled = false,
   scheme = "dark",
   -- color variant. as of now, 3 types are supported:
   -- a) "warm" - the default, a medium-dark grey background with a slightly red-ish tint.
@@ -938,6 +939,11 @@ function M.set()
   for _, v in ipairs(conf.plugins.post) do
     require("colors.darkmatter.plugins." .. v)
   end
+end
+
+function M.disable()
+  conf.disabled = true
+  vim.cmd("hi! link NeoTreeNormalNC NeoTreeNormal")
 end
 
 local supported_variants = { "warm", "cold", "deepblack" }

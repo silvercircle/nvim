@@ -28,7 +28,7 @@ local cookie_timer_interval = 300000
 local autocmd_set = false -- remember whether the OptionSet autocmd has been set
 
 -- this translates condition codes (single letters) to actual readable conditions. This is API specific
--- and right now only implemented for the VC API (visual crossing)
+-- and right now only implemented for the VC (visual crossing) and CC (tomorrow.io, formerly climacell)
 -- this also requires a NERD font.
 local conditions = {
   VC = {

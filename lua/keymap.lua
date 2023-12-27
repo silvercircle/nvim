@@ -5,6 +5,7 @@ local opts = { noremap = true, silent = true }
 local utils = require('local_utils')
 local utility_key = vim.g.tweaks.utility_key
 local trouble = require("trouble")
+local treename = vim.g.tweaks.tree == "Neo" and "neo-tree" or "NvimTree"
 
 --- peform a key press
 --- @param key string a key sequence
@@ -29,11 +30,13 @@ kms({ "n", "i" }, "<C-l>", "<NOP>", opts)
 -- disable <ins> toggling the (annoying) replace mode. Instead use <c-ins> to switch to replace
 map("i", "<ins>", "<nop>", opts)
 
-_Config_SetKey({'n', 'v'}, '<leader>r', function() perform_command('NvimTreeFindFile') end, "Sync NvimTree with current Buffer")
-_Config_SetKey('n', '<leader>,', function() require('nvim-tree.api').tree.toggle() end, "Toggle NvimTree")
+if vim.g.tweaks.tree == "Nvim" then
+  _Config_SetKey({'n', 'v'}, '<leader>r', function() perform_command('NvimTreeFindFile') end, "Sync NvimTree with current Buffer")
+  _Config_SetKey('n', '<leader>,', function() require('nvim-tree.api').tree.toggle() end, "Toggle NvimTree")
 
-_Config_SetKey('n', '<leader>R', function() require('nvim-tree.api').tree.change_root(utils.getroot_current()) end, "Change NvimTree cwd to current project root")
-_Config_SetKey('n', '<leader>nr', function() require('nvim-tree.api').tree.change_root(vim.fn.expand('%:p:h')) end, "Change NvimTree cwd to current Buffer's dir")
+  _Config_SetKey('n', '<leader>R', function() require('nvim-tree.api').tree.change_root(utils.getroot_current()) end, "Change NvimTree cwd to current project root")
+  _Config_SetKey('n', '<leader>nr', function() require('nvim-tree.api').tree.change_root(vim.fn.expand('%:p:h')) end, "Change NvimTree cwd to current Buffer's dir")
+end
 
 map('n', '<C-Tab>', '<CMD>bnext<CR>', opts)
 map('n', '<leader><Tab>', '<CMD>bnext<CR>', opts)
@@ -245,7 +248,7 @@ end, "Telescope command palette")
 
 -- quick-focus the four main areas
 _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-1>', function()
-  __Globals.findbufbyType('NvimTree')
+  __Globals.findbufbyType(treename)
 end, "Focus NvimTree") -- Nvim-tree
 
 _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-2>', function()

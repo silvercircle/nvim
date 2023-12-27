@@ -9,6 +9,7 @@ local usplit = require("local_utils.usplit")
 local tsc = require("treesitter-context")
 local utils = require("local_utils")
 local marks = require("local_utils.marks")
+local treeft = vim.g.tweaks.tree == "Neo" and "neo-tree" or "NvimTree"
 
 -- local ibl = require('indent_blankline')
 
@@ -52,7 +53,7 @@ autocmd({ 'UIEnter' }, {
     __Globals.main_winid = vim.fn.win_getid()
     if Config.plain == false then
       if __Globals.perm_config.tree.active == true then
-        require('nvim-tree.api').tree.toggle({ focus = false })
+        __Globals.open_tree()
       end
       if __Globals.perm_config.terminal.active == true then
         __Globals.termToggle(__Globals.perm_config.terminal.height)
@@ -78,7 +79,7 @@ autocmd({ 'UIEnter' }, {
             wsplit.set_minheight()
             wsplit.refresh()
             local status = __Globals.is_outline_open()
-            local tree = __Globals.findwinbyBufType("NvimTree")
+            local tree = __Globals.findwinbyBufType(treeft)
             if status.outline ~= 0 then
               __Globals.perm_config.outline.width = vim.api.nvim_win_get_width(status.outline)
             end
@@ -285,7 +286,7 @@ autocmd({ 'CmdLineEnter' }, {
 
 -- filetypes for left, right and bottom splits. They are meant to have a different background
 -- color and no cursor
-local enter_leave_filetypes = { "DressingSelect", "aerial", "Outline", "NvimTree" }
+local enter_leave_filetypes = { "DressingSelect", "aerial", "Outline", "NvimTree", "neo-tree" }
 local old_mode
 
 autocmd({ 'WinEnter' }, {
@@ -303,7 +304,7 @@ autocmd({ 'WinEnter' }, {
     end
     -- HACK: NvimTree and outline windows will complain about the buffer being not modifiable
     -- when insert mode is active. So stop it and remember its state
-    if filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial" then
+    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial" then
       old_mode = vim.api.nvim_get_mode().mode
       vim.cmd.stopinsert()
     end
@@ -320,7 +321,7 @@ autocmd({ 'WinLeave' }, {
     end
     -- HACK: restore the insert mode if it was active when changing to the NvimTree or outline
     -- split.
-    if filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial" then
+    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial" then
       if old_mode == 'i' then
         old_mode = ''
         vim.cmd.startinsert()

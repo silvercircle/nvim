@@ -61,7 +61,7 @@ require("neo-tree").setup({
     highlight_tab_active = "Accent",
     highlight_background = "StatusLine",
     highlight_separator = "StatusLine",
-    highlight_separator_active = "Accent",
+    highlight_separator_active = "StatusLine",
   },
   default_component_configs = {
     container = {
@@ -228,9 +228,11 @@ require("neo-tree").setup({
   event_handlers = {
     {
       event = "neo_tree_window_after_open",
-      handler = function(_)
-        vim.cmd("silent! setlocal statuscolumn=")
-      end
+      handler = function(_) __Globals.tree_open_handler() end
+    },
+    {
+      event = "neo_tree_window_after_close",
+      handler = function() __Globals.tree_close_handler() end
     }
   },
   buffers = {

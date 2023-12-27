@@ -1,6 +1,5 @@
 --- global functions for my Neovim configuration
 local colors = Config.theme
-
 local M = {}
 
 M.winid_bufferlist = 0
@@ -96,6 +95,44 @@ function M.open_outline()
     vim.cmd("OutlineOpen")
   elseif M.perm_config.outline_filetype == "aerial" then
     require("aerial").open()
+  end
+end
+
+function M.open_tree()
+  if vim.g.tweaks.tree == "Nvim" then
+    require('nvim-tree.api').tree.toggle({ focus = false })
+  else
+    require("neo-tree.command").execute({
+      action = "focus",
+      source = "filesystem",
+      position = "left"
+    })
+  end
+end
+
+function M.tree_open_handler()
+  local wsplit = require("local_utils.wsplit")
+  vim.opt.statuscolumn = ''
+  local w = vim.fn.win_getid()
+  vim.api.nvim_win_set_option(w, 'statusline', '   NvimTree')
+  vim.cmd('setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual')
+  vim.api.nvim_win_set_width(w, __Globals.perm_config.tree.width)
+  __Globals.adjust_layout()
+  if __Globals.perm_config.weather.active == true then
+    wsplit.content = __Globals.perm_config.weather.content
+    if wsplit.winid == nil then
+      wsplit.openleftsplit(Config.weather.file)
+    end
+  end
+end
+
+function M.tree_close_handler()
+  local wsplit = require("local_utils.wsplit")
+  wsplit.close()
+  wsplit.winid = nil
+  __Globals.adjust_layout()
+  if __Globals.term.winid ~= nil then
+    vim.api.nvim_win_set_height(__Globals.term.winid, __Globals.term.height)
   end
 end
 
@@ -291,7 +328,7 @@ end
 --- @return number: the window id, 0 if the process failed
 function M.splittree(_factor)
   local factor = math.abs((_factor ~= nil and _factor > 0) and _factor or 0.33)
-  local winid = M.findwinbyBufType("NvimTree")
+  local winid = M.findwinbyBufType(vim.g.tweaks.tree == "Neo" and "neo-tree" or "NvimTree")
   if #winid > 0 then
     local splitheight
     if factor < 1 then
@@ -412,7 +449,7 @@ function M.write_config()
       },
       blist = blist_id ~= nil and true or false,
       tree = {
-        active = #M.findwinbyBufType("NvimTree") > 0 and true or false,
+        active = #M.findwinbyBufType(vim.g.tweaks.tree == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
       },
       theme_variant = theme_conf.variant,
       theme_desaturate = theme_conf.desaturate,
@@ -471,7 +508,7 @@ end
 --- configuration.
 --- @param what string: description what has changed
 function M.theme_callback(what)
-  local conf = colors.get_conf()
+  local conf = Config.theme.get_conf()
   if what == 'variant' then
     M.perm_config.theme_variant = conf.variant
     M.notify("Theme variant is now: " .. conf.variant, vim.log.levels.INFO, "Theme")
