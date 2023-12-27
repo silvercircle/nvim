@@ -23,10 +23,11 @@ local function perform_command(cmd)
   vim.cmd(cmd)
 end
 
-kms({ 'n', 'i' }, '<C-c>', '<NOP>', opts)
-kms({ 'n', 'i' }, '<C-l>', '<NOP>', opts)
+kms({ "n", "i" }, "<C-c>", "<NOP>", opts)
+kms({ "n", "i" }, "<C-l>", "<NOP>", opts)
+
 -- disable <ins> toggling the (annoying) replace mode. Instead use <c-ins> to switch to replace
-map('i', '<ins>', '<nop>', opts)
+map("i", "<ins>", "<nop>", opts)
 
 _Config_SetKey({'n', 'v'}, '<leader>r', function() perform_command('NvimTreeFindFile') end, "Sync NvimTree with current Buffer")
 _Config_SetKey('n', '<leader>,', function() require('nvim-tree.api').tree.toggle() end, "Toggle NvimTree")

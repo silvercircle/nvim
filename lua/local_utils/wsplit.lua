@@ -42,6 +42,7 @@ local conditions = {
   },
   CC = {
     c = "󰖕 Partly Cloudy",
+    b = "󰖕 Mostly Clear",
     a = "󰖙 Clear",
     e = "󰖐 Cloudy",
     f = "󰖐 Cloudy",

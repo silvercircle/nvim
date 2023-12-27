@@ -5,8 +5,8 @@ require("aerial").setup({
   -- This can be a filetype map (see :help aerial-filetype-map)
   backends = {
     ['_'] = { "lsp", "treesitter" },
-    markdown = { "markdown" },
-    cs = { "treesitter" }
+    markdown = { "markdown" }
+    --cs = { "treesitter" }
   },
 
   layout = {

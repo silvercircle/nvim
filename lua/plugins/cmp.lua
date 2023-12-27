@@ -1,4 +1,5 @@
 -- nvim-cmp: completion support
+local utils = require("local_utils")
 local cmp_helper = {}
 -- file types that allow buffer indexing for the cmp_buffer source
 
@@ -101,7 +102,7 @@ cmp.setup({
     ["<Esc>"] = cmp.mapping.close(), -- ESC close complete popup. Feels more natural than <C-e>
     ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp_types.SelectBehavior.Select }),
     ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp_types.SelectBehavior.Select }),
-    ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
+    ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
     ["<Tab>"] = { -- see GH-880, GH-897
       i = function(fallback) -- see GH-231, GH-286
         if cmp.visible() then
@@ -163,13 +164,12 @@ cmp.setup({
         -- per filetype, and we use special highlights so it's OK to hide it..
         local detail_txt = (function(cmp_item)
           if not cmp_item.detail then
-            if lspserver_name == "omnisharp" then
-              return "OmniSharp"
-            end
             return nil
           end
+          -- OmniSharp sometimes provides details (e.g. for overloaded operators). So leave some
+          -- space for them.
           if lspserver_name == "omnisharp" then
-            return cmp_item.detail .. "OmniSharp"
+            return #cmp_item.detail > 0 and utils.rpad(string.sub(cmp_item.detail, 1, 8), 10, " ") .. "OmniSharp" or "          OmniSharp"
           end
           if lspserver_name == "pyright" and cmp_item.detail == "Auto-import" then
             local label = (cmp_item.labelDetails or {}).description
