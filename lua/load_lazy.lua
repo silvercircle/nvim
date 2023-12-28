@@ -154,17 +154,6 @@ lazy.setup({
   { 'preservim/vim-markdown',     ft = "markdown" },
   'echasnovski/mini.move',
   {
-    'renerocksai/telekasten.nvim',
-    lazy = true,
-    ft = { "telekasten", "markdown" },
-    dependencies = {
-      { 'renerocksai/calendar-vim' },
-    },
-    config = function()
-      require("plugins.telekasten_setup")
-    end
-  },
-  {
     'folke/todo-comments.nvim',
     event = "BufReadPre",
     config = function()
