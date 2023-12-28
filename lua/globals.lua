@@ -1,5 +1,4 @@
 --- global functions for my Neovim configuration
-local colors = Config.theme
 local M = {}
 
 M.winid_bufferlist = 0
@@ -98,44 +97,6 @@ function M.open_outline()
   end
 end
 
-function M.open_tree()
-  if vim.g.tweaks.tree == "Nvim" then
-    require('nvim-tree.api').tree.toggle({ focus = false })
-  else
-    require("neo-tree.command").execute({
-      action = "show",
-      source = "filesystem",
-      position = "left"
-    })
-  end
-end
-
-function M.tree_open_handler()
-  local wsplit = require("local_utils.wsplit")
-  vim.opt.statuscolumn = ''
-  local w = vim.fn.win_getid()
-  vim.api.nvim_win_set_option(w, 'statusline', '   ' .. (vim.g.tweaks.tree == "Neo" and "NeoTree" or "NvimTree"))
-  vim.cmd('setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
-  vim.api.nvim_win_set_width(w, __Globals.perm_config.tree.width)
-  __Globals.adjust_layout()
-  if __Globals.perm_config.weather.active == true then
-    wsplit.content = __Globals.perm_config.weather.content
-    if wsplit.winid == nil then
-      wsplit.openleftsplit(Config.weather.file)
-    end
-  end
-end
-
-function M.tree_close_handler()
-  local wsplit = require("local_utils.wsplit")
-  wsplit.close()
-  wsplit.winid = nil
-  __Globals.adjust_layout()
-  if __Globals.term.winid ~= nil then
-    vim.api.nvim_win_set_height(__Globals.term.winid, __Globals.term.height)
-  end
-end
-
 --- close the outline window
 function M.close_outline()
   if M.perm_config.outline_filetype == "Outline" then
@@ -170,6 +131,50 @@ function M.toggle_outline_type()
     M.perm_config.outline_filetype = "aerial"
   end
   M.notify("Now using " .. M.perm_config.outline_filetype, vim.log.levels.INFO)
+end
+
+--- open the tree (file manager tree on the left). It can be either NvimTree
+--- or NeoTree
+function M.open_tree()
+  if vim.g.tweaks.tree == "Nvim" then
+    require('nvim-tree.api').tree.toggle({ focus = false })
+  else
+    require("neo-tree.command").execute({
+      action = "show",
+      source = "filesystem",
+      position = "left"
+    })
+  end
+end
+
+--- called by the event handler in NvimTree or NeoTree to inidicate that
+--- the file tree has been opened.
+function M.tree_open_handler()
+  local wsplit = require("local_utils.wsplit")
+  vim.opt.statuscolumn = ''
+  local w = vim.fn.win_getid()
+  vim.api.nvim_win_set_option(w, 'statusline', '   ' .. (vim.g.tweaks.tree == "Neo" and "NeoTree" or "NvimTree"))
+  vim.cmd('setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
+  vim.api.nvim_win_set_width(w, __Globals.perm_config.tree.width)
+  __Globals.adjust_layout()
+  if __Globals.perm_config.weather.active == true then
+    wsplit.content = __Globals.perm_config.weather.content
+    if wsplit.winid == nil then
+      wsplit.openleftsplit(Config.weather.file)
+    end
+  end
+end
+
+--- called by the event handler in NvimTree or NeoTree to inidicate that
+--- the file tree was opened.
+function M.tree_close_handler()
+  local wsplit = require("local_utils.wsplit")
+  wsplit.close()
+  wsplit.winid = nil
+  __Globals.adjust_layout()
+  if __Globals.term.winid ~= nil then
+    vim.api.nvim_win_set_height(__Globals.term.winid, __Globals.term.height)
+  end
 end
 
 --- set the statuscol to either normal or relative line numbers
@@ -495,7 +500,7 @@ function M.restore_config()
     M.perm_config = M.perm_config_default
   end
   -- configure the theme
-  colors.setup({ scheme = M.perm_config.theme_scheme, variant = M.perm_config.theme_variant,
+  Config.theme.setup({ scheme = M.perm_config.theme_scheme, variant = M.perm_config.theme_variant,
                  desaturate = M.perm_config.theme_desaturate, dlevel = M.perm_config.theme_dlevel,
                  theme_strings = M.perm_config.theme_strings, is_trans = M.perm_config.transbg,
                  sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
