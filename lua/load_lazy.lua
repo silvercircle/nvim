@@ -64,18 +64,7 @@ lazy.setup({
     lazy = true,
     event = { "LspAttach" },
     dependencies = {
-      'Hoffs/omnisharp-extended-lsp.nvim',          -- omnisharp decompilation support
-      --'Decodetalkers/csharpls-extended-lsp.nvim', -- this is for csharp_ls decompilation support
       'onsails/lspkind-nvim',
-      {
-        'Bekaboo/dropbar.nvim',
-        cond = Config.breadcrumb == 'dropbar' and vim.fn.has("nvim-0.10") == 1,
-        event = "LspAttach",
-        config = function()
-          require("plugins.dropbar")
-        end
-      },
-      { 'SmiteshP/nvim-navic', lazy = true, cond = Config.breadcrumb == 'navic', event = "LspAttach" },
       {
         'dnlhc/glance.nvim',
         config = function()
