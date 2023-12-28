@@ -4,7 +4,6 @@ local kms = vim.keymap.set
 local opts = { noremap = true, silent = true }
 local utils = require('local_utils')
 local utility_key = vim.g.tweaks.utility_key
-local trouble = require("trouble")
 
 --- peform a key press
 --- @param key string a key sequence
@@ -352,16 +351,6 @@ _Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'zt', function()
   require("cmp_wordlist").add_cword_with_translation()
 end, "Add current word with translation to wordlist")
 
-_Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'wt', function()
-  require("local_utils.wsplit").toggle_content()
-end, "Toggle weather/info content")
-_Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'st', function()
-  require("local_utils.usplit").toggle_content()
-end, "Toggle sysmon/fortune content")
-_Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'sr', function()
-  require("local_utils.usplit").refresh_cookie()
-end, "Fortune refresh cookie")
-
 -- toggle the display of single-letter status indicators in the winbar.
 _Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'wb', function()
   __Globals.perm_config.show_indicators = not __Globals.perm_config.show_indicators
@@ -399,10 +388,6 @@ _Config_SetKey({ 'n', 'i', 'v' }, "<C-x>o",
     end
   end, "Sync Outline view")
 
-_Config_SetKey({ 'n', 'i' }, "<C-t>t", function() trouble.open() end, "Toggle Trouble window")
-_Config_SetKey({ 'n', 'i' }, "<C-t>q", function() trouble.close() end, "Toggle Trouble window")
-_Config_SetKey({ 'n', 'i' }, "<C-t><Down>", function() trouble.next({skip_groups = true, jump = true}) end, "Trouble next item")
-_Config_SetKey({ 'n', 'i' }, "<C-t><Up>", function() trouble.previous({skip_groups = true, jump = true}) end, "Trouble previous item")
 require("local_utils.marks").set_keymaps()
 
 

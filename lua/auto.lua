@@ -4,9 +4,6 @@
 local autocmd = vim.api.nvim_create_autocmd
 local agroup_views = vim.api.nvim_create_augroup("views", {})
 local agroup_hl = vim.api.nvim_create_augroup("hl", {})
-local wsplit = require("local_utils.wsplit")
-local usplit = require("local_utils.usplit")
-local tsc = require("treesitter-context")
 local utils = require("local_utils")
 local marks = require("local_utils.marks")
 
@@ -51,50 +48,11 @@ autocmd({ 'UIEnter' }, {
     did_UIEnter = true
     __Globals.main_winid = vim.fn.win_getid()
     if Config.plain == false then
-      if __Globals.perm_config.tree.active == true then
-        require('nvim-tree.api').tree.toggle({ focus = false })
-      end
-      if __Globals.perm_config.terminal.active == true then
-        __Globals.termToggle(__Globals.perm_config.terminal.height)
-      end
       -- create the WinResized watcher to keep track of the terminal split height.
       -- also call the resize handlers for the usplit/wsplit frames.
       -- keep track of tree/outline window widths
       autocmd({ "WinClosed", "WinResized" }, {
         callback = function(sizeevent)
-          require("local_utils.usplit").resize_or_closed()
-          -- require("local_utils.wsplit").resize_or_closed()
-          if sizeevent.event == "WinClosed" then
-            local id = sizeevent.match
-            local status, target = pcall(vim.api.nvim_win_get_var, tonumber(id), "termheight")
-            if status and __Globals.term.winid ~= nil then
-              vim.schedule(function() vim.api.nvim_win_set_height(__Globals.term.winid, tonumber(target)) end)
-            end
-          end
-          if sizeevent.event == "WinResized" then
-            if __Globals.term.winid ~= nil then
-              __Globals.perm_config.terminal.height = vim.api.nvim_win_get_height(__Globals.term.winid)
-            end
-            wsplit.set_minheight()
-            wsplit.refresh()
-            local status = __Globals.is_outline_open()
-            local tree = __Globals.findwinbyBufType("NvimTree")
-            if status.outline ~= 0 then
-              __Globals.perm_config.outline.width = vim.api.nvim_win_get_width(status.outline)
-            end
-            if status.aerial ~= 0 then
-              __Globals.perm_config.outline.width = vim.api.nvim_win_get_width(status.aerial)
-            end
-            if __Globals.perm_config.outline.width < Config.outline_width then
-              __Globals.perm_config.outline.width = Config.outline_width
-            end
-            if #tree > 0 and tree[1] ~= nil then
-              __Globals.perm_config.tree.width = vim.api.nvim_win_get_width(tree[1])
-              if __Globals.perm_config.tree.width < Config.filetree_width then
-                __Globals.perm_config.tree.width = Config.filetree_width
-              end
-            end
-          end
         end,
         group = agroup_views
       })
@@ -117,13 +75,6 @@ autocmd({ 'UIEnter' }, {
       --      if globals.perm_config.blist == true then
       --require("local_utils.blist").open(true, 0, globals.perm_config.blist_height)
       --      end
-      if __Globals.perm_config.weather.active == true then
-        wsplit.content = __Globals.perm_config.weather.content
-        wsplit.content_set_winid(__Globals.main_winid)
-      end
-      if __Globals.perm_config.sysmon.active then
-        usplit.content = __Globals.perm_config.sysmon.content
-      end
       if __Globals.perm_config.transbg == true then
         Config.theme.set_bg()
       end
@@ -161,19 +112,7 @@ autocmd({ 'bufwinleave' }, {
 autocmd({ 'BufEnter' }, {
   pattern = "*",
   callback = function(args)
-    if vim.api.nvim_buf_get_option(args.buf, "buftype") == '' then
-      local val = __Globals.get_buffer_var(args.buf, "tsc")
-      if val == true then
-        vim.schedule(function() tsc.enable() end)
-      else
-        vim.schedule(function() tsc.disable() end)
-      end
-    end
     __Globals.get_bufsize()
-    wsplit.content_set_winid(vim.fn.win_getid())
-    if wsplit.content == 'info' then
-      vim.schedule(function() wsplit.refresh() end)
-    end
     marks.BufWinEnterHandler(args) -- update marks in sign column
   end,
   group = agroup_views
@@ -183,7 +122,6 @@ autocmd({ 'BufEnter' }, {
 autocmd({ 'bufread' }, {
   pattern = "*",
   callback = function(args)
-    vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then
       vim.cmd("silent! loadview")
     end
@@ -291,11 +229,6 @@ local old_mode
 autocmd({ 'WinEnter' }, {
   pattern = '*',
   callback = function()
-    wsplit.content_set_winid(vim.fn.win_getid())
-    if wsplit.content == 'info' then
-      __Globals.get_bufsize()
-      vim.schedule(function() wsplit.refresh() end)
-    end
 
     local filetype = vim.bo.filetype
     if vim.tbl_contains(enter_leave_filetypes, filetype) then

@@ -120,14 +120,6 @@ require("gitsigns").setup({
   },
 })
 
-require 'colorizer'.setup {
-  'css';
-  'scss';
-  html = {
-    mode = 'foreground';
-  }
-}
-
 require('mini.move').setup()
 
 -- support a textwidth property in editorconfig files
