@@ -546,7 +546,7 @@ function Wsplit.refresh()
         table.insert(lines, "  ")
         table.insert(lines, Wsplit.prepare_line(" Temp: " .. results["3"], "Feels: " .. results["16"], 0))
         table.insert(lines, Wsplit.prepare_line(" Min:  " .. results["29"], "Max:   " .. results["30"], 0))
-        table.insert(lines, Wsplit.prepare_line(" Dew:  " .. results["17"], " " .. results["21"], 1))
+        table.insert(lines, Wsplit.prepare_line(" Dew:  " .. results["17"], " " .. results["21"], 0))
         table.insert(lines, Wsplit.prepare_line(" API:  " .. results["37"], " " .. results["31"], 0))
         table.insert(
           lines,

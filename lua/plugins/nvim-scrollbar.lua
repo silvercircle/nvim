@@ -98,6 +98,8 @@ require("scrollbar").setup({
     "alpha",
     "lspinfo",
     "NvimTree",
+    "neo-tree",
+    "neo-tree-popup",
     "cmp_menu",
     "cmp_docs",
     "weather",

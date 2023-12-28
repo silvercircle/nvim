@@ -158,7 +158,7 @@ Tweaks.theme = {
   kittenexec = "kitten",
   kittysocket = "/tmp/mykittysocket"
 }
-Tweaks.tree = "Nvim"
+Tweaks.tree = "Neo"
 
 Tweaks.jdtls = {
   workspace_base = "/home/alex/.cache/jdtls_workspace/",

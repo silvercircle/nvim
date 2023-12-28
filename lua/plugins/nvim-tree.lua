@@ -309,3 +309,9 @@ end)
 api.events.subscribe(Event.TreeClose, function(_)
   __Globals.tree_close_handler()
 end)
+
+_Config_SetKey({'n', 'v'}, '<leader>r', function() vim.cmd('NvimTreeFindFile') end, "Sync NvimTree with current Buffer")
+_Config_SetKey('n', '<leader>,', function() require('nvim-tree.api').tree.toggle() end, "Toggle NvimTree")
+
+_Config_SetKey('n', '<leader>R', function() require('nvim-tree.api').tree.change_root(utils.getroot_current()) end, "Change NvimTree cwd to current project root")
+_Config_SetKey('n', '<leader>nr', function() require('nvim-tree.api').tree.change_root(vim.fn.expand('%:p:h')) end, "Change NvimTree cwd to current Buffer's dir")

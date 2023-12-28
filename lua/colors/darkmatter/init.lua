@@ -876,7 +876,7 @@ local function set_all()
   M.link("GlanceListCursorLine", "Visual")
 
   -- allow neotree and other addon panels have different backgrounds
-  M.hl_with_defaults("NeoTreeNormalNC", M.localtheme.fg, M.palette.neotreebg)
+  M.hl_with_defaults("NeoTreeNormalNC", M.localtheme.fg_dim, M.palette.neotreebg)
   M.hl_with_defaults("NeoTreeNormal", M.localtheme.fg, M.palette.neotreebg)
   M.hl_with_defaults("NeoTreeFloatBorder", M.palette.grey_dim, M.palette.neotreebg)
   M.hl("NeoTreeFileNameOpened", M.localtheme.blue, M.palette.neotreebg, conf.attrib.italic)

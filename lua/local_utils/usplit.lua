@@ -118,7 +118,6 @@ function Usplit.open()
   local wid = __Globals.findwinbyBufType("terminal")
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   local ver = vim.version()
-  local verstr = "  nvim: " .. ver.major .. "." .. ver.minor .. "." .. ver.patch
   -- glances must be executable otherwise do nothing
   -- also, a terminal split must be present.
   if not vim.fn.executable("glances") then
@@ -135,14 +134,14 @@ function Usplit.open()
           .. " --time 3"
       )
       Usplit.winid = vim.fn.win_getid()
-      vim.api.nvim_win_set_option(Usplit.winid, "statusline", "  System Monitor" .. verstr)
+      vim.api.nvim_win_set_option(Usplit.winid, "statusline", "  System Monitor")
     elseif Usplit.content == "fortune" then
       vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(wid[1]), "modifiable", true)
       vim.cmd("rightbelow " .. width .. " vsplit new")
       vim.cmd("setlocal buftype=nofile")
       Usplit.winid = vim.fn.win_getid()
       --vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(wid[1]), "buftype", "nofile")
-      vim.api.nvim_win_set_option(Usplit.winid, "statusline", "󰈙 Fortune cookie" .. verstr)
+      vim.api.nvim_win_set_option(Usplit.winid, "statusline", "󰈙 Fortune cookie")
       vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(wid[1]), "modifiable", false)
     end
     vim.schedule(function()

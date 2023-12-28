@@ -1,14 +1,13 @@
 require("neo-tree").setup({
   sources = {
     "filesystem",
-    "buffers",
-    "git_status",
+    --"git_status",
   },
   close_floats_on_escape_key = true,
-  add_blank_line_at_top = true,
+  add_blank_line_at_top = false,
   close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
   popup_border_style = "single",
-  enable_git_status = false,
+  enable_git_status = true,
   use_popups_for_input = false,
   enable_diagnostics = true,
   sort_case_insensitive = false, -- used when sorting files and directories in the tree
@@ -22,7 +21,7 @@ require("neo-tree").setup({
   --   end , -- this sorts files and directories descendantly
   source_selector = {
     winbar = false, -- toggle to show selector on winbar
-    statusline = true, -- toggle to show selector on statusline
+    statusline = false, -- toggle to show selector on statusline
     show_scrolled_off_parent_node = false, -- this will replace the tabs with the parent path
     -- of the top visible node when scrolled down.
     tab_labels = { -- falls back to source_name if nil
@@ -47,7 +46,7 @@ require("neo-tree").setup({
     padding = 0, -- can be int or table
     -- padding = { left = 2, right = 0 },
     -- separator = "▕", -- can be string or table, see below
-    separator = { left = "▏", right = "▕" },
+    separator = { left = "", right = "" },
     -- separator = { left = "/", right = "\\", override = nil },     -- |/  a  \/  b  \/  c  \...
     -- separator = { left = "/", right = "\\", override = "right" }, -- |/  a  \  b  \  c  \...
     -- separator = { left = "/", right = "\\", override = "left" },  -- |/  a  /  b  /  c  /...
@@ -254,7 +253,7 @@ require("neo-tree").setup({
   },
   git_status = {
     window = {
-      position = "float",
+      position = "left",
       mappings = {
         ["A"] = "git_add_all",
         ["gu"] = "git_unstage_file",
@@ -267,3 +266,9 @@ require("neo-tree").setup({
     },
   },
 })
+
+local nc = require("neo-tree.command")
+_Config_SetKey({'n', 'v'}, '<leader>r', function() nc.execute( {action="focus", reveal=true, reveal_force_cwd=true, source="filesystem" } ) end, "Change NvimTree cwd to current project root")
+_Config_SetKey('n', '<leader>,', function() nc.execute( {action="focus", toggle=true, position="left"}) end, "Toggle NvimTree")
+_Config_SetKey('n', '<leader>R', function() nc.execute( {action="focus", reveal=true, reveal_force_cwd=true, source="filesystem" } ) end, "Change NvimTree cwd to current project root")
+_Config_SetKey('n', '<leader>nr', function() require('nvim-tree.api').tree.change_root(vim.fn.expand('%:p:h')) end, "Change NvimTree cwd to current Buffer's dir")
