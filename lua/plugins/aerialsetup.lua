@@ -241,10 +241,10 @@ require("aerial").setup({
   nerd_font = "auto",
 
   -- Call this function when aerial attaches to a buffer.
-  on_attach = function(bufnr) end,
+  on_attach = function(_) end,
 
   -- Call this function when aerial first sets symbols on a buffer.
-  on_first_symbols = function(bufnr) end,
+  on_first_symbols = function(_) end,
 
   -- Automatically open aerial when entering supported buffers.
   -- This can be a function (see :help aerial-open-automatic)

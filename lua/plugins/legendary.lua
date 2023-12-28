@@ -1,4 +1,3 @@
-local lutils = require("local_utils")
 local _t = require("telescope")
 local _tb = require("telescope.builtin")
 local lsputil = require('lspconfig.util')
@@ -136,7 +135,6 @@ require('legendary').setup({
     -- Make arbitrary Lua functions that can be executed via the item finder
     {
       function()
-        doSomeStuff()
       end,
       description = 'Do some stuff with a Lua function!',
     },
