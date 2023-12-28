@@ -268,7 +268,7 @@ require("neo-tree").setup({
 })
 
 local nc = require("neo-tree.command")
-_Config_SetKey({'n', 'v'}, '<leader>r', function() nc.execute( {action="focus", reveal=true, reveal_force_cwd=true, source="filesystem" } ) end, "Change NvimTree cwd to current project root")
+_Config_SetKey({'n', 'v'}, '<leader>r', function() nc.execute( {action="show", reveal=true, reveal_force_cwd=true, source="filesystem" } ) end, "Change NvimTree cwd to current project root")
 _Config_SetKey('n', '<leader>,', function() nc.execute( {action="focus", toggle=true, position="left"}) end, "Toggle NvimTree")
 _Config_SetKey('n', '<leader>R', function() nc.execute( {action="focus", reveal=true, reveal_force_cwd=true, source="filesystem" } ) end, "Change NvimTree cwd to current project root")
 _Config_SetKey('n', '<leader>nr', function() require('nvim-tree.api').tree.change_root(vim.fn.expand('%:p:h')) end, "Change NvimTree cwd to current Buffer's dir")
