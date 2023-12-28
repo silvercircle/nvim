@@ -30,8 +30,7 @@ kms({ "n", "i" }, "<C-l>", "<NOP>", opts)
 -- disable <ins> toggling the (annoying) replace mode. Instead use <c-ins> to switch to replace
 map("i", "<ins>", "<nop>", opts)
 
-map('n', '<C-Tab>', '<CMD>bnext<CR>', opts)
-map('n', '<leader><Tab>', '<CMD>bnext<CR>', opts)
+map('n', '<leader>tab', '<CMD>tabnext<CR>', opts)
 
 _Config_SetKey({ 'i', 'n' }, '<C-f><C-a>', function() __Globals.toggle_fo('a') end, "Toggle 'a' format option")
 _Config_SetKey({ 'i', 'n' }, '<C-f><C-c>', function() __Globals.toggle_fo('c') end, "Toggle 'c' format option")

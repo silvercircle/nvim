@@ -119,7 +119,8 @@ require("lualine").setup({
     -- section_separators = { left = "", right = "" },
       disabled_filetypes = {
       statusline = { "Outline", 'terminal', 'query', 'qf', 'BufList', 'sysmon', 'weather', "NvimTree", "neo-tree", "aerial", "Trouble" },
-      winbar = { 'Outline', 'terminal', 'query', 'qf', 'NvimTree', 'neo-tree', 'alpha', 'BufList', 'sysmon', 'weather', 'aerial', 'Trouble' },
+      winbar = { 'Outline', 'terminal', 'query', 'qf', 'NvimTree', 'neo-tree', 'alpha', 'BufList', 'sysmon', 'weather', 'aerial', 'Trouble',
+                 'dap-repl', 'dapui_console', 'dapui_watches', 'dapui_stacks', 'dapui_scopes', 'dapui_breakpoints' },
       tabline = {},
     },
     -- ignore_focus = {'NvimTree'},
@@ -172,14 +173,14 @@ require("lualine").setup({
   winbar = Config.breadcrumb ~= 'dropbar' and {
     --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
-      Config.breadcrumb == 'navic' and navic_component or aerial_component
+      Config.breadcrumb == 'navic' and navic_component or aerial_component,
     },
     lualine_c = {
       {
         padding,
         color = "WinBarInvis",
-        separator = { left = "", right = "" }
-      }
+        separator = { left = "", right = "" },
+      },
     },
     lualine_y = {
       {
@@ -197,7 +198,7 @@ require("lualine").setup({
         color = "WinBarUL",
         padding = 0,
         cond = function() return __Globals.perm_config.show_indicators end
-      }
+      },
     },
     lualine_z = {
       {

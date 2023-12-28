@@ -183,7 +183,7 @@ autocmd({ 'BufEnter' }, {
 -- restore view when reading a file
 autocmd({ 'bufread' }, {
   pattern = "*",
-  callback = function(args)
+  callback = function()
     vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then
       vim.cmd("silent! loadview")
