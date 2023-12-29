@@ -319,7 +319,7 @@ end
 function Wsplit.prepare_line(_left, _right, correct)
   local format = "%-" .. math.floor(Wsplit.win_width / 2) .. "s"
   local left = string.format(format, _left)
-  format = "%-15s"
+  format = "%-16s"
   local right = string.format(format, _right)
 
   local pad = string.rep(" ", Wsplit.win_width - 2 - vim.fn.strwidth(right) - vim.fn.strwidth(left) + correct)

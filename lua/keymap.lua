@@ -5,7 +5,7 @@ local opts = { noremap = true, silent = true }
 local utils = require('local_utils')
 local utility_key = vim.g.tweaks.utility_key
 local trouble = require("trouble")
-local treename = vim.g.tweaks.tree == "Neo" and "neo-tree" or "NvimTree"
+local treename = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
 
 --- peform a key press
 --- @param key string a key sequence

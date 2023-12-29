@@ -158,7 +158,13 @@ Tweaks.theme = {
   kittenexec = "kitten",
   kittysocket = "/tmp/mykittysocket"
 }
-Tweaks.tree = "Neo"
+-- filetree tweaks
+Tweaks.tree = {
+  -- valid versions are Neo (for NeoTree) or Nvim (for NvimTree)
+  version = "Neo",
+  -- use the git integration (currently only available for NeoTree)
+  use_git = false
+}
 
 Tweaks.jdtls = {
   workspace_base = "/home/alex/.cache/jdtls_workspace/",

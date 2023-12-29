@@ -283,14 +283,14 @@ lazy.setup({
   {
     'nvim-tree/nvim-tree.lua',
     lazy = true,
-    cond = vim.g.tweaks.tree == "Nvim",
+    cond = vim.g.tweaks.tree.version == "Nvim",
     config = function()
       require("plugins.nvim-tree")
     end
   },
   {
     'nvim-neo-tree/neo-tree.nvim',
-    cond = vim.g.tweaks.tree == "Neo",
+    cond = vim.g.tweaks.tree.version == "Neo",
     config = function()
       require("plugins.neotree")
     end,

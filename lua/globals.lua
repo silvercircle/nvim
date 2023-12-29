@@ -136,7 +136,7 @@ end
 --- open the tree (file manager tree on the left). It can be either NvimTree
 --- or NeoTree
 function M.open_tree()
-  if vim.g.tweaks.tree == "Nvim" then
+  if vim.g.tweaks.tree.version == "Nvim" then
     require('nvim-tree.api').tree.toggle({ focus = false })
   else
     require("neo-tree.command").execute({
@@ -153,7 +153,7 @@ function M.tree_open_handler()
   local wsplit = require("local_utils.wsplit")
   vim.opt.statuscolumn = ''
   local w = vim.fn.win_getid()
-  vim.api.nvim_win_set_option(w, 'statusline', '   ' .. (vim.g.tweaks.tree == "Neo" and "NeoTree" or "NvimTree"))
+  vim.api.nvim_win_set_option(w, 'statusline', '   ' .. (vim.g.tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"))
   vim.cmd('setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
   vim.api.nvim_win_set_width(w, __Globals.perm_config.tree.width)
   __Globals.adjust_layout()
@@ -333,7 +333,7 @@ end
 --- @return number: the window id, 0 if the process failed
 function M.splittree(_factor)
   local factor = math.abs((_factor ~= nil and _factor > 0) and _factor or 0.33)
-  local winid = M.findwinbyBufType(vim.g.tweaks.tree == "Neo" and "neo-tree" or "NvimTree")
+  local winid = M.findwinbyBufType(vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree")
   if #winid > 0 then
     local splitheight
     if factor < 1 then
@@ -454,7 +454,7 @@ function M.write_config()
       },
       blist = blist_id ~= nil and true or false,
       tree = {
-        active = #M.findwinbyBufType(vim.g.tweaks.tree == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
+        active = #M.findwinbyBufType(vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
       },
       theme_variant = theme_conf.variant,
       theme_desaturate = theme_conf.desaturate,

@@ -1,4 +1,3 @@
-utils = require("dropbar.utils")
 require("dropbar").setup({
   bar = {
     padding = {

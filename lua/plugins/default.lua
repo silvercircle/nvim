@@ -41,7 +41,7 @@ end
 -- setup cokeline plugin. It provides a buffer line (aka tab-bar)
 -- local sidebar_or_tree = vim.g.features['sidebar']['enable'] == true and true or false
 -- local treename = Config.nvim_tree == true and 'NvimTree' or 'neo-tree'
-local treename = vim.g.tweaks.tree == "Neo" and "neo-tree" or 'NvimTree'
+local treename = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or 'NvimTree'
 require('cokeline').setup({
   -- Cokeline_theme() is defined in config.lua
   buffers = {

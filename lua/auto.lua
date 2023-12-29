@@ -9,7 +9,7 @@ local usplit = require("local_utils.usplit")
 local tsc = require("treesitter-context")
 local utils = require("local_utils")
 local marks = require("local_utils.marks")
-local treeft = vim.g.tweaks.tree == "Neo" and "neo-tree" or "NvimTree"
+local treeft = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
 
 -- local ibl = require('indent_blankline')
 
