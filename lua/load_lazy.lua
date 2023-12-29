@@ -32,6 +32,13 @@ lazy.setup({
     }
   },
   {
+    'silvercircle/alpha-nvim',
+    branch = "mine",
+    config = function()
+      require("plugins.alpha")
+    end
+  },
+  {
     'dcampos/nvim-snippy',
     lazy = true,
     config = function()
