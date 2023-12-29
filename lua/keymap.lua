@@ -27,12 +27,6 @@ kms({ 'n', 'i' }, '<C-l>', '<NOP>', opts)
 -- disable <ins> toggling the (annoying) replace mode. Instead use <c-ins> to switch to replace
 map('i', '<ins>', '<nop>', opts)
 
-_Config_SetKey({'n', 'v'}, '<leader>r', function() perform_command('NvimTreeFindFile') end, "Sync NvimTree with current Buffer")
-_Config_SetKey('n', '<leader>,', function() require('nvim-tree.api').tree.toggle() end, "Toggle NvimTree")
-
-_Config_SetKey('n', '<leader>R', function() require('nvim-tree.api').tree.change_root(utils.getroot_current()) end, "Change NvimTree cwd to current project root")
-_Config_SetKey('n', '<leader>nr', function() require('nvim-tree.api').tree.change_root(vim.fn.expand('%:p:h')) end, "Change NvimTree cwd to current Buffer's dir")
-
 map('n', '<C-Tab>', '<CMD>bnext<CR>', opts)
 map('n', '<leader><Tab>', '<CMD>bnext<CR>', opts)
 
@@ -92,29 +86,6 @@ _Config_SetKey({'n', 'i'}, '<C-f>c', function() __Globals.close_qf_or_loc() end,
 --- mini picker shortcuts, all start with <C-m>
 _Config_SetKey({ 'n', 'i' }, '<C-a>f', function() utils.PickFoldingMode(vim.o.foldmethod) end, "Pick folding mode")
 
-_Config_SetKey('n', '<C-a>e', function()
-  require("mini.extra").pickers.explorer(
-  { cwd = vim.fn.expand("%:p:h")  },
-  { window = { config = __Globals.mini_pick_center(60, 0.6, 0.2) } })
-end, "Open Mini.Explorer at current directory")
-
-_Config_SetKey( 'n', '<C-a><C-e>', function()
-  require("mini.extra").pickers.explorer(
-  { cwd = utils.getroot_current()  },
-  { window = { config = __Globals.mini_pick_center(60, 0.6, 0.2) } })
-end, "Open Mini.Explorer at project root")
-
-_Config_SetKey('n', '<C-a>m', function()
-  require("mini.extra").pickers.marks(
-  { },
-  { window = { config = __Globals.mini_pick_center(50, 0.6, 0.2) } })
-end, "Mini.Picker for marks")
-
-_Config_SetKey('n', '<C-a>h', function()
-  require("mini.pick").builtin.help(
-  { },
-  { window = { config = __Globals.mini_pick_center(60, 0.5, 0.2) } })
-end, "Mini.Picker for help tags")
 ---
 _Config_SetKey({'n', 'i', 'v'}, '<C-S-Down>', function() perform_command('silent! cnext') end, "Quickfix next entry")
 _Config_SetKey({'n', 'i', 'v'}, '<C-S-Up>', function() perform_command('silent! cprev') end, "Quickfix previous entry")
@@ -243,7 +214,7 @@ end, "Telescope command palette")
 
 -- quick-focus the four main areas
 _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-1>', function()
-  __Globals.findbufbyType('NvimTree')
+  __Globals.findbufbyType('neo-tree')
 end, "Focus NvimTree") -- Nvim-tree
 
 _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-2>', function()
@@ -251,76 +222,11 @@ _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-2>', function()
   vim.cmd("hi nCursor blend=0")
 end, "Focus Main Window") -- main window
 
--- focus or toggle the outline window
-_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
-  -- if the outline window is focused, close it.
-  if vim.api.nvim_buf_get_option(0, "filetype") == __Globals.perm_config.outline_filetype then
-    __Globals.close_outline()
-    return
-  end
-  -- otherwise search it and if none is found, open it.
-  if __Globals.findbufbyType(__Globals.perm_config.outline_filetype) == false then
-    __Globals.open_outline()
-  end
-end, "Focus Outline window") -- Outline
-
-local function focus_term_split(dir)
-  if __Globals.findbufbyType('terminal') == false then
-    vim.api.nvim_input('<f11>')
-  end
-  vim.cmd.startinsert()
-  if dir and #dir > 0 then
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("cd '" .. dir .. "'<cr>", true, false, true), 'i', false)
-  end
-end
-
-_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-4>', function()
-  focus_term_split(nil)
-end, "Focus Terminal split")
-
-_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-5>', function()
-  local dir = vim.fn.expand("%:p:h")
-  focus_term_split(dir)
-end, "Focus Terminal split and change to current dir")
-
-_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-6>', function()
-  local dir = utils.getroot_current()
-  focus_term_split(dir)
-end, "Focus Terminal split and change to project root")
-
 kms({ 'n', 'i', 't', 'v' }, '<A-0>', function()
   local wid = vim.fn.win_getid()
   vim.api.nvim_win_set_option(wid, "winfixwidth", false)
   __Globals.main_winid = wid
 end, opts) -- save current winid as main window id
-
-_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
-  local uspl = require('local_utils.usplit')
-  if uspl.winid == nil then
-    uspl.open()
-  else
-    if uspl.winid ~= vim.fn.win_getid() then
-      vim.fn.win_gotoid(uspl.winid)
-    else
-      uspl.close()
-      vim.fn.win_gotoid(__Globals.main_winid)
-    end
-  end
-end, "Open the sysmon/fortune window")
-
-_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-8>', function()
-  local wspl = require('local_utils.wsplit')
-  if wspl.winid == nil then
-    wspl.openleftsplit(Config.weather.file)
-  else
-    if wspl.winid ~= vim.fn.win_getid() then
-      vim.fn.win_gotoid(wspl.winid)
-    else
-      wspl.close()
-      vim.fn.win_gotoid(__Globals.main_winid)
-    end
-  end
-end, "Open the info/weather window")
 
 -- focus quickfix list (when open)
 _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-7>', function()

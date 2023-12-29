@@ -53,32 +53,23 @@ autocmd({ 'UIEnter' }, {
       -- keep track of tree/outline window widths
       autocmd({ "WinClosed", "WinResized" }, {
         callback = function(sizeevent)
+          local treeft = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
+          local tree = __Globals.findwinbyBufType(treeft)
+          if #tree > 0 and tree[1] ~= nil then
+            __Globals.perm_config.tree.width = vim.api.nvim_win_get_width(tree[1])
+            if __Globals.perm_config.tree.width < Config.filetree_width then
+              __Globals.perm_config.tree.width = Config.filetree_width
+            end
+          end
         end,
         group = agroup_views
       })
       vim.api.nvim_command("wincmd p")
-      --      require("local_utils.blist").setup({
-      --        symbols = {
-      --          current = "+", -- default 
-      --          split = "s", -- default 
-      --          alternate = "a", -- default 
-      --          hidden = "~", -- default ﬘
-      --          unloaded = "-",
-      --          locked = "L", -- default 
-      --          ro = "r", -- default 
-      --          edited = "*", -- default 
-      --          terminal = "t", -- default 
-      --  --        default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
-      --          terminal_symbol = ">" -- Filetype icon for a terminal split. Default 
-      --        }
-      --      })
-      --      if globals.perm_config.blist == true then
-      --require("local_utils.blist").open(true, 0, globals.perm_config.blist_height)
-      --      end
       if __Globals.perm_config.transbg == true then
         Config.theme.set_bg()
       end
     end
+    require("neo-tree.command").execute( { action="show", source="filesystem", position="left"} )
     vim.fn.win_gotoid(__Globals.main_winid)
   end
 })
@@ -229,16 +220,9 @@ local old_mode
 autocmd({ 'WinEnter' }, {
   pattern = '*',
   callback = function()
-
     local filetype = vim.bo.filetype
     if vim.tbl_contains(enter_leave_filetypes, filetype) then
       vim.cmd("setlocal winhl=CursorLine:TreeCursorLine,Normal:NeoTreeNormalNC | hi nCursor blend=100")
-    end
-    -- HACK: NvimTree and outline windows will complain about the buffer being not modifiable
-    -- when insert mode is active. So stop it and remember its state
-    if filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial" then
-      old_mode = vim.api.nvim_get_mode().mode
-      vim.cmd.stopinsert()
     end
   end,
   group = agroup_hl
@@ -250,14 +234,6 @@ autocmd({ 'WinLeave' }, {
     local filetype = vim.bo.filetype
     if vim.tbl_contains(enter_leave_filetypes, filetype) then
       vim.cmd("hi nCursor blend=0")
-    end
-    -- HACK: restore the insert mode if it was active when changing to the NvimTree or outline
-    -- split.
-    if filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial" then
-      if old_mode == 'i' then
-        old_mode = ''
-        vim.cmd.startinsert()
-      end
     end
   end,
   group = agroup_hl

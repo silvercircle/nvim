@@ -2,14 +2,12 @@
 local actions = require("telescope.actions")
 local actionset = require("telescope.actions.set")
 local actionstate = require("telescope.actions.state")
-local trouble = require("trouble.providers.telescope")
 
 -- local actions_fb = require("telescope").extensions.file_browser.actions
 -- local themes = require("telescope.themes")
 
 -- add all the commands and mappings to the command_center plugin.
 -- since this is a lot of code, it's outsourced but really belongs here.
-local command_center = require('command_center')
 
 -- ensure a valid border style and set a default in case none is found
 if vim.tbl_contains( { "single", "rounded", "none" }, __Globals.perm_config.telescope_borders) ~= true then
@@ -93,7 +91,6 @@ require("telescope").setup({
     disable_devicons = false,
     mappings = {
       i = {
-        ["<C-t>"] = trouble.open_with_trouble,
         ["<CR>"] = stopinsert_ins(actions.select_default),
         ["<C-x>"] = stopinsert(actions.select_horizontal),
         ["<C-v>"] = stopinsert(actions.select_vertical),
@@ -104,7 +101,6 @@ require("telescope").setup({
         ['<C-c>'] = function(prompt_bufnr) close_insertmode(prompt_bufnr) end
       },
       n = {
-        ["<c-t>"] = trouble.open_with_trouble,
         ['<esc>'] = function(prompt_bufnr) close_insertmode(prompt_bufnr) end
       }
     }
@@ -145,33 +141,6 @@ require("telescope").setup({
     },
     -- command center is a command palette plugin. Pretty much like Ctrl-P in sublime text
     -- the actual commands are setup in setup_command_center.lua
-    command_center = {
-    -- Specify what components are shown in telescope prompt;
-    -- Order matters, and components may repeat
-      components = {
-        command_center.component.DESC,
-        command_center.component.KEYS,
---        command_center.component.CMD,
-        command_center.component.CATEGORY,
-      },
-      -- Spcify by what components the commands is sorted
-      -- Order does not matter
-      sort_by = {
-        command_center.component.DESC,
-        command_center.component.KEYS,
-        command_center.component.CMD,
-        command_center.component.CATEGORY,
-      },
-      -- Change the separator used to separate each component
-      separator = " ",
-      -- When set to false,
-      -- The description component will be empty if it is not specified
-      auto_replace_desc_with_cmd = true,
-      -- Default title to Telescope prompt
-      prompt_title = "Command Palette",
-        -- can be any builtin or custom telescope theme
-      theme = require("local_utils").command_center_theme
-    },
     fzf = {
       fuzzy = true, -- false will only do exact matching
       override_generic_sorter = true, -- override the generic sorter

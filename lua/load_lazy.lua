@@ -23,6 +23,15 @@ lazy.setup({
     end,
   },
   {
+    'nvim-neo-tree/neo-tree.nvim',
+    config = function()
+      require("plugins.neotree")
+    end,
+    dependencies = {
+      'MunifTanjim/nui.nvim'
+    }
+  },
+  {
     'dcampos/nvim-snippy',
     lazy = true,
     config = function()
@@ -37,6 +46,25 @@ lazy.setup({
           },
         },
       })
+    end
+  },
+  {
+    'nvim-telescope/telescope.nvim', --  branch = '0.1.x',
+    lazy = true,
+    dependencies = {
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
+      {
+        'https://gitlab.com/silvercircle74/quickfavs.nvim',
+        lazy = true,
+        config = function()
+          require("quickfavs").setup({
+            telescope_theme = require("local_utils").Telescope_dropdown_theme,
+          })
+        end
+      }
+    },
+    config = function()
+      require("plugins.telescope_setup")
     end
   },
   -- cmp and all its helpers
@@ -142,13 +170,6 @@ lazy.setup({
   --{ 'numToStr/FTerm.nvim', lazy=true },
   { 'preservim/vim-markdown',     ft = "markdown" },
   'echasnovski/mini.move',
-  {
-    'folke/todo-comments.nvim',
-    event = "BufReadPre",
-    config = function()
-      require("plugins.todo")
-    end
-  },
   { 'kevinhwang91/rnvimr', lazy = true, cmd = { "RnvimrToggle" } },
   {
     'willothy/nvim-cokeline', branch = "main"

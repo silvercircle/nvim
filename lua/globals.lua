@@ -1,6 +1,4 @@
 --- global functions for my Neovim configuration
-local colors = Config.theme
-
 local M = {}
 
 M.winid_bufferlist = 0
@@ -133,6 +131,50 @@ function M.toggle_outline_type()
     M.perm_config.outline_filetype = "aerial"
   end
   M.notify("Now using " .. M.perm_config.outline_filetype, vim.log.levels.INFO)
+end
+
+--- open the tree (file manager tree on the left). It can be either NvimTree
+--- or NeoTree
+function M.open_tree()
+  if vim.g.tweaks.tree.version == "Nvim" then
+    require('nvim-tree.api').tree.toggle({ focus = false })
+  else
+    require("neo-tree.command").execute({
+      action = "show",
+      source = "filesystem",
+      position = "left"
+    })
+  end
+end
+
+--- called by the event handler in NvimTree or NeoTree to inidicate that
+--- the file tree has been opened.
+function M.tree_open_handler()
+  local wsplit = require("local_utils.wsplit")
+  vim.opt.statuscolumn = ''
+  local w = vim.fn.win_getid()
+  vim.api.nvim_win_set_option(w, 'statusline', '   ' .. (vim.g.tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"))
+  vim.cmd('setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
+  vim.api.nvim_win_set_width(w, __Globals.perm_config.tree.width)
+  __Globals.adjust_layout()
+  if __Globals.perm_config.weather.active == true then
+    wsplit.content = __Globals.perm_config.weather.content
+    if wsplit.winid == nil then
+      wsplit.openleftsplit(Config.weather.file)
+    end
+  end
+end
+
+--- called by the event handler in NvimTree or NeoTree to inidicate that
+--- the file tree was opened.
+function M.tree_close_handler()
+  local wsplit = require("local_utils.wsplit")
+  wsplit.close()
+  wsplit.winid = nil
+  __Globals.adjust_layout()
+  if __Globals.term.winid ~= nil then
+    vim.api.nvim_win_set_height(__Globals.term.winid, __Globals.term.height)
+  end
 end
 
 --- set the statuscol to either normal or relative line numbers
@@ -291,7 +333,7 @@ end
 --- @return number: the window id, 0 if the process failed
 function M.splittree(_factor)
   local factor = math.abs((_factor ~= nil and _factor > 0) and _factor or 0.33)
-  local winid = M.findwinbyBufType("NvimTree")
+  local winid = M.findwinbyBufType(vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree")
   if #winid > 0 then
     local splitheight
     if factor < 1 then
@@ -412,7 +454,7 @@ function M.write_config()
       },
       blist = blist_id ~= nil and true or false,
       tree = {
-        active = #M.findwinbyBufType("NvimTree") > 0 and true or false,
+        active = #M.findwinbyBufType(vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
       },
       theme_variant = theme_conf.variant,
       theme_desaturate = theme_conf.desaturate,
@@ -443,11 +485,11 @@ function M.restore_config()
   local f = io.open(file, "r")
   -- do some checks to avoid invalid data
   if f ~= nil then
-    local string = f:read()
-    if #string <= 1 then
+    local json = f:read()
+    if json == nil or #json <= 1 then
       M.perm_config = M.perm_config_default
     else
-      local tmp = vim.fn.json_decode(string)
+      local tmp = vim.fn.json_decode(json)
       if #tmp ~= nil then
         M.perm_config = vim.tbl_deep_extend("force", M.perm_config_default, tmp)
       else
@@ -458,7 +500,7 @@ function M.restore_config()
     M.perm_config = M.perm_config_default
   end
   -- configure the theme
-  colors.setup({ scheme = M.perm_config.theme_scheme, variant = M.perm_config.theme_variant,
+  Config.theme.setup({ scheme = M.perm_config.theme_scheme, variant = M.perm_config.theme_variant,
                  desaturate = M.perm_config.theme_desaturate, dlevel = M.perm_config.theme_dlevel,
                  theme_strings = M.perm_config.theme_strings, is_trans = M.perm_config.transbg,
                  sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
@@ -471,7 +513,7 @@ end
 --- configuration.
 --- @param what string: description what has changed
 function M.theme_callback(what)
-  local conf = colors.get_conf()
+  local conf = Config.theme.get_conf()
   if what == 'variant' then
     M.perm_config.theme_variant = conf.variant
     M.notify("Theme variant is now: " .. conf.variant, vim.log.levels.INFO, "Theme")
