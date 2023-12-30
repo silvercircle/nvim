@@ -560,7 +560,7 @@ function Wsplit.refresh()
         vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", true)
         local lcond = conditions[results["37"]][string.lower(results["2"])]
         table.insert(lines, " ")
-        table.insert(lines, Wsplit.prepare_line(" " .. results["26"], " " .. results["28"], 0))
+        table.insert(lines, Wsplit.prepare_line("  " .. results["26"], " " .. results["28"], 0))
         table.insert(lines, Wsplit.prepare_line(" " .. lcond, results["33"], 1))
         table.insert(lines, "  ")
         table.insert(lines, Wsplit.prepare_line(" Temp: " .. results["3"], "Feels: " .. results["16"], 0))
@@ -576,7 +576,7 @@ function Wsplit.refresh()
           )
         )
         table.insert(lines, Wsplit.prepare_line(" Pressure: " .. results["19"], " " .. results["18"], 0))
-        table.insert(lines, Wsplit.prepare_line("   " .. results["23"], "滋" .. results["24"], -2))
+        table.insert(lines, Wsplit.prepare_line("   " .. results["23"], "滋 " .. results["24"], -2))
         local cond = conditions[results["37"]][results["4"]]
         if cond == nil then
           cond = "N/A"

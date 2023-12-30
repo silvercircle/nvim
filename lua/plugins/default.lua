@@ -1,6 +1,6 @@
 local show_close = vim.g.tweaks.cokeline.closebutton
 local version = vim.version()
-local buildinfo = '   Neovim ' .. version.major .. "." .. version.minor .. "." .. version.patch
+local buildinfo = '  Neovim ' .. version.major .. "." .. version.minor .. "." .. version.patch
 if type(version.build) == "string" then
   buildinfo = buildinfo .. "-" .. version.build
 end
