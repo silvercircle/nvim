@@ -281,6 +281,18 @@ local diff = vim.api.nvim_win_get_option(0, "diff")
 
 M.set_hl = vim.api.nvim_set_hl
 
+-- these groups are all relevant to the signcolumn and need their bg updated when
+-- switching from / to transparency mode since we want a transparent gutter area with
+-- no background. These hlg are used for GitSigns, LSP diagnostics, marks among 
+-- other things.
+local signgroups = { "RedSign", "OrangeSign", "YellowSign", "GreenSign", "BlueSign", "PurpleSign", "CursorLineNr" }
+
+local function set_signs_trans()
+  for _, v in ipairs(signgroups) do
+    vim.cmd("hi " .. v .. " guibg=none")
+  end
+end
+
 --- set a highlight group with only colors
 --- @param hlg string: highlight group name
 --- @param fg table: foreground color defintion containing a gui color and a cterm color index
@@ -522,8 +534,8 @@ local function set_all()
   M.hl_with_defaults("EndOfBuffer", M.localtheme.bg4, M.palette.none)
   M.hl_with_defaults("Folded", M.localtheme.fg, M.palette.diff_blue)
   M.hl_with_defaults("ToolbarLine", M.localtheme.fg, M.palette.none)
-  M.hl_with_defaults("FoldColumn", M.localtheme.bg4, M.localtheme.darkbg)
-  M.hl_with_defaults("SignColumn", M.localtheme.fg, M.localtheme.darkbg)
+  M.hl_with_defaults("FoldColumn", M.localtheme.bg4, M.palette.none)
+  M.hl_with_defaults("SignColumn", M.localtheme.fg, M.palette.none)
   M.hl_with_defaults("IncSearch", M.localtheme.yellow, M.localtheme.darkred)
   M.hl_with_defaults("Search", M.localtheme.black, M.palette.darkyellow)
   M.hl_with_defaults("ColorColumn", M.palette.none, M.localtheme.bg1)
@@ -532,6 +544,7 @@ local function set_all()
   M.hl_with_defaults("nCursor", M.localtheme.fg, M.localtheme.fg)
   M.hl_with_defaults("iCursor", M.localtheme.yellow, M.localtheme.yellow)
   M.hl_with_defaults("vCursor", M.localtheme.red, M.localtheme.red)
+  M.hl_with_defaults("LineNr", M.palette.grey_dim, M.palette.none)
 
   M.link("CursorIM", "iCursor")
 
@@ -545,7 +558,6 @@ local function set_all()
     M.hl_with_defaults("CursorColumn", M.palette.none, M.localtheme.bg1)
   end
 
-  M.hl_with_defaults("LineNr", M.palette.grey_dim, M.localtheme.darkbg)
   if diff then
     M.hl("CursorLineNr", M.localtheme.yellow, M.palette.none, { underline = true })
   else
@@ -939,6 +951,7 @@ function M.set()
   for _, v in ipairs(conf.plugins.post) do
     require("colors.darkmatter.plugins." .. v)
   end
+  set_signs_trans()
 end
 
 function M.disable()
@@ -1030,12 +1043,6 @@ function M.Lualine_internal_theme()
   }
 end
 
--- these groups are all relevant to the signcolumn and need their bg updated when
--- switching from / to transparency mode since we want a transparent gutter area with
--- no background. These hlg are used for GitSigns, LSP diagnostics, marks among 
--- other things.
-local signgroups = { "RedSign", "OrangeSign", "YellowSign", "GreenSign", "BlueSign", "PurpleSign", "CursorLineNr" }
-
 --- set the background transparent or solid
 --- this changes the relevant highlight groups to use a transparent background.
 --- Needs terminal with transparency support (kitty, alacritty etc.)
@@ -1049,9 +1056,7 @@ function M.set_bg()
     vim.cmd("hi LineNr guibg=none")
     vim.cmd("hi FoldColumn guibg=none")
     vim.cmd("hi SignColumn guibg=none")
-    for _, v in ipairs(signgroups) do
-      vim.cmd("hi " .. v .. " guibg=none")
-    end
+    set_signs_trans()
   else
     local variant = conf.variant
     vim.api.nvim_set_hl(0, "Normal", { bg = M.theme[variant].bg, fg = "fg" })
@@ -1061,11 +1066,12 @@ function M.set_bg()
     vim.cmd("hi LineNr guibg=" .. M.theme[variant].gutterbg)
     vim.cmd("hi FoldColumn guibg=" .. M.theme[variant].gutterbg)
     vim.cmd("hi SignColumn guibg=" .. M.theme[variant].gutterbg)
-    for _, v in ipairs(signgroups) do
-      vim.cmd("hi " .. v .. " guibg=" .. M.theme[variant].gutterbg)
-    end
+    --for _, v in ipairs(signgroups) do
+    --  vim.cmd("hi " .. v .. " guibg=" .. M.theme[variant].gutterbg)
+    --end
   end
 end
+
 
 --- call the configured (if any) callback function to indicate what
 --- has changed in the theme's configuration

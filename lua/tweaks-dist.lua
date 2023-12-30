@@ -5,8 +5,10 @@
 --
 -- how to use this file:
 -- 1. make a copy and name it mytweaks.lua
--- 2. mytweaks can be edited and will be used instead of this file as long as it is 
---    present. Updating the repo with git pull won't overwrite your changes.
+-- 2. mytweaks can be edited and will overwrite settings in this file as long as it is 
+--    present. Updating the repo with git pull won't overwrite your changes in mytweaks.
+--    So do NOT change this file directly, because your changes may be lost when updating
+--    from the repo..
 --
 -- if NO mytweaks.lua exists, then this file will be used instead, but be warned, that
 -- updating via git pull will overwrite your changes.
@@ -32,6 +34,8 @@ Tweaks.cokeline_filename_width = 25
 -- be in masonbinpath. Also supported are $HOME/.local/.bin and $HOME itself
 -- for everything else, you can use full paths in the server_bin table.
 -- for LSP servers that are in $PATH, the executable name alone should be enough.
+-- This paths should work on most Linux systems, but you have to adjust them for 
+-- Windows or macOS
 
 Tweaks.lsp.masonbasepath = vim.fn.stdpath('data') .. '/mason/'
 Tweaks.lsp.masonbinpath = Tweaks.lsp.masonbasepath .. 'bin/'
@@ -51,7 +55,7 @@ Tweaks.lsp = {
     clangd        =   '/usr/bin/clangd',
     dartls        =   '/opt/flutter/bin/dart',
     vimlsp        =   Tweaks.lsp.masonbinpath .. 'vim-language-server',
-    omnisharp     =   Tweaks.lsp.masonbinpath .. "omnisharp",
+    omnisharp     =   vim.fn.stdpath("data") .. "/omnisharp/OmniSharp",
     metals        =   '/home/alex/.local/share/coursier/bin/metals',
     pyright       =   Tweaks.lsp.masonbinpath .. 'pyright-langserver',
     lua_ls        =   Tweaks.lsp.masonbinpath .. 'lua-language-server',
@@ -166,6 +170,7 @@ Tweaks.tree = {
   use_git = false
 }
 
+-- settings for the nvim-jdtls plugin. See ftplugin/java.lua
 Tweaks.jdtls = {
   workspace_base = "/home/alex/.cache/jdtls_workspace/",
   java_executable = "/usr/bin/java",

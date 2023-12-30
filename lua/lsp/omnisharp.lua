@@ -5,7 +5,11 @@ lspconfig.omnisharp.setup({
    -- Enables support for reading code style, naming convention and analyzer
     -- settings from .editorconfig.
   on_attach = function(client, _)
-    client.server_capabilities.semanticTokensProvider = nil
+    client.server_capabilities.semanticTokensProvider = {
+      full = false,
+      legend = {},
+      range = false
+    }
   end,
   enable_editorconfig_support = true,
 

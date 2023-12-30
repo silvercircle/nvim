@@ -2,6 +2,7 @@ require("neo-tree").setup({
   sources = {
     "filesystem",
     --"git_status",
+    --"buffers",
   },
   close_floats_on_escape_key = true,
   add_blank_line_at_top = false,

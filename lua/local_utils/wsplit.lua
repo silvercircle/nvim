@@ -273,7 +273,7 @@ function Wsplit.open(_weatherfile)
     vim.bo[Wsplit.bufid].buflisted = false
     vim.api.nvim_buf_set_option(Wsplit.bufid, "buftype", "nofile")
     vim.api.nvim_win_set_option(Wsplit.winid, "list", false)
-    vim.api.nvim_win_set_option(Wsplit.winid, "statusline", "  Weather")
+    vim.api.nvim_win_set_option(Wsplit.winid, "statusline", "Weather")
     vim.cmd(
       "set winfixheight | set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn=%#NeoTreeNormalNC#\\  | setlocal nocursorline"
     )
@@ -544,7 +544,7 @@ function Wsplit.refresh()
     end
   elseif Wsplit.content == "weather" then
     vim.api.nvim_buf_clear_namespace(Wsplit.bufid, -1, 0, -1)
-    vim.api.nvim_win_set_option(Wsplit.winid, "statusline", "   Weather")
+    vim.api.nvim_win_set_option(Wsplit.winid, "statusline", " 󰏈  Weather")
     if vim.fn.filereadable(Wsplit.weatherfile) then
       local lines = {}
       local file = io.open(Wsplit.weatherfile)

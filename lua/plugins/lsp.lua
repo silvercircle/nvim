@@ -493,10 +493,10 @@ if vim.diagnostic then
     },
     signs = {
       text = {
-        [vim.diagnostic.severity.HINT]  = "",
-        [vim.diagnostic.severity.ERROR] = "✘",
+        [vim.diagnostic.severity.HINT]  = "",
+        [vim.diagnostic.severity.ERROR] = "",
         [vim.diagnostic.severity.INFO]  = "◉",
-        [vim.diagnostic.severity.WARN]  = ""
+        [vim.diagnostic.severity.WARN]  = ""
       }
     },
     float = {
