@@ -166,4 +166,39 @@ vim.filetype.add({
   }
 })
 
-
+vim.g.lspkind_symbols = {
+  Text        = "󰊄 ",
+  Method      = " ",
+  Function    = "󰡱 ",
+  Constructor = " ",
+  Field       = " ",
+  Variable    = " ",
+  Class       = " ",
+  Interface   = " ",
+  Module      = " ",
+  Property    = " ",
+  Unit        = "塞",
+  Value       = " ",
+  Enum        = " ",
+  Keyword     = " ",
+  Snippet     = " ",
+  Color       = " ",
+  File        = "󰈔 ",
+  Reference   = " ",
+  Folder      = " ",
+  EnumMember  = " ",
+  Constant    = " ",
+  Struct      = " ",
+  Event       = " ",
+  Operator    = " ",
+  Namespace   = " ",
+  Package     = "󰏖 ",
+  String      = " ",
+  Number      = " ",
+  Boolean     = " ",
+  Array       = " ",
+  Type        = " ",
+  Object      = "⦿ ",
+  Key         = " ",
+  TypeParameter = "𝙏 "
+}

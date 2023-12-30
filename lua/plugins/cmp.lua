@@ -35,33 +35,7 @@ lspkind.init({
   -- override preset symbols
   --
   -- default: {}
-  symbol_map = {
-    Text        = "󰊄 ",
-    Method      = "ƒ ",
-    Function    = " ",
-    Constructor = " ",
-    Field       = " ",
-    Variable    = " ",
-    Class       = "ﴯ",
-    Interface   = " ",
-    Module      = " ",
-    Property    = " ",
-    Unit        = "塞",
-    Value       = " ",
-    Enum        = " ",
-    Keyword     = " ",
-    Snippet     = " ",
-    Color       = " ",
-    File        = "󰈔 ",
-    Reference   = " ",
-    Folder      = " ",
-    EnumMember  = " ",
-    Constant    = " ",
-    Struct      = "פּ",
-    Event       = " ",
-    Operator    = "+ ",
-    TypeParameter = "𝙏 "
-  },
+  symbol_map = vim.g.lspkind_symbols
 })
 
 cmp.setup({
