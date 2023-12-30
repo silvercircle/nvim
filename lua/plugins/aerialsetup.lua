@@ -1,5 +1,4 @@
  -- Call the setup function to change the default behavior
-
 require("aerial").setup({
   -- Priority list of preferred backends for aerial.
   -- This can be a filetype map (see :help aerial-filetype-map)
@@ -155,41 +154,7 @@ require("aerial").setup({
   -- "nerd_font" option below.
   -- If you have lspkind-nvim installed, it will be the default icon set.
   -- This can be a filetype map (see :help aerial-filetype-map)
-  icons = {
-    File = "󰈔",
-    Module = "󰆧",
-    Namespace = "󰅪",
-    Package = "󰏗",
-    Class = "𝓒",
-    Method = "ƒ",
-    Property = "",
-    Field = "󰆨",
-    Constructor = "",
-    Enum = "ℰ",
-    Interface = "󰜰",
-    Function = "",
-    Variable = "",
-    Constant = "",
-    String = "𝓐",
-    Number = "#",
-    Boolean = "⊨",
-    Array = "󰅪",
-    Object = "⦿",
-    Key = "🔐",
-    Null = "NULL",
-    EnumMember = "",
-    Struct = "𝓢",
-    Event = "🗲",
-    Operator = "+",
-    TypeParameter = "𝙏",
-    Component = "󰅴",
-    Fragment = "󰅴",
-    -- Added ccls symbols in this fork
-    TypeAlias =  ' ',
-    Parameter = ' ',
-    StaticMethod = ' ',
-    Macro = ' '
-  },
+  icons = vim.g.lspkind_symbols,
 
   -- Control which windows and buffers aerial should ignore.
   -- Aerial will not open when these are focused, and existing aerial windows will not be updated
