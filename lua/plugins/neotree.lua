@@ -1,9 +1,26 @@
+local highlights = require("neo-tree.ui.highlights")
+
+local function find_buffer_by_name(name)
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    local buf_name = vim.api.nvim_buf_get_name(buf)
+    if buf_name == name then
+      return buf
+    end
+  end
+  return -1
+end
+
 require("neo-tree").setup({
   sources = {
     "filesystem",
     --"git_status",
-    --"buffers",
+    --"buffers"
   },
+
+  enable_opened_markers = true,   -- Enable tracking of opened files. Required for `components.name.highlight_opened_files`
+  enable_refresh_on_write = true, -- Refresh the tree when a file is written. Only used if `use_libuv_file_watcher` is false.
+  enable_normal_mode_for_inputs = false, -- Enable normal mode for input dialogs.
+  git_status_async = true,
   close_floats_on_escape_key = true,
   add_blank_line_at_top = false,
   close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
@@ -84,11 +101,12 @@ require("neo-tree").setup({
     icon = {
       folder_closed = "",
       folder_open = "",
-      folder_empty = "ﰊ",
+      folder_empty = "",
       -- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
       -- then these will never be used.
-      default = "*",
+      default = "* ",
       highlight = "NeoTreeFileIcon",
+
     },
     modified = {
       symbol = "[+]",
@@ -98,6 +116,22 @@ require("neo-tree").setup({
       trailing_slash = false,
       use_git_status_colors = true,
       highlight = "NeoTreeFileName",
+      highlight_opened_files = "all"
+    },
+    file_size = {
+      enabled = false,
+    },
+    type = {
+      enabled = false,
+    },
+    last_modified = {
+      enabled = false,
+    },
+    created = {
+      enabled = false,
+    },
+    symlink_target = {
+      enabled = false,
     },
     git_status = {
       symbols = {
@@ -177,6 +211,26 @@ require("neo-tree").setup({
   },
   nesting_rules = {},
   filesystem = {
+    components = {
+      name = function(config, node, stat)
+        local result = {
+          text = " " .. node.name
+        }
+        if node.type == "file" then
+          local rc = find_buffer_by_name(node.path)
+          if rc >= 0 and vim.api.nvim_buf_is_loaded(rc) then
+            result.highlight = "NeoTreeFilenameOpened"
+          else
+            result.highlight = config.highlight
+          end
+        elseif node.type == "directory" then
+          result.highlight = highlights.DIRECTORY_ICON
+        else
+          result.highlight = "NeoTreeMessage"
+        end
+        return result
+      end
+    },
     filtered_items = {
       visible = false, -- when true, they will just be displayed differently than normal items
       hide_dotfiles = false,
@@ -243,7 +297,7 @@ require("neo-tree").setup({
     window = {
       position = "float",
       popup = {
-        size = { height = 20, width = 50 },
+        size = { height = 40, width = 50 },
       },
       mappings = {
         ["bd"] = "buffer_delete",
