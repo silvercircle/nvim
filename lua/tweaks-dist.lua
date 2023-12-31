@@ -167,7 +167,7 @@ Tweaks.theme = {
 -- filetree tweaks
 Tweaks.tree = {
   -- valid versions are Neo (for NeoTree) or Nvim (for NvimTree)
-  version = "Neo",
+  version = "Nvim",
   -- use the git integration (currently only available for NeoTree)
   use_git = false
 }

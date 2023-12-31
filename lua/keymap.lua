@@ -4,7 +4,6 @@ local kms = vim.keymap.set
 local opts = { noremap = true, silent = true }
 local utils = require('local_utils')
 local utility_key = vim.g.tweaks.utility_key
-local trouble = require("trouble")
 local treename = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
 
 --- peform a key press
@@ -394,10 +393,6 @@ _Config_SetKey({ 'n', 'i', 'v' }, "<C-x>o",
     end
   end, "Sync Outline view")
 
-_Config_SetKey({ 'n', 'i' }, "<C-t>t", function() trouble.open() end, "Toggle Trouble window")
-_Config_SetKey({ 'n', 'i' }, "<C-t>q", function() trouble.close() end, "Toggle Trouble window")
-_Config_SetKey({ 'n', 'i' }, "<C-t><Down>", function() trouble.next({skip_groups = true, jump = true}) end, "Trouble next item")
-_Config_SetKey({ 'n', 'i' }, "<C-t><Up>", function() trouble.previous({skip_groups = true, jump = true}) end, "Trouble previous item")
 require("local_utils.marks").set_keymaps()
 
 

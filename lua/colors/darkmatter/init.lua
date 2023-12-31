@@ -934,7 +934,7 @@ function M.set()
   end
   set_all()
   for _, v in ipairs(conf.plugins.hl) do
-    require("colors.darkmatter.plugins." .. v)
+    require("colors.darkmatter.plugins." .. v).set()
   end
   if conf.sync_kittybg == true and conf.kittysocket ~= nil and conf.kittenexec ~= nil then
     if vim.fn.filereadable(conf.kittysocket) == 1 and vim.fn.executable(conf.kittenexec) == 1 then

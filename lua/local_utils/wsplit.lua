@@ -576,7 +576,7 @@ function Wsplit.refresh()
           )
         )
         table.insert(lines, Wsplit.prepare_line(" Pressure: " .. results["19"], " " .. results["18"], 0))
-        table.insert(lines, Wsplit.prepare_line("   " .. results["23"], "滋 " .. results["24"], -2))
+        table.insert(lines, Wsplit.prepare_line("   " .. results["23"], "  " .. results["24"], -3))
         local cond = conditions[results["37"]][results["4"]]
         if cond == nil then
           cond = "N/A"
