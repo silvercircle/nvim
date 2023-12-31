@@ -9,7 +9,7 @@
 --License:      MIT
 -------------------------------------------------------------------------------
 --rewritten to lua and heavily modified for my personal Neovim config at:
---https://gitlab.com/silvercircle74/nvim
+--https://gitlab.com/silvercircle73/nvim
 --License:      MIT
 --it features multiple background modes (cold, warm and deepdark) and three levels
 --of color saturation: bright vivid and two desaturated modes
@@ -86,12 +86,13 @@ M.basetheme = {
     -- accent color is used for important highlights like the currently selected tab (buffer)
     -- and more.
     --accent_color = '#cbaf00',
+    --accent_color = '#ab8f00',
     accent_color = "#305030",
     --alt_accent_color = '#bd2f4f',
     alt_accent_color = "#501010",
     accent_fg = "#cccc80",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
-    selbg = "#104090",
+    selbg = "#202070",
     cold = {
       statuslinebg = "#262630",
       bg = "#141414",
@@ -125,7 +126,7 @@ M.basetheme = {
     alt_accent_color = "#501010",
     accent_fg = "#cccc80",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
-    selbg = "#104090",
+    selbg = "#202070",
     cold = {
       statuslinebg = "#b0b0b5",
       bg = "#e5e5ea",
@@ -157,6 +158,7 @@ M.basetheme = {
 -- after changing the configuration configure() must be called before the theme
 -- can be activated with set()
 local conf = {
+  disabled = false,
   scheme = "dark",
   -- color variant. as of now, 3 types are supported:
   -- a) "warm" - the default, a medium-dark grey background with a slightly red-ish tint.
@@ -169,6 +171,7 @@ local conf = {
   -- The color of strings. Some prefer yellow, others not so.
   -- Supported are "yellow" and "green".
   theme_strings = "yellow",
+  accent = "yellow",
   -- kitty features are disabled by default.
   -- if configured properly, the theme's set() function can also set kitty's background
   -- color via remote control. It needs a valid unix socket and kitten executable.
@@ -258,7 +261,7 @@ local conf = {
   -- change it.
   callback = nil,
   custom_colors = {
-    '#ff0000', '#00ff00', '#202060', '#ff00ff'
+    '#ff0000', '#00ff00', '#303080', '#ff00ff'
   },
   -- plugins. there are 3 kinds of plugins:
   -- customize: executed after configure() but before colors are set. Allows
@@ -279,6 +282,18 @@ local LuaLineColors = {}
 local diff = vim.api.nvim_win_get_option(0, "diff")
 
 M.set_hl = vim.api.nvim_set_hl
+
+-- these groups are all relevant to the signcolumn and need their bg updated when
+-- switching from / to transparency mode since we want a transparent gutter area with
+-- no background. These hlg are used for GitSigns, LSP diagnostics, marks among 
+-- other things.
+local signgroups = { "RedSign", "OrangeSign", "YellowSign", "GreenSign", "BlueSign", "PurpleSign", "CursorLineNr" }
+
+local function set_signs_trans()
+  for _, v in ipairs(signgroups) do
+    vim.cmd("hi " .. v .. " guibg=none")
+  end
+end
 
 --- set a highlight group with only colors
 --- @param hlg string: highlight group name
@@ -521,8 +536,8 @@ local function set_all()
   M.hl_with_defaults("EndOfBuffer", M.localtheme.bg4, M.palette.none)
   M.hl_with_defaults("Folded", M.localtheme.fg, M.palette.diff_blue)
   M.hl_with_defaults("ToolbarLine", M.localtheme.fg, M.palette.none)
-  M.hl_with_defaults("FoldColumn", M.localtheme.bg4, M.localtheme.darkbg)
-  M.hl_with_defaults("SignColumn", M.localtheme.fg, M.localtheme.darkbg)
+  M.hl_with_defaults("FoldColumn", M.localtheme.bg4, M.palette.none)
+  M.hl_with_defaults("SignColumn", M.localtheme.fg, M.palette.none)
   M.hl_with_defaults("IncSearch", M.localtheme.yellow, M.localtheme.darkred)
   M.hl_with_defaults("Search", M.localtheme.black, M.palette.darkyellow)
   M.hl_with_defaults("ColorColumn", M.palette.none, M.localtheme.bg1)
@@ -531,6 +546,7 @@ local function set_all()
   M.hl_with_defaults("nCursor", M.localtheme.fg, M.localtheme.fg)
   M.hl_with_defaults("iCursor", M.localtheme.yellow, M.localtheme.yellow)
   M.hl_with_defaults("vCursor", M.localtheme.red, M.localtheme.red)
+  M.hl_with_defaults("LineNr", M.palette.grey_dim, M.palette.none)
 
   M.link("CursorIM", "iCursor")
 
@@ -544,7 +560,6 @@ local function set_all()
     M.hl_with_defaults("CursorColumn", M.palette.none, M.localtheme.bg1)
   end
 
-  M.hl_with_defaults("LineNr", M.palette.grey_dim, M.localtheme.darkbg)
   if diff then
     M.hl("CursorLineNr", M.localtheme.yellow, M.palette.none, { underline = true })
   else
@@ -571,7 +586,7 @@ local function set_all()
   M.link("WildMenu", "PmenuSel")
 
   M.hl_with_defaults("PmenuThumb", M.palette.none, M.palette.grey)
-  M.hl_with_defaults("NormalFloat", M.localtheme.fg, M.localtheme.bg_dim)
+  M.hl_with_defaults("NormalFloat", M.localtheme.fg_dim, M.localtheme.bg_dim)
   M.hl_with_defaults("FloatBorder", M.palette.grey_dim, M.localtheme.bg_dim)
   M.hl_with_defaults("Question", M.localtheme.yellow, M.palette.none)
   M.hl("SpellBad", M.palette.none, M.palette.none, { undercurl = true, sp = M.localtheme.red[1] })
@@ -590,7 +605,7 @@ local function set_all()
   M.link("MsgArea", "StatusLine")
   M.link("WinSeparator", "VertSplit")
 
-  M.hl_with_defaults("Visual", M.palette.selfg, M.palette.selbg)
+  M.hl_with_defaults("Visual", M.palette.none, M.palette.selbg)
   M.hl("VisualNOS", M.palette.none, M.localtheme.bg3, { underline = true })
   M.hl_with_defaults("QuickFixLine", M.localtheme.blue, M.palette.neotreebg)
   M.hl_with_defaults("Debug", M.localtheme.yellow, M.palette.none)
@@ -625,7 +640,7 @@ local function set_all()
   M.hl_with_defaults("Macro", M.palette.purple, M.palette.none)
   M.hl_with_defaults("Error", M.localtheme.red, M.palette.none)
   M.hl_with_defaults("Label", M.palette.purple, M.palette.none)
-  M.hl("Special", M.localtheme.darkpurple, M.palette.none, conf.attrib.bold)
+  M.hl("Special", M.localtheme.special.blue, M.palette.none, conf.attrib.bold)
   M.hl_with_defaults("SpecialChar", M.palette.purple, M.palette.none)
   M.hl("String", M.localtheme.string, M.palette.none, conf.attrib.string)
   M.hl_with_defaults("Character", M.localtheme.yellow, M.palette.none)
@@ -875,12 +890,12 @@ local function set_all()
   M.link("GlanceListCursorLine", "Visual")
 
   -- allow neotree and other addon panels have different backgrounds
-  M.hl_with_defaults("NeoTreeNormalNC", M.localtheme.fg, M.palette.neotreebg)
+  M.hl_with_defaults("NeoTreeNormalNC", M.localtheme.fg_dim, M.palette.neotreebg)
   M.hl_with_defaults("NeoTreeNormal", M.localtheme.fg, M.palette.neotreebg)
   M.hl_with_defaults("NeoTreeFloatBorder", M.palette.grey_dim, M.palette.neotreebg)
   M.hl("NeoTreeFileNameOpened", M.localtheme.blue, M.palette.neotreebg, conf.attrib.italic)
   M.hl_with_defaults("SymbolsOutlineConnector", M.palette.grey_dim, M.palette.none)
-  M.hl_with_defaults("TreeCursorLine", M.localtheme.fg_dim, M.localtheme.special.c3)
+  M.hl_with_defaults("TreeCursorLine", M.palette.none, M.localtheme.special.c3)
   M.hl_with_defaults("NotifierTitle", M.localtheme.yellow, M.palette.none)
   M.link("NotifierContent", "NeoTreeNormalNC")
 
@@ -938,6 +953,12 @@ function M.set()
   for _, v in ipairs(conf.plugins.post) do
     require("colors.darkmatter.plugins." .. v)
   end
+  set_signs_trans()
+end
+
+function M.disable()
+  conf.disabled = true
+  vim.cmd("hi! link NeoTreeNormalNC NeoTreeNormal")
 end
 
 local supported_variants = { "warm", "cold", "deepblack" }
@@ -1024,12 +1045,6 @@ function M.Lualine_internal_theme()
   }
 end
 
--- these groups are all relevant to the signcolumn and need their bg updated when
--- switching from / to transparency mode since we want a transparent gutter area with
--- no background. These hlg are used for GitSigns, LSP diagnostics, marks among 
--- other things.
-local signgroups = { "RedSign", "OrangeSign", "YellowSign", "GreenSign", "BlueSign", "PurpleSign", "CursorLineNr" }
-
 --- set the background transparent or solid
 --- this changes the relevant highlight groups to use a transparent background.
 --- Needs terminal with transparency support (kitty, alacritty etc.)
@@ -1043,9 +1058,7 @@ function M.set_bg()
     vim.cmd("hi LineNr guibg=none")
     vim.cmd("hi FoldColumn guibg=none")
     vim.cmd("hi SignColumn guibg=none")
-    for _, v in ipairs(signgroups) do
-      vim.cmd("hi " .. v .. " guibg=none")
-    end
+    set_signs_trans()
   else
     local variant = conf.variant
     vim.api.nvim_set_hl(0, "Normal", { bg = M.theme[variant].bg, fg = "fg" })
@@ -1055,11 +1068,12 @@ function M.set_bg()
     vim.cmd("hi LineNr guibg=" .. M.theme[variant].gutterbg)
     vim.cmd("hi FoldColumn guibg=" .. M.theme[variant].gutterbg)
     vim.cmd("hi SignColumn guibg=" .. M.theme[variant].gutterbg)
-    for _, v in ipairs(signgroups) do
-      vim.cmd("hi " .. v .. " guibg=" .. M.theme[variant].gutterbg)
-    end
+    --for _, v in ipairs(signgroups) do
+    --  vim.cmd("hi " .. v .. " guibg=" .. M.theme[variant].gutterbg)
+    --end
   end
 end
+
 
 --- call the configured (if any) callback function to indicate what
 --- has changed in the theme's configuration

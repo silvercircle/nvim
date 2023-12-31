@@ -1,4 +1,5 @@
 -- nvim-cmp: completion support
+local utils = require("local_utils")
 local cmp_helper = {}
 -- file types that allow buffer indexing for the cmp_buffer source
 
@@ -34,33 +35,7 @@ lspkind.init({
   -- override preset symbols
   --
   -- default: {}
-  symbol_map = {
-    Text = "",
-    Method = "",
-    Function = "",
-    Constructor = "",
-    Field = "ﰠ",
-    Variable = "",
-    Class = "ﴯ",
-    Interface = "",
-    Module = "",
-    Property = "ﰠ",
-    Unit = "塞",
-    Value = "",
-    Enum = "",
-    Keyword = "",
-    Snippet = "",
-    Color = "",
-    File = "",
-    Reference = "",
-    Folder = "",
-    EnumMember = "",
-    Constant = "",
-    Struct = "פּ",
-    Event = "",
-    Operator = "",
-    TypeParameter = ""
-  },
+  symbol_map = vim.g.lspkind_symbols
 })
 
 cmp.setup({
@@ -82,14 +57,14 @@ cmp.setup({
   window = {
     -- respect the perm_config.telescope_borders setting. "squared", "rounded" or "none"
     documentation = {
-      border = __Globals.perm_config.telescope_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-               or ( __Globals.perm_config.telescope_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
-      winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
+      border = __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+               or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
+      winhighlight = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None",
     },
     completion = {
-      border = __Globals.perm_config.telescope_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-               or ( __Globals.perm_config.telescope_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
-      winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
+      border = __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+               or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
+      winhighlight = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual",
     },
   },
   mapping = {
@@ -101,7 +76,7 @@ cmp.setup({
     ["<Esc>"] = cmp.mapping.close(), -- ESC close complete popup. Feels more natural than <C-e>
     ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp_types.SelectBehavior.Select }),
     ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp_types.SelectBehavior.Select }),
-    ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
+    ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
     ["<Tab>"] = { -- see GH-880, GH-897
       i = function(fallback) -- see GH-231, GH-286
         if cmp.visible() then
@@ -157,25 +132,25 @@ cmp.setup({
       if entry.source.name == "nvim_lsp" then
         -- Display which LSP servers this item came from.
         local lspserver_name = entry.source.source.client.name
+        if lspserver_name == "lua_ls" then lspserver_name = "Lua" end
         vim_item.menu = lspserver_name
         -- Some language servers provide details, e.g. type information.
         -- The details info hide the name of lsp server, but mostly we'll have one LSP
         -- per filetype, and we use special highlights so it's OK to hide it..
         local detail_txt = (function(cmp_item)
           if not cmp_item.detail then
-            if lspserver_name == "omnisharp" then
-              return "OmniSharp"
-            end
             return nil
           end
+          -- OmniSharp sometimes provides details (e.g. for overloaded operators). So leave some
+          -- space for them.
           if lspserver_name == "omnisharp" then
-            return cmp_item.detail .. "OmniSharp"
+            return #cmp_item.detail > 0 and utils.rpad(string.sub(cmp_item.detail, 1, 8), 10, " ") .. "OmniSharp" or "          OmniSharp"
           end
           if lspserver_name == "pyright" and cmp_item.detail == "Auto-import" then
             local label = (cmp_item.labelDetails or {}).description
             return label and (" " .. __Globals.truncate(label, 20)) or nil
           else
-            return __Globals.truncate(cmp_item.detail, Config.cmp.max_detail_item_width)
+            return lspserver_name == "Lua" and "Lua" or __Globals.truncate(cmp_item.detail, Config.cmp.max_detail_item_width)
           end
         end)(cmp_item)
         if detail_txt then
