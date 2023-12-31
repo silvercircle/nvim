@@ -444,8 +444,6 @@ lspconfig.zls.setup {
 }
 
 -- outsourced because it's too big
--- require("lsp.jdtls")
--- require("lsp.pylyzer")
 require("lsp.omnisharp")
 -- require("lsp.hls")      -- hls (haskell)
 -------------------------
@@ -455,7 +453,7 @@ require("lsp.omnisharp")
 do
   local on_references = vim.lsp.handlers["textDocument/references"]
   local lsp_handlers_hover = vim.lsp.with(vim.lsp.handlers.hover, {
-    border = __Globals.perm_config.telescope_borders
+    border = __Globals.perm_config.cmp_borders
   })
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -482,7 +480,7 @@ do
   -- Bound to C-p in insert mode
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
     vim.lsp.handlers.signature_help, {
-      border = __Globals.perm_config.telescope_borders == "rounded" and "rounded" or "single",
+      border = __Globals.perm_config.cmp_borders,
       focusable = false
     })
   --require("lsp.notify-standalone").init()
@@ -513,7 +511,7 @@ if vim.diagnostic then
       source = "always",
       focusable = true,
       focus = false,
-      border = __Globals.perm_config.telescope_borders,
+      border = __Globals.perm_config.cmp_borders,
       -- Customize how diagnostic message will be shown: show error code.
       format = function(diagnostic)
         local user_data

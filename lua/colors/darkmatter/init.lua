@@ -9,7 +9,7 @@
 --License:      MIT
 -------------------------------------------------------------------------------
 --rewritten to lua and heavily modified for my personal Neovim config at:
---https://gitlab.com/silvercircle74/nvim
+--https://gitlab.com/silvercircle73/nvim
 --License:      MIT
 --it features multiple background modes (cold, warm and deepdark) and three levels
 --of color saturation: bright vivid and two desaturated modes
@@ -586,7 +586,7 @@ local function set_all()
   M.link("WildMenu", "PmenuSel")
 
   M.hl_with_defaults("PmenuThumb", M.palette.none, M.palette.grey)
-  M.hl_with_defaults("NormalFloat", M.localtheme.fg, M.localtheme.bg_dim)
+  M.hl_with_defaults("NormalFloat", M.localtheme.fg_dim, M.localtheme.bg_dim)
   M.hl_with_defaults("FloatBorder", M.palette.grey_dim, M.localtheme.bg_dim)
   M.hl_with_defaults("Question", M.localtheme.yellow, M.palette.none)
   M.hl("SpellBad", M.palette.none, M.palette.none, { undercurl = true, sp = M.localtheme.red[1] })

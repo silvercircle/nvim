@@ -96,7 +96,8 @@ Tweaks.cmp = {
   --enable experimental ghost text feature. Set to false (disable) or a table
   --containing the highlight group to use for ghost text.
   --for example: ghost = { hl_group = 'CmpGhostText' }
-  ghost = false
+  ghost = false,
+  border = "single"
 }
 
 -- set this to "Outline" to use the symbols-outline plugin.

@@ -57,14 +57,14 @@ cmp.setup({
   window = {
     -- respect the perm_config.telescope_borders setting. "squared", "rounded" or "none"
     documentation = {
-      border = __Globals.perm_config.telescope_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-               or ( __Globals.perm_config.telescope_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
-      winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
+      border = __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+               or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
+      winhighlight = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None",
     },
     completion = {
-      border = __Globals.perm_config.telescope_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-               or ( __Globals.perm_config.telescope_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
-      winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
+      border = __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+               or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
+      winhighlight = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual",
     },
   },
   mapping = {
@@ -146,14 +146,11 @@ cmp.setup({
           if lspserver_name == "omnisharp" then
             return #cmp_item.detail > 0 and utils.rpad(string.sub(cmp_item.detail, 1, 8), 10, " ") .. "OmniSharp" or "          OmniSharp"
           end
-          if lspserver_name == "lua_ls" then
-            return "Lua"
-          end
           if lspserver_name == "pyright" and cmp_item.detail == "Auto-import" then
             local label = (cmp_item.labelDetails or {}).description
             return label and (" " .. __Globals.truncate(label, 20)) or nil
           else
-            return __Globals.truncate(cmp_item.detail, Config.cmp.max_detail_item_width)
+            return lspserver_name == "Lua" and "Lua" or __Globals.truncate(cmp_item.detail, Config.cmp.max_detail_item_width)
           end
         end)(cmp_item)
         if detail_txt then

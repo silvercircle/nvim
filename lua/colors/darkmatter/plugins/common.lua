@@ -76,7 +76,8 @@ c.link("CmpItemKindSnippet", "CmpItemMenuSnippet")
 c.link("CmpItemKindOperator", "Operator")
 c.link("CmpItemKindInterface", "Interface")
 c.link("CmpItemKindValue", "StorageClass")
-
+c.hl_with_defaults("CmpFloat", c.localtheme.fg_dim, c.palette.neotreebg)
+c.hl_with_defaults("CmpBorder", c.localtheme.bg4, c.palette.neotreebg)
 
 c.hl_with_defaults("TelescopeBorder", c.localtheme.accent, c.localtheme.bg_dim)
 c.hl_with_defaults("TelescopePromptBorder", c.localtheme.accent, c.localtheme.bg_dim)

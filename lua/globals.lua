@@ -70,7 +70,8 @@ M.perm_config_default = {
   outline_filetype = "Outline",
   treesitter_context = true,
   show_indicators = true,
-  telescope_borders = "rounded"
+  telescope_borders = "rounded",
+  cmp_borders = "single"
 }
 
 M.perm_config = {}
