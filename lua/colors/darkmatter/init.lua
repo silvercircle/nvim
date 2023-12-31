@@ -86,12 +86,13 @@ M.basetheme = {
     -- accent color is used for important highlights like the currently selected tab (buffer)
     -- and more.
     --accent_color = '#cbaf00',
+    --accent_color = '#ab8f00',
     accent_color = "#305030",
     --alt_accent_color = '#bd2f4f',
     alt_accent_color = "#501010",
     accent_fg = "#cccc80",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
-    selbg = "#104090",
+    selbg = "#202070",
     cold = {
       statuslinebg = "#262630",
       bg = "#141414",
@@ -125,7 +126,7 @@ M.basetheme = {
     alt_accent_color = "#501010",
     accent_fg = "#cccc80",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
-    selbg = "#104090",
+    selbg = "#202070",
     cold = {
       statuslinebg = "#b0b0b5",
       bg = "#e5e5ea",
@@ -170,6 +171,7 @@ local conf = {
   -- The color of strings. Some prefer yellow, others not so.
   -- Supported are "yellow" and "green".
   theme_strings = "yellow",
+  accent = "yellow",
   -- kitty features are disabled by default.
   -- if configured properly, the theme's set() function can also set kitty's background
   -- color via remote control. It needs a valid unix socket and kitten executable.
@@ -259,7 +261,7 @@ local conf = {
   -- change it.
   callback = nil,
   custom_colors = {
-    '#ff0000', '#00ff00', '#202060', '#ff00ff'
+    '#ff0000', '#00ff00', '#303080', '#ff00ff'
   },
   -- plugins. there are 3 kinds of plugins:
   -- customize: executed after configure() but before colors are set. Allows
@@ -603,7 +605,7 @@ local function set_all()
   M.link("MsgArea", "StatusLine")
   M.link("WinSeparator", "VertSplit")
 
-  M.hl_with_defaults("Visual", M.palette.selfg, M.palette.selbg)
+  M.hl_with_defaults("Visual", M.palette.none, M.palette.selbg)
   M.hl("VisualNOS", M.palette.none, M.localtheme.bg3, { underline = true })
   M.hl_with_defaults("QuickFixLine", M.localtheme.blue, M.palette.neotreebg)
   M.hl_with_defaults("Debug", M.localtheme.yellow, M.palette.none)
@@ -893,7 +895,7 @@ local function set_all()
   M.hl_with_defaults("NeoTreeFloatBorder", M.palette.grey_dim, M.palette.neotreebg)
   M.hl("NeoTreeFileNameOpened", M.localtheme.blue, M.palette.neotreebg, conf.attrib.italic)
   M.hl_with_defaults("SymbolsOutlineConnector", M.palette.grey_dim, M.palette.none)
-  M.hl_with_defaults("TreeCursorLine", M.localtheme.fg_dim, M.localtheme.special.c3)
+  M.hl_with_defaults("TreeCursorLine", M.palette.none, M.localtheme.special.c3)
   M.hl_with_defaults("NotifierTitle", M.localtheme.yellow, M.palette.none)
   M.link("NotifierContent", "NeoTreeNormalNC")
 

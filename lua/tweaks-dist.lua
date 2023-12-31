@@ -77,7 +77,8 @@ Tweaks.lsp = {
     emmet         =   Tweaks.lsp.masonbinpath .. 'emmet-language-server',
     ltex          =   "/opt/ltex/bin/ltex-ls",
     groovy        =   Tweaks.lsp.masonbinpath .. 'groovy-language-server',
-    roslyn        =   vim.fn.stdpath("data") .. "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll"
+    roslyn        =   vim.fn.stdpath("data") .. "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll",
+    zls           =   Tweaks.lsp.masonbinpath .. 'zls'
   }
 }
 

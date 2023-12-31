@@ -9,7 +9,11 @@ a simple system to prevent this:
 
 * You can now modify settings in `mytweaks` and they will override corresponding settings in 
   `tweaks-dist.lua`. You can also delete everything you do not want to touch from `mytweaks.lua` but 
-  leave the `-dist` alone.
+  leave the `-dist` alone. The `mytweaks.lua` is merged with the `tweaks-dist` at startup
 
 The **most important** setting to edit in the tweaks is the `lsp` table, because this contains all the 
-paths 
+paths for the supported LSP server binaries. If you install them with Mason, you should not need to edit 
+most of them, but remember, the config is only supported on Linux and if you are on Windows (native, not 
+WSL) or macOS, you'll likely have to fix a lot.
+
+

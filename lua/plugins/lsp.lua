@@ -433,6 +433,16 @@ lspconfig.groovyls.setup {
     return util.root_pattern 'settings.gradle'(fname) or util.find_git_ancestor(fname)
   end
 }
+
+lspconfig.zls.setup {
+  capabilities = capabilities,
+  on_attach = on_attach,
+  cmd = { vim.g.lsp_server_bin['zls'] },
+  filetypes = { 'zig', 'zir' },
+  root_dir = util.root_pattern('zls.json', 'build.zig', '.git'),
+  single_file_support = true,
+}
+
 -- outsourced because it's too big
 -- require("lsp.jdtls")
 -- require("lsp.pylyzer")
