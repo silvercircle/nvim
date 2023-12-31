@@ -132,6 +132,7 @@ cmp.setup({
       if entry.source.name == "nvim_lsp" then
         -- Display which LSP servers this item came from.
         local lspserver_name = entry.source.source.client.name
+        if lspserver_name == "lua_ls" then lspserver_name = "Lua" end
         vim_item.menu = lspserver_name
         -- Some language servers provide details, e.g. type information.
         -- The details info hide the name of lsp server, but mostly we'll have one LSP
@@ -144,6 +145,9 @@ cmp.setup({
           -- space for them.
           if lspserver_name == "omnisharp" then
             return #cmp_item.detail > 0 and utils.rpad(string.sub(cmp_item.detail, 1, 8), 10, " ") .. "OmniSharp" or "          OmniSharp"
+          end
+          if lspserver_name == "lua_ls" then
+            return "Lua"
           end
           if lspserver_name == "pyright" and cmp_item.detail == "Auto-import" then
             local label = (cmp_item.labelDetails or {}).description
