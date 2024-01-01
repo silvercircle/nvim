@@ -2,8 +2,7 @@ local highlights = require("neo-tree.ui.highlights")
 
 local function find_buffer_by_name(name)
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    local buf_name = vim.api.nvim_buf_get_name(buf)
-    if buf_name == name then
+    if name == vim.api.nvim_buf_get_name(buf) then
       return buf
     end
   end
@@ -116,7 +115,7 @@ require("neo-tree").setup({
       trailing_slash = false,
       use_git_status_colors = true,
       highlight = "NeoTreeFileName",
-      highlight_opened_files = "all"
+      highlight_opened_files = true
     },
     file_size = {
       enabled = false,
@@ -212,8 +211,9 @@ require("neo-tree").setup({
   nesting_rules = {},
   filesystem = {
     components = {
-      name = function(config, node, stat)
+      name = function(config, node, _)
         local result = {
+          -- add some padding
           text = " " .. node.name
         }
         if node.type == "file" then
@@ -231,6 +231,7 @@ require("neo-tree").setup({
         return result
       end
     },
+    bind_to_cwd = true,
     filtered_items = {
       visible = false, -- when true, they will just be displayed differently than normal items
       hide_dotfiles = false,

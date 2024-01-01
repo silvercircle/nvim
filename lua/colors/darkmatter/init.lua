@@ -86,11 +86,12 @@ M.basetheme = {
     -- accent color is used for important highlights like the currently selected tab (buffer)
     -- and more.
     --accent_color = '#cbaf00',
-    --accent_color = '#ab8f00',
-    accent_color = "#305030",
+    accent_color = '#204050',
+    --accent_color = "#305030",
     --alt_accent_color = '#bd2f4f',
     alt_accent_color = "#501010",
-    accent_fg = "#cccc80",
+    --accent_fg = "#cccc80",
+    accent_fg = "#aaaa60",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
     selbg = "#202070",
     cold = {

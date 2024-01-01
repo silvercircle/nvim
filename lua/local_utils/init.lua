@@ -537,8 +537,8 @@ end
 function Utils.command_center_theme(opts)
   local lopts = opts or {}
   local defaults = require("telescope.themes").get_dropdown({
-    borderchars = Config.cpalette_dropdown == "bottom" and border_layout_prompt_bottom
-      or border_layout_prompt_top,
+
+    borderchars = border_layout_prompt_top[__Globals.perm_config.telescope_borders],
     layout_config = {
       anchor = "N",
       width = lopts.width or 100,

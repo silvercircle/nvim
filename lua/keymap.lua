@@ -223,9 +223,9 @@ _Config_SetKey({ 'n', 'i' }, '<C-e>', function()
     })
   )
 end, "Telescope Buffer list")
-_Config_SetKey({ 'n', 'i' }, '<A-e>', function()
-  require("mini.pick").builtin.buffers({include_current=false}, {window = { config = __Globals.mini_pick_center(100, 20, 0.1) } } )
-end, "Mini.Picker Buffer list")
+--_Config_SetKey({ 'n', 'i' }, '<A-e>', function()
+--  require("mini.pick").builtin.buffers({include_current=false}, {window = { config = __Globals.mini_pick_center(100, 20, 0.1) } } )
+--end, "Mini.Picker Buffer list")
 
 _Config_SetKey({'n', 'i'}, '<C-p>', function()
   require('telescope.builtin').oldfiles(

@@ -483,6 +483,14 @@ lazy.setup({
         vim.cmd("hi TroubleText guibg=NONE")
         vim.cmd("hi TroubleLocation guibg=NONE")
       end
+  },
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    event = "BufReadPre",
+    config = function()
+      require("plugins.harpoon")
+    end
   }
 
   --{
