@@ -88,6 +88,10 @@ Tweaks.cmp = {
   -- this is a performance tweak. Value is in bytes and 300kB is a reasonable default, even for
   -- slower machines. On fast hardware you can increase this to much higher values
   buffer_maxsize = 300 * 1024,
+  -- maximum width for the item abbreviation. This is the first column of the completion popup
+  abbr_maxwidth = 60,
+  -- maximum width for the details column. Normally the rightmost column
+  details_maxwidth = 20,
   -- I prefer to have only manual cmp complation (hit Ctrl-Space)
   -- set this to true to always have auto-completion when typing
   autocomplete = false,

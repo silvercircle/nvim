@@ -51,8 +51,8 @@ Config = {
   cmp = {
     autocomplete = tweaks.cmp.autocomplete,
     autocomplete_kwlen = tweaks.cmp.keywordlen,
-    max_abbr_item_width = 40,                   -- item name width (maximum for truncate())
-    max_detail_item_width = 40,                 -- item detail field maxium width
+    max_abbr_item_width = tweaks.cmp.abbr_maxwidth,       -- item name width (maximum for truncate())
+    max_detail_item_width = tweaks.cmp.details_maxwidth,  -- item detail field maxium width
     -- the following lists file types that are allowed to use the cmp_buffer source
     buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true },
     buffer_maxsize = tweaks.cmp.buffer_maxsize, -- PERF: maximum buffer size allowed to use cmp_buffer source. 300kB

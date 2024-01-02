@@ -16,6 +16,7 @@ local snippy = require("snippy")
 
 local cmp = require("cmp")
 local cmp_types = require("cmp.types.cmp")
+local types = require("cmp.types")
 
 -- make the completion popup a little more fancy with lspkind. Now mandatory.
 local lspkind = require("lspkind")
@@ -199,6 +200,7 @@ cmp.setup({
       cmp.config.compare.offset,
       cmp.config.compare.exact,
       cmp.config.compare.score,
+      function(...) return cmp_helper.compare.deprioritize_snippet(...) end,
 --      function(...)
 --        return cmp_helper.compare.prioritize_argument(...)
 --      end,
@@ -208,8 +210,8 @@ cmp.setup({
       cmp.config.compare.recently_used,
       cmp.config.compare.locality,
       cmp.config.compare.kind,
-      cmp.config.compare.sort_text,
-      cmp.config.compare.length,
+      --cmp.config.compare.sort_text,
+      --cmp.config.compare.length,
       cmp.config.compare.order
     }
   }
@@ -246,6 +248,14 @@ cmp_helper.compare = {
     local r = (rhs.completion_item.label:find "=$") and 1 or 0
     if l ~= r then return l > r end
   end,
+  deprioritize_snippet = function(lhs, rhs)
+    if lhs:get_kind() == types.lsp.CompletionItemKind.Snippet then
+      return false
+    end
+    if rhs:get_kind() == types.lsp.CompletionItemKind.Snippet then
+      return true
+    end
+  end
 }
 
 -- vim.cmd("doautocmd CmdLineEnter")
