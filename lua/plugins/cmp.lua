@@ -38,6 +38,21 @@ lspkind.init({
   symbol_map = vim.g.lspkind_symbols
 })
 
+local cmp_item_menu = {
+  buffer = "Buffer",
+  nvim_lsp = "LSP",
+  nvim_lua = "Lua",
+  wordlist = "Wordlist translation",
+  nvim_lsp_signature_help = "Signature",
+  latex_symbols = "Latex",
+}
+
+local cmp_menu_hl_group = {
+  buffer = "CmpItemMenuBuffer",
+  nvim_lsp = "CmpItemMenuLSP",
+  path = "CmpItemMenuPath",
+}
+
 cmp.setup({
   preselect = cmp.PreselectMode.Item,
   enabled = true,
@@ -113,20 +128,9 @@ cmp.setup({
       vim_item.kind = " " .. vim_item.kind_symbol .. " " .. Config.iconpad .. vim_item.kind
       -- The 'menu' section: source, detail information (lsp, snippet), etc.
       -- set a name for each source (see the sources section below)
-      vim_item.menu = ({
-        buffer = "Buffer",
-        nvim_lsp = "LSP",
-        nvim_lua = "Lua",
-        wordlist = "Wordlist translation",
-        nvim_lsp_signature_help = "Signature",
-        latex_symbols = "Latex",
-      })[entry.source.name] or string.format("%s", entry.source.name)
+      vim_item.menu = (cmp_item_menu)[entry.source.name] or string.format("%s", entry.source.name)
       -- highlight groups for item.menu
-      vim_item.menu_hl_group = ({
-        buffer = "CmpItemMenuBuffer",
-        nvim_lsp = "CmpItemMenuLSP",
-        path = "CmpItemMenuPath",
-      })[entry.source.name] -- default is CmpItemMenu
+      vim_item.menu_hl_group = (cmp_menu_hl_group)[entry.source.name] -- default is CmpItemMenu
       -- detail information (optional)
       local cmp_item = entry:get_completion_item()
       if entry.source.name == "nvim_lsp" then
@@ -181,7 +185,7 @@ cmp.setup({
             return {}
           end
           if __Globals.cur_bufsize > Config.cmp.buffer_maxsize then -- 300kb
-            print("file too big, cmp_buffer disabled")
+            vim.notify("File " .. vim.api.nvim_buf_get_name(buf) .. " too big, cmp_buffer disabled.", vim.log.levels.INFO)
             return {}
           end
           return { buf }
@@ -225,7 +229,7 @@ cmp.setup.cmdline(":", {
     { name = "cmdline" },
   }),
   completion = {
-    completeopt = "menu,menuone,noselect"
+    completeopt = "menu,menuone"
   }
 })
  -- Custom sorting/ranking for completion items.

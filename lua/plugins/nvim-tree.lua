@@ -314,8 +314,7 @@ _Config_SetKey({'n', 'v'}, '<leader>r', function() vim.cmd('NvimTreeFindFile') e
 _Config_SetKey('n', '<leader>,', function() require('nvim-tree.api').tree.toggle() end, "Toggle NvimTree")
 
 _Config_SetKey('n', '<leader>R', function()
-  require('nvim-tree.api').tree.change_root(require("local_utils").getroot_current())
-  vim.cmd("NvimTreeFindFile")
+  __Globals.sync_tree()
 end, "Change NvimTree cwd to current project root")
 
 _Config_SetKey('n', '<leader>nr', function() require('nvim-tree.api').tree.change_root(vim.fn.expand('%:p:h')) end, "Change NvimTree cwd to current Buffer's dir")

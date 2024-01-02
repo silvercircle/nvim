@@ -115,13 +115,13 @@ vim.g.startify_top = {
   },
   {
     key = 'q',
-    text = "  Quit NVIM",
+    text = "󰗼  Quit NVIM",
     command = ":qa!<CR>"
   },
   {
     key = 'c',
     text = "  Edit config",
-    command = ":e ~/.config/nvim/init.vim<CR>:NvimTreeFindFile<CR>"
+    command = ":e ~/.config/nvim/init.vim<CR>"
   }
 }
 
@@ -166,6 +166,12 @@ vim.filetype.add({
   }
 })
 
+--
+-- These symbols are used by:
+-- Cmp plugin
+-- aerial plugin
+-- outline plugin
+-- lspkind plugin
 vim.g.lspkind_symbols = {
   Text        = "󰊄 ",
   Method      = " ",

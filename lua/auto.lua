@@ -66,6 +66,16 @@ autocmd({ 'UIEnter' }, {
           require("local_utils.usplit").resize_or_closed()
           -- require("local_utils.wsplit").resize_or_closed()
           if sizeevent.event == "WinClosed" then
+            if __Globals.term.winid ~= nil and vim.api.nvim_win_is_valid(__Globals.term.winid) == false then
+              __Globals.term.winid = nil
+              __Globals.term.visible = false
+            end
+            if wsplit.winid ~= nil and vim.api.nvim_win_is_valid(wsplit.winid) == false then
+              wsplit.winid = nil
+            end
+            if usplit.winid ~= nil and vim.api.nvim_win_is_valid(usplit.winid) == false then
+              usplit.winid = nil
+            end
             local id = sizeevent.match
             local status, target = pcall(vim.api.nvim_win_get_var, tonumber(id), "termheight")
             if status and __Globals.term.winid ~= nil then

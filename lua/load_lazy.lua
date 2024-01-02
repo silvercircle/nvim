@@ -491,6 +491,12 @@ lazy.setup({
     config = function()
       require("plugins.harpoon")
     end
+  },
+  {
+    "MaximilianLloyd/ascii.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim"
+    }
   }
 
   --{
