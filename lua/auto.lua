@@ -44,9 +44,9 @@ autocmd({ 'UIEnter' }, {
     -- because all the sub splits have already been created
     -- running this more than once will cause all kind of mayhem, so don't
     if did_UIEnter == true then
-      return
+    return
     end
-    -- create custom telescope themes as globals
+-- create custom telescope themes as globals
     __Telescope_dropdown_theme = utils.Telescope_dropdown_theme
     __Telescope_vertical_dropdown_theme = utils.Telescope_vertical_dropdown_theme
     did_UIEnter = true
@@ -63,7 +63,7 @@ autocmd({ 'UIEnter' }, {
       -- keep track of tree/outline window widths
       autocmd({ "WinClosed", "WinResized" }, {
         callback = function(sizeevent)
-          require("local_utils.usplit").resize_or_closed()
+          require("local_utils.usplit").resize_or_closed(sizeevent)
           -- require("local_utils.wsplit").resize_or_closed()
           if sizeevent.event == "WinClosed" then
             if __Globals.term.winid ~= nil and vim.api.nvim_win_is_valid(__Globals.term.winid) == false then
@@ -110,24 +110,6 @@ autocmd({ 'UIEnter' }, {
         group = agroup_views
       })
       vim.api.nvim_command("wincmd p")
-      --      require("local_utils.blist").setup({
-      --        symbols = {
-      --          current = "+", -- default 
-      --          split = "s", -- default 
-      --          alternate = "a", -- default 
-      --          hidden = "~", -- default ﬘
-      --          unloaded = "-",
-      --          locked = "L", -- default 
-      --          ro = "r", -- default 
-      --          edited = "*", -- default 
-      --          terminal = "t", -- default 
-      --  --        default_file = "D", -- Filetype icon if not present in nvim-web-devicons. Default 
-      --          terminal_symbol = ">" -- Filetype icon for a terminal split. Default 
-      --        }
-      --      })
-      --      if globals.perm_config.blist == true then
-      --require("local_utils.blist").open(true, 0, globals.perm_config.blist_height)
-      --      end
       if __Globals.perm_config.weather.active == true then
         wsplit.content = __Globals.perm_config.weather.content
         wsplit.content_set_winid(__Globals.main_winid)

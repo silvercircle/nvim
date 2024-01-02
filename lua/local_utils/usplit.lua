@@ -3,6 +3,7 @@ Usplit.winid = nil -- window id
 Usplit.bufid = nil -- buffer id
 Usplit.content = "fortune"
 Usplit.cookie = {}
+Usplit.width = 0
 
 local timer = nil
 local num_cookies = vim.g.tweaks.fortune.numcookies or 1
@@ -16,16 +17,18 @@ end
 
 -- this is called from the winresized / winclosed handler in auto.lua
 -- when the window has disappeared, the buffer is deleted.
-function Usplit.resize_or_closed()
-  if Usplit.winid ~= nil and vim.api.nvim_win_is_valid(Usplit.winid) == false then -- window has disappeared
-    if Usplit.bufid ~= nil and vim.api.nvim_buf_is_valid(Usplit.bufid) then
-      vim.api.nvim_buf_delete(Usplit.bufid, { force = true })
-      Usplit.bufid = nil
+function Usplit.resize_or_closed(event)
+  if Usplit.winid ~= nil then
+    if vim.api.nvim_win_is_valid(Usplit.winid) == false then -- window has disappeared
+      if Usplit.bufid ~= nil and vim.api.nvim_buf_is_valid(Usplit.bufid) then
+        vim.api.nvim_buf_delete(Usplit.bufid, { force = true })
+        Usplit.bufid = nil
+      end
+      Usplit.winid = nil
+    else
+      Usplit.refresh()
+      __Globals.perm_config.sysmon.width = vim.api.nvim_win_get_width(Usplit.winid)
     end
-    Usplit.winid = nil
-  elseif Usplit.winid ~= nil then
-    Usplit.refresh()
-    __Globals.perm_config.sysmon.width = vim.api.nvim_win_get_width(Usplit.winid)
   end
 end
 
