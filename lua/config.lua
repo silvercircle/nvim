@@ -32,6 +32,22 @@ Config = {
     preview_height =10,
     anchor = "N",
   },
+  -- map symbol types to highlight groups for telescope since telescope does not use lspkind
+  telescope_symbol_highlights = {
+    Package   = "@namespace",
+    Module    = "@include",
+    Function  = "@function",
+    Constant  = "@constant",
+    Field     = "@field",
+    Property  = "@property",
+    Constructor = "@constructor",
+    Method    = "@method",
+    Class     = "@lsp.type.class",
+    Struct    = "@lsp.type.struct",
+    Namespace = "@namespace",
+    Enum      = "@lsp.type.enum_name",
+    Enummember= "@lsp.type.enum_member_name"
+  },
   cmp = {
     autocomplete = tweaks.cmp.autocomplete,
     autocomplete_kwlen = tweaks.cmp.keywordlen,

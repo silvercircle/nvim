@@ -81,22 +81,6 @@ command_center.add({
     category = "@LSP"
   },
   {
-    desc = "LSP Jump to definition",
-    cmd = function() vim.lsp.buf.definition() end,
-    keys = { { "n", "<C-x>d", noremap },
-      { 'i', "<C-x>d", noremap }
-    },
-    category = "@LSP"
-  },
-  {
-    desc = "LSP References",
-    cmd = function() vim.lsp.buf.references() end,
-    keys = { { "n", "<C-x>r", noremap },
-      { 'i', "<C-x>r", noremap }
-    },
-    category = "@LSP"
-  },
-  {
     desc = "LSP Diagnostics",
     cmd = function() vim.diagnostic.setloclist() end,
     keys = { "n", "le", noremap },
@@ -113,26 +97,12 @@ command_center.add({
   -- Telescope LSP code navigation and diagnostics
   {
     desc = "Jump to definition (Telescope)",
-    cmd = function() _tb.lsp_definitions(__Telescope_vertical_dropdown_theme({})) end,
-    keys = { "n", "tde", noremap },
-    category = "@LSP Telescope"
-  },
-  {
-    desc = "Show references (Telescope)",
-    cmd = function()
-      _tb.lsp_references(__Telescope_vertical_dropdown_theme({
-        fname_width = Config.telescope_fname_width,
-        layout_config = {
-          width = 0.9 }
-      }))
-    end,
-    keys = { "n", "tre", noremap },
-    category = "@LSP Telescope"
-  },
-  {
-    desc = "Document symbols (Telescope)",
-    cmd = function() _tb.lsp_document_symbols({ layout_config = { height = 0.6, width = 0.8, preview_width = 0.6 } }) end,
-    keys = { "n", "ts", noremap },
+    cmd = function() _tb.lsp_definitions(__Telescope_vertical_dropdown_theme({
+        prompt_prefix = lutils.getTelescopePromptPrefix(),
+        symbol_highlights = Config.telescope_symbol_highlights,
+        layout_config = Config.minipicker_layout
+    })) end,
+    keys = { { "n", "i" }, "<C-x>d", noremap },
     category = "@LSP Telescope"
   },
   {
@@ -144,6 +114,7 @@ command_center.add({
       end
       _tb.lsp_document_symbols(__Telescope_vertical_dropdown_theme({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
+        symbol_highlights = Config.telescope_symbol_highlights,
         ignore_symbols = ignore_symbols,
         layout_config = Config.minipicker_layout }))
     end,
