@@ -67,6 +67,11 @@ cmp.setup({
       snippy.expand_snippet(args.body)
     end,
   },
+  view = {
+    docs = {
+      auto_open = __Globals.perm_config.cmp_show_docs
+    }
+  },
   experimental = {
     ghost_text = Config.cmp.ghost_text
   },
@@ -106,6 +111,22 @@ cmp.setup({
         end
       end,
     },
+    ['<C-g>'] = function()
+      if cmp.visible_docs() then
+        cmp.close_docs()
+        __Globals.perm_config.cmp_show_docs = false
+      else
+        cmp.open_docs()
+        __Globals.perm_config.cmp_show_docs = true
+      end
+      cmp.setup({
+        view = {
+          docs = {
+            auto_open = __Globals.perm_config.cmp_show_docs
+          }
+        }
+      })
+    end,
     ["<S-Tab>"] = {
       i = function(fallback)
         if cmp.visible() then

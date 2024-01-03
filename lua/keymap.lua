@@ -29,7 +29,7 @@ kms({ "n", "i" }, "<C-l>", "<NOP>", opts)
 -- disable <ins> toggling the (annoying) replace mode. Instead use <c-ins> to switch to replace
 map("i", "<ins>", "<nop>", opts)
 
-map('n', '<leader>tab', '<CMD>tabnext<CR>', opts)
+map('n', '<leader><tab>', '<CMD>tabnext<CR>', opts)
 
 _Config_SetKey({ 'i', 'n' }, '<C-f><C-a>', function() __Globals.toggle_fo('a') end, "Toggle 'a' format option")
 _Config_SetKey({ 'i', 'n' }, '<C-f><C-c>', function() __Globals.toggle_fo('c') end, "Toggle 'c' format option")
@@ -158,6 +158,10 @@ _Config_SetKey({ 'i', 'n' }, '<f1>', function()
     end
   end
 end, "LSP Hover help")
+
+_Config_SetKey({ 'i', 'n' }, '<C-x><C-d>', function()
+  vim.lsp.buf.definition()
+end, "LSP Goto definition")
 
 -- toggle current fold
 _Config_SetKey({'n', 'i', 'v'}, '<F2>', function() perform_key('za') end, "Toggle current fold")
@@ -379,19 +383,6 @@ end, "Refresh aerial outline symbols")
 _Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
   __Globals.toggle_outline_type()        -- toggle the outline plugin (aerial <> symbols-outline)
 end, "Toggle Outline plugin type")
-
-_Config_SetKey({ 'n', 'i', 'v' }, "<C-x>o",
-  function()
-    if __Globals.perm_config.outline_filetype ~= "Outline" or Config.outline_plugin == nil then
-      __Globals.notify("Feature requires Outline or symbols-outline plugin", vim.log.levels.INFO, "Outline")
-      return
-    end
-    local win = __Globals.findwinbyBufType("Outline")
-    if #win > 0 then
-      vim.api.nvim_win_set_cursor(win[1], { 1, 0 })
-      Config.outline_plugin._highlight_current_item()
-    end
-  end, "Sync Outline view")
 
 require("local_utils.marks").set_keymaps()
 

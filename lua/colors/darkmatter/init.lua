@@ -117,7 +117,7 @@ M.basetheme = {
       bg = "#0a0a0a",
       treebg = "#121212",
       gutterbg = "#0f0f0f",
-      kittybg = "#111111",
+      kittybg = "#121212",
       fg = "#b0b0b0",
       fg_dim = "#959595"
     }
@@ -587,8 +587,8 @@ local function set_all()
   M.link("WildMenu", "PmenuSel")
 
   M.hl_with_defaults("PmenuThumb", M.palette.none, M.palette.grey)
-  M.hl_with_defaults("NormalFloat", M.localtheme.fg_dim, M.localtheme.bg_dim)
-  M.hl_with_defaults("FloatBorder", M.palette.grey_dim, M.localtheme.bg_dim)
+  M.hl_with_defaults("NormalFloat", M.localtheme.fg, M.localtheme.bg_dim)
+  M.hl_with_defaults("FloatBorder", M.localtheme.accent, M.localtheme.bg_dim)
   M.hl_with_defaults("FloatTitle", M.localtheme.accent_fg, M.localtheme.bg_dim)
   M.hl_with_defaults("Question", M.localtheme.yellow, M.palette.none)
   M.hl("SpellBad", M.palette.none, M.palette.none, { undercurl = true, sp = M.localtheme.red[1] })

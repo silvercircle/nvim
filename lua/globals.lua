@@ -71,7 +71,8 @@ M.perm_config_default = {
   treesitter_context = true,
   show_indicators = true,
   telescope_borders = "single",
-  cmp_borders = "single"
+  cmp_borders = "single",
+  cmp_show_docs = true
 }
 
 M.perm_config = {}
