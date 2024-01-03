@@ -766,7 +766,7 @@ function M.get_buffer_var(bufnr, varname)
 end
 
 --- this handles ufo-nvim fold preview.
-M.ufo_virtual_text_handler = function(virtText, lnum, endLnum, width, truncate)
+function M.ufo_virtual_text_handler(virtText, lnum, endLnum, width, truncate)
   local newVirtText = {}
   local suffix = (' 󰁂 %d '):format(endLnum - lnum)
   local sufWidth = vim.fn.strdisplaywidth(suffix)

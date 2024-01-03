@@ -1,8 +1,7 @@
 -- set vim options and autocommands. No plugins involved
 
 local o = vim.o
-
-o.shada = "!,'200,<20,s10,h,f1,%20,:500,rreplacer://,rterm://,rOUTLINE,rNvimTree_1,rMERGE_MSG"
+o.shada = "!,'100,<20,s10,h,@200,f1,%100,/100,:200,rreplacer://,rterm://,rOUTLINE,rNvimTree_1,rMERGE_MSG,r$metadata"
 o.termguicolors = true
 if Config.nightly == 1 then
   o.termsync = false

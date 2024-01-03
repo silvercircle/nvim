@@ -159,7 +159,7 @@ _Config_SetKey({ 'i', 'n' }, '<f1>', function()
   end
 end, "LSP Hover help")
 
-_Config_SetKey({ 'i', 'n' }, '<C-x><C-d>', function()
+_Config_SetKey({ 'i', 'n' }, '<C-x>D', function()
   vim.lsp.buf.definition()
 end, "LSP Goto definition")
 

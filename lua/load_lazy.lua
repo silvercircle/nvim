@@ -44,6 +44,7 @@ lazy.setup({
       require("plugins.telescope_setup")
     end
   },
+  -- treesitter + friends
   {
     'nvim-treesitter/nvim-treesitter',
     branch = "master",
@@ -83,23 +84,6 @@ lazy.setup({
       }
     }
   },
-  {
-    'dcampos/nvim-snippy',
-    lazy = true,
-    config = function()
-      require('snippy').setup({
-        mappings = {
-          is = {
-            ['<Tab>'] = 'expand_or_advance',
-            ['<S-Tab>'] = 'previous',
-          },
-          nx = {
-            ['<leader>x'] = 'cut_text',
-          },
-        },
-      })
-    end
-  },
   -- cmp and all its helpers
   {
     'hrsh7th/nvim-cmp',
@@ -112,7 +96,7 @@ lazy.setup({
       { 'hrsh7th/cmp-emoji' },
       { 'dcampos/cmp-snippy' },
       { 'hrsh7th/cmp-nvim-lua' },
-      { 'hrsh6th/cmp-nvim-lsp-signature-help' },
+      { 'hrsh7th/cmp-nvim-lsp-signature-help' },
       {
         'https://gitlab.com/silvercircle74/cmp-wordlist.nvim',
         config = function()
@@ -134,6 +118,23 @@ lazy.setup({
           else
             require("nvim-autopairs").disable()
           end
+        end
+      },
+      {
+        'dcampos/nvim-snippy',
+        lazy = true,
+        config = function()
+          require('snippy').setup({
+            mappings = {
+              is = {
+                ['<Tab>'] = 'expand_or_advance',
+                ['<S-Tab>'] = 'previous',
+              },
+              nx = {
+                ['<leader>x'] = 'cut_text',
+              },
+            },
+          })
         end
       }
     },
@@ -241,7 +242,7 @@ lazy.setup({
     'kevinhwang91/nvim-hlslens', event = "BufReadPre",
     config = function()
       require("hlslens").setup({
-        calm_down = false,    -- set to true to clear all lenses when cursor moves 
+        calm_down = false,    -- set to true to clear all lenses when cursor moves
         nearest_float_when = "never",
         nearest_only = true
       })
