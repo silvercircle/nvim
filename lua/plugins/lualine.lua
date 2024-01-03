@@ -23,7 +23,8 @@ end
 local function status_indicators()
   return (__Globals.perm_config.treesitter_context == true and "C" or "c") ..
          (__Globals.perm_config.debug == true and "D" or "d") ..
-         (__Globals.perm_config.transbg == true and "T" or "t")
+         (__Globals.perm_config.transbg == true and "T" or "t") ..
+         (__Globals.perm_config.autopair == true and "A" or "a")
 end
 
 local function getWordsV2()

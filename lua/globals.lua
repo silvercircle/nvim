@@ -72,7 +72,8 @@ M.perm_config_default = {
   show_indicators = true,
   telescope_borders = "single",
   cmp_borders = "single",
-  cmp_show_docs = true
+  cmp_show_docs = true,
+  autopair = true,
 }
 
 M.perm_config = {}
@@ -756,9 +757,9 @@ function M.toggle_treesitter_context()
   vim.schedule(function() wsplit.refresh() end)
 end
 
---- get a custom buffer variable
---- @param bufnr number: The buffer id
---- @param varname string: The variable's name
+--- get a custom buffer variable.
+-- @param bufnr number: The buffer id
+-- @param varname string: The variable's name
 function M.get_buffer_var(bufnr, varname)
   local status, value = pcall(vim.api.nvim_buf_get_var, bufnr, varname)
   return (status == false) and nil or value

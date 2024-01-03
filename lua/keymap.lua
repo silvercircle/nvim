@@ -360,6 +360,16 @@ _Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'sr', function()
   require("local_utils.usplit").refresh_cookie()
 end, "Fortune refresh cookie")
 
+
+_Config_SetKey({ 'n', 'i', 't', 'v' }, "<C-x>a", function()
+  __Globals.perm_config.autopair = not __Globals.perm_config.autopair
+  if __Globals.perm_config.autopair == true then
+    require("nvim-autopairs").enable()
+  else
+    require("nvim-autopairs").disable()
+  end
+end, "Toggle autopairing")
+
 -- toggle the display of single-letter status indicators in the winbar.
 _Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'wb', function()
   __Globals.perm_config.show_indicators = not __Globals.perm_config.show_indicators

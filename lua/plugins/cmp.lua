@@ -209,7 +209,9 @@ cmp.setup({
     { name = 'nvim_lua', priority = 111 },    -- nvim lua api completion source
     { name = 'buffer', priority = 10, group_index = 2,
       option = {
-        max_indexed_line_length = 256,
+        max_indexed_line_length = 1024,
+        keyword_length = 3,
+        keyword_pattern = [[\k\+]],
         get_bufnrs = function()
           local buf = vim.api.nvim_get_current_buf()
           local ft = vim.api.nvim_buf_get_option(buf, "filetype")

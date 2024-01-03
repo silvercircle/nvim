@@ -173,7 +173,7 @@ Tweaks.tree = {
   -- valid versions are Neo (for NeoTree) or Nvim (for NvimTree)
   version = "Neo",
   -- use the git integration (currently only available for NeoTree)
-  use_git = false
+  use_git = true
 }
 
 -- settings for the nvim-jdtls plugin. See ftplugin/java.lua

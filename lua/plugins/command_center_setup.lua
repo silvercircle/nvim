@@ -89,7 +89,8 @@ command_center.add({
   {
     desc = "LSP Jump to type definition",
     cmd = function() vim.lsp.buf.type_definition() end,
-    keys = { { "n", "<C-x>t", noremap },
+    keys = {
+      { "n", "<C-x>t", noremap },
       { 'i', "<C-x>t", noremap }
     },
     category = "@LSP"
@@ -102,7 +103,10 @@ command_center.add({
         symbol_highlights = Config.telescope_symbol_highlights,
         layout_config = Config.minipicker_layout
     })) end,
-    keys = { { "n", "i" }, "<C-x>d", noremap },
+    keys = {
+      { "n", "<C-x>d", noremap },
+      { "i", "<C-x>d", noremap }
+    },
     category = "@LSP Telescope"
   },
   {
@@ -118,7 +122,10 @@ command_center.add({
         ignore_symbols = ignore_symbols,
         layout_config = Config.minipicker_layout }))
     end,
-    keys = { {"n", "i"}, "<A-o>", noremap },
+    keys = {
+      {"n", "<A-o>", noremap },
+      {"i", "<A-o>", noremap }
+    },
     category = "@LSP Telescope"
   },
   {
@@ -128,7 +135,10 @@ command_center.add({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
         layout_config = Config.minipicker_layout }))
     end,
-    keys = { {"n", "i"}, "<A-a>", noremap },
+    keys = {
+      {"n", "<A-a>", noremap },
+      {"i", "<A-a>", noremap },
+    },
     category = "@LSP Telescope Aerial"
   },
   {
@@ -141,7 +151,10 @@ command_center.add({
         layout_config = Config.minipicker_layout
       }))
     end,
-    keys = { {"n", "i"}, "<A-r>", noremap },
+    keys = {
+      {"n", "<A-r>", noremap },
+      {"i", "<A-r>", noremap },
+    },
     category = "@LSP Telescope"
   },
   {
@@ -152,7 +165,10 @@ command_center.add({
         layout_config = Config.minipicker_layout
       }))
     end,
-    keys = { {"n", "i"}, "<A-t>", noremap },
+    keys = {
+      {"n", "<A-t>", noremap },
+      {"i", "<A-t>", noremap },
+    },
     category = "@LSP Telescope"
   },
   {
@@ -180,7 +196,10 @@ command_center.add({
       root_dir = lutils.getroot_current()
     }))
     end,
-    keys = { { "n", "i" }, "<C-t>d", noremap },
+    keys = {
+      { "n", "<C-t>d", noremap },
+      { "i", "<C-t>d", noremap },
+    },
     category = "@LSP"
   },
   {
@@ -196,7 +215,10 @@ command_center.add({
         require("dropbar.api").pick()
       end
     end,
-    keys = { {"n", "i"}, "<C-x>p", noremap },
+    keys = {
+      {"n", "<C-x>p", noremap },
+      {"i", "<C-x>p", noremap },
+    },
     category = "@LSP"
   },
   -- LSP Diagnostics
