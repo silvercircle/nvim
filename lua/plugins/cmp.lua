@@ -39,6 +39,12 @@ lspkind.init({
   symbol_map = vim.g.lspkind_symbols
 })
 
+-- autopairs plugin
+cmp.event:on(
+  'confirm_done',
+  require('nvim-autopairs.completion.cmp').on_confirm_done()
+)
+
 local cmp_item_menu = {
   buffer = "Buffer",
   nvim_lsp = "LSP",
@@ -86,6 +92,7 @@ cmp.setup({
       border = __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
                or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
       winhighlight = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual",
+      scrollbar = false
     },
   },
   mapping = {
@@ -113,6 +120,18 @@ cmp.setup({
         end
       end,
     },
+    ["<S-Tab>"] = {
+      i = function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        elseif snippy.can_jump(-1) then
+          vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(snippy-previous)", true, true, true), "")
+        else
+          fallback()
+        end
+      end,
+    },
+    -- toggle docs, remember it in a permconfig setting
     ['<C-g>'] = function()
       if cmp.visible_docs() then
         cmp.close_docs()
@@ -129,17 +148,6 @@ cmp.setup({
         }
       })
     end,
-    ["<S-Tab>"] = {
-      i = function(fallback)
-        if cmp.visible() then
-          cmp.select_prev_item()
-        elseif snippy.can_jump(-1) then
-          vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(snippy-previous)", true, true, true), "")
-        else
-          fallback()
-        end
-      end,
-    },
     ["<C-Up>"] = cmp.mapping.scroll_docs(-4),
     ["<C-Down>"] = cmp.mapping.scroll_docs(4),
   },

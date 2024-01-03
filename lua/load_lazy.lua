@@ -125,7 +125,12 @@ lazy.setup({
           })
         end
       },
-      { 'hrsh7th/cmp-buffer' }
+      { 'hrsh7th/cmp-buffer' },
+      { 'windwp/nvim-autopairs',
+        config = function()
+          require("nvim-autopairs").setup({})
+        end
+      }
     },
     config = function()
       require("plugins.cmp")
