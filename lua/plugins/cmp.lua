@@ -78,6 +78,14 @@ cmp.setup({
       auto_open = __Globals.perm_config.cmp_show_docs
     }
   },
+  performance = {
+    --debounce = 60,
+    --throttle = 30,
+    --fetching_timeout = 500,
+    --confirm_resolve_timeout = 80,
+    --async_budget = 10,  -- default is 1
+    --max_view_entries = 200,
+  },
   experimental = {
     ghost_text = Config.cmp.ghost_text
   },
@@ -107,8 +115,8 @@ cmp.setup({
     ["<PageDown>"] = cmp.mapping.select_next_item({ behavior = cmp_types.SelectBehavior.Select, count = 15 }),
     ["<PageUp>"] = cmp.mapping.select_prev_item({ behavior = cmp_types.SelectBehavior.Select, count = 15 }),
     ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
-    ["<Tab>"] = { -- see GH-880, GH-897
-      i = function(fallback) -- see GH-231, GH-286
+    ["<Tab>"] = {
+      i = function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
         elseif snippy.can_expand_or_advance() then
@@ -132,22 +140,28 @@ cmp.setup({
       end,
     },
     -- toggle docs, remember it in a permconfig setting
-    ['<C-g>'] = function()
-      if cmp.visible_docs() then
-        cmp.close_docs()
-        __Globals.perm_config.cmp_show_docs = false
-      else
-        cmp.open_docs()
-        __Globals.perm_config.cmp_show_docs = true
+    ['<f1>']  = {
+      i = function(fallback)
+        if cmp.visible() then
+          if cmp.visible_docs() then
+            cmp.close_docs()
+            __Globals.perm_config.cmp_show_docs = false
+          else
+            cmp.open_docs()
+            __Globals.perm_config.cmp_show_docs = true
+          end
+          cmp.setup({
+            view = {
+              docs = {
+                auto_open = __Globals.perm_config.cmp_show_docs
+              }
+            }
+          })
+        else
+          fallback()
+        end
       end
-      cmp.setup({
-        view = {
-          docs = {
-            auto_open = __Globals.perm_config.cmp_show_docs
-          }
-        }
-      })
-    end,
+    },
     ["<C-Up>"] = cmp.mapping.scroll_docs(-4),
     ["<C-Down>"] = cmp.mapping.scroll_docs(4),
   },
