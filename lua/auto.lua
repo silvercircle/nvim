@@ -69,7 +69,6 @@ autocmd({ 'UIEnter' }, {
         Config.theme.set_bg()
       end
     end
-    require("neo-tree.command").execute( { action="show", source="filesystem", position="left"} )
     vim.fn.win_gotoid(__Globals.main_winid)
   end
 })

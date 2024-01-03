@@ -16,6 +16,7 @@ local snippy = require("snippy")
 
 local cmp = require("cmp")
 local cmp_types = require("cmp.types.cmp")
+local types = require("cmp.types")
 
 -- make the completion popup a little more fancy with lspkind. Now mandatory.
 local lspkind = require("lspkind")
@@ -38,6 +39,30 @@ lspkind.init({
   symbol_map = vim.g.lspkind_symbols
 })
 
+-- autopairs plugin
+local status, ap = pcall(require, "nvim-autopairs")
+if status == true then
+  cmp.event:on(
+    'confirm_done',
+    require('nvim-autopairs.completion.cmp').on_confirm_done()
+  )
+end
+
+local cmp_item_menu = {
+  buffer = "Buffer",
+  nvim_lsp = "LSP",
+  nvim_lua = "Lua",
+  wordlist = "Wordlist translation",
+  nvim_lsp_signature_help = "Signature",
+  latex_symbols = "Latex",
+}
+
+local cmp_menu_hl_group = {
+  buffer = "CmpItemMenuBuffer",
+  nvim_lsp = "CmpItemMenuLSP",
+  path = "CmpItemMenuPath",
+}
+
 cmp.setup({
   preselect = cmp.PreselectMode.Item,
   enabled = true,
@@ -50,6 +75,19 @@ cmp.setup({
     expand = function(args)
       snippy.expand_snippet(args.body)
     end,
+  },
+  view = {
+    docs = {
+      auto_open = __Globals.perm_config.cmp_show_docs
+    }
+  },
+  performance = {
+    --debounce = 60,
+    --throttle = 30,
+    --fetching_timeout = 500,
+    --confirm_resolve_timeout = 80,
+    --async_budget = 10,  -- default is 1
+    --max_view_entries = 200,
   },
   experimental = {
     ghost_text = Config.cmp.ghost_text
@@ -65,6 +103,7 @@ cmp.setup({
       border = __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
                or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
       winhighlight = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual",
+      scrollbar = false
     },
   },
   mapping = {
@@ -76,9 +115,11 @@ cmp.setup({
     ["<Esc>"] = cmp.mapping.close(), -- ESC close complete popup. Feels more natural than <C-e>
     ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp_types.SelectBehavior.Select }),
     ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp_types.SelectBehavior.Select }),
+    ["<PageDown>"] = cmp.mapping.select_next_item({ behavior = cmp_types.SelectBehavior.Select, count = 15 }),
+    ["<PageUp>"] = cmp.mapping.select_prev_item({ behavior = cmp_types.SelectBehavior.Select, count = 15 }),
     ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
-    ["<Tab>"] = { -- see GH-880, GH-897
-      i = function(fallback) -- see GH-231, GH-286
+    ["<Tab>"] = {
+      i = function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
         elseif snippy.can_expand_or_advance() then
@@ -101,6 +142,29 @@ cmp.setup({
         end
       end,
     },
+    -- toggle docs, remember it in a permconfig setting
+    ['<f1>']  = {
+      i = function(fallback)
+        if cmp.visible() then
+          if cmp.visible_docs() then
+            cmp.close_docs()
+            __Globals.perm_config.cmp_show_docs = false
+          else
+            cmp.open_docs()
+            __Globals.perm_config.cmp_show_docs = true
+          end
+          cmp.setup({
+            view = {
+              docs = {
+                auto_open = __Globals.perm_config.cmp_show_docs
+              }
+            }
+          })
+        else
+          fallback()
+        end
+      end
+    },
     ["<C-Up>"] = cmp.mapping.scroll_docs(-4),
     ["<C-Down>"] = cmp.mapping.scroll_docs(4),
   },
@@ -113,20 +177,9 @@ cmp.setup({
       vim_item.kind = " " .. vim_item.kind_symbol .. " " .. Config.iconpad .. vim_item.kind
       -- The 'menu' section: source, detail information (lsp, snippet), etc.
       -- set a name for each source (see the sources section below)
-      vim_item.menu = ({
-        buffer = "Buffer",
-        nvim_lsp = "LSP",
-        nvim_lua = "Lua",
-        wordlist = "Wordlist translation",
-        nvim_lsp_signature_help = "Signature",
-        latex_symbols = "Latex",
-      })[entry.source.name] or string.format("%s", entry.source.name)
+      vim_item.menu = (cmp_item_menu)[entry.source.name] or string.format("%s", entry.source.name)
       -- highlight groups for item.menu
-      vim_item.menu_hl_group = ({
-        buffer = "CmpItemMenuBuffer",
-        nvim_lsp = "CmpItemMenuLSP",
-        path = "CmpItemMenuPath",
-      })[entry.source.name] -- default is CmpItemMenu
+      vim_item.menu_hl_group = (cmp_menu_hl_group)[entry.source.name] -- default is CmpItemMenu
       -- detail information (optional)
       local cmp_item = entry:get_completion_item()
       if entry.source.name == "nvim_lsp" then
@@ -173,7 +226,9 @@ cmp.setup({
     { name = 'nvim_lua', priority = 111 },    -- nvim lua api completion source
     { name = 'buffer', priority = 10, group_index = 2,
       option = {
-        max_indexed_line_length = 256,
+        max_indexed_line_length = 1024,
+        keyword_length = 3,
+        keyword_pattern = [[\k\+]],
         get_bufnrs = function()
           local buf = vim.api.nvim_get_current_buf()
           local ft = vim.api.nvim_buf_get_option(buf, "filetype")
@@ -181,7 +236,7 @@ cmp.setup({
             return {}
           end
           if __Globals.cur_bufsize > Config.cmp.buffer_maxsize then -- 300kb
-            print("file too big, cmp_buffer disabled")
+            vim.notify("File " .. vim.api.nvim_buf_get_name(buf) .. " too big, cmp_buffer disabled.", vim.log.levels.INFO)
             return {}
           end
           return { buf }
@@ -195,6 +250,7 @@ cmp.setup({
       cmp.config.compare.offset,
       cmp.config.compare.exact,
       cmp.config.compare.score,
+      function(...) return cmp_helper.compare.deprioritize_snippet(...) end,
 --      function(...)
 --        return cmp_helper.compare.prioritize_argument(...)
 --      end,
@@ -204,8 +260,8 @@ cmp.setup({
       cmp.config.compare.recently_used,
       cmp.config.compare.locality,
       cmp.config.compare.kind,
-      cmp.config.compare.sort_text,
-      cmp.config.compare.length,
+      --cmp.config.compare.sort_text,
+      --cmp.config.compare.length,
       cmp.config.compare.order
     }
   }
@@ -225,7 +281,7 @@ cmp.setup.cmdline(":", {
     { name = "cmdline" },
   }),
   completion = {
-    completeopt = "menu,menuone,noselect"
+    completeopt = "menu,menuone"
   }
 })
  -- Custom sorting/ranking for completion items.
@@ -242,6 +298,14 @@ cmp_helper.compare = {
     local r = (rhs.completion_item.label:find "=$") and 1 or 0
     if l ~= r then return l > r end
   end,
+  deprioritize_snippet = function(lhs, rhs)
+    if lhs:get_kind() == types.lsp.CompletionItemKind.Snippet then
+      return false
+    end
+    if rhs:get_kind() == types.lsp.CompletionItemKind.Snippet then
+      return true
+    end
+  end
 }
 
 -- vim.cmd("doautocmd CmdLineEnter")

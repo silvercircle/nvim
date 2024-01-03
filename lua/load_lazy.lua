@@ -23,15 +23,6 @@ lazy.setup({
     end,
   },
   {
-    'nvim-neo-tree/neo-tree.nvim',
-    config = function()
-      require("plugins.neotree")
-    end,
-    dependencies = {
-      'MunifTanjim/nui.nvim'
-    }
-  },
-  {
     'silvercircle/alpha-nvim',
     branch = "mine",
     config = function()
@@ -53,6 +44,12 @@ lazy.setup({
           },
         },
       })
+    end
+  },
+  {
+    'nvim-tree/nvim-tree.lua',
+    config = function()
+      require("plugins.nvim-tree")
     end
   },
   {
@@ -87,7 +84,7 @@ lazy.setup({
       { 'dcampos/cmp-snippy' },
       { 'hrsh7th/cmp-nvim-lua' },
       { 'hrsh7th/cmp-nvim-lsp-signature-help' },
-      { 'hrsh7th/cmp-buffer' }
+      { 'hrsh7th/cmp-buffer' },
     },
     config = function()
       require("plugins.cmp")

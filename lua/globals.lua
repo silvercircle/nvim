@@ -62,15 +62,18 @@ M.perm_config_default = {
   theme_dlevel = 1,
   theme_strings = "yellow",
   debug = false,
-  ibl_rainbow = false,
+  ibl_rainbow = true,
   ibl_enabled = true,
-  ibl_context = true,
+  ibl_context = false,
   scrollbar = true,
   statusline_declutter = 0,
   outline_filetype = "Outline",
   treesitter_context = true,
   show_indicators = true,
-  telescope_borders = "rounded"
+  telescope_borders = "single",
+  cmp_borders = "single",
+  cmp_show_docs = true,
+  autopair = true,
 }
 
 M.perm_config = {}
@@ -147,6 +150,20 @@ function M.open_tree()
   end
 end
 
+-- reveal the current file in the tree. Change directory accordingly
+-- works with NeoTree and NvimTree
+-- This tries to find the root folder of the current project.
+function M.sync_tree()
+  if vim.g.tweaks.tree.version == "Neo" then
+    local root = require("local_utils").getroot_current()
+    local nc = require("neo-tree.command")
+    nc.execute( {action="show", dir=root, source="filesystem" } )
+    nc.execute( {action="show", reveal=true, reveal_force_cwd=true, source="filesystem" } )
+  elseif vim.g.tweaks.tree.version == "Nvim" then
+    require('nvim-tree.api').tree.change_root(require("local_utils").getroot_current())
+    vim.cmd("NvimTreeFindFile")
+  end
+end
 --- called by the event handler in NvimTree or NeoTree to inidicate that
 --- the file tree has been opened.
 function M.tree_open_handler()
@@ -740,16 +757,16 @@ function M.toggle_treesitter_context()
   vim.schedule(function() wsplit.refresh() end)
 end
 
---- get a custom buffer variable
---- @param bufnr number: The buffer id
---- @param varname string: The variable's name
+--- get a custom buffer variable.
+-- @param bufnr number: The buffer id
+-- @param varname string: The variable's name
 function M.get_buffer_var(bufnr, varname)
   local status, value = pcall(vim.api.nvim_buf_get_var, bufnr, varname)
   return (status == false) and nil or value
 end
 
 --- this handles ufo-nvim fold preview.
-M.ufo_virtual_text_handler = function(virtText, lnum, endLnum, width, truncate)
+function M.ufo_virtual_text_handler(virtText, lnum, endLnum, width, truncate)
   local newVirtText = {}
   local suffix = (' 󰁂 %d '):format(endLnum - lnum)
   local sufWidth = vim.fn.strdisplaywidth(suffix)

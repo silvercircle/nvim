@@ -86,11 +86,12 @@ M.basetheme = {
     -- accent color is used for important highlights like the currently selected tab (buffer)
     -- and more.
     --accent_color = '#cbaf00',
-    --accent_color = '#ab8f00',
-    accent_color = "#305030",
+    accent_color = '#204050',
+    --accent_color = "#305030",
     --alt_accent_color = '#bd2f4f',
     alt_accent_color = "#501010",
-    accent_fg = "#cccc80",
+    --accent_fg = "#cccc80",
+    accent_fg = "#aaaa60",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
     selbg = "#202070",
     cold = {
@@ -116,7 +117,7 @@ M.basetheme = {
       bg = "#0a0a0a",
       treebg = "#121212",
       gutterbg = "#0f0f0f",
-      kittybg = "#111111",
+      kittybg = "#121212",
       fg = "#b0b0b0",
       fg_dim = "#959595"
     }
@@ -586,8 +587,9 @@ local function set_all()
   M.link("WildMenu", "PmenuSel")
 
   M.hl_with_defaults("PmenuThumb", M.palette.none, M.palette.grey)
-  M.hl_with_defaults("NormalFloat", M.localtheme.fg_dim, M.localtheme.bg_dim)
-  M.hl_with_defaults("FloatBorder", M.palette.grey_dim, M.localtheme.bg_dim)
+  M.hl_with_defaults("NormalFloat", M.localtheme.fg, M.localtheme.bg_dim)
+  M.hl_with_defaults("FloatBorder", M.localtheme.accent, M.localtheme.bg_dim)
+  M.hl_with_defaults("FloatTitle", M.localtheme.accent_fg, M.localtheme.bg_dim)
   M.hl_with_defaults("Question", M.localtheme.yellow, M.palette.none)
   M.hl("SpellBad", M.palette.none, M.palette.none, { undercurl = true, sp = M.localtheme.red[1] })
   M.hl("SpellCap", M.palette.none, M.palette.none, { undercurl = true, sp = M.localtheme.yellow[1] })
@@ -934,7 +936,7 @@ function M.set()
   end
   set_all()
   for _, v in ipairs(conf.plugins.hl) do
-    require("colors.darkmatter.plugins." .. v)
+    require("colors.darkmatter.plugins." .. v).set()
   end
   if conf.sync_kittybg == true and conf.kittysocket ~= nil and conf.kittenexec ~= nil then
     if vim.fn.filereadable(conf.kittysocket) == 1 and vim.fn.executable(conf.kittenexec) == 1 then
