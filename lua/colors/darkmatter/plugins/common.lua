@@ -42,6 +42,8 @@ local function _set()
   c.link("NvimTreeLspDiagnosticsHint", "GreenSign")
   c.link("NvimTreeCursorLine", "TreeCursorLine")
 
+  c.link("MiniNotifyNormal", "NeoTreeNormalNC")
+  c.link("MiniNotifyBorder", "CmpBorder")
   c.link("NeoTreeFilenameOpened", "OrangeBold")
    -- CMP (with custom menu setup)
   c.link("CmpItemMenu", "Fg")

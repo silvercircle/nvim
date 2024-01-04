@@ -211,28 +211,28 @@ lazy.setup({
     end
   },
   {
-    'j-hui/fidget.nvim',
-    priorty = 9999,
-    config = function()
-      vim.g.notifier = require("fidget")
-      require("fidget").setup({
-        progress = {
-          poll_rate = 1,
-          ignore_done_already = true,
-          display = {
-            render_limit = 2
-          }
-        },
-        notification = {
-          override_vim_notify = true,
-          history_size = 20,
-          filter = vim.log.levels.TRACE,
-          configs = {
-            --default = require("fidget.notification").default_config
-          }
-        }
-      })
-    end
+    --'j-hui/fidget.nvim',
+    --priorty = 9999,
+    --config = function()
+    --  vim.g.notifier = require("fidget")
+    --  require("fidget").setup({
+    --    progress = {
+    --      poll_rate = 1,
+    --      ignore_done_already = true,
+    --      display = {
+    --        render_limit = 2
+    --      }
+    --    },
+    --    notification = {
+    --      override_vim_notify = true,
+    --      history_size = 20,
+    --      filter = vim.log.levels.TRACE,
+    --      configs = {
+    --        --default = require("fidget.notification").default_config
+    --      }
+    --    }
+    --  })
+    --end
   },
   {
     'williamboman/mason.nvim',
@@ -315,6 +315,21 @@ lazy.setup({
     lazy = true,
     config = function()
       require("plugins.mini_extra")
+    end
+  },
+  {
+    'echasnovski/mini.notify',
+    config = function()
+      require("mini.notify").setup({
+        window = {
+          config = {
+            anchor = "SE",
+            row = vim.o.lines
+          },
+          winblend = 0
+        }
+      })
+      vim.notify = require("mini.notify").make_notify()
     end
   },
   {

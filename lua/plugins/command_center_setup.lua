@@ -53,7 +53,10 @@ command_center.add({
         layout_config = Config.telescope_vertical_preview_layout
       }))
     end,
-    keys = { "n", "<A-b>", noremap },
+    keys = {
+      { "n", "<A-b>", noremap },
+      { "i", "<A-b>", noremap },
+    },
     category = "@Bookmarks"
   },
   {
