@@ -30,7 +30,7 @@ command_center.add({
   {
     desc = "Bookmark delete",
     --cmd = function() bm.bookmark_clean() end,
-    cmd = "<CMD>slient BookmarkClear<CR>",
+    cmd = "<CMD>silent BookmarkClear<CR>",
     keys = { "n", "<leader>bd", noremap },
     category = "@Bookmarks"
   },
@@ -38,7 +38,16 @@ command_center.add({
     desc = "Show all bookmarks (Telescope)",
     cmd = function()
       --_t.extensions.bookmarks.list(__Telescope_vertical_dropdown_theme({
+      local bookmark_actions = require("telescope").extensions.vim_bookmarks.actions
       _t.extensions.vim_bookmarks.all(__Telescope_vertical_dropdown_theme({
+        shorten_path = true,
+        width_text = 40,
+        width_annotation = 50,
+        path_display = false,
+        attach_mappings = function(_, map)
+          map("i", "<C-d>", bookmark_actions.delete_selected_or_at_cursor)
+          return true
+        end,
         prompt_title = "All Bookmarks",
         hide_filename = false,
         layout_config = Config.telescope_vertical_preview_layout

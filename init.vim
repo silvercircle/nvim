@@ -2,13 +2,16 @@
 
 let g:bookmark_no_default_key_mappings = 1
 let g:bookmark_auto_save_file = stdpath("state") .. '/bookmarks'
+let g:bookmark_sign = ' '
+let g:bookmark_highlight_lines = 1
+let g:bookmark_annotation_sign = " "
+
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
-
 let g:rnvimr_enable_picker = 1
 let g:rnvimr_draw_border = 1
 let g:VM_theme = 'sand'
-'
+
 " Customize the initial layout
 " Rnvimr plugin (ranger filemanager integration)
 " Activate with <C-f8>
@@ -57,24 +60,7 @@ syntax on
 filetype plugin indent on
 set noshowmode
 
-if exists('g:neoray')
-  run gui/neoray.vim
-endif
-" a key mapping for the kwbd macro to close a buffer
 command C Kwbd
-
-" function! Foobar(event)
-"   echo "UIEnter vimscript"
-"   let chan = a:event["chan"]
-"   lua __Globals.set_session(vim.fn.eval("chan"))
-" endfunction
-
-" augroup filetypes
-"   autocmd!
-"   autocmd FileType ada,d,nim,objc,objcpp,javascript,scala,typescript syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
-"   autocmd FileType lua syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\+]'
-"   " autocmd UIEnter * call Foobar(v:event)
-" augroup end
 
 " This is for adding fortune cookies. User will be prompted for a section
 " (multiple sections can be entered separated with spaces) and the fortune

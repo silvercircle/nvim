@@ -246,7 +246,7 @@ lazy.setup({
   {
     'MattesGroeger/vim-bookmarks',
 --    'tomasky/bookmarks.nvim',
-    event = "UIEnter",
+    event = "BufReadPre",
 --    config = function()
 --      require('bookmarks').setup({
 --        save_file = vim.fn.stdpath("state") .. "/bookmarks", -- bookmarks save file path
@@ -260,7 +260,7 @@ lazy.setup({
 --    end
     dependencies = {
       {
-        'tom-anders/telescope-vim-bookmarks.nvim'
+        'https://gitlab.com/silvercircle74/telescope-vim-bookmarks.nvim'
       }
     }
   },
@@ -319,6 +319,7 @@ lazy.setup({
   },
   {
     'nvim-tree/nvim-tree.lua',
+    cond = vim.g.tweaks.tree.version == "Nvim",
     config = function()
       require("plugins.nvim-tree")
     end
