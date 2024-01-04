@@ -13,7 +13,6 @@ local has_words_before = function()
 end
 
 local snippy = require("snippy")
-
 local cmp = require("cmp")
 local cmp_types = require("cmp.types.cmp")
 local types = require("cmp.types")
@@ -40,10 +39,14 @@ lspkind.init({
 })
 
 -- autopairs plugin
-cmp.event:on(
-  'confirm_done',
-  require('nvim-autopairs.completion.cmp').on_confirm_done()
-)
+-- this inserts braces automatically after completing function and method names
+local st, _ = pcall(require, "nvim-autopairs")
+if st == true then
+  cmp.event:on(
+    'confirm_done',
+    require('nvim-autopairs.completion.cmp').on_confirm_done()
+  )
+end
 
 local cmp_item_menu = {
   buffer = "Buffer",
@@ -104,6 +107,7 @@ cmp.setup({
     },
   },
   mapping = {
+    -- invoke completion popup manually. This works regardless of completion.autocomplete option
     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete({
         reason = cmp.ContextReason.Manual,
       }), {"i", "c"}),

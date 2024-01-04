@@ -166,6 +166,27 @@ lazy.setup({
           require("plugins.glance")
         end
       },
+      {
+        "lewis6991/hover.nvim",
+        config = function()
+          require("hover").setup({
+           init = function()
+           -- Require providers
+             require("hover.providers.lsp")
+           -- require('hover.providers.gh')
+           -- require('hover.providers.gh_user')
+           -- require('hover.providers.jira')
+           -- require('hover.providers.man')
+           -- require('hover.providers.dictionary')
+           end,
+           preview_opts = {
+             border = __Globals.perm_config.cmp_borders
+           },
+           preview_window = true,
+           title = false
+        })
+        end
+      }
       --{
       --  "vigoux/notifier.nvim",
       --  event = "UIEnter",
@@ -223,20 +244,25 @@ lazy.setup({
   --  { 'williamboman/mason-lspconfig.nvim' },
   { 'tpope/vim-liquid', ft = "liquid" },
   {
-    'tomasky/bookmarks.nvim',
+    'MattesGroeger/vim-bookmarks',
+--    'tomasky/bookmarks.nvim',
     event = "UIEnter",
-    config = function()
-      require('bookmarks').setup({
-        -- sign_priority = 8,  --set bookmark sign priority to cover other sign
-        save_file = vim.fn.stdpath("state") .. "/.bookmarks", -- bookmarks save file path
-        keywords = {
-          ["@t"] = " ", -- mark annotation startswith @t ,signs this icon as `Todo`
-          ["@w"] = " ",  -- mark annotation startswith @w ,signs this icon as `Warn`
-          ["@f"] = " ", -- mark annotation startswith @f ,signs this icon as `Fix`
-          ["@n"] = " ", -- mark annotation startswith @n ,signs this icon as `Note`
-        }
-      })
-    end
+--    config = function()
+--      require('bookmarks').setup({
+--        save_file = vim.fn.stdpath("state") .. "/bookmarks", -- bookmarks save file path
+--        keywords = {
+--          ["@t"] = " ", -- mark annotation startswith @t ,signs this icon as `Todo`
+--          ["@w"] = " ",  -- mark annotation startswith @w ,signs this icon as `Warn`
+--          ["@f"] = " ", -- mark annotation startswith @f ,signs this icon as `Fix`
+--          ["@n"] = " ", -- mark annotation startswith @n ,signs this icon as `Note`
+--        }
+--      })
+--    end
+    dependencies = {
+      {
+        'tom-anders/telescope-vim-bookmarks.nvim'
+      }
+    }
   },
   {
     'kevinhwang91/nvim-hlslens', event = "BufReadPre",
@@ -293,8 +319,6 @@ lazy.setup({
   },
   {
     'nvim-tree/nvim-tree.lua',
-    lazy = true,
-    cond = vim.g.tweaks.tree.version == "Nvim",
     config = function()
       require("plugins.nvim-tree")
     end
@@ -499,6 +523,7 @@ lazy.setup({
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
     event = "BufReadPre",
+    cond = false,
     config = function()
       require("plugins.harpoon")
     end

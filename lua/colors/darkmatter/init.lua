@@ -601,7 +601,7 @@ local function set_all()
   M.hl_with_defaults("StatusLineTermNC", M.palette.grey, M.palette.none)
   M.hl_with_defaults("TabLine", M.localtheme.fg, M.localtheme.statuslinebg)
   M.hl_with_defaults("TabLineFill", M.palette.grey, M.localtheme.tablinebg)
-  M.hl_with_defaults("TabLineSel", M.localtheme.bg0, M.palette.bg_red)
+  M.hl_with_defaults("TabLineSel", M.localtheme.accent_fg, M.localtheme.accent)
   M.hl_with_defaults("VertSplit", M.localtheme.statuslinebg, M.palette.neotreebg)
 
   M.link("MsgArea", "StatusLine")

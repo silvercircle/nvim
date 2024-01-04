@@ -1,5 +1,4 @@
 local highlights = require("neo-tree.ui.highlights")
-
 local function find_buffer_by_name(name)
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     if name == vim.api.nvim_buf_get_name(buf) then
@@ -8,14 +7,12 @@ local function find_buffer_by_name(name)
   end
   return -1
 end
-
 require("neo-tree").setup({
   sources = {
     "filesystem",
     --"git_status",
     --"buffers"
   },
-
   enable_opened_markers = true,   -- Enable tracking of opened files. Required for `components.name.highlight_opened_files`
   enable_refresh_on_write = true, -- Refresh the tree when a file is written. Only used if `use_libuv_file_watcher` is false.
   enable_normal_mode_for_inputs = false, -- Enable normal mode for input dialogs.
@@ -36,6 +33,7 @@ require("neo-tree").setup({
   --           return a.type > b.type
   --       end
   --   end , -- this sorts files and directories descendantly
+  --
   source_selector = {
     winbar = false, -- toggle to show selector on winbar
     statusline = false, -- toggle to show selector on statusline

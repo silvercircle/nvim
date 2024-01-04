@@ -7,7 +7,7 @@ local lsputil = require('lspconfig.util')
 local lutils = require("local_utils")
 local _t = require("telescope")
 local _tb = require("telescope.builtin")
-local bm = require("bookmarks")
+--local bm = require("bookmarks")
 
 -- this is a helper for mini pickers like references and symbols.
 -- local fzf_vertical_winops = { width = 0.6, preview = { layout = 'vertical', vertical = "up:30%" } }
@@ -15,32 +15,30 @@ local bm = require("bookmarks")
 command_center.add({
   {
     desc = "Bookmark Toggle",
-    cmd = function() bm.bookmark_toggle() end,
+    --cmd = function() bm.bookmark_toggle() end,
+    cmd = "<CMD>silent BookmarkToggle<CR>",
     keys = { "n", "<leader>bt", noremap },
     category = "@Bookmarks"
   },
   {
     desc = "Bookmark Annotate",
-    cmd = function() bm.bookmark_ann() end,
-    keys = { "n", "<leader>by", noremap },
+    --cmd = function() bm.bookmark_ann() end,
+    cmd = "<CMD>silent BookmarkAnnotate<CR>",
+    keys = { "n", "<leader>ba", noremap },
     category = "@Bookmarks"
   },
   {
     desc = "Bookmark delete",
-    cmd = function() bm.bookmark_clean() end,
+    --cmd = function() bm.bookmark_clean() end,
+    cmd = "<CMD>slient BookmarkClear<CR>",
     keys = { "n", "<leader>bd", noremap },
-    category = "@Bookmarks"
-  },
-  {
-    desc = "Bookmark list in quickfix",
-    cmd = function() bm.bookmark_list() end,
-    keys = { "n", "<leader>bm", noremap },
     category = "@Bookmarks"
   },
   {
     desc = "Show all bookmarks (Telescope)",
     cmd = function()
-      _t.extensions.bookmarks.list(__Telescope_vertical_dropdown_theme({
+      --_t.extensions.bookmarks.list(__Telescope_vertical_dropdown_theme({
+      _t.extensions.vim_bookmarks.all(__Telescope_vertical_dropdown_theme({
         prompt_title = "All Bookmarks",
         hide_filename = false,
         layout_config = Config.telescope_vertical_preview_layout

@@ -148,13 +148,14 @@ map('n', 'hl', "<CMD>Inspect<CR>", opts)
 
 _Config_SetKey({ 'i', 'n' }, '<f13>', function() vim.lsp.buf.signature_help() end, "Show signature help")
 _Config_SetKey({ 'i', 'n' }, '<f1>', function()
+  local hover = require("hover")
   local status, ufo = pcall(require, "ufo")
   if status == false then
-    vim.lsp.buf.hover()
+    hover.hover()
   else
     local wid = ufo.peekFoldedLinesUnderCursor()
     if not wid then
-      vim.lsp.buf.hover()
+      hover.hover()
     end
   end
 end, "LSP Hover help")
