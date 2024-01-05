@@ -476,7 +476,6 @@ do
       border = __Globals.perm_config.cmp_borders,
       focusable = false
     })
-  --require("lsp.notify-standalone").init()
 end
 
 
