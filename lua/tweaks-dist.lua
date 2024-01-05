@@ -79,7 +79,11 @@ Tweaks.lsp = {
     groovy        =   Tweaks.lsp.masonbinpath .. 'groovy-language-server',
     roslyn        =   vim.fn.stdpath("data") .. "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll",
     zls           =   Tweaks.lsp.masonbinpath .. 'zls'
-  }
+  },
+  -- use either omnisharp or csharp_ls for c# and .NET development
+  -- both options work reasonably well with a few issues and missing features
+  -- the third option "roslyn" is highly experimental and not recommended
+  csharp = "omnisharp"
 }
 
 -- tweaks for the cmp autocompletion system
@@ -89,9 +93,9 @@ Tweaks.cmp = {
   -- slower machines. On fast hardware you can increase this to much higher values
   buffer_maxsize = 300 * 1024,
   -- maximum width for the item abbreviation. This is the first column of the completion popup
-  abbr_maxwidth = 60,
+  abbr_maxwidth = 50,
   -- maximum width for the details column. Normally the rightmost column
-  details_maxwidth = 20,
+  details_maxwidth = 15,
   -- I prefer to have only manual cmp complation (hit Ctrl-Space)
   -- set this to true to always have auto-completion when typing
   autocomplete = false,

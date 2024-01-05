@@ -148,8 +148,8 @@ lazy.setup({
     lazy = true,
     event = { "LspAttach" },
     dependencies = {
-      'Hoffs/omnisharp-extended-lsp.nvim',          -- omnisharp decompilation support
-      --'Decodetalkers/csharpls-extended-lsp.nvim', -- this is for csharp_ls decompilation support
+      { 'Hoffs/omnisharp-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "omnisharp") },         -- omnisharp decompilation support
+      { 'Decodetalkers/csharpls-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "csharp_ls") },  -- this is for csharp_ls decompilation support
       'onsails/lspkind-nvim',
       {
         'Bekaboo/dropbar.nvim',
@@ -549,22 +549,22 @@ lazy.setup({
     dependencies = {
       "MunifTanjim/nui.nvim"
     }
+  },
+  {
+    'jmederosalvarado/roslyn.nvim',
+    cond = (vim.g.tweaks.lsp.csharp == "roslyn"),
+    lazy = true,
+    ft = { "cs" },
+    config = function()
+      require("roslyn").setup({
+        roslyn_version = "4.9.0-3.23604.10",
+        on_attach = function(client, bufnr)
+          if Config.breadcrumb == 'navic' then
+            require("nvim-navic").attach(client, bufnr)
+          end
+        end,
+        capabilities = __Globals.get_lsp_capabilities()
+      })
+    end
   }
-
-  --{
-  --  'jmederosalvarado/roslyn.nvim',
-  --  lazy = true,
-  --  ft = { "cs" },
-  --  config = function()
-  --    require("roslyn").setup({
-  --      roslyn_version = "4.9.0-3.23604.10",
-  --      on_attach = function(client, bufnr)
-  --        if Config.breadcrumb == 'navic' then
-  --          require("nvim-navic").attach(client, bufnr)
-  --        end
-  --      end,
-  --      capabilities = __Globals.get_lsp_capabilities()
-  --    })
-  --  end
-  --}
 })

@@ -315,20 +315,6 @@ lspconfig.yamlls.setup({
   }
 })
 
---lspconfig.csharp_ls.setup({
---  on_attach = on_attach,
---  capabilities = capabilities,
---  handlers = {
---    ["textDocument/definition"] = require('csharpls_extended').handler
---  },
---  cmd = { vim.g.lsp_server_bin['csharp_ls'] },
---  root_dir = util.root_pattern('*.sln', '*.csproj', '*.fsproj', '.git'),
---  filetypes = { 'cs' },
---  init_options = {
---    AutomaticWorkspaceInit = true,
---  }
---})
-
 -- python pyright
 lspconfig.pyright.setup({
   cmd = { vim.g.lsp_server_bin['pyright'], '--stdio' },
@@ -444,7 +430,14 @@ lspconfig.zls.setup {
 }
 
 -- outsourced because it's too big
-require("lsp.omnisharp")
+if vim.g.tweaks.lsp.csharp == "omnisharp" then
+  require("lsp.omnisharp")
+elseif vim.g.tweaks.lsp.csharp == "roslyn" then
+  require("lsp.roslyn")
+elseif vim.g.tweaks.lsp.csharp == "csharp_ls" then
+  require("lsp.csharp_ls")
+end
+
 -- require("lsp.hls")      -- hls (haskell)
 -------------------------
 -- LSP Handlers (general)
