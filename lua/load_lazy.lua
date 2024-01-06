@@ -2,7 +2,23 @@ local lazy = require("lazy")
 lazy.setup({
   'sharkdp/fd',
   'BurntSushi/ripgrep',
-  'nvim-tree/nvim-web-devicons',
+  {
+    'nvim-tree/nvim-web-devicons',
+    config = function()
+      require("nvim-web-devicons").setup({
+      override = {
+        zsh = {
+          icon = " ",
+          color = "#428850",
+          cterm_color = "65",
+          name = "Zsh",
+        }
+      },
+      color_icons = true,
+      default = true
+      })
+    end
+  },
   'nvim-lua/plenary.nvim',
   {
     'nvim-lualine/lualine.nvim',
@@ -211,28 +227,6 @@ lazy.setup({
     end
   },
   {
-    --'j-hui/fidget.nvim',
-    --priorty = 9999,
-    --config = function()
-    --  vim.g.notifier = require("fidget")
-    --  require("fidget").setup({
-    --    progress = {
-    --      poll_rate = 1,
-    --      ignore_done_already = true,
-    --      display = {
-    --        render_limit = 2
-    --      }
-    --    },
-    --    notification = {
-    --      override_vim_notify = true,
-    --      history_size = 20,
-    --      filter = vim.log.levels.TRACE,
-    --      configs = {
-    --        --default = require("fidget.notification").default_config
-    --      }
-    --    }
-    --  })
-    --end
   },
   {
     'williamboman/mason.nvim',
@@ -245,19 +239,7 @@ lazy.setup({
   { 'tpope/vim-liquid', ft = "liquid" },
   {
     'MattesGroeger/vim-bookmarks',
---    'tomasky/bookmarks.nvim',
     event = "BufReadPre",
---    config = function()
---      require('bookmarks').setup({
---        save_file = vim.fn.stdpath("state") .. "/bookmarks", -- bookmarks save file path
---        keywords = {
---          ["@t"] = " ", -- mark annotation startswith @t ,signs this icon as `Todo`
---          ["@w"] = " ",  -- mark annotation startswith @w ,signs this icon as `Warn`
---          ["@f"] = " ", -- mark annotation startswith @f ,signs this icon as `Fix`
---          ["@n"] = " ", -- mark annotation startswith @n ,signs this icon as `Note`
---        }
---      })
---    end
     dependencies = {
       {
         'https://gitlab.com/silvercircle74/telescope-vim-bookmarks.nvim'
@@ -297,7 +279,6 @@ lazy.setup({
     end
   },
   { 'voldikss/vim-floaterm',      cmd = { "FloatermNew", "FloatermToggle" } },
-  --{ 'numToStr/FTerm.nvim', lazy=true },
   { 'preservim/vim-markdown',     ft = "markdown" },
   { 'norcalli/nvim-colorizer.lua' },
   'echasnovski/mini.move',
@@ -416,7 +397,6 @@ lazy.setup({
   },
   {
     'silvercircle/outline.nvim',
-    --'https://gitlab.com/silvercircle74/symbols-outline.nvim',
     branch = 'mine',
     cmd = { "Outline", "OutlineOpen", "OutlineClose" },
     lazy = true,

@@ -8,23 +8,6 @@ if type(version.prerelease) == "string" then
   buildinfo = buildinfo .. "-" .. version.prerelease
 end
 -- devicons for lua plugins (e.g. Telescope, neotree, nvim-tree among others  need them)
-require("nvim-web-devicons").setup({
-  override = {
-    zsh = {
-      icon = " ",
-      color = "#428850",
-      cterm_color = "65",
-      name = "Zsh",
-    },
-  },
-  -- globally enable different highlight colors per icon (default to true)
-  -- if set to false all icons will have the default icon's color
-  color_icons = true,
-  -- globally enable default icons (default to false)
-  -- will get overriden by `get_icons` option
-  default = true
-})
-
 local colors = Config.theme
 
 -- crete the cokeline theme. Global function

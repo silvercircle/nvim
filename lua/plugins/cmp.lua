@@ -282,8 +282,9 @@ cmp.setup.cmdline(":", {
     { name = "cmdline" },
   }),
   completion = {
-    completeopt = "menu,menuone"
-  }
+    completeopt = "menu,menuone,noselect",
+    autocomplete = { cmp_types.TriggerEvent.TextChanged },
+  },
 })
  -- Custom sorting/ranking for completion items.
 cmp_helper.compare = {

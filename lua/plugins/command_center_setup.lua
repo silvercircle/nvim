@@ -3,7 +3,7 @@
 -- most of these mappings are also in vim_mappings_full.lua so command_center is optional.
 local command_center = require("command_center")
 local noremap = { noremap = true }
-local lsputil = require('lspconfig.util')
+local lsputil = require("lspconfig.util")
 local lutils = require("local_utils")
 local _t = require("telescope")
 local _tb = require("telescope.builtin")
@@ -101,18 +101,20 @@ command_center.add({
     cmd = function() vim.lsp.buf.type_definition() end,
     keys = {
       { "n", "<C-x>t", noremap },
-      { 'i', "<C-x>t", noremap }
+      { "i", "<C-x>t", noremap }
     },
     category = "@LSP"
   },
   -- Telescope LSP code navigation and diagnostics
   {
     desc = "Jump to definition (Telescope)",
-    cmd = function() _tb.lsp_definitions(__Telescope_vertical_dropdown_theme({
+    cmd = function()
+      _tb.lsp_definitions(__Telescope_vertical_dropdown_theme({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
         symbol_highlights = Config.telescope_symbol_highlights,
         layout_config = Config.minipicker_layout
-    })) end,
+      }))
+    end,
     keys = {
       { "n", "<C-x>d", noremap },
       { "i", "<C-x>d", noremap }
@@ -130,11 +132,12 @@ command_center.add({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
         symbol_highlights = Config.telescope_symbol_highlights,
         ignore_symbols = ignore_symbols,
-        layout_config = Config.minipicker_layout }))
+        layout_config = Config.minipicker_layout
+      }))
     end,
     keys = {
-      {"n", "<A-o>", noremap },
-      {"i", "<A-o>", noremap }
+      { "n", "<A-o>", noremap },
+      { "i", "<A-o>", noremap }
     },
     category = "@LSP Telescope"
   },
@@ -143,11 +146,12 @@ command_center.add({
     cmd = function()
       _t.extensions.aerial.aerial(__Telescope_vertical_dropdown_theme({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
-        layout_config = Config.minipicker_layout }))
+        layout_config = Config.minipicker_layout
+      }))
     end,
     keys = {
-      {"n", "<A-a>", noremap },
-      {"i", "<A-a>", noremap },
+      { "n", "<A-a>", noremap },
+      { "i", "<A-a>", noremap },
     },
     category = "@LSP Telescope Aerial"
   },
@@ -162,8 +166,8 @@ command_center.add({
       }))
     end,
     keys = {
-      {"n", "<A-r>", noremap },
-      {"i", "<A-r>", noremap },
+      { "n", "<A-r>", noremap },
+      { "i", "<A-r>", noremap },
     },
     category = "@LSP Telescope"
   },
@@ -176,8 +180,8 @@ command_center.add({
       }))
     end,
     keys = {
-      {"n", "<A-t>", noremap },
-      {"i", "<A-t>", noremap },
+      { "n", "<A-t>", noremap },
+      { "i", "<A-t>", noremap },
     },
     category = "@LSP Telescope"
   },
@@ -201,10 +205,11 @@ command_center.add({
   },
   {
     desc = "Run diagnostics (workspace)",
-    cmd = function() _tb.diagnostics(__Telescope_vertical_dropdown_theme({
-      prompt_prefix = lutils.getTelescopePromptPrefix(),
-      root_dir = lutils.getroot_current()
-    }))
+    cmd = function()
+      _tb.diagnostics(__Telescope_vertical_dropdown_theme({
+        prompt_prefix = lutils.getTelescopePromptPrefix(),
+        root_dir = lutils.getroot_current()
+      }))
     end,
     keys = {
       { "n", "<C-t>d", noremap },
@@ -221,13 +226,13 @@ command_center.add({
   {
     desc = "Pick from dropbar",
     cmd = function()
-      if Config.breadcrumb == 'dropbar' then
+      if Config.breadcrumb == "dropbar" then
         require("dropbar.api").pick()
       end
     end,
     keys = {
-      {"n", "<C-x>p", noremap },
-      {"i", "<C-x>p", noremap },
+      { "n", "<C-x>p", noremap },
+      { "i", "<C-x>p", noremap },
     },
     category = "@LSP"
   },
@@ -383,10 +388,12 @@ command_center.add({
       _tb.find_files(__Telescope_vertical_dropdown_theme({
         hidden = true,
         prompt_title = "Find Files",
-        cwd = vim.fn.expand('%:p:h')
+        prompt_prefix = lutils.getTelescopePromptPrefix(),
+        layout_config = Config.telescope_vertical_preview_layout,
+        cwd = vim.fn.expand("%:p:h")
       }))
     end,
-    keys = { "n", "<f20>", noremap }, --shift-f8
+    keys = { { "n", "i" }, "<f20>", noremap }, --shift-f8
     category = "@Telescope"
   },
   {
@@ -394,10 +401,12 @@ command_center.add({
     cmd = function()
       _tb.find_files(__Telescope_vertical_dropdown_theme({
         prompt_title = "Find Files",
+        prompt_prefix = lutils.getTelescopePromptPrefix(),
+        layout_config = Config.telescope_vertical_preview_layout,
         cwd = lutils.getroot_current()
       }))
     end,
-    keys = { "n", "<f8>", noremap },
+    keys = { { "n", "i" }, "<f8>", noremap },
     category = "@Telescope"
   },
   {
@@ -409,25 +418,25 @@ command_center.add({
         layout_config = Config.telescope_vertical_preview_layout
       }))
     end,
-    keys = { {"n", "i"}, "<A-Backspace>", noremap },
+    keys = { { "n", "i" }, "<A-Backspace>", noremap },
     category = "@Telescope"
   },
   {
     desc = "Command history (Telescope)",
-    cmd = function() _tb.command_history(__Telescope_dropdown_theme { title = 'Command history', width = 0.4, height = 0.7 }) end,
+    cmd = function() _tb.command_history(__Telescope_dropdown_theme { title = "Command history", width = 0.4, height = 0.7 }) end,
     keys = { "n", "<A-C>", noremap },
     category = "@Telescope"
   },
   {
     desc = "Command list (Telescope)",
-    cmd = function() _tb.commands(__Telescope_dropdown_theme { title = 'Commands', width = 0.6, height = 0.7 }) end,
+    cmd = function() _tb.commands(__Telescope_dropdown_theme { title = "Commands", width = 0.6, height = 0.7 }) end,
     keys = { "n", "<A-c>", noremap },
     category = "@Telescope"
   },
   {
     desc = "Registers (Telescope)",
     cmd = function() _tb.registers(__Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix() }) end,
-    keys = { {"n", "i"}, "<C-x><C-r>", noremap },
+    keys = { { "n", "i" }, "<C-x><C-r>", noremap },
     category = "@Telescope"
   },
   {
@@ -441,7 +450,8 @@ command_center.add({
     cmd = function()
       _tb.current_buffer_fuzzy_find(__Telescope_vertical_dropdown_theme({
         layout_config = Config.telescope_vertical_preview_layout,
-        prompt_title = "Fuzzy Find in current buffer" }))
+        prompt_title = "Fuzzy Find in current buffer"
+      }))
     end,
     keys = { "n", "<C-x><C-f>", noremap },
     category = "@Telescope"
@@ -478,8 +488,8 @@ command_center.add({
   },
   {
     desc = "Spell suggestions",
-    cmd = function() _tb.spell_suggest(__Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix(), title = 'Spell suggestions', height = 0.5, width = 0.2 }) end,
-    keys = { {"n", "i"}, "<A-s>", noremap },
+    cmd = function() _tb.spell_suggest(__Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix(), title = "Spell suggestions", height = 0.5, width = 0.2 }) end,
+    keys = { { "n", "i" }, "<A-s>", noremap },
     category = "@Telescope"
   },
   {
@@ -491,8 +501,8 @@ command_center.add({
   {
     desc = "Todo List Project Root",
     cmd = function()
-      require('telescope._extensions.todo-comments').exports.todo(__Telescope_vertical_dropdown_theme({
-        layout_config = { width=120 }, prompt_title = "Todo Comments (Project)", cwd = lutils.getroot_current(), hidden = true }))
+      require("telescope._extensions.todo-comments").exports.todo(__Telescope_vertical_dropdown_theme({
+        layout_config = { width = 120 }, prompt_title = "Todo Comments (Project)", cwd = lutils.getroot_current(), hidden = true }))
     end,
     keys = { "n", "tdp", noremap },
     category = "@Neovim"
@@ -501,8 +511,8 @@ command_center.add({
     desc = "Todo List Current Directory",
     cmd = function()
       local dir = vim.fn.expand("%:p:h")
-      require('telescope._extensions.todo-comments').exports.todo(__Telescope_vertical_dropdown_theme({
-        layout_config = { width=120 }, prompt_title = "Todo Comments (Current Directory)", cwd = dir }))
+      require("telescope._extensions.todo-comments").exports.todo(__Telescope_vertical_dropdown_theme({
+        layout_config = { width = 120 }, prompt_title = "Todo Comments (Current Directory)", cwd = dir }))
     end,
     keys = { "n", "tdo", noremap },
     category = "@Neovim"
@@ -539,7 +549,7 @@ command_center.add({
   {
     desc = "Treesitter tree",
     cmd = function()
-      vim.treesitter.inspect_tree({ command = 'rightbelow 36vnew' })
+      vim.treesitter.inspect_tree({ command = "rightbelow 36vnew" })
       vim.o.statuscolumn = ""
     end,
     keys = { "n", "tsp", noremap },
@@ -547,43 +557,43 @@ command_center.add({
   },
   {
     desc = "Quickfix list (Mini)",
-    cmd = function() require("mini.extra").pickers.list({ scope="quickfix" }, { window={ config=__Globals.mini_pick_center(110, 25, 0.1) } }) end,
+    cmd = function() require("mini.extra").pickers.list({ scope = "quickfix" }, { window = { config = __Globals.mini_pick_center(110, 25, 0.1) } }) end,
     keys = { "n", "qfl", noremap },
     category = "@Neovim"
   },
   {
     desc = "Location list (Mini)",
-    cmd = function() require("mini.extra").pickers.list({ scope="location" }, { window={ config=__Globals.mini_pick_center(110, 25, 0.1) } }) end,
+    cmd = function() require("mini.extra").pickers.list({ scope = "location" }, { window = { config = __Globals.mini_pick_center(110, 25, 0.1) } }) end,
     keys = { "n", "lll", noremap },
     category = "@Neovim"
   },
   {
     desc = "Telekasten panel",
-    cmd = function() require('telekasten').panel() end,
+    cmd = function() require("telekasten").panel() end,
     keys = { "n", "tkp", noremap },
     category = "@Telekasten"
   },
   {
     desc = "Telekasten find notes",
-    cmd = function() require('telekasten').find_notes() end,
+    cmd = function() require("telekasten").find_notes() end,
     keys = { "n", "<leader>zf", noremap },
     category = "@Telekasten"
   },
   {
     desc = "Telekasten find daily notes",
-    cmd = function() require('telekasten').find_daily_notes() end,
+    cmd = function() require("telekasten").find_daily_notes() end,
     keys = { "n", "<leader>zd", noremap },
     category = "@Telekasten"
   },
   {
     desc = "Telekasten search notes",
-    cmd = function() require('telekasten').search_notes() end,
+    cmd = function() require("telekasten").search_notes() end,
     keys = { "n", "<leader>zs", noremap },
     category = "@Telekasten"
   },
   {
     desc = "GitSigns next hunk",
-    cmd = function() require('gitsigns').next_hunk() end,
+    cmd = function() require("gitsigns").next_hunk() end,
     keys = {
       { "n", "<C-x><Down>", noremap },
       { "i", "<C-x><Down>", noremap }
@@ -592,7 +602,7 @@ command_center.add({
   },
   {
     desc = "GitSigns previous hunk",
-    cmd = function() require('gitsigns').prev_hunk() end,
+    cmd = function() require("gitsigns").prev_hunk() end,
     keys = {
       { "n", "<C-x><Up>", noremap },
       { "i", "<C-x><Up>", noremap }
@@ -601,7 +611,7 @@ command_center.add({
   },
   {
     desc = "GitSigns preview Hunk",
-    cmd = function() require('gitsigns').preview_hunk() end,
+    cmd = function() require("gitsigns").preview_hunk() end,
     keys = {
       { "n", "<C-x>h", noremap },
       { "i", "<C-x>h", noremap }
@@ -610,41 +620,41 @@ command_center.add({
   },
   {
     desc = "GitSigns Diff this",
-    cmd = function() require('gitsigns').diffthis() end,
+    cmd = function() require("gitsigns").diffthis() end,
     keys = {
       { "n", "<C-x><C-d>", noremap },
       { "i", "<C-x><C-d>", noremap }
     },
     category = "@GIT"
   }
--- unused stuff keep it here in case we need it at some point
---  {
---    desc = "Neotree buffer list",
---    cmd = "<CMD>Neotree buffers dir=%:p:h position=float<CR>",
---    keys = { "n", "<C-t>", noremap },
---    category = "@Neovim"
---  },
---  {
---    desc = "Neotree Git status",
---    cmd = "<CMD>Neotree git_status dir=%:p:h position=float<CR>",
---    keys = { "n", "<C-g>", noremap },
---    category = "@Neovim"
---  },
---  {
---    desc = "FZF live grep current directory",
---    cmd = function() require("fzf-lua").live_grep({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_vertical_winops }) end,
---    keys = { "n", "<f9>", noremap },
---    category = "@FZF"
---  },
---  {
---    desc = "FZF live grep project root",
---    cmd = function()
---      require("fzf-lua").live_grep({
---        cwd = require("local_utils").getroot_current(),
---        winopts = fzf_vertical_winops
---      })
---    end,
---    keys = { "n", "<f21>", noremap },
---    category = "@FZF"
---  }
+  -- unused stuff keep it here in case we need it at some point
+  --  {
+  --    desc = "Neotree buffer list",
+  --    cmd = "<CMD>Neotree buffers dir=%:p:h position=float<CR>",
+  --    keys = { "n", "<C-t>", noremap },
+  --    category = "@Neovim"
+  --  },
+  --  {
+  --    desc = "Neotree Git status",
+  --    cmd = "<CMD>Neotree git_status dir=%:p:h position=float<CR>",
+  --    keys = { "n", "<C-g>", noremap },
+  --    category = "@Neovim"
+  --  },
+  --  {
+  --    desc = "FZF live grep current directory",
+  --    cmd = function() require("fzf-lua").live_grep({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_vertical_winops }) end,
+  --    keys = { "n", "<f9>", noremap },
+  --    category = "@FZF"
+  --  },
+  --  {
+  --    desc = "FZF live grep project root",
+  --    cmd = function()
+  --      require("fzf-lua").live_grep({
+  --        cwd = require("local_utils").getroot_current(),
+  --        winopts = fzf_vertical_winops
+  --      })
+  --    end,
+  --    keys = { "n", "<f21>", noremap },
+  --    category = "@FZF"
+  --  }
 })
