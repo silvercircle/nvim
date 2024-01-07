@@ -197,6 +197,10 @@ local conf = {
     braces = "blue",
     delim = "red"
   },
+  indentguide_colors = {
+    light = "#505050",
+    dark = "#505050"
+  },
   -- attributes for various highlight classes. They allow all standard
   -- highlighting attributes like bold, italic, underline, sp.
   baseattrib = {
@@ -863,7 +867,7 @@ local function set_all()
 
   -- lukas-reineke/indent-blankline.nvim
   M.hl("IndentBlanklineContextChar", M.localtheme.darkpurple, M.palette.none, { nocombine = true })
-  M.hl("IndentBlanklineChar", M.localtheme.bg1, M.palette.none, { nocombine = true })
+  M.set_hl(0, "IndentBlanklineChar", { fg = conf.indentguide_colors[conf.scheme], nocombine = true })
   M.link("IndentBlanklineSpaceChar", "IndentBlanklineChar")
   M.link("IndentBlanklineSpaceCharBlankline", "IndentBlanklineChar")
   -- rainbow colors
@@ -1075,7 +1079,6 @@ function M.set_bg()
     --end
   end
 end
-
 
 --- call the configured (if any) callback function to indicate what
 --- has changed in the theme's configuration

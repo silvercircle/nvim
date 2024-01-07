@@ -386,7 +386,7 @@ command_center.add({
     desc = "Find files in current directory (Telescope)",
     cmd = function()
       _tb.find_files(__Telescope_vertical_dropdown_theme({
-        hidden = true,
+        hidden = false,
         prompt_title = "Find Files",
         prompt_prefix = lutils.getTelescopePromptPrefix(),
         layout_config = Config.telescope_vertical_preview_layout,
@@ -401,6 +401,7 @@ command_center.add({
     cmd = function()
       _tb.find_files(__Telescope_vertical_dropdown_theme({
         prompt_title = "Find Files",
+        hidden = false,
         prompt_prefix = lutils.getTelescopePromptPrefix(),
         layout_config = Config.telescope_vertical_preview_layout,
         cwd = lutils.getroot_current()

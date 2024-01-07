@@ -509,7 +509,7 @@ function Utils.Telescope_vertical_dropdown_theme(opts)
     fname_width = Config["telescope_fname_width"],
     sorting_strategy = "ascending",
     layout_strategy = "vertical",
-    path_display = { smart = true },
+    path_display = { shorten = 10 },
     symbol_width = Config.minipicker_symbolwidth,
     layout_config = {
       width = lopts.width or 0.8,

@@ -523,7 +523,12 @@ function M.restore_config()
                  sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
                  kittysocket = vim.g.tweaks.theme.kittysocket,
                  kittenexec = vim.g.tweaks.theme.kittenexec,
-                 callback = M.theme_callback })
+                 callback = M.theme_callback,
+                 indentguide_colors = {
+                   dark = vim.g.tweaks.indentguide.color.dark,
+                   light = vim.g.tweaks.indentguide.color.light
+                 }
+               })
 end
 
 --- the callback is called from internal theme functions that change its

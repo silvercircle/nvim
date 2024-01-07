@@ -586,7 +586,7 @@ function Wsplit.refresh()
           lines,
           Wsplit.prepare_line(
             " " .. results["7"] .. ": " .. cond,
-            "  " .. results["5"] .. "°C " .. results["6"] .. "°C",
+            "   " .. results["5"] .. "°C  " .. results["6"] .. "°C",
             -1
           )
         )

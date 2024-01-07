@@ -192,4 +192,17 @@ Tweaks.jdtls = {
 -- fallback when no other means of finding a project's root are successfull. This is highly
 -- incomplete and inaccurate, but you can expand this with whatever you want.
 Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "settings.gradle", "pom.xml", "*.sln" }
+-- tweaks for the indent guides
+Tweaks.indentguide = {
+  -- character used by the indent-blankline plugin to draw vertical indent guides
+  -- a light dotted line, sometimes barely visible
+  char = "",
+  -- solid, thicker line
+  -- char = "│",
+  color = {
+    -- the color for light- and dark background themes.
+    light = "#606060",
+    dark = "#505050"
+  }
+}
 return Tweaks
