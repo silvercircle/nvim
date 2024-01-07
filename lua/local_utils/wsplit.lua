@@ -94,7 +94,7 @@ function Wsplit.set_minheight()
   if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) then
     vim.api.nvim_win_set_height(
       Wsplit.winid,
-      (Wsplit.content == "info") and Config.weather.required_height or Config.weather.required_height - 3
+      (Wsplit.content == "info") and Config.weather.required_height or Config.weather.required_height - 1
     )
   end
 end
@@ -577,7 +577,7 @@ function Wsplit.refresh()
         )
         table.insert(lines, Wsplit.prepare_line(" Pressure: " .. results["19"], " " .. results["18"], 0))
         table.insert(lines, Wsplit.prepare_line("   " .. results["23"], "  " .. results["24"], -3))
-        local cond = conditions[results["37"]][results["4"]]
+        local cond = conditions[results["37"]][string.lower(results["4"])]
         if cond == nil then
           cond = "N/A"
         end
