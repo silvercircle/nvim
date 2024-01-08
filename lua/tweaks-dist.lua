@@ -170,7 +170,8 @@ Tweaks.cokeline = {
 Tweaks.theme = {
   sync_kittybg = true,
   kittenexec = "kitten",
-  kittysocket = "/tmp/mykittysocket"
+  kittysocket = "/tmp/mykittysocket",
+  rainbow_contrast = "high"
 }
 -- filetree tweaks
 Tweaks.tree = {
@@ -178,6 +179,7 @@ Tweaks.tree = {
   version = "Neo",
   -- use the git integration (currently only available for NeoTree)
   use_git = true
+  
 }
 
 -- settings for the nvim-jdtls plugin. See ftplugin/java.lua

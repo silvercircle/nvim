@@ -527,7 +527,8 @@ function M.restore_config()
                  indentguide_colors = {
                    dark = vim.g.tweaks.indentguide.color.dark,
                    light = vim.g.tweaks.indentguide.color.light
-                 }
+                 },
+                 rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast
                })
 end
 

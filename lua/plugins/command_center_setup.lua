@@ -146,13 +146,11 @@ command_center.add({
     cmd = function()
       _t.extensions.aerial.aerial(__Telescope_vertical_dropdown_theme({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
+        prompt_title = "Symbols (Aerial)",
         layout_config = Config.minipicker_layout
       }))
     end,
-    keys = {
-      { "n", "<A-a>", noremap },
-      { "i", "<A-a>", noremap },
-    },
+    keys = { { "n","i" }, "<A-a>", noremap },
     category = "@LSP Telescope Aerial"
   },
   {
@@ -165,10 +163,7 @@ command_center.add({
         layout_config = Config.minipicker_layout
       }))
     end,
-    keys = {
-      { "n", "<A-r>", noremap },
-      { "i", "<A-r>", noremap },
-    },
+    keys = { { "n", "i" }, "<A-r>", noremap },
     category = "@LSP Telescope"
   },
   {
@@ -387,7 +382,8 @@ command_center.add({
     cmd = function()
       _tb.find_files(__Telescope_vertical_dropdown_theme({
         hidden = false,
-        prompt_title = "Find Files",
+        prompt_title = "Find Files (current)",
+        previewer = false,
         prompt_prefix = lutils.getTelescopePromptPrefix(),
         layout_config = Config.telescope_vertical_preview_layout,
         cwd = vim.fn.expand("%:p:h")
@@ -400,9 +396,10 @@ command_center.add({
     desc = "Find files from current project root",
     cmd = function()
       _tb.find_files(__Telescope_vertical_dropdown_theme({
-        prompt_title = "Find Files",
+        prompt_title = "Find Files (project root)",
         hidden = false,
         prompt_prefix = lutils.getTelescopePromptPrefix(),
+        previewer = false;
         layout_config = Config.telescope_vertical_preview_layout,
         cwd = lutils.getroot_current()
       }))

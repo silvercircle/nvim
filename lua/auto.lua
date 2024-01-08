@@ -199,7 +199,7 @@ autocmd({ 'FileType' }, {
 -- handle treesitter configuration and start it on supported filetypes.
 autocmd({ "Filetype" }, {
   pattern = Config.treesitter_types,
-  callback = function()
+  callback = function(args)
     vim.treesitter.start()
   end,
   group = agroup_hl

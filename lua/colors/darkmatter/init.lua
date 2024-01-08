@@ -59,20 +59,40 @@ local basepalette = {
 
 local rainbowpalette = {
   dark = {
-   "#401C15",
-   "#15401B",
-   "#583329",
-   "#163642",
-   "#112F6F",
-   "#56186D"
+    low = {
+     "#401C15",
+     "#15401B",
+     "#583329",
+     "#163642",
+     "#112F6F",
+     "#56186D"
+   },
+   high = {
+     "#701C15",
+     "#15701B",
+     "#783329",
+     "#2646a2",
+     "#707010",
+     "#86188D"
+   }
   },
   light = {
-   "#ddbbbb",
-   "#bbddbb",
-   "#ddddbb",
-   "#bbdddd",
-   "#bbbbdd",
-   "#ddbbdd"
+    low = {
+     "#ddbbbb",
+     "#bbddbb",
+     "#ddddbb",
+     "#bbdddd",
+     "#bbbbdd",
+     "#ddbbdd"
+    },
+    high = {
+     "#ddbbbb",
+     "#bbddbb",
+     "#ddddbb",
+     "#bbdddd",
+     "#bbbbdd",
+     "#ddbbdd"
+    }
   }
 }
 
@@ -201,6 +221,7 @@ local conf = {
     light = "#505050",
     dark = "#505050"
   },
+  rainbow_contrast = "high",
   -- attributes for various highlight classes. They allow all standard
   -- highlighting attributes like bold, italic, underline, sp.
   baseattrib = {
@@ -711,7 +732,7 @@ local function set_all()
   M.hl_with_defaults("GreenSign", M.localtheme.green, M.localtheme.darkbg)
   M.hl_with_defaults("BlueSign", M.localtheme.blue, M.localtheme.darkbg)
   M.hl_with_defaults("PurpleSign", M.palette.purple, M.localtheme.darkbg)
-  M.hl("ErrorText", M.palette.none, M.palette.none, { undercurl = true, sp = M.localtheme.red[1] })
+  M.link("ErrorText", "RedBold")
   M.hl("WarningText", M.palette.none, M.palette.none, { undercurl = true, sp = M.localtheme.yellow[1] })
   M.hl("InfoText", M.palette.none, M.palette.none, { undercurl = true, sp = M.localtheme.blue[1] })
   M.hl("HintText", M.palette.none, M.palette.none, { undercurl = true, sp = M.localtheme.green[1] })
@@ -801,6 +822,9 @@ local function set_all()
   M.link("@keyword", "Keyword")
   M.link("@keyword.function", "DeepRedBold")
   M.link("@keyword.operator", "Operator")
+  M.link("@keyword.conditional", "Conditional")
+  M.link("@keyword.repeat", "Conditional")
+  M.link("@keyword.storage", "StorageClass")
   M.link("@label", "Red")
   M.link("@method", "Method")
   M.link("@namespace", "DarkPurpleBold")
@@ -856,7 +880,6 @@ local function set_all()
   M.link("@lsp.typemod.method.static", "StaticMethod")
   M.link("@lsp.typemod.method_name.static_symbol", "StaticMethod")
   M.link("@lsp.typemod.property.static", "StaticMember")
-  M.link("@lsp.typemod.property.static", "StaticMember")
   M.link("@lsp.mod.defaultLibrary", "Function")
 
   M.link("FloatermBorder", "Grey")
@@ -871,12 +894,12 @@ local function set_all()
   M.link("IndentBlanklineSpaceChar", "IndentBlanklineChar")
   M.link("IndentBlanklineSpaceCharBlankline", "IndentBlanklineChar")
   -- rainbow colors
-  M.set_hl(0, "IndentBlanklineIndent1", { fg = rainbowpalette[conf.scheme][1], nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent2", { fg = rainbowpalette[conf.scheme][2], nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent3", { fg = rainbowpalette[conf.scheme][3], nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent4", { fg = rainbowpalette[conf.scheme][4], nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent5", { fg = rainbowpalette[conf.scheme][5], nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent6", { fg = rainbowpalette[conf.scheme][6], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent1", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][1], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent2", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][2], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent3", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][4], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent4", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][5], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent5", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][6], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent6", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][3], nocombine = true })
 
   M.hl_with_defaults("InclineNormalNC", M.palette.grey, M.localtheme.bg2)
 
