@@ -155,7 +155,7 @@ lazy.setup({
       }
     },
     config = function()
-      require("plugins.cmp")
+      require(vim.g.tweaks.cmp.style == "experimental" and "plugins.cmp_experimental" or "plugins.cmp")
     end
   },
   -- lsp

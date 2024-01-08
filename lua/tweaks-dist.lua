@@ -105,8 +105,17 @@ Tweaks.cmp = {
   --containing the highlight group to use for ghost text.
   --for example: ghost = { hl_group = 'CmpGhostText' }
   ghost = false,
-  border = "single"
+  border = "single",
+  -- this can be either "standard" or "experimental"
+  -- the latter utilizes a simpler design with a flat appearance. Without border
+  -- and padding. It also uses background colorizing for the kind icon
+  -- experimental is likely NOT compatible with most color schemes except the
+  -- default one.
+  style = "experimental"
 }
+
+-- don't touch this unless you know what you're doing
+Tweaks.cmp.kind_attr = Tweaks.cmp.style == "experimental" and { reverse = true } or {}
 
 -- set this to "Outline" to use the symbols-outline plugin.
 -- set it to "aerial" to use the Aerial plugin.
@@ -171,7 +180,7 @@ Tweaks.theme = {
   sync_kittybg = true,
   kittenexec = "kitten",
   kittysocket = "/tmp/mykittysocket",
-  rainbow_contrast = "high"
+  rainbow_contrast = "low"
 }
 -- filetree tweaks
 Tweaks.tree = {
@@ -198,9 +207,9 @@ Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.t
 Tweaks.indentguide = {
   -- character used by the indent-blankline plugin to draw vertical indent guides
   -- a light dotted line, sometimes barely visible
-  char = "",
+  --char = "",
   -- solid, thicker line
-  -- char = "│",
+  char = "│",
   color = {
     -- the color for light- and dark background themes.
     light = "#606060",

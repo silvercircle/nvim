@@ -248,6 +248,7 @@ local conf = {
       bolditalic   = { bold = true, italic = true },
       attribute    = { bold = true },
       annotation   = { bold = true, italic = true },
+      cmpkind      = {},
       uri          = {}
     },
     -- for reasons of contrast and readability, the light scheme shall have
@@ -275,6 +276,7 @@ local conf = {
       bolditalic   = { bold = true, italic = true },
       attribute    = { bold = true },
       annotation   = { bold = true, italic = true },
+      cmpkind      = {},
       uri          = {}
     },
   },
@@ -358,7 +360,6 @@ end
 local function configure()
   M.theme = M.basetheme[conf.scheme]
   conf.attrib = conf.baseattrib[conf.scheme]
-
   LuaLineColors = {
     white = "#ffffff",
     darkestgreen = M.theme.accent_fg,

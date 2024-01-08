@@ -79,7 +79,7 @@ cmp.setup({
   view = {
     docs = {
       auto_open = __Globals.perm_config.cmp_show_docs
-    }
+    },
   },
   performance = {
     --debounce = 60,
@@ -90,7 +90,7 @@ cmp.setup({
     --max_view_entries = 200,
   },
   experimental = {
-    ghost_text = Config.cmp.ghost_text
+    ghost_text = Config.cmp.ghost_text,
   },
   window = {
     -- respect the perm_config.telescope_borders setting. "squared", "rounded" or "none"
@@ -103,7 +103,8 @@ cmp.setup({
       border = __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
                or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
       winhighlight = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual",
-      scrollbar = false
+      scrollbar = false,
+      side_padding = 1
     },
   },
   mapping = {
@@ -170,26 +171,27 @@ cmp.setup({
     ["<C-Down>"] = cmp.mapping.scroll_docs(4),
   },
   formatting = {
-    -- fields = { "kind", "abbr", "menu" },
+    fields = { "kind", "abbr", "menu" },
     format = function(entry, vim_item)
       -- Truncate the item if it is too long
         -- fancy icons and a name of kind
+      local kind = vim_item.kind
+      vim_item.menu = "[" .. kind .. "]"
+      vim_item.menu_hl_group = "CmpItemKind" .. vim_item.kind .. "Rev"
       vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
-      -- vim_item.kind = " " .. vim_item.kind_symbol .. " " .. Config.iconpad .. vim_item.kind
-      vim_item.kind = vim_item.kind_symbol .. " " .. "[" .. vim_item.kind .. "]"
+      vim_item.kind = " " .. vim_item.kind_symbol .. " "
       vim_item.abbr = __Globals.truncate(vim_item.abbr, Config.cmp.max_abbr_item_width)
       -- The 'menu' section: source, detail information (lsp, snippet), etc.
       -- set a name for each source (see the sources section below)
-      vim_item.menu = (cmp_item_menu)[entry.source.name] or string.format("%s", entry.source.name)
+      -- vim_item.menu = (cmp_item_menu)[entry.source.name] or string.format("%s", entry.source.name)
       -- highlight groups for item.menu
-      vim_item.menu_hl_group = (cmp_menu_hl_group)[entry.source.name] -- default is CmpItemMenu
       -- detail information (optional)
       local cmp_item = entry:get_completion_item()
       if entry.source.name == "nvim_lsp" then
         -- Display which LSP servers this item came from.
         local lspserver_name = entry.source.source.client.name
         if lspserver_name == "lua_ls" then lspserver_name = "Lua" end
-        vim_item.menu = lspserver_name
+        vim_item.menu = utils.rpad(vim_item.menu, 12, " ") .. " " .. lspserver_name
         -- Some language servers provide details, e.g. type information.
         -- The details info hide the name of lsp server, but mostly we'll have one LSP
         -- per filetype, and we use special highlights so it's OK to hide it..
@@ -204,13 +206,7 @@ cmp.setup({
           end
           return lspserver_name == "Lua" and "Lua" or __Globals.truncate(cmp_item.detail, Config.cmp.max_detail_item_width)
         end)(cmp_item)
-        if detail_txt then
-          vim_item.menu = detail_txt
-          vim_item.menu_hl_group = "CmpItemMenuDetail"
-        end
       end
-      -- Add a little bit more padding
-      vim_item.menu = " " .. vim_item.menu
       return vim_item
     end,
   },
