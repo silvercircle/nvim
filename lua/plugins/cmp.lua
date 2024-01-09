@@ -181,9 +181,9 @@ cmp.setup({
       vim_item.abbr = __Globals.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)
       -- The 'menu' section: source, detail information (lsp, snippet), etc.
       -- set a name for each source (see the sources section below)
-      vim_item.menu = (cmp_item_menu)[entry.source.name] or string.format("%s", entry.source.name)
+      vim_item.menu = cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name)
       -- highlight groups for item.menu
-      vim_item.menu_hl_group = (cmp_menu_hl_group)[entry.source.name] -- default is CmpItemMenu
+      vim_item.menu_hl_group = cmp_menu_hl_group[entry.source.name] -- default is CmpItemMenu
       -- detail information (optional)
       local cmp_item = entry:get_completion_item()
       if entry.source.name == "nvim_lsp" then
@@ -194,16 +194,16 @@ cmp.setup({
         -- Some language servers provide details, e.g. type information.
         -- The details info hide the name of lsp server, but mostly we'll have one LSP
         -- per filetype, and we use special highlights so it's OK to hide it..
-        local detail_txt = (function(cmp_item)
-          if not cmp_item.detail then
+        local detail_txt = (function(this_item)
+          if not this_item.detail then
             return nil
           end
           -- OmniSharp sometimes provides details (e.g. for overloaded operators). So leave some
           -- space for them.
           if lspserver_name == "omnisharp" then
-            return #cmp_item.detail > 0 and utils.rpad(string.sub(cmp_item.detail, 1, 8), 10, " ") .. "OmniSharp" or "          OmniSharp"
+            return #this_item.detail > 0 and utils.rpad(string.sub(this_item.detail, 1, 8), 10, " ") .. "OmniSharp" or "          OmniSharp"
           end
-          return lspserver_name == "Lua" and "Lua" or __Globals.truncate(cmp_item.detail, vim.g.tweaks.cmp.details_maxwidth)
+          return lspserver_name == "Lua" and "Lua" or __Globals.truncate(this_item.detail, vim.g.tweaks.cmp.details_maxwidth)
         end)(cmp_item)
         if detail_txt then
           vim_item.menu = detail_txt

@@ -111,7 +111,7 @@ Tweaks.cmp = {
   -- and padding. It also uses background colorizing for the kind icon
   -- experimental is likely NOT compatible with most color schemes except the
   -- default one.
-  style = "standard"
+  style = "experimental"
 }
 
 -- don't touch this unless you know what you're doing
