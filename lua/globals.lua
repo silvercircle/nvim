@@ -532,6 +532,9 @@ function M.restore_config()
                  baseattrib = {
                    dark = {
                      cmpkind = vim.g.tweaks.cmp.kind_attr
+                   },
+                   light = {
+                     cmpkind = vim.g.tweaks.cmp.kind_attr
                    }
                  }
                })

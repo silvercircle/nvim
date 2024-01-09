@@ -98,6 +98,7 @@ cmp.setup({
       border = __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
                or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
       winhighlight = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None",
+      side_padding = 1
     },
     completion = {
       border = __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
@@ -179,7 +180,7 @@ cmp.setup({
       vim_item.menu = "[" .. kind .. "]"
       vim_item.menu_hl_group = "CmpItemKind" .. vim_item.kind .. "Rev"
       vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
-      vim_item.kind = " " .. vim_item.kind_symbol .. " "
+      vim_item.kind = "▌" .. vim_item.kind_symbol .. "▐"
       vim_item.abbr = __Globals.truncate(vim_item.abbr, Config.cmp.max_abbr_item_width)
       -- The 'menu' section: source, detail information (lsp, snippet), etc.
       -- set a name for each source (see the sources section below)
@@ -191,7 +192,6 @@ cmp.setup({
         -- Display which LSP servers this item came from.
         local lspserver_name = entry.source.source.client.name
         if lspserver_name == "lua_ls" then lspserver_name = "Lua" end
-        vim_item.menu = utils.rpad(vim_item.menu, 12, " ") .. " " .. lspserver_name
         -- Some language servers provide details, e.g. type information.
         -- The details info hide the name of lsp server, but mostly we'll have one LSP
         -- per filetype, and we use special highlights so it's OK to hide it..
@@ -206,6 +206,13 @@ cmp.setup({
           end
           return lspserver_name == "Lua" and "Lua" or __Globals.truncate(cmp_item.detail, Config.cmp.max_detail_item_width)
         end)(cmp_item)
+        if detail_txt then
+          vim_item.menu = utils.rpad(vim_item.menu, 12, " ") .. " " .. detail_txt
+        else
+          vim_item.menu = utils.rpad(vim_item.menu, 12, " ") .. " " .. lspserver_name
+        end
+      else
+        vim_item.menu = utils.rpad(vim_item.menu, 12, " ") .. ((cmp_item_menu)[entry.source.name] or string.format("%s", entry.source.name))
       end
       return vim_item
     end,

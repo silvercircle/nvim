@@ -103,7 +103,8 @@ cmp.setup({
       border = __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
                or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
       winhighlight = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual",
-      scrollbar = false
+      scrollbar = false,
+      side_padding = 1
     },
   },
   mapping = {
