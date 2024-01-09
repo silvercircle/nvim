@@ -17,7 +17,7 @@ end
 
 -- this is called from the winresized / winclosed handler in auto.lua
 -- when the window has disappeared, the buffer is deleted.
-function Usplit.resize_or_closed(event)
+function Usplit.resize_or_closed(_)
   if Usplit.winid ~= nil then
     if vim.api.nvim_win_is_valid(Usplit.winid) == false then -- window has disappeared
       if Usplit.bufid ~= nil and vim.api.nvim_buf_is_valid(Usplit.bufid) then
@@ -120,7 +120,6 @@ function Usplit.open()
   local width = __Globals.perm_config.sysmon.width
   local wid = __Globals.findwinbyBufType("terminal")
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
-  local ver = vim.version()
   -- glances must be executable otherwise do nothing
   -- also, a terminal split must be present.
   if not vim.fn.executable("glances") then

@@ -335,7 +335,7 @@ function M.updatePos()
 end
 
 -- Open buffer from line
-function M.selBufNum(win, opt, count)
+function M.selBufNum(opt, count)
   local buf = nil
 
   -- Check for buffer number

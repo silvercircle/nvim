@@ -176,11 +176,9 @@ cmp.setup({
     format = function(entry, vim_item)
       -- Truncate the item if it is too long
         -- fancy icons and a name of kind
-      local kind = utils.rpad(vim_item.kind, 13, " ")
-      vim_item.menu = kind
+      vim_item.menu = utils.rpad(vim_item.kind, 13, " ")
       vim_item.menu_hl_group = "CmpItemKind" .. vim_item.kind .. "Rev"
-      vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
-      vim_item.kind = "▌" .. vim_item.kind_symbol -- .. "▐"
+      vim_item.kind = "▌" .. (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) -- .. "▐"
       vim_item.abbr = __Globals.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)
       -- The 'menu' section: source, detail information (lsp, snippet), etc.
       -- set a name for each source (see the sources section below)
