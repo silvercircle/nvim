@@ -176,8 +176,8 @@ cmp.setup({
     format = function(entry, vim_item)
       -- Truncate the item if it is too long
         -- fancy icons and a name of kind
-      local kind = vim_item.kind
-      vim_item.menu = "[" .. kind .. "]"
+      local kind = utils.rpad(vim_item.kind, 13, " ")
+      vim_item.menu = kind
       vim_item.menu_hl_group = "CmpItemKind" .. vim_item.kind .. "Rev"
       vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
       vim_item.kind = "▌" .. vim_item.kind_symbol .. "▐"
@@ -202,17 +202,17 @@ cmp.setup({
           -- OmniSharp sometimes provides details (e.g. for overloaded operators). So leave some
           -- space for them.
           if lspserver_name == "omnisharp" then
-            return #cmp_item.detail > 0 and utils.rpad(string.sub(cmp_item.detail, 1, 8), 10, " ") .. "OmniSharp" or "          OmniSharp"
+            return #cmp_item.detail > 0 and utils.rpad(string.sub(cmp_item.detail, 1, 8), 8, " ") .. "OmniSharp" or "        OmniSharp"
           end
           return lspserver_name == "Lua" and "Lua" or __Globals.truncate(cmp_item.detail, Config.cmp.max_detail_item_width)
         end)(cmp_item)
         if detail_txt then
-          vim_item.menu = utils.rpad(vim_item.menu, 12, " ") .. " " .. detail_txt
+          vim_item.menu = vim_item.menu .. detail_txt
         else
-          vim_item.menu = utils.rpad(vim_item.menu, 12, " ") .. " " .. lspserver_name
+          vim_item.menu = vim_item.menu .. lspserver_name
         end
       else
-        vim_item.menu = utils.rpad(vim_item.menu, 12, " ") .. ((cmp_item_menu)[entry.source.name] or string.format("%s", entry.source.name))
+        vim_item.menu = vim_item.menu .. ((cmp_item_menu)[entry.source.name] or string.format("%s", entry.source.name))
       end
       return vim_item
     end,

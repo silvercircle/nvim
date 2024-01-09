@@ -235,7 +235,6 @@ lazy.setup({
       require("mason").setup()
     end
   },
-  --  { 'williamboman/mason-lspconfig.nvim' },
   { 'tpope/vim-liquid', ft = "liquid" },
   {
     'MattesGroeger/vim-bookmarks',

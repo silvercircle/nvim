@@ -97,6 +97,9 @@ local function _set()
   c.hl("CmpItemKindInterface", c.localtheme.purple, c.palette.none, conf.attrib.cmpkind)
   c.link("CmpItemKindValueRev", "StorageClass")
   c.hl("CmpItemKindValue", c.localtheme.special.storage, c.palette.none, conf.attrib.cmpkind)
+  c.link("CmpItemKindTypeParameterRev", "Type")
+  c.hl("CmpItemKindTypeParameter", c.localtheme.darkpurple, c.palette.none, conf.attrib.cmpkind)
+
   c.hl_with_defaults("CmpFloat", c.localtheme.fg_dim, c.palette.neotreebg)
   c.hl_with_defaults("CmpBorder", c.localtheme.bg4, c.palette.neotreebg)
 
