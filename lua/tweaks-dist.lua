@@ -92,7 +92,7 @@ Tweaks.cmp = {
   -- this is a performance tweak. Value is in bytes and 300kB is a reasonable default, even for
   -- slower machines. On fast hardware you can increase this to much higher values
   buffer_maxsize = 300 * 1024,
-  -- maximum width for the item abbreviation. This is the first column of the completion popup
+  -- maximum width for the item abbreviation. This is the completion item's name
   abbr_maxwidth = 50,
   -- maximum width for the details column. Normally the rightmost column
   details_maxwidth = 15,
@@ -104,14 +104,14 @@ Tweaks.cmp = {
   --enable experimental ghost text feature. Set to false (disable) or a table
   --containing the highlight group to use for ghost text.
   --for example: ghost = { hl_group = 'CmpGhostText' }
-  ghost = false,
+  ghost = false, -- { hl_group = "CmpGhostText" },
   border = "single",
   -- this can be either "standard" or "experimental"
   -- the latter utilizes a simpler design with a flat appearance. Without border
   -- and padding. It also uses background colorizing for the kind icon
   -- experimental is likely NOT compatible with most color schemes except the
   -- default one.
-  style = "experimental"
+  style = "standard"
 }
 
 -- don't touch this unless you know what you're doing

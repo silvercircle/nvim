@@ -67,8 +67,8 @@ cmp.setup({
   preselect = cmp.PreselectMode.Item,
   enabled = true,
   completion = {
-    autocomplete = Config.cmp.autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or { },
-    keyword_length = Config.cmp.autocomplete_kwlen,
+    autocomplete = vim.g.tweaks.cmp.autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or { },
+    keyword_length = vim.g.tweaks.cmp.keywordlen,
     completeopt = "menu,menuone",
   },
   snippet = {
@@ -90,7 +90,7 @@ cmp.setup({
     --max_view_entries = 200,
   },
   experimental = {
-    ghost_text = Config.cmp.ghost_text
+    ghost_text = vim.g.tweaks.cmp.ghost
   },
   window = {
     -- respect the perm_config.telescope_borders setting. "squared", "rounded" or "none"
@@ -177,8 +177,8 @@ cmp.setup({
         -- fancy icons and a name of kind
       vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
       -- vim_item.kind = " " .. vim_item.kind_symbol .. " " .. Config.iconpad .. vim_item.kind
-      vim_item.kind = vim_item.kind_symbol .. " " .. "[" .. vim_item.kind .. "]"
-      vim_item.abbr = __Globals.truncate(vim_item.abbr, Config.cmp.max_abbr_item_width)
+      vim_item.kind = vim_item.kind_symbol .. " " .. vim_item.kind
+      vim_item.abbr = __Globals.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)
       -- The 'menu' section: source, detail information (lsp, snippet), etc.
       -- set a name for each source (see the sources section below)
       vim_item.menu = (cmp_item_menu)[entry.source.name] or string.format("%s", entry.source.name)
@@ -203,7 +203,7 @@ cmp.setup({
           if lspserver_name == "omnisharp" then
             return #cmp_item.detail > 0 and utils.rpad(string.sub(cmp_item.detail, 1, 8), 10, " ") .. "OmniSharp" or "          OmniSharp"
           end
-          return lspserver_name == "Lua" and "Lua" or __Globals.truncate(cmp_item.detail, Config.cmp.max_detail_item_width)
+          return lspserver_name == "Lua" and "Lua" or __Globals.truncate(cmp_item.detail, vim.g.tweaks.cmp.details_maxwidth)
         end)(cmp_item)
         if detail_txt then
           vim_item.menu = detail_txt
@@ -211,7 +211,6 @@ cmp.setup({
         end
       end
       -- Add a little bit more padding
-      vim_item.menu = " " .. vim_item.menu
       return vim_item
     end,
   },
@@ -234,7 +233,7 @@ cmp.setup({
           if Config.cmp.buffer_ft_allowed[ft] == nil then
             return {}
           end
-          if __Globals.cur_bufsize > Config.cmp.buffer_maxsize then -- 300kb
+          if __Globals.cur_bufsize > vim.g.tweaks.cmp.buffer_maxsize then -- 300kb
             vim.notify("File " .. vim.api.nvim_buf_get_name(buf) .. " too big, cmp_buffer disabled.", vim.log.levels.INFO)
             return {}
           end
