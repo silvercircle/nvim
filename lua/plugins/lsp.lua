@@ -99,26 +99,6 @@ lspconfig.als.setup({
   root_dir = util.root_pattern('Makefile', '.git', '*.gpr', '*.adc'),
 })
 
-lspconfig.dartls.setup({
-  capabilities = capabilities,
-  cmd = { vim.g.lsp_server_bin['dartls'], 'language-server', '--protocol=lsp' },
-  on_attach = on_attach,
-  filetypes = { 'dart' },
-  root_dir = util.root_pattern 'pubspec.yaml',
-  init_options = {
-    onlyAnalyzeProjectsWithOpenFiles = true,
-    suggestFromUnimportedLibraries = true,
-    closingLabels = true,
-    outline = true,
-    flutterOutline = true,
-  },
-  settings = {
-    dart = {
-      completeFunctionCalls = true,
-      showTodos = true,
-    }
-  }
-})
 local function rust_reload_workspace(bufnr)
   bufnr = util.validate_bufnr(bufnr)
   vim.lsp.buf_request(bufnr, 'rust-analyzer/reloadWorkspace', nil, function(err)
@@ -244,20 +224,6 @@ lspconfig.html.setup({
     embeddedLanguages = { css = true, javascript = true },
     configurationSection = { 'html', 'css', 'javascript' },
   },
-  on_attach = on_attach,
-  capabilities = capabilities
-})
-
-lspconfig.phpactor.setup({
-  cmd = { vim.g.lsp_server_bin['phpactor'], 'language-server' },
-  filetypes = { 'php' },
-  root_dir = function(pattern)
-    local cwd = vim.loop.cwd()
-    local root = util.root_pattern('composer.json', '.git')(pattern)
-
-    -- prefer cwd if root is a descendant
-    return util.path.is_descendant(cwd, root) and cwd or root
-  end,
   on_attach = on_attach,
   capabilities = capabilities
 })
@@ -408,15 +374,6 @@ lspconfig.groovyls.setup {
   end
 }
 
-lspconfig.zls.setup {
-  capabilities = capabilities,
-  on_attach = on_attach,
-  cmd = { vim.g.lsp_server_bin['zls'] },
-  filetypes = { 'zig', 'zir' },
-  root_dir = util.root_pattern('zls.json', 'build.zig', '.git'),
-  single_file_support = true,
-}
-
 -- outsourced because it's too big
 if vim.g.tweaks.lsp.csharp == "omnisharp" then
   require("lsp.omnisharp")
@@ -427,6 +384,8 @@ elseif vim.g.tweaks.lsp.csharp == "csharp_ls" then
 end
 
 -- require("lsp.hls")      -- hls (haskell)
+-- require("lsp.phpactor") -- php (unused)
+-- require("lsp.dartls")   -- dart/flutter (unused)
 -------------------------
 -- LSP Handlers (general)
 -------------------------

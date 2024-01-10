@@ -56,11 +56,7 @@ local function navic_context()
 end
 
 local function indentstats()
-  if __Globals.perm_config.statusline_declutter > 0 then
-    return string.format("%d:%d:%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n')
-  else
-    return string.format("%d:%d:%s|%s%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n', vim.g.theme_variant, vim.g.theme_desaturate == true and ",D" or "")
-  end
+  return string.format("%d:%d:%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n')
 end
 
 -- the internal theme is defined in config.lua

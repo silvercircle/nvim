@@ -47,13 +47,13 @@ Tweaks.lsp = {
   -- server executables to be present and warn you about missing ones.
   verify        = false,
   server_bin = {
-    phpactor      =   '/usr/local/bin/phpactor',
+    -- phpactor      =   '/usr/local/bin/phpactor',
     rust_analyzer =   Tweaks.lsp.masonbinpath .. 'rust-analyzer',
     gopls         =   Tweaks.lsp.localbin .. 'gopls',
     nimls         =   Tweaks.lsp.homepath .. '/.nimble/bin/nimlsp',
     texlab        =   Tweaks.lsp.localbin .. 'texlab',
     clangd        =   '/usr/bin/clangd',
-    dartls        =   '/opt/flutter/bin/dart',
+    -- dartls        =   '/opt/flutter/bin/dart',
     vimlsp        =   Tweaks.lsp.masonbinpath .. 'vim-language-server',
     omnisharp     =   vim.fn.stdpath("data") .. "/omnisharp/OmniSharp",
     metals        =   '/home/alex/.local/share/coursier/bin/metals',
@@ -65,20 +65,15 @@ Tweaks.lsp = {
     html          =   Tweaks.lsp.masonbinpath .. 'vscode-html-language-server',
     yamlls        =   Tweaks.lsp.masonbinpath .. 'yaml-language-server',
     als           =   Tweaks.lsp.masonbinpath .. 'ada_language_server',
-    -- jdtls is unused.
-    -- jdtls         =   Tweaks.lsp.masonbinpath .. 'jdtls',
     csharp_ls     =   Tweaks.lsp.masonbasepath .. "packages/csharpls/CSharpLanguageServer",
     marksman      =   Tweaks.lsp.masonbinpath .. 'marksman',
     lemminx       =   Tweaks.lsp.masonbinpath .. 'lemminx',
-    haskell       =   Tweaks.lsp.homepath .. '/.ghcup/hls/1.9.0.0/bin/haskell-language-server-9.4.4',
+    -- haskell       =   Tweaks.lsp.homepath .. '/.ghcup/hls/1.9.0.0/bin/haskell-language-server-9.4.4',
     bashls        =   Tweaks.lsp.masonbinpath .. 'bash-language-server',
-    pylyzer       =   Tweaks.lsp.localbin .. "pylyzer",
     taplo         =   Tweaks.lsp.masonbinpath .. 'taplo',
     emmet         =   Tweaks.lsp.masonbinpath .. 'emmet-language-server',
-    ltex          =   "/opt/ltex/bin/ltex-ls",
     groovy        =   Tweaks.lsp.masonbinpath .. 'groovy-language-server',
     roslyn        =   vim.fn.stdpath("data") .. "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll",
-    zls           =   Tweaks.lsp.masonbinpath .. 'zls'
   },
   -- use either omnisharp or csharp_ls for c# and .NET development
   -- both options work reasonably well with a few issues and missing features
