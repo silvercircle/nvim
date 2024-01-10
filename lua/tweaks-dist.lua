@@ -105,20 +105,25 @@ Tweaks.cmp = {
   --containing the highlight group to use for ghost text.
   --for example: ghost = { hl_group = 'CmpGhostText' }
   ghost = false, -- { hl_group = "CmpGhostText" },
-  border = "single",
   -- this can be either "standard" or "experimental"
-  -- the latter utilizes a simpler design with a flat appearance. Without border
-  -- and padding. It also uses background colorizing for the kind icon
-  -- experimental is likely NOT compatible with most color schemes except the
-  -- default one.
-  style = "standard",
+  -- this is the style for the completion menu CONTENT. The border layout and background
+  -- options are specified by decoration options further down.
+  style = "experimental",
+  -- which decoration to use for the completion menu and the doc window
+  -- flat: no border at all
+  -- topflat: documentation window has top and bottom border for padding
+  -- bordered: both windows have single line border
+  -- rounded: rounded border
   decoration = {
     comp = "bordered",
     doc = "bordered"
   },
+  -- list of available decorations
   decorations = {
     flat = {
+      -- border specifies what borderfactory() will use to create the window border
       border = "flat",
+      -- windowhighlight options for the docs and complation popup
       whl_doc = "Normal:NormalFloat,FloatBorder:NormalFloat,CursorLine:Visual,Search:None",
       whl_comp = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual"
 
@@ -136,6 +141,8 @@ Tweaks.cmp = {
   },
 }
 
+-- internal function to create the border characters. You can expand it with more styles
+-- and use them in the "decoration" option above.
 Tweaks.borderfactory = function(style)
   if style == "single" then
     return { "┌", "─", "┐", "│", "┘", "─", "└", "│" }

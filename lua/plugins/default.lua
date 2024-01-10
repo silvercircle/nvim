@@ -52,7 +52,7 @@ require('cokeline').setup({
       style = function() return nil end,
       sp = colors.cokeline_colors.bg
     },
-    { text = ' ' },
+    -- { text = ' ' },
     -- { text = function(buffer) return buffer.is_focused and '' or ' ' end },
     -- { text = function(buffer) return (buffer.index ~= 1 and buffer.is_focused == false) and '│ ' or ' ' end },
     -- { text = function(buffer) return buffer.is_focused and (buffer.index == 1 and '' or '') or ' ' end },
@@ -69,7 +69,11 @@ require('cokeline').setup({
        text = function(buffer) return buffer.is_modified and ' ●' or (show_close == true and  '' or '') end,
        fg = function(buffer) return buffer.is_modified and Cokeline_theme().unsaved or nil end,
     },
-    { text = ' ' }
+    { 
+      text = ' ', 
+      bg = function() return colors.cokeline_colors.bg end,
+      sp = colors.cokeline_colors.bg
+    }
     -- { text = function(buffer) return buffer.is_focused and '' or ' ' end }
   }
 })

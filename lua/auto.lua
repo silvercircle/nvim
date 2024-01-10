@@ -213,7 +213,7 @@ local conceal_pattern = { "markdown", "telekasten", "liquid" }
 autocmd({ 'FileType' }, {
   pattern = { "aerial", "Outline", "DressingSelect", "DressingInput", "query", "mail", "qf", "replacer", "Trouble",
     'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go',
-    "markdown", "telekasten", "liquid", "Glance", "scala", "sbt", "lazy" },
+    "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
     if args.match == "aerial" or args.match == "Outline" then
       vim.cmd(
