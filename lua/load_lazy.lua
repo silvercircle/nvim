@@ -203,9 +203,6 @@ lazy.setup({
                 },
                 highlight = true,
                 icons = vim.g.lspkind_symbols,
-                format_text = function(text)
-                  return " " .. text
-                end
               })
             end
           }
@@ -220,6 +217,20 @@ lazy.setup({
             mappings = {
               ["<Left>"] = actions.parent(),           -- Move to left panel
               ["<Right>"] = actions.children()
+            },
+            window = {
+              sections = {
+                left = {
+                  size = "40%",
+                },
+                mid = {
+                  size = "30%",
+                },
+                right = {
+                  size = "30%",
+                  preview = "never"
+                }
+              }
             }
           })
         end

@@ -47,7 +47,7 @@ vim.opt.rtp:prepend(lazypath)
 require('options')
 require('load_lazy')
 require("auto")
-require('plugins.default')
+--require('plugins.default')
 require('keymap')
 EOB
 

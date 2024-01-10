@@ -95,14 +95,12 @@ cmp.setup({
   window = {
     -- respect the perm_config.telescope_borders setting. "squared", "rounded" or "none"
     documentation = {
-      border = __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-               or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
-      winhighlight = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None",
+      border = vim.g.tweaks.borderfactory(vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.doc].border),
+      winhighlight = vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.doc].whl_doc
     },
     completion = {
-      border = __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-               or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
-      winhighlight = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual",
+      border = vim.g.tweaks.borderfactory(vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.comp].border),
+      winhighlight = vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.comp].whl_comp,
       scrollbar = false,
       side_padding = 1
     },

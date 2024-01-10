@@ -47,6 +47,11 @@ require('cokeline').setup({
     }
   },
   components = {
+    { text = function(buffer) return buffer.is_first and " " or "" end,
+      bg = function() return colors.cokeline_colors.bg end,
+      style = function() return nil end,
+      sp = colors.cokeline_colors.bg
+    },
     { text = ' ' },
     -- { text = function(buffer) return buffer.is_focused and '' or ' ' end },
     -- { text = function(buffer) return (buffer.index ~= 1 and buffer.is_focused == false) and '│ ' or ' ' end },

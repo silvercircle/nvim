@@ -111,9 +111,42 @@ Tweaks.cmp = {
   -- and padding. It also uses background colorizing for the kind icon
   -- experimental is likely NOT compatible with most color schemes except the
   -- default one.
-  style = "experimental"
+  style = "standard",
+  decoration = {
+    comp = "bordered",
+    doc = "bordered"
+  },
+  decorations = {
+    flat = {
+      border = "flat",
+      whl_doc = "Normal:NormalFloat,FloatBorder:NormalFloat,CursorLine:Visual,Search:None",
+      whl_comp = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual"
+
+    },
+    topflat = {
+      border = "topflat",
+      whl_doc = "Normal:NormalFloat,FloatBorder:NormalFloat,CursorLine:Visual,Search:None",
+      whl_comp = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual"
+    },
+    bordered = {
+      border = "single",
+      whl_comp = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None",
+      whl_doc =  "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None"
+    }
+  },
 }
 
+Tweaks.borderfactory = function(style)
+  if style == "single" then
+    return { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+  elseif style == "rounded" then
+    return { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
+  elseif style == "flat" then
+    return { " ", " ", " ", " ", " ", " ", " ", " " }
+  elseif style == "topflat" then
+    return { " ", " ", " ", "", " ", " ", " ", "" }
+  end
+end
 -- don't touch this unless you know what you're doing
 Tweaks.cmp.kind_attr = Tweaks.cmp.style == "experimental" and { bold=true, reverse=true } or {}
 

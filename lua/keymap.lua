@@ -395,6 +395,9 @@ _Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
   __Globals.toggle_outline_type()        -- toggle the outline plugin (aerial <> symbols-outline)
 end, "Toggle Outline plugin type")
 
+_Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-n>', function()
+  require("nvim-navbuddy").open()
+end, "Open Navbuddy window")
 require("local_utils.marks").set_keymaps()
 
 

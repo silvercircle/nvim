@@ -4,7 +4,7 @@ local util = require('lspconfig.util')
 local capabilities = __Globals.get_lsp_capabilities()
 
 -- Customize LSP behavior via on_attach
-local on_attach = function(client, bufnr)
+local on_attach = function(client, _)
   if client.name == 'gopls' then
     client.server_capabilities.semanticTokensProvider = {
       full = true,

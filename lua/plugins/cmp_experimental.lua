@@ -57,12 +57,6 @@ local cmp_item_menu = {
   latex_symbols = "Latex",
 }
 
-local cmp_menu_hl_group = {
-  buffer = "CmpItemMenuBuffer",
-  nvim_lsp = "CmpItemMenuLSP",
-  path = "CmpItemMenuPath",
-}
-
 cmp.setup({
   preselect = cmp.PreselectMode.Item,
   enabled = true,
@@ -95,15 +89,13 @@ cmp.setup({
   window = {
     -- respect the perm_config.telescope_borders setting. "squared", "rounded" or "none"
     documentation = {
-      border = { '', '', '', ' ', '', '', '', ' ' }, -- __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-               -- or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
-      winhighlight = "Normal:NormalFloat,FloatBorder:NormalFloat,CursorLine:Visual,Search:None",
+      border = vim.g.tweaks.borderfactory(vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.doc].border),
+      winhighlight = vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.doc].whl_doc,
       side_padding = 1
     },
     completion = {
-      border = nil, --__Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-               --or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
-      winhighlight = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual",
+      border = vim.g.tweaks.borderfactory(vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.comp].border),
+      winhighlight = vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.comp].whl_comp,
       scrollbar = false,
       side_padding = 1
     },

@@ -106,7 +106,8 @@ require("scrollbar").setup({
     "sysmon",
     "dropbar_menu",
     "dropbar_menu_fzf",
-    "Glance"
+    "Glance",
+    "Navbuddy"
   },
   autocmd = {
     render = {
