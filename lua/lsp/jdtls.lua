@@ -12,12 +12,6 @@ local function get_cache_dir()
   return env.XDG_CACHE_HOME and env.XDG_CACHE_HOME or util.path.join(env.HOME, '.cache')
 end
 
-local on_attach = function(client, bufnr)
-  if Config.breadcrumb == 'navic' then
-    require("nvim-navic").attach(client, bufnr)
-  end
-end
-
 local function get_jdtls_cache_dir()
   return util.path.join(get_cache_dir(), 'jdtls')
 end

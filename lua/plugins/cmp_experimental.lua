@@ -95,15 +95,15 @@ cmp.setup({
   window = {
     -- respect the perm_config.telescope_borders setting. "squared", "rounded" or "none"
     documentation = {
-      border = __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-               or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
-      winhighlight = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None",
+      border = { '', '', '', ' ', '', '', '', ' ' }, -- __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+               -- or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
+      winhighlight = "Normal:NormalFloat,FloatBorder:NormalFloat,CursorLine:Visual,Search:None",
       side_padding = 1
     },
     completion = {
-      border = __Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-               or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
-      winhighlight = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual",
+      border = nil, --__Globals.perm_config.cmp_borders == "single" and { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+               --or ( __Globals.perm_config.cmp_borders == "rounded" and { '╭', '─', '╮', '│', '╯', '─', '╰', '│' } or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } ) , -- square
+      winhighlight = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual",
       scrollbar = false,
       side_padding = 1
     },

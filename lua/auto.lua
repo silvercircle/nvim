@@ -213,7 +213,7 @@ local conceal_pattern = { "markdown", "telekasten", "liquid" }
 autocmd({ 'FileType' }, {
   pattern = { "aerial", "Outline", "DressingSelect", "DressingInput", "query", "mail", "qf", "replacer", "Trouble",
     'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go',
-    "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
+    "markdown", "telekasten", "liquid", "Glance", "scala", "sbt", "lazy" },
   callback = function(args)
     if args.match == "aerial" or args.match == "Outline" then
       vim.cmd(
@@ -291,6 +291,7 @@ autocmd({ 'WinEnter' }, {
     end
 
     local filetype = vim.bo.filetype
+
     if vim.tbl_contains(enter_leave_filetypes, filetype) then
       vim.cmd("setlocal winhl=CursorLine:TreeCursorLine,Normal:NeoTreeNormalNC | hi nCursor blend=100")
     end

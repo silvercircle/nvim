@@ -1,17 +1,10 @@
 local lspconfig = require("lspconfig")
 local util = require('lspconfig.util')
-local navic
-if Config.breadcrumb == 'navic' then
-  navic = require('nvim-navic')
-end
 
 local capabilities = __Globals.get_lsp_capabilities()
 
 -- Customize LSP behavior via on_attach
 local on_attach = function(client, bufnr)
-  if Config.breadcrumb == 'navic' then
-    navic.attach(client, bufnr)
-  end
   if client.name == 'gopls' then
     client.server_capabilities.semanticTokensProvider = {
       full = true,

@@ -19,6 +19,30 @@ lazy.setup({
       })
     end
   },
+  {
+    "j-hui/fidget.nvim",
+    priorty = 9999,
+    config = function()
+      vim.g.notifier = require("fidget")
+      require("fidget").setup({
+        progress = {
+          poll_rate = 1,
+          ignore_done_already = true,
+          display = {
+            render_limit = 2
+          }
+        },
+        notification = {
+          override_vim_notify = true,
+          history_size = 20,
+          filter = vim.log.levels.TRACE,
+          configs = {
+            --default = require("fidget.notification").default_config
+          }
+        }
+      })
+    end
+  },
   'nvim-lua/plenary.nvim',
   {
     'nvim-lualine/lualine.nvim',
@@ -167,15 +191,39 @@ lazy.setup({
       { 'Hoffs/omnisharp-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "omnisharp") },         -- omnisharp decompilation support
       { 'Decodetalkers/csharpls-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "csharp_ls") },  -- this is for csharp_ls decompilation support
       'onsails/lspkind-nvim',
-      {
-        'Bekaboo/dropbar.nvim',
-        cond = Config.breadcrumb == 'dropbar' and vim.fn.has("nvim-0.10") == 1,
-        event = "LspAttach",
+      { "SmiteshP/nvim-navbuddy",
+        lazy = true, cond = Config.breadcrumb == "navic", event = "LspAttach",
+        dependencies = {
+          {
+            'SmiteshP/nvim-navic',
+            config = function()
+              require("nvim-navic").setup({
+                lsp = {
+                  auto_attach = true
+                },
+                highlight = true,
+                icons = vim.g.lspkind_symbols,
+                format_text = function(text)
+                  return " " .. text
+                end
+              })
+            end
+          }
+        },
         config = function()
-          require("plugins.dropbar")
+          local actions = require("nvim-navbuddy.actions")
+          require("nvim-navbuddy").setup({
+            lsp = {
+              auto_attach = true
+            },
+            icons = vim.g.lspkind_symbols,
+            mappings = {
+              ["<Left>"] = actions.parent(),           -- Move to left panel
+              ["<Right>"] = actions.children()
+            }
+          })
         end
       },
-      { 'SmiteshP/nvim-navic', lazy = true, cond = Config.breadcrumb == 'navic', event = "LspAttach" },
       {
         'dnlhc/glance.nvim',
         config = function()
@@ -203,24 +251,6 @@ lazy.setup({
         })
         end
       }
-      --{
-      --  "vigoux/notifier.nvim",
-      --  event = "UIEnter",
-      --  cond = false,
-      --  lazy = true,
-      --  config = function()
-      --    require("notifier").setup({
-      --      components = {
-      --        --"nvim",
-      --        -- "lsp"
-      --      },
-      --      notify = {
-      --        min_level = 0
-      --      }
-      --    })
-      --    -- vim.g.notifier = require("notifier")
-      --  end
-      --},
     },
     config = function()
       require("plugins.lsp")
@@ -297,21 +327,21 @@ lazy.setup({
       require("plugins.mini_extra")
     end
   },
-  {
-    'echasnovski/mini.notify',
-    config = function()
-      require("mini.notify").setup({
-        window = {
-          config = {
-            anchor = "SE",
-            row = vim.o.lines
-          },
-          winblend = 0
-        }
-      })
-      vim.notify = require("mini.notify").make_notify()
-    end
-  },
+  --{
+  --  'echasnovski/mini.notify',
+  --  config = function()
+  --    require("mini.notify").setup({
+  --      window = {
+  --        config = {
+  --          anchor = "SE",
+  --          row = vim.o.lines
+  --        },
+  --        winblend = 0
+  --      }
+  --    })
+  --    vim.notify = require("mini.notify").make_notify()
+  --  end
+  --},
   {
     'nvim-tree/nvim-tree.lua',
     cond = vim.g.tweaks.tree.version == "Nvim",
@@ -392,7 +422,10 @@ lazy.setup({
     ft = { "qf" }
   },
   {
-    'willothy/nvim-cokeline', branch = "main"
+    'willothy/nvim-cokeline', lazy = true, event="UIEnter", branch = "main",
+    config = function()
+      require("plugins.default")
+    end
   },
   {
     'silvercircle/outline.nvim',
@@ -537,13 +570,13 @@ lazy.setup({
     config = function()
       require("roslyn").setup({
         roslyn_version = "4.9.0-3.23604.10",
-        on_attach = function(client, bufnr)
-          if Config.breadcrumb == 'navic' then
-            require("nvim-navic").attach(client, bufnr)
-          end
-        end,
         capabilities = __Globals.get_lsp_capabilities()
       })
     end
+  }
+},
+{
+  ui = {
+    border = "single",
   }
 })

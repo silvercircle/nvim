@@ -15,9 +15,11 @@ local function Cokeline_theme()
   return {
     hl = {
       fg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_fg or colors.cokeline_colors.fg end,
-      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.bg end
+      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.bg end,
+      underline = function(buffer) return buffer.is_focused and true or false end,
+      sp = colors.localtheme.special.yellow[1]
     },
-    unsaved = '#ff6060' -- the unsaved indicator on the tab
+    unsaved = colors.localtheme.special.red[1] -- the unsaved indicator on the tab
   }
 end
 
@@ -56,7 +58,7 @@ require('cokeline').setup({
     { text = Config.iconpad },
     {
       text = function(buffer) return __Globals.truncate(buffer.filename, Config.cokeline_filename_width) end,
-      style = function(buffer) return buffer.is_focused and 'bold' or nil end
+      style = function(buffer) return buffer.is_focused and 'bold' or nil end,
     },
     {
        text = function(buffer) return buffer.is_modified and ' ●' or (show_close == true and  '' or '') end,

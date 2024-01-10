@@ -75,7 +75,7 @@ Config = {
                                               -- set to false or an empty string to disable
                                               -- set this to "" or false if your start screen throws errors.
                                               -- when false, views are only written on write/update or manually (f4)
-  breadcrumb = (nvim_10 == 1 and tweaks.breadcrumb == 'dropbar') and 'dropbar' or (tweaks.breadcrumb ~= 'dropbar' and tweaks.breadcrumb or 'navic'),
+  breadcrumb = tweaks.breadcrumb,
   termheight = 11,
   iconpad = '',                              -- additional padding for devicons.
   texoutput = "~/Documents/TEXOUTPUT/",
@@ -208,7 +208,7 @@ vim.g.lspkind_symbols = {
   Event       = " ",
   Operator    = " ",
   Namespace   = " ",
-  Package     = "󰏓 ",
+  Package     = " ",
   String      = " ",
   Number      = " ",
   Boolean     = " ",

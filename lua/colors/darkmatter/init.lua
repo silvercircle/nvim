@@ -481,14 +481,6 @@ local function configure()
   LuaLineColors.statuslinebg = M.theme[conf.variant].statuslinebg
 
   -- TODO: allow cokeline colors per theme variant
-  M.cokeline_colors = {
-    --bg = LuaLineColors.statuslinebg,
-    bg = M.theme[conf.variant].statuslinebg,
-    focus_bg = M.theme.selbg,
-    fg = LuaLineColors.gray7,
-    focus_fg = M.theme.accent_fg,
-  }
-
   M.localtheme.fg = { M.theme[conf.variant].fg, 1 }
   M.localtheme.darkbg = { M.theme[conf.variant].gutterbg, 237 }
   M.localtheme.bg = { M.theme[conf.variant].bg, 0 }
@@ -543,6 +535,15 @@ local function configure()
       M.localtheme.bg4 = { "#b0b0b0", 237 }
     end
   end
+
+  M.cokeline_colors = {
+    --bg = LuaLineColors.statuslinebg,
+    bg = M.theme[conf.variant].statuslinebg,
+    --focus_bg = M.theme.selbg,
+    focus_bg = M.theme.accent_color,
+    fg = LuaLineColors.gray4,
+    focus_fg = M.theme.accent_fg,
+  }
 
   M.palette = basepalette[conf.scheme]
   M.palette.neotreebg = { M.theme[conf.variant].treebg, 232 }
@@ -940,7 +941,7 @@ local function set_all()
 
   -- WinBar
   M.hl_with_defaults("WinBarFilename", M.localtheme.fg, M.localtheme.accent)                                   -- Filename (right hand)
-  M.hl("WinBarContext", M.palette.darkyellow, M.palette.none, { underline = true, sp = M.localtheme.accent[1] }) -- LSP context (left hand)
+  M.hl("WinBarContext", M.localtheme.accent, M.palette.none, { underline = true, sp = M.localtheme.accent[1] }) -- LSP context (left hand)
   -- WinBarInvis is for the central padding item. It should be transparent and invisible (fg = bg)
   -- This is a somewhat hack-ish way to make the lualine-controlle winbar transparent.
   M.hl("WinBarInvis", M.localtheme.bg, M.localtheme.bg, { underline = true, sp = M.localtheme.accent[1] })

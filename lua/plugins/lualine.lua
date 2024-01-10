@@ -79,10 +79,9 @@ local navic_component = {
     if #string < 2 then
       return ""
     else
-     return string.format("Context: %s", string)
+     return string.format("%s", string)
    end
   end,
-  -- separator = { right ="", left = "" },
   separator = "",
   color = 'WinBarContext',
 }
@@ -171,10 +170,11 @@ require("lualine").setup({
     lualine_z = {},
   },
   tabline = actual_tabline(),
-  winbar = Config.breadcrumb ~= 'dropbar' and {
+  winbar = {
     --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
       Config.breadcrumb == 'navic' and navic_component or aerial_component,
+      -- separator = { left = "", right = "FOO" }
     },
     lualine_c = {
       {
@@ -224,7 +224,7 @@ require("lualine").setup({
       },
       'tabs',
     }
-  } or {},
+  },
   inactive_winbar = Config.breadcrumb ~= 'dropbar' and {
     -- lualine_x = { { win_pad, color = 'Normal' } },
     lualine_z = { { full_filename, color = 'WinBarNC' }, 'tabs' }
