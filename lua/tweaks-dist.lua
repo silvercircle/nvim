@@ -204,12 +204,6 @@ Tweaks.treesitter = {
   -- types. mostly JavaScript.
   perf_tweaks = true
 }
--- cokeline is used as a buffer line. Unless you disable it here in which case, lualine's
--- buffer line is used.
-Tweaks.cokeline = {
-  enabled = true,
-  closebutton = false
-}
 
 Tweaks.theme = {
   sync_kittybg = true,
@@ -248,6 +242,33 @@ Tweaks.indentguide = {
     -- the color for light- and dark background themes.
     light = "#808080",
     dark = "#404040"
+  }
+}
+Tweaks.cokeline = {
+  enabled = true,
+  closebutton = false,
+  active_tab_style = "slanted_padded",
+  styles = {
+    slanted = {
+      left = "",
+      right = "",
+      inactive = ""
+    },
+    half_padded = {
+      left = "▌",
+      right = "▐",
+      inactive = ""
+    },
+    full_padded = {
+      left = " ",
+      right = " ",
+      inactive = ""
+    },
+    slanted_padded = {
+      left = " ",
+      right = " ",
+      inactive = ""
+    }
   }
 }
 return Tweaks

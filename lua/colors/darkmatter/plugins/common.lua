@@ -1,9 +1,13 @@
 -- highlight support for common plugins, including:
 -- * nvim-tree
+-- * NeoTree
 -- * cmp
 -- * GitSigns
 -- * Telescope
 -- * Mini.pick
+-- * Navic
+-- * Aerial
+-- * Navbuddy
 
 local function _set()
   local c = require("colors.darkmatter")

@@ -1,12 +1,17 @@
 local show_close = vim.g.tweaks.cokeline.closebutton
+local left_pad = vim.g.tweaks.cokeline.styles[vim.g.tweaks.cokeline.active_tab_style].left
+local right_pad = vim.g.tweaks.cokeline.styles[vim.g.tweaks.cokeline.active_tab_style].right
+local inactive_pad = vim.g.tweaks.cokeline.styles[vim.g.tweaks.cokeline.active_tab_style].inactive
+
 local version = vim.version()
-local buildinfo = '   Neovim ' .. version.major .. "." .. version.minor .. "." .. version.patch
+local buildinfo = '    Neovim ' .. version.major .. "." .. version.minor .. "." .. version.patch
 if type(version.build) == "string" then
   buildinfo = buildinfo .. "-" .. version.build
 end
 if type(version.prerelease) == "string" then
   buildinfo = buildinfo .. "-" .. version.prerelease
 end
+
 -- devicons for lua plugins (e.g. Telescope, neotree, nvim-tree among others  need them)
 local colors = Config.theme
 
@@ -40,9 +45,10 @@ require('cokeline').setup({
     components = {
       {
         text = buildinfo,
-        bg = vim.g.cokeline_bg,
+        bg = colors.cokeline_colors.bg,
         style = 'bold',
         fg = "Yellow",
+        sp = colors.cokeline_colors.bg
       },
     }
   },
@@ -67,16 +73,11 @@ require('cokeline').setup({
       style = function() return nil end,
       sp = colors.cokeline_colors.bg
     },
-    -- { text = ' ' },
-    -- { text = function(buffer) return buffer.is_focused and '' or ' ' end },
-    -- { text = function(buffer) return (buffer.index ~= 1 and buffer.is_focused == false) and '│ ' or ' ' end },
-    -- { text = function(buffer) return buffer.is_focused and (buffer.index == 1 and '' or '') or ' ' end },
     {
-      text = function(buffer) return (buffer.is_focused and "▌" or "" ) end,
+      text = function(buffer) return (buffer.is_focused and left_pad or inactive_pad ) end,
       fg = colors.cokeline_colors.bg,
-      bg = colors.cokeline_colors.focus_bg,
-      sp = colors.localtheme.special.yellow[1],
-      underline = true
+      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.bg end,
+      --sp = colors.localtheme.special.yellow[1],
     },
     {
       text = function(buffer) return buffer.devicon.icon end,
@@ -92,8 +93,8 @@ require('cokeline').setup({
        fg = function(buffer) return buffer.is_modified and Cokeline_theme().unsaved or nil end,
     },
     {
-      text = function(buffer) return (buffer.is_focused and "▐" or "") end,
-      bg = colors.cokeline_colors.focus_bg,
+      text = function(buffer) return (buffer.is_focused and right_pad or inactive_pad) end,
+      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.bg end,
       fg = colors.cokeline_colors.bg,
     },
     {
