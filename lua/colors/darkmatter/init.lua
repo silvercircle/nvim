@@ -540,7 +540,7 @@ local function configure()
     --bg = LuaLineColors.statuslinebg,
     bg = M.theme[conf.variant].statuslinebg,
     --focus_bg = M.theme.selbg,
-    focus_bg = M.theme.accent_color,
+    focus_bg = M.theme.alt_accent_color,
     fg = LuaLineColors.gray4,
     focus_fg = M.theme.accent_fg,
   }

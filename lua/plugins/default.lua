@@ -72,22 +72,35 @@ require('cokeline').setup({
     -- { text = function(buffer) return (buffer.index ~= 1 and buffer.is_focused == false) and '│ ' or ' ' end },
     -- { text = function(buffer) return buffer.is_focused and (buffer.index == 1 and '' or '') or ' ' end },
     {
+      text = function(buffer) return (buffer.is_focused and "▌" or "" ) end,
+      fg = colors.cokeline_colors.bg,
+      bg = colors.cokeline_colors.focus_bg,
+      sp = colors.localtheme.special.yellow[1],
+      underline = true
+    },
+    {
       text = function(buffer) return buffer.devicon.icon end,
       fg = function(buffer) return buffer.devicon.color end
     },
     { text = Config.iconpad },
     {
-      text = function(buffer) return __Globals.truncate(buffer.filename, Config.cokeline_filename_width) end,
+      text = function(buffer) return __Globals.truncate(buffer.filename, vim.g.tweaks.cokeline_filename_width) end,
       style = function(buffer) return buffer.is_focused and 'bold' or nil end,
     },
     {
        text = function(buffer) return buffer.is_modified and ' ●' or (show_close == true and  '' or '') end,
        fg = function(buffer) return buffer.is_modified and Cokeline_theme().unsaved or nil end,
     },
-    { 
-      text = ' ', 
-      bg = function() return colors.cokeline_colors.bg end,
-      sp = colors.cokeline_colors.bg
+    {
+      text = function(buffer) return (buffer.is_focused and "▐" or "") end,
+      bg = colors.cokeline_colors.focus_bg,
+      fg = colors.cokeline_colors.bg,
+    },
+    {
+      text = " ",
+      bg = colors.cokeline_colors.bg,
+      sp = colors.cokeline_colors.bg,
+      underline = false
     }
     -- { text = function(buffer) return buffer.is_focused and '' or ' ' end }
   }
