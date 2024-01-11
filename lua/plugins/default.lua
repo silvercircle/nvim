@@ -20,9 +20,10 @@ local function Cokeline_theme()
   return {
     hl = {
       fg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_fg or colors.cokeline_colors.fg end,
-      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.bg end,
-      underline = function(buffer) return buffer.is_focused and true or false end,
-      sp = colors.localtheme.special.yellow[1]
+      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.inact_bg end,
+      -- underline = function(buffer) return buffer.is_focused and true or false end,
+      underline = vim.g.tweaks.cokeline.underline,
+      sp = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_sp or colors.cokeline_colors.inact_sp end
     },
     unsaved = colors.localtheme.special.red[1] -- the unsaved indicator on the tab
   }
@@ -48,7 +49,7 @@ require('cokeline').setup({
         bg = colors.cokeline_colors.bg,
         style = 'bold',
         fg = "Yellow",
-        sp = colors.cokeline_colors.bg
+        sp = colors.cokeline_colors.inact_sp
       },
     }
   },
@@ -74,9 +75,10 @@ require('cokeline').setup({
       sp = colors.cokeline_colors.bg
     },
     {
-      text = function(buffer) return (buffer.is_focused and left_pad or inactive_pad ) end,
+--      text = function(buffer) return (buffer.is_focused and left_pad or inactive_pad ) end,
+      text = left_pad,
       fg = colors.cokeline_colors.bg,
-      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.bg end,
+      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.inact_bg end,
       --sp = colors.localtheme.special.yellow[1],
     },
     {
@@ -93,16 +95,17 @@ require('cokeline').setup({
        fg = function(buffer) return buffer.is_modified and Cokeline_theme().unsaved or nil end,
     },
     {
-      text = function(buffer) return (buffer.is_focused and right_pad or inactive_pad) end,
-      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.bg end,
+      text = right_pad,
+      --text = function(buffer) return (buffer.is_focused and right_pad or inactive_pad) end,
+      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.inact_bg end,
       fg = colors.cokeline_colors.bg,
     },
-    {
-      text = " ",
-      bg = colors.cokeline_colors.bg,
-      sp = colors.cokeline_colors.bg,
-      underline = false
-    }
+--    {
+--      text = " ",
+--      bg = colors.cokeline_colors.bg,
+--      sp = colors.cokeline_colors.bg,
+--      underline = false
+--    }
     -- { text = function(buffer) return buffer.is_focused and '' or ' ' end }
   }
 })

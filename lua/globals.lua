@@ -531,10 +531,12 @@ function M.restore_config()
                  rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast,
                  baseattrib = {
                    dark = {
-                     cmpkind = vim.g.tweaks.cmp.kind_attr
+                     cmpkind = vim.g.tweaks.cmp.kind_attr,
+                     tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {}
                    },
                    light = {
-                     cmpkind = vim.g.tweaks.cmp.kind_attr
+                     cmpkind = vim.g.tweaks.cmp.kind_attr,
+                     tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {}
                    }
                  }
                })

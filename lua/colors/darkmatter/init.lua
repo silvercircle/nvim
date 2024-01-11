@@ -248,6 +248,7 @@ local conf = {
       bolditalic   = { bold = true, italic = true },
       attribute    = { bold = true },
       annotation   = { bold = true, italic = true },
+      tabline      = {},
       cmpkind      = {},
       uri          = {}
     },
@@ -276,6 +277,7 @@ local conf = {
       bolditalic   = { bold = true, italic = true },
       attribute    = { bold = true },
       annotation   = { bold = true, italic = true },
+      tabline      = {},
       cmpkind      = {},
       uri          = {}
     },
@@ -487,7 +489,7 @@ local function configure()
   M.localtheme.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
   M.localtheme.accent = { M.theme["accent_color"], 209 }
   M.localtheme.accent_fg = { M.theme["accent_fg"], 210 }
-  M.localtheme.tablinebg = { M.cokeline_colors["bg"], 214 }
+  M.localtheme.tablinebg = M.localtheme.statuslinebg
   M.localtheme.fg_dim = { M.theme[conf.variant].fg_dim, 2 }
 
   if conf.scheme == "dark" then
@@ -499,7 +501,6 @@ local function configure()
       M.localtheme.bg0 = { "#2c2e34", 235 }
       M.localtheme.bg1 = { "#33353f", 236 }
       M.localtheme.bg2 = { "#363944", 236 }
-      M.localtheme.bg3 = { "#3b3e48", 237 }
       M.localtheme.bg4 = { "#414550", 237 }
     else
       M.localtheme.darkred = { "#601010", 249 }
@@ -509,7 +510,6 @@ local function configure()
       M.localtheme.bg0 = { "#302c2e", 235 }
       M.localtheme.bg1 = { "#322a2a", 236 }
       M.localtheme.bg2 = { "#403936", 236 }
-      M.localtheme.bg3 = { "#483e3b", 237 }
       M.localtheme.bg4 = { "#504531", 237 }
     end
   elseif conf.scheme == "light" then
@@ -521,7 +521,6 @@ local function configure()
       M.localtheme.bg0 = { "#b0b0b0", 235 }
       M.localtheme.bg1 = { "#a0a0a0", 236 }
       M.localtheme.bg2 = { "#363944", 236 }
-      M.localtheme.bg3 = { "#3b3e48", 237 }
       M.localtheme.bg4 = { "#b0b0b0", 237 }
     else
       M.localtheme.darkred = { "#601010", 249 }
@@ -531,18 +530,18 @@ local function configure()
       M.localtheme.bg0 = { "#b0b0b0", 235 }
       M.localtheme.bg1 = { "#a0a0a0", 236 }
       M.localtheme.bg2 = { "#403936", 236 }
-      M.localtheme.bg3 = { "#483e3b", 237 }
       M.localtheme.bg4 = { "#b0b0b0", 237 }
     end
   end
 
   M.cokeline_colors = {
-    --bg = LuaLineColors.statuslinebg,
     bg = M.theme[conf.variant].statuslinebg,
-    --focus_bg = M.theme.selbg,
+    inact_bg = M.localtheme.bg0[1],
     focus_bg = M.theme.alt_accent_color,
     fg = LuaLineColors.gray4,
     focus_fg = M.theme.accent_fg,
+    focus_sp = M.localtheme.special.yellow[1],
+    inact_sp = M.localtheme.accent[1]
   }
 
   M.palette = basepalette[conf.scheme]
@@ -627,7 +626,7 @@ local function set_all()
   M.hl_with_defaults("StatusLineNC", M.palette.grey, M.localtheme.statuslinebg)
   M.hl_with_defaults("StatusLineTermNC", M.palette.grey, M.palette.none)
   M.hl_with_defaults("TabLine", M.localtheme.fg, M.localtheme.statuslinebg)
-  M.hl_with_defaults("TabLineFill", M.palette.grey, M.localtheme.tablinebg)
+  M.hl("TabLineFill", M.palette.grey, M.localtheme.tablinebg, conf.attrib.tabline)
   M.hl_with_defaults("TabLineSel", M.localtheme.accent_fg, M.localtheme.accent)
   M.hl_with_defaults("VertSplit", M.localtheme.statuslinebg, M.palette.neotreebg)
 
@@ -635,7 +634,7 @@ local function set_all()
   M.link("WinSeparator", "VertSplit")
 
   M.hl_with_defaults("Visual", M.palette.none, M.palette.selbg)
-  M.hl("VisualNOS", M.palette.none, M.localtheme.bg3, { underline = true })
+  M.hl("VisualNOS", M.palette.none, M.localtheme.bg2, { underline = true })
   M.hl_with_defaults("QuickFixLine", M.localtheme.blue, M.palette.neotreebg)
   M.hl_with_defaults("Debug", M.localtheme.yellow, M.palette.none)
   M.hl_with_defaults("debugPC", M.localtheme.bg0, M.localtheme.green)

@@ -374,6 +374,15 @@ lspconfig.groovyls.setup {
   end
 }
 
+lspconfig.jsonls.setup {
+  cmd = { vim.g.lsp_server_bin[ "jsonls" ], "--stdio" },
+  filetypes = { "json", "jsonc" },
+  init_options = {
+    provideFormatter = true,
+  },
+  root_dir = util.find_git_ancestor,
+  single_file_support = true,
+}
 -- outsourced because it's too big
 if vim.g.tweaks.lsp.csharp == "omnisharp" then
   require("lsp.omnisharp")
