@@ -184,6 +184,53 @@ lazy.setup({
   },
   -- lsp
   {
+    "SmiteshP/nvim-navbuddy",
+    lazy = true,
+    cond = Config.breadcrumb == "navic",
+    event = "BufReadPre",
+    dependencies = {
+      {
+        "SmiteshP/nvim-navic",
+        config = function()
+          require("nvim-navic").setup({
+            lsp = {
+              auto_attach = true
+            },
+            highlight = true,
+            icons = vim.g.lspkind_symbols,
+          })
+        end
+      }
+    },
+    config = function()
+      local actions = require("nvim-navbuddy.actions")
+      require("nvim-navbuddy").setup({
+        lsp = {
+          auto_attach = true
+        },
+        icons = vim.g.lspkind_symbols,
+        mappings = {
+          ["<Left>"] = actions.parent(),     -- Move to left panel
+          ["<Right>"] = actions.children()
+        },
+        window = {
+          sections = {
+            left = {
+              size = "40%",
+            },
+            mid = {
+              size = "30%",
+            },
+            right = {
+              size = "30%",
+              preview = "never"
+            }
+          }
+        }
+      })
+    end
+  },
+  {
     'neovim/nvim-lspconfig',
     lazy = true,
     event = { "LspAttach" },
@@ -191,50 +238,6 @@ lazy.setup({
       { 'Hoffs/omnisharp-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "omnisharp") },         -- omnisharp decompilation support
       { 'Decodetalkers/csharpls-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "csharp_ls") },  -- this is for csharp_ls decompilation support
       'onsails/lspkind-nvim',
-      { "SmiteshP/nvim-navbuddy",
-        lazy = true, cond = Config.breadcrumb == "navic", event = "LspAttach",
-        dependencies = {
-          {
-            'SmiteshP/nvim-navic',
-            config = function()
-              require("nvim-navic").setup({
-                lsp = {
-                  auto_attach = true
-                },
-                highlight = true,
-                icons = vim.g.lspkind_symbols,
-              })
-            end
-          }
-        },
-        config = function()
-          local actions = require("nvim-navbuddy.actions")
-          require("nvim-navbuddy").setup({
-            lsp = {
-              auto_attach = true
-            },
-            icons = vim.g.lspkind_symbols,
-            mappings = {
-              ["<Left>"] = actions.parent(),           -- Move to left panel
-              ["<Right>"] = actions.children()
-            },
-            window = {
-              sections = {
-                left = {
-                  size = "40%",
-                },
-                mid = {
-                  size = "30%",
-                },
-                right = {
-                  size = "30%",
-                  preview = "never"
-                }
-              }
-            }
-          })
-        end
-      },
       {
         'dnlhc/glance.nvim',
         config = function()
