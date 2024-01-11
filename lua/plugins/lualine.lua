@@ -1,9 +1,6 @@
 local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
-local navic
+local _, navic = pcall(require, "nvim-navic")
 local colors = Config.theme
-if Config.breadcrumb == 'navic' then
-  navic = require('nvim-navic')
-end
 
 -- use either cokeline or lualine's internal buffer line, depending on 
 -- configuration choice.
@@ -170,7 +167,6 @@ require("lualine").setup({
     --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
       Config.breadcrumb == 'navic' and navic_component or aerial_component,
-      -- separator = { left = "", right = "FOO" }
     },
     lualine_c = {
       {
@@ -217,8 +213,7 @@ require("lualine").setup({
         --separator = "",
         --separator = { left = "", right = "" },
         color = 'WinBarFilename'
-      },
-      'tabs',
+      }
     }
   },
   inactive_winbar = Config.breadcrumb ~= 'dropbar' and {

@@ -46,6 +46,21 @@ require('cokeline').setup({
       },
     }
   },
+  tabs = {
+    placement = "right",
+    components = {
+      {
+        text = function(tab) return tab.is_first and "" or "" end,
+        fg = function(tab) return (tab.is_first and tab.is_active) and colors.theme.alt_accent_color or colors.localtheme.accent[1] end,
+        bg = colors.cokeline_colors.bg
+      },
+      {
+        text = function(tab) return " " .. tab.number .. " " end,
+        fg = colors.cokeline_colors.focus_fg,
+        bg = function(tab) return tab.is_active and colors.theme.alt_accent_color or colors.localtheme.accent[1] end,
+      }
+    }
+  },
   components = {
     { text = function(buffer) return buffer.is_first and " " or "" end,
       bg = function() return colors.cokeline_colors.bg end,
