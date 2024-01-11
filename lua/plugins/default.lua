@@ -25,6 +25,9 @@ local function Cokeline_theme()
       underline = vim.g.tweaks.cokeline.underline,
       sp = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_sp or colors.cokeline_colors.inact_sp end
     },
+    group = {
+      highlight = function(buffer) return buffer.is_focused and "CokelineActive" or "CokelineInactive" end
+    },
     unsaved = colors.localtheme.special.red[1] -- the unsaved indicator on the tab
   }
 end
@@ -39,7 +42,7 @@ require('cokeline').setup({
     filter_visible = function(buffer) return not(buffer['type'] == 'quickfix' or buffer['type'] == 'terminal' or buffer['type'] == 'nofile' or buffer['type'] == 'acwrite') and true or false end,
     new_buffers_position = 'directory'
   },
-  default_hl = Cokeline_theme().hl,
+  default_hl = Cokeline_theme().group,
   -- header for the neo-tree sidebar
   sidebar = {
     filetype = treename,
@@ -58,55 +61,48 @@ require('cokeline').setup({
     components = {
       {
         text = function(tab) return tab.is_first and "" or "" end,
-        fg = function(tab) return (tab.is_first and tab.is_active) and colors.theme.alt_accent_color or colors.localtheme.accent[1] end,
+        fg = function(tab) return (tab.is_first and tab.is_active) and colors.cokeline_colors.focus_bg or colors.localtheme.accent[1] end,
         bg = colors.cokeline_colors.bg
       },
       {
         text = function(tab) return " " .. tab.number .. " " end,
-        fg = colors.cokeline_colors.focus_fg,
-        bg = function(tab) return tab.is_active and colors.theme.alt_accent_color or colors.localtheme.accent[1] end,
+        highlight = function(tab) return tab.is_active and "CokelineActive" or "Accent" end
       }
     }
   },
   components = {
     { text = function(buffer) return buffer.is_first and " " or "" end,
-      bg = function() return colors.cokeline_colors.bg end,
-      style = function() return nil end,
-      sp = colors.cokeline_colors.bg
+      highlight = "StatusLine"
     },
     {
---      text = function(buffer) return (buffer.is_focused and left_pad or inactive_pad ) end,
-      text = left_pad,
-      fg = colors.cokeline_colors.bg,
-      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.inact_bg end,
-      --sp = colors.localtheme.special.yellow[1],
+      text = function(buffer) return buffer.is_focused and left_pad or inactive_pad end,
+      highlight = function(buffer) return buffer.is_focused and "CokelineActive" or "CokelineInactive" end
     },
     {
       text = function(buffer) return buffer.devicon.icon end,
+      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.bg end,
       fg = function(buffer) return buffer.devicon.color end
     },
-    { text = Config.iconpad },
+    {
+      text = Config.iconpad,
+      highlight = function(buffer) return buffer.is_focused and "CokelineActive" or "CokelineInactive" end,
+    },
     {
       text = function(buffer) return __Globals.truncate(buffer.filename, vim.g.tweaks.cokeline_filename_width) end,
-      style = function(buffer) return buffer.is_focused and 'bold' or nil end,
+      highlight = function(buffer) return buffer.is_focused and "CokelineActive" or "CokelineInactive" end,
     },
     {
-       text = function(buffer) return buffer.is_modified and ' ●' or (show_close == true and  '' or '') end,
-       fg = function(buffer) return buffer.is_modified and Cokeline_theme().unsaved or nil end,
+      text = function(buffer) return buffer.is_modified and ' ●' or (show_close == true and  '' or '') end,
+      highlight = function(buffer) return buffer.is_focused and "CokelineActiveModified" or "CokelineInactiveModified" end
     },
     {
-      text = right_pad,
-      --text = function(buffer) return (buffer.is_focused and right_pad or inactive_pad) end,
-      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.inact_bg end,
-      fg = colors.cokeline_colors.bg,
+      text = function(buffer) return buffer.is_focused and right_pad or inactive_pad end,
+      highlight = function(buffer) return buffer.is_focused and "CokelineActive" or "CokelineInactive" end
     },
---    {
---      text = " ",
---      bg = colors.cokeline_colors.bg,
---      sp = colors.cokeline_colors.bg,
---      underline = false
---    }
-    -- { text = function(buffer) return buffer.is_focused and '' or ' ' end }
+    {
+      text = function(buffer) return not buffer.is_last and "|" or "" end,
+      highlight = "CokelineInactive"
+    }
   }
 })
 

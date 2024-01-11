@@ -536,7 +536,7 @@ local function configure()
 
   M.cokeline_colors = {
     bg = M.theme[conf.variant].statuslinebg,
-    inact_bg = M.localtheme.bg0[1],
+    inact_bg = M.localtheme.statuslinebg[1],
     focus_bg = M.theme.alt_accent_color,
     fg = LuaLineColors.gray4,
     focus_fg = M.theme.accent_fg,

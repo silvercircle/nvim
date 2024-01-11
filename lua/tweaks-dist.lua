@@ -249,7 +249,7 @@ Tweaks.cokeline = {
   enabled = true,
   closebutton = false,
   underline = false,
-  active_tab_style = "slanted_padded",
+  active_tab_style = "full_padded",
   styles = {
     slanted = {
       left = "",
@@ -264,7 +264,7 @@ Tweaks.cokeline = {
     full_padded = {
       left = " ",
       right = " ",
-      inactive = ""
+      inactive = " "
     },
     slanted_padded = {
       left = " ",

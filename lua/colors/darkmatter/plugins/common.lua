@@ -173,6 +173,10 @@ local function _set()
   vim.api.nvim_set_hl(0, "NavicSeparator",          {bg = c.localtheme.accent[1], fg = c.localtheme.fg_dim[1]})
   c.link("NavbuddyNormalFloat", "NeoTreeNormalNC")
   c.link("NavbuddyFloatBorder", "TelescopeBorder")
+
+  -- cokeline
+  c.set_hl(0, "CokelineInactive", { bg = c.localtheme.statuslinebg[1], fg = c.cokeline_colors.fg })
+  c.set_hl(0, "CokelineActive", { bg = c.theme.alt_accent_color, fg = c.theme.accent_fg })
 end
 
 local M = {}
