@@ -258,7 +258,7 @@ lazy.setup({
            -- require('hover.providers.dictionary')
            end,
            preview_opts = {
-             border = __Globals.perm_config.cmp_borders
+             border = __Globals.perm_config.float_borders
            },
            preview_window = true,
            title = false

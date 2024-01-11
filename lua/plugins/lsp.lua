@@ -402,7 +402,7 @@ end
 do
   local on_references = vim.lsp.handlers["textDocument/references"]
   local lsp_handlers_hover = vim.lsp.with(vim.lsp.handlers.hover, {
-    border = __Globals.perm_config.cmp_borders
+    border = __Globals.perm_config.float_borders
   })
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -429,7 +429,7 @@ do
   -- Bound to C-p in insert mode
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
     vim.lsp.handlers.signature_help, {
-      border = __Globals.perm_config.cmp_borders,
+      border = __Globals.perm_config.float_borders,
       focusable = false
     })
 end
@@ -441,7 +441,6 @@ end
 if vim.diagnostic then
   vim.diagnostic.config({
     update_in_insert = false,
-    -- No virtual text (distracting!), show popup window on hover.
     virtual_text = true,
     underline = {
       -- Do not underline text when severity is low (INFO or HINT).
@@ -459,7 +458,7 @@ if vim.diagnostic then
       source = "always",
       focusable = true,
       focus = false,
-      border = __Globals.perm_config.cmp_borders,
+      border = __Globals.perm_config.float_borders,
       -- Customize how diagnostic message will be shown: show error code.
       format = function(diagnostic)
         local user_data
