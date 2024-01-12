@@ -48,13 +48,18 @@ if st == true then
   )
 end
 
+
 local cmp_item_menu = {
   buffer = "Buffer",
   nvim_lsp = "LSP",
   nvim_lua = "Lua",
-  wordlist = "Wordlist translation",
+  wordlist = "Wordlist",
   nvim_lsp_signature_help = "Signature",
   latex_symbols = "Latex",
+  snippy = "Snippy",
+  emoji = "Emoji",
+  calc = "Calculate"
+
 }
 
 local cmp_menu_hl_group = {
@@ -270,6 +275,7 @@ cmp.setup({
     { name = "snippy", priority = 100, group_index = 1, keyword_length = 2 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
     { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 2 },
+    { name = 'calc' },
     { name = 'emoji', priority = 10 },        -- cmp-emoji source
     { name = 'nvim_lua', priority = 111 },    -- nvim lua api completion source
     { name = 'buffer', priority = 10, group_index = 2,

@@ -136,6 +136,7 @@ lazy.setup({
       { 'hrsh7th/cmp-emoji' },
       { 'dcampos/cmp-snippy' },
       { 'hrsh7th/cmp-nvim-lua' },
+      { 'hrsh7th/cmp-calc' },
       { 'hrsh7th/cmp-nvim-lsp-signature-help' },
       {
         'https://gitlab.com/silvercircle74/cmp-wordlist.nvim',
