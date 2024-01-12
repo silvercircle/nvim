@@ -8,6 +8,7 @@
 -- * Navic
 -- * Aerial
 -- * Navbuddy
+-- * Cokeline
 
 local function _set()
   local c = require("colors.darkmatter")
@@ -177,6 +178,8 @@ local function _set()
   -- cokeline
   c.set_hl(0, "CokelineInactive", { bg = c.localtheme.statuslinebg[1], fg = c.cokeline_colors.fg })
   c.set_hl(0, "CokelineActive", { bg = c.theme.alt_accent_color, fg = c.theme.accent_fg })
+  c.set_hl(0, "CokelineActiveModified", { bg = c.theme.alt_accent_color, fg = c.localtheme.special.red[1] })
+  c.set_hl(0, "CokelineInactiveModified", { bg = c.localtheme.statuslinebg[1], fg = c.localtheme.special.red[1] })
 end
 
 local M = {}

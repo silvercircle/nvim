@@ -118,7 +118,7 @@ Tweaks.cmp = {
   decorations = {
     flat = {
       -- border specifies what borderfactory() will use to create the window border
-      border = "flat",
+      border = "none",
       -- windowhighlight options for the docs and complation popup
       whl_doc = "Normal:NormalFloat,FloatBorder:NormalFloat,CursorLine:Visual,Search:None",
       whl_comp = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual"
@@ -148,6 +148,8 @@ Tweaks.borderfactory = function(style)
     return { " ", " ", " ", " ", " ", " ", " ", " " }
   elseif style == "topflat" then
     return { " ", " ", " ", "", " ", " ", " ", "" }
+  elseif style == "none" then
+    return { "", "", "", "", "", "", "", "" }
   end
 end
 -- don't touch this unless you know what you're doing
