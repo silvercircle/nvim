@@ -275,7 +275,7 @@ cmp.setup({
     { name = "snippy", priority = 100, group_index = 1, keyword_length = 2 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
     { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 2 },
-    { name = 'calc' },
+    { name = 'rpncalc' },
     { name = 'emoji', priority = 10 },        -- cmp-emoji source
     { name = 'nvim_lua', priority = 111 },    -- nvim lua api completion source
     { name = 'buffer', priority = 10, group_index = 2,
