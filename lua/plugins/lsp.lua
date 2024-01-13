@@ -442,6 +442,7 @@ if vim.diagnostic then
   vim.diagnostic.config({
     update_in_insert = false,
     virtual_text = true,
+    virtual_lines = true,
     underline = {
       -- Do not underline text when severity is low (INFO or HINT).
       severity = { min = vim.diagnostic.severity.WARN },

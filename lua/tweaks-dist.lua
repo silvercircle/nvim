@@ -93,7 +93,6 @@ Tweaks.cmp = {
   -- maximum width for the details column. Normally the rightmost column
   details_maxwidth = 15,
   -- I prefer to have only manual cmp complation (hit Ctrl-Space)
-  -- set this to true to always have auto-completion when typing
   autocomplete = false,
   -- minimum keyword length for auto-complete to kick in (only if the above is true)
   keywordlen = 2,
@@ -104,7 +103,7 @@ Tweaks.cmp = {
   -- this can be either "standard" or "experimental"
   -- this is the style for the completion menu CONTENT. The border layout and background
   -- options are specified by decoration options further down.
-  style = "experimental",
+  style = "standard",
   -- which decoration to use for the completion menu and the doc window
   -- flat: no border at all
   -- topflat: documentation window has top and bottom border for padding

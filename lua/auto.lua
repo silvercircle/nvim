@@ -44,7 +44,7 @@ autocmd({ 'UIEnter' }, {
     -- because all the sub splits have already been created
     -- running this more than once will cause all kind of mayhem, so don't
     if did_UIEnter == true then
-    return
+      return
     end
 -- create custom telescope themes as globals
     __Telescope_dropdown_theme = utils.Telescope_dropdown_theme

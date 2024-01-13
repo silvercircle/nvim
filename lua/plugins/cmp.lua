@@ -48,7 +48,6 @@ if st == true then
   )
 end
 
-
 local cmp_item_menu = {
   buffer = "Buffer",
   nvim_lsp = "LSP",
@@ -168,8 +167,7 @@ cmp.setup({
   preselect = cmp.PreselectMode.Item,
   enabled = true,
   completion = {
-    autocomplete = vim.g.tweaks.cmp.autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or { },
-    keyword_length = vim.g.tweaks.cmp.keywordlen,
+    autocomplete = vim.g.tweaks.cmp.autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or {},
     completeopt = "menu,menuone",
   },
   snippet = {
@@ -270,18 +268,17 @@ cmp.setup({
   },
   formatting = vim.g.tweaks.cmp.style == "experimental" and formatting_exp() or formatting_std(),
   sources = {
-    { name = "nvim_lsp", priority = 110, group_index = 1, max_item_count = 40 },
+    { name = "nvim_lsp", priority = 110, group_index = 1, max_item_count = 50, trigger_characters = {".", ":", "->", "::" }, keyword_length = math.huge },
     { name = "path", priority = 30 },
-    { name = "snippy", priority = 100, group_index = 1, keyword_length = 2 },
+    { name = "snippy", priority = 100, group_index = 1, keyword_length = 3 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
-    { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 2 },
+    { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 5 },
     { name = 'rpncalc' },
-    { name = 'emoji', priority = 10 },        -- cmp-emoji source
-    { name = 'nvim_lua', priority = 111 },    -- nvim lua api completion source
-    { name = 'buffer', priority = 10, group_index = 2,
+    { name = 'emoji', priority = 10, max_item_count = 40 },        -- cmp-emoji source
+    { name = 'nvim_lua', priority = 111, trigger_characters = {"."}, keyword_length = math.huge },    -- nvim lua api completion source
+    { name = 'buffer', priority = 10, group_index = 2, keyword_length = 3,
       option = {
         max_indexed_line_length = 1024,
-        keyword_length = 3,
         keyword_pattern = [[\k\+]],
         get_bufnrs = function()
           local buf = vim.api.nvim_get_current_buf()
@@ -336,8 +333,8 @@ cmp.setup.cmdline(":", {
   }),
   completion = {
     completeopt = "menu,menuone,noselect",
-    autocomplete = { cmp_types.TriggerEvent.TextChanged },
-  },
+    autocomplete = vim.g.tweaks.cmp.autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or {}
+  }
 })
  -- Custom sorting/ranking for completion items.
 cmp_helper.compare = {
@@ -362,6 +359,4 @@ cmp_helper.compare = {
     end
   end
 }
-
--- vim.cmd("doautocmd CmdLineEnter")
 
