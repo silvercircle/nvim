@@ -74,6 +74,7 @@ M.perm_config_default = {
   float_borders = "single",
   cmp_show_docs = true,
   autopair = true,
+  cmp_layout = "standard"
 }
 
 M.perm_config = {}
@@ -90,7 +91,7 @@ end
 --- open the outline window
 function M.open_outline()
   local buftype = vim.api.nvim_buf_get_option(0, "buftype")
-  if buftype == 'nofile' or buftype == 'terminal' then
+  if buftype ~= "" then  --current buffer is no ordinary file. Ignore it.
     return
   end
   if M.perm_config.outline_filetype == "Outline" then

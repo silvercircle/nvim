@@ -67,101 +67,100 @@ local cmp_menu_hl_group = {
   path = "CmpItemMenuPath",
 }
 
-local function formatting_exp()
-  return
-  {
-    fields = { "kind", "abbr", "menu" },
-    format = function(entry, vim_item)
-      -- Truncate the item if it is too long
-        -- fancy icons and a name of kind
-      vim_item.menu = utils.rpad(vim_item.kind, 13, " ")
-      vim_item.menu_hl_group = "CmpItemKind" .. vim_item.kind .. "Rev"
-      vim_item.kind = "▌" .. (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) -- .. "▐"
-      vim_item.abbr = __Globals.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)
-      -- The 'menu' section: source, detail information (lsp, snippet), etc.
-      -- set a name for each source (see the sources section below)
-      -- vim_item.menu = (cmp_item_menu)[entry.source.name] or string.format("%s", entry.source.name)
-      -- highlight groups for item.menu
-      -- detail information (optional)
-      local cmp_item = entry:get_completion_item()
-      if entry.source.name == "nvim_lsp" then
-        -- Display which LSP servers this item came from.
-        local lspserver_name = entry.source.source.client.name
-        if lspserver_name == "lua_ls" then lspserver_name = "Lua" end
-        -- Some language servers provide details, e.g. type information.
-        -- The details info hide the name of lsp server, but mostly we'll have one LSP
-        -- per filetype, and we use special highlights so it's OK to hide it..
-        local detail_txt = (function(this_item)
-          if not this_item.detail then
-            return nil
-          end
-          -- OmniSharp sometimes provides details (e.g. for overloaded operators). So leave some
-          -- space for them.
-          if lspserver_name == "omnisharp" then
-            return #this_item.detail > 0 and utils.rpad(string.sub(this_item.detail, 1, 8), 8, " ") .. "OmniSharp" or "        OmniSharp"
-          end
-          return lspserver_name == "Lua" and "Lua" or __Globals.truncate(this_item.detail, vim.g.tweaks.cmp.details_maxwidth)
-        end)(cmp_item)
-        if detail_txt then
-          vim_item.menu = vim_item.menu .. detail_txt
-        else
-          vim_item.menu = vim_item.menu .. lspserver_name
-        end
-      else
-        vim_item.menu = vim_item.menu .. (cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name))
+local f_exp = function(entry, vim_item)
+  -- Truncate the item if it is too long
+  -- fancy icons and a name of kind
+  vim_item.menu = utils.rpad(vim_item.kind, 13, " ")
+  vim_item.menu_hl_group = "CmpItemKind" .. vim_item.kind .. "Rev"
+  vim_item.kind = "▌" .. (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) -- .. "▐"
+  vim_item.abbr = __Globals.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)
+  -- The 'menu' section: source, detail information (lsp, snippet), etc.
+  -- set a name for each source (see the sources section below)
+  -- vim_item.menu = (cmp_item_menu)[entry.source.name] or string.format("%s", entry.source.name)
+  -- highlight groups for item.menu
+  -- detail information (optional)
+  local cmp_item = entry:get_completion_item()
+  if entry.source.name == "nvim_lsp" then
+    -- Display which LSP servers this item came from.
+    local lspserver_name = entry.source.source.client.name
+    if lspserver_name == "lua_ls" then lspserver_name = "Lua" end
+    -- Some language servers provide details, e.g. type information.
+    -- The details info hide the name of lsp server, but mostly we'll have one LSP
+    -- per filetype, and we use special highlights so it's OK to hide it..
+    local detail_txt = (function(this_item)
+      if not this_item.detail then
+        return nil
       end
-      return vim_item
-    end,
-  }
+      -- OmniSharp sometimes provides details (e.g. for overloaded operators). So leave some
+      -- space for them.
+      if lspserver_name == "omnisharp" then
+        return #this_item.detail > 0 and utils.rpad(string.sub(this_item.detail, 1, 8), 8, " ") .. "OmniSharp" or "        OmniSharp"
+      end
+      return lspserver_name == "Lua" and "Lua" or __Globals.truncate(this_item.detail, vim.g.tweaks.cmp.details_maxwidth)
+    end)(cmp_item)
+    if detail_txt then
+      vim_item.menu = vim_item.menu .. detail_txt
+    else
+      vim_item.menu = vim_item.menu .. lspserver_name
+    end
+  else
+    vim_item.menu = vim_item.menu .. (cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name))
+  end
+  return vim_item
 end
 
-local function formatting_std()
-  return
-  {
-    fields = { "abbr", "kind", "menu" },
-    format = function(entry, vim_item)
-      -- Truncate the item if it is too long
-        -- fancy icons and a name of kind
-      vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
-      -- vim_item.kind = " " .. vim_item.kind_symbol .. " " .. Config.iconpad .. vim_item.kind
-      vim_item.kind = vim_item.kind_symbol .. " " .. vim_item.kind
-      vim_item.abbr = __Globals.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)
-      -- The 'menu' section: source, detail information (lsp, snippet), etc.
-      -- set a name for each source (see the sources section below)
-      vim_item.menu = cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name)
-      -- highlight groups for item.menu
-      vim_item.menu_hl_group = cmp_menu_hl_group[entry.source.name] -- default is CmpItemMenu
-      -- detail information (optional)
-      local cmp_item = entry:get_completion_item()
-      if entry.source.name == "nvim_lsp" then
-        -- Display which LSP servers this item came from.
-        local lspserver_name = entry.source.source.client.name
-        if lspserver_name == "lua_ls" then lspserver_name = "Lua" end
-        vim_item.menu = lspserver_name
-        -- Some language servers provide details, e.g. type information.
-        -- The details info hide the name of lsp server, but mostly we'll have one LSP
-        -- per filetype, and we use special highlights so it's OK to hide it..
-        local detail_txt = (function(this_item)
-          if not this_item.detail then
-            return nil
-          end
-          -- OmniSharp sometimes provides details (e.g. for overloaded operators). So leave some
-          -- space for them.
-          if lspserver_name == "omnisharp" then
-            return #this_item.detail > 0 and utils.rpad(string.sub(this_item.detail, 1, 8), 10, " ") .. "OmniSharp" or "          OmniSharp"
-          end
-          return lspserver_name == "Lua" and "Lua" or __Globals.truncate(this_item.detail, vim.g.tweaks.cmp.details_maxwidth)
-        end)(cmp_item)
-        if detail_txt then
-          vim_item.menu = detail_txt
-          vim_item.menu_hl_group = "CmpItemMenuDetail"
-        end
+local f_std = function(entry, vim_item)
+  -- Truncate the item if it is too long
+  -- fancy icons and a name of kind
+  vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
+  -- vim_item.kind = " " .. vim_item.kind_symbol .. " " .. Config.iconpad .. vim_item.kind
+  vim_item.kind = vim_item.kind_symbol .. " " .. vim_item.kind
+  vim_item.abbr = __Globals.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)
+  -- The 'menu' section: source, detail information (lsp, snippet), etc.
+  -- set a name for each source (see the sources section below)
+  vim_item.menu = cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name)
+  -- highlight groups for item.menu
+  vim_item.menu_hl_group = cmp_menu_hl_group[entry.source.name]     -- default is CmpItemMenu
+  -- detail information (optional)
+  local cmp_item = entry:get_completion_item()
+  if entry.source.name == "nvim_lsp" then
+    -- Display which LSP servers this item came from.
+    local lspserver_name = entry.source.source.client.name
+    if lspserver_name == "lua_ls" then lspserver_name = "Lua" end
+    vim_item.menu = lspserver_name
+    -- Some language servers provide details, e.g. type information.
+    -- The details info hide the name of lsp server, but mostly we'll have one LSP
+    -- per filetype, and we use special highlights so it's OK to hide it..
+    local detail_txt = (function(this_item)
+      if not this_item.detail then
+        return nil
       end
-      -- Add a little bit more padding
-      return vim_item
-    end,
-  }
+      -- OmniSharp sometimes provides details (e.g. for overloaded operators). So leave some
+      -- space for them.
+      if lspserver_name == "omnisharp" then
+        return #this_item.detail > 0 and utils.rpad(string.sub(this_item.detail, 1, 8), 10, " ") .. "OmniSharp" or "          OmniSharp"
+      end
+      return lspserver_name == "Lua" and "Lua" or __Globals.truncate(this_item.detail, vim.g.tweaks.cmp.details_maxwidth)
+    end)(cmp_item)
+    if detail_txt then
+      vim_item.menu = detail_txt
+      vim_item.menu_hl_group = "CmpItemMenuDetail"
+    end
+  end
+  -- Add a little bit more padding
+  return vim_item
 end
+
+local cmp_layouts = {
+  standard =   {
+    fields = { "abbr", "kind", "menu" },
+    fn = f_std
+  },
+  experimental = {
+    fields = { "kind", "abbr", "menu" },
+    fn = f_exp
+  }
+}
 
 cmp.setup({
   preselect = cmp.PreselectMode.Item,
@@ -266,9 +265,13 @@ cmp.setup({
     ["<C-Up>"] = cmp.mapping.scroll_docs(-4),
     ["<C-Down>"] = cmp.mapping.scroll_docs(4),
   },
-  formatting = vim.g.tweaks.cmp.style == "experimental" and formatting_exp() or formatting_std(),
+  formatting = {
+    fields = cmp_layouts[vim.g.tweaks.cmp.style].fields,
+    format = cmp_layouts[vim.g.tweaks.cmp.style].fn
+  },
+  -- formatting = formatting_std(),
   sources = {
-    { name = "nvim_lsp", priority = 110, group_index = 1, max_item_count = 50, trigger_characters = {".", ":", "->", "::" }, keyword_length = math.huge },
+    { name = "nvim_lsp", priority = 110, group_index = 1, max_item_count = 50, trigger_characters = {".", ":", "->", "::" }, keyword_length = 2 },
     { name = "path", priority = 30 },
     { name = "snippy", priority = 100, group_index = 1, keyword_length = 3 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
