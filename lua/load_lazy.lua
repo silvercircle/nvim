@@ -239,7 +239,13 @@ lazy.setup({
       { 'Hoffs/omnisharp-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "omnisharp") },         -- omnisharp decompilation support
       { 'Decodetalkers/csharpls-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "csharp_ls") },  -- this is for csharp_ls decompilation support
       'onsails/lspkind-nvim',
-      --'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+      {
+        'https://gitlab.com/silvercircle74/lsp_lines.nvim',
+        cond = vim.g.tweaks.lsp.virtual_lines == true,
+        config = function()
+          require("lsp_lines").setup()
+        end
+      },
       {
         'dnlhc/glance.nvim',
         config = function()

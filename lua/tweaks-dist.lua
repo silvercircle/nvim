@@ -79,7 +79,8 @@ Tweaks.lsp = {
   -- use either omnisharp or csharp_ls for c# and .NET development
   -- both options work reasonably well with a few issues and missing features
   -- the third option "roslyn" is highly experimental and not recommended
-  csharp = "omnisharp"
+  csharp = "omnisharp",
+  virtual_lines = true
 }
 
 -- tweaks for the cmp autocompletion system
