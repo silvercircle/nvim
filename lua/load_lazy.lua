@@ -267,7 +267,12 @@ lazy.setup({
       })
     end
   },
-  'lewis6991/gitsigns.nvim',
+  {
+    'lewis6991/gitsigns.nvim',
+    config = function()
+      require("plugins.others").setup.gitsigns()
+    end
+  },
   { 'lukas-reineke/indent-blankline.nvim', event = "UIEnter", config = function() require("plugins.iblsetup") end },
   {
     'petertriho/nvim-scrollbar',
@@ -291,8 +296,24 @@ lazy.setup({
   },
   { 'voldikss/vim-floaterm',      cmd = { "FloatermNew", "FloatermToggle" } },
   { 'preservim/vim-markdown',     ft = "markdown" },
-  { 'norcalli/nvim-colorizer.lua' },
-  'echasnovski/mini.move',
+  {
+    "norcalli/nvim-colorizer.lua",
+    config = function()
+      require "colorizer".setup {
+        "css",
+        "scss",
+        html = {
+          mode = "foreground",
+        }
+      }
+    end
+  },
+  {
+    'echasnovski/mini.move',
+    config = function()
+      require("mini.move").setup()
+    end
+  },
   {
     'echasnovski/mini.pick',
     version = false,
@@ -406,7 +427,7 @@ lazy.setup({
   {
     'willothy/nvim-cokeline', lazy = true, event="UIEnter", branch = "main",
     config = function()
-      require("plugins.default")
+      require("plugins.cokeline")
     end
   },
   {

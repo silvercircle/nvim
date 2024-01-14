@@ -1,3 +1,4 @@
+local colors = Config.theme
 local show_close = vim.g.tweaks.cokeline.closebutton
 local left_pad = vim.g.tweaks.cokeline.styles[vim.g.tweaks.cokeline.active_tab_style].left
 local right_pad = vim.g.tweaks.cokeline.styles[vim.g.tweaks.cokeline.active_tab_style].right
@@ -11,9 +12,6 @@ end
 if type(version.prerelease) == "string" then
   buildinfo = buildinfo .. "-" .. version.prerelease
 end
-
--- devicons for lua plugins (e.g. Telescope, neotree, nvim-tree among others  need them)
-local colors = Config.theme
 
 -- crete the cokeline theme. Global function
 local function Cokeline_theme()
@@ -32,9 +30,6 @@ local function Cokeline_theme()
   }
 end
 
--- setup cokeline plugin. It provides a buffer line (aka tab-bar)
--- local sidebar_or_tree = vim.g.features['sidebar']['enable'] == true and true or false
--- local treename = Config.nvim_tree == true and 'NvimTree' or 'neo-tree'
 local treename = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or 'NvimTree'
 require('cokeline').setup({
   -- Cokeline_theme() is defined in config.lua
@@ -105,56 +100,4 @@ require('cokeline').setup({
     }
   }
 })
-
-require("gitsigns").setup({
-  _refresh_staged_on_update = false,
-  signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-  numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
-  linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
-  word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
-  watch_gitdir = {
-    interval = 2000,
-    follow_files = true,
-  },
-  attach_to_untracked = true,
-  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
-  current_line_blame_opts = {
-    virt_text = true,
-    virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
-    delay = 1000,
-    ignore_whitespace = false,
-  },
-  current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
-  sign_priority = 0,
-  update_debounce = 1000,
-  status_formatter = nil, -- Use default
-  max_file_length = 40000, -- Disable if file is longer than this (in lines)
-  preview_config = {
-    -- Options passed to nvim_open_win
-    border = __Globals.perm_config.telescope_borders,
-    style = "minimal",
-    relative = "cursor",
-    row = 0,
-    col = 1,
-  },
-  yadm = {
-    enable = false,
-  },
-})
-
-require 'colorizer'.setup {
-  'css';
-  'scss';
-  html = {
-    mode = 'foreground';
-  }
-}
-
-require('mini.move').setup()
-
--- support a textwidth property in editorconfig files
-require('editorconfig').properties.textwidth = function(bufnr, val, _)
-  -- print("editorconfig textwidth to " .. val .. " for " .. bufnr)
-  vim.api.nvim_buf_set_option(bufnr, "textwidth", tonumber(val))
-end
 

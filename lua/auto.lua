@@ -32,6 +32,13 @@ autocmd({ 'VimEnter' }, {
       return
     end
     Config.theme.set()
+    -- support textwidth and formatoptions roperties via editorconfig files
+    require('editorconfig').properties.textwidth = function(bufnr, val, _)
+      vim.api.nvim_buf_set_option(bufnr, "textwidth", tonumber(val))
+    end
+    require("editorconfig").properties.formatoptions = function(bufnr, val, _)
+      vim.api.nvim_buf_set_option(bufnr, "formatoptions", val)
+    end
   end
 })
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
