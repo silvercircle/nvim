@@ -624,6 +624,14 @@ command_center.add({
       { "i", "<C-x><C-d>", noremap }
     },
     category = "@GIT"
+  },
+  {
+    desc = "Configure CMP layout",
+    cmd = function() require("plugins.cmp").select_layout() end,
+    keys = {
+      { "n", "<leader>cc", noremap },
+    },
+    category = "@Setup"
   }
   -- unused stuff keep it here in case we need it at some point
   --  {

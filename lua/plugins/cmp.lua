@@ -266,10 +266,9 @@ cmp.setup({
     ["<C-Down>"] = cmp.mapping.scroll_docs(4),
   },
   formatting = {
-    fields = cmp_layouts[vim.g.tweaks.cmp.style].fields,
-    format = cmp_layouts[vim.g.tweaks.cmp.style].fn
+    fields = cmp_layouts[__Globals.perm_config.cmp_layout].fields,
+    format = cmp_layouts[__Globals.perm_config.cmp_layout].fn
   },
-  -- formatting = formatting_std(),
   sources = {
     { name = "nvim_lsp", priority = 110, group_index = 1, max_item_count = 50, trigger_characters = {".", ":", "->", "::" }, keyword_length = 2 },
     { name = "path", priority = 30 },
@@ -362,4 +361,86 @@ cmp_helper.compare = {
     end
   end
 }
+
+local M = {}
+
+function M.configure_layout(layout)
+  if layout ~= "standard" and layout ~= "experimental" then
+    vim.notify(layout .. " is not a supported cmp context layout")
+    return
+  end
+  __Globals.perm_config.cmp_layout = layout
+  cmp.setup({
+    formatting = {
+      fields = cmp_layouts[__Globals.perm_config.cmp_layout].fields,
+      format = cmp_layouts[__Globals.perm_config.cmp_layout].fn
+    }
+  })
+end
+
+function M.setup_theme(theme, decoration, decoration_doc)
+  local kind_attr = { bold=false, reverse=false }
+  if theme == "experimental" then
+    kind_attr = { bold=true, reverse=true }
+  end
+  Config.theme.setup({
+    baseattrib = {
+      dark = {
+        cmpkind = kind_attr
+      },
+      light = {
+        cmpkind = kind_attr
+      }
+    }
+  })
+  Config.theme.set()
+  cmp.setup({
+    window = {
+      documentation = {
+        border = vim.g.tweaks.borderfactory(vim.g.tweaks.cmp.decorations[decoration_doc].border),
+        winhighlight = vim.g.tweaks.cmp.decorations[decoration_doc].whl_doc
+      },
+      completion = {
+        border = vim.g.tweaks.borderfactory(vim.g.tweaks.cmp.decorations[decoration].border),
+        winhighlight = vim.g.tweaks.cmp.decorations[decoration].whl_comp,
+        scrollbar = false,
+        side_padding = 1
+      }
+    }
+  })
+end
+
+function M.select_layout()
+  local style, decoration
+  vim.ui.select({ "1. Classic Menu layout, single border ",
+                  "2. Classic Menu layout, borderless    ",
+                  "3. Modern Menu layout, single border  ",
+                  "4. Modern Menu layout, borderless     "}, {
+    prompt = "Select CMP menu appearance",
+    border = "single",
+    format_item = function(item) return utils.pad(item, 50, " ") end
+    },
+    function(choice)
+      if choice ~= nil then
+        local nr = string.sub(choice, 1, 1)
+        print(nr)
+        if nr == "1" then
+          style = "standard"
+          decoration = "bordered"
+        elseif nr == "2" then
+          style = "standard"
+          decoration = "flat"
+        elseif nr == "3" then
+          style = "experimental"
+          decoration = "bordered"
+        elseif nr == "4" then
+          style = "experimental"
+          decoration = "flat"
+        end
+        M.configure_layout(style)
+        M.setup_theme(style, decoration, decoration)
+      end
+    end)
+end
+return M
 

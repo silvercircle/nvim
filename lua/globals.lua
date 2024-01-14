@@ -518,6 +518,7 @@ function M.restore_config()
     M.perm_config = M.perm_config_default
   end
   -- configure the theme
+  local cmp_kind_attr = M.perm_config.cmp_layout == "experimental" and { bold=true, reverse=true } or {}
   Config.theme.setup({ scheme = M.perm_config.theme_scheme, variant = M.perm_config.theme_variant,
                  desaturate = M.perm_config.theme_desaturate, dlevel = M.perm_config.theme_dlevel,
                  theme_strings = M.perm_config.theme_strings, is_trans = M.perm_config.transbg,
@@ -532,11 +533,11 @@ function M.restore_config()
                  rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast,
                  baseattrib = {
                    dark = {
-                     cmpkind = vim.g.tweaks.cmp.kind_attr,
+                     cmpkind = cmp_kind_attr,
                      tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {}
                    },
                    light = {
-                     cmpkind = vim.g.tweaks.cmp.kind_attr,
+                     cmpkind = cmp_kind_attr,
                      tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {}
                    }
                  }
