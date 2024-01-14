@@ -427,7 +427,6 @@ local border_layout_prompt_bottom = {
   }
 }
 
--- private modified version of the dropdown theme with a square border
 function Utils.Telescope_dropdown_theme(opts)
   local lopts = opts or {}
   local defaults = require("telescope.themes").get_dropdown({

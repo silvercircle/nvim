@@ -246,6 +246,41 @@ lazy.setup({
           require("plugins.glance")
         end
       },
+      { "danymat/neogen",
+        config = function()
+          local i = require("neogen.types.template").item
+          require("neogen").setup({
+            enabled = true,
+            snippet_engine = "snippy",
+            languages = {
+              cs = {
+                template = {
+                  annotation_convention = "xmldoccustom",
+                  xmldoccustom = {
+                    { nil, "/**"},
+                    { nil, " * <summary>", { no_results = true } },
+                    { nil, " * $1", { no_results = true } },
+                    { nil, " * </summary>", { no_results = true } },
+
+                    { nil, " * <summary>", {} },
+                    { nil, " * $1", {} },
+                    { nil, " * </summary>", {} },
+                    { i.Parameter, ' * <param name="%s">$1</param>', { type = { "func", "type" } } },
+                    { i.Tparam, ' * <typeparam name="%s">$1</typeparam>', { type = { "func", "class" } } },
+                    { i.Return, " * <returns>$1</returns>", { type = { "func", "type" } } },
+                    { nil, " */"}
+                  }
+                }
+              },
+              lua = {
+                template = {
+                  annotation_convention = "emmylua"
+                }
+              }
+            }
+          })
+        end
+      },
       {
         "lewis6991/hover.nvim",
         config = function()
@@ -533,14 +568,6 @@ lazy.setup({
   {
     "scalameta/nvim-metals",
     ft = { "scala", "sbt" },
-  },
-  {
-    'kkoomen/vim-doge',
-    lazy = true,
-    ft = { "lua", "cs", "java" },
-    config = function()
-      -- vim.cmd("call doge#install()")
-    end
   },
   {
     "folke/trouble.nvim",

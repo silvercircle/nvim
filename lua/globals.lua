@@ -287,8 +287,8 @@ end
 --- @param max_length integer: the maximum length
 --- @return string:           the truncated text
 function M.truncate(text, max_length)
-  if #text > max_length then
-    return string.sub(text, 1, max_length) .. "…"
+  if vim.fn.strwidth(text) > max_length then
+    return vim.fn.strcharpart(text, 0, max_length) .. "…"
   else
     return text
   end
@@ -364,9 +364,7 @@ function M.splittree(_factor)
     M.winid_bufferlist = vim.fn.win_getid()
     vim.api.nvim_win_set_option(M.winid_bufferlist, "list", false)
     vim.api.nvim_win_set_option(M.winid_bufferlist, "statusline", "Buffer List")
-    vim.cmd(
-      "set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0"
-    )
+    vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0")
     vim.fn.win_gotoid(M.main_winid)
     return M.winid_bufferlist
   end

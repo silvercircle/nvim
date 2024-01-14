@@ -189,8 +189,10 @@ autocmd({ 'FileType' }, {
   pattern = { 'tex', 'markdown', 'text', 'telekasten', 'liquid' },
   callback = function()
     if vim.bo.modifiable == true then
-      vim.cmd(
-      "setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nwqtc | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
+      vim.cmd("setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nwqtc | setlocal foldmethod=manual")
+    end
+    if vim.bo.buftype == "" then
+      vim.cmd("setlocal spell spelllang=en_us,de_de")
     end
   end,
   group = agroup_views

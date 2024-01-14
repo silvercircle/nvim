@@ -67,12 +67,13 @@ local cmp_menu_hl_group = {
   path = "CmpItemMenuPath",
 }
 
+-- formatting function for the experimental ("modern") layout
 local f_exp = function(entry, vim_item)
-  -- Truncate the item if it is too long
   -- fancy icons and a name of kind
   vim_item.menu = utils.rpad(vim_item.kind, 13, " ")
   vim_item.menu_hl_group = "CmpItemKind" .. vim_item.kind .. "Rev"
   vim_item.kind = "▌" .. (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) -- .. "▐"
+  -- Truncate the item if it is too long
   vim_item.abbr = __Globals.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)
   -- The 'menu' section: source, detail information (lsp, snippet), etc.
   -- set a name for each source (see the sources section below)
@@ -84,9 +85,6 @@ local f_exp = function(entry, vim_item)
     -- Display which LSP servers this item came from.
     local lspserver_name = entry.source.source.client.name
     if lspserver_name == "lua_ls" then lspserver_name = "Lua" end
-    -- Some language servers provide details, e.g. type information.
-    -- The details info hide the name of lsp server, but mostly we'll have one LSP
-    -- per filetype, and we use special highlights so it's OK to hide it..
     local detail_txt = (function(this_item)
       if not this_item.detail then
         return nil
@@ -109,6 +107,7 @@ local f_exp = function(entry, vim_item)
   return vim_item
 end
 
+-- formatting function for the standard layout
 local f_std = function(entry, vim_item)
   -- Truncate the item if it is too long
   -- fancy icons and a name of kind
@@ -147,15 +146,16 @@ local f_std = function(entry, vim_item)
       vim_item.menu_hl_group = "CmpItemMenuDetail"
     end
   end
-  -- Add a little bit more padding
   return vim_item
 end
 
 local cmp_layouts = {
+  -- classic layout field order
   standard =   {
     fields = { "abbr", "kind", "menu" },
     fn = f_std
   },
+  -- modern. kind icon in front of symbol name
   experimental = {
     fields = { "kind", "abbr", "menu" },
     fn = f_exp
@@ -364,9 +364,13 @@ cmp_helper.compare = {
 
 local M = {}
 
+--- update the CMP configuration for the content style
+--- The content style consists of a formatting function and a table specifying
+--- the order of the menu columns.
+--- @param layout string The content style.
 function M.configure_layout(layout)
   if layout ~= "standard" and layout ~= "experimental" then
-    vim.notify(layout .. " is not a supported cmp context layout")
+    vim.notify(layout .. " is not a supported cmp content layout")
     return
   end
   __Globals.perm_config.cmp_layout = layout
@@ -378,6 +382,11 @@ function M.configure_layout(layout)
   })
 end
 
+--- set the CMP theme
+--- This sets the border style and configures the theme for the desired menu style
+--- @param theme string menu style (content)
+--- @param decoration string the decoration style for the completion popup
+--- @param decoration_doc string the decoration style for the documentation popup
 function M.setup_theme(theme, decoration, decoration_doc)
   local kind_attr = { bold=false, reverse=false }
   if theme == "experimental" then
@@ -423,7 +432,6 @@ function M.select_layout()
     function(choice)
       if choice ~= nil then
         local nr = string.sub(choice, 1, 1)
-        print(nr)
         if nr == "1" then
           style = "standard"
           decoration = "bordered"
