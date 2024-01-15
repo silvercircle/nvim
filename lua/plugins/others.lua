@@ -14,7 +14,7 @@ M.setup = {
             -- override the xmldoc configuration. I prefer the /** ... */ comment syntax over ///.
             -- Both is valid xmldoc
             xmldoccustom = {
-              { nil,         "/**" },
+              { nil,         "/**",                                    { no_results = true, type = { "func", "file", "class", "type" } } },
               { nil,         " * <summary>",                           { no_results = true } },
               { nil,         " * $1",                                  { no_results = true } },
               { nil,         " * </summary>",                          { no_results = true } },
@@ -24,7 +24,7 @@ M.setup = {
               { i.Parameter, ' * <param name="%s">$1</param>',         { type = { "func", "type" } } },
               { i.Tparam,    ' * <typeparam name="%s">$1</typeparam>', { type = { "func", "class" } } },
               { i.Return,    " * <returns>$1</returns>",               { type = { "func", "type" } } },
-              { nil,         " */" }
+              { nil,         " */",                                    { no_results = true, type = { "func", "file", "class", "type" }} }
             }
           }
         },
