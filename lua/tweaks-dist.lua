@@ -5,13 +5,10 @@
 --
 -- how to use this file:
 -- 1. make a copy and name it mytweaks.lua
--- 2. mytweaks can be edited and will overwrite settings in this file as long as it is 
+-- 2. mytweaks can be edited and will overwrite settings in this file as long as it is
 --    present. Updating the repo with git pull won't overwrite your changes in mytweaks.
 --    So do NOT change this file directly, because your changes may be lost when updating
 --    from the repo..
---
--- if NO mytweaks.lua exists, then this file will be used instead, but be warned, that
--- updating via git pull will overwrite your changes.
 local Tweaks = {}
 Tweaks.lsp = {}
 
@@ -80,7 +77,10 @@ Tweaks.lsp = {
   -- both options work reasonably well with a few issues and missing features
   -- the third option "roslyn" is highly experimental and not recommended
   csharp = "omnisharp",
-  virtual_lines = true
+  -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
+  -- this can show multiple diagnostic messages for a single line.
+  -- otherwise, use normal virtual text.
+  virtual_lines = false
 }
 
 -- tweaks for the cmp autocompletion system

@@ -257,6 +257,12 @@ function Utils.BufClose()
   local closecmd = "Kwbd"
   local saveclosecmd = "update! | Kwbd"
 
+  -- do not close these filetypes
+  local dontclose = { "neo-tree ", "NvimTree", "Outline", "weather", "terminal", "sysmon", "aerial" }
+  if vim.tbl_contains(dontclose, vim.api.nvim_buf_get_option(0, "filetype")) then
+    return
+  end
+
   if vim.api.nvim_buf_get_option(0, "modified") == true then
     if vim.g.confirm_actions["close_buffer"] == true then
       vim.ui.select({ "Save and Close", "Close and discard", "Cancel Operation" }, {

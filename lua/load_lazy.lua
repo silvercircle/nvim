@@ -441,7 +441,6 @@ lazy.setup({
   },
   {
     'silvercircle/aerial.nvim',
-    event = "LspAttach",
     branch = 'mine',
     lazy = true,
     config = function()
@@ -535,5 +534,9 @@ lazy.setup({
         capabilities = __Globals.get_lsp_capabilities()
       })
     end
+  },
+  {
+    "jlcrochet/vim-razor",
+    ft = { "cshtml", "razor" }
   }
 })

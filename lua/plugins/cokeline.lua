@@ -66,7 +66,8 @@ require('cokeline').setup({
     }
   },
   components = {
-    { text = function(buffer) return buffer.is_first and " " or "" end,
+    {
+      text = function(buffer) return buffer.is_first and " " or "" end,
       highlight = "StatusLine"
     },
     {
@@ -79,12 +80,12 @@ require('cokeline').setup({
       fg = function(buffer) return buffer.devicon.color end
     },
     {
-      text = Config.iconpad,
+      text = function(buffer) return buffer.filename end,
       highlight = function(buffer) return buffer.is_focused and "CokelineActive" or "CokelineInactive" end,
-    },
-    {
-      text = function(buffer) return __Globals.truncate(buffer.filename, vim.g.tweaks.cokeline_filename_width) end,
-      highlight = function(buffer) return buffer.is_focused and "CokelineActive" or "CokelineInactive" end,
+      truncation = {
+        priority = 4,
+        direction = "left"
+      }
     },
     {
       text = function(buffer) return buffer.is_modified and ' ●' or (show_close == true and  '' or '') end,
