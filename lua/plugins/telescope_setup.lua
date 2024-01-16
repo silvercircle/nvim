@@ -98,6 +98,8 @@ require("telescope").setup({
         ["<C-x>"] = stopinsert(actions.select_horizontal),
         ["<C-v>"] = stopinsert(actions.select_vertical),
         ["<A-t>"] = stopinsert(actions.select_tab),
+        ["<A-Up>"] = actions.cycle_history_prev,
+        ["<A-Down>"] = actions.cycle_history_next,
         -- remap C-Up and C-Down to scroll the previewer by one line
         ["<C-Up>"] = function(prompt_bufnr) actionset.scroll_previewer(prompt_bufnr, -1) end,
         ["<C-Down>"] = function(prompt_bufnr) actionset.scroll_previewer(prompt_bufnr, 1) end,
