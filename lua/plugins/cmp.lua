@@ -71,7 +71,7 @@ local cmp_menu_hl_group = {
 local f_exp = function(entry, vim_item)
   -- fancy icons and a name of kind
   vim_item.menu = utils.rpad(vim_item.kind, 13, " ")
-  vim_item.menu_hl_group = "CmpItemKind" .. vim_item.kind .. "Rev"
+  vim_item.menu_hl_group = "CmpItemKind" .. vim_item.kind
   vim_item.kind = "▌" .. (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) -- .. "▐"
   -- Truncate the item if it is too long
   vim_item.abbr = __Globals.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)

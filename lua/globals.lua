@@ -518,29 +518,33 @@ function M.restore_config()
   -- configure the theme
   --local cmp_kind_attr = M.perm_config.cmp_layout == "experimental" and { bold=true, reverse=true } or {}
   local cmp_kind_attr = { bold=true, reverse=false }
-  Config.theme.setup({ scheme = M.perm_config.theme_scheme, variant = M.perm_config.theme_variant,
-                 desaturate = M.perm_config.theme_desaturate, dlevel = M.perm_config.theme_dlevel,
-                 theme_strings = M.perm_config.theme_strings, is_trans = M.perm_config.transbg,
-                 sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
-                 kittysocket = vim.g.tweaks.theme.kittysocket,
-                 kittenexec = vim.g.tweaks.theme.kittenexec,
-                 callback = M.theme_callback,
-                 indentguide_colors = {
-                   dark = vim.g.tweaks.indentguide.color.dark,
-                   light = vim.g.tweaks.indentguide.color.light
-                 },
-                 rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast,
-                 baseattrib = {
-                   dark = {
-                     cmpkind = cmp_kind_attr,
-                     tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {}
-                   },
-                   light = {
-                     cmpkind = cmp_kind_attr,
-                     tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {}
-                   }
-                 }
-               })
+  Config.theme.setup({
+    scheme = M.perm_config.theme_scheme,
+    variant = M.perm_config.theme_variant,
+    desaturate = M.perm_config.theme_desaturate,
+    dlevel = M.perm_config.theme_dlevel,
+    theme_strings = M.perm_config.theme_strings,
+    is_trans = M.perm_config.transbg,
+    sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
+    kittysocket = vim.g.tweaks.theme.kittysocket,
+    kittenexec = vim.g.tweaks.theme.kittenexec,
+    callback = M.theme_callback,
+    indentguide_colors = {
+      dark = vim.g.tweaks.indentguide.color.dark,
+      light = vim.g.tweaks.indentguide.color.light
+    },
+    rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast,
+    baseattrib = {
+      dark = {
+        cmpkind = cmp_kind_attr,
+        tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {}
+      },
+      light = {
+        cmpkind = cmp_kind_attr,
+        tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {}
+      }
+    }
+  })
 end
 
 --- the callback is called from internal theme functions that change its
