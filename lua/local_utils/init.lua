@@ -213,6 +213,22 @@ function Utils.StopLsp()
   local actions = require("telescope.actions")
   local action_state = require("telescope.actions.state")
 
+  local function do_terminate(prompt_bufnr)
+    local current_picker = action_state.get_current_picker(prompt_bufnr)
+    local selection = action_state.get_selected_entry()
+    if selection[1] ~= nil and #selection[1] > 0 then
+      local id = tonumber(string.sub(selection[1], 1, 6))
+      if id ~= nil and id > 0 then
+        if #vim.lsp.get_buffers_by_client_id(id) == 0 then
+          current_picker:delete_selection(function(_) end)
+          vim.lsp.stop_client(id, true )
+        else
+          vim.notify("The LSP server with id " .. id .. " has attached buffers. Will not terminate.")
+        end
+      end
+    end
+  end
+
   local lspselector = function(opts)
     opts = opts or {}
     pickers
@@ -226,19 +242,15 @@ function Utils.StopLsp()
           results = entries,
         }),
         sorter = tconf.generic_sorter(opts),
-        attach_mappings = function(prompt_bufnr, _)
+        attach_mappings = function(prompt_bufnr, map)
+          map("i", "<C-d>", function()
+            do_terminate(prompt_bufnr)
+          end)
           actions.select_default:replace(function()
-            actions.close(prompt_bufnr)
-            local selection = action_state.get_selected_entry()
-            if selection[1] ~= nil and #selection[1] > 0 then
-              local id = tonumber(string.sub(selection[1], 1, 6))
-              if id ~= nil and id > 0 then
-                vim.lsp.stop_client({ id, true })
-              end
-            end
+            do_terminate(prompt_bufnr)
           end)
           return true
-        end,
+        end
       })
       :find()
   end
@@ -246,7 +258,7 @@ function Utils.StopLsp()
     __Telescope_dropdown_theme({
       width = 0.4,
       height = 0.4,
-      prompt_title = "Active LSP clients (Enter = terminate, ESC cancels)",
+      prompt_title = "Active LSP clients (<C-d> or <Enter> to terminate, ESC cancels)",
     })
   )
 end

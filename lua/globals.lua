@@ -284,11 +284,11 @@ end
 
 --- truncate a string to a maximum length, appending ellipses when necessary
 --- @param text string:       the string to truncate
---- @param max_length integer: the maximum length
+--- @param max_length integer: the maximum length. must be at least 4 because of ellipsis
 --- @return string:           the truncated text
 function M.truncate(text, max_length)
-  if vim.fn.strwidth(text) > max_length then
-    return vim.fn.strcharpart(text, 0, max_length) .. "…"
+  if max_length >= 4 and vim.fn.strwidth(text) > max_length then
+    return vim.fn.strcharpart(text, 0, max_length - 3) .. "…"
   else
     return text
   end
@@ -516,7 +516,8 @@ function M.restore_config()
     M.perm_config = M.perm_config_default
   end
   -- configure the theme
-  local cmp_kind_attr = M.perm_config.cmp_layout == "experimental" and { bold=true, reverse=true } or {}
+  --local cmp_kind_attr = M.perm_config.cmp_layout == "experimental" and { bold=true, reverse=true } or {}
+  local cmp_kind_attr = { bold=true, reverse=false }
   Config.theme.setup({ scheme = M.perm_config.theme_scheme, variant = M.perm_config.theme_variant,
                  desaturate = M.perm_config.theme_desaturate, dlevel = M.perm_config.theme_dlevel,
                  theme_strings = M.perm_config.theme_strings, is_trans = M.perm_config.transbg,

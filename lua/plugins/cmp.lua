@@ -388,10 +388,10 @@ end
 --- @param decoration string the decoration style for the completion popup
 --- @param decoration_doc string the decoration style for the documentation popup
 function M.setup_theme(theme, decoration, decoration_doc)
-  local kind_attr = { bold=false, reverse=false }
-  if theme == "experimental" then
-    kind_attr = { bold=true, reverse=true }
-  end
+  local kind_attr = { bold=true, reverse=false }
+  --if theme == "experimental" then
+  --  kind_attr = { bold=true, reverse=true }
+  --end
   Config.theme.setup({
     baseattrib = {
       dark = {
