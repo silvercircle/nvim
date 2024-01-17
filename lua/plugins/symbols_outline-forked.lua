@@ -19,7 +19,7 @@ outline_window = {
     auto_close = false,
     -- Automatically go to location in code when navigating outline window.
     -- Only in this fork
-    auto_goto = true,
+    auto_jump = true,
 
     -- Vim options for the outline window
     show_numbers = false,
@@ -66,7 +66,7 @@ outline_window = {
     show_symbol_lineno = false,
     auto_set_cursor = true,
     auto_update_events = {
-      follow = { "CursorHold", "CursorHoldI" },
+      follow = { "CursorHold" },
       items = { 'InsertLeave', --[['WinEnter',]] 'BufEnter', --[['BufWinEnter',]] --[['TabEnter',]] 'BufWritePost' }
     },
     lock = "window"
