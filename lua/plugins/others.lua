@@ -168,6 +168,19 @@ M.setup = {
         enable = false,
       },
     })
+  end,
+
+  toggleterm = function()
+    require("toggleterm").setup({
+      highlights = {
+        NormalFloat = {
+          link = "NeoTreeNormalNC"
+        },
+        FloatBorder = {
+          link = "TelescopeBorder"
+        }
+      }
+    })
   end
 }
 

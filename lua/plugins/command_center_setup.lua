@@ -7,6 +7,7 @@ local lsputil = require("lspconfig.util")
 local lutils = require("local_utils")
 local _t = require("telescope")
 local _tb = require("telescope.builtin")
+local Terminal  = require('toggleterm.terminal').Terminal
 --local bm = require("bookmarks")
 
 -- this is a helper for mini pickers like references and symbols.
@@ -285,10 +286,11 @@ command_center.add({
     cmd = function()
       local path = lsputil.root_pattern(".git")(vim.fn.expand("%:p"))
       path = path or "."
-      --require("FTerm").scratch({ cmd = {"lazygit", '-p', path }, on_exit=function() vim.cmd("wincmd c") end, dimensions={width=0.9, height=0.9} })
-      local cmd = "FloatermNew --name=GIT --width=0.9 --height=0.9 lazygit --path=" .. path
-      vim.cmd.stopinsert()
-      vim.schedule(function() vim.cmd(cmd) end)
+      local lazygit = Terminal:new({ cmd = "lazygit",
+        direction = "float",
+        dir = path,
+        hidden = false })
+      lazygit:toggle()
     end,
     keys = {
       { "n", "<f6>", noremap },
@@ -297,30 +299,18 @@ command_center.add({
     category = "@GIT"
   },
   {
-    -- open a float term with gitui
-    -- use the path of the current buffer to find the .git root. The LSP utils are useful here
-    desc = "FloatTerm gitui",
-    cmd = function()
-      local path = lsputil.root_pattern(".git")(vim.fn.expand("%:p"))
-      path = path or "."
-      local cmd = "FloatermNew --name=GIT --width=0.9 --height=0.9 gitui -d " .. path
-      vim.cmd.stopinsert()
-      vim.schedule(function() vim.cmd(cmd) end)
-    end,
-    keys = {
-      { "n", "<f7>", noremap },
-      { "i", "<f7>", noremap },
-    },
-    category = "@GIT"
-  },
-  {
     -- open a markdown preview using IMD
     desc = "Floatterm IMD",
     cmd = function()
       local path = vim.fn.expand("%:p")
-      local cmd = "FloatermNew --name=IMD --width=150 --height=0.95 imd '" .. path .. "'"
-      vim.cmd.stopinsert()
-      vim.schedule(function() vim.cmd(cmd) end)
+      local cmd = "imd '" .. path .. "'"
+      local imd = Terminal:new({ cmd = cmd,
+        direction = "float",
+        float_opts = {
+          width = 150
+        },
+        hidden = false })
+      imd:toggle()
     end,
     keys = {
       { "n", "<f18>", noremap },

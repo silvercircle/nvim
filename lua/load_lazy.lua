@@ -294,7 +294,13 @@ lazy.setup({
       require("plugins.dressing")
     end
   },
-  { 'voldikss/vim-floaterm',      cmd = { "FloatermNew", "FloatermToggle" } },
+  {
+    'akinsho/toggleterm.nvim',
+    lazy = true,
+    config = function()
+      require("plugins.others").setup.toggleterm()
+    end
+  },
   { 'preservim/vim-markdown',     ft = "markdown" },
   {
     "norcalli/nvim-colorizer.lua",
