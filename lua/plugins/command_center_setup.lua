@@ -150,7 +150,10 @@ command_center.add({
         layout_config = Config.minipicker_layout
       }))
     end,
-    keys = { { "n","i" }, "<A-a>", noremap },
+    keys = {
+      { "n", "<A-a>", noremap },
+      { "i", "<A-a>", noremap }
+    },
     category = "@LSP Telescope Aerial"
   },
   {
@@ -163,7 +166,10 @@ command_center.add({
         layout_config = Config.minipicker_layout
       }))
     end,
-    keys = { { "n", "i" }, "<A-r>", noremap },
+    keys = {
+      { "i", "<A-r>", noremap },
+      { "n", "<A-r>", noremap }
+    },
     category = "@LSP Telescope"
   },
   {
@@ -175,8 +181,8 @@ command_center.add({
       }))
     end,
     keys = {
-      { "n", "<A-t>", noremap },
       { "i", "<A-t>", noremap },
+      { "n", "<A-t>", noremap }
     },
     category = "@LSP Telescope"
   },
@@ -207,8 +213,8 @@ command_center.add({
       }))
     end,
     keys = {
-      { "n", "<C-t>d", noremap },
       { "i", "<C-t>d", noremap },
+      { "n", "<C-t>d", noremap }
     },
     category = "@LSP"
   },
@@ -216,19 +222,6 @@ command_center.add({
     desc = "Shutdown LSP server",
     cmd = function() lutils.StopLsp() end,
     keys = { "n", "lss", noremap },
-    category = "@LSP"
-  },
-  {
-    desc = "Pick from dropbar",
-    cmd = function()
-      if Config.breadcrumb == "dropbar" then
-        require("dropbar.api").pick()
-      end
-    end,
-    keys = {
-      { "n", "<C-x>p", noremap },
-      { "i", "<C-x>p", noremap },
-    },
     category = "@LSP"
   },
   -- LSP Diagnostics
@@ -254,6 +247,12 @@ command_center.add({
     desc = "Code Action",
     cmd = function() vim.lsp.buf.code_action() end,
     keys = { "n", "DA", },
+    category = "@LSP Diagnostics"
+  },
+  {
+    desc = "Reset Diagnostics",
+    cmd = function() vim.diagnostic.reset() end,
+    keys = { "n", "DR", },
     category = "@LSP Diagnostics"
   },
   -- GIT
@@ -389,7 +388,10 @@ command_center.add({
         cwd = vim.fn.expand("%:p:h")
       }))
     end,
-    keys = { { "n", "i" }, "<f20>", noremap }, --shift-f8
+    keys = {
+      { "i", "<f20>", noremap }, --shift-f8
+      { "n", "<f20>", noremap }
+    },
     category = "@Telescope"
   },
   {
@@ -404,7 +406,10 @@ command_center.add({
         cwd = lutils.getroot_current()
       }))
     end,
-    keys = { { "n", "i" }, "<f8>", noremap },
+    keys = {
+      { "n", "<f8>", noremap },
+      { "i", "<f8>", noremap }
+    },
     category = "@Telescope"
   },
   {
@@ -416,7 +421,10 @@ command_center.add({
         layout_config = Config.telescope_vertical_preview_layout
       }))
     end,
-    keys = { { "n", "i" }, "<A-Backspace>", noremap },
+    keys = {
+      { "n", "<A-Backspace>", noremap },
+      { "i", "<A-Backspace>", noremap }
+    },
     category = "@Telescope"
   },
   {
@@ -434,7 +442,10 @@ command_center.add({
   {
     desc = "Registers (Telescope)",
     cmd = function() _tb.registers(__Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix() }) end,
-    keys = { { "n", "i" }, "<C-x><C-r>", noremap },
+    keys = {
+      { "i", "<C-x><C-r>", noremap },
+      { "n", "<C-x><C-r>", noremap }
+    },
     category = "@Telescope"
   },
   {
@@ -487,7 +498,10 @@ command_center.add({
   {
     desc = "Spell suggestions",
     cmd = function() _tb.spell_suggest(__Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix(), title = "Spell suggestions", height = 0.5, width = 0.2 }) end,
-    keys = { { "n", "i" }, "<A-s>", noremap },
+    keys = {
+      { "n", "<A-s>", noremap },
+      { "i", "<A-s>", noremap }
+    },
     category = "@Telescope"
   },
   {

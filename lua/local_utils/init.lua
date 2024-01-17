@@ -556,7 +556,7 @@ end
 --- @param max_length integer: the maximum length. must be at least 4 because of ellipsis
 --- @return string:           the truncated text
 function Utils.truncate(text, max_length)
-  if max_length >= 1 and vim.fn.strwidth(text) > max_length then
+  if max_length > 1 and vim.fn.strwidth(text) > max_length then
     return vim.fn.strcharpart(text, 0, max_length - 1) .. "…"
   else
     return text

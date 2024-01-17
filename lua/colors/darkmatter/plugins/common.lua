@@ -87,7 +87,7 @@ local function _set()
   c.link("CmpItemKindTypeParameter", "Type")
 
   c.hl_with_defaults("CmpFloat", c.localtheme.fg_dim, c.palette.neotreebg)
-  c.hl_with_defaults("CmpBorder", c.localtheme.bg4, c.palette.neotreebg)
+  c.hl_with_defaults("CmpBorder", c.localtheme.accent, c.palette.neotreebg)
 
   c.hl_with_defaults("TelescopeBorder", c.localtheme.accent, c.palette.neotreebg)
   c.hl_with_defaults("TelescopePromptBorder", c.localtheme.accent, c.palette.neotreebg)
