@@ -4,7 +4,8 @@ local util = require 'lspconfig.util'
 lspconfig.omnisharp.setup({
    -- Enables support for reading code style, naming convention and analyzer
     -- settings from .editorconfig.
-  on_attach = function(client, _)
+  on_attach = function(client, buf)
+    On_attach(client, buf)
     client.server_capabilities.semanticTokensProvider = {
       full = vim.empty_dict(),
       legend = {

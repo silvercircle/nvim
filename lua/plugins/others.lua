@@ -43,9 +43,6 @@ M.setup = {
   navbuddy = function()
     local actions = require("nvim-navbuddy.actions")
     require("nvim-navbuddy").setup({
-      lsp = {
-        auto_attach = true
-      },
       icons = vim.g.lspkind_symbols,
       mappings = {
         ["<Left>"] = actions.parent(),   -- Move to left panel
@@ -70,9 +67,6 @@ M.setup = {
 
   navic = function()
     require("nvim-navic").setup({
-      lsp = {
-        auto_attach = true
-      },
       highlight = true,
       icons = vim.g.lspkind_symbols,
     })

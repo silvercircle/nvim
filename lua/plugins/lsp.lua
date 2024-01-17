@@ -1,10 +1,14 @@
 local lspconfig = require("lspconfig")
 local util = require('lspconfig.util')
-
+local navic_status, navic = pcall(require, "nvim-navic")
 local capabilities = __Globals.get_lsp_capabilities()
 
 -- Customize LSP behavior via on_attach
-local on_attach = function(client, _)
+On_attach = function(client, buf)
+  if navic_status then
+    navic.attach(client, buf)
+    require("nvim-navbuddy").attach(client, buf)
+  end
   if client.name == 'gopls' then
     client.server_capabilities.semanticTokensProvider = {
       full = true,
@@ -30,18 +34,18 @@ lspconfig.tsserver.setup({
   root_dir = function(fname)
     return util.root_pattern 'tsconfig.json' (fname) or util.root_pattern('package.json', 'jsconfig.json', '.git')(fname)
   end,
-  on_attach = on_attach,
+  on_attach = On_attach,
   capabilities = capabilities
 })
 
 lspconfig.texlab.setup({
   cmd = { vim.g.lsp_server_bin['texlab'] },
-  on_attach = on_attach,
+  on_attach = On_attach,
   capabilities = capabilities
 })
 
 lspconfig.nimls.setup({
-  on_attach = on_attach,
+  on_attach = On_attach,
   capabilities = capabilities,
   cmd = { vim.g.lsp_server_bin['nimls'] },
   filetypes = { 'nim' },
@@ -52,7 +56,7 @@ lspconfig.nimls.setup({
 })
 
 lspconfig.bashls.setup({
-  on_attach = on_attach,
+  on_attach = On_attach,
   capabilities = capabilities,
   cmd = { vim.g.lsp_server_bin['bashls'], 'start' },
   filetypes = { 'sh' },
@@ -86,14 +90,14 @@ lspconfig.clangd.setup({
     return util.root_pattern(unpack(clangd_root_files))(fname) or util.find_git_ancestor(fname)
   end,
   single_file_support = true,
-  on_attach = on_attach,
+  on_attach = On_attach,
   capabilities = capabilities
 })
 
 -- ada language server
 lspconfig.als.setup({
   capabilities = capabilities,
-  on_attach = on_attach,
+  on_attach = On_attach,
   cmd = { vim.g.lsp_server_bin['als'] },
   filetypes = { 'ada' },
   root_dir = util.root_pattern('Makefile', '.git', '*.gpr', '*.adc'),
@@ -111,7 +115,7 @@ end
 
 lspconfig.rust_analyzer.setup({
   cmd = { vim.g.lsp_server_bin['rust_analyzer'] },
-  on_attach = on_attach,
+  on_attach = On_attach,
   capabilities = capabilities,
   filetypes = { 'rust' },
   root_dir = function(fname)
@@ -204,7 +208,7 @@ lspconfig.cssls.setup({
   filetypes = { 'css', 'scss', 'less' },
   root_dir = util.root_pattern('package.json', '.git'),
   single_file_support = true,
-  on_attach = on_attach,
+  on_attach = On_attach,
   capabilities = capabilities,
   settings = {
     css = { validate = true },
@@ -224,12 +228,12 @@ lspconfig.html.setup({
     embeddedLanguages = { css = true, javascript = true },
     configurationSection = { 'html', 'css', 'javascript' },
   },
-  on_attach = on_attach,
+  on_attach = On_attach,
   capabilities = capabilities
 })
 
 lspconfig.gopls.setup({
-  on_attach = on_attach,
+  on_attach = On_attach,
   cmd = { vim.g.lsp_server_bin['gopls'] },
   capabilities = capabilities,
   single_file_support = true,
@@ -246,18 +250,18 @@ lspconfig.gopls.setup({
 
 lspconfig.vimls.setup({
   cmd = { vim.g.lsp_server_bin['vimlsp'], '--stdio' },
-  on_attach = on_attach,
+  on_attach = On_attach,
   capabilities = capabilities
 })
 
 lspconfig.serve_d.setup({
   cmd = { vim.g.lsp_server_bin['serve_d'] },
-  on_attach = on_attach,
+  on_attach = On_attach,
   capabilities = capabilities
 })
 
 lspconfig.yamlls.setup({
-  on_attach = on_attach,
+  on_attach = On_attach,
   capabilities = capabilities,
   cmd = { vim.g.lsp_server_bin['yamlls'], '--stdio' },
   filetypes = { 'yaml', 'yaml.docker-compose' },
@@ -272,13 +276,13 @@ lspconfig.yamlls.setup({
 -- python pyright
 lspconfig.pyright.setup({
   cmd = { vim.g.lsp_server_bin['pyright'], '--stdio' },
-  on_attach = on_attach,
+  on_attach = On_attach,
   capabilities = capabilities
 })
 
 -- markdown
 lspconfig.marksman.setup({
-  on_attach = on_attach,
+  on_attach = On_attach,
   cmd = { vim.g.lsp_server_bin['marksman'] },
   filetypes = { 'markdown', 'telekasten' },
   root_dir = function(fname)
@@ -291,7 +295,7 @@ lspconfig.marksman.setup({
 
 -- xml
 lspconfig.lemminx.setup({
-  on_attach = on_attach,
+  on_attach = On_attach,
   capabilities = capabilities,
   cmd = { vim.g.lsp_server_bin['lemminx'] },
   filetypes = { 'xml', 'xsd', 'xsl', 'xslt', 'svg' },
@@ -301,7 +305,7 @@ lspconfig.lemminx.setup({
 
 -- toml
 lspconfig.taplo.setup({
-  on_attach = on_attach,
+  on_attach = On_attach,
   capabilities = capabilities,
   cmd = { vim.g.lsp_server_bin['taplo'], 'lsp', 'stdio' },
   filetypes = { 'toml' },
@@ -323,7 +327,7 @@ local lua_root_files = {
 
 lspconfig.lua_ls.setup {
   capabilities = capabilities,
-  on_attach = on_attach,
+  on_attach = On_attach,
   cmd = { vim.g.lsp_server_bin['lua_ls'], '--logpath=' .. vim.fn.stdpath("state") },
   root_dir = function(fname)
     local root = util.root_pattern(unpack(lua_root_files))(fname)
@@ -366,7 +370,7 @@ lspconfig.lua_ls.setup {
 
 lspconfig.groovyls.setup {
   capabilities = capabilities,
-  on_attach = on_attach,
+  on_attach = On_attach,
   cmd = { vim.g.lsp_server_bin['groovy'] },
   filetypes = { 'groovy' },
   root_dir = function(fname)
@@ -382,6 +386,7 @@ lspconfig.jsonls.setup {
   },
   root_dir = util.find_git_ancestor,
   single_file_support = true,
+  on_attach = On_attach
 }
 -- outsourced because it's too big
 if vim.g.tweaks.lsp.csharp == "omnisharp" then

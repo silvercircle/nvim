@@ -98,7 +98,7 @@ lspconfig.jdtls.setup({
     get_jdtls_workspace_dir(),
     get_jdtls_jvm_args(),
   },
-  on_attach = on_attach,
+  on_attach = On_attach,
   filetypes = { 'java' },
   root_dir = function(fname)
     for _, patterns in ipairs(root_files) do

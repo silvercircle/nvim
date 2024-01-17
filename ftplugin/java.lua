@@ -119,7 +119,10 @@ local config = {
   init_options = {
     bundles = {}
   },
-  on_attach = function() vim.lsp.codelens.refresh() end
+  on_attach = function(client, buf)
+    vim.lsp.codelens.refresh()
+    On_attach(client, buf)
+  end
 }
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
