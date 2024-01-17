@@ -66,7 +66,7 @@ outline_window = {
     show_symbol_lineno = false,
     auto_set_cursor = true,
     auto_update_events = {
-      follow = { "CursorHold" },
+      follow = { "CursorHold", "CursorHoldI" },
       items = { 'InsertLeave', --[['WinEnter',]] 'BufEnter', --[['BufWinEnter',]] --[['TabEnter',]] 'BufWritePost' }
     },
     lock = "window"
