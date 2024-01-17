@@ -74,7 +74,7 @@ local f_exp = function(entry, vim_item)
   vim_item.menu_hl_group = "CmpItemKind" .. vim_item.kind
   vim_item.kind = "▌" .. (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) -- .. "▐"
   -- Truncate the item if it is too long
-  vim_item.abbr = __Globals.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)
+  vim_item.abbr = utils.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)
   -- The 'menu' section: source, detail information (lsp, snippet), etc.
   -- set a name for each source (see the sources section below)
   -- vim_item.menu = (cmp_item_menu)[entry.source.name] or string.format("%s", entry.source.name)
@@ -94,7 +94,7 @@ local f_exp = function(entry, vim_item)
       if lspserver_name == "omnisharp" then
         return #this_item.detail > 0 and utils.rpad(string.sub(this_item.detail, 1, 8), 8, " ") .. "OmniSharp" or "        OmniSharp"
       end
-      return lspserver_name == "Lua" and "Lua" or __Globals.truncate(this_item.detail, vim.g.tweaks.cmp.details_maxwidth)
+      return lspserver_name == "Lua" and "Lua" or utils.truncate(this_item.detail, vim.g.tweaks.cmp.details_maxwidth)
     end)(cmp_item)
     if detail_txt then
       vim_item.menu = vim_item.menu .. detail_txt
@@ -109,12 +109,11 @@ end
 
 -- formatting function for the standard layout
 local f_std = function(entry, vim_item)
-  -- Truncate the item if it is too long
   -- fancy icons and a name of kind
   vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
   -- vim_item.kind = " " .. vim_item.kind_symbol .. " " .. Config.iconpad .. vim_item.kind
   vim_item.kind = vim_item.kind_symbol .. " " .. vim_item.kind
-  vim_item.abbr = __Globals.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)
+  vim_item.abbr = utils.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)
   -- The 'menu' section: source, detail information (lsp, snippet), etc.
   -- set a name for each source (see the sources section below)
   vim_item.menu = cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name)
@@ -139,7 +138,7 @@ local f_std = function(entry, vim_item)
       if lspserver_name == "omnisharp" then
         return #this_item.detail > 0 and utils.rpad(string.sub(this_item.detail, 1, 8), 10, " ") .. "OmniSharp" or "          OmniSharp"
       end
-      return lspserver_name == "Lua" and "Lua" or __Globals.truncate(this_item.detail, vim.g.tweaks.cmp.details_maxwidth)
+      return lspserver_name == "Lua" and "Lua" or utils.truncate(this_item.detail, vim.g.tweaks.cmp.details_maxwidth)
     end)(cmp_item)
     if detail_txt then
       vim_item.menu = detail_txt

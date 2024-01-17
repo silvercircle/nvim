@@ -89,14 +89,6 @@ function Utils.string_split(s, delimiter)
   return result
 end
 
-function Utils.truncate(text, max_width)
-  if #text > max_width then
-    return string.sub(text, 1, max_width) .. "…"
-  else
-    return text
-  end
-end
-
 --- get prompt prefix to determine whether a picker has been called in insert mode
 --- this is hack-ish, but works.
 function Utils.getTelescopePromptPrefix()
@@ -557,6 +549,18 @@ function Utils.path_truncate(path, maxlen)
   end
   local effective_width = maxlen - 3 -- make space for leading ...
   return "..." .. string.sub(path, len - effective_width, len)
+end
+
+--- truncate a string to a maximum length, appending ellipses when necessary
+--- @param text string:       the string to truncate
+--- @param max_length integer: the maximum length. must be at least 4 because of ellipsis
+--- @return string:           the truncated text
+function Utils.truncate(text, max_length)
+  if max_length >= 1 and vim.fn.strwidth(text) > max_length then
+    return vim.fn.strcharpart(text, 0, max_length - 1) .. "…"
+  else
+    return text
+  end
 end
 
 return Utils
