@@ -176,7 +176,8 @@ lazy.setup({
     event = "BufReadPre",
     dependencies = {
       {
-        "SmiteshP/nvim-navic",
+        "silvercircle/nvim-navic",
+        branch = "mine",
         config = function()
           require("plugins.others").setup.navic()
         end
