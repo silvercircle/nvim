@@ -289,9 +289,11 @@ command_center.add({
       local lazygit = Terminal:new({ cmd = "lazygit",
         direction = "float",
         dir = path,
+        -- refresh neo-tree display to reflect changes in git status
+        -- TODO: implement for nvim-tree?
         on_close = function()
           if vim.g.tweaks.tree.version == "Neo" then
-            require("neo-tree.command").execute({ action="show" })
+            vim.schedule(function() require("neo-tree.command").execute({ action="show" }) end)
           end
         end,
         hidden = false })
