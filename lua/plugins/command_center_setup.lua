@@ -290,7 +290,7 @@ command_center.add({
         direction = "float",
         dir = path,
         on_close = function()
-          if vim.g.tweaks.tree == "Neo" then
+          if vim.g.tweaks.tree.version == "Neo" then
             require("neo-tree.command").execute({ action="show" })
           end
         end,
