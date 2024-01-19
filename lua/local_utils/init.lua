@@ -211,11 +211,11 @@ function Utils.StopLsp()
     if selection[1] ~= nil and #selection[1] > 0 then
       local id = tonumber(string.sub(selection[1], 1, 6))
       if id ~= nil and id > 0 then
-        if #vim.lsp.get_buffers_by_client_id(id) == 0 then
-          current_picker:delete_selection(function(_) end)
-          vim.lsp.stop_client(id, true )
-        else
+        if #vim.lsp.get_buffers_by_client_id(id) > 0 then
           vim.notify("The LSP server with id " .. id .. " has attached buffers. Will not terminate.")
+        else
+          current_picker:delete_selection(function(_) end)
+          vim.lsp.stop_client(id, true)
         end
       end
     end
@@ -273,7 +273,7 @@ function Utils.BufClose()
         prompt = "Close modified buffer?",
         format_item = function(item)
           return Utils.pad(item, 46, " ")
-        end,
+        end
       }, function(choice)
         if choice == "Cancel Operation" then
           return

@@ -289,6 +289,11 @@ command_center.add({
       local lazygit = Terminal:new({ cmd = "lazygit",
         direction = "float",
         dir = path,
+        on_close = function()
+          if vim.g.tweaks.tree == "Neo" then
+            require("neo-tree.command").execute({ action="show" })
+          end
+        end,
         hidden = false })
       lazygit:toggle()
     end,
