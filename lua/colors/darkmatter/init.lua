@@ -29,7 +29,6 @@ local basepalette = {
     diff_blue = { "#253147", 17 },
     diff_yellow = { "#4e432f", 54 },
     deepred = { "#8b2d3c", 203 },
-    darkyellow = { "#a78624", 180 },
     olive = { "#708422", 181 },
     purple = { "#b39df3", 176 },
     grey_dim = { "#595f6f", 240 },
@@ -214,8 +213,9 @@ local conf = {
   -- or strings
   special = {
     operator = "red",
-    braces = "blue",
-    delim = "red"
+    braces = "olive",
+    delim = "red",
+    builtin = "builtin"
   },
   indentguide_colors = {
     light = "#505050",
@@ -303,6 +303,10 @@ local conf = {
     customize =  {},
     hl = { "markdown", "syntax", "common" },
     post = {}
+  },
+  tweaks = {
+    -- highlight conditional keywords with own hl group. When false, use keyword
+    conditional = true,
   }
 }
 
@@ -392,6 +396,7 @@ local function configure()
         red = (conf.dlevel == 1) and { "#bb4d5c", 203 } or { "#ab5d6c", 203 },
         yellow = (conf.dlevel == 1) and { "#aaaa60", 231 } or { "#909870", 231 },
         green = (conf.dlevel == 1) and { "#60906f", 231 } or { "#658075", 231 },
+        darkyellow = (conf.dlevel == 1) and { "#978634", 180 } or { "#877634"},
         special = {
           red = { "#bb4d5c", 203 },
           yellow = { "#aaaa20", 231 },
@@ -414,6 +419,7 @@ local function configure()
         red = { "#cc2d4c", 203 },
         yellow = { "#aaaa20", 231 },
         green = { "#10801f", 232 },
+        darkyellow = { "#a78624", 180 },
         special = {
           red = { "#cc2d4c", 203 },
           yellow = { "#cccc60", 231 },
@@ -438,6 +444,7 @@ local function configure()
         red = (conf.dlevel == 1) and { "#bb4d5c", 203 } or { "#ab5d6c", 203 },
         yellow = (conf.dlevel == 1) and { "#404000", 231 } or { "#404010", 231 },
         green = (conf.dlevel == 1) and { "#105010", 231 } or { "#205020", 231 },
+        darkyellow = (conf.dlevel == 1) and { "#978634", 180 } or { "#877634"},
         special = {
           red = { "#aa2020", 203 },
           yellow = { "#aaaa20", 231 },
@@ -460,6 +467,7 @@ local function configure()
         red = { "#aa2020", 203 },
         yellow = { "#cccc60", 231 },
         green = { "#107000", 232 },
+        darkyellow = { "#a78624", 180 },
         special = {
           red = { "#aa2020", 203 },
           yellow = { "#cccc60", 231 },
@@ -547,12 +555,14 @@ local function configure()
   M.palette = basepalette[conf.scheme]
   M.palette.neotreebg = { M.theme[conf.variant].treebg, 232 }
   M.palette.selbg = { M.theme["selbg"], 234 }
+  M.localtheme.special.builtin = M.palette.brown
+  M.localtheme.special.conditional = M.localtheme.darkyellow
 end
 
 -- set all hl groups
 local function set_all()
   -- basic highlights
-  M.hl("Braces", M.localtheme.special[conf.special.braces], M.palette.none, conf.attrib.brace)
+  M.hl("Braces", M.palette[conf.special.braces], M.palette.none, conf.attrib.brace)
   M.hl("Operator", M.localtheme.special[conf.special.operator], M.palette.none, conf.attrib.operator)
   M.hl("PunctDelim", M.localtheme.special[conf.special.delim], M.palette.none, conf.attrib.delim)
   M.hl("PunctSpecial", M.localtheme.special[conf.special.delim], M.palette.none, conf.attrib.bold)
@@ -566,7 +576,7 @@ local function set_all()
   M.hl_with_defaults("FoldColumn", M.localtheme.bg4, M.palette.none)
   M.hl_with_defaults("SignColumn", M.localtheme.fg, M.palette.none)
   M.hl_with_defaults("IncSearch", M.localtheme.yellow, M.localtheme.darkred)
-  M.hl_with_defaults("Search", M.localtheme.black, M.palette.darkyellow)
+  M.hl_with_defaults("Search", M.localtheme.black, M.localtheme.darkyellow)
   M.hl_with_defaults("ColorColumn", M.palette.none, M.localtheme.bg1)
   M.hl_with_defaults("Conceal", M.palette.grey_dim, M.palette.none)
   M.hl_with_defaults("Cursor", M.localtheme.fg, M.localtheme.fg)
@@ -649,12 +659,16 @@ local function set_all()
   M.hl("StorageClass", M.localtheme.special.storage, M.palette.none, conf.attrib.storage)
   M.hl_with_defaults("Identifier", M.localtheme.orange, M.palette.none)
   M.hl_with_defaults("Constant", M.palette.purple, M.palette.none)
-  M.hl("PreProc", M.palette.darkyellow, M.palette.none, conf.attrib.bold)
-  M.hl("PreCondit", M.palette.darkyellow, M.palette.none, conf.attrib.bold)
+  M.hl("PreProc", M.localtheme.darkyellow, M.palette.none, conf.attrib.bold)
+  M.hl("PreCondit", M.localtheme.darkyellow, M.palette.none, conf.attrib.bold)
   M.link("Include", "OliveBold")
   M.link("Boolean", "DeepRedBold")
   M.hl("Keyword", M.localtheme.blue, M.palette.none, conf.attrib.keyword)
-  M.hl("Conditional", M.palette.darkyellow, M.palette.none, conf.attrib.conditional)
+  if conf.tweaks.conditional then
+    M.hl("Conditional", M.localtheme.special.conditional, M.palette.none, conf.attrib.conditional)
+  else
+    M.link("Conditional", "Keyword")
+  end
   M.hl_with_defaults("Define", M.localtheme.red, M.palette.none)
   M.hl("Typedef", M.localtheme.red, M.palette.none, conf.attrib.types)
   M.hl(
@@ -679,7 +693,7 @@ local function set_all()
   M.hl("StaticMethod", M.localtheme.brightteal, M.palette.none, conf.attrib.staticmethod)
   M.hl("Member", M.localtheme.orange, M.palette.none, conf.attrib.member)
   M.hl("StaticMember", M.localtheme.orange, M.palette.none, conf.attrib.staticmember)
-  M.hl("Builtin", M.palette.brown, M.palette.none, conf.attrib.bold)
+  M.hl("Builtin", M.localtheme.special[conf.special.builtin], M.palette.none, conf.attrib.bold)
 
   M.hl("Title", M.localtheme.red, M.palette.none, conf.attrib.bold)
   M.hl_with_defaults("Tag", M.localtheme.orange, M.palette.none)
@@ -716,8 +730,8 @@ local function set_all()
   M.hl("PurpleBold", M.localtheme.purple, M.palette.none, conf.attrib.bold)
   M.hl_with_defaults("DarkPurple", M.localtheme.darkpurple, M.palette.none)
   M.hl("DarkPurpleBold", M.localtheme.darkpurple, M.palette.none, conf.attrib.bold)
-  M.hl_with_defaults("Darkyellow", M.palette.darkyellow, M.palette.none)
-  M.hl("DarkyellowBold", M.palette.darkyellow, M.palette.none, conf.attrib.bold)
+  M.hl_with_defaults("Darkyellow", M.localtheme.darkyellow, M.palette.none)
+  M.hl("DarkyellowBold", M.localtheme.darkyellow, M.palette.none, conf.attrib.bold)
   M.hl_with_defaults("Teal", M.localtheme.teal, M.palette.none)
   M.hl("TealBold", M.localtheme.teal, M.palette.none, conf.attrib.bold)
 
@@ -820,15 +834,18 @@ local function set_all()
   M.link("@function.builtin", "Builtin")
   M.link("@function.macro", "TealBold")
   M.link("@include", "Include")
+  M.link("@module", "Include")
   M.link("@keyword", "Keyword")
   M.link("@keyword.function", "DeepRedBold")
   M.link("@keyword.operator", "Operator")
   M.link("@keyword.conditional", "Conditional")
+  M.link("@keyword.conditional.ternary", "Operator")
   M.link("@keyword.repeat", "Conditional")
   M.link("@keyword.storage", "StorageClass")
+  M.link("@keyword.import", "Include")
   M.link("@label", "Red")
   M.link("@method", "Method")
-  M.link("@namespace", "DarkPurpleBold")
+  M.link("@namespace", "@module")
   M.link("@none", "Fg")
   M.link("@number", "Number")
   M.link("@operator", "Operator")
@@ -858,6 +875,8 @@ local function set_all()
   M.link("@variable", conf.desaturate == true and "FgDim" or "Fg")
   M.link("@variable.builtin", "Builtin")
   M.link("@text.emphasis.latex", "Emphasis")
+  M.link("@variable.member", "Member")
+  M.link("@function.method", "Method")
 
   -- semantic lsp types
   M.link("@lsp.type.namespace_name", "Type")

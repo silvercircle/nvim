@@ -181,6 +181,7 @@ vim.filetype.add({
 -- aerial plugin
 -- outline plugin
 -- lspkind plugin
+-- navic & navbuddy plugins
 vim.g.lspkind_symbols = {
   Text        = "󰊄 ",
   Method      = " ",

@@ -522,6 +522,13 @@ function M.restore_config()
       light = vim.g.tweaks.indentguide.color.light
     },
     rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast,
+    tweaks = {
+      conditional = false
+    },
+    special = {
+      operator = "builtin",
+      builtin = "conditional"
+    },
     baseattrib = {
       dark = {
         cmpkind = cmp_kind_attr,
