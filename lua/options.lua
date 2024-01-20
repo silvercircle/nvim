@@ -24,7 +24,6 @@ o.backspace = "indent,eol,start"
 o.tabstop = 4
 o.textwidth = 76
 o.expandtab = true
-o.clipboard = "unnamed"
 -- which keys allow the cursor to wrap at the begin or ending of a line.
 o.whichwrap = "b,s,<,>,[,]"
 vim.opt_local.formatoptions:remove({ "t" })
@@ -47,27 +46,18 @@ o.showmode = true
 o.showcmd = true
 o.wildmenu = true
 o.ruler = true
-o.tm = 500
 o.wrap = false
 -- gutter config. set numbers (5 digits max)
 o.numberwidth =  vim.g.tweaks.numberwidth
 vim.opt.listchars = {tab = '  ', trail = '▪', extends = '>', precedes = '<', eol = '↴' }
 vim.opt.list = true
-
--- statuscolumn stuff
--- this only customizes the fill chars. statuscolumn is set at the end
--- via the globals function
-if vim.fn.has('nvim-0.9') == 1 then
-  if vim.g.tweaks.use_foldlevel_patch == true then
-    o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]
-    --o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
-  else
-    o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
-  end
-  -- single-column fold guide, using a patched screen.c without the stupid numbers ;)
-  o.foldcolumn="1"
+if vim.g.tweaks.use_foldlevel_patch == true then
+  o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]
+  --o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
+else
+  o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
 end
-
+o.foldcolumn = "1"
 -- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 
 -- indentation-based folding.
 if Config.treesitter == true then

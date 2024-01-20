@@ -64,7 +64,8 @@ local rainbowpalette = {
 M.keys_set = false
 -- the color palette. Dynamically created in the configure() function
 M.P = {}
-M.theme = nil
+-- the theme. Contains the variants and basic colors for backgrounds etc.
+M.T = nil
 
 M.basetheme = {
   dark = {
@@ -333,17 +334,17 @@ end
 -- other means to change the conf table.
 -- set() automatically calls it before setting any highlight groups.
 local function configure()
-  M.theme = M.basetheme[conf.scheme]
+  M.T = M.basetheme[conf.scheme]
   conf.attrib = conf.baseattrib[conf.scheme]
   LuaLineColors = {
     white = "#ffffff",
-    darkestgreen = M.theme.accent_fg,
-    brightgreen = M.theme.accent_color,
+    darkestgreen = M.T.accent_fg,
+    brightgreen = M.T.accent_color,
     darkestcyan = "#005f5f",
     mediumcyan = "#87dfff",
     darkestblue = "#005f87",
     darkred = "#870000",
-    brightred = M.theme.alt_accent_color,
+    brightred = M.T.alt_accent_color,
     brightorange = "#2f47df",
     gray1 = "#262626",
     gray2 = "#303030",
@@ -351,7 +352,7 @@ local function configure()
     gray5 = "#404050",
     gray7 = "#9e9e9e",
     gray10 = "#f0f0f0",
-    statuslinebg = M.theme[conf.variant].statuslinebg,
+    statuslinebg = M.T[conf.variant].statuslinebg,
   }
   if conf.scheme == "dark" then
     if conf.desaturate == true then
@@ -383,7 +384,7 @@ local function configure()
           purple = { "#904090", 241 },
           storage = { "#607560", 242 },
           class = { "#905070", 243 },
-          fg = { M.theme[conf.variant].fg , 1 },
+          fg = { M.T[conf.variant].fg , 1 },
         }
       }
     else
@@ -415,7 +416,7 @@ local function configure()
           purple = { "#c030c0", 241 },
           storage = { "#507050", 242 },
           class = { "#804060", 243 },
-          fg = { M.theme[conf.variant].fg , 1 },
+          fg = { M.T[conf.variant].fg , 1 },
         }
       }
     end
@@ -440,7 +441,7 @@ local function configure()
           purple = { "#aa20aa", 241 },
           storage = { "#607560", 242 },
           class = { "#700050", 243 },
-          fg = { M.theme[conf.variant].fg , 1 },
+          fg = { M.T[conf.variant].fg , 1 },
         }
       }
     else
@@ -463,7 +464,7 @@ local function configure()
           purple = { "#c030c0", 241 },
           storage = { "#507050", 242 },
           class = { "#700050", 243 },
-          fg = { M.theme[conf.variant].fg , 1 },
+          fg = { M.T[conf.variant].fg , 1 },
         }
       }
     end
@@ -475,17 +476,17 @@ local function configure()
   M.P.special.c3 = { conf.custom_colors.c3, 93 }
   M.P.special.c4 = { conf.custom_colors.c4, 94 }
 
-  LuaLineColors.statuslinebg = M.theme[conf.variant].statuslinebg
+  LuaLineColors.statuslinebg = M.T[conf.variant].statuslinebg
 
   -- TODO: allow cokeline colors per theme variant
-  M.P.fg = { M.theme[conf.variant].fg, 1 }
-  M.P.darkbg = { M.theme[conf.variant].gutterbg, 237 }
-  M.P.bg = { M.theme[conf.variant].bg, 0 }
-  M.P.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
-  M.P.accent = { M.theme["accent_color"], 209 }
-  M.P.accent_fg = { M.theme["accent_fg"], 210 }
+  M.P.fg = { M.T[conf.variant].fg, 1 }
+  M.P.darkbg = { M.T[conf.variant].gutterbg, 237 }
+  M.P.bg = { M.T[conf.variant].bg, 0 }
+  M.P.statuslinebg = { M.T[conf.variant].statuslinebg, 208 }
+  M.P.accent = { M.T["accent_color"], 209 }
+  M.P.accent_fg = { M.T["accent_fg"], 210 }
   M.P.tablinebg = M.P.statuslinebg
-  M.P.fg_dim = { M.theme[conf.variant].fg_dim, 2 }
+  M.P.fg_dim = { M.T[conf.variant].fg_dim, 2 }
 
   if conf.scheme == "dark" then
     if conf.variant == "cold" or conf.variant == "deepblack" then
@@ -530,17 +531,17 @@ local function configure()
   end
 
   M.cokeline_colors = {
-    bg = M.theme[conf.variant].statuslinebg,
+    bg = M.T[conf.variant].statuslinebg,
     inact_bg = M.P.statuslinebg[1],
-    focus_bg = M.theme.alt_accent_color,
+    focus_bg = M.T.alt_accent_color,
     fg = LuaLineColors.gray4,
-    focus_fg = M.theme.accent_fg,
+    focus_fg = M.T.accent_fg,
     focus_sp = M.P.special.yellow[1],
     inact_sp = M.P.accent[1]
   }
 
-  M.P.neotreebg = { M.theme[conf.variant].treebg, 232 }
-  M.P.selbg = { M.theme["selbg"], 234 }
+  M.P.neotreebg = { M.T[conf.variant].treebg, 232 }
+  M.P.selbg = { M.T["selbg"], 234 }
   M.P.special.builtin = M.P.brown
   M.P.special.conditional = M.P.darkyellow
 end
@@ -978,11 +979,11 @@ function M.set()
         .. " @ --to unix:"
         .. conf.kittysocket
         .. " set-colors background="
-        .. M.theme[conf.variant].kittybg
+        .. M.T[conf.variant].kittybg
       )
     end
     if conf.sync_alacrittybg then
-      vim.fn.jobstart("alacritty msg config \"colors.primary.background='" .. M.theme[conf.variant].kittybg .. "'\"")
+      vim.fn.jobstart("alacritty msg config \"colors.primary.background='" .. M.T[conf.variant].kittybg .. "'\"")
     end
   end
   for _, v in ipairs(conf.plugins.post) do
@@ -1096,13 +1097,13 @@ function M.set_bg()
     set_signs_trans()
   else
     local variant = conf.variant
-    vim.api.nvim_set_hl(0, "Normal", { bg = M.theme[variant].bg, fg = "fg" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = M.theme[variant].treebg, fg = "fg" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = M.theme[variant].treebg, fg = "fg" })
-    vim.cmd("hi VertSplit guibg=" .. M.theme[variant].treebg)
-    vim.cmd("hi LineNr guibg=" .. M.theme[variant].gutterbg)
-    vim.cmd("hi FoldColumn guibg=" .. M.theme[variant].gutterbg)
-    vim.cmd("hi SignColumn guibg=" .. M.theme[variant].gutterbg)
+    vim.api.nvim_set_hl(0, "Normal", { bg = M.T[variant].bg, fg = "fg" })
+    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = M.T[variant].treebg, fg = "fg" })
+    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = M.T[variant].treebg, fg = "fg" })
+    vim.cmd("hi VertSplit guibg=" .. M.T[variant].treebg)
+    vim.cmd("hi LineNr guibg=" .. M.T[variant].gutterbg)
+    vim.cmd("hi FoldColumn guibg=" .. M.T[variant].gutterbg)
+    vim.cmd("hi SignColumn guibg=" .. M.T[variant].gutterbg)
     --for _, v in ipairs(signgroups) do
     --  vim.cmd("hi " .. v .. " guibg=" .. M.theme[variant].gutterbg)
     --end

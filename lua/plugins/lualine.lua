@@ -63,7 +63,7 @@ end
 local _bg = vim.api.nvim_get_hl(0, { name="Visual" }).bg
 --local _bg = theme().normal.b.bg
 
-vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = colors.theme[__Globals.perm_config.theme_variant].bg })
+vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = colors.T[__Globals.perm_config.theme_variant].bg })
 vim.api.nvim_set_hl(0, "WinBarUL", { fg = theme().normal.b.fg, bg = _bg })
 
 local navic_component = {
@@ -199,7 +199,7 @@ require("lualine").setup({
         padding = 0,
         separator = { left = "", right = "" },
         draw_empty = true,
-        color = { fg = colors.theme.accent_color, bg = colors.theme[__Globals.perm_config.theme_variant].bg },
+        color = { fg = colors.T.accent_color, bg = colors.T[__Globals.perm_config.theme_variant].bg },
         fmt = function()
           return ""
         end,
