@@ -1,6 +1,6 @@
 local function _set()
   -- phaazon/hop.nvim {{{
-  local c = require("colors.darkmatter")
+  local c = require("darkmatter")
   local conf = c.get_conf()
   c.hl("HopNextKey", c.P.red, c.NONE, conf.attrib.bold)
   c.hl("HopNextKey1", c.P.blue, c.NONE, conf.attrib.bold)

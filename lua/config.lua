@@ -112,7 +112,7 @@ Config = {
                        "yaml", "rust", "javascript", "ruby", "objc", "groovy" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   outline_plugin = nil,
-  theme = require("colors.darkmatter")
+  theme = require("darkmatter")
 }
 
 -- quick actions for the alpha start screen

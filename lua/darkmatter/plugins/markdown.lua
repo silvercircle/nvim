@@ -1,5 +1,5 @@
 local function _set()
-  local c = require("colors.darkmatter")
+  local c = require("darkmatter")
   local conf = c.get_conf()
 
   c.hl("markdownH1", c.P.red, c.NONE, conf.attrib.bold)

@@ -1,7 +1,7 @@
 -- darkmatter theme plugin
 -- contains highlights for various syntax definitions
 local function _set()
-  local c = require("colors.darkmatter")
+  local c = require("darkmatter")
   local conf = c.get_conf()
 
     -- builtin: https://notabug.org/jorgesumle/vim-html-syntax{{{

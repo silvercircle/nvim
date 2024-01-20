@@ -11,7 +11,7 @@
 -- * Cokeline
 
 local function _set()
-  local c = require("colors.darkmatter")
+  local c = require("darkmatter")
   local conf = c.get_conf()
 
   c.hl_with_defaults("NvimTreeNormal", c.P.fg_dim, c.P.neotreebg)

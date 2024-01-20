@@ -1,5 +1,5 @@
 local function _set()
-  local c = require("colors.darkmatter")
+  local c = require("darkmatter")
     -- syn_begin: matlab
     -- builtin:
    c.link("matlabSemicolon", "Fg")

@@ -67,80 +67,6 @@ M.P = {}
 -- the theme. Contains the variants and basic colors for backgrounds etc.
 M.T = nil
 
-M.basetheme = {
-  dark = {
-    -- accent color is used for important highlights like the currently selected tab (buffer)
-    -- and more.
-    --accent_color = '#cbaf00',
-    accent_color = '#204050',
-    --accent_color = "#305030",
-    --alt_accent_color = '#bd2f4f',
-    alt_accent_color = "#501010",
-    --accent_fg = "#cccc80",
-    accent_fg = "#aaaa60",
-    lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
-    selbg = "#202070",
-    cold = {
-      statuslinebg = "#262630",
-      bg = "#141414",
-      treebg = "#18181c",
-      gutterbg = "#101013",
-      kittybg = "#18181c",
-      fg = "#a2a0ac",
-      fg_dim = "#909096"
-    },
-    warm = {
-      statuslinebg = "#2a2626",
-      bg = "#161414",
-      treebg = "#1b1818",
-      gutterbg = "#131010",
-      kittybg = "#1b1818",
-      fg = "#aaa0a5",
-      fg_dim = "#969090"
-    },
-    deepblack = {
-      statuslinebg = "#222228",
-      bg = "#0a0a0a",
-      treebg = "#121212",
-      gutterbg = "#0f0f0f",
-      kittybg = "#121212",
-      fg = "#b0b0b0",
-      fg_dim = "#959595"
-    }
-  },
-  light = {
-    accent_color = "#103010",
-    alt_accent_color = "#501010",
-    accent_fg = "#cccc80",
-    lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
-    selbg = "#202070",
-    cold = {
-      statuslinebg = "#b0b0b5",
-      bg = "#e5e5ea",
-      treebg = "#d0d0d5",
-      gutterbg = "#e0e0e5",
-      kittybg = "#18181c",
-      fg = "#a2a0ac",
-    },
-    warm = {
-      statuslinebg = "#b5b0b0",
-      bg = "#eae5e5",
-      treebg = "#d5d0d0",
-      gutterbg = "#e5e0e0",
-      kittybg = "#1b1818",
-      fg = "#aaa0a5",
-    },
-    deepblack = {
-      statuslinebg = "#b0b0b0",
-      bg = "#e5e5e5",
-      treebg = "#d0d0d0",
-      gutterbg = "#e0e0e0",
-      kittybg = "#111111",
-      fg = "#0a0a0a",
-    }
-  }
-}
-
 -- the theme configuration. This can be changed by calling setup({...})
 -- after changing the configuration configure() must be called before the theme
 -- can be activated with set()
@@ -334,7 +260,7 @@ end
 -- other means to change the conf table.
 -- set() automatically calls it before setting any highlight groups.
 local function configure()
-  M.T = M.basetheme[conf.scheme]
+  M.T = require("darkmatter.themes." .. conf.scheme)
   conf.attrib = conf.baseattrib[conf.scheme]
   LuaLineColors = {
     white = "#ffffff",
@@ -354,122 +280,9 @@ local function configure()
     gray10 = "#f0f0f0",
     statuslinebg = M.T[conf.variant].statuslinebg,
   }
-  if conf.scheme == "dark" then
-    if conf.desaturate == true then
-      M.P = {
-        orange = (conf.dlevel == 1) and { "#ab6a6c", 215 } or { "#9b7a7c", 215 },
-        blue = { "#5a6acf", 239 },
-        purple = (conf.dlevel == 1) and { "#b070b0", 241 } or { "#a070a0", 241 },
-        teal = (conf.dlevel == 1) and { "#609090", 238 } or { "#709090", 238 },
-        brightteal = (conf.dlevel == 1) and { "#70a0c0", 238 } or { "#7090b0", 238 },
-        darkpurple = (conf.dlevel == 1) and { "#705070", 240 } or { "#806a80", 240 },
-        red = (conf.dlevel == 1) and { "#bb4d5c", 203 } or { "#ab5d6c", 203 },
-        yellow = (conf.dlevel == 1) and { "#aaaa60", 231 } or { "#909870", 231 },
-        green = (conf.dlevel == 1) and { "#60906f", 231 } or { "#658075", 231 },
-        darkyellow = (conf.dlevel == 1) and { "#958434", 180 } or { "#877634"},
-        grey = { "#707069", 2 },
-        grey_dim = { "#595f6f", 240 },
-        diff_red = { "#45292d", 52 },
-        diff_green = { "#10320a", 22 },
-        diff_blue = { "#253147", 17 },
-        deepred = { "#8b2d3c", 203 },
-        olive = { "#708422", 181 },
-        lpurple = { "#b39df3", 176 },
-        brown = { "#905010", 233 },
-        special = {
-          red = { "#bb4d5c", 203 },
-          yellow = { "#aaaa20", 231 },
-          green = { "#309020", 232 },
-          blue = { "#6060cf", 239 },
-          purple = { "#904090", 241 },
-          storage = { "#607560", 242 },
-          class = { "#905070", 243 },
-          fg = { M.T[conf.variant].fg , 1 },
-        }
-      }
-    else
-      M.P = {
-        orange = { "#c36630", 215 },
-        blue = { "#4a4adf", 239 },
-        purple = { "#c030c0", 241 },
-        teal = { "#108080", 238 },
-        brightteal = { "#30a0c0", 238 },
-        darkpurple = { "#803090", 240 },
-        red = { "#cc2d4c", 203 },
-        yellow = { "#aaaa20", 231 },
-        green = { "#10801f", 232 },
-        darkyellow = { "#a78624", 180 },
-        grey = { "#707069", 2 },
-        grey_dim = { "#595f6f", 240 },
-        diff_red = { "#45292d", 52 },
-        diff_green = { "#10320a", 22 },
-        diff_blue = { "#253147", 17 },
-        deepred = { "#8b2d3c", 203 },
-        olive = { "#708422", 181 },
-        lpurple = { "#b39df3", 176 },
-        brown = { "#905010", 233 },
-        special = {
-          red = { "#cc2d4c", 203 },
-          yellow = { "#cccc60", 231 },
-          green = { "#10801f", 232 },
-          blue = { "#6060cf", 239 },
-          purple = { "#c030c0", 241 },
-          storage = { "#507050", 242 },
-          class = { "#804060", 243 },
-          fg = { M.T[conf.variant].fg , 1 },
-        }
-      }
-    end
-  elseif conf.scheme == "light" then
-    if conf.desaturate == true then
-      M.P = {
-        orange = (conf.dlevel == 1) and { "#3b2a1c", 215 } or { "#3b2a25", 215 },
-        blue = { "#2020cc", 239 },
-        purple = (conf.dlevel == 1) and { "#b070b0", 241 } or { "#a070a0", 241 },
-        teal = (conf.dlevel == 1) and { "#105050", 238 } or { "#206060", 238 },
-        brightteal = (conf.dlevel == 1) and { "#70a0c0", 238 } or { "#7090b0", 238 },
-        darkpurple = (conf.dlevel == 1) and { "#705070", 240 } or { "#806a80", 240 },
-        red = (conf.dlevel == 1) and { "#bb4d5c", 203 } or { "#ab5d6c", 203 },
-        yellow = (conf.dlevel == 1) and { "#404000", 231 } or { "#404010", 231 },
-        green = (conf.dlevel == 1) and { "#105010", 231 } or { "#205020", 231 },
-        darkyellow = (conf.dlevel == 1) and { "#978634", 180 } or { "#877634"},
-        special = {
-          red = { "#aa2020", 203 },
-          yellow = { "#aaaa20", 231 },
-          green = { "#309020", 232 },
-          blue = { "#2020cc", 239 },
-          purple = { "#aa20aa", 241 },
-          storage = { "#607560", 242 },
-          class = { "#700050", 243 },
-          fg = { M.T[conf.variant].fg , 1 },
-        }
-      }
-    else
-      M.P = {
-        orange = { "#c36630", 215 },
-        blue = { "#2020cc", 239 },
-        purple = { "#c030c0", 241 },
-        teal = { "#005050", 238 },
-        brightteal = { "#006060", 238 },
-        darkpurple = { "#803090", 240 },
-        red = { "#aa2020", 203 },
-        yellow = { "#cccc60", 231 },
-        green = { "#107000", 232 },
-        darkyellow = { "#a78624", 180 },
-        special = {
-          red = { "#aa2020", 203 },
-          yellow = { "#cccc60", 231 },
-          green = { "#107000", 232 },
-          blue = { "#2020cc", 239 },
-          purple = { "#c030c0", 241 },
-          storage = { "#507050", 242 },
-          class = { "#700050", 243 },
-          fg = { M.T[conf.variant].fg , 1 },
-        }
-      }
-    end
-  end
+  M.P = require("darkmatter.palettes." .. conf.scheme).palette(conf.desaturate, conf.dlevel)
 
+  M.P.special.fg = { M.T[conf.variant].fg , 1 }
   M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
   M.P.special.c1 = { conf.custom_colors.c1, 91 }
   M.P.special.c2 = { conf.custom_colors.c2, 92 }
@@ -488,48 +301,9 @@ local function configure()
   M.P.tablinebg = M.P.statuslinebg
   M.P.fg_dim = { M.T[conf.variant].fg_dim, 2 }
 
-  if conf.scheme == "dark" then
-    if conf.variant == "cold" or conf.variant == "deepblack" then
-      M.P.darkred = { "#601010", 249 }
-      M.P.pmenubg = { "#241a20", 156 }
-      M.P.black = { "#121215", 232 }
-      M.P.bg_dim = { "#222327", 232 }
-      M.P.bg0 = { "#2c2e34", 235 }
-      M.P.bg1 = { "#33353f", 236 }
-      M.P.bg2 = { "#363944", 236 }
-      M.P.bg4 = { "#414550", 237 }
-    else
-      M.P.darkred = { "#601010", 249 }
-      M.P.pmenubg = { "#241a20", 156 }
-      M.P.black = { "#151212", 232 }
-      M.P.bg_dim = { "#242020", 232 }
-      M.P.bg0 = { "#302c2e", 235 }
-      M.P.bg1 = { "#322a2a", 236 }
-      M.P.bg2 = { "#403936", 236 }
-      M.P.bg4 = { "#504531", 237 }
-    end
-  elseif conf.scheme == "light" then
-    if conf.variant == "cold" or conf.variant == "deepblack" then
-      M.P.darkred = { "#601010", 249 }
-      M.P.pmenubg = { "#241a20", 156 }
-      M.P.black = { "#121215", 232 }
-      M.P.bg_dim = { "#222327", 232 }
-      M.P.bg0 = { "#b0b0b0", 235 }
-      M.P.bg1 = { "#a0a0a0", 236 }
-      M.P.bg2 = { "#363944", 236 }
-      M.P.bg4 = { "#b0b0b0", 237 }
-    else
-      M.P.darkred = { "#601010", 249 }
-      M.P.pmenubg = { "#241a20", 156 }
-      M.P.black = { "#151212", 232 }
-      M.P.bg_dim = { "#242020", 232 }
-      M.P.bg0 = { "#b0b0b0", 235 }
-      M.P.bg1 = { "#a0a0a0", 236 }
-      M.P.bg2 = { "#403936", 236 }
-      M.P.bg4 = { "#b0b0b0", 237 }
-    end
-  end
+  M.P = vim.tbl_deep_extend("force", M.P, require("darkmatter.palettes." .. conf.scheme).variants(conf.variant))
 
+  print(vim.inspect(M.P))
   M.cokeline_colors = {
     bg = M.T[conf.variant].statuslinebg,
     inact_bg = M.P.statuslinebg[1],
@@ -966,11 +740,11 @@ end
 function M.set()
   configure()
   for _, v in ipairs(conf.plugins.customize) do
-    require("colors.darkmatter.plugins." .. v)
+    require("darkmatter.plugins." .. v)
   end
   set_all()
   for _, v in ipairs(conf.plugins.hl) do
-    require("colors.darkmatter.plugins." .. v).set()
+    require("darkmatter.plugins." .. v).set()
   end
   if conf.sync_kittybg == true and conf.kittysocket ~= nil and conf.kittenexec ~= nil then
     if vim.fn.filereadable(conf.kittysocket) == 1 and vim.fn.executable(conf.kittenexec) == 1 then
@@ -987,7 +761,7 @@ function M.set()
     end
   end
   for _, v in ipairs(conf.plugins.post) do
-    require("colors.darkmatter.plugins." .. v)
+    require("darkmatter.plugins." .. v)
   end
   set_signs_trans()
 end
