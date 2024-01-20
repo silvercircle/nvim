@@ -19,6 +19,7 @@
 
 local M = {}
 
+-- the "no color"
 M.NONE = { "NONE", "NONE" }
 
 local rainbowpalette = {
