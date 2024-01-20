@@ -62,6 +62,7 @@ local rainbowpalette = {
 }
 
 M.keys_set = false
+-- the color palette. Dynamically created in the configure() function
 M.P = {}
 M.theme = nil
 

@@ -121,8 +121,8 @@ require("lualine").setup({
     globalstatus = false,
     refresh = {
       statusline = 2000,
-      tabline = 3000,
-      winbar = 5000,
+      tabline = 10000,
+      winbar = 1000,
     },
   },
   sections = {
