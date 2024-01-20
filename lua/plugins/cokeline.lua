@@ -26,7 +26,7 @@ local function Cokeline_theme()
     group = {
       highlight = function(buffer) return buffer.is_focused and "CokelineActive" or "CokelineInactive" end
     },
-    unsaved = colors.localtheme.special.red[1] -- the unsaved indicator on the tab
+    unsaved = colors.P.special.red[1] -- the unsaved indicator on the tab
   }
 end
 
@@ -56,7 +56,7 @@ require('cokeline').setup({
     components = {
       {
         text = function(tab) return tab.is_first and "" or "" end,
-        fg = function(tab) return (tab.is_first and tab.is_active) and colors.cokeline_colors.focus_bg or colors.localtheme.accent[1] end,
+        fg = function(tab) return (tab.is_first and tab.is_active) and colors.cokeline_colors.focus_bg or colors.P.accent[1] end,
         bg = colors.cokeline_colors.bg
       },
       {

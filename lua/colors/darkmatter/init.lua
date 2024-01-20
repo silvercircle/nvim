@@ -62,7 +62,7 @@ local rainbowpalette = {
 }
 
 M.keys_set = false
-M.localtheme = {}
+M.P = {}
 M.theme = nil
 
 M.basetheme = {
@@ -354,7 +354,7 @@ local function configure()
   }
   if conf.scheme == "dark" then
     if conf.desaturate == true then
-      M.localtheme = {
+      M.P = {
         orange = (conf.dlevel == 1) and { "#ab6a6c", 215 } or { "#9b7a7c", 215 },
         blue = { "#5a6acf", 239 },
         purple = (conf.dlevel == 1) and { "#b070b0", 241 } or { "#a070a0", 241 },
@@ -386,7 +386,7 @@ local function configure()
         }
       }
     else
-      M.localtheme = {
+      M.P = {
         orange = { "#c36630", 215 },
         blue = { "#4a4adf", 239 },
         purple = { "#c030c0", 241 },
@@ -420,7 +420,7 @@ local function configure()
     end
   elseif conf.scheme == "light" then
     if conf.desaturate == true then
-      M.localtheme = {
+      M.P = {
         orange = (conf.dlevel == 1) and { "#3b2a1c", 215 } or { "#3b2a25", 215 },
         blue = { "#2020cc", 239 },
         purple = (conf.dlevel == 1) and { "#b070b0", 241 } or { "#a070a0", 241 },
@@ -443,7 +443,7 @@ local function configure()
         }
       }
     else
-      M.localtheme = {
+      M.P = {
         orange = { "#c36630", 215 },
         blue = { "#2020cc", 239 },
         purple = { "#c030c0", 241 },
@@ -468,285 +468,285 @@ local function configure()
     end
   end
 
-  M.localtheme.string = conf.theme_strings == "yellow" and M.localtheme.yellow or M.localtheme.green
-  M.localtheme.special.c1 = { conf.custom_colors.c1, 91 }
-  M.localtheme.special.c2 = { conf.custom_colors.c2, 92 }
-  M.localtheme.special.c3 = { conf.custom_colors.c3, 93 }
-  M.localtheme.special.c4 = { conf.custom_colors.c4, 94 }
+  M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
+  M.P.special.c1 = { conf.custom_colors.c1, 91 }
+  M.P.special.c2 = { conf.custom_colors.c2, 92 }
+  M.P.special.c3 = { conf.custom_colors.c3, 93 }
+  M.P.special.c4 = { conf.custom_colors.c4, 94 }
 
   LuaLineColors.statuslinebg = M.theme[conf.variant].statuslinebg
 
   -- TODO: allow cokeline colors per theme variant
-  M.localtheme.fg = { M.theme[conf.variant].fg, 1 }
-  M.localtheme.darkbg = { M.theme[conf.variant].gutterbg, 237 }
-  M.localtheme.bg = { M.theme[conf.variant].bg, 0 }
-  M.localtheme.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
-  M.localtheme.accent = { M.theme["accent_color"], 209 }
-  M.localtheme.accent_fg = { M.theme["accent_fg"], 210 }
-  M.localtheme.tablinebg = M.localtheme.statuslinebg
-  M.localtheme.fg_dim = { M.theme[conf.variant].fg_dim, 2 }
+  M.P.fg = { M.theme[conf.variant].fg, 1 }
+  M.P.darkbg = { M.theme[conf.variant].gutterbg, 237 }
+  M.P.bg = { M.theme[conf.variant].bg, 0 }
+  M.P.statuslinebg = { M.theme[conf.variant].statuslinebg, 208 }
+  M.P.accent = { M.theme["accent_color"], 209 }
+  M.P.accent_fg = { M.theme["accent_fg"], 210 }
+  M.P.tablinebg = M.P.statuslinebg
+  M.P.fg_dim = { M.theme[conf.variant].fg_dim, 2 }
 
   if conf.scheme == "dark" then
     if conf.variant == "cold" or conf.variant == "deepblack" then
-      M.localtheme.darkred = { "#601010", 249 }
-      M.localtheme.pmenubg = { "#241a20", 156 }
-      M.localtheme.black = { "#121215", 232 }
-      M.localtheme.bg_dim = { "#222327", 232 }
-      M.localtheme.bg0 = { "#2c2e34", 235 }
-      M.localtheme.bg1 = { "#33353f", 236 }
-      M.localtheme.bg2 = { "#363944", 236 }
-      M.localtheme.bg4 = { "#414550", 237 }
+      M.P.darkred = { "#601010", 249 }
+      M.P.pmenubg = { "#241a20", 156 }
+      M.P.black = { "#121215", 232 }
+      M.P.bg_dim = { "#222327", 232 }
+      M.P.bg0 = { "#2c2e34", 235 }
+      M.P.bg1 = { "#33353f", 236 }
+      M.P.bg2 = { "#363944", 236 }
+      M.P.bg4 = { "#414550", 237 }
     else
-      M.localtheme.darkred = { "#601010", 249 }
-      M.localtheme.pmenubg = { "#241a20", 156 }
-      M.localtheme.black = { "#151212", 232 }
-      M.localtheme.bg_dim = { "#242020", 232 }
-      M.localtheme.bg0 = { "#302c2e", 235 }
-      M.localtheme.bg1 = { "#322a2a", 236 }
-      M.localtheme.bg2 = { "#403936", 236 }
-      M.localtheme.bg4 = { "#504531", 237 }
+      M.P.darkred = { "#601010", 249 }
+      M.P.pmenubg = { "#241a20", 156 }
+      M.P.black = { "#151212", 232 }
+      M.P.bg_dim = { "#242020", 232 }
+      M.P.bg0 = { "#302c2e", 235 }
+      M.P.bg1 = { "#322a2a", 236 }
+      M.P.bg2 = { "#403936", 236 }
+      M.P.bg4 = { "#504531", 237 }
     end
   elseif conf.scheme == "light" then
     if conf.variant == "cold" or conf.variant == "deepblack" then
-      M.localtheme.darkred = { "#601010", 249 }
-      M.localtheme.pmenubg = { "#241a20", 156 }
-      M.localtheme.black = { "#121215", 232 }
-      M.localtheme.bg_dim = { "#222327", 232 }
-      M.localtheme.bg0 = { "#b0b0b0", 235 }
-      M.localtheme.bg1 = { "#a0a0a0", 236 }
-      M.localtheme.bg2 = { "#363944", 236 }
-      M.localtheme.bg4 = { "#b0b0b0", 237 }
+      M.P.darkred = { "#601010", 249 }
+      M.P.pmenubg = { "#241a20", 156 }
+      M.P.black = { "#121215", 232 }
+      M.P.bg_dim = { "#222327", 232 }
+      M.P.bg0 = { "#b0b0b0", 235 }
+      M.P.bg1 = { "#a0a0a0", 236 }
+      M.P.bg2 = { "#363944", 236 }
+      M.P.bg4 = { "#b0b0b0", 237 }
     else
-      M.localtheme.darkred = { "#601010", 249 }
-      M.localtheme.pmenubg = { "#241a20", 156 }
-      M.localtheme.black = { "#151212", 232 }
-      M.localtheme.bg_dim = { "#242020", 232 }
-      M.localtheme.bg0 = { "#b0b0b0", 235 }
-      M.localtheme.bg1 = { "#a0a0a0", 236 }
-      M.localtheme.bg2 = { "#403936", 236 }
-      M.localtheme.bg4 = { "#b0b0b0", 237 }
+      M.P.darkred = { "#601010", 249 }
+      M.P.pmenubg = { "#241a20", 156 }
+      M.P.black = { "#151212", 232 }
+      M.P.bg_dim = { "#242020", 232 }
+      M.P.bg0 = { "#b0b0b0", 235 }
+      M.P.bg1 = { "#a0a0a0", 236 }
+      M.P.bg2 = { "#403936", 236 }
+      M.P.bg4 = { "#b0b0b0", 237 }
     end
   end
 
   M.cokeline_colors = {
     bg = M.theme[conf.variant].statuslinebg,
-    inact_bg = M.localtheme.statuslinebg[1],
+    inact_bg = M.P.statuslinebg[1],
     focus_bg = M.theme.alt_accent_color,
     fg = LuaLineColors.gray4,
     focus_fg = M.theme.accent_fg,
-    focus_sp = M.localtheme.special.yellow[1],
-    inact_sp = M.localtheme.accent[1]
+    focus_sp = M.P.special.yellow[1],
+    inact_sp = M.P.accent[1]
   }
 
-  M.localtheme.neotreebg = { M.theme[conf.variant].treebg, 232 }
-  M.localtheme.selbg = { M.theme["selbg"], 234 }
-  M.localtheme.special.builtin = M.localtheme.brown
-  M.localtheme.special.conditional = M.localtheme.darkyellow
+  M.P.neotreebg = { M.theme[conf.variant].treebg, 232 }
+  M.P.selbg = { M.theme["selbg"], 234 }
+  M.P.special.builtin = M.P.brown
+  M.P.special.conditional = M.P.darkyellow
 end
 
 -- set all hl groups
 local function set_all()
   -- basic highlights
-  M.hl("Braces", M.localtheme.special[conf.special.braces], M.NONE, conf.attrib.brace)
-  M.hl("Operator", M.localtheme.special[conf.special.operator], M.NONE, conf.attrib.operator)
-  M.hl("PunctDelim", M.localtheme.special[conf.special.delim], M.NONE, conf.attrib.delim)
-  M.hl("PunctSpecial", M.localtheme.special[conf.special.delim], M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("ScrollView", M.localtheme.teal, M.localtheme.special.c3)
-  M.hl_with_defaults("Normal", M.localtheme.fg, M.localtheme.bg)
-  M.hl_with_defaults("Accent", M.localtheme.black, M.localtheme.accent)
-  M.hl_with_defaults("Terminal", M.localtheme.fg, M.localtheme.neotreebg)
-  M.hl_with_defaults("EndOfBuffer", M.localtheme.bg4, M.NONE)
-  M.hl_with_defaults("Folded", M.localtheme.fg, M.localtheme.diff_blue)
-  M.hl_with_defaults("ToolbarLine", M.localtheme.fg, M.NONE)
-  M.hl_with_defaults("FoldColumn", M.localtheme.bg4, M.NONE)
-  M.hl_with_defaults("SignColumn", M.localtheme.fg, M.NONE)
-  M.hl_with_defaults("IncSearch", M.localtheme.yellow, M.localtheme.darkred)
-  M.hl_with_defaults("Search", M.localtheme.black, M.localtheme.darkyellow)
-  M.hl_with_defaults("ColorColumn", M.NONE, M.localtheme.bg1)
-  M.hl_with_defaults("Conceal", M.localtheme.grey_dim, M.NONE)
-  M.hl_with_defaults("Cursor", M.localtheme.fg, M.localtheme.fg)
-  M.hl_with_defaults("nCursor", M.localtheme.fg, M.localtheme.fg)
-  M.hl_with_defaults("iCursor", M.localtheme.yellow, M.localtheme.yellow)
-  M.hl_with_defaults("vCursor", M.localtheme.red, M.localtheme.red)
-  M.hl_with_defaults("LineNr", M.localtheme.grey_dim, M.NONE)
+  M.hl("Braces", M.P.special[conf.special.braces], M.NONE, conf.attrib.brace)
+  M.hl("Operator", M.P.special[conf.special.operator], M.NONE, conf.attrib.operator)
+  M.hl("PunctDelim", M.P.special[conf.special.delim], M.NONE, conf.attrib.delim)
+  M.hl("PunctSpecial", M.P.special[conf.special.delim], M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("ScrollView", M.P.teal, M.P.special.c3)
+  M.hl_with_defaults("Normal", M.P.fg, M.P.bg)
+  M.hl_with_defaults("Accent", M.P.black, M.P.accent)
+  M.hl_with_defaults("Terminal", M.P.fg, M.P.neotreebg)
+  M.hl_with_defaults("EndOfBuffer", M.P.bg4, M.NONE)
+  M.hl_with_defaults("Folded", M.P.fg, M.P.diff_blue)
+  M.hl_with_defaults("ToolbarLine", M.P.fg, M.NONE)
+  M.hl_with_defaults("FoldColumn", M.P.bg4, M.NONE)
+  M.hl_with_defaults("SignColumn", M.P.fg, M.NONE)
+  M.hl_with_defaults("IncSearch", M.P.yellow, M.P.darkred)
+  M.hl_with_defaults("Search", M.P.black, M.P.darkyellow)
+  M.hl_with_defaults("ColorColumn", M.NONE, M.P.bg1)
+  M.hl_with_defaults("Conceal", M.P.grey_dim, M.NONE)
+  M.hl_with_defaults("Cursor", M.P.fg, M.P.fg)
+  M.hl_with_defaults("nCursor", M.P.fg, M.P.fg)
+  M.hl_with_defaults("iCursor", M.P.yellow, M.P.yellow)
+  M.hl_with_defaults("vCursor", M.P.red, M.P.red)
+  M.hl_with_defaults("LineNr", M.P.grey_dim, M.NONE)
 
   M.link("CursorIM", "iCursor")
 
-  M.hl("FocusedSymbol", M.localtheme.yellow, M.NONE, conf.attrib.bold)
+  M.hl("FocusedSymbol", M.P.yellow, M.NONE, conf.attrib.bold)
 
   if diff then
     M.hl("CursorLine", M.NONE, M.NONE, { underline = true })
     M.hl("CursorColumn", M.NONE, M.NONE, conf.attrib.bold)
   else
-    M.hl_with_defaults("CursorLine", M.NONE, M.localtheme.bg0)
-    M.hl_with_defaults("CursorColumn", M.NONE, M.localtheme.bg1)
+    M.hl_with_defaults("CursorLine", M.NONE, M.P.bg0)
+    M.hl_with_defaults("CursorColumn", M.NONE, M.P.bg1)
   end
 
   if diff then
-    M.hl("CursorLineNr", M.localtheme.yellow, M.NONE, { underline = true })
+    M.hl("CursorLineNr", M.P.yellow, M.NONE, { underline = true })
   else
-    M.hl_with_defaults("CursorLineNr", M.localtheme.yellow, M.localtheme.darkbg)
+    M.hl_with_defaults("CursorLineNr", M.P.yellow, M.P.darkbg)
   end
 
-  M.hl_with_defaults("DiffAdd", M.NONE, M.localtheme.diff_green)
-  M.hl_with_defaults("DiffChange", M.NONE, M.localtheme.diff_blue)
-  M.hl_with_defaults("DiffDelete", M.NONE, M.localtheme.diff_red)
-  M.hl_with_defaults("DiffText", M.localtheme.bg0, M.localtheme.blue)
-  M.hl("Directory", M.localtheme.blue, M.NONE, conf.attrib.bold)
-  M.hl("ErrorMsg", M.localtheme.red, M.NONE, { bold = true, underline = true })
-  M.hl("WarningMsg", M.localtheme.yellow, M.NONE, conf.attrib.bold)
-  M.hl("ModeMsg", M.localtheme.fg, M.NONE, conf.attrib.bold)
-  M.hl("MoreMsg", M.localtheme.blue, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("MatchParen", M.localtheme.yellow, M.localtheme.darkred)
+  M.hl_with_defaults("DiffAdd", M.NONE, M.P.diff_green)
+  M.hl_with_defaults("DiffChange", M.NONE, M.P.diff_blue)
+  M.hl_with_defaults("DiffDelete", M.NONE, M.P.diff_red)
+  M.hl_with_defaults("DiffText", M.P.bg0, M.P.blue)
+  M.hl("Directory", M.P.blue, M.NONE, conf.attrib.bold)
+  M.hl("ErrorMsg", M.P.red, M.NONE, { bold = true, underline = true })
+  M.hl("WarningMsg", M.P.yellow, M.NONE, conf.attrib.bold)
+  M.hl("ModeMsg", M.P.fg, M.NONE, conf.attrib.bold)
+  M.hl("MoreMsg", M.P.blue, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("MatchParen", M.P.yellow, M.P.darkred)
 
-  M.hl_with_defaults("NonText", M.localtheme.bg4, M.NONE)
-  M.hl_with_defaults("Whitespace", M.localtheme.green, M.NONE)
-  M.hl_with_defaults("SpecialKey", M.localtheme.green, M.NONE)
-  M.hl_with_defaults("Pmenu", M.localtheme.fg, M.localtheme.pmenubg)
-  M.hl_with_defaults("PmenuSbar", M.NONE, M.localtheme.bg2)
+  M.hl_with_defaults("NonText", M.P.bg4, M.NONE)
+  M.hl_with_defaults("Whitespace", M.P.green, M.NONE)
+  M.hl_with_defaults("SpecialKey", M.P.green, M.NONE)
+  M.hl_with_defaults("Pmenu", M.P.fg, M.P.pmenubg)
+  M.hl_with_defaults("PmenuSbar", M.NONE, M.P.bg2)
   M.link("PmenuSel", "Visual")
   M.link("WildMenu", "PmenuSel")
 
-  M.hl_with_defaults("PmenuThumb", M.NONE, M.localtheme.grey)
-  M.hl_with_defaults("NormalFloat", M.localtheme.fg, M.localtheme.bg_dim)
-  M.hl_with_defaults("FloatBorder", M.localtheme.accent, M.localtheme.bg_dim)
-  M.hl_with_defaults("FloatTitle", M.localtheme.accent_fg, M.localtheme.bg_dim)
-  M.hl_with_defaults("Question", M.localtheme.yellow, M.NONE)
-  M.hl("SpellBad", M.NONE, M.NONE, { undercurl = true, sp = M.localtheme.red[1] })
-  M.hl("SpellCap", M.NONE, M.NONE, { undercurl = true, sp = M.localtheme.yellow[1] })
-  M.hl("SpellLocal", M.NONE, M.NONE, { undercurl = true, sp = M.localtheme.blue[1] })
-  M.hl("SpellRare", M.NONE, M.NONE, { undercurl = true, sp = M.localtheme.lpurple[1] })
-  M.hl_with_defaults("StatusLine", M.localtheme.fg, M.localtheme.statuslinebg)
-  M.hl_with_defaults("StatusLineTerm", M.localtheme.fg, M.NONE)
-  M.hl_with_defaults("StatusLineNC", M.localtheme.grey, M.localtheme.statuslinebg)
-  M.hl_with_defaults("StatusLineTermNC", M.localtheme.grey, M.NONE)
-  M.hl_with_defaults("TabLine", M.localtheme.fg, M.localtheme.statuslinebg)
-  M.hl("TabLineFill", M.localtheme.grey, M.localtheme.tablinebg, conf.attrib.tabline)
-  M.hl_with_defaults("TabLineSel", M.localtheme.accent_fg, M.localtheme.accent)
-  M.hl_with_defaults("VertSplit", M.localtheme.statuslinebg, M.localtheme.neotreebg)
+  M.hl_with_defaults("PmenuThumb", M.NONE, M.P.grey)
+  M.hl_with_defaults("NormalFloat", M.P.fg, M.P.bg_dim)
+  M.hl_with_defaults("FloatBorder", M.P.accent, M.P.bg_dim)
+  M.hl_with_defaults("FloatTitle", M.P.accent_fg, M.P.bg_dim)
+  M.hl_with_defaults("Question", M.P.yellow, M.NONE)
+  M.hl("SpellBad", M.NONE, M.NONE, { undercurl = true, sp = M.P.red[1] })
+  M.hl("SpellCap", M.NONE, M.NONE, { undercurl = true, sp = M.P.yellow[1] })
+  M.hl("SpellLocal", M.NONE, M.NONE, { undercurl = true, sp = M.P.blue[1] })
+  M.hl("SpellRare", M.NONE, M.NONE, { undercurl = true, sp = M.P.lpurple[1] })
+  M.hl_with_defaults("StatusLine", M.P.fg, M.P.statuslinebg)
+  M.hl_with_defaults("StatusLineTerm", M.P.fg, M.NONE)
+  M.hl_with_defaults("StatusLineNC", M.P.grey, M.P.statuslinebg)
+  M.hl_with_defaults("StatusLineTermNC", M.P.grey, M.NONE)
+  M.hl_with_defaults("TabLine", M.P.fg, M.P.statuslinebg)
+  M.hl("TabLineFill", M.P.grey, M.P.tablinebg, conf.attrib.tabline)
+  M.hl_with_defaults("TabLineSel", M.P.accent_fg, M.P.accent)
+  M.hl_with_defaults("VertSplit", M.P.statuslinebg, M.P.neotreebg)
 
   M.link("MsgArea", "StatusLine")
   M.link("WinSeparator", "VertSplit")
 
-  M.hl_with_defaults("Visual", M.NONE, M.localtheme.selbg)
-  M.hl("VisualNOS", M.NONE, M.localtheme.bg2, { underline = true })
-  M.hl_with_defaults("QuickFixLine", M.localtheme.blue, M.localtheme.neotreebg)
-  M.hl_with_defaults("Debug", M.localtheme.yellow, M.NONE)
-  M.hl_with_defaults("debugPC", M.localtheme.bg0, M.localtheme.green)
-  M.hl_with_defaults("debugBreakpoint", M.localtheme.bg0, M.localtheme.red)
-  M.hl_with_defaults("Substitute", M.localtheme.bg0, M.localtheme.yellow)
+  M.hl_with_defaults("Visual", M.NONE, M.P.selbg)
+  M.hl("VisualNOS", M.NONE, M.P.bg2, { underline = true })
+  M.hl_with_defaults("QuickFixLine", M.P.blue, M.P.neotreebg)
+  M.hl_with_defaults("Debug", M.P.yellow, M.NONE)
+  M.hl_with_defaults("debugPC", M.P.bg0, M.P.green)
+  M.hl_with_defaults("debugBreakpoint", M.P.bg0, M.P.red)
+  M.hl_with_defaults("Substitute", M.P.bg0, M.P.yellow)
 
-  M.hl("Type", M.localtheme.darkpurple, M.NONE, conf.attrib.types)
-  M.hl("Structure", M.localtheme.darkpurple, M.NONE, conf.attrib.struct)
-  M.hl("Class", M.localtheme.special.class, M.NONE, conf.attrib.class)
-  M.hl("Interface", M.localtheme.purple, M.NONE, conf.attrib.interface)
-  M.hl("StorageClass", M.localtheme.special.storage, M.NONE, conf.attrib.storage)
-  M.hl_with_defaults("Identifier", M.localtheme.orange, M.NONE)
-  M.hl_with_defaults("Constant", M.localtheme.lpurple, M.NONE)
-  M.hl("PreProc", M.localtheme.darkyellow, M.NONE, conf.attrib.bold)
-  M.hl("PreCondit", M.localtheme.darkyellow, M.NONE, conf.attrib.bold)
+  M.hl("Type", M.P.darkpurple, M.NONE, conf.attrib.types)
+  M.hl("Structure", M.P.darkpurple, M.NONE, conf.attrib.struct)
+  M.hl("Class", M.P.special.class, M.NONE, conf.attrib.class)
+  M.hl("Interface", M.P.purple, M.NONE, conf.attrib.interface)
+  M.hl("StorageClass", M.P.special.storage, M.NONE, conf.attrib.storage)
+  M.hl_with_defaults("Identifier", M.P.orange, M.NONE)
+  M.hl_with_defaults("Constant", M.P.lpurple, M.NONE)
+  M.hl("PreProc", M.P.darkyellow, M.NONE, conf.attrib.bold)
+  M.hl("PreCondit", M.P.darkyellow, M.NONE, conf.attrib.bold)
   M.link("Include", "OliveBold")
   M.link("Boolean", "DeepRedBold")
-  M.hl("Keyword", M.localtheme.blue, M.NONE, conf.attrib.keyword)
+  M.hl("Keyword", M.P.blue, M.NONE, conf.attrib.keyword)
   if conf.tweaks.conditional then
-    M.hl("Conditional", M.localtheme.special.conditional, M.NONE, conf.attrib.conditional)
+    M.hl("Conditional", M.P.special.conditional, M.NONE, conf.attrib.conditional)
   else
     M.link("Conditional", "Keyword")
   end
-  M.hl_with_defaults("Define", M.localtheme.red, M.NONE)
-  M.hl("Typedef", M.localtheme.red, M.NONE, conf.attrib.types)
+  M.hl_with_defaults("Define", M.P.red, M.NONE)
+  M.hl("Typedef", M.P.red, M.NONE, conf.attrib.types)
   M.hl(
     "Exception",
-    conf.theme_strings == "yellow" and M.localtheme.green or M.localtheme.yellow,
+    conf.theme_strings == "yellow" and M.P.green or M.P.yellow,
     M.NONE,
     conf.attrib.keyword
   )
-  M.hl("Repeat", M.localtheme.blue, M.NONE, conf.attrib.keyword)
-  M.hl("Statement", M.localtheme.blue, M.NONE, conf.attrib.keyword)
-  M.hl_with_defaults("Macro", M.localtheme.lpurple, M.NONE)
-  M.hl_with_defaults("Error", M.localtheme.red, M.NONE)
-  M.hl_with_defaults("Label", M.localtheme.lpurple, M.NONE)
-  M.hl("Special", M.localtheme.special.blue, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("SpecialChar", M.localtheme.lpurple, M.NONE)
-  M.hl("String", M.localtheme.string, M.NONE, conf.attrib.string)
-  M.hl_with_defaults("Character", M.localtheme.yellow, M.NONE)
-  M.hl("Number", M.localtheme.special.green, M.NONE, conf.attrib.number)
-  M.hl_with_defaults("Float", M.localtheme.lpurple, M.NONE)
-  M.hl("Function", M.localtheme.teal, M.NONE, conf.attrib.func)
-  M.hl("Method", M.localtheme.brightteal, M.NONE, conf.attrib.method)
-  M.hl("StaticMethod", M.localtheme.brightteal, M.NONE, conf.attrib.staticmethod)
-  M.hl("Member", M.localtheme.orange, M.NONE, conf.attrib.member)
-  M.hl("StaticMember", M.localtheme.orange, M.NONE, conf.attrib.staticmember)
-  M.hl("Builtin", M.localtheme.special[conf.special.builtin], M.NONE, conf.attrib.bold)
+  M.hl("Repeat", M.P.blue, M.NONE, conf.attrib.keyword)
+  M.hl("Statement", M.P.blue, M.NONE, conf.attrib.keyword)
+  M.hl_with_defaults("Macro", M.P.lpurple, M.NONE)
+  M.hl_with_defaults("Error", M.P.red, M.NONE)
+  M.hl_with_defaults("Label", M.P.lpurple, M.NONE)
+  M.hl("Special", M.P.special.blue, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("SpecialChar", M.P.lpurple, M.NONE)
+  M.hl("String", M.P.string, M.NONE, conf.attrib.string)
+  M.hl_with_defaults("Character", M.P.yellow, M.NONE)
+  M.hl("Number", M.P.special.green, M.NONE, conf.attrib.number)
+  M.hl_with_defaults("Float", M.P.lpurple, M.NONE)
+  M.hl("Function", M.P.teal, M.NONE, conf.attrib.func)
+  M.hl("Method", M.P.brightteal, M.NONE, conf.attrib.method)
+  M.hl("StaticMethod", M.P.brightteal, M.NONE, conf.attrib.staticmethod)
+  M.hl("Member", M.P.orange, M.NONE, conf.attrib.member)
+  M.hl("StaticMember", M.P.orange, M.NONE, conf.attrib.staticmember)
+  M.hl("Builtin", M.P.special[conf.special.builtin], M.NONE, conf.attrib.bold)
 
-  M.hl("Title", M.localtheme.red, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Tag", M.localtheme.orange, M.NONE)
-  M.hl_with_defaults("Comment", M.localtheme.grey, M.NONE)
-  M.hl_with_defaults("SpecialComment", M.localtheme.grey, M.NONE)
-  M.hl_with_defaults("Todo", M.localtheme.blue, M.NONE)
-  M.hl_with_defaults("Ignore", M.localtheme.grey, M.NONE)
+  M.hl("Title", M.P.red, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Tag", M.P.orange, M.NONE)
+  M.hl_with_defaults("Comment", M.P.grey, M.NONE)
+  M.hl_with_defaults("SpecialComment", M.P.grey, M.NONE)
+  M.hl_with_defaults("Todo", M.P.blue, M.NONE)
+  M.hl_with_defaults("Ignore", M.P.grey, M.NONE)
   M.hl("Underlined", M.NONE, M.NONE, { underline = true })
 
-  M.hl("Attribute", M.localtheme.olive, M.NONE, conf.attrib.attribute)
-  M.hl("Annotation", M.localtheme.olive, M.NONE, conf.attrib.annotation)
-  M.hl_with_defaults("Fg", M.localtheme.fg, M.NONE)
-  M.hl("FgBold", M.localtheme.fg, M.NONE, conf.attrib.bold)
-  M.hl("FgItalic", M.localtheme.fg, M.NONE, conf.attrib.italic)
-  M.hl_with_defaults("FgDim", M.localtheme.fg_dim, M.NONE)
-  M.hl("FgDimBold", M.localtheme.fg_dim, M.NONE, conf.attrib.bold)
-  M.hl("FgDimBoldItalic", M.localtheme.fg_dim, M.NONE, conf.attrib.bolditalic)
-  M.hl_with_defaults("Grey", M.localtheme.grey, M.NONE)
-  M.hl_with_defaults("Red", M.localtheme.red, M.NONE)
-  M.hl("RedBold", M.localtheme.red, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("DeepRed", M.localtheme.deepred, M.NONE)
-  M.hl("DeepRedBold", M.localtheme.deepred, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Orange", M.localtheme.orange, M.NONE)
-  M.hl("OrangeBold", M.localtheme.orange, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Yellow", M.localtheme.yellow, M.NONE)
-  M.hl("YellowBold", M.localtheme.yellow, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Green", M.localtheme.green, M.NONE)
-  M.hl("GreenBold", M.localtheme.green, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Blue", M.localtheme.blue, M.NONE)
-  M.hl("BlueBold", M.localtheme.blue, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Olive", M.localtheme.olive, M.NONE)
-  M.hl("OliveBold", M.localtheme.olive, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Purple", M.localtheme.purple, M.NONE)
-  M.hl("PurpleBold", M.localtheme.purple, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("DarkPurple", M.localtheme.darkpurple, M.NONE)
-  M.hl("DarkPurpleBold", M.localtheme.darkpurple, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Darkyellow", M.localtheme.darkyellow, M.NONE)
-  M.hl("DarkyellowBold", M.localtheme.darkyellow, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Teal", M.localtheme.teal, M.NONE)
-  M.hl("TealBold", M.localtheme.teal, M.NONE, conf.attrib.bold)
+  M.hl("Attribute", M.P.olive, M.NONE, conf.attrib.attribute)
+  M.hl("Annotation", M.P.olive, M.NONE, conf.attrib.annotation)
+  M.hl_with_defaults("Fg", M.P.fg, M.NONE)
+  M.hl("FgBold", M.P.fg, M.NONE, conf.attrib.bold)
+  M.hl("FgItalic", M.P.fg, M.NONE, conf.attrib.italic)
+  M.hl_with_defaults("FgDim", M.P.fg_dim, M.NONE)
+  M.hl("FgDimBold", M.P.fg_dim, M.NONE, conf.attrib.bold)
+  M.hl("FgDimBoldItalic", M.P.fg_dim, M.NONE, conf.attrib.bolditalic)
+  M.hl_with_defaults("Grey", M.P.grey, M.NONE)
+  M.hl_with_defaults("Red", M.P.red, M.NONE)
+  M.hl("RedBold", M.P.red, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("DeepRed", M.P.deepred, M.NONE)
+  M.hl("DeepRedBold", M.P.deepred, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Orange", M.P.orange, M.NONE)
+  M.hl("OrangeBold", M.P.orange, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Yellow", M.P.yellow, M.NONE)
+  M.hl("YellowBold", M.P.yellow, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Green", M.P.green, M.NONE)
+  M.hl("GreenBold", M.P.green, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Blue", M.P.blue, M.NONE)
+  M.hl("BlueBold", M.P.blue, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Olive", M.P.olive, M.NONE)
+  M.hl("OliveBold", M.P.olive, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Purple", M.P.purple, M.NONE)
+  M.hl("PurpleBold", M.P.purple, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("DarkPurple", M.P.darkpurple, M.NONE)
+  M.hl("DarkPurpleBold", M.P.darkpurple, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Darkyellow", M.P.darkyellow, M.NONE)
+  M.hl("DarkyellowBold", M.P.darkyellow, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Teal", M.P.teal, M.NONE)
+  M.hl("TealBold", M.P.teal, M.NONE, conf.attrib.bold)
 
-  M.hl("RedItalic", M.localtheme.red, M.NONE, conf.attrib.italic)
-  M.hl("OrangeItalic", M.localtheme.orange, M.NONE, conf.attrib.italic)
-  M.hl("YellowItalic", M.localtheme.yellow, M.NONE, conf.attrib.italic)
-  M.hl("GreenItalic", M.localtheme.green, M.NONE, conf.attrib.italic)
-  M.hl("BlueItalic", M.localtheme.blue, M.NONE, conf.attrib.italic)
-  M.hl("PurpleItalic", M.localtheme.lpurple, M.NONE, conf.attrib.italic)
-  M.hl_with_defaults("RedSign", M.localtheme.red, M.localtheme.darkbg)
-  M.hl_with_defaults("OrangeSign", M.localtheme.orange, M.localtheme.darkbg)
-  M.hl_with_defaults("YellowSign", M.localtheme.yellow, M.localtheme.darkbg)
-  M.hl_with_defaults("GreenSign", M.localtheme.green, M.localtheme.darkbg)
-  M.hl_with_defaults("BlueSign", M.localtheme.blue, M.localtheme.darkbg)
-  M.hl_with_defaults("PurpleSign", M.localtheme.lpurple, M.localtheme.darkbg)
-  M.hl("ErrorText", M.NONE, M.NONE, { underline = true, sp = M.localtheme.red[1] })
-  M.hl("WarningText", M.NONE, M.NONE, { underline = true, sp = M.localtheme.yellow[1] })
-  M.hl("InfoText", M.localtheme.blue, M.NONE, { italic = true })
-  M.hl("HintText", M.localtheme.green, M.NONE, { italic = true })
+  M.hl("RedItalic", M.P.red, M.NONE, conf.attrib.italic)
+  M.hl("OrangeItalic", M.P.orange, M.NONE, conf.attrib.italic)
+  M.hl("YellowItalic", M.P.yellow, M.NONE, conf.attrib.italic)
+  M.hl("GreenItalic", M.P.green, M.NONE, conf.attrib.italic)
+  M.hl("BlueItalic", M.P.blue, M.NONE, conf.attrib.italic)
+  M.hl("PurpleItalic", M.P.lpurple, M.NONE, conf.attrib.italic)
+  M.hl_with_defaults("RedSign", M.P.red, M.P.darkbg)
+  M.hl_with_defaults("OrangeSign", M.P.orange, M.P.darkbg)
+  M.hl_with_defaults("YellowSign", M.P.yellow, M.P.darkbg)
+  M.hl_with_defaults("GreenSign", M.P.green, M.P.darkbg)
+  M.hl_with_defaults("BlueSign", M.P.blue, M.P.darkbg)
+  M.hl_with_defaults("PurpleSign", M.P.lpurple, M.P.darkbg)
+  M.hl("ErrorText", M.NONE, M.NONE, { underline = true, sp = M.P.red[1] })
+  M.hl("WarningText", M.NONE, M.NONE, { underline = true, sp = M.P.yellow[1] })
+  M.hl("InfoText", M.P.blue, M.NONE, { italic = true })
+  M.hl("HintText", M.P.green, M.NONE, { italic = true })
   M.link("VirtualTextWarning", "Grey")
   M.link("VirtualTextError", "Grey")
   M.link("VirtualTextInfo", "Grey")
   M.link("VirtualTextHint", "Grey")
-  M.hl_with_defaults("ErrorFloat", M.localtheme.red, M.NONE)
-  M.hl_with_defaults("WarningFloat", M.localtheme.yellow, M.NONE)
-  M.hl_with_defaults("InfoFloat", M.localtheme.blue, M.NONE)
-  M.hl_with_defaults("HintFloat", M.localtheme.green, M.NONE)
+  M.hl_with_defaults("ErrorFloat", M.P.red, M.NONE)
+  M.hl_with_defaults("WarningFloat", M.P.yellow, M.NONE)
+  M.hl_with_defaults("InfoFloat", M.P.blue, M.NONE)
+  M.hl_with_defaults("HintFloat", M.P.green, M.NONE)
 
   M.hl("Strong", M.NONE, M.NONE, conf.attrib.bold)
   M.hl("Emphasis", M.NONE, M.NONE, conf.attrib.italic)
-  M.hl("URI", M.localtheme.special.blue, M.NONE, conf.attrib.uri)
+  M.hl("URI", M.P.special.blue, M.NONE, conf.attrib.uri)
 
   -- LSP and diagnostics stuff
   M.link("DiagnosticFloatingError", "ErrorFloat")
@@ -858,6 +858,7 @@ local function set_all()
   M.link("@text.uri", "URI")
   M.link("@variable", conf.desaturate == true and "FgDim" or "Fg")
   M.link("@variable.builtin", "Builtin")
+  M.link("@variable.parameter", "@parameter")
   M.link("@text.emphasis.latex", "Emphasis")
   M.link("@variable.member", "Member")
   M.link("@function.method", "Method")
@@ -893,7 +894,7 @@ local function set_all()
   M.link("BookmarkAnnotationLine", "DiffAdd")
 
   -- lukas-reineke/indent-blankline.nvim
-  M.hl("IndentBlanklineContextChar", M.localtheme.darkpurple, M.NONE, { nocombine = true })
+  M.hl("IndentBlanklineContextChar", M.P.special[conf.special.operator], M.NONE, { bold = true })
   M.set_hl(0, "IndentBlanklineChar", { fg = conf.indentguide_colors[conf.scheme], nocombine = true })
   M.link("IndentBlanklineSpaceChar", "IndentBlanklineChar")
   M.link("IndentBlanklineSpaceCharBlankline", "IndentBlanklineChar")
@@ -905,7 +906,7 @@ local function set_all()
   M.set_hl(0, "IndentBlanklineIndent5", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][6], nocombine = true })
   M.set_hl(0, "IndentBlanklineIndent6", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][3], nocombine = true })
 
-  M.hl_with_defaults("InclineNormalNC", M.localtheme.grey, M.localtheme.bg2)
+  M.hl_with_defaults("InclineNormalNC", M.P.grey, M.P.bg2)
 
   M.link("diffAdded", "Green")
   M.link("diffRemoved", "Red")
@@ -917,23 +918,23 @@ local function set_all()
   M.link("diffIndexLine", "Purple")
 
   -- Glance plugin: https://github.com/DNLHC/glance.nvim
-  M.hl_with_defaults("GlancePreviewNormal", M.localtheme.fg, M.localtheme.black)
-  M.hl_with_defaults("GlancePreviewMatch", M.localtheme.yellow, M.NONE)
-  M.hl_with_defaults("GlanceListMatch", M.localtheme.yellow, M.NONE)
+  M.hl_with_defaults("GlancePreviewNormal", M.P.fg, M.P.black)
+  M.hl_with_defaults("GlancePreviewMatch", M.P.yellow, M.NONE)
+  M.hl_with_defaults("GlanceListMatch", M.P.yellow, M.NONE)
   M.link("GlanceListCursorLine", "Visual")
 
   -- allow neotree and other addon panels have different backgrounds
-  M.hl_with_defaults("NeoTreeNormalNC", M.localtheme.fg_dim, M.localtheme.neotreebg)
-  M.hl_with_defaults("NeoTreeNormal", M.localtheme.fg, M.localtheme.neotreebg)
-  M.hl_with_defaults("NeoTreeFloatBorder", M.localtheme.grey_dim, M.localtheme.neotreebg)
-  M.hl("NeoTreeFileNameOpened", M.localtheme.blue, M.localtheme.neotreebg, conf.attrib.italic)
-  M.hl_with_defaults("SymbolsOutlineConnector", M.localtheme.grey_dim, M.NONE)
-  M.hl_with_defaults("TreeCursorLine", M.NONE, M.localtheme.special.c3)
-  M.hl_with_defaults("NotifierTitle", M.localtheme.yellow, M.NONE)
+  M.hl_with_defaults("NeoTreeNormalNC", M.P.fg_dim, M.P.neotreebg)
+  M.hl_with_defaults("NeoTreeNormal", M.P.fg, M.P.neotreebg)
+  M.hl_with_defaults("NeoTreeFloatBorder", M.P.grey_dim, M.P.neotreebg)
+  M.hl("NeoTreeFileNameOpened", M.P.blue, M.P.neotreebg, conf.attrib.italic)
+  M.hl_with_defaults("SymbolsOutlineConnector", M.P.grey_dim, M.NONE)
+  M.hl_with_defaults("TreeCursorLine", M.NONE, M.P.special.c3)
+  M.hl_with_defaults("NotifierTitle", M.P.yellow, M.NONE)
   M.link("NotifierContent", "NeoTreeNormalNC")
 
   -- Treesitter stuff
-  M.hl_with_defaults("TreesitterContext", M.NONE, M.localtheme.bg)
+  M.hl_with_defaults("TreesitterContext", M.NONE, M.P.bg)
   --M.hl("TreesitterContextBottom", M.NONE, M.localtheme.bg, { underline=true, sp=M.localtheme.lpurple[1] })
   M.link("TreesitterContextSeparator", "Type")
   M.link("OutlineGuides", "SymbolsOutlineConnector")
@@ -942,11 +943,11 @@ local function set_all()
   M.link("AerialGuide", "SymbolsOutlineConnector")
 
   -- WinBar
-  M.hl_with_defaults("WinBarFilename", M.localtheme.fg, M.localtheme.accent)                                   -- Filename (right hand)
-  M.hl("WinBarContext", M.localtheme.accent, M.NONE, { underline = true, sp = M.localtheme.accent[1] }) -- LSP context (left hand)
+  M.hl_with_defaults("WinBarFilename", M.P.fg, M.P.accent)                                   -- Filename (right hand)
+  M.hl("WinBarContext", M.P.accent, M.NONE, { underline = true, sp = M.P.accent[1] }) -- LSP context (left hand)
   -- WinBarInvis is for the central padding item. It should be transparent and invisible (fg = bg)
   -- This is a somewhat hack-ish way to make the lualine-controlle winbar transparent.
-  M.hl("WinBarInvis", M.localtheme.bg, M.localtheme.bg, { underline = true, sp = M.localtheme.accent[1] })
+  M.hl("WinBarInvis", M.P.bg, M.P.bg, { underline = true, sp = M.P.accent[1] })
   M.link("WinBarNC", "StatusLineNC")
   M.link("WinBar", "WinBarContext")
 

@@ -94,10 +94,10 @@ o.signcolumn = vim.g.tweaks.signcolumn
 vim.opt.dictionary:append(vim.fn.stdpath("data") .. "/dict")
 -- do not use swap files.
 o.swapfile = false
--- wait 800ms to show hover popups (diagnostics, for example) this would
+-- wait 500ms to show hover popups (diagnostics, for example) this would
 -- also set the timeout after which the swapfile for the current buffer is
 -- updated. But since we use none..
-o.updatetime = 800
+o.updatetime = 500
 o.updatecount = 0
 -- wait that many milliseconds for keq sequences to complete
 o.timeoutlen = 800

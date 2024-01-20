@@ -68,6 +68,7 @@ M.setup = {
   navic = function()
     require("nvim-navic").setup({
       highlight = true,
+      lazy_update_context = true,
       icons = vim.g.lspkind_symbols,
     })
   end,
