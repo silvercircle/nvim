@@ -18,43 +18,8 @@
 --      * maybe (just maybe) a bright background variant
 
 local M = {}
-local basepalette = {
-  dark = {
-    grey = { "#707070", 2 },
-    bg_red = { "#ff6077", 203 },
-    diff_red = { "#45292d", 52 },
-    bg_green = { "#a7df78", 107 },
-    diff_green = { "#10320a", 22 },
-    bg_blue = { "#75a3f2", 110 },
-    diff_blue = { "#253147", 17 },
-    diff_yellow = { "#4e432f", 54 },
-    deepred = { "#8b2d3c", 203 },
-    olive = { "#708422", 181 },
-    purple = { "#b39df3", 176 },
-    grey_dim = { "#595f6f", 240 },
-    selfg = { "#cccc20", 233 },
-    brown = { "#905010", 233 },
-    none = { "NONE", "NONE" },
-  },
-  light = {
-    grey = { "#707070", 2 },
-    bg_red = { "#ff6077", 203 },
-    diff_red = { "#45292d", 52 },
-    bg_green = { "#a7df78", 107 },
-    diff_green = { "#10320a", 22 },
-    bg_blue = { "#75a3f2", 110 },
-    diff_blue = { "#a0a0bb", 17 },
-    diff_yellow = { "#4e432f", 54 },
-    deepred = { "#8b2d3c", 203 },
-    darkyellow = { "#a78624", 180 },
-    olive = { "#708422", 181 },
-    purple = { "#b39df3", 176 },
-    grey_dim = { "#595f6f", 240 },
-    selfg = { "#cccc20", 233 },
-    brown = { "#704010", 233 },
-    none = { "NONE", "NONE" },
-  }
-}
+
+M.NONE = { "NONE", "NONE" }
 
 local rainbowpalette = {
   dark = {
@@ -96,7 +61,6 @@ local rainbowpalette = {
 }
 
 M.keys_set = false
-M.palette = {}
 M.localtheme = {}
 M.theme = nil
 
@@ -213,7 +177,7 @@ local conf = {
   -- or strings
   special = {
     operator = "red",
-    braces = "olive",
+    braces = "blue",
     delim = "red",
     builtin = "builtin"
   },
@@ -291,7 +255,10 @@ local conf = {
   -- change it.
   callback = nil,
   custom_colors = {
-    '#ff0000', '#00ff00', '#303080', '#ff00ff'
+    c1 = '#ff0000',
+    c2 = '#00ff00',
+    c3 = '#303080',
+    c4 = '#ff00ff'
   },
   -- plugins. there are 3 kinds of plugins:
   -- customize: executed after configure() but before colors are set. Allows
@@ -396,7 +363,16 @@ local function configure()
         red = (conf.dlevel == 1) and { "#bb4d5c", 203 } or { "#ab5d6c", 203 },
         yellow = (conf.dlevel == 1) and { "#aaaa60", 231 } or { "#909870", 231 },
         green = (conf.dlevel == 1) and { "#60906f", 231 } or { "#658075", 231 },
-        darkyellow = (conf.dlevel == 1) and { "#978634", 180 } or { "#877634"},
+        darkyellow = (conf.dlevel == 1) and { "#958434", 180 } or { "#877634"},
+        grey = { "#707069", 2 },
+        grey_dim = { "#595f6f", 240 },
+        diff_red = { "#45292d", 52 },
+        diff_green = { "#10320a", 22 },
+        diff_blue = { "#253147", 17 },
+        deepred = { "#8b2d3c", 203 },
+        olive = { "#708422", 181 },
+        lpurple = { "#b39df3", 176 },
+        brown = { "#905010", 233 },
         special = {
           red = { "#bb4d5c", 203 },
           yellow = { "#aaaa20", 231 },
@@ -420,6 +396,15 @@ local function configure()
         yellow = { "#aaaa20", 231 },
         green = { "#10801f", 232 },
         darkyellow = { "#a78624", 180 },
+        grey = { "#707069", 2 },
+        grey_dim = { "#595f6f", 240 },
+        diff_red = { "#45292d", 52 },
+        diff_green = { "#10320a", 22 },
+        diff_blue = { "#253147", 17 },
+        deepred = { "#8b2d3c", 203 },
+        olive = { "#708422", 181 },
+        lpurple = { "#b39df3", 176 },
+        brown = { "#905010", 233 },
         special = {
           red = { "#cc2d4c", 203 },
           yellow = { "#cccc60", 231 },
@@ -483,10 +468,10 @@ local function configure()
   end
 
   M.localtheme.string = conf.theme_strings == "yellow" and M.localtheme.yellow or M.localtheme.green
-  M.localtheme.special.c1 = { conf.custom_colors[1], 91 }
-  M.localtheme.special.c2 = { conf.custom_colors[2], 92 }
-  M.localtheme.special.c3 = { conf.custom_colors[3], 93 }
-  M.localtheme.special.c4 = { conf.custom_colors[4], 94 }
+  M.localtheme.special.c1 = { conf.custom_colors.c1, 91 }
+  M.localtheme.special.c2 = { conf.custom_colors.c2, 92 }
+  M.localtheme.special.c3 = { conf.custom_colors.c3, 93 }
+  M.localtheme.special.c4 = { conf.custom_colors.c4, 94 }
 
   LuaLineColors.statuslinebg = M.theme[conf.variant].statuslinebg
 
@@ -552,217 +537,215 @@ local function configure()
     inact_sp = M.localtheme.accent[1]
   }
 
-  M.palette = basepalette[conf.scheme]
-  M.palette.neotreebg = { M.theme[conf.variant].treebg, 232 }
-  M.palette.selbg = { M.theme["selbg"], 234 }
-  M.localtheme.special.builtin = M.palette.brown
+  M.localtheme.neotreebg = { M.theme[conf.variant].treebg, 232 }
+  M.localtheme.selbg = { M.theme["selbg"], 234 }
+  M.localtheme.special.builtin = M.localtheme.brown
   M.localtheme.special.conditional = M.localtheme.darkyellow
 end
 
 -- set all hl groups
 local function set_all()
   -- basic highlights
-  M.hl("Braces", M.palette[conf.special.braces], M.palette.none, conf.attrib.brace)
-  M.hl("Operator", M.localtheme.special[conf.special.operator], M.palette.none, conf.attrib.operator)
-  M.hl("PunctDelim", M.localtheme.special[conf.special.delim], M.palette.none, conf.attrib.delim)
-  M.hl("PunctSpecial", M.localtheme.special[conf.special.delim], M.palette.none, conf.attrib.bold)
+  M.hl("Braces", M.localtheme.special[conf.special.braces], M.NONE, conf.attrib.brace)
+  M.hl("Operator", M.localtheme.special[conf.special.operator], M.NONE, conf.attrib.operator)
+  M.hl("PunctDelim", M.localtheme.special[conf.special.delim], M.NONE, conf.attrib.delim)
+  M.hl("PunctSpecial", M.localtheme.special[conf.special.delim], M.NONE, conf.attrib.bold)
   M.hl_with_defaults("ScrollView", M.localtheme.teal, M.localtheme.special.c3)
   M.hl_with_defaults("Normal", M.localtheme.fg, M.localtheme.bg)
   M.hl_with_defaults("Accent", M.localtheme.black, M.localtheme.accent)
-  M.hl_with_defaults("Terminal", M.localtheme.fg, M.palette.neotreebg)
-  M.hl_with_defaults("EndOfBuffer", M.localtheme.bg4, M.palette.none)
-  M.hl_with_defaults("Folded", M.localtheme.fg, M.palette.diff_blue)
-  M.hl_with_defaults("ToolbarLine", M.localtheme.fg, M.palette.none)
-  M.hl_with_defaults("FoldColumn", M.localtheme.bg4, M.palette.none)
-  M.hl_with_defaults("SignColumn", M.localtheme.fg, M.palette.none)
+  M.hl_with_defaults("Terminal", M.localtheme.fg, M.localtheme.neotreebg)
+  M.hl_with_defaults("EndOfBuffer", M.localtheme.bg4, M.NONE)
+  M.hl_with_defaults("Folded", M.localtheme.fg, M.localtheme.diff_blue)
+  M.hl_with_defaults("ToolbarLine", M.localtheme.fg, M.NONE)
+  M.hl_with_defaults("FoldColumn", M.localtheme.bg4, M.NONE)
+  M.hl_with_defaults("SignColumn", M.localtheme.fg, M.NONE)
   M.hl_with_defaults("IncSearch", M.localtheme.yellow, M.localtheme.darkred)
   M.hl_with_defaults("Search", M.localtheme.black, M.localtheme.darkyellow)
-  M.hl_with_defaults("ColorColumn", M.palette.none, M.localtheme.bg1)
-  M.hl_with_defaults("Conceal", M.palette.grey_dim, M.palette.none)
+  M.hl_with_defaults("ColorColumn", M.NONE, M.localtheme.bg1)
+  M.hl_with_defaults("Conceal", M.localtheme.grey_dim, M.NONE)
   M.hl_with_defaults("Cursor", M.localtheme.fg, M.localtheme.fg)
   M.hl_with_defaults("nCursor", M.localtheme.fg, M.localtheme.fg)
   M.hl_with_defaults("iCursor", M.localtheme.yellow, M.localtheme.yellow)
   M.hl_with_defaults("vCursor", M.localtheme.red, M.localtheme.red)
-  M.hl_with_defaults("LineNr", M.palette.grey_dim, M.palette.none)
+  M.hl_with_defaults("LineNr", M.localtheme.grey_dim, M.NONE)
 
   M.link("CursorIM", "iCursor")
 
-  M.hl("FocusedSymbol", M.localtheme.yellow, M.palette.none, conf.attrib.bold)
+  M.hl("FocusedSymbol", M.localtheme.yellow, M.NONE, conf.attrib.bold)
 
   if diff then
-    M.hl("CursorLine", M.palette.none, M.palette.none, { underline = true })
-    M.hl("CursorColumn", M.palette.none, M.palette.none, conf.attrib.bold)
+    M.hl("CursorLine", M.NONE, M.NONE, { underline = true })
+    M.hl("CursorColumn", M.NONE, M.NONE, conf.attrib.bold)
   else
-    M.hl_with_defaults("CursorLine", M.palette.none, M.localtheme.bg0)
-    M.hl_with_defaults("CursorColumn", M.palette.none, M.localtheme.bg1)
+    M.hl_with_defaults("CursorLine", M.NONE, M.localtheme.bg0)
+    M.hl_with_defaults("CursorColumn", M.NONE, M.localtheme.bg1)
   end
 
   if diff then
-    M.hl("CursorLineNr", M.localtheme.yellow, M.palette.none, { underline = true })
+    M.hl("CursorLineNr", M.localtheme.yellow, M.NONE, { underline = true })
   else
     M.hl_with_defaults("CursorLineNr", M.localtheme.yellow, M.localtheme.darkbg)
   end
 
-  M.hl_with_defaults("DiffAdd", M.palette.none, M.palette.diff_green)
-  M.hl_with_defaults("DiffChange", M.palette.none, M.palette.diff_blue)
-  M.hl_with_defaults("DiffDelete", M.palette.none, M.palette.diff_red)
+  M.hl_with_defaults("DiffAdd", M.NONE, M.localtheme.diff_green)
+  M.hl_with_defaults("DiffChange", M.NONE, M.localtheme.diff_blue)
+  M.hl_with_defaults("DiffDelete", M.NONE, M.localtheme.diff_red)
   M.hl_with_defaults("DiffText", M.localtheme.bg0, M.localtheme.blue)
-  M.hl("Directory", M.localtheme.blue, M.palette.none, conf.attrib.bold)
-  M.hl("ErrorMsg", M.localtheme.red, M.palette.none, { bold = true, underline = true })
-  M.hl("WarningMsg", M.localtheme.yellow, M.palette.none, conf.attrib.bold)
-  M.hl("ModeMsg", M.localtheme.fg, M.palette.none, conf.attrib.bold)
-  M.hl("MoreMsg", M.localtheme.blue, M.palette.none, conf.attrib.bold)
+  M.hl("Directory", M.localtheme.blue, M.NONE, conf.attrib.bold)
+  M.hl("ErrorMsg", M.localtheme.red, M.NONE, { bold = true, underline = true })
+  M.hl("WarningMsg", M.localtheme.yellow, M.NONE, conf.attrib.bold)
+  M.hl("ModeMsg", M.localtheme.fg, M.NONE, conf.attrib.bold)
+  M.hl("MoreMsg", M.localtheme.blue, M.NONE, conf.attrib.bold)
   M.hl_with_defaults("MatchParen", M.localtheme.yellow, M.localtheme.darkred)
 
-  M.hl_with_defaults("NonText", M.localtheme.bg4, M.palette.none)
-  M.hl_with_defaults("Whitespace", M.localtheme.green, M.palette.none)
-  M.hl_with_defaults("SpecialKey", M.localtheme.green, M.palette.none)
+  M.hl_with_defaults("NonText", M.localtheme.bg4, M.NONE)
+  M.hl_with_defaults("Whitespace", M.localtheme.green, M.NONE)
+  M.hl_with_defaults("SpecialKey", M.localtheme.green, M.NONE)
   M.hl_with_defaults("Pmenu", M.localtheme.fg, M.localtheme.pmenubg)
-  M.hl_with_defaults("PmenuSbar", M.palette.none, M.localtheme.bg2)
+  M.hl_with_defaults("PmenuSbar", M.NONE, M.localtheme.bg2)
   M.link("PmenuSel", "Visual")
   M.link("WildMenu", "PmenuSel")
 
-  M.hl_with_defaults("PmenuThumb", M.palette.none, M.palette.grey)
+  M.hl_with_defaults("PmenuThumb", M.NONE, M.localtheme.grey)
   M.hl_with_defaults("NormalFloat", M.localtheme.fg, M.localtheme.bg_dim)
   M.hl_with_defaults("FloatBorder", M.localtheme.accent, M.localtheme.bg_dim)
   M.hl_with_defaults("FloatTitle", M.localtheme.accent_fg, M.localtheme.bg_dim)
-  M.hl_with_defaults("Question", M.localtheme.yellow, M.palette.none)
-  M.hl("SpellBad", M.palette.none, M.palette.none, { undercurl = true, sp = M.localtheme.red[1] })
-  M.hl("SpellCap", M.palette.none, M.palette.none, { undercurl = true, sp = M.localtheme.yellow[1] })
-  M.hl("SpellLocal", M.palette.none, M.palette.none, { undercurl = true, sp = M.localtheme.blue[1] })
-  M.hl("SpellRare", M.palette.none, M.palette.none, { undercurl = true, sp = M.palette.purple[1] })
+  M.hl_with_defaults("Question", M.localtheme.yellow, M.NONE)
+  M.hl("SpellBad", M.NONE, M.NONE, { undercurl = true, sp = M.localtheme.red[1] })
+  M.hl("SpellCap", M.NONE, M.NONE, { undercurl = true, sp = M.localtheme.yellow[1] })
+  M.hl("SpellLocal", M.NONE, M.NONE, { undercurl = true, sp = M.localtheme.blue[1] })
+  M.hl("SpellRare", M.NONE, M.NONE, { undercurl = true, sp = M.localtheme.lpurple[1] })
   M.hl_with_defaults("StatusLine", M.localtheme.fg, M.localtheme.statuslinebg)
-  M.hl_with_defaults("StatusLineTerm", M.localtheme.fg, M.palette.none)
-  M.hl_with_defaults("StatusLineNC", M.palette.grey, M.localtheme.statuslinebg)
-  M.hl_with_defaults("StatusLineTermNC", M.palette.grey, M.palette.none)
+  M.hl_with_defaults("StatusLineTerm", M.localtheme.fg, M.NONE)
+  M.hl_with_defaults("StatusLineNC", M.localtheme.grey, M.localtheme.statuslinebg)
+  M.hl_with_defaults("StatusLineTermNC", M.localtheme.grey, M.NONE)
   M.hl_with_defaults("TabLine", M.localtheme.fg, M.localtheme.statuslinebg)
-  M.hl("TabLineFill", M.palette.grey, M.localtheme.tablinebg, conf.attrib.tabline)
+  M.hl("TabLineFill", M.localtheme.grey, M.localtheme.tablinebg, conf.attrib.tabline)
   M.hl_with_defaults("TabLineSel", M.localtheme.accent_fg, M.localtheme.accent)
-  M.hl_with_defaults("VertSplit", M.localtheme.statuslinebg, M.palette.neotreebg)
+  M.hl_with_defaults("VertSplit", M.localtheme.statuslinebg, M.localtheme.neotreebg)
 
   M.link("MsgArea", "StatusLine")
   M.link("WinSeparator", "VertSplit")
 
-  M.hl_with_defaults("Visual", M.palette.none, M.palette.selbg)
-  M.hl("VisualNOS", M.palette.none, M.localtheme.bg2, { underline = true })
-  M.hl_with_defaults("QuickFixLine", M.localtheme.blue, M.palette.neotreebg)
-  M.hl_with_defaults("Debug", M.localtheme.yellow, M.palette.none)
+  M.hl_with_defaults("Visual", M.NONE, M.localtheme.selbg)
+  M.hl("VisualNOS", M.NONE, M.localtheme.bg2, { underline = true })
+  M.hl_with_defaults("QuickFixLine", M.localtheme.blue, M.localtheme.neotreebg)
+  M.hl_with_defaults("Debug", M.localtheme.yellow, M.NONE)
   M.hl_with_defaults("debugPC", M.localtheme.bg0, M.localtheme.green)
   M.hl_with_defaults("debugBreakpoint", M.localtheme.bg0, M.localtheme.red)
-  M.hl_with_defaults("ToolbarButton", M.localtheme.bg0, M.palette.bg_blue)
   M.hl_with_defaults("Substitute", M.localtheme.bg0, M.localtheme.yellow)
 
-  M.hl("Type", M.localtheme.darkpurple, M.palette.none, conf.attrib.types)
-  M.hl("Structure", M.localtheme.darkpurple, M.palette.none, conf.attrib.struct)
-  M.hl("Class", M.localtheme.special.class, M.palette.none, conf.attrib.class)
-  M.hl("Interface", M.localtheme.purple, M.palette.none, conf.attrib.interface)
-  M.hl("StorageClass", M.localtheme.special.storage, M.palette.none, conf.attrib.storage)
-  M.hl_with_defaults("Identifier", M.localtheme.orange, M.palette.none)
-  M.hl_with_defaults("Constant", M.palette.purple, M.palette.none)
-  M.hl("PreProc", M.localtheme.darkyellow, M.palette.none, conf.attrib.bold)
-  M.hl("PreCondit", M.localtheme.darkyellow, M.palette.none, conf.attrib.bold)
+  M.hl("Type", M.localtheme.darkpurple, M.NONE, conf.attrib.types)
+  M.hl("Structure", M.localtheme.darkpurple, M.NONE, conf.attrib.struct)
+  M.hl("Class", M.localtheme.special.class, M.NONE, conf.attrib.class)
+  M.hl("Interface", M.localtheme.purple, M.NONE, conf.attrib.interface)
+  M.hl("StorageClass", M.localtheme.special.storage, M.NONE, conf.attrib.storage)
+  M.hl_with_defaults("Identifier", M.localtheme.orange, M.NONE)
+  M.hl_with_defaults("Constant", M.localtheme.lpurple, M.NONE)
+  M.hl("PreProc", M.localtheme.darkyellow, M.NONE, conf.attrib.bold)
+  M.hl("PreCondit", M.localtheme.darkyellow, M.NONE, conf.attrib.bold)
   M.link("Include", "OliveBold")
   M.link("Boolean", "DeepRedBold")
-  M.hl("Keyword", M.localtheme.blue, M.palette.none, conf.attrib.keyword)
+  M.hl("Keyword", M.localtheme.blue, M.NONE, conf.attrib.keyword)
   if conf.tweaks.conditional then
-    M.hl("Conditional", M.localtheme.special.conditional, M.palette.none, conf.attrib.conditional)
+    M.hl("Conditional", M.localtheme.special.conditional, M.NONE, conf.attrib.conditional)
   else
     M.link("Conditional", "Keyword")
   end
-  M.hl_with_defaults("Define", M.localtheme.red, M.palette.none)
-  M.hl("Typedef", M.localtheme.red, M.palette.none, conf.attrib.types)
+  M.hl_with_defaults("Define", M.localtheme.red, M.NONE)
+  M.hl("Typedef", M.localtheme.red, M.NONE, conf.attrib.types)
   M.hl(
     "Exception",
     conf.theme_strings == "yellow" and M.localtheme.green or M.localtheme.yellow,
-    M.palette.none,
+    M.NONE,
     conf.attrib.keyword
   )
-  M.hl("Repeat", M.localtheme.blue, M.palette.none, conf.attrib.keyword)
-  M.hl("Statement", M.localtheme.blue, M.palette.none, conf.attrib.keyword)
-  M.hl_with_defaults("Macro", M.palette.purple, M.palette.none)
-  M.hl_with_defaults("Error", M.localtheme.red, M.palette.none)
-  M.hl_with_defaults("Label", M.palette.purple, M.palette.none)
-  M.hl("Special", M.localtheme.special.blue, M.palette.none, conf.attrib.bold)
-  M.hl_with_defaults("SpecialChar", M.palette.purple, M.palette.none)
-  M.hl("String", M.localtheme.string, M.palette.none, conf.attrib.string)
-  M.hl_with_defaults("Character", M.localtheme.yellow, M.palette.none)
-  M.hl("Number", M.localtheme.special.green, M.palette.none, conf.attrib.number)
-  M.hl_with_defaults("Float", M.palette.purple, M.palette.none)
-  M.hl("Function", M.localtheme.teal, M.palette.none, conf.attrib.func)
-  M.hl("Method", M.localtheme.brightteal, M.palette.none, conf.attrib.method)
-  M.hl("StaticMethod", M.localtheme.brightteal, M.palette.none, conf.attrib.staticmethod)
-  M.hl("Member", M.localtheme.orange, M.palette.none, conf.attrib.member)
-  M.hl("StaticMember", M.localtheme.orange, M.palette.none, conf.attrib.staticmember)
-  M.hl("Builtin", M.localtheme.special[conf.special.builtin], M.palette.none, conf.attrib.bold)
+  M.hl("Repeat", M.localtheme.blue, M.NONE, conf.attrib.keyword)
+  M.hl("Statement", M.localtheme.blue, M.NONE, conf.attrib.keyword)
+  M.hl_with_defaults("Macro", M.localtheme.lpurple, M.NONE)
+  M.hl_with_defaults("Error", M.localtheme.red, M.NONE)
+  M.hl_with_defaults("Label", M.localtheme.lpurple, M.NONE)
+  M.hl("Special", M.localtheme.special.blue, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("SpecialChar", M.localtheme.lpurple, M.NONE)
+  M.hl("String", M.localtheme.string, M.NONE, conf.attrib.string)
+  M.hl_with_defaults("Character", M.localtheme.yellow, M.NONE)
+  M.hl("Number", M.localtheme.special.green, M.NONE, conf.attrib.number)
+  M.hl_with_defaults("Float", M.localtheme.lpurple, M.NONE)
+  M.hl("Function", M.localtheme.teal, M.NONE, conf.attrib.func)
+  M.hl("Method", M.localtheme.brightteal, M.NONE, conf.attrib.method)
+  M.hl("StaticMethod", M.localtheme.brightteal, M.NONE, conf.attrib.staticmethod)
+  M.hl("Member", M.localtheme.orange, M.NONE, conf.attrib.member)
+  M.hl("StaticMember", M.localtheme.orange, M.NONE, conf.attrib.staticmember)
+  M.hl("Builtin", M.localtheme.special[conf.special.builtin], M.NONE, conf.attrib.bold)
 
-  M.hl("Title", M.localtheme.red, M.palette.none, conf.attrib.bold)
-  M.hl_with_defaults("Tag", M.localtheme.orange, M.palette.none)
-  M.hl_with_defaults("Comment", M.palette.grey, M.palette.none)
-  M.hl_with_defaults("SpecialComment", M.palette.grey, M.palette.none)
-  M.hl_with_defaults("Todo", M.localtheme.blue, M.palette.none)
-  M.hl_with_defaults("Ignore", M.palette.grey, M.palette.none)
-  M.hl("Underlined", M.palette.none, M.palette.none, { underline = true })
+  M.hl("Title", M.localtheme.red, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Tag", M.localtheme.orange, M.NONE)
+  M.hl_with_defaults("Comment", M.localtheme.grey, M.NONE)
+  M.hl_with_defaults("SpecialComment", M.localtheme.grey, M.NONE)
+  M.hl_with_defaults("Todo", M.localtheme.blue, M.NONE)
+  M.hl_with_defaults("Ignore", M.localtheme.grey, M.NONE)
+  M.hl("Underlined", M.NONE, M.NONE, { underline = true })
 
-  M.hl("Attribute", M.palette.olive, M.palette.none, conf.attrib.attribute)
-  M.hl("Annotation", M.palette.olive, M.palette.none, conf.attrib.annotation)
-  M.hl_with_defaults("Fg", M.localtheme.fg, M.palette.none)
-  M.hl("FgBold", M.localtheme.fg, M.palette.none, conf.attrib.bold)
-  M.hl("FgItalic", M.localtheme.fg, M.palette.none, conf.attrib.italic)
-  M.hl_with_defaults("FgDim", M.localtheme.fg_dim, M.palette.none)
-  M.hl("FgDimBold", M.localtheme.fg_dim, M.palette.none, conf.attrib.bold)
-  M.hl("FgDimBoldItalic", M.localtheme.fg_dim, M.palette.none, conf.attrib.bolditalic)
-  M.hl_with_defaults("Grey", M.palette.grey, M.palette.none)
-  M.hl_with_defaults("Red", M.localtheme.red, M.palette.none)
-  M.hl("RedBold", M.localtheme.red, M.palette.none, conf.attrib.bold)
-  M.hl_with_defaults("DeepRed", M.palette.deepred, M.palette.none)
-  M.hl("DeepRedBold", M.palette.deepred, M.palette.none, conf.attrib.bold)
-  M.hl_with_defaults("Orange", M.localtheme.orange, M.palette.none)
-  M.hl("OrangeBold", M.localtheme.orange, M.palette.none, conf.attrib.bold)
-  M.hl_with_defaults("Yellow", M.localtheme.yellow, M.palette.none)
-  M.hl("YellowBold", M.localtheme.yellow, M.palette.none, conf.attrib.bold)
-  M.hl_with_defaults("Green", M.localtheme.green, M.palette.none)
-  M.hl("GreenBold", M.localtheme.green, M.palette.none, conf.attrib.bold)
-  M.hl_with_defaults("Blue", M.localtheme.blue, M.palette.none)
-  M.hl("BlueBold", M.localtheme.blue, M.palette.none, conf.attrib.bold)
-  M.hl_with_defaults("Olive", M.palette.olive, M.palette.none)
-  M.hl("OliveBold", M.palette.olive, M.palette.none, conf.attrib.bold)
-  M.hl_with_defaults("Purple", M.localtheme.purple, M.palette.none)
-  M.hl("PurpleBold", M.localtheme.purple, M.palette.none, conf.attrib.bold)
-  M.hl_with_defaults("DarkPurple", M.localtheme.darkpurple, M.palette.none)
-  M.hl("DarkPurpleBold", M.localtheme.darkpurple, M.palette.none, conf.attrib.bold)
-  M.hl_with_defaults("Darkyellow", M.localtheme.darkyellow, M.palette.none)
-  M.hl("DarkyellowBold", M.localtheme.darkyellow, M.palette.none, conf.attrib.bold)
-  M.hl_with_defaults("Teal", M.localtheme.teal, M.palette.none)
-  M.hl("TealBold", M.localtheme.teal, M.palette.none, conf.attrib.bold)
+  M.hl("Attribute", M.localtheme.olive, M.NONE, conf.attrib.attribute)
+  M.hl("Annotation", M.localtheme.olive, M.NONE, conf.attrib.annotation)
+  M.hl_with_defaults("Fg", M.localtheme.fg, M.NONE)
+  M.hl("FgBold", M.localtheme.fg, M.NONE, conf.attrib.bold)
+  M.hl("FgItalic", M.localtheme.fg, M.NONE, conf.attrib.italic)
+  M.hl_with_defaults("FgDim", M.localtheme.fg_dim, M.NONE)
+  M.hl("FgDimBold", M.localtheme.fg_dim, M.NONE, conf.attrib.bold)
+  M.hl("FgDimBoldItalic", M.localtheme.fg_dim, M.NONE, conf.attrib.bolditalic)
+  M.hl_with_defaults("Grey", M.localtheme.grey, M.NONE)
+  M.hl_with_defaults("Red", M.localtheme.red, M.NONE)
+  M.hl("RedBold", M.localtheme.red, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("DeepRed", M.localtheme.deepred, M.NONE)
+  M.hl("DeepRedBold", M.localtheme.deepred, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Orange", M.localtheme.orange, M.NONE)
+  M.hl("OrangeBold", M.localtheme.orange, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Yellow", M.localtheme.yellow, M.NONE)
+  M.hl("YellowBold", M.localtheme.yellow, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Green", M.localtheme.green, M.NONE)
+  M.hl("GreenBold", M.localtheme.green, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Blue", M.localtheme.blue, M.NONE)
+  M.hl("BlueBold", M.localtheme.blue, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Olive", M.localtheme.olive, M.NONE)
+  M.hl("OliveBold", M.localtheme.olive, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Purple", M.localtheme.purple, M.NONE)
+  M.hl("PurpleBold", M.localtheme.purple, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("DarkPurple", M.localtheme.darkpurple, M.NONE)
+  M.hl("DarkPurpleBold", M.localtheme.darkpurple, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Darkyellow", M.localtheme.darkyellow, M.NONE)
+  M.hl("DarkyellowBold", M.localtheme.darkyellow, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Teal", M.localtheme.teal, M.NONE)
+  M.hl("TealBold", M.localtheme.teal, M.NONE, conf.attrib.bold)
 
-  M.hl("RedItalic", M.localtheme.red, M.palette.none, conf.attrib.italic)
-  M.hl("OrangeItalic", M.localtheme.orange, M.palette.none, conf.attrib.italic)
-  M.hl("YellowItalic", M.localtheme.yellow, M.palette.none, conf.attrib.italic)
-  M.hl("GreenItalic", M.localtheme.green, M.palette.none, conf.attrib.italic)
-  M.hl("BlueItalic", M.localtheme.blue, M.palette.none, conf.attrib.italic)
-  M.hl("PurpleItalic", M.palette.purple, M.palette.none, conf.attrib.italic)
+  M.hl("RedItalic", M.localtheme.red, M.NONE, conf.attrib.italic)
+  M.hl("OrangeItalic", M.localtheme.orange, M.NONE, conf.attrib.italic)
+  M.hl("YellowItalic", M.localtheme.yellow, M.NONE, conf.attrib.italic)
+  M.hl("GreenItalic", M.localtheme.green, M.NONE, conf.attrib.italic)
+  M.hl("BlueItalic", M.localtheme.blue, M.NONE, conf.attrib.italic)
+  M.hl("PurpleItalic", M.localtheme.lpurple, M.NONE, conf.attrib.italic)
   M.hl_with_defaults("RedSign", M.localtheme.red, M.localtheme.darkbg)
   M.hl_with_defaults("OrangeSign", M.localtheme.orange, M.localtheme.darkbg)
   M.hl_with_defaults("YellowSign", M.localtheme.yellow, M.localtheme.darkbg)
   M.hl_with_defaults("GreenSign", M.localtheme.green, M.localtheme.darkbg)
   M.hl_with_defaults("BlueSign", M.localtheme.blue, M.localtheme.darkbg)
-  M.hl_with_defaults("PurpleSign", M.palette.purple, M.localtheme.darkbg)
-  M.hl("ErrorText", M.palette.none, M.palette.none, { underline = true, sp = M.localtheme.red[1] })
-  M.hl("WarningText", M.palette.none, M.palette.none, { underline = true, sp = M.localtheme.yellow[1] })
-  M.hl("InfoText", M.localtheme.blue, M.palette.none, { italic = true })
-  M.hl("HintText", M.localtheme.green, M.palette.none, { italic = true })
+  M.hl_with_defaults("PurpleSign", M.localtheme.lpurple, M.localtheme.darkbg)
+  M.hl("ErrorText", M.NONE, M.NONE, { underline = true, sp = M.localtheme.red[1] })
+  M.hl("WarningText", M.NONE, M.NONE, { underline = true, sp = M.localtheme.yellow[1] })
+  M.hl("InfoText", M.localtheme.blue, M.NONE, { italic = true })
+  M.hl("HintText", M.localtheme.green, M.NONE, { italic = true })
   M.link("VirtualTextWarning", "Grey")
   M.link("VirtualTextError", "Grey")
   M.link("VirtualTextInfo", "Grey")
   M.link("VirtualTextHint", "Grey")
-  M.hl_with_defaults("ErrorFloat", M.localtheme.red, M.palette.none)
-  M.hl_with_defaults("WarningFloat", M.localtheme.yellow, M.palette.none)
-  M.hl_with_defaults("InfoFloat", M.localtheme.blue, M.palette.none)
-  M.hl_with_defaults("HintFloat", M.localtheme.green, M.palette.none)
+  M.hl_with_defaults("ErrorFloat", M.localtheme.red, M.NONE)
+  M.hl_with_defaults("WarningFloat", M.localtheme.yellow, M.NONE)
+  M.hl_with_defaults("InfoFloat", M.localtheme.blue, M.NONE)
+  M.hl_with_defaults("HintFloat", M.localtheme.green, M.NONE)
 
-  M.hl("Strong", M.palette.none, M.palette.none, conf.attrib.bold)
-  M.hl("Emphasis", M.palette.none, M.palette.none, conf.attrib.italic)
-  M.hl("URI", M.localtheme.special.blue, M.palette.none, conf.attrib.uri)
+  M.hl("Strong", M.NONE, M.NONE, conf.attrib.bold)
+  M.hl("Emphasis", M.NONE, M.NONE, conf.attrib.italic)
+  M.hl("URI", M.localtheme.special.blue, M.NONE, conf.attrib.uri)
 
   -- LSP and diagnostics stuff
   M.link("DiagnosticFloatingError", "ErrorFloat")
@@ -909,7 +892,7 @@ local function set_all()
   M.link("BookmarkAnnotationLine", "DiffAdd")
 
   -- lukas-reineke/indent-blankline.nvim
-  M.hl("IndentBlanklineContextChar", M.localtheme.darkpurple, M.palette.none, { nocombine = true })
+  M.hl("IndentBlanklineContextChar", M.localtheme.darkpurple, M.NONE, { nocombine = true })
   M.set_hl(0, "IndentBlanklineChar", { fg = conf.indentguide_colors[conf.scheme], nocombine = true })
   M.link("IndentBlanklineSpaceChar", "IndentBlanklineChar")
   M.link("IndentBlanklineSpaceCharBlankline", "IndentBlanklineChar")
@@ -921,7 +904,7 @@ local function set_all()
   M.set_hl(0, "IndentBlanklineIndent5", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][6], nocombine = true })
   M.set_hl(0, "IndentBlanklineIndent6", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][3], nocombine = true })
 
-  M.hl_with_defaults("InclineNormalNC", M.palette.grey, M.localtheme.bg2)
+  M.hl_with_defaults("InclineNormalNC", M.localtheme.grey, M.localtheme.bg2)
 
   M.link("diffAdded", "Green")
   M.link("diffRemoved", "Red")
@@ -934,23 +917,23 @@ local function set_all()
 
   -- Glance plugin: https://github.com/DNLHC/glance.nvim
   M.hl_with_defaults("GlancePreviewNormal", M.localtheme.fg, M.localtheme.black)
-  M.hl_with_defaults("GlancePreviewMatch", M.localtheme.yellow, M.palette.none)
-  M.hl_with_defaults("GlanceListMatch", M.localtheme.yellow, M.palette.none)
+  M.hl_with_defaults("GlancePreviewMatch", M.localtheme.yellow, M.NONE)
+  M.hl_with_defaults("GlanceListMatch", M.localtheme.yellow, M.NONE)
   M.link("GlanceListCursorLine", "Visual")
 
   -- allow neotree and other addon panels have different backgrounds
-  M.hl_with_defaults("NeoTreeNormalNC", M.localtheme.fg_dim, M.palette.neotreebg)
-  M.hl_with_defaults("NeoTreeNormal", M.localtheme.fg, M.palette.neotreebg)
-  M.hl_with_defaults("NeoTreeFloatBorder", M.palette.grey_dim, M.palette.neotreebg)
-  M.hl("NeoTreeFileNameOpened", M.localtheme.blue, M.palette.neotreebg, conf.attrib.italic)
-  M.hl_with_defaults("SymbolsOutlineConnector", M.palette.grey_dim, M.palette.none)
-  M.hl_with_defaults("TreeCursorLine", M.palette.none, M.localtheme.special.c3)
-  M.hl_with_defaults("NotifierTitle", M.localtheme.yellow, M.palette.none)
+  M.hl_with_defaults("NeoTreeNormalNC", M.localtheme.fg_dim, M.localtheme.neotreebg)
+  M.hl_with_defaults("NeoTreeNormal", M.localtheme.fg, M.localtheme.neotreebg)
+  M.hl_with_defaults("NeoTreeFloatBorder", M.localtheme.grey_dim, M.localtheme.neotreebg)
+  M.hl("NeoTreeFileNameOpened", M.localtheme.blue, M.localtheme.neotreebg, conf.attrib.italic)
+  M.hl_with_defaults("SymbolsOutlineConnector", M.localtheme.grey_dim, M.NONE)
+  M.hl_with_defaults("TreeCursorLine", M.NONE, M.localtheme.special.c3)
+  M.hl_with_defaults("NotifierTitle", M.localtheme.yellow, M.NONE)
   M.link("NotifierContent", "NeoTreeNormalNC")
 
   -- Treesitter stuff
-  M.hl_with_defaults("TreesitterContext", M.palette.none, M.localtheme.bg)
-  --M.hl("TreesitterContextBottom", M.palette.none, M.localtheme.bg, { underline=true, sp=M.palette.purple[1] })
+  M.hl_with_defaults("TreesitterContext", M.NONE, M.localtheme.bg)
+  --M.hl("TreesitterContextBottom", M.NONE, M.localtheme.bg, { underline=true, sp=M.localtheme.lpurple[1] })
   M.link("TreesitterContextSeparator", "Type")
   M.link("OutlineGuides", "SymbolsOutlineConnector")
   M.link("OutlineFoldMarker", "SymbolsOutlineConnector")
@@ -959,7 +942,7 @@ local function set_all()
 
   -- WinBar
   M.hl_with_defaults("WinBarFilename", M.localtheme.fg, M.localtheme.accent)                                   -- Filename (right hand)
-  M.hl("WinBarContext", M.localtheme.accent, M.palette.none, { underline = true, sp = M.localtheme.accent[1] }) -- LSP context (left hand)
+  M.hl("WinBarContext", M.localtheme.accent, M.NONE, { underline = true, sp = M.localtheme.accent[1] }) -- LSP context (left hand)
   -- WinBarInvis is for the central padding item. It should be transparent and invisible (fg = bg)
   -- This is a somewhat hack-ish way to make the lualine-controlle winbar transparent.
   M.hl("WinBarInvis", M.localtheme.bg, M.localtheme.bg, { underline = true, sp = M.localtheme.accent[1] })

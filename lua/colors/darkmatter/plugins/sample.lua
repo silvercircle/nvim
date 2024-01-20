@@ -4,7 +4,7 @@ local function _set()
   local c = require("colors.darkmatter")
   local conf = c.get_conf()
 
-  c.hl_with_defaults("MyGroup", c.localtheme.fg, c.palette.neotreebg)
+  c.hl_with_defaults("MyGroup", c.localtheme.fg, c.localtheme.neotreebg)
   c.link("Foo", "Bar")
 end
 

@@ -527,7 +527,11 @@ function M.restore_config()
     },
     special = {
       operator = "builtin",
-      builtin = "conditional"
+      builtin = "conditional",
+      braces = "c1"
+    },
+    custom_colors = {
+      c1 = "#5a8aba"
     },
     baseattrib = {
       dark = {
