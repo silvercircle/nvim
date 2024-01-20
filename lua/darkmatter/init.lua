@@ -257,9 +257,11 @@ function M.link(hlg, target)
 end
 
 -- configure the theme data. this must always be called after using setup() or
--- other means to change the conf table.
+-- after changing the configuration table.
 -- set() automatically calls it before setting any highlight groups.
 local function configure()
+  local palette = require("darkmatter.palettes." .. conf.scheme)
+
   M.T = require("darkmatter.themes." .. conf.scheme)
   conf.attrib = conf.baseattrib[conf.scheme]
   LuaLineColors = {
@@ -280,7 +282,8 @@ local function configure()
     gray10 = "#f0f0f0",
     statuslinebg = M.T[conf.variant].statuslinebg,
   }
-  M.P = require("darkmatter.palettes." .. conf.scheme).palette(conf.desaturate, conf.dlevel)
+  -- setup base palette
+  M.P = palette.palette(conf.desaturate, conf.dlevel)
 
   M.P.special.fg = { M.T[conf.variant].fg , 1 }
   M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
@@ -301,9 +304,9 @@ local function configure()
   M.P.tablinebg = M.P.statuslinebg
   M.P.fg_dim = { M.T[conf.variant].fg_dim, 2 }
 
-  M.P = vim.tbl_deep_extend("force", M.P, require("darkmatter.palettes." .. conf.scheme).variants(conf.variant))
+  -- merge the variant-dependent colors
+  M.P = vim.tbl_deep_extend("force", M.P, palette.variants(conf.variant))
 
-  print(vim.inspect(M.P))
   M.cokeline_colors = {
     bg = M.T[conf.variant].statuslinebg,
     inact_bg = M.P.statuslinebg[1],

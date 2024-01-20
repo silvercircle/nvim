@@ -1,5 +1,5 @@
 local M = {}
-function M.palette(desaturate, dlevel, variant)
+function M.basepalette(desaturate, dlevel)
   if desaturate == true then
     return {
       orange = (dlevel == 1) and { "#3b2a1c", 215 } or { "#3b2a25", 215 },
