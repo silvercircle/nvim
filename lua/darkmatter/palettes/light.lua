@@ -50,25 +50,21 @@ end
 function M.variants(variant)
     if variant == "cold" or variant == "deepblack" then
       return {
-        bdarkred = { "#601010", 249 },
-        bpmenubg = { "#241a20", 156 },
-        bblack = { "#121215", 232 },
-        bbg_dim = { "#222327", 232 },
-        bbg0 = { "#b0b0b0", 235 },
-        bbg1 = { "#a0a0a0", 236 },
-        bbg2 = { "#363944", 236 },
-        bbg4 = { "#b0b0b0", 237 }
+        black = { "#121215", 232 },
+        bg_dim = { "#222327", 232 },
+        bg0 = { "#b0b0b0", 235 },
+        bg1 = { "#a0a0a0", 236 },
+        bg2 = { "#363944", 236 },
+        bg4 = { "#b0b0b0", 237 }
       }
     else
       return {
-        bdarkred = { "#601010", 249 },
-        bpmenubg = { "#241a20", 156 },
-        bblack = { "#151212", 232 },
-        bbg_dim = { "#242020", 232 },
-        bbg0 = { "#b0b0b0", 235 },
-        bbg1 = { "#a0a0a0", 236 },
-        bbg2 = { "#403936", 236 },
-        bbg4 = { "#b0b0b0", 237 }
+        black = { "#151212", 232 },
+        bg_dim = { "#242020", 232 },
+        bg0 = { "#b0b0b0", 235 },
+        bg1 = { "#a0a0a0", 236 },
+        bg2 = { "#403936", 236 },
+        bg4 = { "#b0b0b0", 237 }
       }
     end
 end

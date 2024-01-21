@@ -23,7 +23,7 @@ local function perform_command(cmd)
   vim.cmd(cmd)
 end
 
-kms("i", "<Esc>", function() vim.cmd.stopinsert() end, { noremap = true, expr = true, silent = true } )
+-- kms("i", "<Esc>", function() vim.cmd.stopinsert() end, { noremap = true, expr = true, silent = true } )
 
 kms({ "n", "i" }, "<C-c>", "<NOP>", opts)
 kms({ "n", "i" }, "<C-l>", "<NOP>", opts)
@@ -334,7 +334,6 @@ _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-7>', function()
 end, "Focus the quickfix list")
 
 _Config_SetKey({ 'n', 'i', 't' }, '<f11>', function() __Globals.termToggle(12) end, "Toggle Terminal split at bottom")
---map('t', "<f11>", "<C-\\><C-n><CMD>call TermToggle(12)<CR>", opts)
 map('t', '<Esc>', '<C-\\><C-n>', opts)
 
 _Config_SetKey('n', '<f32>', '<CMD>RnvimrToggle<CR>', "Ranger in Floaterm")

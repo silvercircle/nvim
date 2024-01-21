@@ -87,7 +87,7 @@ lazy.setup({
   -- treesitter + friends
   {
     'nvim-treesitter/nvim-treesitter',
-    branch = "main",
+    --branch = "main",
     event = { "BufReadPre" },
     config = function()
       require("plugins.treesitter")
@@ -229,7 +229,7 @@ lazy.setup({
            preview_opts = {
              border = __Globals.perm_config.float_borders
            },
-           preview_window = true,
+           preview_window = false,
            title = false
         })
         end

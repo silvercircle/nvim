@@ -63,7 +63,7 @@ local rainbowpalette = {
 
 M.keys_set = false
 -- the color palette. Dynamically created in the configure() function
-M.P = {}
+M.P = nil
 -- the theme. Contains the variants and basic colors for backgrounds etc.
 M.T = nil
 
@@ -283,7 +283,7 @@ local function configure()
     statuslinebg = M.T[conf.variant].statuslinebg,
   }
   -- setup base palette
-  M.P = palette.palette(conf.desaturate, conf.dlevel)
+  M.P = palette.basepalette(conf.desaturate, conf.dlevel)
 
   M.P.special.fg = { M.T[conf.variant].fg , 1 }
   M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
@@ -339,7 +339,7 @@ local function set_all()
   M.hl_with_defaults("ToolbarLine", M.P.fg, M.NONE)
   M.hl_with_defaults("FoldColumn", M.P.bg4, M.NONE)
   M.hl_with_defaults("SignColumn", M.P.fg, M.NONE)
-  M.hl_with_defaults("IncSearch", M.P.yellow, M.P.darkred)
+  M.hl_with_defaults("IncSearch", M.P.yellow, M.P.deepred)
   M.hl_with_defaults("Search", M.P.black, M.P.darkyellow)
   M.hl_with_defaults("ColorColumn", M.NONE, M.P.bg1)
   M.hl_with_defaults("Conceal", M.P.grey_dim, M.NONE)
@@ -376,14 +376,11 @@ local function set_all()
   M.hl("WarningMsg", M.P.yellow, M.NONE, conf.attrib.bold)
   M.hl("ModeMsg", M.P.fg, M.NONE, conf.attrib.bold)
   M.hl("MoreMsg", M.P.blue, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("MatchParen", M.P.yellow, M.P.darkred)
+  M.hl_with_defaults("MatchParen", M.P.yellow, M.P.deepred)
 
   M.hl_with_defaults("NonText", M.P.bg4, M.NONE)
   M.hl_with_defaults("Whitespace", M.P.green, M.NONE)
   M.hl_with_defaults("SpecialKey", M.P.green, M.NONE)
-  M.hl_with_defaults("Pmenu", M.P.fg, M.P.pmenubg)
-  M.hl_with_defaults("PmenuSbar", M.NONE, M.P.bg2)
-  M.link("PmenuSel", "Visual")
   M.link("WildMenu", "PmenuSel")
 
   M.hl_with_defaults("PmenuThumb", M.NONE, M.P.grey)
@@ -422,8 +419,6 @@ local function set_all()
   M.hl("StorageClass", M.P.special.storage, M.NONE, conf.attrib.storage)
   M.hl_with_defaults("Identifier", M.P.orange, M.NONE)
   M.hl_with_defaults("Constant", M.P.lpurple, M.NONE)
-  M.hl("PreProc", M.P.darkyellow, M.NONE, conf.attrib.bold)
-  M.hl("PreCondit", M.P.darkyellow, M.NONE, conf.attrib.bold)
   M.link("Include", "OliveBold")
   M.link("Boolean", "DeepRedBold")
   M.hl("Keyword", M.P.blue, M.NONE, conf.attrib.keyword)
@@ -457,7 +452,7 @@ local function set_all()
   M.hl("Member", M.P.orange, M.NONE, conf.attrib.member)
   M.hl("StaticMember", M.P.orange, M.NONE, conf.attrib.staticmember)
   M.hl("Builtin", M.P.special[conf.special.builtin], M.NONE, conf.attrib.bold)
-
+  M.link("PreProc", "Include")
   M.hl("Title", M.P.red, M.NONE, conf.attrib.bold)
   M.hl_with_defaults("Tag", M.P.orange, M.NONE)
   M.hl_with_defaults("Comment", M.P.grey, M.NONE)
@@ -580,6 +575,7 @@ local function set_all()
   M.link("healthSuccess", "Green")
   M.link("healthWarning", "Yellow")
 
+  -- Tree-sitter highlight classes
   M.link("@annotation", "Annotation")
   M.link("@attribute", "Attribute")
   M.link("@boolean", "Boolean")
@@ -685,8 +681,6 @@ local function set_all()
   M.set_hl(0, "IndentBlanklineIndent5", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][6], nocombine = true })
   M.set_hl(0, "IndentBlanklineIndent6", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][3], nocombine = true })
 
-  M.hl_with_defaults("InclineNormalNC", M.P.grey, M.P.bg2)
-
   M.link("diffAdded", "Green")
   M.link("diffRemoved", "Red")
   M.link("diffChanged", "Blue")
@@ -695,12 +689,6 @@ local function set_all()
   M.link("diffFile", "Purple")
   M.link("diffLine", "Grey")
   M.link("diffIndexLine", "Purple")
-
-  -- Glance plugin: https://github.com/DNLHC/glance.nvim
-  M.hl_with_defaults("GlancePreviewNormal", M.P.fg, M.P.black)
-  M.hl_with_defaults("GlancePreviewMatch", M.P.yellow, M.NONE)
-  M.hl_with_defaults("GlanceListMatch", M.P.yellow, M.NONE)
-  M.link("GlanceListCursorLine", "Visual")
 
   -- allow neotree and other addon panels have different backgrounds
   M.hl_with_defaults("NeoTreeNormalNC", M.P.fg_dim, M.P.neotreebg)
@@ -733,9 +721,6 @@ local function set_all()
   -- Lazy plugin manager
   M.link("LazyNoCond", "RedBold")
   M.link("VirtColumn", "IndentBlankLineChar")
-  M.link("SatelliteCursor", "WarningMsg")
-  M.link("SatelliteSearch", "PurpleBold")
-  M.link("SatelliteSearchCurrent", "PurpleBold")
   M.set_hl(0, "@ibl.scope.char.1", { bg = "none" })
 end
 

@@ -88,6 +88,9 @@ local function _set()
 
   c.hl_with_defaults("CmpFloat", c.P.fg_dim, c.P.neotreebg)
   c.hl_with_defaults("CmpBorder", c.P.accent, c.P.neotreebg)
+  c.link("Pmenu", "CmpFloat")
+  c.hl_with_defaults("PmenuSbar", c.NONE, c.P.bg2)
+  c.link("PmenuSel", "Visual")
 
   c.hl_with_defaults("TelescopeBorder", c.P.accent, c.P.neotreebg)
   c.hl_with_defaults("TelescopePromptBorder", c.P.accent, c.P.neotreebg)
@@ -124,6 +127,12 @@ local function _set()
   c.link("GitSignsDeleteInline", "Visual")
 
   c.link("TroubleNormal", "NeoTreeNormalNC")
+
+  -- Glance plugin: https://github.com/DNLHC/glance.nvim
+  c.hl_with_defaults("GlancePreviewNormal", c.P.fg, c.P.black)
+  c.hl_with_defaults("GlancePreviewMatch", c.P.yellow, c.NONE)
+  c.hl_with_defaults("GlanceListMatch", c.P.yellow, c.NONE)
+  c.link("GlanceListCursorLine", "Visual")
 
   vim.api.nvim_set_hl(0, "NavicIconsFile",          {bg = c.P.accent[1], fg = c.P.fg[1]})
   vim.api.nvim_set_hl(0, "NavicIconsModule",        {bg = c.P.accent[1], fg = c.P.olive[1]})

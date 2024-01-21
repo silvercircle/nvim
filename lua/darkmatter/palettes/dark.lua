@@ -46,7 +46,7 @@ local desaturated_colors = {
     diff_red = { "#45292d", 52 },
     diff_green = { "#10320a", 22 },
     diff_blue = { "#253147", 17 },
-    deepred = { "#8b2d3c", 203 },
+    deepred = { "#782d3c", 203 },
     olive = { "#708422", 181 },
     lpurple = { "#b39df3", 176 },
     brown = { "#905010", 233 },
@@ -76,7 +76,7 @@ local desaturated_colors = {
     diff_red = { "#45292d", 52 },
     diff_green = { "#10320a", 22 },
     diff_blue = { "#253147", 17 },
-    deepred = { "#8b2d3c", 203 },
+    deepred = { "#702d3c", 203 },
     olive = { "#708422", 181 },
     lpurple = { "#b39df3", 176 },
     brown = { "#905010", 233 },
@@ -104,8 +104,6 @@ end
 function M.variants(variant)
     if variant == "cold" or variant == "deepblack" then
       return {
-        darkred = { "#601010", 249 },
-        pmenubg = { "#241a20", 156 },
         black = { "#121215", 232 },
         bg_dim = { "#222327", 232 },
         bg0 = { "#2c2e34", 235 },
@@ -115,8 +113,6 @@ function M.variants(variant)
       }
     else
       return {
-        darkred = { "#601010", 249 },
-        pmenubg = { "#241a20", 156 },
         black = { "#151212", 232 },
         bg_dim = { "#242020", 232 },
         bg0 = { "#302c2e", 235 },
