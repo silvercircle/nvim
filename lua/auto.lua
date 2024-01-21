@@ -240,11 +240,9 @@ autocmd({ 'FileType' }, {
     elseif args.match == "DressingInput" then
       vim.cmd("hi nCursor blend=0")
     elseif args.match == "mail" then
-      vim.cmd(
-      "setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
+      vim.cmd("setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
     elseif args.match == "query" then
-      vim.cmd(
-      "silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal norelativenumber | silent! setlocal nonumber | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC")
+      vim.cmd("silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal norelativenumber | silent! setlocal nonumber | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC")
     elseif args.match == "Glance" then
       vim.defer_fn(function() vim.cmd("setlocal cursorline") end, 400)
     elseif args.match == "qf" or args.match == "replacer" then
@@ -253,6 +251,7 @@ autocmd({ 'FileType' }, {
       else
         vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber")
       end
+      vim.cmd("setlocal winhl=Normal:NeoTreeNormalNC")
       vim.api.nvim_win_set_height(__Globals.term.winid, __Globals.perm_config.terminal.height)
     elseif args.match == "Trouble" then
       if __Globals.term.winid ~= nil then

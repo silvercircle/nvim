@@ -202,9 +202,9 @@ end
 -- after changing the configuration table.
 -- set() automatically calls it before setting any highlight groups.
 local function configure()
-  local palette = require("darkmatter.palettes." .. conf.scheme)
-  M.T = require("darkmatter.themes." .. conf.scheme)
-  conf.attrib = vim.tbl_deep_extend("force", palette.attributes(), M.attr_override[conf.scheme])
+  local theme = require("darkmatter.themes." .. conf.scheme)
+  M.T = theme.theme()
+  conf.attrib = vim.tbl_deep_extend("force", theme.attributes(), M.attr_override[conf.scheme])
   LuaLineColors = {
     white = "#ffffff",
     darkestgreen = M.T.accent_fg,
@@ -224,7 +224,7 @@ local function configure()
     statuslinebg = M.T[conf.variant].statuslinebg,
   }
   -- setup base palette
-  M.P = palette.basepalette(conf.desaturate, conf.dlevel)
+  M.P = theme.basepalette(conf.desaturate, conf.dlevel)
 
   M.P.special.fg = { M.T[conf.variant].fg , 1 }
   M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
@@ -246,7 +246,7 @@ local function configure()
   M.P.fg_dim = { M.T[conf.variant].fg_dim, 2 }
 
   -- merge the variant-dependent colors
-  M.P = vim.tbl_deep_extend("force", M.P, palette.variants(conf.variant))
+  M.P = vim.tbl_deep_extend("force", M.P, theme.variants(conf.variant))
 
   M.cokeline_colors = {
     bg = M.T[conf.variant].statuslinebg,
@@ -713,9 +713,8 @@ function M.setup(opt)
   end
 
   -- both themes and palette modules must be present for a scheme to work
-  local status0, _ = pcall(require, "darkmatter.themes." .. conf.scheme)
-  local status1, _ = pcall(require, "darkmatter.palettes." .. conf.scheme)
-  if status0 == false or status1 == false then
+  local status, _ = pcall(require, "darkmatter.themes." .. conf.scheme)
+  if status == false then
     vim.notify("The color scheme " .. conf.scheme .. " does not exist. Setting default")
     conf.scheme = "dark"
   end
