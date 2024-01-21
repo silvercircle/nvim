@@ -23,7 +23,7 @@ local function perform_command(cmd)
   vim.cmd(cmd)
 end
 
-kms("i", "<Esc>", function() vim.cmd.stopinsert() end, { noremap = true, expr = true, silent = true } )
+-- kms("i", "<Esc>", function() vim.cmd.stopinsert() end, { noremap = true, expr = true, silent = true } )
 
 kms({ "n", "i" }, "<C-c>", "<NOP>", opts)
 kms({ "n", "i" }, "<C-l>", "<NOP>", opts)

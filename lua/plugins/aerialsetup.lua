@@ -107,23 +107,23 @@ require("aerial").setup({
   -- This can be a filetype map (see :help aerial-filetype-map)
   -- To see all available values, see :help SymbolKind
   filter_kind = {
-    ['_'] = false,
-    lua = {
-      "Class",
-      "Constant",
-      "Constructor",
-      "Enum",
-      "Function",
-      "Interface",
-      "Module",
-      "Method",
-      "Struct",
-      "Event",
-      "Property",
-      "Field",
-      "Namespace",
-      "Variable"
-    }
+    ['_'] = false
+    --lua = {
+    --  "Class",
+    --  "Constant",
+    --  "Constructor",
+    --  "Enum",
+    --  "Function",
+    --  "Interface",
+    --  "Module",
+    --  "Method",
+    --  "Struct",
+    --  "Event",
+    --  "Property",
+    --  "Field",
+    --  "Namespace",
+    --  "Variable"
+    --}
   },
 
   -- Determines line highlighting mode when multiple splits are visible.
@@ -277,7 +277,13 @@ require("aerial").setup({
     -- Only used when diagnostics_trigger_update = false
     update_delay = 300,
   },
-
+  nav = {
+    keymaps = {
+      ["<Left>"] = "actions.left",
+      ["<Right>"] = "actions.right",
+      ["<Esc>"] = "actions.close",
+    }
+  },
   treesitter = {
     -- How long to wait (in ms) after a buffer change before updating
     update_delay = 300,

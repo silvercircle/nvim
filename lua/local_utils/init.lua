@@ -58,24 +58,27 @@ end
 -- some library functions
 -- pad string left and right to length with fill as fillchar
 function Utils.pad(string, length, fill)
-  local padlen = (length - #string) / 2
-  if #string >= length or padlen < 2 then
+  local len = vim.fn.strcharlen(string)
+  local padlen = (length - len) / 2
+  if len >= length or padlen < 2 then
     return string
   end
   return string.rep(fill, padlen) .. string .. string.rep(fill, padlen)
 end
 
 function Utils.lpad(string, length, fill)
-  local padlen = (length - #string)
-  if #string >= length or padlen < 2 then
+  local len = vim.fn.strcharlen(string)
+  local padlen = (length - len)
+  if len >= length or padlen < 2 then
     return string
   end
   return string.rep(fill, padlen) .. string
 end
 
 function Utils.rpad(string, length, fill)
-  local padlen = (length - #string)
-  if #string >= length or padlen < 2 then
+  local len = vim.fn.strcharlen(string)
+  local padlen = (length - len)
+  if len >= length or padlen < 2 then
     return string
   end
   return string .. string.rep(fill, padlen)

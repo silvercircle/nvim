@@ -57,7 +57,7 @@ local desaturated_colors = {
       blue = { "#6060cf", 239 },
       purple = { "#904090", 241 },
       storage = { "#607560", 242 },
-      class = { "#905070", 243 },
+      class = { "#704060", 243 },
     }
   },
   high = {
@@ -87,7 +87,7 @@ local desaturated_colors = {
       blue = { "#6060cf", 239 },
       purple = { "#904090", 241 },
       storage = { "#607560", 242 },
-      class = { "#905070", 243 },
+      class = { "#705060", 243 },
     }
   }
 }
@@ -132,16 +132,17 @@ function M.attributes()
     struct       = { bold = true },
     class        = { bold = true },
     interface    = { bold = true },
-    number       = { bold = true },
-    func         = { bold = true },   -- functions
+    number       = { },
+    func         = { },   -- functions
     method       = {},                -- class methods
     staticmethod = { italic = true },
     member       = {},                -- class member (=field)
     staticmember = { italic = true },
     operator     = { bold = true },   -- operators
+    parameter    = { italic = true },   -- operators
     delim        = { bold = true },   -- delimiters
     brace        = { bold = true },   -- braces, brackets, parenthesis
-    string       = {},
+    str          = {},
     bold         = { bold = true },
     italic       = { italic = true },
     bolditalic   = { bold = true, italic = true },

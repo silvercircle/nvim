@@ -76,7 +76,7 @@ Tweaks.lsp = {
   -- use either omnisharp or csharp_ls for c# and .NET development
   -- both options work reasonably well with a few issues and missing features
   -- the third option "roslyn" is highly experimental and not recommended
-  csharp = "omnisharp",
+  csharp = "csharp_ls",
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
   -- this can show multiple diagnostic messages for a single line.
   -- otherwise, use normal virtual text.
@@ -160,7 +160,7 @@ Tweaks.cmp.kind_attr = { bold=true, reverse=false } or {}
 -- set it to "aerial" to use the Aerial plugin.
 -- this is a ONLY A DEFAULT, it can be switched at runtime and the setting
 -- will be remembered
-Tweaks.outline_plugin = "aerial"
+Tweaks.outline_plugin = "outline"
 
 -- list of filetypes for which no views are created when saving or leaving the buffer
 -- by default, help files and terminals don't need views
@@ -183,9 +183,7 @@ Tweaks.numberwidth_rel = 2
 Tweaks.signcolumn = "yes:3"
 
 -- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
--- note that dropbar requires neovim 0.10 which is currently in development
--- and only available as nightly build.
-Tweaks.breadcrumb = 'navic'
+Tweaks.breadcrumb = 'aerial'
 Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
 
 -- settings for the fortune cookie split

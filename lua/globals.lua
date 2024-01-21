@@ -532,7 +532,7 @@ function M.restore_config()
     custom_colors = {
       c1 = "#5a8aba"
     },
-    baseattrib = {
+    attrib = {
       dark = {
         cmpkind = cmp_kind_attr,
         tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {}

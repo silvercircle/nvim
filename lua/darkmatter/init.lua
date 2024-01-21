@@ -66,6 +66,7 @@ M.keys_set = false
 M.P = nil
 -- the theme. Contains the variants and basic colors for backgrounds etc.
 M.T = nil
+M.attr_override = {}
 
 -- the theme configuration. This can be changed by calling setup({...})
 -- after changing the configuration configure() must be called before the theme
@@ -84,7 +85,6 @@ local conf = {
   -- The color of strings. Some prefer yellow, others not so.
   -- Supported are "yellow" and "green".
   theme_strings = "yellow",
-  accent = "yellow",
   -- kitty features are disabled by default.
   -- if configured properly, the theme's set() function can also set kitty's background
   -- color via remote control. It needs a valid unix socket and kitten executable.
@@ -204,7 +204,7 @@ end
 local function configure()
   local palette = require("darkmatter.palettes." .. conf.scheme)
   M.T = require("darkmatter.themes." .. conf.scheme)
-  conf.attrib = palette.attributes()
+  conf.attrib = vim.tbl_deep_extend("force", palette.attributes(), M.attr_override[conf.scheme])
   LuaLineColors = {
     white = "#ffffff",
     darkestgreen = M.T.accent_fg,
@@ -360,7 +360,7 @@ local function set_all()
   M.hl("StorageClass", M.P.special.storage, M.NONE, conf.attrib.storage)
   M.hl_with_defaults("Identifier", M.P.orange, M.NONE)
   M.hl_with_defaults("Constant", M.P.lpurple, M.NONE)
-  M.link("Include", "OliveBold")
+  M.link("Include", "Olive")
   M.link("Boolean", "DeepRedBold")
   M.hl("Keyword", M.P.blue, M.NONE, conf.attrib.keyword)
   -- use extra color for coditional keywords (if, else...)?
@@ -379,7 +379,7 @@ local function set_all()
   M.hl_with_defaults("Label", M.P.lpurple, M.NONE)
   M.hl("Special", M.P.special.blue, M.NONE, conf.attrib.bold)
   M.hl_with_defaults("SpecialChar", M.P.lpurple, M.NONE)
-  M.hl("String", M.P.string, M.NONE, conf.attrib.string)
+  M.hl("String", M.P.string, M.NONE, conf.attrib.str)
   M.hl_with_defaults("Character", M.P.yellow, M.NONE)
   M.hl("Number", M.P.special.green, M.NONE, conf.attrib.number)
   M.hl_with_defaults("Float", M.P.lpurple, M.NONE)
@@ -397,6 +397,7 @@ local function set_all()
   M.hl_with_defaults("Todo", M.P.blue, M.NONE)
   M.hl_with_defaults("Ignore", M.P.grey, M.NONE)
   M.hl("Underlined", M.NONE, M.NONE, { underline = true })
+  M.hl("Parameter", M.P.fg_dim, M.NONE, conf.attrib.parameter)
 
   M.hl("Attribute", M.P.olive, M.NONE, conf.attrib.attribute)
   M.hl("Annotation", M.P.olive, M.NONE, conf.attrib.annotation)
@@ -538,14 +539,14 @@ local function set_all()
   M.link("@keyword.conditional.ternary", "Operator")
   M.link("@keyword.repeat", "Conditional")
   M.link("@keyword.storage", "StorageClass")
-  M.link("@keyword.import", "Include")
+  M.link("@keyword.import", "Keyword")
   M.link("@label", "Red")
   M.link("@method", "Method")
   M.link("@namespace", "@module")
   M.link("@none", "Fg")
   M.link("@number", "Number")
   M.link("@operator", "Operator")
-  M.link("@parameter", "FgDimBoldItalic")
+  M.link("@parameter", "Parameter")
   M.link("@parameter.reference", "Fg")
   M.link("@property", "Member")
   M.link("@punctuation.bracket", "Braces")
@@ -577,6 +578,7 @@ local function set_all()
 
   -- semantic lsp types
   M.link("@lsp.type.namespace_name", "Type")
+  M.link("@lsp.type.namespace", "@namespace")
   M.link("@lsp.type.parameter", "@parameter")
   M.link("@lsp.type.variable", "@variable")
   M.link("@lsp.type.selfKeyword", "Builtin")
@@ -704,7 +706,13 @@ function M.setup(opt)
   opt = (opt ~= nil and type(opt) == "table") and opt or {}
   conf = vim.tbl_deep_extend("force", conf, opt)
 
-  -- TODO: sanitizing
+  if opt.attrib ~= nil then
+    M.attr_override = opt.attrib
+  else
+    M.attr_override = {}
+  end
+
+  -- both themes and palette modules must be present for a scheme to work
   local status0, _ = pcall(require, "darkmatter.themes." .. conf.scheme)
   local status1, _ = pcall(require, "darkmatter.palettes." .. conf.scheme)
   if status0 == false or status1 == false then

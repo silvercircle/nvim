@@ -78,16 +78,17 @@ function M.attributes()
     struct       = { bold = true },
     class        = { bold = true },
     interface    = { bold = true },
-    number       = { bold = true },
+    number       = { },
     func         = { bold = true },   -- functions
     method       = {},                -- class methods
     staticmethod = { italic = true },
     member       = {},                -- class member (=field)
     staticmember = { italic = true },
     operator     = { bold = true },   -- operators
+    parameter    = { italic = true },   -- operators
     delim        = { bold = true },   -- delimiters
     brace        = { bold = true },   -- braces, brackets, parenthesis
-    string       = {},
+    str          = {},
     bold         = { bold = true },
     italic       = { italic = true },
     bolditalic   = { bold = true, italic = true },
