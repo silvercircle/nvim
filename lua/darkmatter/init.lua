@@ -117,64 +117,6 @@ local conf = {
   rainbow_contrast = "high",
   -- attributes for various highlight classes. They allow all standard
   -- highlighting attributes like bold, italic, underline, sp.
-  baseattrib = {
-    dark = {
-      keyword      = { bold = true },   -- keywords
-      conditional  = { bold = true },   -- special keywords (if, then...)
-      types        = {},                -- types (classes, interfaces)
-      storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
-      struct       = { bold = true },
-      class        = { bold = true },
-      interface    = { bold = true },
-      number       = { bold = true },
-      func         = { bold = true },   -- functions
-      method       = { },               -- class methods
-      staticmethod = { italic = true },
-      member       = { },               -- class member (=field)
-      staticmember = { italic = true },
-      operator     = { bold = true },   -- operators
-      delim        = { bold = true },   -- delimiters
-      brace        = { bold = true },   -- braces, brackets, parenthesis
-      string       = {},
-      bold         = { bold = true },
-      italic       = { italic = true },
-      bolditalic   = { bold = true, italic = true },
-      attribute    = { bold = true },
-      annotation   = { bold = true, italic = true },
-      tabline      = {},
-      cmpkind      = {},
-      uri          = {}
-    },
-    -- for reasons of contrast and readability, the light scheme shall have
-    -- different attributes.
-    light = {
-      keyword      = { bold = true },   -- keywords
-      conditional  = { bold = true },   -- special keywords (if, then...)
-      types        = {},                -- types (classes, interfaces)
-      storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
-      struct       = { bold = true },
-      class        = { bold = true },
-      interface    = { bold = true },
-      number       = { bold = true },
-      func         = { bold = true },   -- functions
-      method       = { },               -- class methods
-      staticmethod = { italic = true },
-      member       = { },               -- class member (=field)
-      staticmember = { italic = true },
-      operator     = { bold = true },   -- operators
-      delim        = { bold = true },   -- delimiters
-      brace        = { bold = true },   -- braces, brackets, parenthesis
-      string       = {},
-      bold         = { bold = true },
-      italic       = { italic = true },
-      bolditalic   = { bold = true, italic = true },
-      attribute    = { bold = true },
-      annotation   = { bold = true, italic = true },
-      tabline      = {},
-      cmpkind      = {},
-      uri          = {}
-    },
-  },
   attrib = {},
   -- the callback will be called by all functions that change the theme's configuration
   -- Callback must be of type("function") and receives one parameter:
@@ -261,9 +203,8 @@ end
 -- set() automatically calls it before setting any highlight groups.
 local function configure()
   local palette = require("darkmatter.palettes." .. conf.scheme)
-
   M.T = require("darkmatter.themes." .. conf.scheme)
-  conf.attrib = conf.baseattrib[conf.scheme]
+  conf.attrib = palette.attributes()
   LuaLineColors = {
     white = "#ffffff",
     darkestgreen = M.T.accent_fg,
@@ -422,6 +363,7 @@ local function set_all()
   M.link("Include", "OliveBold")
   M.link("Boolean", "DeepRedBold")
   M.hl("Keyword", M.P.blue, M.NONE, conf.attrib.keyword)
+  -- use extra color for coditional keywords (if, else...)?
   if conf.tweaks.conditional then
     M.hl("Conditional", M.P.special.conditional, M.NONE, conf.attrib.conditional)
   else
@@ -429,12 +371,7 @@ local function set_all()
   end
   M.hl_with_defaults("Define", M.P.red, M.NONE)
   M.hl("Typedef", M.P.red, M.NONE, conf.attrib.types)
-  M.hl(
-    "Exception",
-    conf.theme_strings == "yellow" and M.P.green or M.P.yellow,
-    M.NONE,
-    conf.attrib.keyword
-  )
+  M.hl("Exception", conf.theme_strings == "yellow" and M.P.green or M.P.yellow, M.NONE, conf.attrib.keyword)
   M.hl("Repeat", M.P.blue, M.NONE, conf.attrib.keyword)
   M.hl("Statement", M.P.blue, M.NONE, conf.attrib.keyword)
   M.hl_with_defaults("Macro", M.P.lpurple, M.NONE)
@@ -768,7 +705,10 @@ function M.setup(opt)
   conf = vim.tbl_deep_extend("force", conf, opt)
 
   -- TODO: sanitizing
-  if conf.scheme ~= "dark" and conf.scheme ~= "light" then
+  local status0, _ = pcall(require, "darkmatter.themes." .. conf.scheme)
+  local status1, _ = pcall(require, "darkmatter.palettes." .. conf.scheme)
+  if status0 == false or status1 == false then
+    vim.notify("The color scheme " .. conf.scheme .. " does not exist. Setting default")
     conf.scheme = "dark"
   end
 

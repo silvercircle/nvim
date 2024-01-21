@@ -49,7 +49,7 @@ local function _set()
 
   c.link("MiniNotifyNormal", "NeoTreeNormalNC")
   c.link("MiniNotifyBorder", "CmpBorder")
-  c.link("NeoTreeFilenameOpened", "OrangeBold")
+  c.link("NeoTreeFilenameOpened", "Orange")
    -- CMP (with custom menu setup)
   c.link("CmpItemMenu", "Fg")
   c.link("CmpItemMenuDetail", "@include")
@@ -170,6 +170,9 @@ local function _set()
   c.set_hl(0, "CokelineActive", { bg = c.T.alt_accent_color, fg = c.T.accent_fg })
   c.set_hl(0, "CokelineActiveModified", { bg = c.T.alt_accent_color, fg = c.P.special.red[1] })
   c.set_hl(0, "CokelineInactiveModified", { bg = c.P.statuslinebg[1], fg = c.P.special.red[1] })
+
+  c.link("MultiCursor", "CurSearch")
+  c.link("MultiCursorMain", "CurSearch")
 end
 
 local M = {}

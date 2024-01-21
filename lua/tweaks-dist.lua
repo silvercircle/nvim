@@ -213,7 +213,8 @@ Tweaks.theme = {
   sync_kittybg = true,
   kittenexec = "kitten",
   kittysocket = "/tmp/mykittysocket",
-  rainbow_contrast = "low"
+  rainbow_contrast = "low",
+  scheme = "dark"
 }
 -- filetree tweaks
 Tweaks.tree = {

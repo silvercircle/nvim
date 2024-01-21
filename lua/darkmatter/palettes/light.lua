@@ -68,4 +68,35 @@ function M.variants(variant)
       }
     end
 end
+
+function M.attributes()
+  return {
+    keyword      = { bold = true },   -- keywords
+    conditional  = { bold = true },   -- special keywords (if, then...)
+    types        = {},                -- types (classes, interfaces)
+    storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
+    struct       = { bold = true },
+    class        = { bold = true },
+    interface    = { bold = true },
+    number       = { bold = true },
+    func         = { bold = true },   -- functions
+    method       = {},                -- class methods
+    staticmethod = { italic = true },
+    member       = {},                -- class member (=field)
+    staticmember = { italic = true },
+    operator     = { bold = true },   -- operators
+    delim        = { bold = true },   -- delimiters
+    brace        = { bold = true },   -- braces, brackets, parenthesis
+    string       = {},
+    bold         = { bold = true },
+    italic       = { italic = true },
+    bolditalic   = { bold = true, italic = true },
+    attribute    = { bold = true },
+    annotation   = { bold = true, italic = true },
+    tabline      = {},
+    cmpkind      = {},
+    uri          = {}
+  }
+end
+
 return M

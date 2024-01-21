@@ -55,7 +55,6 @@ M.perm_config_default = {
   statuscol_current = "normal",
   blist = true,
   blist_height = 0.33,
-  theme_scheme = "dark",
   theme_variant = "warm",
   transbg = false,
   theme_desaturate = true,
@@ -507,7 +506,7 @@ function M.restore_config()
   --local cmp_kind_attr = M.perm_config.cmp_layout == "experimental" and { bold=true, reverse=true } or {}
   local cmp_kind_attr = { bold=true, reverse=false }
   Config.theme.setup({
-    scheme = M.perm_config.theme_scheme,
+    scheme = vim.g.tweaks.theme.scheme,
     variant = M.perm_config.theme_variant,
     desaturate = M.perm_config.theme_desaturate,
     dlevel = M.perm_config.theme_dlevel,
