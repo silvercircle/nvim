@@ -4,7 +4,7 @@ local function _set()
   local c = require("darkmatter")
   local conf = c.get_conf()
 
-  c.hl_with_defaults("MyGroup", c.P.fg, c.P.neotreebg)
+  c.hl_with_defaults("MyGroup", c.P.fg, c.P.treebg)
   c.link("Foo", "Bar")
 end
 

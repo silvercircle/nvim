@@ -76,7 +76,7 @@ Tweaks.lsp = {
   -- use either omnisharp or csharp_ls for c# and .NET development
   -- both options work reasonably well with a few issues and missing features
   -- the third option "roslyn" is highly experimental and not recommended
-  csharp = "csharp_ls",
+  csharp = "omnisharp",
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
   -- this can show multiple diagnostic messages for a single line.
   -- otherwise, use normal virtual text.

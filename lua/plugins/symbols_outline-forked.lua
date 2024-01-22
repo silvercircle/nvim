@@ -19,7 +19,7 @@ outline_window = {
     auto_close = false,
     -- Automatically go to location in code when navigating outline window.
     -- Only in this fork
-    auto_jump = true,
+    auto_jump = false,
 
     -- Vim options for the outline window
     show_numbers = false,

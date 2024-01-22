@@ -12,6 +12,9 @@ lspconfig.csharp_ls.setup({
   filetypes = { 'cs' },
   init_options = {
     AutomaticWorkspaceInit = true,
+  },
+  flags = {
+    debounce_text_changes = 1000
   }
 })
 

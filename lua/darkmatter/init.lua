@@ -73,6 +73,7 @@ M.attr_override = {}
 -- can be activated with set()
 local conf = {
   disabled = false,
+  -- the scheme name. Configuration is loaded from themes/conf.scheme.lua
   scheme = "dark",
   -- color variant. as of now, 3 types are supported:
   -- a) "warm" - the default, a medium-dark grey background with a slightly red-ish tint.
@@ -99,11 +100,7 @@ local conf = {
   -- the prefix key for accessing the keymappings (see below in setup() ). These mappings
   -- can be used to change theme settings at runtime.
   keyprefix = "<leader>",
-  -- a table describing attributes for certain highlight groups
-  -- these are directly passed to nvim_set_hl(), so all supported attributes can be used
-  -- here. For example, if you don't want to have any italics, then you can redefine the
-  -- italic and bolditalic groups respectively. Same goes for semantic types like keywords
-  -- or strings
+
   special = {
     operator = "red",
     braces = "blue",
@@ -261,7 +258,7 @@ local function configure()
     inact_sp = M.P.accent[1]
   }
 
-  M.P.neotreebg = { M.T[conf.variant].treebg, 232 }
+  M.P.treebg = { M.T[conf.variant].treebg, 232 }
   M.P.selbg = { M.T["selbg"], 234 }
   M.P.special.builtin = M.P.brown
   M.P.special.conditional = M.P.darkyellow
@@ -277,7 +274,7 @@ local function set_all()
   M.hl_with_defaults("ScrollView", M.P.teal, M.P.special.c3)
   M.hl_with_defaults("Normal", M.P.fg, M.P.bg)
   M.hl_with_defaults("Accent", M.P.black, M.P.accent)
-  M.hl_with_defaults("Terminal", M.P.fg, M.P.neotreebg)
+  M.hl_with_defaults("Terminal", M.P.fg, M.P.treebg)
   M.hl_with_defaults("EndOfBuffer", M.P.bg4, M.NONE)
   M.hl_with_defaults("Folded", M.P.fg, M.P.diff_blue)
   M.hl_with_defaults("ToolbarLine", M.P.fg, M.NONE)
@@ -343,14 +340,14 @@ local function set_all()
   M.hl_with_defaults("TabLine", M.P.fg, M.P.statuslinebg)
   M.hl("TabLineFill", M.P.grey, M.P.tablinebg, conf.attrib.tabline)
   M.hl_with_defaults("TabLineSel", M.P.accent_fg, M.P.accent)
-  M.hl_with_defaults("VertSplit", M.P.statuslinebg, M.P.neotreebg)
+  M.hl_with_defaults("VertSplit", M.P.statuslinebg, M.P.treebg)
 
   M.link("MsgArea", "StatusLine")
   M.link("WinSeparator", "VertSplit")
 
   M.hl_with_defaults("Visual", M.NONE, M.P.selbg)
   M.hl("VisualNOS", M.NONE, M.P.bg2, { underline = true })
-  M.hl_with_defaults("QuickFixLine", M.P.blue, M.P.neotreebg)
+  M.hl_with_defaults("QuickFixLine", M.P.blue, M.P.treebg)
   M.hl_with_defaults("Debug", M.P.yellow, M.NONE)
   M.hl_with_defaults("debugPC", M.P.bg0, M.P.green)
   M.hl_with_defaults("debugBreakpoint", M.P.bg0, M.P.red)
@@ -633,10 +630,10 @@ local function set_all()
   M.link("diffIndexLine", "Purple")
 
   -- allow neotree and other addon panels have different backgrounds
-  M.hl_with_defaults("NeoTreeNormalNC", M.P.fg_dim, M.P.neotreebg)
-  M.hl_with_defaults("NeoTreeNormal", M.P.fg, M.P.neotreebg)
-  M.hl_with_defaults("NeoTreeFloatBorder", M.P.grey_dim, M.P.neotreebg)
-  M.hl("NeoTreeFileNameOpened", M.P.blue, M.P.neotreebg, conf.attrib.italic)
+  M.hl_with_defaults("NeoTreeNormalNC", M.P.fg_dim, M.P.treebg)
+  M.hl_with_defaults("NeoTreeNormal", M.P.fg, M.P.treebg)
+  M.hl_with_defaults("NeoTreeFloatBorder", M.P.grey_dim, M.P.treebg)
+  M.hl("NeoTreeFileNameOpened", M.P.blue, M.P.treebg, conf.attrib.italic)
   M.hl_with_defaults("SymbolsOutlineConnector", M.P.grey_dim, M.NONE)
   M.hl_with_defaults("TreeCursorLine", M.NONE, M.P.special.c3)
   M.hl_with_defaults("NotifierTitle", M.P.yellow, M.NONE)
@@ -664,7 +661,6 @@ local function set_all()
   M.link("LazyNoCond", "RedBold")
   M.link("VirtColumn", "IndentBlankLineChar")
   M.set_hl(0, "@ibl.scope.char.1", { bg = "none" })
-  M.hl("NoCursor", M.P.accent, M.P.bg, { blend = 100 })
 end
 
 -- this activates the theme.
