@@ -201,6 +201,9 @@ end
 -- configure the theme data. this must always be called after using setup() or
 -- after changing the configuration table.
 -- set() automatically calls it before setting any highlight groups.
+--
+-- it uses the configured scheme (conf.scheme) to load basic color tables from 
+-- themes/scheme.lua
 local function configure()
   local theme = require("darkmatter.themes." .. conf.scheme)
   M.T = theme.theme()
@@ -356,7 +359,7 @@ local function set_all()
   M.hl("Type", M.P.darkpurple, M.NONE, conf.attrib.types)
   M.hl("Structure", M.P.darkpurple, M.NONE, conf.attrib.struct)
   M.hl("Class", M.P.special.class, M.NONE, conf.attrib.class)
-  M.hl("Interface", M.P.purple, M.NONE, conf.attrib.interface)
+  M.hl("Interface", M.P.special.interface, M.NONE, conf.attrib.interface)
   M.hl("StorageClass", M.P.special.storage, M.NONE, conf.attrib.storage)
   M.hl_with_defaults("Identifier", M.P.orange, M.NONE)
   M.hl_with_defaults("Constant", M.P.lpurple, M.NONE)
@@ -381,7 +384,7 @@ local function set_all()
   M.hl_with_defaults("SpecialChar", M.P.lpurple, M.NONE)
   M.hl("String", M.P.string, M.NONE, conf.attrib.str)
   M.hl_with_defaults("Character", M.P.yellow, M.NONE)
-  M.hl("Number", M.P.special.green, M.NONE, conf.attrib.number)
+  M.hl("Number", M.P.special.number, M.NONE, conf.attrib.number)
   M.hl_with_defaults("Float", M.P.lpurple, M.NONE)
   M.hl("Function", M.P.teal, M.NONE, conf.attrib.func)
   M.hl("Method", M.P.brightteal, M.NONE, conf.attrib.method)
@@ -661,6 +664,7 @@ local function set_all()
   M.link("LazyNoCond", "RedBold")
   M.link("VirtColumn", "IndentBlankLineChar")
   M.set_hl(0, "@ibl.scope.char.1", { bg = "none" })
+  M.hl("NoCursor", M.P.accent, M.P.bg, { blend = 100 })
 end
 
 -- this activates the theme.

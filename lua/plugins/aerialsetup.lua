@@ -278,10 +278,14 @@ require("aerial").setup({
     update_delay = 300,
   },
   nav = {
+    border = "single",
     keymaps = {
       ["<Left>"] = "actions.left",
       ["<Right>"] = "actions.right",
       ["<Esc>"] = "actions.close",
+    },
+    win_opts = {
+      winhl = "Normal:NeoTreeNormalNC,CursorLine:TreeCursorLine,FloatBorder:TelescopeBorder,nCursor:NoCursor"
     }
   },
   treesitter = {

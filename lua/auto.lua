@@ -286,7 +286,7 @@ autocmd({ 'CmdLineEnter' }, {
 
 -- filetypes for left, right and bottom splits. They are meant to have a different background
 -- color and no cursor
-local enter_leave_filetypes = { "DressingSelect", "aerial", "Outline", "NvimTree", "neo-tree" }
+local enter_leave_filetypes = { "DressingSelect", "aerial", "Outline", "NvimTree", "neo-tree"  }
 local old_mode
 
 autocmd({ 'WinEnter' }, {
@@ -299,7 +299,6 @@ autocmd({ 'WinEnter' }, {
     end
 
     local filetype = vim.bo.filetype
-
     if vim.tbl_contains(enter_leave_filetypes, filetype) then
       vim.cmd("setlocal winhl=CursorLine:TreeCursorLine,Normal:NeoTreeNormalNC | hi nCursor blend=100")
     end

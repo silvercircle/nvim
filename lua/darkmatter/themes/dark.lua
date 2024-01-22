@@ -12,7 +12,7 @@ local vivid_colors = {
   purple = { "#c030c0", 241 },
   teal = { "#108080", 238 },
   brightteal = { "#30a0c0", 238 },
-  darkpurple = { "#803090", 240 },
+  darkpurple = { "#903090", 240 },
   red = { "#cc2d4c", 203 },
   yellow = { "#aaaa20", 231 },
   green = { "#10801f", 232 },
@@ -29,11 +29,11 @@ local vivid_colors = {
   special = {
     red = { "#cc2d4c", 203 },
     yellow = { "#cccc60", 231 },
-    green = { "#10801f", 232 },
+    number = { "#10801f", 232 },
     blue = { "#6060cf", 239 },
-    purple = { "#c030c0", 241 },
+    interface = { "#7030e0", 241 },
     storage = { "#507050", 242 },
-    class = { "#804060", 243 },
+    class = { "#903060", 243 },
   }
 }
 
@@ -61,11 +61,11 @@ local desaturated_colors = {
     special = {
       red = { "#bb4d5c", 203 },
       yellow = { "#aaaa20", 231 },
-      green = { "#309020", 232 },
+      number = { "#309020", 232 },
       blue = { "#6060cf", 239 },
-      purple = { "#904090", 241 },
+      interface = { "#7050e0", 241 },
       storage = { "#607560", 242 },
-      class = { "#704060", 243 },
+      class = { "#804060", 243 },
     }
   },
   high = {
@@ -91,11 +91,11 @@ local desaturated_colors = {
     special = {
       red = { "#bb4d5c", 203 },
       yellow = { "#aaaa20", 231 },
-      green = { "#309020", 232 },
+      number = { "#309020", 232 },
       blue = { "#6060cf", 239 },
-      purple = { "#904090", 241 },
+      interface = { "#7060e0", 241 },
       storage = { "#607560", 242 },
-      class = { "#705060", 243 },
+      class = { "#805060", 243 },
     }
   }
 }
@@ -139,25 +139,25 @@ function M.attributes()
     conditional  = { bold = true },   -- special keywords (if, then...)
     types        = {},                -- types (classes, interfaces)
     storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
-    struct       = { bold = true },
-    class        = { bold = true },
-    interface    = { bold = true },
-    number       = { },
-    func         = { },   -- functions
+    struct       = {},
+    class        = {},
+    interface    = {},
+    number       = {},
+    func         = {},   -- functions
     method       = {},                -- class methods
-    staticmethod = { italic = true },
-    member       = {},                -- class member (=field)
-    staticmember = { italic = true },
+    attribute    = { bold = true, italic = true },
+    annotation   = { bold = true, italic = true },
+    staticmethod = { bold = true },
+    member       = {},                -- class member (field, property...)
+    staticmember = { bold = true },
     operator     = { bold = true },   -- operators
-    parameter    = { italic = true },   -- operators
+    parameter    = { italic = true }, -- function/method arguments
     delim        = { bold = true },   -- delimiters
     brace        = { bold = true },   -- braces, brackets, parenthesis
-    str          = {},
+    str          = {},                -- strings
     bold         = { bold = true },
     italic       = { italic = true },
     bolditalic   = { bold = true, italic = true },
-    attribute    = { bold = true },
-    annotation   = { bold = true, italic = true },
     tabline      = {},
     cmpkind      = {},
     uri          = {}

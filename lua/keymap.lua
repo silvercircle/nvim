@@ -400,7 +400,7 @@ _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-n>', function()
   if vim.g.tweaks.breadcrumb == "navic" then
     require("nvim-navbuddy").open()
   else
-    vim.notify("Navbuddy is disabled.")
+    require("aerial").nav_open()
   end
 end, "Open Navbuddy window")
 require("local_utils.marks").set_keymaps()

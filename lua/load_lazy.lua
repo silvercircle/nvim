@@ -525,10 +525,10 @@ lazy.setup({
   },
   {
     "folke/trouble.nvim",
-      event = "LspAttach",
-      config = function()
-        require("plugins.others").setup.trouble()
-      end
+    event = "LspAttach",
+    config = function()
+      require("plugins.others").setup.trouble()
+    end
   },
   {
     "ThePrimeagen/harpoon",
