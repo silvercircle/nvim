@@ -169,9 +169,11 @@ outline_window = {
   },
 
   symbols = {
+    filter = {
+      lua = { "Array", "Variable", "Boolean", "Constant", "String", exclude = true}
+    },
     -- Symbols to ignore.
     -- Possible values are the Keys in the icons table below.
-    blacklist = {"Array"},
     -- Added in this fork:
     -- You can use a custom function that returns the icon for each symbol kind.
     -- This function takes a kind (string) as parameter and should return an

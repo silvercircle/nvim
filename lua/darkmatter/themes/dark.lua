@@ -73,7 +73,7 @@ local desaturated_colors = {
     blue = { "#5a6acf", 239 },
     purple = { "#a070a0", 241 },
     teal = { "#709090", 238 },
-    brightteal = { "#507090", 238 },
+    brightteal = { "#6080a0", 238 },
     darkpurple = { "#806a80", 240 },
     red = { "#ab5d6c", 203 },
     yellow = { "#909870", 231 },
@@ -201,8 +201,8 @@ function M.theme()
       treebg = "#121212",
       gutterbg = "#0f0f0f",
       kittybg = "#121212",
-      fg = "#b0b0b0",
-      fg_dim = "#959595"
+      fg = "#b0b0b5",
+      fg_dim = "#95959c"
     }
   }
 end
