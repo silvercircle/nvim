@@ -3,7 +3,7 @@ local kms = vim.keymap.set
 
 local opts = { noremap = true, silent = true }
 local utils = require('local_utils')
-local utility_key = vim.g.tweaks.utility_key
+local utility_key = vim.g.tweaks.keymap.utility_key
 local treename = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
 
 --- peform a key press

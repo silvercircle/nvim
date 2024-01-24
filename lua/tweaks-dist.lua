@@ -200,7 +200,11 @@ Tweaks.fortune = {
 Tweaks.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and true or false
 
 -- the key prefix used for various utility functions. See keymap.lua
-Tweaks.utility_key = "<C-l>"
+Tweaks.keymap = {
+  utility_key = "<C-l>",
+  mapleader = ","
+}
+
 Tweaks.treesitter = {
   -- disable injections which are known to slow down treesitter for a few file
   -- types. mostly JavaScript.
@@ -227,7 +231,7 @@ Tweaks.jdtls = {
   workspace_base = "/home/alex/.cache/jdtls_workspace/",
   java_executable = "/usr/bin/java",
   jdtls_install_dir = "/home/alex/.local/share/nvim/mason/packages/jdtls/",
-  equinox_version = "1.6.600.v20231106-1826",
+  equinox_version = "1.6.700.v20231214-2017",
   config = "config_linux"
 }
 -- a list of filename patterns that define a project root. This will be used as some kind of
@@ -256,7 +260,7 @@ Tweaks.cokeline = {
     slanted = {
       left = "",
       right = "",
-      inactive = ""
+      inactive = " "
     },
     half_padded = {
       left = "▌",
