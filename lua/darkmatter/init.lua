@@ -289,25 +289,6 @@ local function set_all()
   M.hl_with_defaults("iCursor", M.P.yellow, M.P.yellow)
   M.hl_with_defaults("vCursor", M.P.red, M.P.red)
   M.hl_with_defaults("LineNr", M.P.grey_dim, M.NONE)
-
-  M.link("CursorIM", "iCursor")
-
-  M.hl("FocusedSymbol", M.P.yellow, M.NONE, conf.attrib.bold)
-
-  if diff then
-    M.hl("CursorLine", M.NONE, M.NONE, { underline = true })
-    M.hl("CursorColumn", M.NONE, M.NONE, conf.attrib.bold)
-  else
-    M.hl_with_defaults("CursorLine", M.NONE, M.P.bg0)
-    M.hl_with_defaults("CursorColumn", M.NONE, M.P.bg1)
-  end
-
-  if diff then
-    M.hl("CursorLineNr", M.P.yellow, M.NONE, { underline = true })
-  else
-    M.hl_with_defaults("CursorLineNr", M.P.yellow, M.P.darkbg)
-  end
-
   M.hl_with_defaults("DiffAdd", M.NONE, M.P.diff_green)
   M.hl_with_defaults("DiffChange", M.NONE, M.P.diff_blue)
   M.hl_with_defaults("DiffDelete", M.NONE, M.P.diff_red)
@@ -318,7 +299,6 @@ local function set_all()
   M.hl("ModeMsg", M.P.fg, M.NONE, conf.attrib.bold)
   M.hl("MoreMsg", M.P.blue, M.NONE, conf.attrib.bold)
   M.hl_with_defaults("MatchParen", M.P.yellow, M.P.deepred)
-
   M.hl_with_defaults("NonText", M.P.bg4, M.NONE)
   M.hl_with_defaults("Whitespace", M.P.green, M.NONE)
   M.hl_with_defaults("SpecialKey", M.P.green, M.NONE)
@@ -341,6 +321,24 @@ local function set_all()
   M.hl("TabLineFill", M.P.grey, M.P.tablinebg, conf.attrib.tabline)
   M.hl_with_defaults("TabLineSel", M.P.accent_fg, M.P.accent)
   M.hl_with_defaults("VertSplit", M.P.statuslinebg, M.P.treebg)
+
+  M.link("CursorIM", "iCursor")
+
+  M.hl("FocusedSymbol", M.P.yellow, M.NONE, conf.attrib.bold)
+
+  if diff then
+    M.hl("CursorLine", M.NONE, M.NONE, { underline = true })
+    M.hl("CursorColumn", M.NONE, M.NONE, conf.attrib.bold)
+  else
+    M.hl_with_defaults("CursorLine", M.NONE, M.P.bg0)
+    M.hl_with_defaults("CursorColumn", M.NONE, M.P.bg1)
+  end
+
+  if diff then
+    M.hl("CursorLineNr", M.P.yellow, M.NONE, { underline = true })
+  else
+    M.hl_with_defaults("CursorLineNr", M.P.yellow, M.P.darkbg)
+  end
 
   M.link("MsgArea", "StatusLine")
   M.link("WinSeparator", "VertSplit")
@@ -601,7 +599,6 @@ local function set_all()
   M.link("@lsp.typemod.property.static", "StaticMember")
   M.link("@lsp.mod.defaultLibrary", "Function")
 
-  M.link("FloatermBorder", "Grey")
   M.link("BookmarkSign", "BlueSign")
   M.link("BookmarkAnnotationSign", "GreenSign")
   M.link("BookmarkLine", "DiffChange")

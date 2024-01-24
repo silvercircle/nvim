@@ -156,6 +156,8 @@ lspconfig.omnisharp.setup({
     end
     if new_config.enable_roslyn_analyzers then
       table.insert(new_config.cmd, "RoslynExtensionsOptions:EnableAnalyzersSupport=true")
+    else
+      table.insert(new_config.cmd, "RoslynExtensionsOptions:EnableAnalyzersSupport=false")
     end
     if new_config.enable_import_completion then
       table.insert(new_config.cmd, "RoslynExtensionsOptions:EnableImportCompletion=true")

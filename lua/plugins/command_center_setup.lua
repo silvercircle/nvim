@@ -381,7 +381,7 @@ command_center.add({
         prompt_title = "Find Files (current)",
         previewer = false,
         prompt_prefix = lutils.getTelescopePromptPrefix(),
-        layout_config = Config.telescope_vertical_preview_layout,
+        layout_config = { width = 80 },
         cwd = vim.fn.expand("%:p:h")
       }))
     end,
@@ -399,7 +399,7 @@ command_center.add({
         hidden = false,
         prompt_prefix = lutils.getTelescopePromptPrefix(),
         previewer = false;
-        layout_config = Config.telescope_vertical_preview_layout,
+        layout_config = { width = 80 },
         cwd = lutils.getroot_current()
       }))
     end,

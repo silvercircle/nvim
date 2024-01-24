@@ -7,7 +7,7 @@
 -- * attributes()
 
 local vivid_colors = {
-  orange = { "#c36630", 215 },
+  orange = { "#dfa690", 215 },
   blue = { "#4a4adf", 239 },
   purple = { "#c030c0", 241 },
   teal = { "#108080", 238 },
@@ -39,11 +39,11 @@ local vivid_colors = {
 
 local desaturated_colors = {
   low = {
-    orange = { "#ab6a6c", 215 },
+    orange = { "#a59680", 215 },
     blue = { "#5a6acf", 239 },
     purple = { "#b070b0", 241 },
     teal = { "#609090", 238 },
-    brightteal = { "#70a0c0", 238 },
+    brightteal = { "#6090b0", 238 },
     darkpurple = { "#705070", 240 },
     red = { "#bb4d5c", 203 },
     yellow = { "#aaaa60", 231 },
@@ -69,11 +69,11 @@ local desaturated_colors = {
     }
   },
   high = {
-    orange = { "#9b7a7c", 215 },
+    orange = { "#958680", 215 },
     blue = { "#5a6acf", 239 },
     purple = { "#a070a0", 241 },
     teal = { "#709090", 238 },
-    brightteal = { "#7090b0", 238 },
+    brightteal = { "#507090", 238 },
     darkpurple = { "#806a80", 240 },
     red = { "#ab5d6c", 203 },
     yellow = { "#909870", 231 },

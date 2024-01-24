@@ -216,6 +216,7 @@ vim.g.lspkind_symbols = {
   Type        = " ",
   Object      = "⦿ ",
   Key         = " ",
+  Null        = "󰟢 ",
   TypeParameter = "𝙏 "
 }
 

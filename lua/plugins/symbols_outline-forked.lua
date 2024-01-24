@@ -19,7 +19,7 @@ outline_window = {
     auto_close = false,
     -- Automatically go to location in code when navigating outline window.
     -- Only in this fork
-    auto_jump = false,
+    auto_jump = true,
 
     -- Vim options for the outline window
     show_numbers = false,
@@ -205,7 +205,7 @@ outline_window = {
       Array         = { icon = _s.Array, hl = "@constant" },
       Object        = { icon = _s.Object, hl = "@type" },
       Key           = { icon = _s.Key, hl = "@type" },
-      Null          = { icon = "NULL", hl = "@type" },
+      Null          = { icon = _s.Null, hl = "@type" },
       EnumMember    = { icon = _s.EnumMember, hl = "@field" },
       Struct        = { icon = _s.Struct, hl = "@type" },
       Event         = { icon = _s.Event, hl = "@type" },
