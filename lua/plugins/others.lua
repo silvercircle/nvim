@@ -184,6 +184,7 @@ M.setup = {
     })
   end,
 
+  -- currently not in use
   conform = function()
     local util = require("conform.util")
     require("conform").setup({

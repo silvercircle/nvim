@@ -135,30 +135,74 @@ local function _set()
   c.link("GlanceListCursorLine", "Visual")
 
   vim.api.nvim_set_hl(0, "NavicIconsFile",          {bg = c.P.accent[1], fg = c.P.fg[1]})
+
   vim.api.nvim_set_hl(0, "NavicIconsModule",        {bg = c.P.accent[1], fg = c.P.olive[1]})
+  c.link("AerialModuleIcon", "@module")
+
   vim.api.nvim_set_hl(0, "NavicIconsNamespace",     {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
+  c.link("AerialNamespaceIcon", "@module")
+
   vim.api.nvim_set_hl(0, "NavicIconsPackage",       {bg = c.P.accent[1], fg = c.P.olive[1]})
+  c.link("AerialPackageIcon", "@module")
+
   vim.api.nvim_set_hl(0, "NavicIconsClass",         {bg = c.P.accent[1], fg = c.P.special.class[1]})
+  c.link("AerialClassIcon", "Class")
+
   vim.api.nvim_set_hl(0, "NavicIconsMethod",        {bg = c.P.accent[1], fg = c.P.brightteal[1]})
+  c.link("AerialMethodIcon", "Method")
+
   vim.api.nvim_set_hl(0, "NavicIconsProperty",      {bg = c.P.accent[1], fg = c.P.orange[1]})
+  c.link("AerialPropertyIcon", "Member")
+
   vim.api.nvim_set_hl(0, "NavicIconsField",         {bg = c.P.accent[1], fg = c.P.orange[1]})
+  c.link("AeriaFieldIcon", "Member")
+
   vim.api.nvim_set_hl(0, "NavicIconsConstructor",   {bg = c.P.accent[1], fg = c.P.yellow[1]})
+  c.link("AerialConstructorIcon", "@constructor")
+
   vim.api.nvim_set_hl(0, "NavicIconsEnum",          {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
+  c.link("AerialEnumIcon", "@type")
+
   vim.api.nvim_set_hl(0, "NavicIconsInterface",     {bg = c.P.accent[1], fg = c.P.purple[1]})
+  c.link("AerialInterfaceIcon", "Interface")
+
   vim.api.nvim_set_hl(0, "NavicIconsFunction",      {bg = c.P.accent[1], fg = c.P.teal[1]})
+  c.link("AerialFunctionIcon", "Function")
+
   vim.api.nvim_set_hl(0, "NavicIconsVariable",      {bg = c.P.accent[1], fg = c.P.fg[1]})
+
   vim.api.nvim_set_hl(0, "NavicIconsConstant",      {bg = c.P.accent[1], fg = c.P.purple[1]})
+  c.link("AerialConstantIcon", "@constant" )
+
   vim.api.nvim_set_hl(0, "NavicIconsString",        {bg = c.P.accent[1], fg = c.P.string[1]})
+  c.link("AerialStringIcon", "String")
+
   vim.api.nvim_set_hl(0, "NavicIconsNumber",        {bg = c.P.accent[1], fg = c.P.special.number[1]})
+  c.link("AerialNumberIcon", "Number")
+
   vim.api.nvim_set_hl(0, "NavicIconsBoolean",       {bg = c.P.accent[1], fg = c.P.deepred[1]})
+  c.link("AerialBooleanIcon", "Boolean")
+
   vim.api.nvim_set_hl(0, "NavicIconsArray",         {bg = c.P.accent[1], fg = c.P.lpurple[1]})
+
   vim.api.nvim_set_hl(0, "NavicIconsObject",        {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
+  c.link("AerialObjectIcon", "Type")
+
   vim.api.nvim_set_hl(0, "NavicIconsKey",           {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
   vim.api.nvim_set_hl(0, "NavicIconsNull",          {bg = c.P.accent[1], fg = c.P.lpurple[1]})
+
   vim.api.nvim_set_hl(0, "NavicIconsEnumMember",    {bg = c.P.accent[1], fg = c.P.orange[1]})
+  c.link("AerialEnumMemberIcon", "@constant")
+
   vim.api.nvim_set_hl(0, "NavicIconsStruct",        {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
+  c.link("AerialStructIcon", "Struct")
+  -- c.link("AerialStruct", "CmpItemKindStruct")
+  --
   vim.api.nvim_set_hl(0, "NavicIconsEvent",         {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
+
   vim.api.nvim_set_hl(0, "NavicIconsOperator",      {bg = c.P.accent[1], fg = c.P.special[conf.special.operator][1]})
+  c.link("AerialOperatorIcon", "@operator")
+
   vim.api.nvim_set_hl(0, "NavicIconsTypeParameter", {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
   vim.api.nvim_set_hl(0, "NavicText",               {bg = c.P.accent[1], fg = c.P.fg_dim[1]})
   vim.api.nvim_set_hl(0, "NavicSeparator",          {bg = c.P.accent[1], fg = c.P.fg_dim[1]})

@@ -169,15 +169,11 @@ outline_window = {
   },
 
   symbols = {
+    -- filter symbols for certain filtypes. Lua is particularly "spammy" and can create
+    -- long symbol trees.
     filter = {
       lua = { "Array", "Variable", "Boolean", "Constant", "String", exclude = true}
     },
-    -- Symbols to ignore.
-    -- Possible values are the Keys in the icons table below.
-    -- Added in this fork:
-    -- You can use a custom function that returns the icon for each symbol kind.
-    -- This function takes a kind (string) as parameter and should return an
-    -- icon.
     icon_fetcher = nil,
     -- 3rd party source for fetching icons. Fallback if icon_fetcher returned
     -- empty string. Currently supported values: 'lspkind'
