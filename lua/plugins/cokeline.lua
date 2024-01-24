@@ -72,7 +72,7 @@ require('cokeline').setup({
     },
     {
       text = function(buffer) return buffer.is_focused and left_pad or inactive_pad end,
-      highlight = function(buffer) return buffer.is_focused and "CokelineActive" or "CokelineInactive" end
+      highlight = function(buffer) return buffer.is_focused and "CokelineActivePad" or "CokelineInactivePad" end
     },
     {
       text = function(buffer) return buffer.devicon.icon end,
@@ -93,7 +93,7 @@ require('cokeline').setup({
     },
     {
       text = function(buffer) return buffer.is_focused and right_pad or inactive_pad end,
-      highlight = function(buffer) return buffer.is_focused and "CokelineActive" or "CokelineInactive" end
+      highlight = function(buffer) return buffer.is_focused and "CokelineActivePad" or "CokelineInactivePad" end
     },
     {
       text = function(buffer) return not buffer.is_last and "|" or "" end,

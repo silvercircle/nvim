@@ -105,7 +105,10 @@ local conf = {
     operator = "red",
     braces = "blue",
     delim = "red",
-    builtin = "builtin"
+    builtin = "builtin",
+  },
+  style = {
+    keyword = "blue"
   },
   indentguide_colors = {
     light = "#505050",
@@ -232,6 +235,7 @@ local function configure()
   M.P.special.c2 = { conf.custom_colors.c2, 92 }
   M.P.special.c3 = { conf.custom_colors.c3, 93 }
   M.P.special.c4 = { conf.custom_colors.c4, 94 }
+  M.P.special.keyword = M.P[conf.style.keyword]
 
   LuaLineColors.statuslinebg = M.T[conf.variant].statuslinebg
 
@@ -251,7 +255,7 @@ local function configure()
   M.cokeline_colors = {
     bg = M.T[conf.variant].statuslinebg,
     inact_bg = M.P.statuslinebg[1],
-    focus_bg = M.T.alt_accent_color,
+    focus_bg = M.P.grey_dim[1],
     fg = LuaLineColors.gray4,
     focus_fg = M.T.accent_fg,
     focus_sp = M.P.special.yellow[1],
@@ -360,7 +364,7 @@ local function set_all()
   M.hl_with_defaults("Constant", M.P.lpurple, M.NONE)
   M.link("Include", "Olive")
   M.link("Boolean", "DeepRedBold")
-  M.hl("Keyword", M.P.blue, M.NONE, conf.attrib.keyword)
+  M.hl("Keyword", M.P.special.keyword, M.NONE, conf.attrib.keyword)
   -- use extra color for coditional keywords (if, else...)?
   if conf.tweaks.conditional then
     M.hl("Conditional", M.P.special.conditional, M.NONE, conf.attrib.conditional)

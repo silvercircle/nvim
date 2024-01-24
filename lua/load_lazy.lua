@@ -515,15 +515,6 @@ lazy.setup({
     end
   },
   {
-    "ThePrimeagen/harpoon",
-    branch = "harpoon2",
-    event = "BufReadPre",
-    cond = false,
-    config = function()
-      require("plugins.harpoon")
-    end
-  },
-  {
     "MaximilianLloyd/ascii.nvim",
     dependencies = {
       "MunifTanjim/nui.nvim"
