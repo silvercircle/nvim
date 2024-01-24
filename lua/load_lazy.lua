@@ -258,16 +258,6 @@ lazy.setup({
     }
   },
   {
-    'kevinhwang91/nvim-hlslens', event = "BufReadPre",
-    config = function()
-      require("hlslens").setup({
-        calm_down = false,    -- set to true to clear all lenses when cursor moves
-        nearest_float_when = "never",
-        nearest_only = true
-      })
-    end
-  },
-  {
     'lewis6991/gitsigns.nvim',
     config = function()
       require("plugins.others").setup.gitsigns()
@@ -280,7 +270,22 @@ lazy.setup({
     config = function()
       require("plugins.nvim-scrollbar")
       __Globals.set_scrollbar()
-    end
+    end,
+    dependencies = {
+      {
+        'kevinhwang91/nvim-hlslens', event = "BufReadPre",
+        config = function()
+          require("hlslens").setup({
+            build_position_cb = function(plist, _, _, _)
+              require("scrollbar.handlers.search").handler.show(plist.start_pos)
+            end,
+            calm_down = false,    -- set to true to clear all lenses when cursor moves
+            nearest_float_when = "never",
+            nearest_only = true
+          })
+        end
+      }
+    }
   },
   --  {'lewis6991/satellite.nvim',
   --    config = function()
