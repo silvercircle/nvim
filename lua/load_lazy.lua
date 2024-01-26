@@ -545,5 +545,13 @@ lazy.setup({
   {
     "jlcrochet/vim-razor",
     ft = { "cshtml", "razor" }
-  }
+  },
+  {
+    "carbon-steel/detour.nvim",
+    lazy = true,
+    cmd = { "Detour", "DetourCurrentWindow" },
+    config = function()
+      vim.keymap.set("n", "<c-w><enter>", ":DetourCurrentWindow<cr>")
+    end
+  },
 })

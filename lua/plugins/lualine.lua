@@ -166,7 +166,7 @@ require("lualine").setup({
   winbar = {
     --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
-      Config.breadcrumb == 'navic' and navic_component or aerial_component,
+      vim.g.tweaks.breadcrumb == 'navic' and navic_component or aerial_component,
     },
     lualine_c = {
       {
@@ -216,7 +216,7 @@ require("lualine").setup({
       }
     }
   },
-  inactive_winbar = Config.breadcrumb ~= 'dropbar' and {
+  inactive_winbar = vim.g.tweaks.breadcrumb ~= 'dropbar' and {
     -- lualine_x = { { win_pad, color = 'Normal' } },
     lualine_z = { { full_filename, color = 'WinBarNC' }, 'tabs' }
   } or {},

@@ -833,4 +833,9 @@ function M.get_lsp_capabilities()
   return M.lsp_capabilities
 end
 
+function M.TestDetour()
+  require("detour").DetourCurrentWindow()
+  vim.api.nvim_win_set_option(0, "winbar", "")
+  vim.cmd("setlocal winhl=NormalFloat:Normal,FloatBorder:TelescopeBorder")
+end
 return M

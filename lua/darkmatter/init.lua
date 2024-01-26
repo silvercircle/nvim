@@ -105,6 +105,7 @@ local conf = {
   -- highlight. It defines semantic colors using the basic color names.
   style = {
     keyword = "blue",
+    kwspec = "deepred",
     conditional = "blue",
     kwfunc = "deepred",
     member = "orange",
@@ -126,6 +127,7 @@ local conf = {
     bool = "deepred",
     constructor = "altyellow"
   },
+  usercolors = {},
   indentguide_colors = {
     light = "#505050",
     dark = "#505050"
@@ -252,6 +254,9 @@ local function configure()
   for k,v in pairs(conf.usercolors) do
     M.P[k] = { v, seq }
     seq = seq + 1
+    if seq == 256 then
+      break
+    end
   end
   -- set up special colors that can be controlled via conf.style
   -- most of these colors are for syntax highlight
@@ -328,8 +333,8 @@ local function set_all()
   M.link("WildMenu", "PmenuSel")
 
   M.hl_with_defaults("PmenuThumb", M.NONE, M.P.grey)
-  M.hl_with_defaults("NormalFloat", M.P.fg, M.P.bg_dim)
-  M.hl_with_defaults("FloatBorder", M.P.accent, M.P.bg_dim)
+  M.hl_with_defaults("NormalFloat", M.P.fg, M.P.treebg)
+  M.hl_with_defaults("FloatBorder", M.P.accent, M.P.treebg)
   M.hl_with_defaults("FloatTitle", M.P.accent_fg, M.P.bg_dim)
   M.hl_with_defaults("Question", M.P.yellow, M.NONE)
   M.hl("SpellBad", M.NONE, M.NONE, { undercurl = true, sp = M.P.red[1] })
@@ -383,6 +388,7 @@ local function set_all()
   M.hl("Include", M.P.special.module, M.NONE, conf.attrib.module)
   M.hl("Boolean", M.P.special.bool, M.NONE, conf.attrib.bool)
   M.hl("Keyword", M.P.special.keyword, M.NONE, conf.attrib.keyword)
+  M.hl("KeywordSpecial", M.P.special.kwspec, M.NONE, conf.attrib.keyword)
   -- use extra color for coditional keywords (if, else...)?
   M.hl("Conditional", M.P.special.conditional, M.NONE, conf.attrib.conditional)
   M.hl_with_defaults("Define", M.P.red, M.NONE)
@@ -547,7 +553,7 @@ local function set_all()
   M.link("@include", "Include")
   M.link("@module", "Include")
   M.link("@keyword", "Keyword")
-  M.link("@keyword.function", "DeepRedBold")
+  M.link("@keyword.function", "KeywordSpecial")
   M.link("@keyword.operator", "Operator")
   M.link("@keyword.conditional", "Conditional")
   M.link("@keyword.conditional.ternary", "Operator")
@@ -613,6 +619,7 @@ local function set_all()
   M.link("@lsp.typemod.method.static", "StaticMethod")
   M.link("@lsp.typemod.method_name.static_symbol", "StaticMethod")
   M.link("@lsp.typemod.property.static", "StaticMember")
+  M.link("@lsp.typemod.function.defaultLibrary", "Builtin")
   M.link("@lsp.mod.defaultLibrary", "Function")
 
   M.link("BookmarkSign", "BlueSign")
@@ -783,7 +790,7 @@ function M.Lualine_internal_theme()
       x = "StatusLine",
     },
     insert = {
-      a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = "bold" },
+      a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred },
       b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
       c = "StatusLine",
       x = "StatusLine",
@@ -794,12 +801,12 @@ function M.Lualine_internal_theme()
         bg = LuaLineColors.brightorange, --[[, gui = 'bold']]
       },
     },
-    replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred, gui = "bold" } },
+    replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred } },
     inactive = {
       a = "StatusLine",
       b = "StatusLine",
-      c = "StatusLine",
-    },
+      c = "StatusLine"
+    }
   }
 end
 
