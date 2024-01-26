@@ -101,8 +101,12 @@ local conf = {
   -- can be used to change theme settings at runtime.
   keyprefix = "<leader>",
 
+  -- the style table controls the special color table that is mostly for syntax
+  -- highlight. It defines semantic colors using the basic color names.
   style = {
     keyword = "blue",
+    conditional = "blue",
+    kwfunc = "deepred",
     member = "orange",
     method = "brightteal",
     func = "teal",
@@ -119,7 +123,8 @@ local conf = {
     namespace = "olive",
     type = "darkpurple",
     struct = "darkpurple",
-    bool = "deepred"
+    bool = "deepred",
+    constructor = "altyellow"
   },
   indentguide_colors = {
     light = "#505050",
@@ -152,10 +157,6 @@ local conf = {
     customize =  {},
     hl = { "markdown", "syntax", "common" },
     post = {}
-  },
-  tweaks = {
-    -- highlight conditional keywords with own hl group. When false, use keyword
-    conditional = true,
   }
 }
 
@@ -247,6 +248,11 @@ local function configure()
   M.P.special.c3 = { conf.custom_colors.c3, 93 }
   M.P.special.c4 = { conf.custom_colors.c4, 94 }
 
+  local seq = 245
+  for k,v in pairs(conf.usercolors) do
+    M.P[k] = { v, seq }
+    seq = seq + 1
+  end
   -- set up special colors that can be controlled via conf.style
   -- most of these colors are for syntax highlight
   for k,v in pairs(conf.style) do
@@ -279,8 +285,6 @@ local function configure()
 
   M.P.treebg = { M.T[conf.variant].treebg, 232 }
   M.P.selbg = { M.T["selbg"], 234 }
-  M.P.special.builtin = M.P.brown
-  M.P.special.conditional = M.P.darkyellow
 end
 
 -- set all hl groups
@@ -380,11 +384,7 @@ local function set_all()
   M.hl("Boolean", M.P.special.bool, M.NONE, conf.attrib.bool)
   M.hl("Keyword", M.P.special.keyword, M.NONE, conf.attrib.keyword)
   -- use extra color for coditional keywords (if, else...)?
-  if conf.tweaks.conditional then
-    M.hl("Conditional", M.P.special.conditional, M.NONE, conf.attrib.conditional)
-  else
-    M.link("Conditional", "Keyword")
-  end
+  M.hl("Conditional", M.P.special.conditional, M.NONE, conf.attrib.conditional)
   M.hl_with_defaults("Define", M.P.red, M.NONE)
   M.hl("Typedef", M.P.red, M.NONE, conf.attrib.types)
   M.hl("Exception", conf.theme_strings == "yellow" and M.P.green or M.P.yellow, M.NONE, conf.attrib.keyword)
@@ -537,7 +537,7 @@ local function set_all()
   M.link("@constant", "Constant")
   M.link("@constant.builtin", "Builtin")
   M.link("@constant.macro", "OrangeItalic")
-  M.link("@constructor", "Yellow")
+  M.hl("@constructor", M.P.special.constructor, M.NONE, {} )
   M.link("@exception", "Exception")
   M.link("@field", "Member")
   M.link("@float", "Number")
