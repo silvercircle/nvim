@@ -101,14 +101,25 @@ local conf = {
   -- can be used to change theme settings at runtime.
   keyprefix = "<leader>",
 
-  special = {
-    operator = "red",
-    braces = "blue",
-    delim = "red",
-    builtin = "builtin",
-  },
   style = {
-    keyword = "blue"
+    keyword = "blue",
+    member = "orange",
+    method = "brightteal",
+    func = "teal",
+    operator = "brown",
+    builtin = "darkyellow",
+    braces = "altblue",
+    delim = "red",
+    number = "altgreen",
+    class = "maroon",
+    interface = "lila",
+    storage = "palegreen",
+    constant = "lpurple",
+    module = "olive",
+    namespace = "olive",
+    type = "darkpurple",
+    struct = "darkpurple",
+    bool = "deepred"
   },
   indentguide_colors = {
     light = "#505050",
@@ -235,8 +246,12 @@ local function configure()
   M.P.special.c2 = { conf.custom_colors.c2, 92 }
   M.P.special.c3 = { conf.custom_colors.c3, 93 }
   M.P.special.c4 = { conf.custom_colors.c4, 94 }
-  M.P.special.keyword = M.P[conf.style.keyword]
 
+  -- set up special colors that can be controlled via conf.style
+  -- most of these colors are for syntax highlight
+  for k,v in pairs(conf.style) do
+    M.P.special[k] = M.P[v]
+  end
   LuaLineColors.statuslinebg = M.T[conf.variant].statuslinebg
 
   -- TODO: allow cokeline colors per theme variant
@@ -255,10 +270,10 @@ local function configure()
   M.cokeline_colors = {
     bg = M.T[conf.variant].statuslinebg,
     inact_bg = M.P.statuslinebg[1],
-    focus_bg = M.P.grey_dim[1],
+    focus_bg = M.P.bg1[1],
     fg = LuaLineColors.gray4,
     focus_fg = M.T.accent_fg,
-    focus_sp = M.P.special.yellow[1],
+    focus_sp = M.P.altyellow[1],
     inact_sp = M.P.accent[1]
   }
 
@@ -271,10 +286,10 @@ end
 -- set all hl groups
 local function set_all()
   -- basic highlights
-  M.hl("Braces", M.P.special[conf.special.braces], M.NONE, conf.attrib.brace)
-  M.hl("Operator", M.P.special[conf.special.operator], M.NONE, conf.attrib.operator)
-  M.hl("PunctDelim", M.P.special[conf.special.delim], M.NONE, conf.attrib.delim)
-  M.hl("PunctSpecial", M.P.special[conf.special.delim], M.NONE, conf.attrib.bold)
+  M.hl("Braces", M.P.special.braces, M.NONE, conf.attrib.brace)
+  M.hl("Operator", M.P.special.operator, M.NONE, conf.attrib.operator)
+  M.hl("PunctDelim", M.P.special.delim, M.NONE, conf.attrib.delim)
+  M.hl("PunctSpecial", M.P.special.delim, M.NONE, conf.attrib.bold)
   M.hl_with_defaults("ScrollView", M.P.teal, M.P.special.c3)
   M.hl_with_defaults("Normal", M.P.fg, M.P.bg)
   M.hl_with_defaults("Accent", M.P.black, M.P.accent)
@@ -349,21 +364,20 @@ local function set_all()
 
   M.hl_with_defaults("Visual", M.NONE, M.P.selbg)
   M.hl("VisualNOS", M.NONE, M.P.bg2, { underline = true })
-  M.hl_with_defaults("QuickFixLine", M.P.blue, M.P.treebg)
   M.hl_with_defaults("Debug", M.P.yellow, M.NONE)
   M.hl_with_defaults("debugPC", M.P.bg0, M.P.green)
   M.hl_with_defaults("debugBreakpoint", M.P.bg0, M.P.red)
   M.hl_with_defaults("Substitute", M.P.bg0, M.P.yellow)
 
-  M.hl("Type", M.P.darkpurple, M.NONE, conf.attrib.types)
-  M.hl("Structure", M.P.darkpurple, M.NONE, conf.attrib.struct)
+  M.hl("Type", M.P.special.type, M.NONE, conf.attrib.types)
+  M.hl("Structure", M.P.special.struct, M.NONE, conf.attrib.struct)
   M.hl("Class", M.P.special.class, M.NONE, conf.attrib.class)
   M.hl("Interface", M.P.special.interface, M.NONE, conf.attrib.interface)
   M.hl("StorageClass", M.P.special.storage, M.NONE, conf.attrib.storage)
   M.hl_with_defaults("Identifier", M.P.orange, M.NONE)
-  M.hl_with_defaults("Constant", M.P.lpurple, M.NONE)
-  M.link("Include", "Olive")
-  M.link("Boolean", "DeepRedBold")
+  M.hl_with_defaults("Constant", M.P.special.constant, M.NONE)
+  M.hl("Include", M.P.special.module, M.NONE, conf.attrib.module)
+  M.hl("Boolean", M.P.special.bool, M.NONE, conf.attrib.bool)
   M.hl("Keyword", M.P.special.keyword, M.NONE, conf.attrib.keyword)
   -- use extra color for coditional keywords (if, else...)?
   if conf.tweaks.conditional then
@@ -379,7 +393,7 @@ local function set_all()
   M.hl_with_defaults("Macro", M.P.lpurple, M.NONE)
   M.hl_with_defaults("Error", M.P.red, M.NONE)
   M.hl_with_defaults("Label", M.P.lpurple, M.NONE)
-  M.hl("Special", M.P.special.blue, M.NONE, conf.attrib.bold)
+  M.hl("Special", M.P.altblue, M.NONE, conf.attrib.bold)
   M.hl_with_defaults("SpecialChar", M.P.lpurple, M.NONE)
   M.hl("String", M.P.string, M.NONE, conf.attrib.str)
   M.hl_with_defaults("Character", M.P.yellow, M.NONE)
@@ -390,7 +404,7 @@ local function set_all()
   M.hl("StaticMethod", M.P.brightteal, M.NONE, conf.attrib.staticmethod)
   M.hl("Member", M.P.orange, M.NONE, conf.attrib.member)
   M.hl("StaticMember", M.P.orange, M.NONE, conf.attrib.staticmember)
-  M.hl("Builtin", M.P.special[conf.special.builtin], M.NONE, conf.attrib.bold)
+  M.hl("Builtin", M.P.special.builtin, M.NONE, conf.attrib.bold)
   M.link("PreProc", "Include")
   M.hl("Title", M.P.red, M.NONE, conf.attrib.bold)
   M.hl_with_defaults("Tag", M.P.orange, M.NONE)
@@ -422,8 +436,6 @@ local function set_all()
   M.hl("GreenBold", M.P.green, M.NONE, conf.attrib.bold)
   M.hl_with_defaults("Blue", M.P.blue, M.NONE)
   M.hl("BlueBold", M.P.blue, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Olive", M.P.olive, M.NONE)
-  M.hl("OliveBold", M.P.olive, M.NONE, conf.attrib.bold)
   M.hl_with_defaults("Purple", M.P.purple, M.NONE)
   M.hl("PurpleBold", M.P.purple, M.NONE, conf.attrib.bold)
   M.hl_with_defaults("DarkPurple", M.P.darkpurple, M.NONE)
@@ -460,7 +472,7 @@ local function set_all()
 
   M.hl("Strong", M.NONE, M.NONE, conf.attrib.bold)
   M.hl("Emphasis", M.NONE, M.NONE, conf.attrib.italic)
-  M.hl("URI", M.P.special.blue, M.NONE, conf.attrib.uri)
+  M.hl("URI", M.P.altblue, M.NONE, conf.attrib.uri)
 
   -- LSP and diagnostics stuff
   M.link("DiagnosticFloatingError", "ErrorFloat")
@@ -609,7 +621,7 @@ local function set_all()
   M.link("BookmarkAnnotationLine", "DiffAdd")
 
   -- lukas-reineke/indent-blankline.nvim
-  M.hl("IndentBlanklineContextChar", M.P.special[conf.special.operator], M.NONE, { bold = true })
+  M.hl("IndentBlanklineContextChar", M.P.special.operator, M.NONE, { bold = true })
   M.set_hl(0, "IndentBlanklineChar", { fg = conf.indentguide_colors[conf.scheme], nocombine = true })
   M.link("IndentBlanklineSpaceChar", "IndentBlanklineChar")
   M.link("IndentBlanklineSpaceCharBlankline", "IndentBlanklineChar")

@@ -326,10 +326,16 @@ end, "Open the info/weather window")
 
 -- focus quickfix list (when open)
 _Config_SetKey({ 'n', 'i', 't', 'v' }, '<A-7>', function()
+  local curwin = vim.fn.win_getid()
   if __Globals.findbufbyType('qf') == false then
-    vim.cmd('copen')
+    vim.cmd('below 10 copen')
   else
-    vim.fn.win_gotoid(__Globals.findwinbyBufType('qf')[1])
+    local winid = __Globals.findwinbyBufType('qf')[1]
+    if curwin == winid then
+      vim.cmd('ccl')
+    else
+      vim.fn.win_gotoid(winid)
+    end
   end
 end, "Focus the quickfix list")
 

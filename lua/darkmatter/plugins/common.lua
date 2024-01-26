@@ -200,7 +200,7 @@ local function _set()
   --
   vim.api.nvim_set_hl(0, "NavicIconsEvent",         {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
 
-  vim.api.nvim_set_hl(0, "NavicIconsOperator",      {bg = c.P.accent[1], fg = c.P.special[conf.special.operator][1]})
+  vim.api.nvim_set_hl(0, "NavicIconsOperator",      {bg = c.P.accent[1], fg = c.P.special.operator[1]})
   c.link("AerialOperatorIcon", "@operator")
 
   vim.api.nvim_set_hl(0, "NavicIconsTypeParameter", {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
@@ -210,15 +210,20 @@ local function _set()
   c.link("NavbuddyFloatBorder", "TelescopeBorder")
 
   -- cokeline
+  local cokeline_active_bg = c.P.bg1[1]
   c.set_hl(0, "CokelineInactive", { bg = c.P.statuslinebg[1], fg = c.cokeline_colors.fg })
   c.set_hl(0, "CokelineInactivePad", { bg = c.P.statuslinebg[1], fg = c.cokeline_colors.fg })
-  c.set_hl(0, "CokelineActive", { bg = c.P.grey_dim[1], fg = c.T.accent_fg })
-  c.set_hl(0, "CokelineActivePad", { bg = c.P.grey_dim[1], fg = c.P.statuslinebg[1]})
-  c.set_hl(0, "CokelineActiveModified", { bg = c.T.alt_accent_color, fg = c.P.special.red[1] })
-  c.set_hl(0, "CokelineInactiveModified", { bg = c.P.statuslinebg[1], fg = c.P.special.red[1] })
+  c.set_hl(0, "CokelineActive", { bg = cokeline_active_bg, fg = c.T.accent_fg })
+  c.set_hl(0, "CokelineActivePad", { bg = cokeline_active_bg, fg = c.P.statuslinebg[1]})
+  c.set_hl(0, "CokelineActiveModified", { bg = cokeline_active_bg, fg = c.P.red[1] })
+  c.set_hl(0, "CokelineInactiveModified", { bg = c.P.statuslinebg[1], fg = c.P.red[1] })
 
   c.link("MultiCursor", "CurSearch")
   c.link("MultiCursorMain", "CurSearch")
+  c.hl_with_defaults("QuickFixLine", c.NONE, c.P.accent)
+  -- quick fix
+  c.link("qfLineNr", "Number")
+  c.link("qfFileName", "String")
 end
 
 local M = {}

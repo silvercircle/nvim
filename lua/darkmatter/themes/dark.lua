@@ -9,6 +9,12 @@
 local vivid_colors = {
   orange = { "#dfa690", 215 },
   blue = { "#4a4adf", 239 },
+  altblue = { "#6060cf", 239 },
+  altyellow = { "#cccc60", 231 },
+  altgreen = { "#10801f", 232 },
+  lila = { "#7030e0", 241 },
+  palegreen = { "#507050", 242 },
+  maroon = { "#903060", 243 },
   purple = { "#c030c0", 241 },
   teal = { "#108080", 238 },
   brightteal = { "#30a0c0", 238 },
@@ -27,13 +33,6 @@ local vivid_colors = {
   lpurple = { "#b39df3", 176 },
   brown = { "#905010", 233 },
   special = {
-    red = { "#cc2d4c", 203 },
-    yellow = { "#cccc60", 231 },
-    number = { "#10801f", 232 },
-    blue = { "#6060cf", 239 },
-    interface = { "#7030e0", 241 },
-    storage = { "#507050", 242 },
-    class = { "#903060", 243 },
   }
 }
 
@@ -41,6 +40,12 @@ local desaturated_colors = {
   low = {
     orange = { "#a59680", 215 },
     blue = { "#5a6acf", 239 },
+    altyellow = { "#aaaa20", 231 },
+    altgreen = { "#309020", 232 },
+    altblue = { "#6060cf", 239 },
+    lila = { "#7050e0", 241 },
+    palegreen = { "#607560", 242 },
+    maroon = { "#804060", 243 },
     purple = { "#b070b0", 241 },
     teal = { "#509090", 238 },
     brightteal = { "#6090a0", 238 },
@@ -59,18 +64,17 @@ local desaturated_colors = {
     lpurple = { "#b39df3", 176 },
     brown = { "#905010", 233 },
     special = {
-      red = { "#bb4d5c", 203 },
-      yellow = { "#aaaa20", 231 },
-      number = { "#309020", 232 },
-      blue = { "#6060cf", 239 },
-      interface = { "#7050e0", 241 },
-      storage = { "#607560", 242 },
-      class = { "#804060", 243 },
     }
   },
   high = {
     orange = { "#958680", 215 },
     blue = { "#5a6acf", 239 },
+    altyellow = { "#aaaa20", 231 },
+    altgreen = { "#309020", 232 },
+    altblue = { "#6060cf", 239 },
+    lila = { "#7060e0", 241 },
+    palegreen = { "#607560", 242 },
+    maroon = { "#805060", 243 },
     purple = { "#a070a0", 241 },
     teal = { "#709090", 238 },
     brightteal = { "#608095", 238 },
@@ -89,13 +93,6 @@ local desaturated_colors = {
     lpurple = { "#b39df3", 176 },
     brown = { "#905010", 233 },
     special = {
-      red = { "#bb4d5c", 203 },
-      yellow = { "#aaaa20", 231 },
-      number = { "#309020", 232 },
-      blue = { "#6060cf", 239 },
-      interface = { "#7060e0", 241 },
-      storage = { "#607560", 242 },
-      class = { "#805060", 243 },
     }
   }
 }
@@ -160,7 +157,9 @@ function M.attributes()
     bolditalic   = { bold = true, italic = true },
     tabline      = {},
     cmpkind      = {},
-    uri          = {}
+    uri          = {},
+    bool         = { bold = true },
+    module       = { bold = true }
   }
 end
 

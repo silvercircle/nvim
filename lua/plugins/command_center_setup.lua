@@ -379,9 +379,9 @@ command_center.add({
       _tb.find_files(__Telescope_vertical_dropdown_theme({
         hidden = false,
         prompt_title = "Find Files (current)",
-        previewer = false,
+        -- previewer = false,
         prompt_prefix = lutils.getTelescopePromptPrefix(),
-        layout_config = { width = 80 },
+        layout_config = { width = 80, preview_height = 15 },
         cwd = vim.fn.expand("%:p:h")
       }))
     end,
@@ -398,8 +398,8 @@ command_center.add({
         prompt_title = "Find Files (project root)",
         hidden = false,
         prompt_prefix = lutils.getTelescopePromptPrefix(),
-        previewer = false;
-        layout_config = { width = 80 },
+        -- previewer = false;
+        layout_config = { width = 80, preview_height = 15 },
         cwd = lutils.getroot_current()
       }))
     end,

@@ -12,6 +12,11 @@ lazy.setup({
           color = "#428850",
           cterm_color = "65",
           name = "Zsh",
+        },
+        cs = {
+          color = "#59a006",
+          icon = "󰌛 ",
+          name = "CSharp"
         }
       },
       color_icons = true,

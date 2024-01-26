@@ -246,15 +246,24 @@ function M.toggle_colorcolumn()
 end
 
 --- find the first window for a given filetype.
---- @param type string: the filetype
+--- @param filetypes string|table: the filetype(s)
 --- @return table: a list of windows displaying the buffer or an empty list if none has been found
-function M.findwinbyBufType(type)
+function M.findwinbyBufType(filetypes)
+
+  local function finder(ft, where)
+    if type(where) == "string" then
+      return ft == where
+    else
+      return vim.tbl_contains(where, ft)
+    end
+  end
+
   local ls = vim.api.nvim_list_bufs()
   local win_ids = {}
   for i = 1, #ls, 1 do
     if vim.api.nvim_buf_is_valid(ls[i]) then
       local filetype = vim.api.nvim_buf_get_option(ls[i], "filetype")
-      if filetype == type then
+      if finder(filetype, filetypes) then
         local wins = vim.fn.win_findbuf(ls[i])
         if wins == 1 then
           table.insert(win_ids, wins[1])
@@ -523,11 +532,6 @@ function M.restore_config()
     rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast,
     tweaks = {
       conditional = false
-    },
-    special = {
-      operator = "builtin",
-      builtin = "conditional",
-      braces = "c1"
     },
     custom_colors = {
       c1 = "#5a8aba"

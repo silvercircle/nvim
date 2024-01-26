@@ -26,7 +26,7 @@ local function Cokeline_theme()
     group = {
       highlight = function(buffer) return buffer.is_focused and "CokelineActive" or "CokelineInactive" end
     },
-    unsaved = colors.P.special.red[1] -- the unsaved indicator on the tab
+    unsaved = colors.P.red[1] -- the unsaved indicator on the tab
   }
 end
 
