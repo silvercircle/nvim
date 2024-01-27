@@ -493,4 +493,5 @@ do
     vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "GreenSign" })
   end
 end
+require('lspconfig.ui.windows').default_options.border = 'single'
 

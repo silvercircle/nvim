@@ -838,4 +838,5 @@ function M.TestDetour()
   vim.api.nvim_win_set_option(0, "winbar", "")
   vim.cmd("setlocal winhl=NormalFloat:Normal,FloatBorder:TelescopeBorder")
 end
+
 return M

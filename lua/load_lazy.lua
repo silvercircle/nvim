@@ -554,4 +554,9 @@ lazy.setup({
       vim.keymap.set("n", "<c-w><enter>", ":DetourCurrentWindow<cr>")
     end
   },
+},
+{
+  ui = {
+    border = "single"
+  }
 })
