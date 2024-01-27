@@ -557,6 +557,6 @@ lazy.setup({
 },
 {
   ui = {
-    border = "single"
+    border = __Globals.perm_config.float_borders
   }
 })

@@ -621,6 +621,7 @@ local function set_all()
   M.link("@lsp.typemod.method_name.static_symbol", "StaticMethod")
   M.link("@lsp.typemod.property.static", "StaticMember")
   M.link("@lsp.typemod.function.defaultLibrary", "Builtin")
+  M.link("@lsp.typemod.function.global", "StaticMethod")
   M.link("@lsp.mod.defaultLibrary", "Function")
 
   M.link("BookmarkSign", "BlueSign")
