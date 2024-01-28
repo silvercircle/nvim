@@ -24,7 +24,7 @@ lspconfig.omnisharp.setup({
 
   -- Specifies whether 'using' directives should be grouped and sorted during
   -- document formatting.
-  organize_imports_on_format = false,
+  organize_imports_on_format = true,
 
   -- Enables support for showing unimported types and unimported extension
   -- methods in completion lists. When committed, the appropriate using

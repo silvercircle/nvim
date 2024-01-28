@@ -249,7 +249,11 @@ lazy.setup({
     'williamboman/mason.nvim',
     cmd = "Mason",
     config = function()
-      require("mason").setup()
+      require("mason").setup({
+        ui = {
+          border = __Globals.perm_config.float_borders
+        }
+      })
     end
   },
   { 'tpope/vim-liquid', ft = "liquid" },

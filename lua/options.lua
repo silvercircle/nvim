@@ -7,6 +7,7 @@ if Config.nightly == 1 then
   o.termsync = false
 end
 o.background = "dark"
+o.foldtext = ""
 o.cursorline = true
 o.sessionoptions = "buffers"
 o.wildmenu = true
