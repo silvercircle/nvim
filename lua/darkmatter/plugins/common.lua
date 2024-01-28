@@ -210,7 +210,7 @@ local function _set()
   c.link("NavbuddyFloatBorder", "TelescopeBorder")
 
   -- cokeline
-  local cokeline_active_bg = c.P.bg1[1]
+  local cokeline_active_bg = c.P.bg4[1]
   c.set_hl(0, "CokelineInactive", { bg = c.P.statuslinebg[1], fg = c.cokeline_colors.fg })
   c.set_hl(0, "CokelineInactivePad", { bg = c.P.statuslinebg[1], fg = c.cokeline_colors.fg })
   c.set_hl(0, "CokelineActive", { bg = cokeline_active_bg, fg = c.T.accent_fg })

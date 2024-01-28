@@ -9,7 +9,7 @@
 --License:      MIT
 -------------------------------------------------------------------------------
 --rewritten to lua and heavily modified for my personal Neovim config at:
---https://gitlab.com/silvercircle73/nvim
+--https://gitlab.com/silvercircle74/nvim
 --License:      MIT
 --it features multiple background modes (cold, warm and deepdark) and three levels
 --of color saturation: bright vivid and two desaturated modes
@@ -281,7 +281,7 @@ local function configure()
   M.cokeline_colors = {
     bg = M.T[conf.variant].statuslinebg,
     inact_bg = M.P.statuslinebg[1],
-    focus_bg = M.P.bg1[1],
+    focus_bg = M.P.bg4[1],
     fg = LuaLineColors.gray4,
     focus_fg = M.T.accent_fg,
     focus_sp = M.P.altyellow[1],
