@@ -393,7 +393,7 @@ function M.setup_theme(theme, decoration, decoration_doc)
   --  kind_attr = { bold=true, reverse=true }
   --end
   Config.theme.setup({
-    baseattrib = {
+    attrib = {
       dark = {
         cmpkind = kind_attr
       },
