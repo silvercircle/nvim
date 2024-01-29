@@ -5,19 +5,29 @@
 local Utils = require("local_utils")
 -- configure your mail addresses here. As many as you want.
 local adresses = {
-  {
-    name = "",
-    mail = "",
-  },
-  {
-    name = "",
-    mail = "",
-  },
+  --{
+  --  name = "foo",
+  --  mail = "foo@bar.com"
+  --},
+  --{
+  --  ...
+  --}
 }
+
+-- include personal stuff.
+local st, personal = pcall(require, "personal")
+
+if st == true then
+  adresses = vim.tbl_deep_extend("force", adresses, personal.mail)
+end
 
 function Mail_selectFrom()
   local lines = {}
   local i = 1
+  if #adresses == 0 then
+    vim.notify("No adresses defined", vim.log.levels.WARN)
+    return
+  end
   for _, v in ipairs(adresses) do
     lines[i] = '"' .. v.name .. '" ' .. v.mail
     i = i + 1

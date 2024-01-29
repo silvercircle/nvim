@@ -545,7 +545,7 @@ function M.restore_config()
         cmpkind = cmp_kind_attr,
         tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {}
       }
-    }
+    },
   })
 end
 

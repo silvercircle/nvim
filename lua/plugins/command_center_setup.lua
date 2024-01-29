@@ -528,7 +528,9 @@ command_center.add({
   },
   {
     desc = "List all Highlight groups",
-    cmd = function() _tb.highlights() end,
+    cmd = function() _tb.highlights(__Telescope_vertical_dropdown_theme({
+      layout_config = Config.telescope_vertical_preview_layout
+    }) ) end,
     keys = { "n", "thl", noremap },
     category = "@Neovim"
   },
