@@ -49,7 +49,7 @@ local function _set()
 
   c.link("MiniNotifyNormal", "NeoTreeNormalNC")
   c.link("MiniNotifyBorder", "CmpBorder")
-  c.link("NeoTreeFilenameOpened", "Orange")
+  c.link("NeoTreeFilenameOpened", "Builtin")
    -- CMP (with custom menu setup)
   c.link("CmpItemMenu", "Fg")
   c.link("CmpItemMenuDetail", "@include")

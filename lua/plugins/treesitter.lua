@@ -18,7 +18,7 @@ require("nvim-treesitter.configs").setup({
     disable = { "latex", "tex", "help", "markdown", "vimdoc" },      -- FIXME: JavaScript parser is painfully slow. Help can be
                               -- slow with large pages. This is caused by injections, so disabling them
                               -- does help.
-    additional_vim_regex_highlighting = false
+    additional_vim_regex_highlighting = { 'org' }
   },
   indent = {
     -- FIXME: Setting this to true will cause a huge memory leak when inserting lines

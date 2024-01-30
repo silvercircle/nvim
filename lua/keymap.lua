@@ -368,7 +368,6 @@ _Config_SetKey({ 'n', 'i', 't', 'v' }, utility_key .. 'sr', function()
   require("local_utils.usplit").refresh_cookie()
 end, "Fortune refresh cookie")
 
-
 _Config_SetKey({ 'n', 'i', 't', 'v' }, "<C-x>a", function()
   __Globals.perm_config.autopair = not __Globals.perm_config.autopair
   if __Globals.perm_config.autopair == true then

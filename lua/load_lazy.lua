@@ -557,7 +557,7 @@ lazy.setup({
     config = function()
       vim.keymap.set("n", "<c-w><enter>", ":DetourCurrentWindow<cr>")
     end
-  },
+  }
 },
 {
   ui = {
