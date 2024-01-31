@@ -15,7 +15,7 @@ lazy.setup({
         },
         cs = {
           color = "#59a006",
-          icon = "󰌛 ",
+          icon = "󰌛",
           name = "CSharp"
         }
       },
