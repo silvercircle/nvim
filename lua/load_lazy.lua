@@ -176,7 +176,7 @@ lazy.setup({
   {
     "SmiteshP/nvim-navbuddy",
     lazy = true,
-    cond = Config.breadcrumb == "navic",
+    cond = vim.g.tweaks.breadcrumb == "navic",
     event = "BufReadPre",
     dependencies = {
       {
@@ -556,6 +556,14 @@ lazy.setup({
     cmd = { "Detour", "DetourCurrentWindow" },
     config = function()
       vim.keymap.set("n", "<c-w><enter>", ":DetourCurrentWindow<cr>")
+    end
+  },
+  {
+    'folke/edgy.nvim',
+    event = "VeryLazy",
+    cond = false,
+    config = function()
+      require("plugins.edgy")
     end
   }
 },

@@ -639,6 +639,21 @@ command_center.add({
     category = "@GIT"
   },
   {
+    desc = "Telescope Marks",
+    cmd = function()
+      _tb.marks(__Telescope_vertical_dropdown_theme({
+        prompt_prefix = lutils.getTelescopePromptPrefix(),
+        symbol_highlights = Config.telescope_symbol_highlights,
+        layout_config = Config.minipicker_layout
+      }))
+    end,
+    keys = {
+      { "n", "<C-x>m", noremap },
+      { "i", "<C-x>m", noremap }
+    },
+    category = "@Telescope"
+  },
+  {
     desc = "Configure CMP layout",
     cmd = function() require("plugins.cmp").select_layout() end,
     keys = {

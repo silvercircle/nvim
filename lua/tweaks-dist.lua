@@ -183,7 +183,7 @@ Tweaks.numberwidth_rel = 2
 Tweaks.signcolumn = "yes:3"
 
 -- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
-Tweaks.breadcrumb = 'aerial'
+Tweaks.breadcrumb = 'navic'
 Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
 
 -- settings for the fortune cookie split

@@ -101,11 +101,11 @@ _Config_SetKey( 'n', '<C-a><C-e>', function()
   { window = { config = __Globals.mini_pick_center(60, 0.6, 0.2) } })
 end, "Open Mini.Explorer at project root")
 
-_Config_SetKey('n', '<C-a>m', function()
-  require("mini.extra").pickers.marks(
-  { },
-  { window = { config = __Globals.mini_pick_center(50, 0.6, 0.2) } })
-end, "Mini.Picker for marks")
+--_Config_SetKey('n', '<C-a>m', function()
+--  require("mini.extra").pickers.marks(
+--  { },
+--  { window = { config = __Globals.mini_pick_center(50, 0.6, 0.2) } })
+--end, "Mini.Picker for marks")
 
 _Config_SetKey('n', '<C-a>h', function()
   require("mini.pick").builtin.help(
