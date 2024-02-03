@@ -539,7 +539,9 @@ function M.restore_config()
     attrib = {
       dark = {
         cmpkind = cmp_kind_attr,
-        tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {}
+        tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {},
+        types = { bold = true },
+        class = { bold = true }
       },
       light = {
         cmpkind = cmp_kind_attr,

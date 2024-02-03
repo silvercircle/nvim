@@ -51,13 +51,13 @@ M.setup = {
       window = {
         sections = {
           left = {
-            size = "40%",
+            size = "33%",
           },
           mid = {
-            size = "30%",
+            size = "33%",
           },
           right = {
-            size = "30%",
+            size = "33%",
             preview = "never"
           }
         }
