@@ -560,8 +560,8 @@ lazy.setup({
   },
   {
     'folke/edgy.nvim',
-    event = "VeryLazy",
     cond = false,
+    event = "VeryLazy",
     config = function()
       require("plugins.edgy")
     end

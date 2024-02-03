@@ -6,6 +6,44 @@ local utils = require('local_utils')
 local utility_key = vim.g.tweaks.keymap.utility_key
 local treename = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
 
+local function fkey_mappings()
+  if vim.g.is_tmux == 1 then
+    return {
+      s_f1  = "<f13>",   -- shift-f1
+      s_f2  = "<f14>",   -- shift-f2
+      s_f3  = "<S-F3>",  -- shift-f3
+      s_f4  = "<f16>",   -- shift-f3
+      s_f6  = "<f18>",   -- shift-f6
+      s_f7  = "<f19>",
+      s_f8  = "<f20>",
+      s_f9  = "<f21>",   -- shift-f9
+      s_f11 = "<f23>",   -- shift-f11
+      s_f12 = "<f24>",
+      c_f3  = "<C-F3>",
+      c_f6  = "<f30>",   -- ctrl-f6
+      c_f8  = "<f32>"    -- ctrl-f8
+    }
+  else
+    return {
+      s_f1  = "<S-F1>",
+      s_f2  = "<S-F2>",
+      s_f3  = "<S-F3>",
+      s_f4  = "<S-F4>",
+      s_f6  = "<S-F6>",
+      s_f7  = "<S-F7>",
+      s_f8  = "<S-F8>",
+      s_f9  = "<S-F9>",
+      s_f11 = "<S-F11>",
+      s_f12 = "<S-F12>",
+      c_f3  = "<C-F3>",
+      c_f6  = "<C-F6>",
+      c_f8  = "<C-F8>"
+    }
+  end
+end
+vim.g.fkeys = fkey_mappings()
+local fkeys = vim.g.fkeys
+
 --- peform a key press
 --- @param key string a key sequence
 --- prefix <c-o> when in insert mode
@@ -148,7 +186,7 @@ end, { expr = true, desc = "Export HlsLens results to Quickfix list" })
 
 map('n', 'hl', "<CMD>Inspect<CR>", opts)
 
-_Config_SetKey({ 'i', 'n' }, '<f13>', function() vim.lsp.buf.signature_help() end, "Show signature help")
+_Config_SetKey({ 'i', 'n' }, fkeys.s_f1, function() vim.lsp.buf.signature_help() end, "Show signature help")
 _Config_SetKey({ 'i', 'n' }, '<f1>', function()
   local hover = require("hover")
   local status, ufo = pcall(require, "ufo")
@@ -170,16 +208,16 @@ end, "LSP Goto definition")
 _Config_SetKey({'n', 'i', 'v'}, '<F2>', function() perform_key('za') end, "Toggle current fold")
 
 -- open current fold (Shift-F2)
-_Config_SetKey({'n', 'i', 'v'}, '<f14>', function() perform_key('zf') end, "Create Fold")
+_Config_SetKey({'n', 'i', 'v'}, fkeys.s_f2, function() perform_key('zf') end, "Create Fold")
 
 -- toggle all folds at current line
 _Config_SetKey({'n', 'i', 'v'}, '<F3>', function() perform_key('zA') end, "Toggle all folds at current line")
 
 -- close all folds at current line (Shift-F3)
-_Config_SetKey({'n', 'i', 'v'}, '<f15>', function() perform_key('zC') end, "Close all folds at current line")
+_Config_SetKey({'n', 'i', 'v'}, fkeys.s_f3, function() perform_key('zC') end, "Close all folds at current line")
 
 -- open all folds at current line (Ctrl-F3)
-_Config_SetKey({'n', 'i', 'v'}, '<f27>', function() perform_key('zO') end, "Open all folds at current line")
+_Config_SetKey({'n', 'i', 'v'}, fkeys.c_f3, function() perform_key('zO') end, "Open all folds at current line")
 
 -- jump list
 _Config_SetKey({'n', 'i', 'v'}, '<C-S-Left>', function() perform_key('<C-o>') end, "Jump list back")
@@ -189,7 +227,7 @@ _Config_SetKey({'n', 'i', 'v'}, '<C-S-Right>', function() perform_key('<C-i>') e
 _Config_SetKey({'n', 'i'}, '<A-Left>', function() perform_key('g;') end, "Change list prev")
 _Config_SetKey({'n', 'i'}, '<A-Right>', function() perform_key('g,') end, "Change list next")
 
-_Config_SetKey('n', '<f23>', function() perform_command('Lazy') end, "Open Lazy plugin manager UI")
+_Config_SetKey('n', fkeys.s_f11, function() perform_command('Lazy') end, "Open Lazy plugin manager UI")
 
 -- utility functions
 -- they use a prefix key, by default <C-l>. Can be customized in tweaks.lua
@@ -342,7 +380,7 @@ end, "Focus the quickfix list")
 _Config_SetKey({ 'n', 'i', 't' }, '<f11>', function() __Globals.termToggle(12) end, "Toggle Terminal split at bottom")
 map('t', '<Esc>', '<C-\\><C-n>', opts)
 
-_Config_SetKey('n', '<f32>', '<CMD>RnvimrToggle<CR>', "Ranger in Floaterm")
+_Config_SetKey('n', fkeys.c_f8, '<CMD>RnvimrToggle<CR>', "Ranger in Floaterm")
 _Config_SetKey('n', '<leader>wr', function() __Globals.toggle_wrap() end, "Toggle word wrap")
 vim.keymap.set('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cword>') end,
   { expr = true, desc = "Inc Rename", noremap = true, silent = true })

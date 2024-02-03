@@ -13,7 +13,6 @@
 local function _set()
   local c = require("darkmatter")
   local conf = c.get_conf()
-
   c.hl_with_defaults("NvimTreeNormal", c.P.fg_dim, c.P.treebg)
   c.hl_with_defaults("NvimTreeEndOfBuffer", c.P.bg_dim, c.P.treebg)
   c.hl_with_defaults("NvimTreeVertSplit", c.P.bg0, c.P.bg0)

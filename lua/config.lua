@@ -219,3 +219,5 @@ vim.g.lspkind_symbols = {
   TypeParameter = "𝙏 "
 }
 
+vim.g.is_tmux = vim.fn.exists("$TMUX")
+

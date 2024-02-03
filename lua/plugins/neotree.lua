@@ -11,7 +11,7 @@ require("neo-tree").setup({
   sources = {
     "filesystem",
     --"git_status",
-    --"buffers"
+    "buffers"
   },
   enable_opened_markers = true,   -- Enable tracking of opened files. Required for `components.name.highlight_opened_files`
   enable_refresh_on_write = true, -- Refresh the tree when a file is written. Only used if `use_libuv_file_watcher` is false.

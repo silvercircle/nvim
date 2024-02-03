@@ -8,6 +8,9 @@ local lutils = require("local_utils")
 local _t = require("telescope")
 local _tb = require("telescope.builtin")
 local Terminal  = require('toggleterm.terminal').Terminal
+
+local fkeys = vim.g.fkeys
+
 --local bm = require("bookmarks")
 
 -- this is a helper for mini pickers like references and symbols.
@@ -69,7 +72,7 @@ command_center.add({
   {
     desc = "Show favorite folders (rescan fav file)",
     cmd = function() require "quickfavs".Quickfavs(true) end,
-    keys = { "n", "<f24>", },
+    keys = { "n", fkeys.s_f12, },
     category = "@Bookmarks"
   },
   -- LSP
@@ -82,7 +85,7 @@ command_center.add({
   {
     desc = "Peek definitions (Glance Plugin)",
     cmd = function() require("glance").open("definitions") end,
-    keys = { "n", "<f16>", noremap },
+    keys = { "n", fkeys.s_f4, noremap },
     category = "@LSP"
   },
   {
@@ -319,9 +322,9 @@ command_center.add({
         hidden = false })
       imd:toggle()
     end,
-    keys = {
-      { "n", "<f18>", noremap },
-      { "i", "<f18>", noremap },
+    keys = { -- Shift-F6
+      { "n", fkeys.s_f6, noremap },
+      { "i", fkeys.s_f6, noremap },
     },
     category = "@Markdown"
   },
@@ -334,9 +337,9 @@ command_center.add({
       vim.cmd.stopinsert()
       vim.schedule(function() vim.cmd(cmd) end)
     end,
-    keys = {
-      { "n", "<f30>", noremap },
-      { "i", "<f30>", noremap },
+    keys = { -- Ctrl-F6
+      { "n", fkeys.c_f6, noremap },
+      { "i", fkeys.c_f6, noremap },
     },
     category = "@Markdown"
   },
@@ -344,9 +347,9 @@ command_center.add({
     -- open a document viewer zathura view and view the tex document as PDF
     desc = "View LaTeX result",
     cmd = lutils.view_latex(),
-    keys = {
-      { "n", "<f54>", noremap },
-      { "i", "<f54>", noremap },
+    keys = {  -- shift-f9
+      { "n", fkeys.s_f9, noremap },
+      { "i", fkeys.s_f9, noremap },
     },
     category = "@LaTeX"
   },
@@ -355,8 +358,8 @@ command_center.add({
     desc = "Recompile LaTeX document",
     cmd = lutils.compile_latex(),
     keys = {
-      { "n", "<f53>", noremap },
-      { "i", "<f53>", noremap },
+      { "n", "<f9>", noremap },
+      { "i", "<f9>", noremap },
     },
     category = "@LaTeX"
   },
@@ -365,10 +368,10 @@ command_center.add({
   {
     desc = "LSP Format document or range",
     cmd = function() vim.lsp.buf.format() end,
-    keys = {
-      { "n", "<f19>", noremap },
-      { "i", "<f19>", noremap },
-      { "v", "<f19>", noremap },
+    keys = { -- shift-f7
+      { "n", fkeys.s_f7, noremap },
+      { "i", fkeys.s_f7, noremap },
+      { "v", fkeys.s_f7, noremap },
     },
     category = "@Formatting"
   },
@@ -385,9 +388,9 @@ command_center.add({
         cwd = vim.fn.expand("%:p:h")
       }))
     end,
-    keys = {
-      { "i", "<f20>", noremap }, --shift-f8
-      { "n", "<f20>", noremap }
+    keys = { -- shift-f8
+      { "i", fkeys.s_f8, noremap },
+      { "n", fkeys.s_f8, noremap }
     },
     category = "@Telescope"
   },

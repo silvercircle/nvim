@@ -49,6 +49,16 @@ require('load_lazy')
 require("auto")
 --require('plugins.default')
 require('keymap')
+
+if vim.g.neovide then
+  --vim.o.guifont = "MonoLisa:h10:#e-antialias:#h-full"
+  vim.g.neovide_scroll_animation_length = 0
+  vim.g.neovide_scroll_animation_far_lines = 0
+  vim.opt.linespace = -2
+  vim.g.neovide_padding_top = 4
+  vim.g.neovide_padding_right = 4
+  vim.g.neovide_padding_left = 4 -- vim.g.neovide_remember_window_size = true
+end
 EOB
 
 " set guifont=JetBrains\ Mono\ Medium:h9:#e-subpixelantialias:#h-full
