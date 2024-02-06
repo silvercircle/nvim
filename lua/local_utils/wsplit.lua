@@ -23,7 +23,7 @@ local watch = nil            -- file watcher (for weather content)
 local timer = nil            -- timer (for info content)
 local cookie_timer = nil
 local timer_interval = 60000 -- timer interval
-local cookie_timer_interval = 300000
+local cookie_timer_interval = 900000
 
 local autocmd_set = false -- remember whether the OptionSet autocmd has been set
 

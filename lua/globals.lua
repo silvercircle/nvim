@@ -540,8 +540,10 @@ function M.restore_config()
       dark = {
         cmpkind = cmp_kind_attr,
         tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {},
-        types = { bold = true },
-        class = { bold = true }
+        types = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+        class = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+        interface = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+        struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {}
       },
       light = {
         cmpkind = cmp_kind_attr,

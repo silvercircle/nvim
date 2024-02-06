@@ -57,10 +57,15 @@ if vim.g.neovide then
   vim.opt.linespace = -2
   vim.g.neovide_padding_top = 4
   vim.g.neovide_padding_right = 4
-  vim.g.neovide_padding_left = 4 -- vim.g.neovide_remember_window_size = true
+  vim.g.neovide_padding_left = 4
+  vim.g.neovide_remember_window_size = true
   vim.g.neovide_cursor_animation_length = 0.1
   vim.g.neovide_cursor_antialiasing = true
   vim.g.neovide_cursor_vfx_mode = "none"
+  vim.g.neovide_transparency = 1
+  vim.g.transparency = 0
+  vim.g.neovide_background_color = "#ffff00ff"
+  vim.g.neovide_theme = "dark"
   -- vim.g.neovide_unlink_border_highlights = true
 end
 EOB

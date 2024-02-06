@@ -68,6 +68,7 @@ kms({ "n", "i" }, "<C-l>", "<NOP>", opts)
 
 -- disable <ins> toggling the (annoying) replace mode. Instead use <c-ins> to switch to replace
 map("i", "<ins>", "<nop>", opts)
+map("i", "<C-v>", "<c-r><c-p>+", opts)
 
 map('n', '<leader><tab>', '<CMD>tabnext<CR>', opts)
 

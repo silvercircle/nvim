@@ -184,7 +184,7 @@ Tweaks.signcolumn = "yes:3"
 
 -- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
 Tweaks.breadcrumb = 'navic'
-Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
+Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://www.vimiscool.tech/neotip'
 
 -- settings for the fortune cookie split
 Tweaks.fortune = {
@@ -216,7 +216,8 @@ Tweaks.theme = {
   kittenexec = "kitten",
   kittysocket = "/tmp/mykittysocket",
   rainbow_contrast = "low",
-  scheme = "dark"
+  scheme = "dark",
+  all_types_bold = false
 }
 -- filetree tweaks
 Tweaks.tree = {

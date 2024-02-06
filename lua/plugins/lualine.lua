@@ -17,6 +17,19 @@ local function actual_tabline()
   end
 end
 
+local function get_permissions_color()
+  local file = vim.fn.expand("%:p")
+  if file == "" or file == nil then
+    return "No File", "#0099ff" -- Default blue for no or non-existing file
+  else
+    local permissions = vim.fn.getfperm(file)
+    -- Check only the first three characters for 'rwx' to determine owner permissions
+    local owner_permissions = permissions:sub(1, 3)
+    -- Green for owner 'rwx', blue otherwise
+    return permissions, owner_permissions == "rwx" and "#00ff00" or "#0099ff"
+  end
+end
+
 local function status_indicators()
   return (__Globals.perm_config.treesitter_context == true and "C" or "c") ..
          (__Globals.perm_config.debug == true and "D" or "d") ..
@@ -135,7 +148,7 @@ require("lualine").setup({
     },
     }, -- display textwidth after formattingoptions
     lualine_b = { "branch", "diff", "diagnostics" },
-    lualine_c = {"filename", "searchcount" },
+    lualine_c = {"filename", "searchcount", { get_permissions_color } },
     lualine_x = {
       { indentstats },
       {
