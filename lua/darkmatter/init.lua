@@ -244,12 +244,12 @@ local function configure()
   -- setup base palette
   M.P = theme.basepalette(conf.desaturate, conf.dlevel)
 
-  M.P.special.fg = { M.T[conf.variant].fg , 1 }
+  M.P.styled.fg = { M.T[conf.variant].fg , 1 }
   M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
-  M.P.special.c1 = { conf.custom_colors.c1, 91 }
-  M.P.special.c2 = { conf.custom_colors.c2, 92 }
-  M.P.special.c3 = { conf.custom_colors.c3, 93 }
-  M.P.special.c4 = { conf.custom_colors.c4, 94 }
+  M.P.styled.c1 = { conf.custom_colors.c1, 91 }
+  M.P.styled.c2 = { conf.custom_colors.c2, 92 }
+  M.P.styled.c3 = { conf.custom_colors.c3, 93 }
+  M.P.styled.c4 = { conf.custom_colors.c4, 94 }
 
   local seq = 245
   for k,v in pairs(conf.usercolors) do
@@ -262,7 +262,7 @@ local function configure()
   -- set up special colors that can be controlled via conf.style
   -- most of these colors are for syntax highlight
   for k,v in pairs(conf.style) do
-    M.P.special[k] = M.P[v]
+    M.P.styled[k] = M.P[v]
   end
   LuaLineColors.statuslinebg = M.T[conf.variant].statuslinebg
 
@@ -296,11 +296,11 @@ end
 -- set all hl groups
 local function set_all()
   -- basic highlights
-  M.hl("Braces", M.P.special.braces, M.NONE, conf.attrib.brace)
-  M.hl("Operator", M.P.special.operator, M.NONE, conf.attrib.operator)
-  M.hl("PunctDelim", M.P.special.delim, M.NONE, conf.attrib.delim)
-  M.hl("PunctSpecial", M.P.special.delim, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("ScrollView", M.P.teal, M.P.special.c3)
+  M.hl("Braces", M.P.styled.braces, M.NONE, conf.attrib.brace)
+  M.hl("Operator", M.P.styled.operator, M.NONE, conf.attrib.operator)
+  M.hl("PunctDelim", M.P.styled.delim, M.NONE, conf.attrib.delim)
+  M.hl("PunctSpecial", M.P.styled.delim, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("ScrollView", M.P.teal, M.P.styled.c3)
   M.hl_with_defaults("Normal", M.P.fg, M.P.bg)
   M.hl_with_defaults("Accent", M.P.black, M.P.accent)
   M.hl_with_defaults("Terminal", M.P.fg, M.P.treebg)
@@ -380,19 +380,19 @@ local function set_all()
   M.hl_with_defaults("debugBreakpoint", M.P.bg0, M.P.red)
   M.hl_with_defaults("Substitute", M.P.bg0, M.P.yellow)
 
-  M.hl("Type", M.P.special.type, M.NONE, conf.attrib.types)
-  M.hl("Structure", M.P.special.struct, M.NONE, conf.attrib.struct)
-  M.hl("Class", M.P.special.class, M.NONE, conf.attrib.class)
-  M.hl("Interface", M.P.special.interface, M.NONE, conf.attrib.interface)
-  M.hl("StorageClass", M.P.special.storage, M.NONE, conf.attrib.storage)
+  M.hl("Type", M.P.styled.type, M.NONE, conf.attrib.types)
+  M.hl("Structure", M.P.styled.struct, M.NONE, conf.attrib.struct)
+  M.hl("Class", M.P.styled.class, M.NONE, conf.attrib.class)
+  M.hl("Interface", M.P.styled.interface, M.NONE, conf.attrib.interface)
+  M.hl("StorageClass", M.P.styled.storage, M.NONE, conf.attrib.storage)
   M.hl_with_defaults("Identifier", M.P.orange, M.NONE)
-  M.hl_with_defaults("Constant", M.P.special.constant, M.NONE)
-  M.hl("Include", M.P.special.module, M.NONE, conf.attrib.module)
-  M.hl("Boolean", M.P.special.bool, M.NONE, conf.attrib.bool)
-  M.hl("Keyword", M.P.special.keyword, M.NONE, conf.attrib.keyword)
-  M.hl("KeywordSpecial", M.P.special.kwspec, M.NONE, conf.attrib.keyword)
+  M.hl_with_defaults("Constant", M.P.styled.constant, M.NONE)
+  M.hl("Include", M.P.styled.module, M.NONE, conf.attrib.module)
+  M.hl("Boolean", M.P.styled.bool, M.NONE, conf.attrib.bool)
+  M.hl("Keyword", M.P.styled.keyword, M.NONE, conf.attrib.keyword)
+  M.hl("KeywordSpecial", M.P.styled.kwspec, M.NONE, conf.attrib.keyword)
   -- use extra color for coditional keywords (if, else...)?
-  M.hl("Conditional", M.P.special.conditional, M.NONE, conf.attrib.conditional)
+  M.hl("Conditional", M.P.styled.conditional, M.NONE, conf.attrib.conditional)
   M.hl_with_defaults("Define", M.P.red, M.NONE)
   M.hl("Typedef", M.P.red, M.NONE, conf.attrib.types)
   M.hl("Exception", conf.theme_strings == "yellow" and M.P.green or M.P.yellow, M.NONE, conf.attrib.keyword)
@@ -405,19 +405,18 @@ local function set_all()
   M.hl_with_defaults("SpecialChar", M.P.lpurple, M.NONE)
   M.hl("String", M.P.string, M.NONE, conf.attrib.str)
   M.hl_with_defaults("Character", M.P.yellow, M.NONE)
-  M.hl("Number", M.P.special.number, M.NONE, conf.attrib.number)
+  M.hl("Number", M.P.styled.number, M.NONE, conf.attrib.number)
   M.hl_with_defaults("Float", M.P.lpurple, M.NONE)
   M.hl("Function", M.P.teal, M.NONE, conf.attrib.func)
   M.hl("Method", M.P.brightteal, M.NONE, conf.attrib.method)
   M.hl("StaticMethod", M.P.brightteal, M.NONE, conf.attrib.staticmethod)
   M.hl("Member", M.P.orange, M.NONE, conf.attrib.member)
   M.hl("StaticMember", M.P.orange, M.NONE, conf.attrib.staticmember)
-  M.hl("Builtin", M.P.special.builtin, M.NONE, conf.attrib.bold)
+  M.hl("Builtin", M.P.styled.builtin, M.NONE, conf.attrib.bold)
   M.link("PreProc", "Include")
   M.hl("Title", M.P.red, M.NONE, conf.attrib.bold)
   M.hl_with_defaults("Tag", M.P.orange, M.NONE)
-  M.hl("Comment", M.P.special.comment, M.NONE, conf.attrib.comment)
-  M.hl("SpecialComment", M.P.special.comment, M.NONE, conf.attrib.comment)
+  M.hl("Comment", M.P.styled.comment, M.NONE, conf.attrib.comment)
   M.hl_with_defaults("Todo", M.P.blue, M.NONE)
   M.hl_with_defaults("Ignore", M.P.grey, M.NONE)
   M.hl("Underlined", M.NONE, M.NONE, { underline = true })
@@ -545,7 +544,7 @@ local function set_all()
   M.link("@constant", "Constant")
   M.link("@constant.builtin", "Builtin")
   M.link("@constant.macro", "OrangeItalic")
-  M.hl("@constructor", M.P.special.constructor, M.NONE, {} )
+  M.hl("@constructor", M.P.styled.constructor, M.NONE, {} )
   M.link("@exception", "Exception")
   M.link("@field", "Member")
   M.link("@float", "Number")
@@ -632,7 +631,7 @@ local function set_all()
   M.link("BookmarkAnnotationLine", "DiffAdd")
 
   -- lukas-reineke/indent-blankline.nvim
-  M.hl("IndentBlanklineContextChar", M.P.special.operator, M.NONE, { bold = true })
+  M.hl("IndentBlanklineContextChar", M.P.styled.operator, M.NONE, { bold = true })
   M.set_hl(0, "IndentBlanklineChar", { fg = conf.indentguide_colors[conf.scheme], nocombine = true })
   M.link("IndentBlanklineSpaceChar", "IndentBlanklineChar")
   M.link("IndentBlanklineSpaceCharBlankline", "IndentBlanklineChar")
@@ -659,7 +658,7 @@ local function set_all()
   M.hl_with_defaults("NeoTreeFloatBorder", M.P.grey_dim, M.P.treebg)
   M.hl("NeoTreeFileNameOpened", M.P.blue, M.P.treebg, conf.attrib.italic)
   M.hl_with_defaults("SymbolsOutlineConnector", M.P.grey_dim, M.NONE)
-  M.hl_with_defaults("TreeCursorLine", M.NONE, M.P.special.c3)
+  M.hl_with_defaults("TreeCursorLine", M.NONE, M.P.styled.c3)
   M.hl_with_defaults("NotifierTitle", M.P.yellow, M.NONE)
   M.link("NotifierContent", "NeoTreeNormalNC")
 

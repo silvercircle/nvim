@@ -144,7 +144,7 @@ local function _set()
   vim.api.nvim_set_hl(0, "NavicIconsPackage",       {bg = c.P.accent[1], fg = c.P.olive[1]})
   c.link("AerialPackageIcon", "@module")
 
-  vim.api.nvim_set_hl(0, "NavicIconsClass",         {bg = c.P.accent[1], fg = c.P.special.class[1]})
+  vim.api.nvim_set_hl(0, "NavicIconsClass",         {bg = c.P.accent[1], fg = c.P.styled.class[1]})
   c.link("AerialClassIcon", "Class")
 
   vim.api.nvim_set_hl(0, "NavicIconsMethod",        {bg = c.P.accent[1], fg = c.P.brightteal[1]})
@@ -176,7 +176,7 @@ local function _set()
   vim.api.nvim_set_hl(0, "NavicIconsString",        {bg = c.P.accent[1], fg = c.P.string[1]})
   c.link("AerialStringIcon", "String")
 
-  vim.api.nvim_set_hl(0, "NavicIconsNumber",        {bg = c.P.accent[1], fg = c.P.special.number[1]})
+  vim.api.nvim_set_hl(0, "NavicIconsNumber",        {bg = c.P.accent[1], fg = c.P.styled.number[1]})
   c.link("AerialNumberIcon", "Number")
 
   vim.api.nvim_set_hl(0, "NavicIconsBoolean",       {bg = c.P.accent[1], fg = c.P.deepred[1]})
@@ -199,7 +199,7 @@ local function _set()
   --
   vim.api.nvim_set_hl(0, "NavicIconsEvent",         {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
 
-  vim.api.nvim_set_hl(0, "NavicIconsOperator",      {bg = c.P.accent[1], fg = c.P.special.operator[1]})
+  vim.api.nvim_set_hl(0, "NavicIconsOperator",      {bg = c.P.accent[1], fg = c.P.styled.operator[1]})
   c.link("AerialOperatorIcon", "@operator")
 
   vim.api.nvim_set_hl(0, "NavicIconsTypeParameter", {bg = c.P.accent[1], fg = c.P.darkpurple[1]})

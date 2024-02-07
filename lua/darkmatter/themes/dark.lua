@@ -32,8 +32,7 @@ local vivid_colors = {
   olive = { "#708422", 181 },
   lpurple = { "#b39df3", 176 },
   brown = { "#905010", 233 },
-  special = {
-  }
+  styled = { }
 }
 
 local desaturated_colors = {
@@ -63,8 +62,7 @@ local desaturated_colors = {
     olive = { "#708422", 181 },
     lpurple = { "#b39df3", 176 },
     brown = { "#905010", 233 },
-    special = {
-    }
+    styled = { }
   },
   high = {
     orange = { "#958680", 215 },
@@ -92,8 +90,7 @@ local desaturated_colors = {
     olive = { "#708422", 181 },
     lpurple = { "#b39df3", 176 },
     brown = { "#905010", 233 },
-    special = {
-    }
+    styled = { }
   }
 }
 
