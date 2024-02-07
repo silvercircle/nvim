@@ -126,6 +126,7 @@ lazy.setup({
       { 'dcampos/cmp-snippy' },
       { 'hrsh7th/cmp-nvim-lua' },
       { 'PhilRunninger/cmp-rpncalc'},
+      { "kdheepak/cmp-latex-symbols"},
       { 'hrsh7th/cmp-nvim-lsp-signature-help' },
       {
         'https://gitlab.com/silvercircle74/cmp-wordlist.nvim',

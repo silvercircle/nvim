@@ -69,8 +69,9 @@ local cmp_menu_hl_group = {
 
 -- formatting function for the experimental ("modern") layout
 local f_exp = function(entry, vim_item)
+  local kind_maxlen = 13
   -- fancy icons and a name of kind
-  vim_item.menu = utils.rpad(vim_item.kind, 13, " ")
+  vim_item.menu = utils.lpad(vim_item.kind, kind_maxlen, " ")
   vim_item.menu_hl_group = "CmpItemKind" .. vim_item.kind
   vim_item.kind = "▌" .. (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) -- .. "▐"
   -- Truncate the item if it is too long
@@ -80,29 +81,13 @@ local f_exp = function(entry, vim_item)
   -- vim_item.menu = (cmp_item_menu)[entry.source.name] or string.format("%s", entry.source.name)
   -- highlight groups for item.menu
   -- detail information (optional)
-  local cmp_item = entry:get_completion_item()
-  if entry.source.name == "nvim_lsp" then
-    -- Display which LSP servers this item came from.
-    local lspserver_name = entry.source.source.client.name
-    if lspserver_name == "lua_ls" then lspserver_name = "Lua" end
-    local detail_txt = (function(this_item)
-      if not this_item.detail then
-        return nil
-      end
-      -- OmniSharp sometimes provides details (e.g. for overloaded operators). So leave some
-      -- space for them.
-      if lspserver_name == "omnisharp" then
-        return #this_item.detail > 0 and utils.rpad(string.sub(this_item.detail, 1, 8), 8, " ") .. "OmniSharp" or "        OmniSharp"
-      end
-      return lspserver_name == "Lua" and "Lua" or utils.truncate(this_item.detail, vim.g.tweaks.cmp.details_maxwidth)
-    end)(cmp_item)
-    if detail_txt then
-      vim_item.menu = vim_item.menu .. detail_txt
-    else
-      vim_item.menu = vim_item.menu .. lspserver_name
-    end
-  else
-    vim_item.menu = vim_item.menu .. (cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name))
+  --local cmp_item = entry:get_completion_item()
+  local dmw = vim.g.tweaks.cmp.details_maxwidth
+  --vim_item.menu = vim_item.menu .. (cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name))
+  if vim.fn.strcharlen(vim_item.menu) < dmw then
+    vim_item.menu = utils.lpad(vim_item.menu, dmw, " ")
+  elseif vim.fn.strcharlen(vim_item.menu) > dmw then
+    vim_item.menu = utils.truncate(vim_item.menu, dmw)
   end
   return vim_item
 end
@@ -121,6 +106,7 @@ local f_std = function(entry, vim_item)
   vim_item.menu_hl_group = cmp_menu_hl_group[entry.source.name]     -- default is CmpItemMenu
   -- detail information (optional)
   local cmp_item = entry:get_completion_item()
+  local dmw = vim.g.tweaks.cmp.details_maxwidth
   if entry.source.name == "nvim_lsp" then
     -- Display which LSP servers this item came from.
     local lspserver_name = entry.source.source.client.name
@@ -136,14 +122,20 @@ local f_std = function(entry, vim_item)
       -- OmniSharp sometimes provides details (e.g. for overloaded operators). So leave some
       -- space for them.
       if lspserver_name == "omnisharp" then
-        return #this_item.detail > 0 and utils.rpad(string.sub(this_item.detail, 1, 8), 10, " ") .. "OmniSharp" or "          OmniSharp"
+        --return #this_item.detail > 0 and utils.rpad(string.sub(this_item.detail, 1, 8), 10, " ") .. "OmniSharp" or "          OmniSharp"
+        return this_item.detail .. " OmniSharp"
       end
-      return lspserver_name == "Lua" and "Lua" or utils.truncate(this_item.detail, vim.g.tweaks.cmp.details_maxwidth)
+      return lspserver_name == "Lua" and "Lua" or this_item.detail
     end)(cmp_item)
     if detail_txt then
       vim_item.menu = detail_txt
-      vim_item.menu_hl_group = "CmpItemMenuDetail"
     end
+  end
+  vim_item.menu_hl_group = "CmpItemMenuDetail"
+  if vim.fn.strcharlen(vim_item.menu) < dmw then
+    vim_item.menu = utils.lpad(vim_item.menu, vim.g.tweaks.cmp.details_maxwidth, " ")
+  elseif vim.fn.strcharlen(vim_item.menu) > dmw then
+    vim_item.menu = utils.truncate(vim_item.menu, dmw)
   end
   return vim_item
 end
@@ -274,7 +266,7 @@ cmp.setup({
     { name = "path", priority = 30 },
     { name = "snippy", priority = 100, group_index = 1, keyword_length = 3 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
-    { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 5 },
+    { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 3 },
     { name = 'rpncalc' },
     { name = 'emoji', priority = 10, max_item_count = 40 },        -- cmp-emoji source
     { name = 'nvim_lua', priority = 111, trigger_characters = {"."}, keyword_length = math.huge },    -- nvim lua api completion source
@@ -294,6 +286,12 @@ cmp.setup({
           end
           return { buf }
         end
+      }
+    },
+    { name = "latex_symbols",
+      option = {
+        strategy = 0,
+        group_index = 2
       }
     }
   },

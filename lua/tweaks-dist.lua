@@ -92,7 +92,7 @@ Tweaks.cmp = {
   -- maximum width for the item abbreviation. This is the completion item's name
   abbr_maxwidth = 50,
   -- maximum width for the details column. Normally the rightmost column
-  details_maxwidth = 15,
+  details_maxwidth = 20,
   -- I prefer to have only manual cmp complation (hit Ctrl-Space)
   autocomplete = false,
   -- minimum keyword length for auto-complete to kick in (only if the above is true)
@@ -185,6 +185,7 @@ Tweaks.signcolumn = "yes:3"
 -- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
 Tweaks.breadcrumb = 'navic'
 Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://www.vimiscool.tech/neotip'
+--Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
 
 -- settings for the fortune cookie split
 Tweaks.fortune = {
