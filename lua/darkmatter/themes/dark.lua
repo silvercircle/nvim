@@ -132,6 +132,7 @@ end
 -- with user-provided options to build the final conf.attrib table.
 function M.attributes()
   return {
+    comment      = {},
     keyword      = { bold = true },   -- keywords
     conditional  = { bold = true },   -- special keywords (if, then...)
     types        = {},                -- types (classes, interfaces)

@@ -104,6 +104,7 @@ local conf = {
   -- the style table controls the special color table that is mostly for syntax
   -- highlight. It defines semantic colors using the basic color names.
   style = {
+    comment = "grey",
     keyword = "blue",
     kwspec = "deepred",
     conditional = "blue",
@@ -415,8 +416,8 @@ local function set_all()
   M.link("PreProc", "Include")
   M.hl("Title", M.P.red, M.NONE, conf.attrib.bold)
   M.hl_with_defaults("Tag", M.P.orange, M.NONE)
-  M.hl_with_defaults("Comment", M.P.grey, M.NONE)
-  M.hl_with_defaults("SpecialComment", M.P.grey, M.NONE)
+  M.hl("Comment", M.P.special.comment, M.NONE, conf.attrib.comment)
+  M.hl("SpecialComment", M.P.special.comment, M.NONE, conf.attrib.comment)
   M.hl_with_defaults("Todo", M.P.blue, M.NONE)
   M.hl_with_defaults("Ignore", M.P.grey, M.NONE)
   M.hl("Underlined", M.NONE, M.NONE, { underline = true })
