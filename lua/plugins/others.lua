@@ -117,10 +117,10 @@ M.setup = {
 
   trouble = function()
     local trouble = require("trouble")
-    _Config_SetKey({ "n", "i" }, "<C-t>t", function() trouble.open() end, "Toggle Trouble window")
-    _Config_SetKey({ "n", "i" }, "<C-t>q", function() trouble.close() end, "Toggle Trouble window")
-    _Config_SetKey({ "n", "i" }, "<C-t><Down>", function() trouble.next({ skip_groups = true, jump = true }) end, "Trouble next item")
-    _Config_SetKey({ "n", "i" }, "<C-t><Up>", function() trouble.previous({ skip_groups = true, jump = true }) end, "Trouble previous item")
+    vim.g.setkey({ "n", "i" }, "<C-t>t", function() trouble.open() end, "Toggle Trouble window")
+    vim.g.setkey({ "n", "i" }, "<C-t>q", function() trouble.close() end, "Toggle Trouble window")
+    vim.g.setkey({ "n", "i" }, "<C-t><Down>", function() trouble.next({ skip_groups = true, jump = true }) end, "Trouble next item")
+    vim.g.setkey({ "n", "i" }, "<C-t><Up>", function() trouble.previous({ skip_groups = true, jump = true }) end, "Trouble previous item")
     require("trouble").setup({
       position = "bottom",
       height = 15,

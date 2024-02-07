@@ -745,16 +745,16 @@ function M.configure_treesitter()
     vim.treesitter.query.set("vimdoc", "injections", "")
   end
   -- enable/disable treesitter-context plugin
-  _Config_SetKey({ 'n', 'i', 'v' }, "<C-x><C-c>", function() M.toggle_treesitter_context() end, "Toggle Treesitter Context")
+  vim.g.setkey({ 'n', 'i', 'v' }, "<C-x><C-c>", function() M.toggle_treesitter_context() end, "Toggle Treesitter Context")
   -- jump to current context start
-  _Config_SetKey({ 'n', 'i', 'v' }, "<C-x>c", function() require("treesitter-context").go_to_context() end, "Go to Context Start")
+  vim.g.setkey({ 'n', 'i', 'v' }, "<C-x>c", function() require("treesitter-context").go_to_context() end, "Go to Context Start")
 
-  _Config_SetKey({ 'n', 'i', 'v' }, "<C-x>te",
+  vim.g.setkey({ 'n', 'i', 'v' }, "<C-x>te",
     function()
       vim.treesitter.start()
       M.notify("Highlights enabled", vim.log.levels.INFO, "Treesitter")
     end, "Enable Treesitter for Buffer")
-  _Config_SetKey({ 'n', 'i', 'v' }, "<C-x>td",
+  vim.g.setkey({ 'n', 'i', 'v' }, "<C-x>td",
     function()
       vim.treesitter.stop()
       M.notify("Highlight disabled", vim.log.levels.INFO, "Treesitter")
