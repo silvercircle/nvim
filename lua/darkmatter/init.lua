@@ -104,6 +104,7 @@ local conf = {
   -- the style table controls the special color table that is mostly for syntax
   -- highlight. It defines semantic colors using the basic color names.
   style = {
+    identifier = "fg_dim",
     comment = "grey",
     keyword = "blue",
     kwspec = "deepred",
@@ -244,28 +245,6 @@ local function configure()
   -- setup base palette
   M.P = theme.basepalette(conf.desaturate, conf.dlevel)
 
-  M.P.styled.fg = { M.T[conf.variant].fg , 1 }
-  M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
-  M.P.styled.c1 = { conf.custom_colors.c1, 91 }
-  M.P.styled.c2 = { conf.custom_colors.c2, 92 }
-  M.P.styled.c3 = { conf.custom_colors.c3, 93 }
-  M.P.styled.c4 = { conf.custom_colors.c4, 94 }
-
-  local seq = 245
-  for k,v in pairs(conf.usercolors) do
-    M.P[k] = { v, seq }
-    seq = seq + 1
-    if seq == 256 then
-      break
-    end
-  end
-  -- set up special colors that can be controlled via conf.style
-  -- most of these colors are for syntax highlight
-  for k,v in pairs(conf.style) do
-    M.P.styled[k] = M.P[v]
-  end
-  LuaLineColors.statuslinebg = M.T[conf.variant].statuslinebg
-
   -- TODO: allow cokeline colors per theme variant
   M.P.fg = { M.T[conf.variant].fg, 1 }
   M.P.darkbg = { M.T[conf.variant].gutterbg, 237 }
@@ -275,6 +254,13 @@ local function configure()
   M.P.accent_fg = { M.T["accent_fg"], 210 }
   M.P.tablinebg = M.P.statuslinebg
   M.P.fg_dim = { M.T[conf.variant].fg_dim, 2 }
+
+  M.P.styled.fg = { M.T[conf.variant].fg , 1 }
+  M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
+  M.P.styled.c1 = { conf.custom_colors.c1, 91 }
+  M.P.styled.c2 = { conf.custom_colors.c2, 92 }
+  M.P.styled.c3 = { conf.custom_colors.c3, 93 }
+  M.P.styled.c4 = { conf.custom_colors.c4, 94 }
 
   -- merge the variant-dependent colors
   M.P = vim.tbl_deep_extend("force", M.P, theme.variants(conf.variant))
@@ -291,6 +277,22 @@ local function configure()
 
   M.P.treebg = { M.T[conf.variant].treebg, 232 }
   M.P.selbg = { M.T["selbg"], 234 }
+
+  local seq = 245
+  for k,v in pairs(conf.usercolors) do
+    M.P[k] = { v, seq }
+    seq = seq + 1
+    if seq == 256 then
+      break
+    end
+  end
+  -- set up special colors that can be controlled via conf.style
+  -- most of these colors are for syntax highlight
+  for k,v in pairs(conf.style) do
+    M.P.styled[k] = M.P[v]
+  end
+  LuaLineColors.statuslinebg = M.T[conf.variant].statuslinebg
+
 end
 
 -- set all hl groups
@@ -385,7 +387,7 @@ local function set_all()
   M.hl("Class", M.P.styled.class, M.NONE, conf.attrib.class)
   M.hl("Interface", M.P.styled.interface, M.NONE, conf.attrib.interface)
   M.hl("StorageClass", M.P.styled.storage, M.NONE, conf.attrib.storage)
-  M.hl_with_defaults("Identifier", M.P.orange, M.NONE)
+  M.hl_with_defaults("Identifier", M.P.styled.identifier, M.NONE)
   M.hl_with_defaults("Constant", M.P.styled.constant, M.NONE)
   M.hl("Include", M.P.styled.module, M.NONE, conf.attrib.module)
   M.hl("Boolean", M.P.styled.bool, M.NONE, conf.attrib.bool)
