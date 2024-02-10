@@ -179,7 +179,7 @@ lspconfig.emmet_language_server.setup({
   capabilities = capabilities,
   cmd = { vim.g.lsp_server_bin['emmet'], '--stdio' },
   filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass",
-                "scss", "svelte", "pug", "typescriptreact", "vue", "liquid", "jsp" },
+                "scss", "svelte", "pug", "typescriptreact", "vue", "jsp" },
   root_dir = util.root_pattern('package.json', '.git'),
   -- Read more about this options in the [vscode docs](https://code.visualstudio.com/docs/editor/emmet#_emmet-configuration).
   -- **Note:** only the options listed in the table are supported.
@@ -219,7 +219,7 @@ lspconfig.cssls.setup({
 
 lspconfig.html.setup({
   cmd = { vim.g.lsp_server_bin['html'], '--stdio' },
-  filetypes = { 'html', 'xhtml', 'liquid', 'jsp' },
+  filetypes = { 'html', 'xhtml', 'jsp' },
   root_dir = util.root_pattern('package.json', '.git'),
   single_file_support = true,
   settings = {},
@@ -284,7 +284,7 @@ lspconfig.pyright.setup({
 lspconfig.marksman.setup({
   on_attach = On_attach,
   cmd = { vim.g.lsp_server_bin['marksman'] },
-  filetypes = { 'markdown', 'telekasten' },
+  filetypes = { 'markdown', 'telekasten', 'liquid' },
   root_dir = function(fname)
     local root_files = { '.marksman.toml' }
     return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname)

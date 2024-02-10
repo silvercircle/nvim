@@ -50,7 +50,7 @@ Config = {
   },
   cmp = {
     -- the following lists file types that are allowed to use the cmp_buffer source
-    buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true },
+    buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true, liquid = true },
   },
   minipicker_iprefix = "#>",
   -- these are minimal values
