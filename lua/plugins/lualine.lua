@@ -85,11 +85,11 @@ local navic_component = {
     if #string < 2 then
       return ""
     else
-     return string.format("%s", string)
+     return string.format("%s: %s", vim.lsp.get_clients( {bufnr=0} )[1].name, string)
    end
   end,
   separator = "",
-  color = 'WinBarContext',
+  color = 'WinBarFilename',
 }
 
 local aerial_component = {

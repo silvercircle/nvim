@@ -94,6 +94,7 @@ end
 
 -- formatting function for the standard layout
 local f_std = function(entry, vim_item)
+  local menu_is_lsp = false
   -- fancy icons and a name of kind
   vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
   -- vim_item.kind = " " .. vim_item.kind_symbol .. " " .. Config.iconpad .. vim_item.kind
@@ -112,6 +113,7 @@ local f_std = function(entry, vim_item)
     local lspserver_name = entry.source.source.client.name
     if lspserver_name == "lua_ls" then lspserver_name = "Lua" end
     vim_item.menu = lspserver_name
+    menu_is_lsp = true
     -- Some language servers provide details, e.g. type information.
     -- The details info hide the name of lsp server, but mostly we'll have one LSP
     -- per filetype, and we use special highlights so it's OK to hide it..
@@ -132,10 +134,12 @@ local f_std = function(entry, vim_item)
     end
   end
   vim_item.menu_hl_group = "CmpItemMenuDetail"
-  if vim.fn.strcharlen(vim_item.menu) < dmw then
+  if menu_is_lsp == true then
+    if vim.fn.strcharlen(vim_item.menu) > dmw then
+      vim_item.menu = utils.truncate(vim_item.menu, dmw)
+    end
+  else
     vim_item.menu = utils.lpad(vim_item.menu, vim.g.tweaks.cmp.details_maxwidth, " ")
-  elseif vim.fn.strcharlen(vim_item.menu) > dmw then
-    vim_item.menu = utils.truncate(vim_item.menu, dmw)
   end
   return vim_item
 end

@@ -566,6 +566,14 @@ lazy.setup({
     config = function()
       require("plugins.edgy")
     end
+  },
+  {
+    "ibhagwan/fzf-lua",
+    cond = false,
+    lazy = true,
+    config = function()
+      require("plugins.fzf")
+    end
   }
 },
 {
