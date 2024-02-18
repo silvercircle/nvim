@@ -40,4 +40,4 @@ require("nvim-treesitter.configs").setup({
   }
 })
 __Globals.configure_treesitter()
-
+vim.treesitter.language.register("css", "scss")
