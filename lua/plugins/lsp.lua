@@ -274,11 +274,11 @@ lspconfig.yamlls.setup({
 })
 
 -- python pyright
-lspconfig.pyright.setup({
-  cmd = { vim.g.lsp_server_bin['pyright'], '--stdio' },
-  on_attach = On_attach,
-  capabilities = capabilities
-})
+--lspconfig.pyright.setup({
+--  cmd = { vim.g.lsp_server_bin['pyright'], '--stdio' },
+--  on_attach = On_attach,
+--  capabilities = capabilities
+--})
 
 -- markdown
 lspconfig.marksman.setup({
@@ -396,6 +396,8 @@ elseif vim.g.tweaks.lsp.csharp == "roslyn" then
 elseif vim.g.tweaks.lsp.csharp == "csharp_ls" then
   require("lsp.csharp_ls")
 end
+
+require("lsp.basedpyright")
 
 -- require("lsp.hls")      -- hls (haskell)
 -- require("lsp.phpactor") -- php (unused)

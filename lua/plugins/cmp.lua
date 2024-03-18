@@ -315,7 +315,7 @@ cmp.setup({
 --        return cmp_helper.compare.deprioritize_underscore(...)
 --      end,
       cmp.config.compare.recently_used,
-      cmp.config.compare.locality,
+      -- cmp.config.compare.locality,
       cmp.config.compare.kind,
       --cmp.config.compare.sort_text,
       --cmp.config.compare.length,
