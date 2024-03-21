@@ -380,10 +380,13 @@ function Utils.Quitapp()
     end
   else
     -- let the user choose (save all, discard all, cancel)
-    vim.ui.select({ "Save all modified buffers and exit", "Discard all modified buffers and exit", "Cancel operation" }, {
+
+    vim.ui.select({ "Save all modified buffers and exit",
+                    "Discard all modified buffers and exit",
+                    "Cancel operation" }, {
       prompt = "Exit (all unsaved changes are lost)",
       format_item = function(item)
-        return Utils.pad(item, 40, " ")
+        return Utils.pad(item, 41, " ")
       end,
     }, function(choice)
       if choice == "Discard all modified buffers and exit" then
