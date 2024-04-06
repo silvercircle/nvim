@@ -351,21 +351,21 @@ lazy.setup({
       require("plugins.mini_extra")
     end
   },
-  {
-    'echasnovski/mini.notify',
-    config = function()
-      require("mini.notify").setup({
-        window = {
-          config = {
-            anchor = "SE",
-            row = vim.o.lines
-          },
-          winblend = 0
-        }
-      })
-      vim.notify = require("mini.notify").make_notify()
-    end
-  },
+  --{
+  --  'echasnovski/mini.notify',
+  --  config = function()
+  --    require("mini.notify").setup({
+  --      window = {
+  --        config = {
+  --          anchor = "SE",
+  --          row = vim.o.lines
+  --        },
+  --        winblend = 0
+  --      }
+  --    })
+  --    vim.notify = require("mini.notify").make_notify()
+  --  end
+  --},
   {
     'nvim-tree/nvim-tree.lua',
     cond = vim.g.tweaks.tree.version == "Nvim",
@@ -573,6 +573,13 @@ lazy.setup({
     lazy = true,
     config = function()
       require("plugins.fzf")
+    end
+  },
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("plugins.noice")
     end
   }
 },

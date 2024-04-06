@@ -355,11 +355,11 @@ local function temp_to_hl(temp)
   elseif t >= 10 and t <= 20 then
     return "Yellow"
   elseif t > 20 and t <= 27 then
-    return "Orange"
+    return "Brown"
   elseif t > 27 and t < 35 then
-    return "PaleRed"
-  else
     return "Red"
+  else
+    return "DarkPurple"
   end
 end
 
@@ -373,7 +373,7 @@ local function wind_to_hl(wind)
   elseif w < 10 then
     return "Yellow"
   elseif w < 25 then
-    return "Orange"
+    return "Brown"
   elseif w < 50 then
     return "DeepRed"
   elseif w < 70 then

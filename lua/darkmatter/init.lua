@@ -451,6 +451,8 @@ local function set_all()
   M.hl("DarkPurpleBold", M.P.darkpurple, M.NONE, conf.attrib.bold)
   M.hl_with_defaults("Darkyellow", M.P.darkyellow, M.NONE)
   M.hl("DarkyellowBold", M.P.darkyellow, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Brown", M.P.brown, M.NONE)
+  M.hl("BrownBold", M.P.brown, M.NONE, conf.attrib.bold)
   M.hl_with_defaults("Teal", M.P.teal, M.NONE)
   M.hl("TealBold", M.P.teal, M.NONE, conf.attrib.bold)
 
