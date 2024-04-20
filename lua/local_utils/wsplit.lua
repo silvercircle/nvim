@@ -371,11 +371,11 @@ local function wind_to_hl(wind)
   if w < 5 then
     return "Green"
   elseif w < 10 then
-    return "Yellow"
+    return "Blue"
   elseif w < 25 then
-    return "Brown"
+    return "Yellow"
   elseif w < 50 then
-    return "DeepRed"
+    return "Brown"
   elseif w < 70 then
     return "Red"
   else

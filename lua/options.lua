@@ -94,7 +94,11 @@ o.updatecount = 0
 o.timeoutlen = 800
 o.scrolloff = 5
 o.undolevels = 50
-o.scrolljump = 3
+if Config.nightly == 1 then
+  o.scrolljump = 3
+else
+  o.scrolljump = 1
+end
 o.sidescrolloff = 5
 o.sidescroll = 5
 o.conceallevel = 0

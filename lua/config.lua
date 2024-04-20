@@ -6,6 +6,8 @@ local env_plain = os.getenv("NVIM_PLAIN")
 local status, tw = pcall(require, "mytweaks")
 local tweaks = require("tweaks-dist")
 
+-- merge mytweaks into the default tweaks file to allow for user-customizable 
+-- settings that won't be overwritten when updating the config.
 if status == true then
   tweaks = vim.tbl_deep_extend("force", tweaks, tw)
 end
