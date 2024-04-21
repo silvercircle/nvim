@@ -24,6 +24,17 @@ lazy.setup({
       })
     end
   },
+  {
+    "brenton-leighton/multiple-cursors.nvim",
+    version = "*", -- Use the latest tagged version
+    opts = {}, -- This causes the plugin setup function to be called
+    keys = {
+      { "<C-Down>",      "<Cmd>MultipleCursorsAddDown<CR>",        mode = { "n", "i" } },
+      { "<C-Up>",        "<Cmd>MultipleCursorsAddUp<CR>",          mode = { "n", "i" } },
+      { "<C-LeftMouse>", "<Cmd>MultipleCursorsMouseAddDelete<CR>", mode = { "n", "i" } },
+      { "<C-n>",         "<Cmd>MultipleCursorsAddMatches<CR>",     mode = { "n", "x" } },
+    },
+  },
   --{
   --  "j-hui/fidget.nvim",
   --  priorty = 9999,
@@ -56,10 +67,10 @@ lazy.setup({
       require("plugins.lualine")
     end
   },
-  {
-    'mg979/vim-visual-multi',
-    event = "BufReadPre"
-  },
+--  {
+--    'mg979/vim-visual-multi',
+--    event = "BufReadPre"
+--  },
   -- telescope + extensions, mandatory
   {
     'nvim-telescope/telescope.nvim', --  branch = '0.1.x',
