@@ -233,7 +233,7 @@ Tweaks.jdtls = {
   workspace_base = "/home/alex/.cache/jdtls_workspace/",
   java_executable = "/usr/bin/java",
   jdtls_install_dir = "/home/alex/.local/share/nvim/mason/packages/jdtls/",
-  equinox_version = "1.6.700.v20231214-2017",
+  equinox_version = "1.6.800.v20240304-1850",
   config = "config_linux"
 }
 -- a list of filename patterns that define a project root. This will be used as some kind of
