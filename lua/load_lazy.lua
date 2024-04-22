@@ -29,10 +29,11 @@ lazy.setup({
     version = "*", -- Use the latest tagged version
     opts = {}, -- This causes the plugin setup function to be called
     keys = {
-      { "<C-Down>",      "<Cmd>MultipleCursorsAddDown<CR>",        mode = { "n", "i" } },
-      { "<C-Up>",        "<Cmd>MultipleCursorsAddUp<CR>",          mode = { "n", "i" } },
-      { "<C-LeftMouse>", "<Cmd>MultipleCursorsMouseAddDelete<CR>", mode = { "n", "i" } },
-      { "<C-n>",         "<Cmd>MultipleCursorsAddMatches<CR>",     mode = { "n", "x" } },
+      { "<C-Down>",      "<Cmd>MultipleCursorsAddDown<CR>",           mode = { "n", "i" } },
+      { "<C-Up>",        "<Cmd>MultipleCursorsAddUp<CR>",             mode = { "n", "i" } },
+      { "<C-LeftMouse>", "<Cmd>MultipleCursorsMouseAddDelete<CR>",    mode = { "n", "i" } },
+      { "<C-n>",         "<Cmd>MultipleCursorsAddJumpNextMatch<CR>",  mode = { "n", "x" } },
+      { "<leader>n",     "<Cmd>MultipleCursorsJumpNextMatch<CR>",     mode = { "n", "x" } },
     },
   },
   --{
