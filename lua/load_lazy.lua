@@ -1,6 +1,13 @@
 local lazy = require("lazy")
 lazy.setup({
   'sharkdp/fd',
+  {
+    "lervag/vimtex",
+    ft = "tex",
+    init = function()
+      -- Use init for configuration, don't use the more common "config".
+    end
+  },
   'BurntSushi/ripgrep',
   {
     'nvim-tree/nvim-web-devicons',
