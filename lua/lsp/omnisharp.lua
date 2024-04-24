@@ -81,6 +81,7 @@ lspconfig.omnisharp.setup({
       ["textDocument/definition"] = require("omnisharp_extended").handler,
     }
     new_config.capabilities = __Globals.get_lsp_capabilities()
+    new_config.capabilities.workspace.workspaceFolders = true
   end,
   init_options = {}
 })
