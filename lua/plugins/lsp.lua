@@ -390,7 +390,7 @@ lspconfig.jsonls.setup {
 }
 -- outsourced because it's too big
 if vim.g.tweaks.lsp.csharp == "omnisharp" then
-  require("lsp.omnisharp_new")
+  require("lsp.omnisharp")
 elseif vim.g.tweaks.lsp.csharp == "roslyn" then
   require("lsp.roslyn")
 elseif vim.g.tweaks.lsp.csharp == "csharp_ls" then

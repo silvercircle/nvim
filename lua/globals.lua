@@ -834,7 +834,7 @@ function M.get_lsp_capabilities()
       dynamicRegistration = false,
       lineFoldingOnly = true
     }
-    M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
+    M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
   end
   return M.lsp_capabilities
 end

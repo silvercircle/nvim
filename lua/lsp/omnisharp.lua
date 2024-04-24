@@ -9,43 +9,46 @@ lspconfig.omnisharp.setup({
   flags = {
     debounce_text_changes = 1000
   },
-  enable_editorconfig_support = true,
-
-  -- If true, MSBuild project system will only load projects for files that
-  -- were opened in the editor. This setting is useful for big C# codebases
-  -- and allows for faster initialization of code navigation features only
-  -- for projects that are relevant to code that is being edited. With this
-  -- setting enabled OmniSharp may load fewer projects and may thus display
-  -- incomplete reference lists for symbols.
-  enable_ms_build_load_projects_on_demand = false,
-
-  -- Enables support for roslyn analyzers, code fixes and rulesets.
-  enable_roslyn_analyzers = true,
-
-  -- Specifies whether 'using' directives should be grouped and sorted during
-  -- document formatting.
-  organize_imports_on_format = true,
-
-  -- Enables support for showing unimported types and unimported extension
-  -- methods in completion lists. When committed, the appropriate using
-  -- directive will be added at the top of the current file. This option can
-  -- have a negative impact on initial completion responsiveness,
-  -- particularly for the first few completion sessions after opening a
-  -- solution.
-  enable_import_completion = false,
-
-  -- Specifies whether to include preview versions of the .NET SDK when
-  -- determining which version to use for project loading.
-  sdk_include_prereleases = true,
-
-  -- Only run analyzers against open files when 'enableRoslynAnalyzers' is
-  -- true
-  analyze_open_documents_only = false,
-
+  settings = {
+    FormattingOptions = {
+      -- Enables support for reading code style, naming convention and analyzer
+      -- settings from .editorconfig.
+      EnableEditorConfigSupport = true,
+      -- Specifies whether 'using' directives should be grouped and sorted during
+      -- document formatting.
+      OrganizeImports = nil,
+    },
+    MsBuild = {
+      -- If true, MSBuild project system will only load projects for files that
+      -- were opened in the editor. This setting is useful for big C# codebases
+      -- and allows for faster initialization of code navigation features only
+      -- for projects that are relevant to code that is being edited. With this
+      -- setting enabled OmniSharp may load fewer projects and may thus display
+      -- incomplete reference lists for symbols.
+      LoadProjectsOnDemand = nil,
+    },
+    RoslynExtensionsOptions = {
+      -- Enables support for roslyn analyzers, code fixes and rulesets.
+      EnableAnalyzersSupport = true,
+      -- Enables support for showing unimported types and unimported extension
+      -- methods in completion lists. When committed, the appropriate using
+      -- directive will be added at the top of the current file. This option can
+      -- have a negative impact on initial completion responsiveness,
+      -- particularly for the first few completion sessions after opening a
+      -- solution.
+      EnableImportCompletion = true,
+      -- Only run analyzers against open files when 'enableRoslynAnalyzers' is
+      -- true
+      AnalyzeOpenDocumentsOnly = nil,
+    },
+    Sdk = {
+      -- Specifies whether to include preview versions of the .NET SDK when
+      -- determining which version to use for project loading.
+      IncludePrereleases = true,
+    },
+  },
   filetypes = { "cs", "vb" },
-  root_dir = function(fname)
-    return util.root_pattern "*.sln" (fname) or util.root_pattern "*.csproj" (fname)
-  end,
+  root_dir = util.root_pattern('*.sln', '*.csproj', 'omnisharp.json', 'function.json'),
   on_new_config = function(new_config, new_root_dir)
     new_config.cmd = { vim.g.lsp_server_bin["omnisharp"] }
     table.insert(new_config.cmd, "-z") -- https://github.com/OmniSharp/omnisharp-vscode/pull/4300
@@ -62,26 +65,33 @@ lspconfig.omnisharp.setup({
     if new_config.enable_ms_build_load_projects_on_demand then
       table.insert(new_config.cmd, "MsBuild:LoadProjectsOnDemand=true")
     end
-    if new_config.enable_roslyn_analyzers then
-      table.insert(new_config.cmd, "RoslynExtensionsOptions:EnableAnalyzersSupport=true")
-    else
-      table.insert(new_config.cmd, "RoslynExtensionsOptions:EnableAnalyzersSupport=false")
-    end
-    if new_config.enable_import_completion then
-      table.insert(new_config.cmd, "RoslynExtensionsOptions:EnableImportCompletion=true")
-    end
-    if new_config.sdk_include_prereleases then
-      table.insert(new_config.cmd, "Sdk:IncludePrereleases=true")
-    end
-    if new_config.analyze_open_documents_only then
-      table.insert(new_config.cmd, "RoslynExtensionsOptions:AnalyzeOpenDocumentsOnly=true")
-    end
+    table.insert(new_config.cmd, "RoslynExtensionsOptions:EnableAnalyzersSupport=true")
+    table.insert(new_config.cmd, "RoslynExtensionsOptions:EnableImportCompletion=true")
+    table.insert(new_config.cmd, "RoslynExtensionsOptions:AnalyzeOpenDocumentsOnly=false")
     table.insert(new_config.cmd, "RoslynExtensionsOptions:EnableDecompilationSupport=true")
     new_config.handlers = {
       ["textDocument/definition"] = require("omnisharp_extended").handler,
     }
+    -- Append configuration-dependent command arguments
+    local function flatten(tbl)
+      local ret = {}
+      for k, v in pairs(tbl) do
+        if type(v) == "table" then
+          for _, pair in ipairs(flatten(v)) do
+            ret[#ret + 1] = k .. ":" .. pair
+          end
+        else
+          ret[#ret + 1] = k .. "=" .. vim.inspect(v)
+        end
+      end
+      return ret
+    end
+    if new_config.settings then
+      vim.list_extend(new_config.cmd, flatten(new_config.settings))
+    end
+
     new_config.capabilities = __Globals.get_lsp_capabilities()
-    new_config.capabilities.workspace.workspaceFolders = true
+    new_config.capabilities.workspace.workspaceFolders = false
   end,
   init_options = {}
 })
