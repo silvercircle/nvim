@@ -411,15 +411,23 @@ lazy.setup({
       }
     }
   },
+--  {
+--    'renerocksai/telekasten.nvim',
+--    lazy = true,
+--    ft = { "telekasten", "markdown" },
+--    dependencies = {
+--      { 'renerocksai/calendar-vim' },
+--    },
+--    config = function()
+--      require("plugins.telekasten_setup")
+--    end
+--  },
   {
-    'renerocksai/telekasten.nvim',
+    "zk-org/zk-nvim",
     lazy = true,
-    ft = { "telekasten", "markdown" },
-    dependencies = {
-      { 'renerocksai/calendar-vim' },
-    },
+    ft = { "markdown" },
     config = function()
-      require("plugins.telekasten_setup")
+      require("plugins.others").setup.zk()
     end
   },
   {
