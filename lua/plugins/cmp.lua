@@ -125,7 +125,7 @@ local f_std = function(entry, vim_item)
       -- space for them.
       if lspserver_name == "omnisharp" then
         --return #this_item.detail > 0 and utils.rpad(string.sub(this_item.detail, 1, 8), 10, " ") .. "OmniSharp" or "          OmniSharp"
-        return this_item.detail .. " OmniSharp"
+        return this_item.detail .. "OmniSharp"
       end
       return lspserver_name == "Lua" and "Lua" or this_item.detail
     end)(cmp_item)

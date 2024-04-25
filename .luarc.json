@@ -45,7 +45,7 @@
         ]
     },
     "window": {
-      "progressBar": false
+      "progressBar": true
     },
     "format": {
       "enable": true,
