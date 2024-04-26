@@ -581,30 +581,30 @@ command_center.add({
     keys = { "n", "lll", noremap },
     category = "@Neovim"
   },
-  {
-    desc = "Telekasten panel",
-    cmd = function() require("telekasten").panel() end,
-    keys = { "n", "tkp", noremap },
-    category = "@Telekasten"
-  },
-  {
-    desc = "Telekasten find notes",
-    cmd = function() require("telekasten").find_notes() end,
-    keys = { "n", "<leader>zf", noremap },
-    category = "@Telekasten"
-  },
-  {
-    desc = "Telekasten find daily notes",
-    cmd = function() require("telekasten").find_daily_notes() end,
-    keys = { "n", "<leader>zd", noremap },
-    category = "@Telekasten"
-  },
-  {
-    desc = "Telekasten search notes",
-    cmd = function() require("telekasten").search_notes() end,
-    keys = { "n", "<leader>zs", noremap },
-    category = "@Telekasten"
-  },
+  --{
+  --  desc = "Telekasten panel",
+  --  cmd = function() require("telekasten").panel() end,
+  --  keys = { "n", "tkp", noremap },
+  --  category = "@Telekasten"
+  --},
+  --{
+  --  desc = "Telekasten find notes",
+  --  cmd = function() require("telekasten").find_notes() end,
+  --  keys = { "n", "<leader>zf", noremap },
+  --  category = "@Telekasten"
+  --},
+  --{
+  --  desc = "Telekasten find daily notes",
+  --  cmd = function() require("telekasten").find_daily_notes() end,
+  --  keys = { "n", "<leader>zd", noremap },
+  --  category = "@Telekasten"
+  --},
+  --{
+  --  desc = "Telekasten search notes",
+  --  cmd = function() require("telekasten").search_notes() end,
+  --  keys = { "n", "<leader>zs", noremap },
+  --  category = "@Telekasten"
+  --},
   {
     desc = "GitSigns next hunk",
     cmd = function() require("gitsigns").next_hunk() end,
@@ -663,6 +663,26 @@ command_center.add({
       { "n", "<leader>cc", noremap },
     },
     category = "@Setup"
+  },
+  {
+    desc = "ZK Tags",
+    cmd = function()
+      require("telescope").extensions.zk.tags( __Telescope_vertical_dropdown_theme({ layout_config={preview_height=0.7, width=0.5, height=0.9}} ) )
+    end,
+    keys = {
+      { "n", "zkt", noremap },
+    },
+    category = "@ZK"
+  },
+  {
+    desc = "ZK Notes",
+    cmd = function()
+      require("telescope").extensions.zk.notes( __Telescope_vertical_dropdown_theme({ layout_config={preview_height=15, width=0.5, height=0.9}} ) )
+    end,
+    keys = {
+      { "n", "zkn", noremap },
+    },
+    category = "@ZK"
   }
   -- unused stuff keep it here in case we need it at some point
   --  {

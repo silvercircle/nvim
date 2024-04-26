@@ -276,7 +276,7 @@ lazy.setup({
       })
     end
   },
-  { 'tpope/vim-liquid', ft = "liquid" },
+  -- { 'tpope/vim-liquid', ft = "liquid" },
   {
     'MattesGroeger/vim-bookmarks',
     event = "BufReadPre",
@@ -425,7 +425,7 @@ lazy.setup({
   {
     "zk-org/zk-nvim",
     lazy = true,
-    ft = { "markdown" },
+    -- ft = { "markdown" },
     config = function()
       require("plugins.others").setup.zk()
     end
