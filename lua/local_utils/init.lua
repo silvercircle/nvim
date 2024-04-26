@@ -197,7 +197,7 @@ function Utils.StopLsp()
     local count = 0
     for _ in pairs(attached) do count = count + 1 end
     local entry = Utils.rpad(tostring(client["id"]), 10, " ")
-      .. Utils.rpad(client["name"], 20, " ")
+      .. Utils.rpad(client["name"], 30, " ")
       .. Utils.rpad(count .. " Buffer(s)  ", 15, " ")
       .. (type(client["config"]["cmd"]) == "table" and Utils.rpad(vim.fn.fnamemodify(client["config"]["cmd"][1], ":t"), 40, " ") or client["name"])
     table.insert(entries, entry)

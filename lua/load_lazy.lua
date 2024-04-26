@@ -338,6 +338,8 @@ lazy.setup({
   { 'preservim/vim-markdown',     ft = "markdown" },
   {
     "norcalli/nvim-colorizer.lua",
+    lazy = true,
+    event = { 'BufReadPre'},
     config = function()
       require "colorizer".setup {
         "css",
@@ -350,6 +352,8 @@ lazy.setup({
   },
   {
     'echasnovski/mini.move',
+    lazy = true,
+    event = { 'BufReadPre'},
     config = function()
       require("mini.move").setup()
     end
