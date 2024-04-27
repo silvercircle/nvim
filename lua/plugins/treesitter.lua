@@ -15,7 +15,7 @@ require("nvim-treesitter.configs").setup({
   },
   highlight = {
     enable = true,
-    disable = { "latex", "tex", "markdown" },      -- FIXME: JavaScript parser is painfully slow. Help can be
+    disable = { "latex", "tex" }, --, "markdown" },      -- FIXME: JavaScript parser is painfully slow. Help can be
                               -- slow with large pages. This is caused by injections, so disabling them
                               -- does help.
     additional_vim_regex_highlighting = { 'org' }

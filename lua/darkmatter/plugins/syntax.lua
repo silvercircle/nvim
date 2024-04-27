@@ -5,10 +5,10 @@ local function _set()
   local conf = c.get_conf()
 
     -- builtin: https://notabug.org/jorgesumle/vim-html-syntax{{{
-  c.hl("htmlH1", c.P.blue, c.NONE, conf.attrib.bold)
+  c.hl("htmlH1", c.P.styled.class, c.NONE, conf.attrib.bold)
   c.hl("htmlH2", c.P.green, c.NONE, conf.attrib.bold)
   c.hl("htmlH3", c.P.yellow, c.NONE, conf.attrib.bold)
-  c.hl("htmlH4", c.P.maroon, c.NONE, conf.attrib.bold)
+  c.hl("htmlH4", c.P.brown, c.NONE, conf.attrib.bold)
   c.hl("htmlH5", c.P.lila, c.NONE, conf.attrib.bold)
   c.hl("htmlH6", c.P.red, c.NONE, conf.attrib.bold)
   c.hl("htmlLink", c.NONE, c.NONE, { underline = true })
