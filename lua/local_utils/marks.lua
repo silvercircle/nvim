@@ -4,7 +4,7 @@
 
 --- originally written by MariaSolOs
 --- (https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/marks.lua)
-
+--- (no longer available)
 --- modified by me for my own neovim config (https://gitlab.com/silvercircle74/nvim):
 ---   * use global keymap (registered from keymap.lua)
 ---   * change sign group name

@@ -333,7 +333,7 @@ command_center.add({
     desc = "View Markdown in lightmdview",
     cmd = function()
       local path = vim.fn.expand("%:p")
-      local cmd = "!litemdview '" .. path .. "'"
+      local cmd = "silent !" .. vim.g.tweaks.mdguiviewer ..  " '" .. path .. "' &"
       vim.cmd.stopinsert()
       vim.schedule(function() vim.cmd(cmd) end)
     end,

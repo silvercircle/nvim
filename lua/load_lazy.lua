@@ -110,7 +110,7 @@ lazy.setup({
   -- treesitter + friends
   {
     'nvim-treesitter/nvim-treesitter',
-    -- branch = "main",
+    branch = "main",
     event = { "BufReadPre" },
     config = function()
       require("plugins.treesitter")
@@ -335,7 +335,7 @@ lazy.setup({
       require("plugins.others").setup.toggleterm()
     end
   },
-  { 'preservim/vim-markdown',     ft = "markdown" },
+  --{ 'preservim/vim-markdown',     ft = "markdown" },
   {
     "norcalli/nvim-colorizer.lua",
     lazy = true,
@@ -429,7 +429,7 @@ lazy.setup({
   {
     "zk-org/zk-nvim",
     lazy = true,
-    -- ft = { "markdown" },
+    ft = { "markdown" },
     config = function()
       require("plugins.others").setup.zk()
     end

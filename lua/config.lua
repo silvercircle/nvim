@@ -109,8 +109,8 @@ Config = {
     }
   },
   treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
-                       "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc",
-                       "yaml", "rust", "javascript", "ruby", "objc", "groovy", "org" },
+                       "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid",
+                       "yaml", "rust", "javascript", "ruby", "objc", "groovy", "org", "markdown" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   outline_plugin = nil,
   theme = require("darkmatter")
