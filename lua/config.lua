@@ -79,7 +79,6 @@ Config = {
   termheight = 11,
   iconpad = '',                              -- additional padding for devicons.
   texoutput = "~/Documents/TEXOUTPUT/",
-  texviewer = 'zathura',                      -- must be able to display PDFs, must be in $PATH
   wordcount_limit = 5,                         -- file size limit in megabytes. Above it, the word count will be disabled for performance reasons
   sysmon = {
     width = 51,

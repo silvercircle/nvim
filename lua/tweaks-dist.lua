@@ -281,5 +281,6 @@ Tweaks.cokeline = {
     }
   }
 }
+Tweaks.texviewer = "okular"
 Tweaks.mdguiviewer = "okular"
 return Tweaks

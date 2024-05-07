@@ -124,8 +124,7 @@ function Utils.view_latex()
   return function()
     local result, path = Utils.getLatexPreviewPath(vim.fn.expand("%"), true)
     if result == true then
-      local viewer = Config.texviewer or "zathura"
-      local cmd = "silent !" .. viewer .. " '" .. path .. "' &"
+      local cmd = "silent !" .. vim.g.tweaks.texviewer .. " '" .. path .. "' &"
       vim.cmd.stopinsert()
       vim.schedule(function()
         vim.cmd(cmd)
