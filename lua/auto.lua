@@ -28,15 +28,20 @@ local did_UIEnter = false
 
 autocmd({ 'VimEnter' }, {
   callback = function()
+    local econfig = require("editorconfig")
     if did_UIEnter == true then
       return
     end
-    Config.theme.set()
+    -- internal theme can be disabled via tweaks. This allows 
+    -- to use an external theme
+    if vim.g.tweaks.theme.disable == false then
+      Config.theme.set()
+    end
     -- support textwidth and formatoptions roperties via editorconfig files
-    require('editorconfig').properties.textwidth = function(bufnr, val, _)
+    econfig.properties.textwidth = function(bufnr, val, _)
       vim.api.nvim_buf_set_option(bufnr, "textwidth", tonumber(val))
     end
-    require("editorconfig").properties.formatoptions = function(bufnr, val, _)
+    econfig.properties.formatoptions = function(bufnr, val, _)
       vim.api.nvim_buf_set_option(bufnr, "formatoptions", val)
     end
   end
