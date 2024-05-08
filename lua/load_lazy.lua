@@ -43,30 +43,30 @@ lazy.setup({
       { "<leader>n",     "<Cmd>MultipleCursorsJumpNextMatch<CR>",     mode = { "n", "x" } },
     },
   },
-  --{
-  --  "j-hui/fidget.nvim",
-  --  priorty = 9999,
-  --  config = function()
-  --    vim.g.notifier = require("fidget")
-  --    require("fidget").setup({
-  --      progress = {
-  --        poll_rate = 1,
-  --        ignore_done_already = true,
-  --        display = {
-  --          render_limit = 2
-  --        }
-  --      },
-  --      notification = {
-  --        override_vim_notify = true,
-  --        history_size = 20,
-  --        filter = vim.log.levels.TRACE,
-  --        configs = {
-  --          --default = require("fidget.notification").default_config
-  --        }
-  --      }
-  --    })
-  --  end
-  --},
+  {
+    "j-hui/fidget.nvim",
+    priorty = 9999,
+    config = function()
+      vim.g.notifier = require("fidget")
+      require("fidget").setup({
+        progress = {
+          poll_rate = 1,
+          ignore_done_already = true,
+          display = {
+            render_limit = 2
+          }
+        },
+        notification = {
+          override_vim_notify = true,
+          history_size = 20,
+          filter = vim.log.levels.TRACE,
+          configs = {
+            --default = require("fidget.notification").default_config
+          }
+        }
+      })
+    end
+  },
   'nvim-lua/plenary.nvim',
   {
     'nvim-lualine/lualine.nvim',
@@ -75,10 +75,6 @@ lazy.setup({
       require("plugins.lualine")
     end
   },
---  {
---    'mg979/vim-visual-multi',
---    event = "BufReadPre"
---  },
   -- telescope + extensions, mandatory
   {
     'nvim-telescope/telescope.nvim', --  branch = '0.1.x',
@@ -374,21 +370,21 @@ lazy.setup({
       require("plugins.mini_extra")
     end
   },
-  {
-    'echasnovski/mini.notify',
-    config = function()
-      require("mini.notify").setup({
-        window = {
-          config = {
-            anchor = "SE",
-            row = vim.o.lines
-          },
-          winblend = 0
-        }
-      })
-      vim.notify = require("mini.notify").make_notify()
-    end
-  },
+  --{
+  --  'echasnovski/mini.notify',
+  --  config = function()
+  --    require("mini.notify").setup({
+  --      window = {
+  --        config = {
+  --          anchor = "SE",
+  --          row = vim.o.lines
+  --        },
+  --        winblend = 0
+  --      }
+  --    })
+  --    vim.notify = require("mini.notify").make_notify()
+  --  end
+  --},
   {
     'nvim-tree/nvim-tree.lua',
     cond = vim.g.tweaks.tree.version == "Nvim",
@@ -453,6 +449,7 @@ lazy.setup({
     'mfussenegger/nvim-dap',
     lazy = true,
     dependencies = {
+      'nvim-neotest/nvim-nio',
       {
         'rcarriga/nvim-dap-ui',
         config = function()
