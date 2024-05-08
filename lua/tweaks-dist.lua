@@ -218,7 +218,8 @@ Tweaks.theme = {
   kittysocket = "/tmp/mykittysocket",
   rainbow_contrast = "low",
   scheme = "dark",
-  all_types_bold = false
+  all_types_bold = false,
+  disable = false
 }
 -- filetree tweaks
 Tweaks.tree = {
