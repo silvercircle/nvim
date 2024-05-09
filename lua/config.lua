@@ -6,6 +6,8 @@ local env_plain = os.getenv("NVIM_PLAIN")
 local status, tw = pcall(require, "mytweaks")
 local tweaks = require("tweaks-dist")
 
+-- merge mytweaks into the default tweaks file to allow for user-customizable 
+-- settings that won't be overwritten when updating the config.
 if status == true then
   tweaks = vim.tbl_deep_extend("force", tweaks, tw)
 end
@@ -32,15 +34,25 @@ Config = {
     preview_height =10,
     anchor = "N",
   },
+  -- map symbol types to highlight groups for telescope since telescope does not use lspkind
+  telescope_symbol_highlights = {
+    Package   = "@namespace",
+    Module    = "@include",
+    Function  = "@function",
+    Constant  = "@constant",
+    Field     = "@field",
+    Property  = "@property",
+    Constructor = "@constructor",
+    Method    = "@method",
+    Class     = "@lsp.type.class",
+    Struct    = "@lsp.type.struct",
+    Namespace = "@namespace",
+    Enum      = "@lsp.type.enum_name",
+    Enummember= "@lsp.type.enum_member_name"
+  },
   cmp = {
-    autocomplete = tweaks.cmp.autocomplete,
-    autocomplete_kwlen = tweaks.cmp.keywordlen,
-    max_abbr_item_width = 40,                   -- item name width (maximum for truncate())
-    max_detail_item_width = 40,                 -- item detail field maxium width
     -- the following lists file types that are allowed to use the cmp_buffer source
-    buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true },
-    buffer_maxsize = tweaks.cmp.buffer_maxsize, -- PERF: maximum buffer size allowed to use cmp_buffer source. 300kB
-    ghost_text = tweaks.cmp.ghost
+    buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true, liquid = true },
   },
   minipicker_iprefix = "#>",
   -- these are minimal values
@@ -59,17 +71,14 @@ Config = {
   --again, with highlighting relative number
   --statuscol_rel = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:relnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:relnum) : ""} %C%#IndentBlankLineChar#│ ',
   nvim_tree = true,
-  cokeline_filename_width = tweaks.cokeline_filename_width,               -- max filename length on cokeline tabs
   fortunecookie = false,                      --"fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
                                               -- needs fortune and cowsay installed.
                                               -- set to false or an empty string to disable
                                               -- set this to "" or false if your start screen throws errors.
                                               -- when false, views are only written on write/update or manually (f4)
-  breadcrumb = (nvim_10 == 1 and tweaks.breadcrumb == 'dropbar') and 'dropbar' or (tweaks.breadcrumb ~= 'dropbar' and tweaks.breadcrumb or 'navic'),
   termheight = 11,
-  iconpad = ' ',                              -- additional padding for devicons.
+  iconpad = '',                              -- additional padding for devicons.
   texoutput = "~/Documents/TEXOUTPUT/",
-  texviewer = 'zathura',                      -- must be able to display PDFs, must be in $PATH
   wordcount_limit = 5,                         -- file size limit in megabytes. Above it, the word count will be disabled for performance reasons
   sysmon = {
     width = 51,
@@ -98,12 +107,12 @@ Config = {
       value = "76"
     }
   },
-  treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", --[["c_sharp",]]
-                       "scala", "java", "kdl", "ada", "json", "nim", "d",
-                       "yaml", "rust", "javascript", "ruby", "objc", "groovy" },
+  treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
+                       "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid",
+                       "yaml", "rust", "javascript", "ruby", "objc", "groovy", "org", "markdown" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   outline_plugin = nil,
-  theme = require("colors.darkmatter")
+  theme = require("darkmatter")
 }
 
 -- quick actions for the alpha start screen
@@ -115,13 +124,13 @@ vim.g.startify_top = {
   },
   {
     key = 'q',
-    text = "  Quit NVIM",
+    text = "󰗼  Quit NVIM",
     command = ":qa!<CR>"
   },
   {
     key = 'c',
     text = "  Edit config",
-    command = ":e ~/.config/nvim/init.vim<CR>:NvimTreeFindFile<CR>"
+    command = ":e ~/.config/nvim/init.vim<CR>"
   }
 }
 
@@ -152,9 +161,9 @@ g.loaded_gzipPlugin= 1
 g.loaded_gzip = 1
 
 -- global variables for plugins
-g.mapleader = ','
+g.mapleader = vim.g.tweaks.keymap.mapleader
 
-function _Config_SetKey(modes, lhs, rhs, _desc)
+function vim.g.setkey(modes, lhs, rhs, _desc)
   vim.keymap.set(modes, lhs, rhs, { noremap = true, silent = true, desc = _desc })
 end
 __Globals=require("globals")
@@ -166,4 +175,50 @@ vim.filetype.add({
   }
 })
 
+--
+-- These symbols are used by:
+-- Cmp plugin
+-- aerial plugin
+-- outline plugin
+-- lspkind plugin
+-- navic & navbuddy plugins
+vim.g.lspkind_symbols = {
+  Text        = "󰊄 ",
+  Method      = " ",
+  Function    = "󰡱 ",
+  Constructor = " ",
+  Field       = " ",
+  Variable    = "󰫧 ",
+  Class       = " ",
+  Interface   = " ",
+  Module      = " ",
+  Property    = " ",
+  Unit        = "塞",
+  Value       = " ",
+  Enum        = " ",
+  Keyword     = " ",
+  Snippet     = " ",
+  Color       = " ",
+  File        = "󰈔 ",
+  Reference   = " ",
+  Folder      = " ",
+  EnumMember  = " ",
+  Constant    = " ",
+  Struct      = " ",
+  Event       = " ",
+  Operator    = " ",
+  Namespace   = " ",
+  Package     = " ",
+  String      = " ",
+  Number      = " ",
+  Boolean     = " ",
+  Array       = " ",
+  Type        = " ",
+  Object      = " ",
+  Key         = " ",
+  Null        = "󰟢 ",
+  TypeParameter = "𝙏 "
+}
+
+vim.g.is_tmux = vim.fn.exists("$TMUX")
 

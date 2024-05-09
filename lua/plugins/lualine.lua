@@ -1,9 +1,6 @@
 local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
-local navic
+local _, navic = pcall(require, "nvim-navic")
 local colors = Config.theme
-if Config.breadcrumb == 'navic' then
-  navic = require('nvim-navic')
-end
 
 -- use either cokeline or lualine's internal buffer line, depending on 
 -- configuration choice.
@@ -20,10 +17,24 @@ local function actual_tabline()
   end
 end
 
+local function get_permissions_color()
+  local file = vim.fn.expand("%:p")
+  if file == "" or file == nil then
+    return "No File", "#0099ff" -- Default blue for no or non-existing file
+  else
+    local permissions = vim.fn.getfperm(file)
+    -- Check only the first three characters for 'rwx' to determine owner permissions
+    local owner_permissions = permissions:sub(1, 3)
+    -- Green for owner 'rwx', blue otherwise
+    return permissions, owner_permissions == "rwx" and "#00ff00" or "#0099ff"
+  end
+end
+
 local function status_indicators()
   return (__Globals.perm_config.treesitter_context == true and "C" or "c") ..
          (__Globals.perm_config.debug == true and "D" or "d") ..
-         (__Globals.perm_config.transbg == true and "T" or "t")
+         (__Globals.perm_config.transbg == true and "T" or "t") ..
+         (__Globals.perm_config.autopair == true and "A" or "a")
 end
 
 local function getWordsV2()
@@ -55,11 +66,7 @@ local function navic_context()
 end
 
 local function indentstats()
-  if __Globals.perm_config.statusline_declutter > 0 then
-    return string.format("%d:%d:%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n')
-  else
-    return string.format("%d:%d:%s|%s%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n', vim.g.theme_variant, vim.g.theme_desaturate == true and ",D" or "")
-  end
+  return string.format("%d:%d:%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n')
 end
 
 -- the internal theme is defined in config.lua
@@ -69,7 +76,7 @@ end
 local _bg = vim.api.nvim_get_hl(0, { name="Visual" }).bg
 --local _bg = theme().normal.b.bg
 
-vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = colors.theme[__Globals.perm_config.theme_variant].bg })
+vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = colors.T[__Globals.perm_config.theme_variant].bg })
 vim.api.nvim_set_hl(0, "WinBarUL", { fg = theme().normal.b.fg, bg = _bg })
 
 local navic_component = {
@@ -78,12 +85,12 @@ local navic_component = {
     if #string < 2 then
       return ""
     else
-     return string.format("Context: %s", string)
+     --return string.format("%s: %s", vim.lsp.get_active_clients( {bufnr=0} )[1].name, string)
+     return string.format("%s", string)
    end
   end,
-  -- separator = { right ="", left = "" },
   separator = "",
-  color = 'WinBarContext',
+  color = 'WinBarFilename',
 }
 
 local aerial_component = {
@@ -118,8 +125,9 @@ require("lualine").setup({
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
       disabled_filetypes = {
-      statusline = { "Outline", 'terminal', 'query', 'qf', 'BufList', 'sysmon', 'weather', "NvimTree", "aerial", "Trouble", "neo-tree" },
-      winbar = { 'Outline', 'terminal', 'query', 'qf', 'NvimTree', 'alpha', 'BufList', 'sysmon', 'weather', 'aerial', 'Trouble', "neo-tree" },
+      statusline = { "Outline", 'terminal', 'query', 'qf', 'BufList', 'sysmon', 'weather', "NvimTree", "neo-tree", "aerial", "Trouble" },
+      winbar = { 'Outline', 'terminal', 'query', 'qf', 'NvimTree', 'neo-tree', 'alpha', 'BufList', 'sysmon', 'weather', 'aerial', 'Trouble',
+                 'dap-repl', 'dapui_console', 'dapui_watches', 'dapui_stacks', 'dapui_scopes', 'dapui_breakpoints' },
       tabline = {},
     },
     -- ignore_focus = {'NvimTree'},
@@ -127,8 +135,8 @@ require("lualine").setup({
     globalstatus = false,
     refresh = {
       statusline = 2000,
-      tabline = 3000,
-      winbar = 5000,
+      tabline = 10000,
+      winbar = 1000,
     },
   },
   sections = {
@@ -141,7 +149,7 @@ require("lualine").setup({
     },
     }, -- display textwidth after formattingoptions
     lualine_b = { "branch", "diff", "diagnostics" },
-    lualine_c = {"filename", "searchcount" },
+    lualine_c = {"filename", "searchcount", { get_permissions_color } },
     lualine_x = {
       { indentstats },
       {
@@ -169,17 +177,17 @@ require("lualine").setup({
     lualine_z = {},
   },
   tabline = actual_tabline(),
-  winbar = Config.breadcrumb ~= 'dropbar' and {
+  winbar = {
     --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
-      Config.breadcrumb == 'navic' and navic_component or aerial_component
+      vim.g.tweaks.breadcrumb == 'navic' and navic_component or aerial_component,
     },
     lualine_c = {
       {
         padding,
         color = "WinBarInvis",
-        separator = { left = "", right = "" }
-      }
+        separator = { left = "", right = "" },
+      },
     },
     lualine_y = {
       {
@@ -197,7 +205,7 @@ require("lualine").setup({
         color = "WinBarUL",
         padding = 0,
         cond = function() return __Globals.perm_config.show_indicators end
-      }
+      },
     },
     lualine_z = {
       {
@@ -205,7 +213,7 @@ require("lualine").setup({
         padding = 0,
         separator = { left = "", right = "" },
         draw_empty = true,
-        color = { fg = colors.theme.accent_color, bg = colors.theme[__Globals.perm_config.theme_variant].bg },
+        color = { fg = colors.T.accent_color, bg = colors.T[__Globals.perm_config.theme_variant].bg },
         fmt = function()
           return ""
         end,
@@ -219,11 +227,10 @@ require("lualine").setup({
         --separator = "",
         --separator = { left = "", right = "" },
         color = 'WinBarFilename'
-      },
-      'tabs',
+      }
     }
-  } or {},
-  inactive_winbar = Config.breadcrumb ~= 'dropbar' and {
+  },
+  inactive_winbar = vim.g.tweaks.breadcrumb ~= 'dropbar' and {
     -- lualine_x = { { win_pad, color = 'Normal' } },
     lualine_z = { { full_filename, color = 'WinBarNC' }, 'tabs' }
   } or {},

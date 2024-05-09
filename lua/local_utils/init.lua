@@ -58,24 +58,27 @@ end
 -- some library functions
 -- pad string left and right to length with fill as fillchar
 function Utils.pad(string, length, fill)
-  local padlen = (length - #string) / 2
-  if #string >= length or padlen < 2 then
+  local len = vim.fn.strcharlen(string)
+  local padlen = (length - len) / 2
+  if len >= length or padlen < 2 then
     return string
   end
   return string.rep(fill, padlen) .. string .. string.rep(fill, padlen)
 end
 
 function Utils.lpad(string, length, fill)
-  local padlen = (length - #string)
-  if #string >= length or padlen < 2 then
+  local len = vim.fn.strcharlen(string)
+  local padlen = (length - len)
+  if len >= length or padlen < 2 then
     return string
   end
   return string.rep(fill, padlen) .. string
 end
 
 function Utils.rpad(string, length, fill)
-  local padlen = (length - #string)
-  if #string >= length or padlen < 2 then
+  local len = vim.fn.strcharlen(string)
+  local padlen = (length - len)
+  if len >= length or padlen < 2 then
     return string
   end
   return string .. string.rep(fill, padlen)
@@ -87,14 +90,6 @@ function Utils.string_split(s, delimiter)
     table.insert(result, match)
   end
   return result
-end
-
-function Utils.truncate(text, max_width)
-  if #text > max_width then
-    return string.sub(text, 1, max_width) .. "…"
-  else
-    return text
-  end
 end
 
 --- get prompt prefix to determine whether a picker has been called in insert mode
@@ -129,8 +124,7 @@ function Utils.view_latex()
   return function()
     local result, path = Utils.getLatexPreviewPath(vim.fn.expand("%"), true)
     if result == true then
-      local viewer = Config.texviewer or "zathura"
-      local cmd = "silent !" .. viewer .. " '" .. path .. "' &"
+      local cmd = "silent !" .. vim.g.tweaks.texviewer .. " '" .. path .. "' &"
       vim.cmd.stopinsert()
       vim.schedule(function()
         vim.cmd(cmd)
@@ -161,35 +155,6 @@ function Utils.compile_latex()
   end
 end
 
-function Utils.selectFrom()
-  local lines = {}
-  local i = 1
-  local adresses = {
-    {
-      name = "alex",
-      mail = "<aschorna@yandex.com.invalid>",
-    },
-    {
-      name = "Alex Shorner",
-      mail = "<as@subspsce.cc.invalid>",
-    },
-  }
-  for _, v in ipairs(adresses) do
-    lines[i] = '"' .. v.name .. '" ' .. v.mail
-    i = i + 1
-  end
-  vim.ui.select(lines, {
-    prompt = "Select From adress",
-    format_item = function(item)
-      return Utils.pad(item, 60, " ")
-    end,
-  }, function(choice)
-    if #choice > 1 then
-      vim.cmd("%s/^From: .*/From: " .. choice)
-      return choice
-    end
-  end)
-end
 --- find root (guesswork) for the file with the full path fname
 --- tries a git root first, then uses known patterns to identify a potential project root
 --- patterns are in conf table.
@@ -231,7 +196,7 @@ function Utils.StopLsp()
     local count = 0
     for _ in pairs(attached) do count = count + 1 end
     local entry = Utils.rpad(tostring(client["id"]), 10, " ")
-      .. Utils.rpad(client["name"], 20, " ")
+      .. Utils.rpad(client["name"], 30, " ")
       .. Utils.rpad(count .. " Buffer(s)  ", 15, " ")
       .. (type(client["config"]["cmd"]) == "table" and Utils.rpad(vim.fn.fnamemodify(client["config"]["cmd"][1], ":t"), 40, " ") or client["name"])
     table.insert(entries, entry)
@@ -241,6 +206,22 @@ function Utils.StopLsp()
   local tconf = require("telescope.config").values
   local actions = require("telescope.actions")
   local action_state = require("telescope.actions.state")
+
+  local function do_terminate(prompt_bufnr)
+    local current_picker = action_state.get_current_picker(prompt_bufnr)
+    local selection = action_state.get_selected_entry()
+    if selection[1] ~= nil and #selection[1] > 0 then
+      local id = tonumber(string.sub(selection[1], 1, 6))
+      if id ~= nil and id > 0 then
+        if #vim.lsp.get_buffers_by_client_id(id) > 0 then
+          vim.notify("The LSP server with id " .. id .. " has attached buffers. Will not terminate.")
+        else
+          current_picker:delete_selection(function(_) end)
+          vim.lsp.stop_client(id, true)
+        end
+      end
+    end
+  end
 
   local lspselector = function(opts)
     opts = opts or {}
@@ -255,19 +236,15 @@ function Utils.StopLsp()
           results = entries,
         }),
         sorter = tconf.generic_sorter(opts),
-        attach_mappings = function(prompt_bufnr, _)
+        attach_mappings = function(prompt_bufnr, map)
+          map("i", "<C-d>", function()
+            do_terminate(prompt_bufnr)
+          end)
           actions.select_default:replace(function()
-            actions.close(prompt_bufnr)
-            local selection = action_state.get_selected_entry()
-            if selection[1] ~= nil and #selection[1] > 0 then
-              local id = tonumber(string.sub(selection[1], 1, 6))
-              if id ~= nil and id > 0 then
-                vim.lsp.stop_client({ id, true })
-              end
-            end
+            do_terminate(prompt_bufnr)
           end)
           return true
-        end,
+        end
       })
       :find()
   end
@@ -275,7 +252,7 @@ function Utils.StopLsp()
     __Telescope_dropdown_theme({
       width = 0.4,
       height = 0.4,
-      prompt_title = "Active LSP clients (Enter = terminate, ESC cancels)",
+      prompt_title = "Active LSP clients (<C-d> or <Enter> to terminate, ESC cancels)",
     })
   )
 end
@@ -286,13 +263,19 @@ function Utils.BufClose()
   local closecmd = "Kwbd"
   local saveclosecmd = "update! | Kwbd"
 
+  -- do not close these filetypes
+  local dontclose = { "neo-tree ", "NvimTree", "Outline", "weather", "terminal", "sysmon", "aerial" }
+  if vim.tbl_contains(dontclose, vim.api.nvim_buf_get_option(0, "filetype")) then
+    return
+  end
+
   if vim.api.nvim_buf_get_option(0, "modified") == true then
     if vim.g.confirm_actions["close_buffer"] == true then
       vim.ui.select({ "Save and Close", "Close and discard", "Cancel Operation" }, {
         prompt = "Close modified buffer?",
         format_item = function(item)
           return Utils.pad(item, 46, " ")
-        end,
+        end
       }, function(choice)
         if choice == "Cancel Operation" then
           return
@@ -396,10 +379,13 @@ function Utils.Quitapp()
     end
   else
     -- let the user choose (save all, discard all, cancel)
-    vim.ui.select({ "Save all modified buffers and exit", "Discard all modified buffers and exit", "Cancel operation" }, {
+
+    vim.ui.select({ "Save all modified buffers and exit",
+                    "Discard all modified buffers and exit",
+                    "Cancel operation" }, {
       prompt = "Exit (all unsaved changes are lost)",
       format_item = function(item)
-        return Utils.pad(item, 40, " ")
+        return Utils.pad(item, 41, " ")
       end,
     }, function(choice)
       if choice == "Discard all modified buffers and exit" then
@@ -456,7 +442,6 @@ local border_layout_prompt_bottom = {
   }
 }
 
--- private modified version of the dropdown theme with a square border
 function Utils.Telescope_dropdown_theme(opts)
   local lopts = opts or {}
   local defaults = require("telescope.themes").get_dropdown({
@@ -509,7 +494,7 @@ function Utils.Telescope_vertical_dropdown_theme(opts)
     fname_width = Config["telescope_fname_width"],
     sorting_strategy = "ascending",
     layout_strategy = "vertical",
-    path_display = { smart = true },
+    path_display = { shorten = 10 },
     symbol_width = Config.minipicker_symbolwidth,
     layout_config = {
       width = lopts.width or 0.8,
@@ -537,8 +522,8 @@ end
 function Utils.command_center_theme(opts)
   local lopts = opts or {}
   local defaults = require("telescope.themes").get_dropdown({
-    borderchars = Config.cpalette_dropdown == "bottom" and border_layout_prompt_bottom
-      or border_layout_prompt_top,
+
+    borderchars = border_layout_prompt_top[__Globals.perm_config.telescope_borders],
     layout_config = {
       anchor = "N",
       width = lopts.width or 100,
@@ -569,6 +554,18 @@ function Utils.path_truncate(path, maxlen)
   end
   local effective_width = maxlen - 3 -- make space for leading ...
   return "..." .. string.sub(path, len - effective_width, len)
+end
+
+--- truncate a string to a maximum length, appending ellipses when necessary
+--- @param text string:       the string to truncate
+--- @param max_length integer: the maximum length. must be at least 4 because of ellipsis
+--- @return string:           the truncated text
+function Utils.truncate(text, max_length)
+  if max_length > 1 and vim.fn.strwidth(text) > max_length then
+    return vim.fn.strcharpart(text, 0, max_length - 1) .. "…"
+  else
+    return text
+  end
 end
 
 return Utils

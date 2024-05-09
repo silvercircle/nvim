@@ -16,7 +16,7 @@ lazy.setup({
   },
   {
     'nvim-treesitter/nvim-treesitter',
-    branch = "master",
+    branch = "main",
     event = { "BufReadPre" },
     config = function()
       require("plugins.treesitter")
@@ -176,6 +176,11 @@ lazy.setup({
   'echasnovski/mini.move',
   { 'kevinhwang91/rnvimr', lazy = true, cmd = { "RnvimrToggle" } },
   {
-    'willothy/nvim-cokeline', branch = "main"
+    'willothy/nvim-cokeline', branch = "main",
+    event = "UIEnter",
+    lazy = true,
+    config = function()
+      require("plugins.cokeline")
+    end
   },
 })

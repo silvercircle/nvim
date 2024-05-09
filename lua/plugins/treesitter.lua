@@ -1,8 +1,8 @@
-require("nvim-treesitter.configs").setup({
+require("nvim-treesitter").setup({
   auto_install = true,
   ensure_installed = Config.treesitter_types,
   textobjects = {
-    enable = true
+    enable = false
   },
   incremental_selection = {
     enable = true,
@@ -15,10 +15,10 @@ require("nvim-treesitter.configs").setup({
   },
   highlight = {
     enable = true,
-    disable = { "latex", "tex", "help", "markdown", "vimdoc" },      -- FIXME: JavaScript parser is painfully slow. Help can be
+    disable = { "latex", "tex" }, --, "markdown" },      -- FIXME: JavaScript parser is painfully slow. Help can be
                               -- slow with large pages. This is caused by injections, so disabling them
                               -- does help.
-    additional_vim_regex_highlighting = false
+    additional_vim_regex_highlighting = { 'org' }
   },
   indent = {
     -- FIXME: Setting this to true will cause a huge memory leak when inserting lines
@@ -40,4 +40,4 @@ require("nvim-treesitter.configs").setup({
   }
 })
 __Globals.configure_treesitter()
-
+vim.treesitter.language.register("css", "scss")

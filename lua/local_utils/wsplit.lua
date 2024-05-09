@@ -23,12 +23,12 @@ local watch = nil            -- file watcher (for weather content)
 local timer = nil            -- timer (for info content)
 local cookie_timer = nil
 local timer_interval = 60000 -- timer interval
-local cookie_timer_interval = 300000
+local cookie_timer_interval = 900000
 
 local autocmd_set = false -- remember whether the OptionSet autocmd has been set
 
 -- this translates condition codes (single letters) to actual readable conditions. This is API specific
--- and right now only implemented for the VC API (visual crossing)
+-- and right now only implemented for the VC (visual crossing) and CC (tomorrow.io, formerly climacell)
 -- this also requires a NERD font.
 local conditions = {
   VC = {
@@ -42,11 +42,31 @@ local conditions = {
   },
   CC = {
     c = "󰖕 Partly Cloudy",
+    b = "󰖕 Mostly Clear",
     a = "󰖙 Clear",
     e = "󰖐 Cloudy",
     f = "󰖐 Cloudy",
     d = "󰖐 Mostly Cloudy",
     j = "󰖖 Heavy Rain",
+    o = "󰼶 Snow",
+    w = "󰼶 Snow",
+    k = "󰖓 Thunderstorm",
+    x = " Sleet/Drizzle",
+    g = " Light Rain",
+    ['0'] = " Fog",
+    ['9'] = " Wind",
+    ['2'] = " Strong wind",
+    ['3'] = " Strong wind",
+  },
+  OWM = {
+    c = "󰖕 Partly Cloudy",
+    b = "󰖕 Mostly Clear",
+    a = "󰖙 Clear",
+    e = "󰖐 Cloudy",
+    f = "󰖐 Cloudy",
+    d = "󰖐 Mostly Cloudy",
+    j = "󰖖 Heavy Rain",
+    s = "󰖖 Rain",
     o = "󰼶 Snow",
     w = "󰼶 Snow",
     k = "󰖓 Thunderstorm",
@@ -74,7 +94,7 @@ function Wsplit.set_minheight()
   if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) then
     vim.api.nvim_win_set_height(
       Wsplit.winid,
-      (Wsplit.content == "info") and Config.weather.required_height or Config.weather.required_height - 3
+      (Wsplit.content == "info") and Config.weather.required_height or Config.weather.required_height - 1
     )
   end
 end
@@ -253,7 +273,7 @@ function Wsplit.open(_weatherfile)
     vim.bo[Wsplit.bufid].buflisted = false
     vim.api.nvim_buf_set_option(Wsplit.bufid, "buftype", "nofile")
     vim.api.nvim_win_set_option(Wsplit.winid, "list", false)
-    vim.api.nvim_win_set_option(Wsplit.winid, "statusline", "  Weather")
+    vim.api.nvim_win_set_option(Wsplit.winid, "statusline", "Weather")
     vim.cmd(
       "set winfixheight | set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn=%#NeoTreeNormalNC#\\  | setlocal nocursorline"
     )
@@ -299,7 +319,7 @@ end
 function Wsplit.prepare_line(_left, _right, correct)
   local format = "%-" .. math.floor(Wsplit.win_width / 2) .. "s"
   local left = string.format(format, _left)
-  format = "%-15s"
+  format = "%-16s"
   local right = string.format(format, _right)
 
   local pad = string.rep(" ", Wsplit.win_width - 2 - vim.fn.strwidth(right) - vim.fn.strwidth(left) + correct)
@@ -335,11 +355,11 @@ local function temp_to_hl(temp)
   elseif t >= 10 and t <= 20 then
     return "Yellow"
   elseif t > 20 and t <= 27 then
-    return "Orange"
+    return "Brown"
   elseif t > 27 and t < 35 then
-    return "PaleRed"
-  else
     return "Red"
+  else
+    return "DarkPurple"
   end
 end
 
@@ -351,11 +371,11 @@ local function wind_to_hl(wind)
   if w < 5 then
     return "Green"
   elseif w < 10 then
-    return "Yellow"
+    return "Blue"
   elseif w < 25 then
-    return "Orange"
+    return "Yellow"
   elseif w < 50 then
-    return "DeepRed"
+    return "Brown"
   elseif w < 70 then
     return "Red"
   else
@@ -524,7 +544,7 @@ function Wsplit.refresh()
     end
   elseif Wsplit.content == "weather" then
     vim.api.nvim_buf_clear_namespace(Wsplit.bufid, -1, 0, -1)
-    vim.api.nvim_win_set_option(Wsplit.winid, "statusline", "   Weather")
+    vim.api.nvim_win_set_option(Wsplit.winid, "statusline", " 󰏈  Weather")
     if vim.fn.filereadable(Wsplit.weatherfile) then
       local lines = {}
       local file = io.open(Wsplit.weatherfile)
@@ -540,12 +560,12 @@ function Wsplit.refresh()
         vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", true)
         local lcond = conditions[results["37"]][string.lower(results["2"])]
         table.insert(lines, " ")
-        table.insert(lines, Wsplit.prepare_line(" " .. results["26"], " " .. results["28"], 0))
+        table.insert(lines, Wsplit.prepare_line("  " .. results["26"], " " .. results["28"], 0))
         table.insert(lines, Wsplit.prepare_line(" " .. lcond, results["33"], 1))
         table.insert(lines, "  ")
         table.insert(lines, Wsplit.prepare_line(" Temp: " .. results["3"], "Feels: " .. results["16"], 0))
         table.insert(lines, Wsplit.prepare_line(" Min:  " .. results["29"], "Max:   " .. results["30"], 0))
-        table.insert(lines, Wsplit.prepare_line(" Dew:  " .. results["17"], " " .. results["21"], 1))
+        table.insert(lines, Wsplit.prepare_line(" Dew:  " .. results["17"], " " .. results["21"], 0))
         table.insert(lines, Wsplit.prepare_line(" API:  " .. results["37"], " " .. results["31"], 0))
         table.insert(
           lines,
@@ -556,8 +576,8 @@ function Wsplit.refresh()
           )
         )
         table.insert(lines, Wsplit.prepare_line(" Pressure: " .. results["19"], " " .. results["18"], 0))
-        table.insert(lines, Wsplit.prepare_line("   " .. results["23"], "滋" .. results["24"], -2))
-        local cond = conditions[results["37"]][results["4"]]
+        table.insert(lines, Wsplit.prepare_line("   " .. results["23"], "  " .. results["24"], -3))
+        local cond = conditions[results["37"]][string.lower(results["4"])]
         if cond == nil then
           cond = "N/A"
         end
@@ -566,7 +586,7 @@ function Wsplit.refresh()
           lines,
           Wsplit.prepare_line(
             " " .. results["7"] .. ": " .. cond,
-            "  " .. results["5"] .. "°C " .. results["6"] .. "°C",
+            "   " .. results["5"] .. "°C  " .. results["6"] .. "°C",
             -1
           )
         )

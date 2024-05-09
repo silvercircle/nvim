@@ -1,5 +1,5 @@
 local function _set()
-  local c = require("colors.darkmatter")
+  local c = require("darkmatter")
   c.link("NotifyERRORBorder", "Red")
   c.link("NotifyWARNBorder", "Yellow")
   c.link("NotifyINFOBorder", "Green")

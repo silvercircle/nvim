@@ -55,7 +55,6 @@ M.perm_config_default = {
   statuscol_current = "normal",
   blist = true,
   blist_height = 0.33,
-  theme_scheme = "dark",
   theme_variant = "warm",
   transbg = false,
   theme_desaturate = true,
@@ -71,9 +70,10 @@ M.perm_config_default = {
   treesitter_context = true,
   show_indicators = true,
   telescope_borders = "single",
-  cmp_borders = "single",
+  float_borders = "single",
   cmp_show_docs = true,
   autopair = true,
+  cmp_layout = "standard"
 }
 
 M.perm_config = {}
@@ -90,7 +90,7 @@ end
 --- open the outline window
 function M.open_outline()
   local buftype = vim.api.nvim_buf_get_option(0, "buftype")
-  if buftype == 'nofile' or buftype == 'terminal' then
+  if buftype ~= "" then  --current buffer is no ordinary file. Ignore it.
     return
   end
   if M.perm_config.outline_filetype == "Outline" then
@@ -246,15 +246,24 @@ function M.toggle_colorcolumn()
 end
 
 --- find the first window for a given filetype.
---- @param type string: the filetype
+--- @param filetypes string|table: the filetype(s)
 --- @return table: a list of windows displaying the buffer or an empty list if none has been found
-function M.findwinbyBufType(type)
+function M.findwinbyBufType(filetypes)
+
+  local function finder(ft, where)
+    if type(where) == "string" then
+      return ft == where
+    else
+      return vim.tbl_contains(where, ft)
+    end
+  end
+
   local ls = vim.api.nvim_list_bufs()
   local win_ids = {}
   for i = 1, #ls, 1 do
     if vim.api.nvim_buf_is_valid(ls[i]) then
       local filetype = vim.api.nvim_buf_get_option(ls[i], "filetype")
-      if filetype == type then
+      if finder(filetype, filetypes) then
         local wins = vim.fn.win_findbuf(ls[i])
         if wins == 1 then
           table.insert(win_ids, wins[1])
@@ -279,18 +288,6 @@ function M.findbufbyType(type)
     return true
   end
   return false
-end
-
---- truncate a string to a maximum length, appending ellipses when necessary
---- @param text string:       the string to truncate
---- @param max_length integer: the maximum length
---- @return string:           the truncated text
-function M.truncate(text, max_length)
-  if #text > max_length then
-    return string.sub(text, 1, max_length) .. "…"
-  else
-    return text
-  end
 end
 
 -- list of filetypes we never want to create views for.'
@@ -363,9 +360,7 @@ function M.splittree(_factor)
     M.winid_bufferlist = vim.fn.win_getid()
     vim.api.nvim_win_set_option(M.winid_bufferlist, "list", false)
     vim.api.nvim_win_set_option(M.winid_bufferlist, "statusline", "Buffer List")
-    vim.cmd(
-      "set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0"
-    )
+    vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0")
     vim.fn.win_gotoid(M.main_winid)
     return M.winid_bufferlist
   end
@@ -517,13 +512,45 @@ function M.restore_config()
     M.perm_config = M.perm_config_default
   end
   -- configure the theme
-  Config.theme.setup({ scheme = M.perm_config.theme_scheme, variant = M.perm_config.theme_variant,
-                 desaturate = M.perm_config.theme_desaturate, dlevel = M.perm_config.theme_dlevel,
-                 theme_strings = M.perm_config.theme_strings, is_trans = M.perm_config.transbg,
-                 sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
-                 kittysocket = vim.g.tweaks.theme.kittysocket,
-                 kittenexec = vim.g.tweaks.theme.kittenexec,
-                 callback = M.theme_callback })
+  --local cmp_kind_attr = M.perm_config.cmp_layout == "experimental" and { bold=true, reverse=true } or {}
+  local cmp_kind_attr = { bold=true, reverse=false }
+  Config.theme.setup({
+    scheme = vim.g.tweaks.theme.scheme,
+    variant = M.perm_config.theme_variant,
+    desaturate = M.perm_config.theme_desaturate,
+    dlevel = M.perm_config.theme_dlevel,
+    theme_strings = M.perm_config.theme_strings,
+    is_trans = M.perm_config.transbg,
+    sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
+    kittysocket = vim.g.tweaks.theme.kittysocket,
+    kittenexec = vim.g.tweaks.theme.kittenexec,
+    callback = M.theme_callback,
+    indentguide_colors = {
+      dark = vim.g.tweaks.indentguide.color.dark,
+      light = vim.g.tweaks.indentguide.color.light
+    },
+    rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast,
+    tweaks = {
+      conditional = false
+    },
+    custom_colors = {
+      c1 = "#5a8aba"
+    },
+    attrib = {
+      dark = {
+        cmpkind = cmp_kind_attr,
+        tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {},
+        types = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+        class = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+        interface = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+        struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {}
+      },
+      light = {
+        cmpkind = cmp_kind_attr,
+        tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {}
+      }
+    },
+  })
 end
 
 --- the callback is called from internal theme functions that change its
@@ -718,16 +745,16 @@ function M.configure_treesitter()
     vim.treesitter.query.set("vimdoc", "injections", "")
   end
   -- enable/disable treesitter-context plugin
-  _Config_SetKey({ 'n', 'i', 'v' }, "<C-x><C-c>", function() M.toggle_treesitter_context() end, "Toggle Treesitter Context")
+  vim.g.setkey({ 'n', 'i', 'v' }, "<C-x><C-c>", function() M.toggle_treesitter_context() end, "Toggle Treesitter Context")
   -- jump to current context start
-  _Config_SetKey({ 'n', 'i', 'v' }, "<C-x>c", function() require("treesitter-context").go_to_context() end, "Go to Context Start")
+  vim.g.setkey({ 'n', 'i', 'v' }, "<C-x>c", function() require("treesitter-context").go_to_context() end, "Go to Context Start")
 
-  _Config_SetKey({ 'n', 'i', 'v' }, "<C-x>te",
+  vim.g.setkey({ 'n', 'i', 'v' }, "<C-x>te",
     function()
       vim.treesitter.start()
       M.notify("Highlights enabled", vim.log.levels.INFO, "Treesitter")
     end, "Enable Treesitter for Buffer")
-  _Config_SetKey({ 'n', 'i', 'v' }, "<C-x>td",
+  vim.g.setkey({ 'n', 'i', 'v' }, "<C-x>td",
     function()
       vim.treesitter.stop()
       M.notify("Highlight disabled", vim.log.levels.INFO, "Treesitter")
@@ -800,14 +827,22 @@ function M.get_lsp_capabilities()
   if M.lsp_capabilities == nil then
     local cmp_lsp = require("cmp_nvim_lsp")
     M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
-    M.lsp_capabilities = cmp_lsp.default_capabilities(M.lsp_capabilities)
+    --M.lsp_capabilities = cmp_lsp.default_capabilities(M.lsp_capabilities)
+
     -- required for some plugins (ufo) to use lsp as a folding provider
     M.lsp_capabilities.textDocument.foldingRange = {
       dynamicRegistration = false,
       lineFoldingOnly = true
     }
+    M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
   end
   return M.lsp_capabilities
+end
+
+function M.TestDetour()
+  require("detour").DetourCurrentWindow()
+  vim.api.nvim_win_set_option(0, "winbar", "")
+  vim.cmd("setlocal winhl=NormalFloat:Normal,FloatBorder:TelescopeBorder")
 end
 
 return M
