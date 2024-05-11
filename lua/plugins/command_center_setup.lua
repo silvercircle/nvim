@@ -659,7 +659,19 @@ command_center.add({
       { "n", "zkn", noremap },
     },
     category = "@ZK"
-  }
+  },
+  {
+    desc = "ZK live grep",
+    cmd = function()
+      _tb.live_grep(__Telescope_vertical_dropdown_theme({
+        layout_config = { width = 130 },
+        prompt_title = "Live grep zettelkasten",
+        search_dirs = { vim.fn.expand(vim.g.tweaks.zk.root_dir) }
+      }))
+    end,
+    keys = { "n", "zkg", noremap },
+    category = "@ZK"
+  },
   -- unused stuff keep it here in case we need it at some point
   --  {
   --    desc = "Neotree buffer list",

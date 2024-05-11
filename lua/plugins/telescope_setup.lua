@@ -100,6 +100,7 @@ require("telescope").setup({
         ["<A-t>"] = stopinsert(actions.select_tab),
         ["<A-Up>"] = actions.cycle_history_prev,
         ["<A-Down>"] = actions.cycle_history_next,
+
         -- remap C-Up and C-Down to scroll the previewer by one line
         ["<C-Up>"] = function(prompt_bufnr) actionset.scroll_previewer(prompt_bufnr, -1) end,
         ["<C-Down>"] = function(prompt_bufnr) actionset.scroll_previewer(prompt_bufnr, 1) end,
@@ -153,7 +154,7 @@ require("telescope").setup({
       components = {
         command_center.component.DESC,
         command_center.component.KEYS,
---        command_center.component.CMD,
+        -- command_center.component.CMD,
         command_center.component.CATEGORY,
       },
       -- Spcify by what components the commands is sorted

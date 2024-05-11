@@ -284,4 +284,7 @@ Tweaks.cokeline = {
 }
 Tweaks.texviewer = "okular"
 Tweaks.mdguiviewer = "okular"
+Tweaks.zk = {
+  root_dir = "~/Documents/zettelkasten"
+}
 return Tweaks
