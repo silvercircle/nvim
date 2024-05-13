@@ -236,6 +236,27 @@ M.setup = {
 
   cabinet = function()
     require("cabinet"):setup()
+  end,
+
+  fidget = function()
+    vim.g.notifier = require("fidget")
+    require("fidget").setup({
+      progress = {
+        poll_rate = 1,
+        ignore_done_already = true,
+        display = {
+          render_limit = 2
+        }
+      },
+      notification = {
+        override_vim_notify = true,
+        history_size = 20,
+        filter = vim.log.levels.TRACE,
+        configs = {
+          --default = require("fidget.notification").default_config
+        }
+      }
+    })
   end
 }
 
