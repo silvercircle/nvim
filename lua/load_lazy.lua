@@ -39,7 +39,7 @@ lazy.setup({
       { "<C-Down>",      "<Cmd>MultipleCursorsAddDown<CR>",           mode = { "n", "i" } },
       { "<C-Up>",        "<Cmd>MultipleCursorsAddUp<CR>",             mode = { "n", "i" } },
       { "<C-LeftMouse>", "<Cmd>MultipleCursorsMouseAddDelete<CR>",    mode = { "n", "i" } },
-      { "<C-n>",         "<Cmd>MultipleCursorsAddJumpNextMatch<CR>",  mode = { "n", "x" } },
+      { "<C-n>",         "<Cmd>MultipleCursorsAddMatches<CR>",  mode = { "n", "x" } },
       { "<leader>n",     "<Cmd>MultipleCursorsJumpNextMatch<CR>",     mode = { "n", "x" } },
     },
   },
@@ -500,13 +500,13 @@ lazy.setup({
   --    })
   --  end
   --},
-  {
-    '3rd/image.nvim',
-    lazy = true,
-    config = function()
-      require("plugins.image-nvim")
-    end
-  },
+  --{
+  --  '3rd/image.nvim',
+  --  lazy = true,
+  --  config = function()
+  --    require("plugins.image-nvim")
+  --  end
+  --},
   {
     'edluffy/hologram.nvim',
     lazy = true,

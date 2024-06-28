@@ -185,11 +185,11 @@ M.setup = {
         style = "minimal",
         relative = "cursor",
         row = 0,
-        col = 1,
-      },
-      yadm = {
-        enable = false,
-      },
+        col = 1
+      }
+      --yadm = {
+      --  enable = false,
+      --},
     })
   end,
 

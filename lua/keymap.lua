@@ -302,6 +302,12 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   -- otherwise search it and if none is found, open it.
   if __Globals.findbufbyType(__Globals.perm_config.outline_filetype) == false then
     __Globals.open_outline()
+    local status = __Globals.is_outline_open()
+    if status.aerial ~= 0 then
+      require("aerial").refetch_symbols(0) -- aerial plugin, refresh symbols
+    elseif status.outline ~= 0 then
+      require("outline").refresh_outline()
+    end
   end
 end, "Focus Outline window") -- Outline
 

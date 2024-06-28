@@ -118,3 +118,17 @@ if executable('rg')
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
+function! Mult(fact)
+    let oldv = getreg("v")
+
+    call search('\d\([^0-9\.]\|$\)', 'cW')
+    normal v
+    call search('\(^\|[^0-9\.]\d\)', 'becW')
+
+    normal "vygv
+
+    execute "normal c" . float2nr(@v * a:fact)
+    call setreg("v", oldv)
+endfunction
+
+
