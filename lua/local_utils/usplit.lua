@@ -74,9 +74,7 @@ function Usplit.refresh()
   local lines = {}
   vim.api.nvim_buf_set_option(Usplit.bufid, "modifiable", true)
   -- prevent the winbar from appearing (nvim 0.10 or higher)
-  if Config.nightly > 0 then
-    vim.api.nvim_buf_set_option(Usplit.bufid, "winbar", "")
-  end
+  vim.api.nvim_buf_set_option(Usplit.bufid, "winbar", "")
   vim.api.nvim_buf_clear_namespace(Usplit.bufid, -1, 0, -1)
   table.insert(lines, " ")
   table.insert(lines, "    *** Quote of the moment ***")

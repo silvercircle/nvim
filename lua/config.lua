@@ -13,16 +13,16 @@ if status == true then
 end
 vim.g.tweaks = tweaks
 
-if vim.fn.has("nvim-0.9") == 0 then
-  vim.notify("Warning, this configuration requires Neovim version 0.9 or later.", 3)
-end
+local nvim_11 = vim.fn.has("nvim-0.11")
 
-local nvim_10 = vim.fn.has("nvim-0.10")
+if nvim_11 == 1 then
+  vim.deprecate = function() end
+end
 
 Config = {
   telescope_fname_width = tweaks.telescope_fname_width,
   telescope_vertical_preview_layout = tweaks.telescope_vertical_preview_layout,
-  nightly = nvim_10,
+  nightly = nvim_11,
   telescope_dropdown='bottom',                  -- position for the input box in the dropdown theme. 'bottom' or 'top'
   cpalette_dropdown = 'top',                    -- same for the command palette
   -- the minipicker is the small telescope picker used for references, symbols and

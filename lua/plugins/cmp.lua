@@ -98,7 +98,11 @@ local f_std = function(entry, vim_item)
   -- fancy icons and a name of kind
   vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
   -- vim_item.kind = " " .. vim_item.kind_symbol .. " " .. Config.iconpad .. vim_item.kind
-  vim_item.kind = vim_item.kind_symbol .. " " .. vim_item.kind
+  if vim_item.kind ~= nil then
+    vim_item.kind = vim_item.kind_symbol .. " " .. vim_item.kind
+  else
+    vim_item.kind = vim_item.kind_symbol .. " "
+  end
   vim_item.abbr = utils.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)
   -- The 'menu' section: source, detail information (lsp, snippet), etc.
   -- set a name for each source (see the sources section below)

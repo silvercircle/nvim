@@ -3,9 +3,7 @@
 local o = vim.o
 o.shada = "!,'100,<20,s10,h,@200,f1,%100,/100,:200,rreplacer://,rterm://,rOUTLINE,rNvimTree_1,rMERGE_MSG,r$metadata"
 o.termguicolors = true
-if Config.nightly == 1 then
-  o.termsync = false
-end
+o.termsync = false
 o.background = "dark"
 o.foldtext = ""
 o.cursorline = true
@@ -94,11 +92,7 @@ o.updatecount = 0
 o.timeoutlen = 800
 o.scrolloff = 5
 o.undolevels = 50
-if Config.nightly == 1 then
-  o.scrolljump = 3
-else
-  o.scrolljump = 1
-end
+o.scrolljump = 3
 o.sidescrolloff = 5
 o.sidescroll = 5
 o.conceallevel = 0
