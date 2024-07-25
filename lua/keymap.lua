@@ -68,7 +68,7 @@ kms({ "n", "i" }, "<C-l>", "<NOP>", opts)
 
 -- disable <ins> toggling the (annoying) replace mode. Instead use <c-ins> to switch to replace
 map("i", "<ins>", "<nop>", opts)
-map("i", "<C-v>", "<c-r><c-p>+", opts)
+-- map("i", "<C-v>", "<c-r><c-p>+", opts)
 
 map('n', '<leader><tab>', '<CMD>tabnext<CR>', opts)
 
@@ -303,7 +303,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   if __Globals.findbufbyType(__Globals.perm_config.outline_filetype) == false then
     __Globals.open_outline()
     local status = __Globals.is_outline_open()
-    if status.aerial ~= 0 then
+    if status.aerial ~= -1 then
       require("aerial").refetch_symbols(0) -- aerial plugin, refresh symbols
     elseif status.outline ~= 0 then
       require("outline").refresh_outline()

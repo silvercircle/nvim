@@ -347,7 +347,7 @@ command_center.add({
     -- open a document viewer zathura view and view the tex document as PDF
     desc = "View LaTeX result (" .. vim.g.tweaks.texviewer .. ")",
     cmd = lutils.view_latex(),
-    keys = {  -- shift-f9
+    keys = { -- shift-f9
       { "n", fkeys.s_f9, noremap },
       { "i", fkeys.s_f9, noremap },
     },

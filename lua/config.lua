@@ -107,7 +107,7 @@ Config = {
       value = "76"
     }
   },
-  treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
+  treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "cs", "css", "scss", "xml",
                        "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid",
                        "yaml", "rust", "javascript", "ruby", "objc", "groovy", "org", "markdown" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },

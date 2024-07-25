@@ -162,6 +162,7 @@ outline_window = {
   },
 
   providers = {
+    priority = { 'lsp', 'coc', 'markdown', 'norg' },
     lsp = {
       -- Lsp client names to ignore
       blacklist_clients = {},
