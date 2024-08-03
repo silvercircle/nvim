@@ -260,8 +260,8 @@ end
 -- confirm buffer close when file is modified. May discard the file but always save the view.
 function Utils.BufClose()
   -- local closecmd = "call Mkview() | Kwbd"
-  local closecmd = "Kwbd"
-  local saveclosecmd = "update! | Kwbd"
+  local closecmd = "silent! Kwbd"
+  local saveclosecmd = "update! | silent! Kwbd"
 
   -- do not close these filetypes
   local dontclose = { "neo-tree ", "NvimTree", "Outline", "weather", "terminal", "sysmon", "aerial" }

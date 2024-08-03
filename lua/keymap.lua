@@ -305,7 +305,8 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
     local status = __Globals.is_outline_open()
     if status.aerial ~= 0 then
       require("aerial").refetch_symbols(0) -- aerial plugin, refresh symbols
-    elseif status.outline ~= 0 then
+    end
+    if status.outline ~= 0 then
       require("outline").refresh_outline()
     end
   end

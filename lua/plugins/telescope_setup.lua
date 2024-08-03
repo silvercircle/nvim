@@ -2,7 +2,7 @@
 local actions = require("telescope.actions")
 local actionset = require("telescope.actions.set")
 local actionstate = require("telescope.actions.state")
-local trouble = require("trouble.providers.telescope")
+local trouble = require("trouble.sources.telescope")
 
 -- local actions_fb = require("telescope").extensions.file_browser.actions
 -- local themes = require("telescope.themes")
@@ -93,7 +93,7 @@ require("telescope").setup({
     disable_devicons = false,
     mappings = {
       i = {
-        ["<C-t>"] = trouble.open_with_trouble,
+        ["<C-t>"] = trouble.open,
         ["<CR>"] = stopinsert_ins(actions.select_default),
         ["<C-x>"] = stopinsert(actions.select_horizontal),
         ["<C-v>"] = stopinsert(actions.select_vertical),
@@ -107,7 +107,7 @@ require("telescope").setup({
         ['<C-c>'] = function(prompt_bufnr) close_insertmode(prompt_bufnr) end
       },
       n = {
-        ["<c-t>"] = trouble.open_with_trouble,
+        ["<c-t>"] = trouble.open,
         ['<esc>'] = function(prompt_bufnr) close_insertmode(prompt_bufnr) end
       }
     }
