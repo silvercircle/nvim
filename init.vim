@@ -118,6 +118,7 @@ if executable('rg')
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
+" simple function to multiply the number under the cursor with a given factor
 function! Mult(fact)
     let oldv = getreg("v")
 

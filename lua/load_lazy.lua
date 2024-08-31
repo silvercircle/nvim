@@ -580,7 +580,7 @@ lazy.setup({
   },
   {
     "ibhagwan/fzf-lua",
-    cond = false,
+    -- cond = false,
     lazy = true,
     config = function()
       require("plugins.fzf")

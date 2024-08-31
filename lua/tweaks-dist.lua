@@ -203,7 +203,8 @@ Tweaks.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and tr
 -- the key prefix used for various utility functions. See keymap.lua
 Tweaks.keymap = {
   utility_key = "<C-l>",
-  mapleader = ","
+  mapleader = ",",
+  fzf_prefix = "<C-q>"
 }
 
 Tweaks.treesitter = {
@@ -286,5 +287,9 @@ Tweaks.texviewer = "okular"
 Tweaks.mdguiviewer = "okular"
 Tweaks.zk = {
   root_dir = "~/Documents/zettelkasten"
+}
+
+Tweaks.fzf = {
+  enable_keys = true
 }
 return Tweaks
