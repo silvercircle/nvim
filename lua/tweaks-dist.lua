@@ -290,6 +290,10 @@ Tweaks.zk = {
 }
 
 Tweaks.fzf = {
-  enable_keys = true
+  enable_keys = true,
+  winopts = {
+    small_no_prefix = { width=0.5, height = 0.4, preview = { hidden="hidden" } },
+    std_preview_top = { width = 0.6, height = 0.8, preview = { layout = 'vertical', vertical = "up:30%" } }
+  }
 }
 return Tweaks

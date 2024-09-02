@@ -11,11 +11,6 @@ local Terminal  = require('toggleterm.terminal').Terminal
 
 local fkeys = vim.g.fkeys
 
---local bm = require("bookmarks")
-
--- this is a helper for mini pickers like references and symbols.
-local fzf_vertical_winops = { width = 0.6, preview = { layout = 'vertical', vertical = "up:30%" } }
-
 command_center.add({
   {
     desc = "Bookmark toggle",
@@ -686,41 +681,4 @@ command_center.add({
   --    category = "@Neovim"
   --  },
 })
-
-if vim.g.tweaks.fzf.enable_keys == true then
-  command_center.add({
-    {
-      desc = "FZF Oldfiles",
-      cmd = function() require("fzf-lua").live_grep({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_vertical_winops }) end,
-      keys = {
-        { "n", "<A-e>", noremap },
-        { "i", "<A-e>", noremap }
-      },
-      category = "@FZF"
-    },
-    {
-      desc = "FZF live grep current directory",
-      cmd = function() require("fzf-lua").live_grep({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_vertical_winops }) end,
-      keys = {
-        { "n", vim.g.tweaks.keymap.fzf_prefix .. "g", noremap },
-        { "i", vim.g.tweaks.keymap.fzf_prefix .. "g", noremap },
-      },
-      category = "@FZF"
-    },
-    {
-      desc = "FZF live grep project root",
-      cmd = function()
-        require("fzf-lua").live_grep({
-          cwd = require("local_utils").getroot_current(),
-          winopts = fzf_vertical_winops
-        })
-      end,
-      keys = {
-        { "n", vim.g.tweaks.keymap.fzf_prefix .. "<c-g>", noremap },
-        { "i", vim.g.tweaks.keymap.fzf_prefix .. "<c-g>", noremap },
-      },
-      category = "@FZF"
-    }
-  })
-end
 

@@ -582,6 +582,7 @@ lazy.setup({
     "ibhagwan/fzf-lua",
     -- cond = false,
     lazy = true,
+    event = "BufReadPost",
     config = function()
       require("plugins.fzf")
     end
