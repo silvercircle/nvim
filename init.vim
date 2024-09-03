@@ -14,7 +14,7 @@ let g:VM_theme = 'sand'
 
 " Customize the initial layout
 " Rnvimr plugin (ranger filemanager integration)
-" Activate with <C-f8>
+" Activate with <C-f7>
 let g:rnvimr_layout = {
             \ 'relative': 'editor',
             \ 'width': float2nr(round(0.9 * &columns)),

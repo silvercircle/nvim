@@ -28,7 +28,7 @@ require "fzf-lua".setup({
     fullscreen = false,       -- start fullscreen?
     backdrop   = 80,
     preview    = {
-      default      = "bat",         -- override the default previewer?
+      default      = "builtin",         -- override the default previewer?
       -- default uses the 'builtin' previewer
       border       = "border",      -- border|noborder, applies only to
       -- native fzf previewers (bat/cat/git/etc)
@@ -583,55 +583,168 @@ local command_center = require("command_center")
 local noremap = { noremap = true }
 --local lsputil = require("lspconfig.util")
 local lutils = require("local_utils")
-command_center.add({
-  {
-    desc = "FZF live grep (current directory)",
-    cmd = function() require("fzf-lua").live_grep({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top }) end,
-    keys = {
-      { "n", vim.g.tweaks.keymap.fzf_prefix .. "g", noremap },
-      { "i", vim.g.tweaks.keymap.fzf_prefix .. "g", noremap },
-    },
-    category = "@FZF"
-  },
-  {
-    desc = "FZF live grep (project root)",
-    cmd = function()
-      require("fzf-lua").live_grep({
-        cwd = lutils.getroot_current(),
-        winopts = fzf_tweaks.winopts.std_preview_top
-      })
-    end,
-    keys = {
-      { "n", vim.g.tweaks.keymap.fzf_prefix .. "<c-g>", noremap },
-      { "i", vim.g.tweaks.keymap.fzf_prefix .. "<c-g>", noremap },
-    },
-    category = "@FZF"
-  },
-  {
-    desc = "FZF files (current directory)",
-    cmd = function() require("fzf-lua").files({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top }) end,
-    keys = {
-      { "n", vim.g.tweaks.keymap.fzf_prefix .. "f", noremap },
-      { "i", vim.g.tweaks.keymap.fzf_prefix .. "f", noremap },
-    },
-    category = "@FZF"
-  },
-  {
-    desc = "FZF files (project root)",
-    cmd = function()
-      require("fzf-lua").files({
-        cwd = lutils.getroot_current(),
-        winopts = fzf_tweaks.winopts.std_preview_top
-      })
-    end,
-    keys = {
-      { "n", vim.g.tweaks.keymap.fzf_prefix .. "<c-f>", noremap },
-      { "i", vim.g.tweaks.keymap.fzf_prefix .. "<c-f>", noremap },
-    },
-    category = "@FZF"
-  }
-})
+local fkeys = vim.g.fkeys
+local fzf = require("fzf-lua")
+local lsputil = require("lspconfig.util")
 
-vim.g.setkey({ "n", "i", "t", "v" }, "<A-e>", function()
-  require("fzf-lua").buffers({ winopts = fzf_tweaks.winopts.small_no_prefix })
-end, "Toggle Outline plugin type")
+if vim.g.tweaks.fzf.enable_keys == true then
+  command_center.add({
+    {
+      desc = "FZF Jumplist",
+      cmd = function() fzf.jumps({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top }) end,
+      keys = {
+        { "n", "<A-Backspace>", noremap },
+        { "i", "<A-Backspace>", noremap },
+      },
+      category = "@FZF"
+    },
+    {
+      desc = "Fuzzy search in current buffer",
+      cmd = function()
+        fzf.blines({ winopts = fzf_tweaks.winopts.std_preview_top  })
+      end,
+      keys = { "n", "<C-x><C-f>", noremap },
+      category = "@FZF"
+    },
+    {
+      desc = "Fuzzy search in all open buffers",
+      cmd = function()
+        fzf.lines({ winopts = fzf_tweaks.winopts.std_preview_top  })
+      end,
+      keys = { "n", "<C-x>f", noremap },
+      category = "@FZF"
+    },
+    {
+      desc = "Todo list (current directory)",
+      cmd = function()
+        local dir = vim.fn.expand("%:p:h")
+        require("todo-comments.fzf").todo({
+          cwd = dir, winopts = fzf_tweaks.winopts.std_preview_top })
+      end,
+      keys = { "n", "tdo", noremap },
+      category = "@Neovim"
+    },
+    {
+      desc = "Todo list (project root)",
+      cmd = function()
+        require("todo-comments.fzf").todo({
+          cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.std_preview_top })
+      end,
+      keys = { "n", "tdp", noremap },
+      category = "@Neovim"
+    },
+    {
+      desc = "List all highlight groups (FZF)",
+      cmd = function() fzf.highlights({
+        winopts = fzf_tweaks.winopts.narrow_small_preview
+      }) end,
+      keys = { "n", "thl", noremap },
+      category = "@Neovim"
+    },
+    {
+      desc = "FZF live grep (current directory)",
+      cmd = function() fzf.live_grep({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top }) end,
+      keys = {
+        { "n", '<C-x>g', noremap },
+      },
+      category = "@FZF"
+    },
+    {
+      desc = "FZF live grep (project root)",
+      cmd = function()
+        fzf.live_grep({
+          cwd = lutils.getroot_current(),
+          winopts = fzf_tweaks.winopts.std_preview_top
+        })
+      end,
+      keys = {
+        { "n", '<C-x><C-g>', noremap },
+      },
+      category = "@FZF"
+    },
+    {
+      desc = "FZF find files (current directory)",
+      cmd = function() fzf.files({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.big_preview_top }) end,
+      keys = {
+        { "i", fkeys.s_f8, noremap },
+        { "n", fkeys.s_f8, noremap }
+      },
+      category = "@FZF"
+    },
+    {
+      desc = "FZF files (project root)",
+      cmd = function()
+        fzf.files({
+          cwd = lutils.getroot_current(),
+          winopts = fzf_tweaks.winopts.big_preview_top
+        })
+      end,
+      keys = {
+        { "n", "<f8>", noremap },
+        { "i", "<f8>", noremap }
+      },
+      category = "@FZF"
+    }
+  })
+
+  vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
+    fzf.buffers({ winopts = fzf_tweaks.winopts.small_no_prefix })
+  end, "FZF buffer list")
+  vim.g.setkey({ "n", "i", "t", "v" }, "<C-p>", function()
+    fzf.oldfiles({ winopts = fzf_tweaks.winopts.small_no_prefix })
+  end, "FZF oldfiles")
+end
+-- GIT
+if vim.g.tweaks.fzf.prefer_for_git == true then
+  command_center.add({
+    {
+      desc = "GIT status (FZF)",
+      cmd = function()
+        fzf.git_status({
+          cwd = lsputil.root_pattern(".git")(vim.fn.expand("%:p")),
+          winopts = fzf_tweaks.winopts.big_preview_topbig
+        })
+      end,
+      keys = { "n", "tgs", noremap },
+      category = "@GIT"
+    },
+    {
+      desc = "GIT commits (FZF)",
+      cmd = function()
+        fzf.git_commits({
+          cwd = lsputil.root_pattern(".git")(vim.fn.expand("%:p")),
+          winopts = fzf_tweaks.winopts.big_preview_topbig
+        })
+      end,
+      keys = { "n", "tgc", noremap },
+      category = "@GIT"
+    },
+    {
+      desc = "GIT files (FZF)",
+      cmd = function()
+        fzf.git_files({
+          cwd = lsputil.root_pattern(".git")(vim.fn.expand("%:p")),
+          winopts = fzf_tweaks.winopts.big_preview_topbig
+        })
+      end,
+      keys = { "n", "tgf", noremap },
+      category = "@GIT"
+    }
+  })
+end
+if vim.g.tweaks.fzf.prefer_for_lsp == true then
+  command_center.add({
+    {
+      desc = "Dynamic workspace symbols (Telescope)",
+      cmd = function() fzf.lsp_live_workspace_symbols( { winopts = fzf_tweaks.winopts.big_preview_top } ) end,
+      keys = { "n", "tds", noremap },
+      category = "@LSP Telescope"
+    },
+    {
+      desc = "Workspace symbols (Telescope)",
+      cmd = function() fzf.lsp_workspace_symbols( { winopts = fzf_tweaks.winopts.big_preview_top } ) end,
+      keys = { "n", "tws", noremap },
+      category = "@LSP Telescope"
+    }
+  })
+end

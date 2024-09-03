@@ -8,8 +8,14 @@ local lutils = require("local_utils")
 local _t = require("telescope")
 local _tb = require("telescope.builtin")
 local Terminal  = require('toggleterm.terminal').Terminal
+local fzf = require("fzf-lua")
 
 local fkeys = vim.g.fkeys
+
+local fzf_prefer_git = vim.g.tweaks.fzf.prefer_for_git
+local fzf_prefer_lsp = vim.g.tweaks.fzf.prefer_for_lsp
+
+--local bm = require("bookmarks")
 
 command_center.add({
   {
@@ -186,18 +192,6 @@ command_center.add({
     category = "@LSP Telescope"
   },
   {
-    desc = "Dynamic workspace symbols (Telescope)",
-    cmd = function() _tb.lsp_dynamic_workspace_symbols(__Telescope_vertical_dropdown_theme({})) end,
-    keys = { "n", "tds", noremap },
-    category = "@LSP Telescope"
-  },
-  {
-    desc = "Workspace symbols (Telescope)",
-    cmd = function() _tb.lsp_workspace_symbols(__Telescope_vertical_dropdown_theme({})) end,
-    keys = { "n", "tws", noremap },
-    category = "@LSP Telescope"
-  },
-  {
     desc = "Show implementations (Telescope)",
     cmd = function() _tb.lsp_implementations({ layout_config = { height = 0.6, width = 0.8, preview_width = 0.5 } }) end,
     keys = { "n", "ti", noremap },
@@ -253,29 +247,6 @@ command_center.add({
     cmd = function() vim.diagnostic.reset() end,
     keys = { "n", "DR", },
     category = "@LSP Diagnostics"
-  },
-  -- GIT
-  {
-    desc = "GIT status (Telescope)",
-    cmd = function()
-      _tb.git_status({
-        cwd = lsputil.root_pattern(".git")(vim.fn.expand("%:p")),
-        layout_config = { height = 0.8, width = 0.8 }
-      })
-    end,
-    keys = { "n", "tgs", noremap },
-    category = "@GIT"
-  },
-  {
-    desc = "GIT commits (Telescope)",
-    cmd = function()
-      _tb.git_commits({
-        cwd = lsputil.root_pattern(".git")(vim.fn.expand("%:p")),
-        layout_config = { height = 0.8, width = 0.8 }
-      })
-    end,
-    keys = { "n", "tgc", noremap },
-    category = "@GIT"
   },
   {
     -- open a float term with lazygit.
@@ -370,58 +341,6 @@ command_center.add({
     },
     category = "@Formatting"
   },
-  -- Telescope pickers
-  {
-    desc = "Find files in current directory (Telescope)",
-    cmd = function()
-      _tb.find_files(__Telescope_vertical_dropdown_theme({
-        hidden = false,
-        prompt_title = "Find Files (current)",
-        -- previewer = false,
-        prompt_prefix = lutils.getTelescopePromptPrefix(),
-        layout_config = { width = 80, preview_height = 15 },
-        cwd = vim.fn.expand("%:p:h")
-      }))
-    end,
-    keys = { -- shift-f8
-      { "i", fkeys.s_f8, noremap },
-      { "n", fkeys.s_f8, noremap }
-    },
-    category = "@Telescope"
-  },
-  {
-    desc = "Find files from current project root",
-    cmd = function()
-      _tb.find_files(__Telescope_vertical_dropdown_theme({
-        prompt_title = "Find Files (project root)",
-        hidden = false,
-        prompt_prefix = lutils.getTelescopePromptPrefix(),
-        -- previewer = false;
-        layout_config = { width = 80, preview_height = 15 },
-        cwd = lutils.getroot_current()
-      }))
-    end,
-    keys = {
-      { "n", "<f8>", noremap },
-      { "i", "<f8>", noremap }
-    },
-    category = "@Telescope"
-  },
-  {
-    desc = "Jumplist (Telescope)",
-    cmd = function()
-      _tb.jumplist(__Telescope_vertical_dropdown_theme({
-        show_line = false,
-        prompt_prefix = lutils.getTelescopePromptPrefix(),
-        layout_config = Config.telescope_vertical_preview_layout
-      }))
-    end,
-    keys = {
-      { "n", "<A-Backspace>", noremap },
-      { "i", "<A-Backspace>", noremap }
-    },
-    category = "@Telescope"
-  },
   {
     desc = "Command history (Telescope)",
     cmd = function() _tb.command_history(__Telescope_dropdown_theme { title = "Command history", width = 0.4, height = 0.7 }) end,
@@ -450,44 +369,9 @@ command_center.add({
     category = "@Telescope"
   },
   {
-    desc = "Fuzzy search in current buffer",
-    cmd = function()
-      _tb.current_buffer_fuzzy_find(__Telescope_vertical_dropdown_theme({
-        layout_config = Config.telescope_vertical_preview_layout,
-        prompt_title = "Fuzzy Find in current buffer"
-      }))
-    end,
-    keys = { "n", "<C-x><C-f>", noremap },
-    category = "@Telescope"
-  },
-  {
     desc = "Help tags (@Telescope)",
     cmd = function() _tb.help_tags({ layout_config = { width = 0.8, height = 0.8, preview_width = 0.7 } }) end,
     keys = { "n", "tht", noremap },
-    category = "@Telescope"
-  },
-  {
-    desc = "Live grep (current directory)",
-    cmd = function()
-      _tb.live_grep(__Telescope_vertical_dropdown_theme({
-        layout_config = { width = 130 },
-        prompt_title = "Live grep folder (current directory)",
-        search_dirs = { vim.fn.expand("%:p:h") }
-      }))
-    end,
-    keys = { "n", "<C-x>g", noremap },
-    category = "@Telescope"
-  },
-  {
-    desc = "Live grep (project root)",
-    cmd = function()
-      _tb.live_grep(__Telescope_vertical_dropdown_theme({
-        layout_config = { width = 130 },
-        prompt_title = "Live grep folder (project root)",
-        search_dirs = { lutils.getroot_current() }
-      }))
-    end,
-    keys = { "n", "<C-x><C-g>", noremap },
     category = "@Telescope"
   },
   {
@@ -504,33 +388,6 @@ command_center.add({
     cmd = function() _tb.tags(__Telescope_vertical_dropdown_theme({ prompt_title = "Tags list", cwd = lutils.getroot_current() })) end,
     keys = { "n", "<leader>t", },
     category = "@Telescope"
-  },
-  {
-    desc = "Todo list (project root)",
-    cmd = function()
-      require("telescope._extensions.todo-comments").exports.todo(__Telescope_vertical_dropdown_theme({
-        layout_config = { width = 120 }, prompt_title = "Todo comments (project root)", cwd = lutils.getroot_current(), hidden = true }))
-    end,
-    keys = { "n", "tdp", noremap },
-    category = "@Neovim"
-  },
-  {
-    desc = "Todo list (current directory)",
-    cmd = function()
-      local dir = vim.fn.expand("%:p:h")
-      require("telescope._extensions.todo-comments").exports.todo(__Telescope_vertical_dropdown_theme({
-        layout_config = { width = 120 }, prompt_title = "Todo comments (current directory)", cwd = dir }))
-    end,
-    keys = { "n", "tdo", noremap },
-    category = "@Neovim"
-  },
-  {
-    desc = "List all highlight groups",
-    cmd = function() _tb.highlights(__Telescope_vertical_dropdown_theme({
-      layout_config = Config.telescope_vertical_preview_layout
-    }) ) end,
-    keys = { "n", "thl", noremap },
-    category = "@Neovim"
   },
   {
     desc = "Inspect auto word list (wordlist plugin)",
