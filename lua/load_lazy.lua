@@ -444,7 +444,7 @@ lazy.setup({
       require("dap.nvim_dap")
     end
   },
-  { 'kevinhwang91/rnvimr', lazy = true, cmd = { "RnvimrToggle" } },
+  { 'kevinhwang91/rnvimr', cond = false, lazy = true, cmd = { "RnvimrToggle" } },
   {
     "smjonas/inc-rename.nvim",
     event = { "BufRead" },
@@ -474,6 +474,7 @@ lazy.setup({
   {
     'silvercircle/aerial.nvim',
     branch = 'mine',
+    cond = false,
     lazy = true,
     config = function()
       require("plugins.aerialsetup")

@@ -147,21 +147,6 @@ command_center.add({
     category = "@LSP Telescope"
   },
   {
-    desc = "Aerial document symbols",
-    cmd = function()
-      _t.extensions.aerial.aerial(__Telescope_vertical_dropdown_theme({
-        prompt_prefix = lutils.getTelescopePromptPrefix(),
-        prompt_title = "Symbols (Aerial)",
-        layout_config = Config.minipicker_layout
-      }))
-    end,
-    keys = {
-      { "n", "<A-a>", noremap },
-      { "i", "<A-a>", noremap }
-    },
-    category = "@LSP Telescope Aerial"
-  },
-  {
     desc = "Mini document references",
     cmd = function()
       _tb.lsp_references(__Telescope_vertical_dropdown_theme({
@@ -351,15 +336,6 @@ command_center.add({
     desc = "Command list (Telescope)",
     cmd = function() _tb.commands(__Telescope_dropdown_theme { title = "Commands", width = 0.6, height = 0.7 }) end,
     keys = { "n", "<A-c>", noremap },
-    category = "@Telescope"
-  },
-  {
-    desc = "Registers (Telescope)",
-    cmd = function() _tb.registers(__Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix() }) end,
-    keys = {
-      { "i", "<C-x><C-r>", noremap },
-      { "n", "<C-x><C-r>", noremap }
-    },
     category = "@Telescope"
   },
   {

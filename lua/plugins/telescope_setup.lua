@@ -315,6 +315,15 @@ if vim.g.tweaks.fzf.enable_keys == false then
     category = "@Neovim"
   },
   {
+    desc = "Registers (Telescope)",
+    cmd = function() _tb.registers(__Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix() }) end,
+    keys = {
+      { "i", "<C-x><C-r>", noremap },
+      { "n", "<C-x><C-r>", noremap }
+    },
+    category = "@Telescope"
+  },
+  {
     desc = "Jumplist (Telescope)",
     cmd = function()
       _tb.jumplist(__Telescope_vertical_dropdown_theme({
@@ -359,6 +368,21 @@ if vim.g.tweaks.fzf.prefer_for_git == false then
 end
 if vim.g.tweaks.fzf.prefer_for_lsp == false then
   command_center.add({
+    {
+      desc = "Aerial document symbols",
+      cmd = function()
+        _t.extensions.aerial.aerial(__Telescope_vertical_dropdown_theme({
+          prompt_prefix = lutils.getTelescopePromptPrefix(),
+          prompt_title = "Symbols (Aerial)",
+          layout_config = Config.minipicker_layout
+        }))
+      end,
+      keys = {
+        { "n", "<A-a>", noremap },
+        { "i", "<A-a>", noremap }
+      },
+      category = "@LSP Telescope Aerial"
+    },
     {
       desc = "Dynamic workspace symbols (Telescope)",
       cmd = function() _tb.lsp_dynamic_workspace_symbols(__Telescope_vertical_dropdown_theme({})) end,

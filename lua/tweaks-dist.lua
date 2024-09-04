@@ -294,13 +294,15 @@ Tweaks.fzf = {
   prefer_for_lsp = true,
   prefer_for_git = true,
   winopts = {
-    small_no_prefix      =  { width=0.5, height = 0.4, preview = { hidden="hidden" } },
+    small_no_preview     =  { row = 0.25, width=0.5, height = 0.4, preview = { hidden="hidden" } },
     std_preview_top      =  { width = 0.6, height = 0.8, preview = { border = 'border', layout = 'vertical', vertical = "up:30%" } },
+    std_preview_none     =  { width = 0.6, height = 0.8, preview = { hidden = 'hidden' } },
     big_preview_top      =  { width = 0.7, height = 0.9, preview = { border = 'border', layout = 'vertical', vertical = "up:35%" } },
     big_preview_topbig   =  { width = 0.7, height = 0.9, preview = { border = 'border', layout = 'vertical', vertical = "up:45%" } },
     narrow_no_preview    =  { width = 0.5, height = 0.8, preview = { hidden = 'hidden' } },
     narrow_small_preview =  { width = 0.5, height = 0.8, preview = { border = 'border', layout = 'vertical', vertical = "up:35%" } },
     narrow_big_preview   =  { width = 0.5, height = 0.9, preview = { border = 'border', layout = 'vertical', vertical = "up:45%" } },
+    mini_with_preview    =  { width = 80, height = 0.8, preview = { border = 'border', layout = 'vertical', vertical = "up:30%" } },
   }
 }
 return Tweaks

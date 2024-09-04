@@ -1,4 +1,5 @@
 local actions = require "fzf-lua.actions"
+local old_mode = nil
 
 require "fzf-lua".setup({
   -- fzf_bin         = 'sk',            -- use skim instead of fzf?
@@ -70,9 +71,9 @@ require "fzf-lua".setup({
       old_mode = vim.api.nvim_get_mode().mode
     end,
     on_close   = function()
-      --      if old_mode == 'i' then
-      --        vim.schedule_wrap(vim.cmd.startinsert())
-      --      end
+      if old_mode == "i" then
+        vim.schedule(function() vim.api.nvim_input("i") end)
+      end
     end
   },
   keymap              = {
@@ -599,6 +600,15 @@ if vim.g.tweaks.fzf.enable_keys == true then
       category = "@FZF"
     },
     {
+      desc = "Registers (FZF)",
+      cmd = function() fzf.registers({ winopts = fzf_tweaks.winopts.std_preview_none } ) end,
+      keys = {
+        { "i", "<C-x><C-r>", noremap },
+        { "n", "<C-x><C-r>", noremap }
+      },
+      category = "@FZF"
+    },
+    {
       desc = "Fuzzy search in current buffer",
       cmd = function()
         fzf.blines({ winopts = fzf_tweaks.winopts.std_preview_top  })
@@ -609,7 +619,7 @@ if vim.g.tweaks.fzf.enable_keys == true then
     {
       desc = "Fuzzy search in all open buffers",
       cmd = function()
-        fzf.lines({ winopts = fzf_tweaks.winopts.std_preview_top  })
+        fzf.lines( { winopts = fzf_tweaks.winopts.std_preview_top } )
       end,
       keys = { "n", "<C-x>f", noremap },
       category = "@FZF"
@@ -688,10 +698,10 @@ if vim.g.tweaks.fzf.enable_keys == true then
   })
 
   vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
-    fzf.buffers({ winopts = fzf_tweaks.winopts.small_no_prefix })
+    fzf.buffers({ winopts = fzf_tweaks.winopts.small_no_preview })
   end, "FZF buffer list")
   vim.g.setkey({ "n", "i", "t", "v" }, "<C-p>", function()
-    fzf.oldfiles({ winopts = fzf_tweaks.winopts.small_no_prefix })
+    fzf.oldfiles({ winopts = fzf_tweaks.winopts.small_no_preview })
   end, "FZF oldfiles")
 end
 -- GIT
@@ -735,16 +745,25 @@ end
 if vim.g.tweaks.fzf.prefer_for_lsp == true then
   command_center.add({
     {
-      desc = "Dynamic workspace symbols (Telescope)",
+      desc = "Dynamic workspace symbols (FZF)",
       cmd = function() fzf.lsp_live_workspace_symbols( { winopts = fzf_tweaks.winopts.big_preview_top } ) end,
       keys = { "n", "tds", noremap },
-      category = "@LSP Telescope"
+      category = "@LSP FZF"
     },
     {
-      desc = "Workspace symbols (Telescope)",
+      desc = "Workspace symbols (FZF)",
       cmd = function() fzf.lsp_workspace_symbols( { winopts = fzf_tweaks.winopts.big_preview_top } ) end,
       keys = { "n", "tws", noremap },
-      category = "@LSP Telescope"
+      category = "@LSP FZF"
+    },
+    {
+      desc = "Document symbols (FZF)",
+      cmd = function() fzf.lsp_document_symbols( { winopts = fzf_tweaks.winopts.mini_with_preview } ) end,
+      keys = {
+        { "n", "<A-a>", noremap },
+        { "i", "<A-a>", noremap }
+      },
+      category = "@LSP FZF"
     }
   })
 end
