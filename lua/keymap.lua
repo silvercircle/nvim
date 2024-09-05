@@ -451,6 +451,10 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-n>', function()
     require("aerial").nav_open()
   end
 end, "Open Navbuddy window")
-require("local_utils.marks").set_keymaps()
 
+vim.g.setkey({ 'n', 'i' }, '<A-e>', function()
+  require("mini.pick").builtin.buffers({include_current=false}, {window = { config = __Globals.mini_pick_center(100, 20, 0.1) } } )
+end, "Mini.Picker Buffer list")
+
+require("local_utils.marks").set_keymaps()
 

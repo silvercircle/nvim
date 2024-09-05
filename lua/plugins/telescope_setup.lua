@@ -384,6 +384,42 @@ if vim.g.tweaks.fzf.prefer_for_lsp == false then
       category = "@LSP Telescope Aerial"
     },
     {
+      desc = "Mini document symbols",
+      cmd = function()
+        local ignore_symbols = {}
+        if __Globals.ignore_symbols[vim.bo.filetype] ~= nil then
+          ignore_symbols = __Globals.ignore_symbols[vim.bo.filetype]
+        end
+        _tb.lsp_document_symbols(__Telescope_vertical_dropdown_theme({
+          prompt_prefix = lutils.getTelescopePromptPrefix(),
+          symbol_highlights = Config.telescope_symbol_highlights,
+          ignore_symbols = ignore_symbols,
+          layout_config = Config.minipicker_layout
+        }))
+      end,
+      keys = {
+        { "n", "<A-o>", noremap },
+        { "i", "<A-o>", noremap }
+      },
+      category = "@LSP Telescope"
+    },
+    {
+      desc = "Mini document references",
+      cmd = function()
+        _tb.lsp_references(__Telescope_vertical_dropdown_theme({
+          prompt_prefix = lutils.getTelescopePromptPrefix(),
+          path_display = { truncate = 9 },
+          show_line = false,
+          layout_config = Config.minipicker_layout
+        }))
+      end,
+      keys = {
+        { "i", "<A-r>", noremap },
+        { "n", "<A-r>", noremap }
+      },
+      category = "@LSP Telescope"
+    },
+    {
       desc = "Dynamic workspace symbols (Telescope)",
       cmd = function() _tb.lsp_dynamic_workspace_symbols(__Telescope_vertical_dropdown_theme({})) end,
       keys = { "n", "tds", noremap },

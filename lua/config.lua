@@ -13,8 +13,9 @@ if status == true then
 end
 vim.g.tweaks = tweaks
 
+-- FIXME: silence deprecation warnings in dev builds. currently 0.11
+-- adjust this for future dev builds
 local nvim_11 = vim.fn.has("nvim-0.11")
-
 if nvim_11 == 1 then
   vim.deprecate = function() end
 end

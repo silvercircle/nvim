@@ -154,7 +154,7 @@ Tweaks.borderfactory = function(style)
 end
 -- don't touch this unless you know what you're doing
 --Tweaks.cmp.kind_attr = Tweaks.cmp.style == "experimental" and { bold=true, reverse=true } or {}
-Tweaks.cmp.kind_attr = { bold=true, reverse=false } or {}
+Tweaks.cmp.kind_attr = { bold = true, reverse = false }
 
 -- set this to "Outline" to use the symbols-outline plugin.
 -- set it to "aerial" to use the Aerial plugin.

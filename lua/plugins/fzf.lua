@@ -8,6 +8,7 @@ require "fzf-lua".setup({
   -- can also be sent individually:
   -- `<any_function>.({ gl ... })`
   global_resume_query = true, -- include typed query in `resume`?
+  no_action_zz  = true,
   winopts             = {
     -- split         = "belowright new",-- open in a split instead?
     -- "belowright new"  : split below
@@ -27,7 +28,7 @@ require "fzf-lua".setup({
     border     = "single",
     --border           = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
     fullscreen = false,       -- start fullscreen?
-    backdrop   = 80,
+    backdrop   = 100,
     preview    = {
       default      = "builtin",         -- override the default previewer?
       -- default uses the 'builtin' previewer
@@ -379,6 +380,7 @@ require "fzf-lua".setup({
     prompt        = "Buffers❯ ",
     file_icons    = true,     -- show file icons?
     color_icons   = true,     -- colorize file|git icons
+    no_action_zz  = true,
     sort_lastused = true,     -- sort buffers() by last used
     actions       = {
       -- actions inherit from 'actions.buffers' and merge
@@ -762,6 +764,28 @@ if vim.g.tweaks.fzf.prefer_for_lsp == true then
       keys = {
         { "n", "<A-a>", noremap },
         { "i", "<A-a>", noremap }
+      },
+      category = "@LSP FZF"
+    },
+    {
+      desc = "Mini document references (FZF)",
+      cmd = function()
+        fzf.lsp_references( { winopts = fzf_tweaks.winopts.mini_with_preview } )
+      end,
+      keys = {
+        { "i", "<A-r>", noremap },
+        { "n", "<A-r>", noremap }
+      },
+      category = "@LSP FZF"
+    },
+    {
+      desc = "Mini document symbols (FZF)",
+      cmd = function()
+        fzf.lsp_document_symbols( { winopts = fzf_tweaks.winopts.mini_with_preview } )
+      end,
+      keys = {
+        { "n", "<A-o>", noremap },
+        { "i", "<A-o>", noremap }
       },
       category = "@LSP FZF"
     }

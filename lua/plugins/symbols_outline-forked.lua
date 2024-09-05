@@ -24,7 +24,8 @@ outline_window = {
     -- Vim options for the outline window
     show_numbers = false,
     show_relative_numbers = false,
-
+    jump_highlight_duration = false,
+    center_on_jump = false,
     -- Only in this fork (this and the one below)
     show_cursorline = false,
     -- Enable this when you enabled cursorline so your cursor color can
@@ -67,9 +68,9 @@ outline_window = {
     auto_set_cursor = true,
     auto_update_events = {
       follow = { "CursorHold", "CursorHoldI" },
-      items = { 'InsertLeave', 'WinEnter', 'BufEnter', --[['BufWinEnter',]] --[['TabEnter',]] 'BufWritePost' }
-    },
-    lock = "window"
+      items = { 'InsertLeave', --[['WinEnter',]] 'BufEnter', --[['BufWinEnter',]] --[['TabEnter',]] 'BufWritePost' }
+    }
+    -- lock = "window"
   },
 
   -- Options for outline guides.

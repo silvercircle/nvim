@@ -8,13 +8,8 @@ local lutils = require("local_utils")
 local _t = require("telescope")
 local _tb = require("telescope.builtin")
 local Terminal  = require('toggleterm.terminal').Terminal
-local fzf = require("fzf-lua")
 
 local fkeys = vim.g.fkeys
-
-local fzf_prefer_git = vim.g.tweaks.fzf.prefer_for_git
-local fzf_prefer_lsp = vim.g.tweaks.fzf.prefer_for_lsp
-
 --local bm = require("bookmarks")
 
 command_center.add({
@@ -123,42 +118,6 @@ command_center.add({
     keys = {
       { "n", "<C-x>d", noremap },
       { "i", "<C-x>d", noremap }
-    },
-    category = "@LSP Telescope"
-  },
-  {
-    desc = "Mini document symbols",
-    cmd = function()
-      local ignore_symbols = {}
-      if __Globals.ignore_symbols[vim.bo.filetype] ~= nil then
-        ignore_symbols = __Globals.ignore_symbols[vim.bo.filetype]
-      end
-      _tb.lsp_document_symbols(__Telescope_vertical_dropdown_theme({
-        prompt_prefix = lutils.getTelescopePromptPrefix(),
-        symbol_highlights = Config.telescope_symbol_highlights,
-        ignore_symbols = ignore_symbols,
-        layout_config = Config.minipicker_layout
-      }))
-    end,
-    keys = {
-      { "n", "<A-o>", noremap },
-      { "i", "<A-o>", noremap }
-    },
-    category = "@LSP Telescope"
-  },
-  {
-    desc = "Mini document references",
-    cmd = function()
-      _tb.lsp_references(__Telescope_vertical_dropdown_theme({
-        prompt_prefix = lutils.getTelescopePromptPrefix(),
-        path_display = { truncate = 9 },
-        show_line = false,
-        layout_config = Config.minipicker_layout
-      }))
-    end,
-    keys = {
-      { "i", "<A-r>", noremap },
-      { "n", "<A-r>", noremap }
     },
     category = "@LSP Telescope"
   },
