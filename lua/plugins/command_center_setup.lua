@@ -126,20 +126,6 @@ command_center.add({
     category = "@LSP (Telescope)"
   },
   {
-    desc = "Run diagnostics (workspace)",
-    cmd = function()
-      _tb.diagnostics(__Telescope_vertical_dropdown_theme({
-        prompt_prefix = lutils.getTelescopePromptPrefix(),
-        root_dir = lutils.getroot_current()
-      }))
-    end,
-    keys = {
-      { "i", "<C-t>d", noremap },
-      { "n", "<C-t>d", noremap }
-    },
-    category = "@LSP"
-  },
-  {
     desc = "Shutdown LSP server",
     cmd = function() lutils.StopLsp() end,
     keys = { "n", "lss", noremap },

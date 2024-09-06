@@ -501,9 +501,9 @@ require "fzf-lua".setup({
     prompt_postfix   = "❯ ", -- will be appended to the LSP label
     -- to override use 'prompt' instead
     cwd_only         = false, -- LSP/diagnostics for cwd only?
-    async_or_timeout = 5000, -- timeout(ms) or 'true' for async calls
+    async_or_timeout = true, -- timeout(ms) or 'true' for async calls
     file_icons       = true,
-    git_icons        = false,
+    git_icons        = true,
     -- settings for 'lsp_{document|workspace|lsp_live_workspace}_symbols'
     symbols          = {
       async_or_timeout = true,    -- symbols are async by default
@@ -534,7 +534,7 @@ require "fzf-lua".setup({
     prompt       = "Diagnostics❯ ",
     cwd_only     = false,
     file_icons   = true,
-    git_icons    = false,
+    git_icons    = true,
     diag_icons   = true,
     icon_padding = " ",      -- add padding for wide diagnostics signs
     -- by default icons and highlights are extracted from 'DiagnosticSignXXX'
@@ -781,10 +781,32 @@ if vim.g.tweaks.fzf.prefer_for_lsp == true then
   command_center.add({
     {
       desc = "Jump to definition (FZF)",
-      cmd = function() fzf.lsp_definitions( { winopts = fzf_tweaks.winopts.mini_with_preview }) end,
+      cmd = function() fzf.lsp_definitions( { winopts = fzf_tweaks.winopts.std_preview_top }) end,
       keys = {
         { "n", "<C-x>d", noremap },
         { "i", "<C-x>d", noremap }
+      },
+      category = "@LSP FZF"
+    },
+    {
+      desc = "Run diagnostics (workspace)",
+      cmd = function()
+        fzf.diagnostics_workspace( { cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.big_preview_top })
+      end,
+      keys = {
+        { "i", "<C-t>d", noremap },
+        { "n", "<C-t>d", noremap }
+      },
+      category = "@LSP FZF"
+    },
+    {
+      desc = "Run diagnostics (document)",
+      cmd = function()
+        fzf.diagnostics_document( { winopts = fzf_tweaks.winopts.big_preview_top })
+      end,
+      keys = {
+        { "i", "<C-t>D", noremap },
+        { "n", "<C-t>D", noremap }
       },
       category = "@LSP FZF"
     },
@@ -801,8 +823,26 @@ if vim.g.tweaks.fzf.prefer_for_lsp == true then
       category = "@LSP FZF"
     },
     {
+      desc = "Incoming calls (FZF)",
+      cmd = function() fzf.lsp_incoming_calls( { winopts = fzf_tweaks.winopts.std_preview_top } ) end,
+      keys = {
+        { "n", "<C-x>i", noremap },
+        { "i", "<C-x>i", noremap },
+      },
+      category = "@LSP FZF"
+    },
+    {
+      desc = "Outgoing calls (FZF)",
+      cmd = function() fzf.lsp_outgoing_calls( { winopts = fzf_tweaks.winopts.std_preview_top } ) end,
+      keys = {
+        { "n", "<C-x>o", noremap },
+        { "i", "<C-x>o", noremap },
+      },
+      category = "@LSP FZF"
+    },
+    {
       desc = "Document symbols (FZF)",
-      cmd = function() fzf.lsp_document_symbols( { winopts = fzf_tweaks.winopts.mini_with_preview } ) end,
+      cmd = function() fzf.lsp_document_symbols( { winopts = fzf_tweaks.winopts.std_preview_top } ) end,
       keys = {
         { "n", "<A-a>", noremap },
         { "i", "<A-a>", noremap }
@@ -812,7 +852,7 @@ if vim.g.tweaks.fzf.prefer_for_lsp == true then
     {
       desc = "Mini document references (FZF)",
       cmd = function()
-        fzf.lsp_references( { winopts = fzf_tweaks.winopts.mini_with_preview } )
+        fzf.lsp_references( { winopts = fzf_tweaks.winopts.std_preview_top } )
       end,
       keys = {
         { "i", "<A-r>", noremap },

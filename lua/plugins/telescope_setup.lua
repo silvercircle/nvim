@@ -417,6 +417,20 @@ if vim.g.tweaks.fzf.prefer_for_lsp == false then
       category = "@LSP Telescope Aerial"
     },
     {
+      desc = "Run diagnostics (workspace)",
+      cmd = function()
+        _tb.diagnostics(__Telescope_vertical_dropdown_theme({
+          prompt_prefix = lutils.getTelescopePromptPrefix(),
+          root_dir = lutils.getroot_current()
+        }))
+      end,
+      keys = {
+        { "i", "<C-t>d", noremap },
+        { "n", "<C-t>d", noremap }
+      },
+      category = "@LSP"
+    },
+    {
       desc = "Jump to definition (Telescope)",
       cmd = function()
         _tb.lsp_definitions(__Telescope_vertical_dropdown_theme({
