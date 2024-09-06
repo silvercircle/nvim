@@ -491,7 +491,7 @@ function M.write_config()
 end
 
 --- read the permanent config from the JSON dump.
---- if anything goes wrong, then restore the defaults.
+--- restore the defaults if anything goes wrong
 function M.restore_config()
   local file = get_permconfig_filename()
   local f = io.open(file, "r")

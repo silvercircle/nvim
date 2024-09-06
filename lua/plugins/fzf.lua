@@ -152,7 +152,7 @@ require "fzf-lua".setup({
     ["--layout"]         = "reverse",
     ["--border"]         = "none",
     ["--highlight-line"] = "",
-    ["--color"]          = "bg+:#" .. string.format("%x", vim.api.nvim_get_hl(0, { name = "visual" }).bg)
+    ["--color"]          = string.format("bg+:#%x,gutter:#%x", vim.api.nvim_get_hl(0, { name = "visual" }).bg, vim.api.nvim_get_hl(0, { name = "NeoTreeNormalNC" }).bg)
   },
   previewers          = {
     cat = {
@@ -593,6 +593,39 @@ local lsputil = require("lspconfig.util")
 if vim.g.tweaks.fzf.enable_keys == true then
   command_center.add({
     {
+      desc = "ZK live grep",
+      cmd = function()
+        local wo = fzf_tweaks.winopts.std_preview_top
+        fzf.live_grep({ prompt = "Zettelkasten live grep: ", cwd = vim.fn.expand(vim.g.tweaks.zk.root_dir), winopts = wo })
+      end,
+      keys = { 
+        { "i", vim.g.tweaks.keymap.fzf_prefix ..  "z", noremap },
+        { "n", vim.g.tweaks.keymap.fzf_prefix ..  "z", noremap }
+      },
+      category = "@ZK"
+    },
+    {
+      desc = "Command history (FZF)",
+      cmd = function() fzf.command_history( { winopts = fzf_tweaks.winopts.std_preview_none } ) end,
+      keys = { "n", "<A-C>", noremap },
+      category = "@FZF"
+    },
+    {
+      desc = "Command list (FZF)",
+      cmd = function() fzf.commands( { winopts = fzf_tweaks.winopts.std_preview_none } ) end,
+      keys = { "n", "<A-c>", noremap },
+      category = "@FZF"
+    },
+    {
+      desc = "Spell suggestions",
+      cmd = function() fzf.spell_suggest( { winopts = { height=0.5, width =60, preview = { hidden="hidden" }}} ) end,
+      keys = {
+        { "n", "<A-s>", noremap },
+        { "i", "<A-s>", noremap }
+      },
+      category = "@FZF"
+    },
+    {
       desc = "FZF Jumplist",
       cmd = function() fzf.jumps({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top }) end,
       keys = {
@@ -655,7 +688,7 @@ if vim.g.tweaks.fzf.enable_keys == true then
     },
     {
       desc = "FZF live grep (current directory)",
-      cmd = function() fzf.live_grep_native({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top }) end,
+      cmd = function() fzf.live_grep({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top }) end,
       keys = {
         { "n", '<C-x>g', noremap },
       },
@@ -664,7 +697,7 @@ if vim.g.tweaks.fzf.enable_keys == true then
     {
       desc = "FZF live grep (project root)",
       cmd = function()
-        fzf.live_grep_native({
+        fzf.live_grep({
           cwd = lutils.getroot_current(),
           winopts = fzf_tweaks.winopts.std_preview_top
         })
@@ -746,6 +779,15 @@ if vim.g.tweaks.fzf.prefer_for_git == true then
 end
 if vim.g.tweaks.fzf.prefer_for_lsp == true then
   command_center.add({
+    {
+      desc = "Jump to definition (FZF)",
+      cmd = function() fzf.lsp_definitions( { winopts = fzf_tweaks.winopts.mini_with_preview }) end,
+      keys = {
+        { "n", "<C-x>d", noremap },
+        { "i", "<C-x>d", noremap }
+      },
+      category = "@LSP FZF"
+    },
     {
       desc = "Dynamic workspace symbols (FZF)",
       cmd = function() fzf.lsp_live_workspace_symbols( { winopts = fzf_tweaks.winopts.big_preview_top } ) end,

@@ -105,22 +105,6 @@ command_center.add({
     },
     category = "@LSP"
   },
-  -- Telescope LSP code navigation and diagnostics
-  {
-    desc = "Jump to definition (Telescope)",
-    cmd = function()
-      _tb.lsp_definitions(__Telescope_vertical_dropdown_theme({
-        prompt_prefix = lutils.getTelescopePromptPrefix(),
-        symbol_highlights = Config.telescope_symbol_highlights,
-        layout_config = Config.minipicker_layout
-      }))
-    end,
-    keys = {
-      { "n", "<C-x>d", noremap },
-      { "i", "<C-x>d", noremap }
-    },
-    category = "@LSP Telescope"
-  },
   {
     desc = "Mini document treesitter view",
     cmd = function()
@@ -286,18 +270,6 @@ command_center.add({
     category = "@Formatting"
   },
   {
-    desc = "Command history (Telescope)",
-    cmd = function() _tb.command_history(__Telescope_dropdown_theme { title = "Command history", width = 0.4, height = 0.7 }) end,
-    keys = { "n", "<A-C>", noremap },
-    category = "@Telescope"
-  },
-  {
-    desc = "Command list (Telescope)",
-    cmd = function() _tb.commands(__Telescope_dropdown_theme { title = "Commands", width = 0.6, height = 0.7 }) end,
-    keys = { "n", "<A-c>", noremap },
-    category = "@Telescope"
-  },
-  {
     desc = "Keymaps (Telescope",
     cmd = function() _tb.keymaps({ layout_config = { width = 0.8, height = 0.7 } }) end,
     keys = { "n", "<C-x><C-k>", noremap },
@@ -307,15 +279,6 @@ command_center.add({
     desc = "Help tags (@Telescope)",
     cmd = function() _tb.help_tags({ layout_config = { width = 0.8, height = 0.8, preview_width = 0.7 } }) end,
     keys = { "n", "tht", noremap },
-    category = "@Telescope"
-  },
-  {
-    desc = "Spell suggestions",
-    cmd = function() _tb.spell_suggest(__Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix(), title = "Spell suggestions", height = 0.5, width = 0.2 }) end,
-    keys = {
-      { "n", "<A-s>", noremap },
-      { "i", "<A-s>", noremap }
-    },
     category = "@Telescope"
   },
   {
@@ -445,18 +408,6 @@ command_center.add({
     keys = {
       { "n", "zkn", noremap },
     },
-    category = "@ZK"
-  },
-  {
-    desc = "ZK live grep",
-    cmd = function()
-      _tb.live_grep(__Telescope_vertical_dropdown_theme({
-        layout_config = { width = 130 },
-        prompt_title = "Live grep zettelkasten",
-        search_dirs = { vim.fn.expand(vim.g.tweaks.zk.root_dir) }
-      }))
-    end,
-    keys = { "n", "zkg", noremap },
     category = "@ZK"
   },
   -- unused stuff keep it here in case we need it at some point

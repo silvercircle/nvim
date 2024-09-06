@@ -110,6 +110,7 @@ local function _set()
   c.link("FzfLuaNormal", "TelescopeNormal")
   c.link("FzfLuaBorder", "TelescopeBorder")
   c.link("FzfLuaSearch", "TelescopeMatching")
+  c.link("FzfLuaPreviewTitle", "TelescopePreviewTitle")
 
   c.link("GitSignsAdd", "GreenSign")
   c.link("GitSignsAddNr", "GreenSign")

@@ -217,6 +217,39 @@ if vim.g.tweaks.fzf.enable_keys == false then
   -- Telescope pickers
   command_center.add({
   {
+    desc = "ZK live grep",
+    cmd = function()
+      _tb.live_grep(__Telescope_vertical_dropdown_theme({
+        layout_config = { width = 130 },
+        prompt_title = "Live grep zettelkasten",
+        search_dirs = { vim.fn.expand(vim.g.tweaks.zk.root_dir) }
+      }))
+    end,
+    keys = { "n", "zkg", noremap },
+    category = "@ZK"
+  },
+  {
+    desc = "Command history (Telescope)",
+    cmd = function() _tb.command_history(__Telescope_dropdown_theme { title = "Command history", width = 0.4, height = 0.7 }) end,
+    keys = { "n", "<A-C>", noremap },
+    category = "@Telescope"
+  },
+  {
+    desc = "Command list (Telescope)",
+    cmd = function() _tb.commands(__Telescope_dropdown_theme { title = "Commands", width = 0.6, height = 0.7 }) end,
+    keys = { "n", "<A-c>", noremap },
+    category = "@Telescope"
+  },
+  {
+    desc = "Spell suggestions",
+    cmd = function() _tb.spell_suggest(__Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix(), title = "Spell suggestions", height = 0.5, width = 0.2 }) end,
+    keys = {
+      { "n", "<A-s>", noremap },
+      { "i", "<A-s>", noremap }
+    },
+    category = "@Telescope"
+  },
+  {
     desc = "Find files in current directory (Telescope)",
     cmd = function()
       _tb.find_files(__Telescope_vertical_dropdown_theme({
@@ -382,6 +415,21 @@ if vim.g.tweaks.fzf.prefer_for_lsp == false then
         { "i", "<A-a>", noremap }
       },
       category = "@LSP Telescope Aerial"
+    },
+    {
+      desc = "Jump to definition (Telescope)",
+      cmd = function()
+        _tb.lsp_definitions(__Telescope_vertical_dropdown_theme({
+          prompt_prefix = lutils.getTelescopePromptPrefix(),
+          symbol_highlights = Config.telescope_symbol_highlights,
+          layout_config = Config.minipicker_layout
+        }))
+      end,
+      keys = {
+        { "n", "<C-x>d", noremap },
+        { "i", "<C-x>d", noremap }
+      },
+      category = "@LSP Telescope"
     },
     {
       desc = "Mini document symbols",
