@@ -1,6 +1,6 @@
 -- setup command center mappings. Outsourced from setup_telescope.lua
--- when this is in use, only vim_mappings_light is required for full keyboard configuration
--- most of these mappings are also in vim_mappings_full.lua so command_center is optional.
+-- this contains only basic mappings. Telescope mappings are outsourced to
+-- setup_telescope and fzf-lua mappings to fzf-lua respectively.
 local command_center = require("command_center")
 local noremap = { noremap = true }
 local lsputil = require("lspconfig.util")

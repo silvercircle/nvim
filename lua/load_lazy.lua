@@ -83,7 +83,7 @@ lazy.setup({
       }
     },
     config = function()
-      require("plugins.telescope_setup")
+      require("plugins.telescope")
     end
   },
   -- treesitter + friends
@@ -585,7 +585,7 @@ lazy.setup({
     lazy = true,
     event = "BufReadPost",
     config = function()
-      require("plugins.fzf")
+      require("plugins.fzf-lua")
     end
   },
   --{

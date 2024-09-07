@@ -2,6 +2,7 @@ local lspconfig = require("lspconfig")
 local util = require('lspconfig.util')
 local navic_status, navic = pcall(require, "nvim-navic")
 local capabilities = __Globals.get_lsp_capabilities()
+local configs = require("lspconfig.configs")
 
 -- Customize LSP behavior via on_attach
 On_attach = function(client, buf)
@@ -20,7 +21,43 @@ On_attach = function(client, buf)
   end
 end
 
-lspconfig.tsserver.setup({
+-- custom config for ada, because is deprecated in future nvim-lspconfig
+
+if not configs.ada then
+  configs.ada = {
+    default_config = {
+      capabilities = capabilities,
+      on_attach = On_attach,
+      cmd = { vim.g.lsp_server_bin['als'] },
+      filetypes = { 'ada' },
+      root_dir = util.root_pattern('Makefile', '.git', '*.gpr', '*.adc'),
+      lspinfo = function(cfg)
+        local extra = {}
+        local function find_gpr_project()
+          local function split(inputstr)
+            local t = {}
+            for str in string.gmatch(inputstr, '([^%s]+)') do
+              table.insert(t, str)
+            end
+            return t
+          end
+          local projectfiles = split(vim.fn.glob(cfg.root_dir .. '/*.gpr'))
+          if #projectfiles == 0 then
+            return 'None (error)'
+          elseif #projectfiles == 1 then
+            return projectfiles[1]
+          else
+            return 'Ambiguous (error)'
+          end
+        end
+        table.insert(extra, 'GPR project:     ' .. ((cfg.settings.ada or {}).projectFile or find_gpr_project()))
+        return extra
+      end
+    }
+  }
+end
+
+lspconfig.ts_ls.setup({
   init_options = { hostInfo = 'neovim' },
   cmd = { vim.g.lsp_server_bin['tsserver'], '--stdio' },
   filetypes = {
@@ -94,14 +131,7 @@ lspconfig.clangd.setup({
   capabilities = capabilities
 })
 
--- ada language server
-lspconfig.als.setup({
-  capabilities = capabilities,
-  on_attach = On_attach,
-  cmd = { vim.g.lsp_server_bin['als'] },
-  filetypes = { 'ada' },
-  root_dir = util.root_pattern('Makefile', '.git', '*.gpr', '*.adc'),
-})
+lspconfig.ada.setup({})
 
 local function rust_reload_workspace(bufnr)
   bufnr = util.validate_bufnr(bufnr)

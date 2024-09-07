@@ -275,7 +275,7 @@ vim.g.setkey({'n', 'i'}, '<C-p>', function()
     __Telescope_dropdown_theme({ prompt_prefix = utils.getTelescopePromptPrefix(), title = 'Old files', width = 120, height = 0.5 })
   )
 end, "Telescope old files")
-vim.g.setkey('n', '<A-p>', function()
+vim.g.setkey({'n', 'i', 'v' }, '<A-p>', function()
   require('telescope').extensions.command_center.command_center({ filter={ mode = 'n' }})
 end, "Telescope command palette")
 
