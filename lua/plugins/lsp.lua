@@ -21,8 +21,7 @@ On_attach = function(client, buf)
   end
 end
 
--- custom config for ada, because is deprecated in future nvim-lspconfig
-
+-- custom config for ada, because als is deprecated in future nvim-lspconfig
 if not configs.ada then
   configs.ada = {
     default_config = {
@@ -57,6 +56,7 @@ if not configs.ada then
   }
 end
 
+-- this was tsserver (will be deprecated in the future)
 lspconfig.ts_ls.setup({
   init_options = { hostInfo = 'neovim' },
   cmd = { vim.g.lsp_server_bin['tsserver'], '--stdio' },

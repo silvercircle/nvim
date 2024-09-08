@@ -593,12 +593,23 @@ local lsputil = require("lspconfig.util")
 if vim.g.tweaks.fzf.enable_keys == true then
   command_center.add({
     {
+      desc = "FZF-LUA commands",
+      cmd = function()
+        fzf.builtin({ prompt = "Commands: ", winopts = fzf_tweaks.winopts.mini_list })
+      end,
+      keys = {
+        { "i", vim.g.tweaks.keymap.fzf_prefix ..  "<space>", noremap },
+        { "n", vim.g.tweaks.keymap.fzf_prefix ..  "<space>", noremap }
+      },
+      category = "@ZK"
+    },
+    {
       desc = "ZK live grep",
       cmd = function()
         local wo = fzf_tweaks.winopts.std_preview_top
         fzf.live_grep({ prompt = "Zettelkasten live grep: ", cwd = vim.fn.expand(vim.g.tweaks.zk.root_dir), winopts = wo })
       end,
-      keys = { 
+      keys = {
         { "i", vim.g.tweaks.keymap.fzf_prefix ..  "z", noremap },
         { "n", vim.g.tweaks.keymap.fzf_prefix ..  "z", noremap }
       },
@@ -708,6 +719,14 @@ if vim.g.tweaks.fzf.enable_keys == true then
       category = "@FZF"
     },
     {
+      desc = "FZF live grep resume",
+      cmd = function() fzf.live_grep_resule({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
+      keys = {
+        { "n", '<C-x>G', noremap },
+      },
+      category = "@FZF"
+    },
+    {
       desc = "FZF find files (current directory)",
       cmd = function() fzf.files({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.big_preview_top }) end,
       keys = {
@@ -754,7 +773,7 @@ if vim.g.tweaks.fzf.prefer_for_git == true then
       category = "@GIT"
     },
     {
-      desc = "GIT commits (FZF)",
+      desc = "GIT commits (project) (FZF)",
       cmd = function()
         fzf.git_commits({
           cwd = lsputil.root_pattern(".git")(vim.fn.expand("%:p")),
@@ -762,6 +781,14 @@ if vim.g.tweaks.fzf.prefer_for_git == true then
         })
       end,
       keys = { "n", "tgc", noremap },
+      category = "@GIT"
+    },
+    {
+      desc = "GIT commits (buffer) (FZF)",
+      cmd = function()
+        fzf.git_bcommits({ winopts = fzf_tweaks.winopts.big_preview_topbig })
+      end,
+      keys = { "n", "tgb", noremap },
       category = "@GIT"
     },
     {
@@ -773,6 +800,28 @@ if vim.g.tweaks.fzf.prefer_for_git == true then
         })
       end,
       keys = { "n", "tgf", noremap },
+      category = "@GIT"
+    },
+    {
+      desc = "GIT branches (FZF)",
+      cmd = function()
+        fzf.git_branches({
+          cwd = lsputil.root_pattern(".git")(vim.fn.expand("%:p")),
+          winopts = fzf_tweaks.winopts.big_preview_topbig
+        })
+      end,
+      keys = { "n", "tgb", noremap },
+      category = "@GIT"
+    },
+    {
+      desc = "GIT tags (FZF)",
+      cmd = function()
+        fzf.git_tags({
+          cwd = lsputil.root_pattern(".git")(vim.fn.expand("%:p")),
+          winopts = fzf_tweaks.winopts.big_preview_topbig
+        })
+      end,
+      keys = { "n", "tgt", noremap },
       category = "@GIT"
     }
   })
@@ -868,6 +917,17 @@ if vim.g.tweaks.fzf.prefer_for_lsp == true then
       keys = {
         { "n", "<A-o>", noremap },
         { "i", "<A-o>", noremap }
+      },
+      category = "@LSP FZF"
+    },
+    {
+      desc = "LSP finder (FZF)",
+      cmd = function()
+        fzf.lsp_finder( { winopts = fzf_tweaks.winopts.mini_with_preview } )
+      end,
+      keys = {
+        { "n", "<A-f>", noremap },
+        { "i", "<A-f>", noremap }
       },
       category = "@LSP FZF"
     }

@@ -289,12 +289,14 @@ Tweaks.zk = {
   root_dir = "~/Documents/zettelkasten"
 }
 
+-- tweaks for the fzf-lua plugin
 Tweaks.fzf = {
   enable_keys = true,
   prefer_for_lsp = true,
   prefer_for_git = true,
   winopts = {
     small_no_preview     =  { row = 0.25, width=0.5, height = 0.4, preview = { hidden="hidden" } },
+    mini_list            =  { row = 0.25, width=50, height = 0.6, preview = { hidden="hidden" } },
     std_preview_top      =  { width = 0.6, height = 0.8, preview = { border = 'border', layout = 'vertical', vertical = "up:30%" } },
     std_preview_none     =  { width = 0.6, height = 0.8, preview = { hidden = 'hidden' } },
     big_preview_top      =  { width = 0.7, height = 0.9, preview = { border = 'border', layout = 'vertical', vertical = "up:35%" } },
