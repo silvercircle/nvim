@@ -184,7 +184,7 @@ Tweaks.signcolumn = "yes:3"
 
 -- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
 Tweaks.breadcrumb = 'navic'
-Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://www.vimiscool.tech/neotip'
+Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
 --Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
 
 -- settings for the fortune cookie split
@@ -307,4 +307,7 @@ Tweaks.fzf = {
     mini_with_preview    =  { width = 80, height = 0.8, preview = { border = 'border', layout = 'vertical', vertical = "up:30%" } },
   }
 }
+
+-- either mini or fidget
+Tweaks.notifier = "mini"
 return Tweaks

@@ -13,6 +13,8 @@
 --License:      MIT
 --it features multiple background modes (cold, warm and deepdark) and three levels
 --of color saturation: bright vivid and two desaturated modes
+--it's also extensible via plugins and can support multiple base themes (including
+--light themes). This is not yet implemented.
 --
 --TODO: * cleanup, organize the highlight groups better
 --      * maybe (just maybe) a bright background variant

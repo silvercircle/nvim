@@ -45,9 +45,26 @@ lazy.setup({
   },
   {
     "j-hui/fidget.nvim",
+    cond = vim.g.tweaks.notifier == "fidget",
     priorty = 9999,
     config = function()
       require("plugins.others").setup.fidget()
+    end
+  },
+  {
+    'echasnovski/mini.notify',
+    cond = vim.g.tweaks.notifier == "mini",
+    config = function()
+      require("mini.notify").setup({
+        window = {
+          config = {
+            anchor = "SE",
+            row = vim.o.lines
+          },
+          winblend = 0
+        }
+      })
+      vim.notify = require("mini.notify").make_notify()
     end
   },
   'nvim-lua/plenary.nvim',
@@ -353,21 +370,6 @@ lazy.setup({
       require("plugins.mini_extra")
     end
   },
-  --{
-  --  'echasnovski/mini.notify',
-  --  config = function()
-  --    require("mini.notify").setup({
-  --      window = {
-  --        config = {
-  --          anchor = "SE",
-  --          row = vim.o.lines
-  --        },
-  --        winblend = 0
-  --      }
-  --    })
-  --    vim.notify = require("mini.notify").make_notify()
-  --  end
-  --},
   {
     'nvim-tree/nvim-tree.lua',
     cond = vim.g.tweaks.tree.version == "Nvim",
@@ -394,17 +396,6 @@ lazy.setup({
       }
     }
   },
---  {
---    'renerocksai/telekasten.nvim',
---    lazy = true,
---    ft = { "telekasten", "markdown" },
---    dependencies = {
---      { 'renerocksai/calendar-vim' },
---    },
---    config = function()
---      require("plugins.telekasten_setup")
---    end
---  },
   {
     "zk-org/zk-nvim",
     lazy = true,

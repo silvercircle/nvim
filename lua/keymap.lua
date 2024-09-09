@@ -134,7 +134,7 @@ vim.g.setkey('n', '<C-a>e', function()
   { window = { config = __Globals.mini_pick_center(60, 0.6, 0.2) } })
 end, "Open Mini.Explorer at current directory")
 
-vim.g.setkey( 'n', '<C-a><C-e>', function()
+vim.g.setkey('n', '<C-a><C-e>', function()
   require("mini.extra").pickers.explorer(
   { cwd = utils.getroot_current()  },
   { window = { config = __Globals.mini_pick_center(60, 0.6, 0.2) } })
@@ -270,11 +270,17 @@ vim.g.setkey({ 'n', 'i' }, '<C-e>', function()
   )
 end, "Telescope Buffer list")
 
-vim.g.setkey({'n', 'i'}, '<C-p>', function()
-  require('telescope.builtin').oldfiles(
-    __Telescope_dropdown_theme({ prompt_prefix = utils.getTelescopePromptPrefix(), title = 'Old files', width = 120, height = 0.5 })
-  )
-end, "Telescope old files")
+if vim.g.tweaks.fzf.enable_keys == true then
+  vim.g.setkey({'n', 'i'}, '<C-p>', function()
+    require('fzf-lua').oldfiles( { winopts = vim.g.tweaks.fzf.winopts.small_no_preview })
+  end, "Telescope old files")
+else
+  vim.g.setkey({'n', 'i'}, '<C-p>', function()
+    require('telescope.builtin').oldfiles(
+      __Telescope_dropdown_theme({ prompt_prefix = utils.getTelescopePromptPrefix(), title = 'Old files', width = 120, height = 0.5 })
+    )
+  end, "Telescope old files")
+end
 vim.g.setkey({'n', 'i', 'v' }, '<A-p>', function()
   require('telescope').extensions.command_center.command_center({ filter={ mode = 'n' }})
 end, "Telescope command palette")

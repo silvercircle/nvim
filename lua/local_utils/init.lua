@@ -568,4 +568,11 @@ function Utils.truncate(text, max_length)
   end
 end
 
+function Utils.notification_history()
+  if vim.g.tweaks.notifier == "mini" then
+    require("detour").DetourCurrentWindow()
+    require("mini.notify").show_history()
+  end
+end
+
 return Utils

@@ -19,7 +19,7 @@ require "fzf-lua".setup({
     -- (i.e. when 'split' is not defined, default)
     height     = 0.6,        -- window height
     width      = 0.7,        -- window width
-    row        = 0.35,       -- window row position (0=top, 1=bottom)
+    row        = 0.25,       -- window row position (0=top, 1=bottom)
     col        = 0.50,       -- window col position (0=left, 1=right)
     -- border argument passthrough to nvim_open_win(), also used
     -- to manually draw the border characters around the preview
@@ -659,7 +659,10 @@ if vim.g.tweaks.fzf.enable_keys == true then
       cmd = function()
         fzf.blines({ winopts = fzf_tweaks.winopts.std_preview_top  })
       end,
-      keys = { "n", "<C-x><C-f>", noremap },
+      keys = {
+        { "n", "<C-x><C-f>", noremap },
+        { "i", "<C-x><C-f>", noremap }
+      },
       category = "@FZF"
     },
     {
@@ -667,7 +670,10 @@ if vim.g.tweaks.fzf.enable_keys == true then
       cmd = function()
         fzf.lines( { winopts = fzf_tweaks.winopts.std_preview_top } )
       end,
-      keys = { "n", "<C-x>f", noremap },
+      keys = {
+        { "n", "<C-x>f", noremap },
+        { "i", "<C-x>f", noremap }
+      },
       category = "@FZF"
     },
     {
@@ -702,6 +708,7 @@ if vim.g.tweaks.fzf.enable_keys == true then
       cmd = function() fzf.live_grep({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top }) end,
       keys = {
         { "n", '<C-x>g', noremap },
+        { "i", '<C-x>g', noremap }
       },
       category = "@FZF"
     },
@@ -715,6 +722,7 @@ if vim.g.tweaks.fzf.enable_keys == true then
       end,
       keys = {
         { "n", '<C-x><C-g>', noremap },
+        { "i", '<C-x><C-g>', noremap }
       },
       category = "@FZF"
     },
@@ -723,6 +731,7 @@ if vim.g.tweaks.fzf.enable_keys == true then
       cmd = function() fzf.live_grep_resule({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
       keys = {
         { "n", '<C-x>G', noremap },
+        { "i", '<C-x>G', noremap }
       },
       category = "@FZF"
     },
@@ -923,7 +932,7 @@ if vim.g.tweaks.fzf.prefer_for_lsp == true then
     {
       desc = "LSP finder (FZF)",
       cmd = function()
-        fzf.lsp_finder( { winopts = fzf_tweaks.winopts.mini_with_preview } )
+        fzf.lsp_finder( { winopts = fzf_tweaks.winopts.std_preview_top } )
       end,
       keys = {
         { "n", "<A-f>", noremap },
