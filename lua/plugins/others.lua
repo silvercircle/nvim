@@ -238,6 +238,14 @@ M.setup = {
     require("cabinet"):setup()
   end,
 
+  mini_extra = function()
+    require("mini.extra").setup()
+  end,
+
+  mini_pic = function()
+    require("mini.pick").setup()
+  end,
+
   fidget = function()
     vim.g.notifier = require("fidget")
     require("fidget").setup({

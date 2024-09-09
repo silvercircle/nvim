@@ -370,7 +370,7 @@ lazy.setup({
     version = false,
     lazy = true,
     config = function()
-      require("plugins.mini_pick")
+      require("plugins.others").setup.mini_pick()
     end
   },
   {
@@ -378,7 +378,7 @@ lazy.setup({
     version = false,
     lazy = true,
     config = function()
-      require("plugins.mini_extra")
+      require("plugins.others").setup.mini_extra()
     end
   },
   {
