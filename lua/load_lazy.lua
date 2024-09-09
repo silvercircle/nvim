@@ -34,12 +34,23 @@ lazy.setup({
   {
     "brenton-leighton/multiple-cursors.nvim",
     version = "*", -- Use the latest tagged version
-    opts = {}, -- This causes the plugin setup function to be called
+    opts = {
+      pre_hook = function()
+        vim.cmd("set nocul")
+        vim.cmd("NoMatchParen")
+      end,
+      post_hook = function()
+        vim.cmd("set cul")
+        vim.cmd("DoMatchParen")
+      end,
+    },
     keys = {
       { "<C-Down>",      "<Cmd>MultipleCursorsAddDown<CR>",           mode = { "n", "i" } },
       { "<C-Up>",        "<Cmd>MultipleCursorsAddUp<CR>",             mode = { "n", "i" } },
       { "<C-LeftMouse>", "<Cmd>MultipleCursorsMouseAddDelete<CR>",    mode = { "n", "i" } },
-      { "<C-n>",         "<Cmd>MultipleCursorsAddMatches<CR>",  mode = { "n", "x" } },
+      { "<C-n>",         "<Cmd>MultipleCursorsAddMatches<CR>",        mode = { "n", "x" } },
+      { "<C-n><C-n>",    "<Cmd>MultipleCursorsAddJumpNextMatch<CR>",  mode = { "n", "x" } },
+      { "<C-n><C-l>",    "<Cmd>MultipleCursorsLock<CR>",              mode = { "n", "x" } },
       { "<leader>n",     "<Cmd>MultipleCursorsJumpNextMatch<CR>",     mode = { "n", "x" } },
     },
   },

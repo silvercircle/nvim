@@ -285,6 +285,9 @@ Tweaks.cokeline = {
 }
 Tweaks.texviewer = "okular"
 Tweaks.mdguiviewer = "okular"
+
+-- base folder for your zettelkasten when using zk. This is used for the zettelkasten
+-- live grep feature via telescope/fzf-lua
 Tweaks.zk = {
   root_dir = "~/Documents/zettelkasten"
 }
@@ -308,6 +311,6 @@ Tweaks.fzf = {
   }
 }
 
--- either mini or fidget
+-- either mini.notify or fidget
 Tweaks.notifier = "mini"
 return Tweaks
