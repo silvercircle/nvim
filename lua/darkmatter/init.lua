@@ -72,7 +72,7 @@ M.attr_override = {}
 
 -- the theme configuration. This can be changed by calling setup({...})
 -- after changing the configuration configure() must be called before the theme
--- can be activated with set()
+-- can be (re)activated with set()
 local conf = {
   disabled = false,
   -- the scheme name. Configuration is loaded from themes/conf.scheme.lua
@@ -695,6 +695,9 @@ end
 
 -- this activates the theme.
 function M.set()
+  if conf.disabled == true then
+    return
+  end
   configure()
   for _, v in ipairs(conf.plugins.customize) do
     require("darkmatter.plugins." .. v)

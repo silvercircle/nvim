@@ -191,9 +191,10 @@ require "fzf-lua".setup({
       -- will do nothing if `viu` isn't executable
       extensions      = {
         -- neovim terminal only supports `viu` block output
-        ["png"] = { "viu", "-b" },
+        -- ["png"] = { "viu", "-b" },
+        ["png"] = { "kitten", "icat" },
         ["svg"] = { "chafa" },
-        ["jpg"] = { "ueberzug" },
+        ["jpg"] = { "kitten", "icat" },
       },
       -- if using `ueberzug` in the above extensions map
       -- set the default image scaler, possible scalers:
@@ -601,10 +602,21 @@ if vim.g.tweaks.fzf.enable_keys == true then
         { "i", vim.g.tweaks.keymap.fzf_prefix ..  "<space>", noremap },
         { "n", vim.g.tweaks.keymap.fzf_prefix ..  "<space>", noremap }
       },
+      category = "@FZF"
+    },
+    {
+      desc = "Zettelkasten files",
+      cmd = function()
+        fzf.files({ prompt = "Zettelkasten files: ", cwd = vim.fn.expand(vim.g.tweaks.zk.root_dir), fd_opts = "--type f --hidden --follow --exclude .obsidian --exclude .git --exclude .zk", winopts = fzf_tweaks.winopts.std_preview_top } )
+      end,
+      keys = {
+        { "i", vim.g.tweaks.keymap.fzf_prefix ..  "<C-z>", noremap },
+        { "n", vim.g.tweaks.keymap.fzf_prefix ..  "<C-z>", noremap }
+      },
       category = "@ZK"
     },
     {
-      desc = "ZK live grep",
+      desc = "Zettelkasten live grep",
       cmd = function()
         local wo = fzf_tweaks.winopts.std_preview_top
         fzf.live_grep({ prompt = "Zettelkasten live grep: ", cwd = vim.fn.expand(vim.g.tweaks.zk.root_dir), winopts = wo })

@@ -218,8 +218,8 @@ local function _set()
   c.set_hl(0, "CokelineActiveModified", { bg = cokeline_active_bg, fg = c.P.red[1] })
   c.set_hl(0, "CokelineInactiveModified", { bg = c.P.statuslinebg[1], fg = c.P.red[1] })
 
-  c.link("MultiCursor", "CurSearch")
-  c.link("MultiCursorMain", "CurSearch")
+  c.link("MultipleCursorsCursor", "Search")
+  c.link("MultipleCursorsVisual", "CurSearch")
   c.hl_with_defaults("QuickFixLine", c.NONE, c.P.accent)
   -- quick fix
   c.link("qfLineNr", "Number")

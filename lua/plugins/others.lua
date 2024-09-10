@@ -242,7 +242,7 @@ M.setup = {
     require("mini.extra").setup()
   end,
 
-  mini_pic = function()
+  mini_pick = function()
     require("mini.pick").setup()
   end,
 
