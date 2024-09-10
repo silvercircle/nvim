@@ -308,6 +308,11 @@ Tweaks.fzf = {
     narrow_small_preview =  { width = 0.5, height = 0.8, preview = { border = 'border', layout = 'vertical', vertical = "up:35%" } },
     narrow_big_preview   =  { width = 0.5, height = 0.9, preview = { border = 'border', layout = 'vertical', vertical = "up:45%" } },
     mini_with_preview    =  { width = 80, height = 0.8, preview = { border = 'border', layout = 'vertical', vertical = "up:30%" } },
+  },
+  image_preview = {
+    png = { "chafa" },
+    svg = { "chafa" },
+    jpeg = { "chafa" }
   }
 }
 

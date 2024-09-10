@@ -1,5 +1,6 @@
 local actions = require "fzf-lua.actions"
 local old_mode = nil
+local fzf_tweaks = vim.g.tweaks.fzf
 
 require "fzf-lua".setup({
   -- fzf_bin         = 'sk',            -- use skim instead of fzf?
@@ -192,9 +193,10 @@ require "fzf-lua".setup({
       extensions      = {
         -- neovim terminal only supports `viu` block output
         -- ["png"] = { "viu", "-b" },
-        ["png"] = { "kitten", "icat" },
-        ["svg"] = { "chafa" },
-        ["jpg"] = { "kitten", "icat" },
+        ["png"] = fzf_tweaks.image_preview.png,
+        ["svg"] = fzf_tweaks.image_preview.svg,
+        ["jpg"] = fzf_tweaks.image_preview.jpeg,
+
       },
       -- if using `ueberzug` in the above extensions map
       -- set the default image scaler, possible scalers:
@@ -582,7 +584,6 @@ require "fzf-lua".setup({
   -- nbsp = '\xc2\xa0',
 })
 
-local fzf_tweaks = vim.g.tweaks.fzf
 local command_center = require("command_center")
 local noremap = { noremap = true }
 --local lsputil = require("lspconfig.util")
