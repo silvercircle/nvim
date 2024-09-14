@@ -150,6 +150,9 @@ Tweaks.borderfactory = function(style)
     return { " ", " ", " ", "", " ", " ", " ", "" }
   elseif style == "none" then
     return { "", "", "", "", "", "", "", "" }
+  else
+    -- default to single
+    return { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
   end
 end
 -- don't touch this unless you know what you're doing

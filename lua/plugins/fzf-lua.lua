@@ -132,14 +132,6 @@ require "fzf-lua".setup({
       ["ctrl-t"]  = actions.file_tabedit,
       ["alt-q"]   = actions.file_sel_to_qf,
       ["alt-l"]   = actions.file_sel_to_ll,
-    },
-    buffers = {
-      -- providers that inherit these actions:
-      --   buffers, tabs, lines, blines
-      ["default"] = actions.buf_edit,
-      ["ctrl-s"]  = actions.buf_split,
-      ["ctrl-v"]  = actions.buf_vsplit,
-      ["ctrl-t"]  = actions.buf_tabedit,
     }
   },
   fzf_opts            = {
@@ -169,7 +161,7 @@ require "fzf-lua".setup({
     head = {
       cmd  = "head",
       args = nil,
-    },
+      },
     git_diff = {
       cmd_deleted   = "git diff --color HEAD --",
       cmd_modified  = "git diff --color HEAD",
@@ -310,7 +302,7 @@ require "fzf-lua".setup({
       preview  = "git --no-pager stash show --patch --color {1}",
       actions  = {
         ["default"] = actions.git_stash_apply,
-        ["ctrl-x"]  = { actions.git_stash_drop, actions.resume },
+        ["ctrl-d"]  = { actions.git_stash_drop, actions.resume },
       },
       fzf_opts = {
         ["--no-multi"]  = "",
@@ -371,7 +363,7 @@ require "fzf-lua".setup({
     prompt     = "Args❯ ",
     files_only = true,
     -- actions inherit from 'actions.files' and merge
-    actions    = { ["ctrl-x"] = { actions.arg_del, actions.resume } }
+    actions    = { ["ctrl-d"] = { actions.arg_del, actions.resume } }
   },
   oldfiles            = {
     prompt                  = "History❯ ",
@@ -385,6 +377,9 @@ require "fzf-lua".setup({
     color_icons   = true,     -- colorize file|git icons
     no_action_zz  = true,
     sort_lastused = true,     -- sort buffers() by last used
+    show_unloaded     = true,         -- show unloaded buffers
+    cwd_only          = false,        -- buffers for the cwd only
+    cwd               = nil,
     actions       = {
       -- actions inherit from 'actions.buffers' and merge
       -- by supplying a table of functions we're telling
@@ -392,6 +387,7 @@ require "fzf-lua".setup({
       -- can resume the buffers picker on the same window
       -- eliminating an otherwise unaesthetic win "flash"
       ["ctrl-d"] = { actions.buf_del, actions.resume },
+      ["ctrl-x"] = false
     }
   },
   tabs                = {
@@ -403,7 +399,7 @@ require "fzf-lua".setup({
     actions     = {
       -- actions inherit from 'actions.buffers' and merge
       ["default"] = actions.buf_switch,
-      ["ctrl-x"]  = { actions.buf_del, actions.resume },
+      ["ctrl-d"]  = { actions.buf_del, actions.resume },
     },
     fzf_opts    = {
       -- hide tabnr
