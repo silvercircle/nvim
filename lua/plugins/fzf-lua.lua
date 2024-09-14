@@ -692,7 +692,10 @@ if vim.g.tweaks.fzf.enable_keys == true then
         require("todo-comments.fzf").todo({
           cwd = dir, winopts = fzf_tweaks.winopts.std_preview_top })
       end,
-      keys = { "n", "tdo", noremap },
+      keys = {
+        { "n", "tdo", noremap },
+        { "i", vim.g.tweaks.keymap.fzf_prefix .. "t", noremap }
+      },
       category = "@Neovim"
     },
     {
@@ -701,7 +704,10 @@ if vim.g.tweaks.fzf.enable_keys == true then
         require("todo-comments.fzf").todo({
           cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.std_preview_top })
       end,
-      keys = { "n", "tdp", noremap },
+      keys = {
+        { "n", "tdp", noremap },
+        { "n", vim.g.tweaks.keymap.fzf_prefix ..  "<C-t>", noremap }
+      },
       category = "@Neovim"
     },
     {
@@ -724,10 +730,7 @@ if vim.g.tweaks.fzf.enable_keys == true then
     {
       desc = "FZF live grep (project root)",
       cmd = function()
-        fzf.live_grep({
-          cwd = lutils.getroot_current(),
-          winopts = fzf_tweaks.winopts.std_preview_top
-        })
+        fzf.live_grep({ cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.std_preview_top })
       end,
       keys = {
         { "n", '<C-x><C-g>', noremap },

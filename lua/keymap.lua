@@ -121,23 +121,29 @@ vim.g.setkey('i', '<C-z>', function() perform_command("undo") end, "Undo (insert
 -- various
 map('i', '<C-y>-', '—', opts) -- emdash
 map('i', '<C-y>"', '„”', opts) -- typographic quotes („”)
-vim.g.setkey({ 'n', 'i' }, '<A-w>', function() if vim.fn.win_getid() ~= __Globals.main_winid then vim.cmd('close') end end, "Close Window")
+vim.g.setkey({ 'n', 'i' }, '<A-w>', function()
+  if vim.fn.win_getid() ~= __Globals.main_winid then vim.cmd('close') end
+end, "Close Window")
 
-vim.g.setkey({'n', 'i'}, '<C-f>c', function() __Globals.close_qf_or_loc() end, "Close quickfix/loclist window")
+vim.g.setkey({'n', 'i'}, '<C-f>c', function()
+  __Globals.close_qf_or_loc()
+end, "Close quickfix/loclist window")
 
 --- mini picker shortcuts, all start with <C-m>
-vim.g.setkey({ 'n', 'i' }, '<C-a>f', function() utils.PickFoldingMode(vim.o.foldmethod) end, "Pick folding mode")
+vim.g.setkey({ 'n', 'i' }, '<C-a>f', function()
+  utils.PickFoldingMode(vim.o.foldmethod)
+end, "Pick folding mode")
 
 vim.g.setkey('n', '<C-a>e', function()
   require("mini.extra").pickers.explorer(
   { cwd = vim.fn.expand("%:p:h")  },
-  { window = { config = __Globals.mini_pick_center(60, 0.6, 0.2) } })
+  { window = { config = __Globals.mini_pick_center(60, 0.7, 0.2) } })
 end, "Open Mini.Explorer at current directory")
 
 vim.g.setkey('n', '<C-a><C-e>', function()
   require("mini.extra").pickers.explorer(
   { cwd = utils.getroot_current()  },
-  { window = { config = __Globals.mini_pick_center(60, 0.6, 0.2) } })
+  { window = { config = __Globals.mini_pick_center(60, 0.7, 0.2) } })
 end, "Open Mini.Explorer at project root")
 
 --_Config_SetKey('n', '<C-a>m', function()
