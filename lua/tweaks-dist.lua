@@ -320,5 +320,5 @@ Tweaks.fzf = {
 }
 
 -- either mini.notify or fidget
-Tweaks.notifier = "mini"
+Tweaks.notifier = "fidget"
 return Tweaks

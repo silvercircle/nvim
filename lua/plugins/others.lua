@@ -243,6 +243,10 @@ M.setup = {
     require("mini.extra").setup()
   end,
 
+  mini_files = function()
+    require("mini.files").setup()
+  end,
+
   mini_pick = function()
     require("mini.pick").setup()
   end,

@@ -146,6 +146,14 @@ vim.g.setkey('n', '<C-a><C-e>', function()
   { window = { config = __Globals.mini_pick_center(60, 0.7, 0.2) } })
 end, "Open Mini.Explorer at project root")
 
+vim.g.setkey('n', '<C-a>w', function()
+  require("mini.files").open(vim.fn.expand("%:p:h"))
+end, "Open Mini.Files at current directory")
+
+vim.g.setkey('n', '<C-a><C-w>', function()
+  require("mini.files").open(utils.getroot_current())
+end, "Open Mini.Files at project root")
+
 --_Config_SetKey('n', '<C-a>m', function()
 --  require("mini.extra").pickers.marks(
 --  { },

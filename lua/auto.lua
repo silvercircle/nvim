@@ -337,3 +337,17 @@ autocmd({ 'WinLeave' }, {
   group = agroup_hl
 })
 
+autocmd({ 'User'}, {
+  pattern = "MiniFilesWindowOpen",
+  callback = function()
+    vim.cmd("hi nCursor blend=100")
+    vim.cmd("setlocal winhl=MiniFilesCursorLine:Visual")
+  end
+})
+
+autocmd({ 'User'}, {
+  pattern = "MiniFilesExplorerClose",
+  callback = function()
+    vim.cmd("hi nCursor blend=0")
+  end
+})

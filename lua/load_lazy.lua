@@ -76,6 +76,7 @@ lazy.setup({
         }
       })
       vim.notify = require("mini.notify").make_notify()
+      vim.g.notifier = require("mini.notify").make_notify()
     end
   },
   'nvim-lua/plenary.nvim',
@@ -379,6 +380,14 @@ lazy.setup({
     lazy = true,
     config = function()
       require("plugins.others").setup.mini_extra()
+    end
+  },
+  {
+    'echasnovski/mini.files',
+    version = false,
+    lazy = true,
+    config = function()
+      require("plugins.others").setup.mini_files()
     end
   },
   {
