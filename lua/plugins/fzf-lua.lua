@@ -11,6 +11,7 @@ require "fzf-lua".setup({
   global_resume_query = true, -- include typed query in `resume`?
   no_action_zz  = true,
   no_action_set_cursor = true,
+  fzf_colors = true,
   winopts             = {
     -- split         = "belowright new",-- open in a split instead?
     -- "belowright new"  : split below
@@ -146,7 +147,7 @@ require "fzf-lua".setup({
     ["--layout"]         = "reverse",
     ["--border"]         = "none",
     ["--highlight-line"] = "",
-    ["--color"]          = string.format("bg+:#%x,gutter:#%x", vim.api.nvim_get_hl(0, { name = "visual" }).bg, vim.api.nvim_get_hl(0, { name = "NeoTreeNormalNC" }).bg)
+    -- ["--color"]          = string.format("bg+:#%x,gutter:#%x,hl:#%x,hl+:#%x", vim.api.nvim_get_hl(0, { name = "visual" }).bg, vim.api.nvim_get_hl(0, { name = "NeoTreeNormalNC" }).bg, vim.api.nvim_get_hl(0, { name = "TelescopeMatching"}).fg, vim.api.nvim_get_hl(0, { name = "TelescopeMatching" }).fg)
   },
   previewers          = {
     cat = {

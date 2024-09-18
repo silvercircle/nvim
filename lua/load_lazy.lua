@@ -37,11 +37,11 @@ lazy.setup({
     opts = {
       pre_hook = function()
         vim.cmd("set nocul")
-        vim.cmd("NoMatchParen")
+        -- vim.cmd("NoMatchParen")
       end,
       post_hook = function()
         vim.cmd("set cul")
-        vim.cmd("DoMatchParen")
+        -- vim.cmd("DoMatchParen")
       end,
     },
     keys = {
