@@ -75,8 +75,14 @@ lazy.setup({
           winblend = 0
         }
       })
-      vim.notify = require("mini.notify").make_notify()
-      vim.g.notifier = require("mini.notify").make_notify()
+      vim.notify = require("mini.notify").make_notify({
+        DEBUG = { duration = 5000 },
+        TRACE = { duration = 5000 },
+        ERROR = { duration = 5000 },
+        WARN  = { duration = 3000 },
+        INFO  = { duration = 5000 }
+      })
+      __Globals.notifier = vim.notify
     end
   },
   'nvim-lua/plenary.nvim',

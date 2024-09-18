@@ -6,6 +6,7 @@ M.main_winid = 0
 M.cur_bufsize = 0
 M.outline_is_open = false
 M.lsp_capabilities = nil
+M.notifier = nil
 
 M.term = {
   bufid = nil,
@@ -632,13 +633,13 @@ local notify_classes = {
 function M.notify(msg, level, ...)
   local arg = { ... }
   local params = {}
-  if vim.g.notifier == nil then
+  if M.notifier == nil then
     return
   end
   if level >= 0 and level <= 4 then
     params.icon = notify_classes[level + 1].icon
     params.title = (arg[1] == nil) and notify_classes[level + 1].title or arg[1]
-    vim.g.notifier.notify(msg, level, params)
+    M.notifier(msg, level, params)
   end
 end
 

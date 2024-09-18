@@ -245,7 +245,12 @@ M.setup = {
   end,
 
   mini_files = function()
-    require("mini.files").setup()
+    require("mini.files").setup({
+      windows = {
+        preview = true,
+        width_preview = 50
+      }
+    })
   end,
 
   mini_pick = function()
@@ -253,7 +258,8 @@ M.setup = {
   end,
 
   fidget = function()
-    vim.g.notifier = require("fidget")
+    __Globals.notifier = require("fidget").notify
+    vim.notify = require("fidget").notify
     require("fidget").setup({
       progress = {
         poll_rate = 1,
