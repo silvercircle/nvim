@@ -284,7 +284,7 @@ vim.g.setkey({ 'n', 'i' }, '<C-e>', function()
   )
 end, "Telescope Buffer list")
 
-if vim.g.tweaks.fzf.enable_keys == true then
+if vim.g.tweaks.fzf.prefer_for.selector == true then
   vim.g.setkey({'n', 'i'}, '<C-p>', function()
     require('fzf-lua').oldfiles( { winopts = vim.g.tweaks.fzf.winopts.small_no_preview })
   end, "Telescope old files")

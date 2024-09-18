@@ -130,7 +130,7 @@ Tweaks.cmp = {
       whl_comp = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual"
     },
     bordered = {
-      border = "single",
+      border = "thicc",
       whl_comp = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None",
       whl_doc =  "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None"
     }
@@ -150,6 +150,10 @@ Tweaks.borderfactory = function(style)
     return { " ", " ", " ", "", " ", " ", " ", "" }
   elseif style == "none" then
     return { "", "", "", "", "", "", "", "" }
+  elseif style == "thicc" then
+    return { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" }
+  elseif style == "thiccc" then
+    return { "▛", "▀", "▜", "▐", "▟", "▄", "▙", "▌" }
   else
     -- default to single
     return { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
@@ -297,9 +301,14 @@ Tweaks.zk = {
 
 -- tweaks for the fzf-lua plugin
 Tweaks.fzf = {
-  enable_keys = true,
-  prefer_for_lsp = true,
-  prefer_for_git = true,
+  -- customize for what feature sets fzf-lua should be preferred over telescope
+  enable_keys = true,       -- use generic (grep, files...) fzf-lua pickers instead of telescope
+  prefer_for = {
+    lsp       = true,       -- use fzf-lua for lsp pickers
+    git       = true,       -- use fzf-lua for git pickers
+    selector  = true        -- use-fzf-lua for basic selectors (buffers, oldfiles)
+  },
+  -- some predefined window layouts
   winopts = {
     small_no_preview     =  { row = 0.25, width=0.5, height = 0.4, preview = { hidden="hidden" } },
     mini_list            =  { row = 0.25, width=50, height = 0.6, preview = { hidden="hidden" } },

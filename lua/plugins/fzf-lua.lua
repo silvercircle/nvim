@@ -10,6 +10,7 @@ require "fzf-lua".setup({
   -- `<any_function>.({ gl ... })`
   global_resume_query = true, -- include typed query in `resume`?
   no_action_zz  = true,
+  no_action_set_cursor = true,
   winopts             = {
     -- split         = "belowright new",-- open in a split instead?
     -- "belowright new"  : split below
@@ -26,7 +27,7 @@ require "fzf-lua".setup({
     -- to manually draw the border characters around the preview
     -- window, can be set to 'false' to remove all borders or to
     -- 'none', 'single', 'double' or 'rounded' (default)
-    border     = "single",
+    border     = "thicc",
     --border           = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
     fullscreen = false,       -- start fullscreen?
     backdrop   = 100,
@@ -771,16 +772,18 @@ if vim.g.tweaks.fzf.enable_keys == true then
       category = "@FZF"
     }
   })
-
+end
+-- file selectors (buffers, oldfiles)
+if vim.g.tweaks.fzf.prefer_for.selector == true then
   vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
-    fzf.buffers({ winopts = fzf_tweaks.winopts.small_no_preview })
+    fzf.buffers({ no_action_zz = true, no_action_set_cursor = true, winopts = fzf_tweaks.winopts.small_no_preview })
   end, "FZF buffer list")
   vim.g.setkey({ "n", "i", "t", "v" }, "<C-p>", function()
     fzf.oldfiles({ winopts = fzf_tweaks.winopts.small_no_preview })
   end, "FZF oldfiles")
 end
 -- GIT
-if vim.g.tweaks.fzf.prefer_for_git == true then
+if vim.g.tweaks.fzf.prefer_for.git == true then
   command_center.add({
     {
       desc = "GIT status (FZF)",
@@ -847,7 +850,7 @@ if vim.g.tweaks.fzf.prefer_for_git == true then
     }
   })
 end
-if vim.g.tweaks.fzf.prefer_for_lsp == true then
+if vim.g.tweaks.fzf.prefer_for.lsp == true then
   command_center.add({
     {
       desc = "Jump to definition (FZF)",

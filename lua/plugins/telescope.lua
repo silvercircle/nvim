@@ -12,7 +12,7 @@ local trouble = require("trouble.sources.telescope")
 local command_center = require('command_center')
 
 -- ensure a valid border style and set a default in case none is found
-if vim.tbl_contains( { "single", "rounded", "none" }, __Globals.perm_config.telescope_borders) ~= true then
+if vim.tbl_contains( { "single", "rounded", "none", "thicc" }, __Globals.perm_config.telescope_borders) ~= true then
   __Globals.perm_config.telescope_borders = "single"
 end
 
@@ -373,7 +373,7 @@ if vim.g.tweaks.fzf.enable_keys == false then
   }})
 end
 -- GIT
-if vim.g.tweaks.fzf.prefer_for_git == false then
+if vim.g.tweaks.fzf.prefer_for.git == false then
   command_center.add({
     {
       desc = "GIT status (Telescope)",
@@ -399,7 +399,7 @@ if vim.g.tweaks.fzf.prefer_for_git == false then
     }
   })
 end
-if vim.g.tweaks.fzf.prefer_for_lsp == false then
+if vim.g.tweaks.fzf.prefer_for.lsp == false then
   command_center.add({
     {
       desc = "Aerial document symbols",

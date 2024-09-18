@@ -106,7 +106,7 @@ lazy.setup({
         lazy = true,
         config = function()
           require("quickfavs").setup({
-            telescope_theme = require("local_utils").Telescope_dropdown_theme,
+            telescope_theme = require("local_utils").Telescope_dropdown_theme
           })
         end
       }
