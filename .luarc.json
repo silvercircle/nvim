@@ -20,7 +20,8 @@
           "undefined-field",
           "invisible",
           "missing-global-doc",
-          "incomplete-signature-doc"
+          "incomplete-signature-doc",
+          "inject-field"
         ]
     },
     "runtime": {
