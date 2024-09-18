@@ -63,6 +63,45 @@ lazy.setup({
     end
   },
   {
+    "rcarriga/nvim-notify",
+    cond = vim.g.tweaks.notifier == "nvim-notify",
+    config = function()
+      local stages_util = require("notify.stages.util")
+      require("notify").setup({
+        fps = 2,
+        top_down = false,
+        render = "default",
+        level = 0,
+        stages = {
+          function(state)
+            local next_height = state.message.height + 2
+            local next_row = stages_util.available_slot(state.open_windows, next_height, "bottom_up")
+            if not next_row then
+              return nil
+            end
+            return {
+              relative = "editor",
+              anchor = "NE",
+              width = state.message.width,
+              height = state.message.height,
+              col = vim.opt.columns:get(),
+              row = next_row,
+              border = "single",
+              style = "minimal",
+            }
+          end,
+          function()
+            return {
+              col = vim.opt.columns:get(),
+              time = true,
+            }
+          end,
+        }
+      })
+      vim.notify = require("notify")
+    end
+  },
+  {
     'echasnovski/mini.notify',
     cond = vim.g.tweaks.notifier == "mini",
     config = function()
@@ -101,7 +140,8 @@ lazy.setup({
       { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
       {
         'FeiyouG/commander.nvim',
-        tag = "v0.1.0",
+        version = "v0.1.0",
+        dev = (vim.g.tweaks.use_foldlevel_patch == true) and true or false,
         event = { "BufReadPost" },
         config = function()
           require("plugins.command_center_setup")
@@ -616,5 +656,10 @@ lazy.setup({
 {
   ui = {
     border = __Globals.perm_config.float_borders
+  },
+  dev = {
+    path = "/mnt/shared/data/code/neovim_plugins",
+    patterns = { "FeiyouG" },
+    fallback = false
   }
 })

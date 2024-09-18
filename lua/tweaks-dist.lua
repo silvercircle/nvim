@@ -328,6 +328,6 @@ Tweaks.fzf = {
   }
 }
 
--- either "mini" or "fidget"
-Tweaks.notifier = "mini"
+-- either "mini", "fidget" or "nvim-notify"
+Tweaks.notifier = "nvim-notify"
 return Tweaks
