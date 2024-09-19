@@ -264,6 +264,7 @@ M.setup = {
       progress = {
         poll_rate = 1,
         ignore_done_already = true,
+        ignore_empty_message = true,
         display = {
           render_limit = 4,
           skip_history = false
@@ -275,6 +276,11 @@ M.setup = {
         filter = vim.log.levels.TRACE,
         configs = {
           --default = require("fidget.notification").default_config
+        },
+        window = {
+          winblend = 0,
+          normal_hl = "Normal",
+          border = "single"
         }
       }
     })
