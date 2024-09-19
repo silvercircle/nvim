@@ -591,12 +591,9 @@ function Utils.notification_history()
     require("local_utils.fidgethistory").Fidgethistory()
   elseif vim.g.tweaks.notifier == "nvim-notify" then
     require("telescope").extensions.notify.notify(__Telescope_vertical_dropdown_theme({
-        shorten_path = true,
         width_text = 40,
         width_annotation = 50,
-        path_display = false,
         prompt_title = "Notifications",
-        hide_filename = false,
         layout_config = Config.telescope_vertical_preview_layout
       }))
   end

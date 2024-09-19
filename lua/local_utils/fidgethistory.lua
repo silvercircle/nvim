@@ -19,101 +19,95 @@ local M = {}
 
 local config = {
   dateformat = {
-    short = "%a, %d.%b.%Y : %H:%M:%S",
-    long = "%a, %d.%B %Y - %H:%M:%S",
+    short     = "%a, %d.%b.%Y : %H:%M:%S",
+    long      = "%a, %d.%B %Y - %H:%M:%S",
     timestamp = "%H:%M:%S"
   },
   hl = {
-    header = "Brown",
-    timestamp = "Orange",
-    title = "Teal"
+    preview_header  = "Brown",
+    timestamp       = "Orange",
+    title           = "Teal"
+  },
+  fieldsize = {
+    icon    = 3,
+    time    = 30,
+    title   = nil,
+    message = nil,
   }
-}
-
-local widths = {
-  icon = 3,
-  time = 30,
-  title = nil,
---  level = nil,
-  message = nil,
 }
 
 local displayer = entry_display.create({
   separator = " ",
   items = {
-    { width = widths.icon },
-    { width = widths.time },
-    { width = widths.title },
---    { width = widths.level },
-    { width = widths.message },
+    { width = config.fieldsize.icon },
+    { width = config.fieldsize.time },
+    { width = config.fieldsize.title },
+    { width = config.fieldsize.message },
   },
 })
 
 local telescope_fidgethistory = function(opts)
-  local time_format = "%H:%M:%S"
   local notifs = notify.get_history()
-  local reversed = {}
-  for i, notif in ipairs(notifs) do
-    reversed[#notifs - i + 1] = notif
-  end
-  pickers
-    .new(opts, {
-      results_title = "Notifications",
-      prompt_title = "Filter Notifications",
-      finder = finders.new_table({
-        results = reversed,
-        entry_maker = function(notif)
-          return {
-            value = notif,
-            display = function(entry)
-              --print(vim.inspect(entry))
-              return displayer({
-                { entry.value.group_icon, entry.value.style },
-                { vim.fn.strftime(config.dateformat.short, entry.value.last_updated), config.hl.timestamp },
-                { entry.value.group_name .. " (" .. entry.value.annote .. ")", config.hl.title },
-                { entry.value.message, entry.value.style },
-              })
-            end,
-            ordinal = notif.annote .. " " .. notif.last_updated .. " " .. notif.content_key
-          }
-        end,
-      }),
-      sorter = conf.generic_sorter(opts),
-      attach_mappings = function(prompt_bufnr, map)
-        actions.select_default:replace(function()
-          local selection = action_state.get_selected_entry()
-          local notification = selection.value
-          print(notification.message)
-        end)
-        return true
+  -- local reversed = {}
+  -- for i, notif in ipairs(notifs) do
+  --   reversed[#notifs - i + 1] = notif
+  -- end
+  pickers.new(opts, {
+    results_title = "Fidget notification history",
+    prompt_title = "Filter notifications",
+    finder = finders.new_table({
+      results = notifs,
+      entry_maker = function(notif)
+        return {
+          value = notif,
+          display = function(entry)
+            --print(vim.inspect(entry))
+            return displayer({
+              { entry.value.group_icon,                                             entry.value.style },
+              { vim.fn.strftime(config.dateformat.short, entry.value.last_updated), config.hl.timestamp },
+              { entry.value.group_name .. " (" .. entry.value.annote .. ")",        config.hl.title },
+              { entry.value.message,                                                entry.value.style },
+            })
+          end,
+          ordinal = notif.annote .. " " .. notif.last_updated .. " " .. notif.content_key
+        }
       end,
-      previewer = previewers.new_buffer_previewer({
-        title = "Message",
-        define_preview = function(self, entry, status)
-          -- render preview
-          local lines = {}
-          local notification = entry.value
-          local bufnr = self.state.bufnr
-          local headersize = 3
-          local max_width = vim.api.nvim_win_get_config(status.preview_win).width
-          vim.api.nvim_win_set_option(status.preview_win, "wrap", true)
-          vim.api.nvim_buf_clear_namespace(bufnr, -1, 0, -1)
-          table.insert(lines, "Source:    " .. notification.group_name)
-          table.insert(lines, "Title:     " .. notification.annote)
-          table.insert(lines, "Timestamp: " .. vim.fn.strftime(config.dateformat.long, notification.last_updated))
-          table.insert(lines, " ")
-          table.insert(lines, notification.message)
-          vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines )
-          vim.api.nvim_buf_add_highlight(bufnr, -1, config.hl.header, 0, 0, -1)
-          vim.api.nvim_buf_add_highlight(bufnr, -1, config.hl.header, 1, 0, -1)
-          vim.api.nvim_buf_add_highlight(bufnr, -1, config.hl.header, 2, 0, -1)
-          for i = headersize + 1, #lines, 1 do
-            vim.api.nvim_buf_add_highlight(bufnr, -1, notification.style, i, 0, -1)
-          end
-        end,
-      }),
-    })
-    :find()
+    }),
+    sorter = conf.generic_sorter(opts),
+    attach_mappings = function(prompt_bufnr, map)
+      actions.select_default:replace(function()
+        local selection = action_state.get_selected_entry()
+        local notification = selection.value
+        print(notification.message)
+      end)
+      return true
+    end,
+    previewer = previewers.new_buffer_previewer({
+      title = "Message details",
+      define_preview = function(self, entry, status)
+        -- render preview
+        local lines = {}
+        local notification = entry.value
+        local bufnr = self.state.bufnr
+        local headersize = 3
+        -- local max_width = vim.api.nvim_win_get_config(status.preview_win).width
+        vim.api.nvim_win_set_option(status.preview_win, "wrap", true)
+        vim.api.nvim_buf_clear_namespace(bufnr, -1, 0, -1)
+        table.insert(lines, "Source:    " .. notification.group_name)
+        table.insert(lines, "Title:     " .. notification.annote)
+        table.insert(lines, "Timestamp: " .. vim.fn.strftime(config.dateformat.long, notification.last_updated))
+        table.insert(lines, " ")
+        table.insert(lines, notification.message)
+        vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
+        for i = 0, headersize - 1, 1 do
+          vim.api.nvim_buf_add_highlight(bufnr, -1, config.hl.preview_header, i, 0, -1)
+        end
+        for i = headersize + 1, #lines, 1 do
+          vim.api.nvim_buf_add_highlight(bufnr, -1, notification.style, i, 0, -1)
+        end
+      end,
+    }),
+  }):find()
 end
 
 function M.Fidgethistory()
@@ -125,6 +119,8 @@ function M.Fidgethistory()
 end
 
 function M.setup(opts)
-  config = vim.tbl_deep_extend("force", config, opts)
+  local o = opts or {}
+  config = vim.tbl_deep_extend("force", config, o)
 end
+
 return M

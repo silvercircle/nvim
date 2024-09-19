@@ -216,7 +216,6 @@ local lsputil  = require("lspconfig.util")
 local lutils   = require("local_utils")
 local _t       = require("telescope")
 local _tb      = require("telescope.builtin")
-local Terminal = require("toggleterm.terminal").Terminal
 local fkeys    = vim.g.fkeys
 
 if vim.g.tweaks.fzf.enable_keys == false then
