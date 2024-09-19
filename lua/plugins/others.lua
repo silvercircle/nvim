@@ -265,12 +265,13 @@ M.setup = {
         poll_rate = 1,
         ignore_done_already = true,
         display = {
-          render_limit = 2
+          render_limit = 4,
+          skip_history = false
         }
       },
       notification = {
         override_vim_notify = true,
-        history_size = 20,
+        history_size = 50,
         filter = vim.log.levels.TRACE,
         configs = {
           --default = require("fidget.notification").default_config
