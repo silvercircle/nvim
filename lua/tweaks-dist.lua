@@ -8,9 +8,26 @@
 -- 2. mytweaks can be edited and will overwrite settings in this file as long as it is
 --    present. Updating the repo with git pull won't overwrite your changes in mytweaks.
 --    So do NOT change this file directly, because your changes may be lost when updating
---    from the repo..
+--    from the repo.
+-- 3. for performance reasons, you can edit your mytweaks.lua and delete everything that
+--    should not be changed. This will speed up marging the tables a bit.
 local Tweaks = {}
 Tweaks.lsp = {}
+
+-- plugin choices.
+-- notification system
+-- either "mini", "fidget" or "nvim-notify"
+Tweaks.notifier = "mini"
+
+-- set this to "Outline" to use the symbols-outline plugin.
+-- set it to "aerial" to use the Aerial plugin.
+-- this is a ONLY A DEFAULT, it can be switched at runtime and the setting
+-- will be remembered
+Tweaks.outline_plugin = "outline"
+
+-- what plugin to use for breadcrumbs in the winbar
+-- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
+Tweaks.breadcrumb = 'navic'
 
 -- telescope field widths. These depend on the characters per line in the terminal
 -- setup. So it needs to be tweakable
@@ -163,12 +180,6 @@ end
 --Tweaks.cmp.kind_attr = Tweaks.cmp.style == "experimental" and { bold=true, reverse=true } or {}
 Tweaks.cmp.kind_attr = { bold = true, reverse = false }
 
--- set this to "Outline" to use the symbols-outline plugin.
--- set it to "aerial" to use the Aerial plugin.
--- this is a ONLY A DEFAULT, it can be switched at runtime and the setting
--- will be remembered
-Tweaks.outline_plugin = "outline"
-
 -- list of filetypes for which no views are created when saving or leaving the buffer
 -- by default, help files and terminals don't need views
 -- you can add other filetypes here if you wish. This can help to declutter your
@@ -189,8 +200,6 @@ Tweaks.numberwidth_rel = 2
 -- signcolumn, you can use something like auto:3-5. see :h signcolumn
 Tweaks.signcolumn = "yes:3"
 
--- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
-Tweaks.breadcrumb = 'navic'
 Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
 --Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
 
@@ -300,6 +309,9 @@ Tweaks.zk = {
 }
 
 -- tweaks for the fzf-lua plugin
+-- fzf-lua is an alternative to telescope. It offers a bit more pickers and features, but some
+-- extensions are only available for telescope. So both plugins are kept available in this confit
+-- and care has been taken to make them appear visually similar and consistent.
 Tweaks.fzf = {
   -- customize for what feature sets fzf-lua should be preferred over telescope
   enable_keys = true,       -- use generic (grep, files...) fzf-lua pickers instead of telescope
@@ -327,7 +339,4 @@ Tweaks.fzf = {
     jpeg = { "chafa" }
   }
 }
-
--- either "mini", "fidget" or "nvim-notify"
-Tweaks.notifier = "nvim-notify"
 return Tweaks
