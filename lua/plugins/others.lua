@@ -279,7 +279,7 @@ M.setup = {
         },
         window = {
           winblend = 0,
-          normal_hl = "Normal",
+          normal_hl = "NormalFloat",
           border = "single"
         }
       }
