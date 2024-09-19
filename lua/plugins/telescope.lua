@@ -77,6 +77,13 @@ local function select_insertmode(prompt_bufnr)
   stopinsert(actions.select_default(prompt_bufnr))
 end
 
+local _borderchars = {
+  single =  { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+  rounded = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
+  none    = { " ", " ", " ", " ", " ", " ", " ", " "},
+  thicc   = { "━", "┃", "━", "┃", "┏", "┓", "┛", "┗"}
+}
+
 require("telescope").setup({
   defaults = {
     layout_config = {
@@ -87,8 +94,7 @@ require("telescope").setup({
     scroll_strategy = 'limit',
     winblend = vim.g.float_winblend,
     -- square borders (just to be consistend with other UI elements like CMP)
-    borderchars = __Globals.perm_config.telescope_borders == "single" and { '─', '│', '─', '│', '┌', '┐', '┘', '└'}
-                  or (__Globals.perm_config.telescope_borders == "rounded" and { '─', '│', '─', '│', '╭', '╮', '╯', '╰'} or { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '} ),
+    borderchars = _borderchars[__Globals.perm_config.telescope_borders],
     color_devicons = true,
     disable_devicons = false,
     mappings = {
