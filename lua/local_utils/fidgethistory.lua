@@ -29,8 +29,8 @@ local config = {
     title           = "Teal"
   },
   fieldsize = {
-    icon    = 3,
-    time    = 30,
+    time    = 28,
+    icon    = 2,
     title   = nil,
     message = nil,
   }
@@ -39,8 +39,8 @@ local config = {
 local displayer = entry_display.create({
   separator = " ",
   items = {
-    { width = config.fieldsize.icon },
     { width = config.fieldsize.time },
+    { width = config.fieldsize.icon },
     { width = config.fieldsize.title },
     { width = config.fieldsize.message },
   },
@@ -48,28 +48,28 @@ local displayer = entry_display.create({
 
 local telescope_fidgethistory = function(opts)
   local notifs = notify.get_history()
-  -- local reversed = {}
-  -- for i, notif in ipairs(notifs) do
-  --   reversed[#notifs - i + 1] = notif
-  -- end
+  local reversed = {}
+  for i, notif in ipairs(notifs) do
+    reversed[#notifs - i + 1] = notif
+  end
   pickers.new(opts, {
     results_title = "Fidget notification history",
     prompt_title = "Filter notifications",
     finder = finders.new_table({
-      results = notifs,
+      results = reversed,
       entry_maker = function(notif)
         return {
           value = notif,
           display = function(entry)
             --print(vim.inspect(entry))
             return displayer({
-              { entry.value.group_icon,                                             entry.value.style },
               { vim.fn.strftime(config.dateformat.short, entry.value.last_updated), config.hl.timestamp },
+              { entry.value.group_icon,                                             entry.value.style },
               { entry.value.group_name .. " (" .. entry.value.annote .. ")",        config.hl.title },
               { entry.value.message,                                                entry.value.style },
             })
           end,
-          ordinal = notif.annote .. " " .. notif.last_updated .. " " .. notif.content_key
+          ordinal = notif.last_updated .. " " .. notif.annote .. " " .. notif.content_key
         }
       end,
     }),

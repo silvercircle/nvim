@@ -649,7 +649,7 @@ if vim.g.tweaks.fzf.enable_keys == true then
     },
     {
       desc = "FZF Jumplist",
-      cmd = function() fzf.jumps({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top }) end,
+      cmd = function() fzf.jumps({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
       keys = {
         { "n", "<A-Backspace>", noremap },
         { "i", "<A-Backspace>", noremap },
