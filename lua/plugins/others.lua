@@ -158,6 +158,22 @@ M.setup = {
 
   gitsigns = function()
     require("gitsigns").setup({
+      signs = {
+        add          = { text = "┃" },
+        change       = { text = "┃" },
+        delete       = { text = "━" },
+        topdelete    = { text = "‾" },
+        changedelete = { text = "~" },
+        untracked    = { text = "┆" },
+      },
+      signs_staged = {
+        add          = { text = "▌" },
+        change       = { text = "▌" },
+        delete       = { text = "━" },
+        topdelete    = { text = "‾" },
+        changedelete = { text = "~" },
+        untracked    = { text = "┆" },
+      },
       _refresh_staged_on_update = false,
       signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
       numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
@@ -210,7 +226,6 @@ M.setup = {
 
   -- currently not in use
   conform = function()
-    local util = require("conform.util")
     require("conform").setup({
       formatters_by_ft = {
         lua = { "stylua" },
