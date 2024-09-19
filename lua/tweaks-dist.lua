@@ -16,8 +16,9 @@ Tweaks.lsp = {}
 
 -- plugin choices.
 -- notification system
--- either "mini", "fidget" or "nvim-notify"
-Tweaks.notifier = "mini"
+-- either "mini", "fidget" or "nvim-notify". All three are supported and can act as
+-- vim.notify backend.
+Tweaks.notifier = "nvim-notify"
 
 -- set this to "Outline" to use the symbols-outline plugin.
 -- set it to "aerial" to use the Aerial plugin.

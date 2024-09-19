@@ -587,6 +587,18 @@ function Utils.notification_history()
   if vim.g.tweaks.notifier == "mini" then
     require("detour").DetourCurrentWindow()
     require("mini.notify").show_history()
+  elseif vim.g.tweaks.notifier == "fidget" then
+    require("fidget.notification").show_history()
+  elseif vim.g.tweaks.notifier == "nvim-notify" then
+    require("telescope").extensions.notify.notify(__Telescope_vertical_dropdown_theme({
+        shorten_path = true,
+        width_text = 40,
+        width_annotation = 50,
+        path_display = false,
+        prompt_title = "Notifications",
+        hide_filename = false,
+        layout_config = Config.telescope_vertical_preview_layout
+      }))
   end
 end
 

@@ -35,6 +35,16 @@ command_center.add({
     category = "@Bookmarks"
   },
   {
+    desc = "Show notification history",
+    --cmd = function() bm.bookmark_clean() end,
+    cmd = function() require("local_utils").notification_history() end,
+    keys = {
+      { "n", vim.g.tweaks.keymap.utility_key .. "<C-n>", noremap },
+      { "i", vim.g.tweaks.keymap.utility_key .. "<C-n>", noremap }
+    },
+    category = "@Notifications"
+  },
+  {
     desc = "Show all bookmarks (Telescope)",
     cmd = function()
       --_t.extensions.bookmarks.list(__Telescope_vertical_dropdown_theme({
