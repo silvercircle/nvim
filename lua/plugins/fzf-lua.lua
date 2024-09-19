@@ -721,6 +721,26 @@ if vim.g.tweaks.fzf.enable_keys == true then
       category = "@Neovim"
     },
     {
+      desc = "FZF grep cword (current directory)",
+      cmd = function() fzf.grep_cword({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top }) end,
+      keys = {
+        { "n", '<C-x><CR>', noremap },
+        { "i", '<C-x><CR>', noremap }
+      },
+      category = "@FZF"
+    },
+    {
+      desc = "FZF grep cword (project root)",
+      cmd = function()
+        fzf.grep_cword({ cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.std_preview_top })
+      end,
+      keys = {
+        { "n", '<C-x><Backspace>', noremap },
+        { "i", '<C-x><Backspace>', noremap }
+      },
+      category = "@FZF"
+    },
+    {
       desc = "FZF live grep (current directory)",
       cmd = function() fzf.live_grep({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top }) end,
       keys = {
