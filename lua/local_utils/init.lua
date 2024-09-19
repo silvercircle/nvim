@@ -588,7 +588,7 @@ function Utils.notification_history()
     require("detour").DetourCurrentWindow()
     require("mini.notify").show_history()
   elseif vim.g.tweaks.notifier == "fidget" then
-    require("fidget.notification").show_history()
+    require("local_utils.fidgethistory").Fidgethistory()
   elseif vim.g.tweaks.notifier == "nvim-notify" then
     require("telescope").extensions.notify.notify(__Telescope_vertical_dropdown_theme({
         shorten_path = true,
@@ -601,5 +601,4 @@ function Utils.notification_history()
       }))
   end
 end
-
 return Utils
