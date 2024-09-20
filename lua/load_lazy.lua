@@ -141,7 +141,7 @@ lazy.setup({
       {
         'FeiyouG/commander.nvim',
         version = "v0.1.0",
-        dev = (vim.g.tweaks.use_foldlevel_patch == true) and true or false,
+        -- dev = (vim.g.tweaks.use_foldlevel_patch == true) and true or false,
         event = { "BufReadPost" },
         config = function()
           require("plugins.command_center_setup")
@@ -657,9 +657,9 @@ lazy.setup({
   ui = {
     border = __Globals.perm_config.float_borders
   },
-  dev = {
-    path = "/mnt/shared/data/code/neovim_plugins",
-    patterns = { "FeiyouG" },
-    fallback = false
-  }
+  --dev = {
+  --  path = "/mnt/shared/data/code/neovim_plugins",
+  --  patterns = { "FeiyouG" },
+  --  fallback = false
+  --}
 })

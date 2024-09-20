@@ -296,7 +296,8 @@ else
   end, "Telescope old files")
 end
 vim.g.setkey({'n', 'i', 'v' }, '<A-p>', function()
-  require('telescope').extensions.command_center.command_center({ filter={ mode = 'n' }})
+  -- require('telescope').extensions.command_center.command_center({ filter={ mode = 'n' }})
+  require("local_utils.commandcenter").open()
 end, "Telescope command palette")
 
 -- quick-focus the four main areas
