@@ -117,7 +117,8 @@ end
 function M.Fidgethistory()
   telescope_fidgethistory(__Telescope_vertical_dropdown_theme({
     path_display = false,
-    prompt_title = "Notifications",
+    prompt_title = "Filter notifications",
+    results_title = "Fidget notifications history",
     layout_config = Config.telescope_vertical_preview_layout
   }))
 end

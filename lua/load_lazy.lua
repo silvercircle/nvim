@@ -389,7 +389,6 @@ lazy.setup({
       require("plugins.others").setup.toggleterm()
     end
   },
-  --{ 'preservim/vim-markdown',     ft = "markdown" },
   {
     "norcalli/nvim-colorizer.lua",
     lazy = true,
