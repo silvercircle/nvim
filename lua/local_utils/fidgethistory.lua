@@ -97,7 +97,11 @@ local telescope_fidgethistory = function(opts)
         table.insert(lines, "Title:     " .. notification.annote)
         table.insert(lines, "Timestamp: " .. vim.fn.strftime(config.dateformat.long, notification.last_updated))
         table.insert(lines, " ")
-        table.insert(lines, notification.message)
+        -- message may contain newlines, so split them into lines
+        for s in notification.message:gmatch("[^\r\n]+") do
+          table.insert(lines, s)
+        end
+        -- table.insert(lines, notification.message)
         vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
         for i = 0, headersize - 1, 1 do
           vim.api.nvim_buf_add_highlight(bufnr, -1, config.hl.preview_header, i, 0, -1)
