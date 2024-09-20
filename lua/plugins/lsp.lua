@@ -81,7 +81,7 @@ lspconfig.texlab.setup({
   capabilities = capabilities
 })
 
-lspconfig.nimls.setup({
+lspconfig.nim_langserver.setup({
   on_attach = On_attach,
   capabilities = capabilities,
   cmd = { vim.g.lsp_server_bin['nimls'] },
