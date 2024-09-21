@@ -55,8 +55,9 @@ lazy.setup({
     },
   },
   {
-    "j-hui/fidget.nvim",
+    "silvercircle/fidget.nvim",
     cond = vim.g.tweaks.notifier == "fidget",
+    branch = "mine",
     priorty = 9999,
     config = function()
       require("plugins.others").setup.fidget()
@@ -528,7 +529,7 @@ lazy.setup({
     end
   },
   {
-    'silvercircle/aerial.nvim',
+    'stevearc/aerial.nvim',
     branch = 'mine',
     cond = false,
     lazy = true,

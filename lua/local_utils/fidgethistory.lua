@@ -33,6 +33,10 @@ local config = {
     icon    = 2,
     title   = nil,
     message = nil,
+  },
+  telescope = {
+    theme = require("telescope.themes").get_dropdown,
+    layout_config = {}
   }
 }
 
@@ -114,12 +118,12 @@ local telescope_fidgethistory = function(opts)
   }):find()
 end
 
-function M.Fidgethistory()
-  telescope_fidgethistory(__Telescope_vertical_dropdown_theme({
+function M.open()
+  telescope_fidgethistory(config.telescope.theme({
     path_display = false,
     prompt_title = "Filter notifications",
     results_title = "Fidget notifications history",
-    layout_config = Config.telescope_vertical_preview_layout
+    layout_config = config.telescope.layout_config -- Config.telescope_vertical_preview_layout
   }))
 end
 

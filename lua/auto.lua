@@ -134,6 +134,12 @@ autocmd({ "UIEnter" }, {
         Config.theme.set_bg()
       end
     end
+    require("local_utils.fidgethistory").setup({
+      telescope = {
+        theme = __Telescope_vertical_dropdown_theme,
+        layout_config = Config.telescope_vertical_preview_layout
+      }
+    })
     vim.fn.win_gotoid(__Globals.main_winid)
   end
 })
