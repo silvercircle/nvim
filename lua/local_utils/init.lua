@@ -588,7 +588,7 @@ function Utils.notification_history()
     require("detour").DetourCurrentWindow()
     require("mini.notify").show_history()
   elseif vim.g.tweaks.notifier == "fidget" then
-    require("local_utils.fidgethistory").open()
+    require("plugins.fidgethistory").open()
   elseif vim.g.tweaks.notifier == "nvim-notify" then
     require("telescope").extensions.notify.notify(__Telescope_vertical_dropdown_theme({
         width_text = 40,

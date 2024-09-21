@@ -24,9 +24,9 @@ local config = {
     timestamp = "%H:%M:%S"
   },
   hl = {
-    preview_header  = "Brown",
-    timestamp       = "Orange",
-    title           = "Teal"
+    preview_header  = "Normal",
+    timestamp       = "Number",
+    title           = "String"
   },
   fieldsize = {
     time    = 28,
@@ -120,10 +120,9 @@ end
 
 function M.open()
   telescope_fidgethistory(config.telescope.theme({
-    path_display = false,
     prompt_title = "Filter notifications",
     results_title = "Fidget notifications history",
-    layout_config = config.telescope.layout_config -- Config.telescope_vertical_preview_layout
+    layout_config = config.telescope.layout_config
   }))
 end
 
