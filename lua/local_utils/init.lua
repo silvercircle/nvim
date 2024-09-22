@@ -583,6 +583,7 @@ function Utils.truncate(text, max_length)
   end
 end
 
+--- show notification history, depending on which plugin we use for notifications
 function Utils.notification_history()
   if vim.g.tweaks.notifier == "mini" then
     require("detour").DetourCurrentWindow()

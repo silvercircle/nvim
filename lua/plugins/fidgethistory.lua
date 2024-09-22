@@ -62,6 +62,9 @@ local telescope_fidgethistory = function(opts)
     finder = finders.new_table({
       results = reversed,
       entry_maker = function(notif)
+        if notif.annote == nil then
+          notif.annote = "NONE"
+        end
         return {
           value = notif,
           display = function(entry)
