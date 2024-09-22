@@ -55,7 +55,7 @@ lazy.setup({
     },
   },
   {
-    "silvercircle/fidget.nvim",
+    (vim.g.tweaks.use_foldlevel_patch == true) and "silvercircle/fidget.nvim" or "j-hui/fidget.nvim",
     cond = vim.g.tweaks.notifier == "fidget",
     branch = "mine",
     priorty = 9999,
