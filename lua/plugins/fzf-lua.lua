@@ -308,7 +308,7 @@ require "fzf-lua".setup({
       },
       fzf_opts = {
         ["--no-multi"]  = "",
-        ["--delimiter"] = "'[:]'",
+        ["--delimiter"] = "[:]",
       },
     },
     icons = {
@@ -405,7 +405,7 @@ require "fzf-lua".setup({
     },
     fzf_opts    = {
       -- hide tabnr
-      ["--delimiter"] = "'[\\):]'",
+      ["--delimiter"] = "[\\):]",
       ["--with-nth"]  = "2..",
     },
   },
@@ -417,7 +417,7 @@ require "fzf-lua".setup({
     fzf_opts        = {
       -- do not include bufnr in fuzzy matching
       -- tiebreak by line no.
-      ["--delimiter"] = "'[\\]:]'",
+      ["--delimiter"] = "[\\]:]",
       ["--nth"]       = "2..",
       ["--tiebreak"]  = "index",
       ["--tabstop"]   = "1",
@@ -436,7 +436,7 @@ require "fzf-lua".setup({
     no_term_buffers = false,       -- include 'term' buffers
     fzf_opts        = {
       -- hide filename, tiebreak by line no.
-      ["--delimiter"] = "'[\\]:]'",
+      ["--delimiter"] = "[\\]:]",
       ["--with-nth"]  = "2..",
       ["--tiebreak"]  = "index",
       ["--tabstop"]   = "1",
@@ -477,7 +477,7 @@ require "fzf-lua".setup({
     rg_opts       = "--no-heading --color=always",
     grep_opts     = "--color=auto --perl-regexp",
     fzf_opts      = {
-      ["--delimiter"] = "'[\\]:]'",
+      ["--delimiter"] = "[\\]:]",
       ["--with-nth"]  = "2..",
       ["--tiebreak"]  = "index",
     },
@@ -688,7 +688,7 @@ if vim.g.tweaks.fzf.enable_keys == true then
       category = "@FZF"
     },
     {
-      desc = "Todo list (current directory)",
+      desc = "Todo list (current file)",
       cmd = function()
         local dir = vim.fn.expand("%:p:h")
         require("todo-comments.fzf").todo({
