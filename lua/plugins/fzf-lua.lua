@@ -692,6 +692,19 @@ if vim.g.tweaks.fzf.enable_keys == true then
       cmd = function()
         local dir = vim.fn.expand("%:p:h")
         require("todo-comments.fzf").todo({
+          cwd = dir, query = vim.fn.expand("%:t"), winopts = fzf_tweaks.winopts.std_preview_top })
+      end,
+      keys = {
+        { "n", "tdf", noremap },
+        { "i", vim.g.tweaks.keymap.fzf_prefix .. "f", noremap }
+      },
+      category = "@Neovim"
+    },
+    {
+      desc = "Todo list (current directory)",
+      cmd = function()
+        local dir = vim.fn.expand("%:p:h")
+        require("todo-comments.fzf").todo({
           cwd = dir, winopts = fzf_tweaks.winopts.std_preview_top })
       end,
       keys = {
@@ -708,7 +721,7 @@ if vim.g.tweaks.fzf.enable_keys == true then
       end,
       keys = {
         { "n", "tdp", noremap },
-        { "n", vim.g.tweaks.keymap.fzf_prefix ..  "<C-t>", noremap }
+        { "i", vim.g.tweaks.keymap.fzf_prefix ..  "<C-t>", noremap }
       },
       category = "@Neovim"
     },
