@@ -194,6 +194,7 @@ cmp.setup({
       border = vim.g.tweaks.borderfactory(vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.doc].border),
       winhighlight = vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.doc].whl_doc,
       max_height = 20,
+      scrollbar = true,
       max_width = 80
     },
     completion = {
