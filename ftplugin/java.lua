@@ -43,7 +43,7 @@ end
 
 local workspace_dir = vim.g.tweaks.jdtls.workspace_base .. project_name
 
-if debug then vim.notify("Project name is: " .. project_name) end
+if debug then vim.notify("Project name is: " .. project_name, 1) end
 
 -- configure special buffers. These are opened when using a jdt:// link to decompile
 -- classes.
