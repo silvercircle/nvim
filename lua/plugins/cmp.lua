@@ -199,7 +199,7 @@ cmp.setup({
     completion = {
       border = vim.g.tweaks.borderfactory(vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.comp].border),
       winhighlight = vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.comp].whl_comp,
-      scrollbar = false,
+      scrollbar = true,
       side_padding = 1
     },
   },

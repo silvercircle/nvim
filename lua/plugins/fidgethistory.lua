@@ -5,6 +5,9 @@
 --
 -- written by Alex Vie in 2024, part of my Neovim configuation at
 -- https://gitlab.com/silvercircle74/nvim
+--
+-- this requires nui libary and (obviously) the telescope plugin
+-- https://github.com/MunifTanjim/nui.nvim
 
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
@@ -83,9 +86,41 @@ local telescope_fidgethistory = function(opts)
     sorter = conf.generic_sorter(opts),
     attach_mappings = function(prompt_bufnr, map)
       actions.select_default:replace(function()
+        local event = require("nui.utils.autocmd").event
+        local popup = require("nui.popup")
+
+        local lines = {}
         local selection = action_state.get_selected_entry()
         local notification = selection.value
-        print(notification.message)
+        local p = popup({
+          position = {
+            col = "50%",
+            row = "50%"
+          },
+          relative = "editor",
+          enter = true,
+          focusable = true,
+          border = {
+            style = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+            padding = { 1, 1 },
+            text = {
+              top = "Message:",
+              top_align = "left"
+            }
+          },
+          size = {
+            width = 100,
+            height = 10,
+          },
+        })
+        p:mount()
+        p:on(event.BufLeave, function() p:unmount() end)
+
+        for s in notification.message:gmatch("[^\r\n]+") do
+          table.insert(lines, s)
+        end
+
+        vim.api.nvim_buf_set_lines(p.bufnr, 0, 1, false, lines)
       end)
       return true
     end,
