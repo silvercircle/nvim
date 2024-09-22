@@ -1,10 +1,3 @@
-local has_telescope, telescope = pcall(require, "telescope")
-
--- Check for dependencies
-if not has_telescope then
-  error("This plugin requires telescope.nvim (https://github.com/nvim-telescope/telescope.nvim)")
-end
-
 local themes = require("telescope.themes")
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
@@ -84,12 +77,6 @@ local user_opts = {
   -- theme = themes.command_center,
   theme = require("local_utils").command_center_theme
 }
-
--- Override default opts by user
-local function setup(opts)
-  user_opts = vim.tbl_extend("force", user_opts, opts or {})
-end
-
 
 local function run(filter)
   filter = filter or {}
