@@ -120,7 +120,11 @@ local telescope_fidgethistory = function(opts)
           table.insert(lines, s)
         end
 
+        vim.api.nvim_buf_clear_namespace(p.bufnr, -1, 0, -1)
         vim.api.nvim_buf_set_lines(p.bufnr, 0, 1, false, lines)
+        for i = 0, #lines, 1 do
+          vim.api.nvim_buf_add_highlight(p.bufnr, -1, notification.style, i, 0, -1)
+        end
       end)
       return true
     end,
