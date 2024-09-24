@@ -593,6 +593,28 @@ local lsputil = require("lspconfig.util")
 if vim.g.tweaks.fzf.enable_keys == true then
   command_center.add({
     {
+      desc = "FZF-LUA resume",
+      cmd = function()
+        fzf.resume({ winopts = fzf_tweaks.winopts.std_preview_top })
+      end,
+      keys = {
+        { "i", vim.g.tweaks.keymap.fzf_prefix ..  "r", noremap },
+        { "n", vim.g.tweaks.keymap.fzf_prefix ..  "r", noremap }
+      },
+      category = "@FZF"
+    },
+    {
+      desc = "FZF-LUA quickfix list",
+      cmd = function()
+        fzf.quickfix({ winopts = fzf_tweaks.winopts.std_preview_top })
+      end,
+      keys = {
+        { "i", vim.g.tweaks.keymap.fzf_prefix ..  "q", noremap },
+        { "n", vim.g.tweaks.keymap.fzf_prefix ..  "q", noremap }
+      },
+      category = "@FZF"
+    },
+    {
       desc = "FZF-LUA commands",
       cmd = function()
         fzf.builtin({ prompt = "Commands: ", winopts = fzf_tweaks.winopts.mini_list })
@@ -901,8 +923,8 @@ if vim.g.tweaks.fzf.prefer_for.lsp == true then
         fzf.diagnostics_workspace( { cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.big_preview_top })
       end,
       keys = {
-        { "i", "<C-t>d", noremap },
-        { "n", "<C-t>d", noremap }
+        { "i", vim.g.tweaks.keymap.fzf_prefix .. "<C-d>", noremap },
+        { "n", vim.g.tweaks.keymap.fzf_prefix .. "<C-d>", noremap }
       },
       category = "@LSP FZF"
     },
@@ -912,8 +934,8 @@ if vim.g.tweaks.fzf.prefer_for.lsp == true then
         fzf.diagnostics_document( { winopts = fzf_tweaks.winopts.big_preview_top })
       end,
       keys = {
-        { "i", "<C-t>D", noremap },
-        { "n", "<C-t>D", noremap }
+        { "i", vim.g.tweaks.keymap.fzf_prefix .. "d", noremap },
+        { "n", vim.g.tweaks.keymap.fzf_prefix .. "d", noremap }
       },
       category = "@LSP FZF"
     },
