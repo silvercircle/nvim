@@ -104,7 +104,7 @@ local telescope_fidgethistory = function(opts)
             style = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
             padding = { 1, 1 },
             text = {
-              top = "Message:",
+              top = " Message text:",
               top_align = "left"
             }
           },

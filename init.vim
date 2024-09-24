@@ -70,9 +70,6 @@ if vim.g.neovide then
 end
 EOB
 
-" set guifont=JetBrains\ Mono\ Medium:h9:#e-subpixelantialias:#h-full
-" let g:neovide_fullscreen = v:true
-
 run macros/justify.vim
 filetype on
 syntax on

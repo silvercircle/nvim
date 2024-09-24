@@ -122,7 +122,7 @@ M.setup = {
       provider_selector = function()
         return { "treesitter", "indent" }
       end,
-      -- fold_virt_text_handler = __Globals.ufo_virtual_text_handler,
+      fold_virt_text_handler = __Globals.ufo_virtual_text_handler,
       preview = {
         mappings = {
           scrollU = "<Up>",
@@ -264,7 +264,7 @@ M.setup = {
     require("mini.files").setup({
       windows = {
         preview = true,
-        width_preview = 50
+        width_preview = 80
       }
     })
   end,
