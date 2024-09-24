@@ -728,6 +728,7 @@ function M.mini_pick_center(width, height, col_anchor)
     width = width,
     row = math.floor(_ca * (vim.o.lines - height)),
     col = math.floor(0.5 * (vim.o.columns - width)),
+    border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" }
   }
 end
 
