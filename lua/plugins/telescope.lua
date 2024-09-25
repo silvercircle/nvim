@@ -499,3 +499,16 @@ if vim.g.tweaks.fzf.prefer_for.lsp == false then
     }
   })
 end
+if vim.g.tweaks.notifier == 'fidget' then
+  require("plugins.fidgethistory").setup({
+    telescope = {
+      theme = __Telescope_vertical_dropdown_theme,
+      layout_config = Config.telescope_vertical_preview_layout
+    },
+    hl = {
+      preview_header = "Brown",
+      timestamp      = "Orange",
+      title          = "Teal"
+    }
+  })
+end
