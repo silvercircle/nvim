@@ -58,7 +58,8 @@ lazy.setup({
     (vim.g.tweaks.use_foldlevel_patch == true) and "silvercircle/fidget.nvim" or "j-hui/fidget.nvim",
     cond = vim.g.tweaks.notifier == "fidget",
     branch = "mine",
-    priorty = 9999,
+    lazy = true,
+    event = "BufReadPost",
     config = function()
       require("plugins.others").setup.fidget()
     end
@@ -343,11 +344,19 @@ lazy.setup({
   },
   {
     'lewis6991/gitsigns.nvim',
+    lazy = true,
+    event = "BufReadPre",
     config = function()
       require("plugins.others").setup.gitsigns()
     end
   },
-  { 'lukas-reineke/indent-blankline.nvim', event = "UIEnter", config = function() require("plugins.iblsetup") end },
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    event = "BufReadPre",
+    config = function()
+      require("plugins.iblsetup")
+    end
+  },
   {
     'petertriho/nvim-scrollbar',
     event = "BufReadPre",
