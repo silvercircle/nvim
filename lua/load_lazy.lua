@@ -33,6 +33,7 @@ lazy.setup({
   },
   {
     "brenton-leighton/multiple-cursors.nvim",
+    cond = vim.g.tweaks.multicursor == "brenton-leighton",
     version = "*", -- Use the latest tagged version
     opts = {
       pre_hook = function()
@@ -53,6 +54,14 @@ lazy.setup({
       { "<C-n><C-l>",    "<Cmd>MultipleCursorsLock<CR>",              mode = { "n", "x" } },
       { "<leader>n",     "<Cmd>MultipleCursorsJumpNextMatch<CR>",     mode = { "n", "x" } },
     },
+  },
+  {
+    "jake-stewart/multicursor.nvim",
+    cond = vim.g.tweaks.multicursor == "jake-stewart",
+    branch = "1.0",
+    config = function()
+      require("plugins.others").setup.multicursor_stewart()
+    end
   },
   {
     (vim.g.tweaks.use_foldlevel_patch == true) and "silvercircle/fidget.nvim" or "j-hui/fidget.nvim",

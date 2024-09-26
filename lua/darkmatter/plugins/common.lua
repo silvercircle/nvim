@@ -229,8 +229,13 @@ local function _set()
   c.set_hl(0, "CokelineActiveModified", { bg = cokeline_active_bg, fg = c.P.red[1] })
   c.set_hl(0, "CokelineInactiveModified", { bg = c.P.statuslinebg[1], fg = c.P.red[1] })
 
+  -- brenton-leighton multiple-cursors
   c.link("MultipleCursorsCursor", "Search")
   c.link("MultipleCursorsVisual", "CurSearch")
+  -- jake-stewart multicursor
+  c.link("MultiCursorCursor", "Search")
+  c.link("MultiCursorVisual", "CurSearch")
+
   c.hl_with_defaults("QuickFixLine", c.NONE, c.P.accent)
   -- quick fix
   c.link("qfLineNr", "Number")

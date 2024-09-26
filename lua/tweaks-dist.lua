@@ -30,6 +30,14 @@ Tweaks.outline_plugin = "outline"
 -- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
 Tweaks.breadcrumb = 'navic'
 
+-- which multicursor plugin to use: either "brenton-leighton" or "jake-stewart"
+-- see:
+-- https://github.com/jake-stewart/multicursor.nvim
+-- https://github.com/brenton-leighton/multiple-cursors.nvim
+-- for more information about these plugins. They are quite similar in functionality, so
+-- choose whatever looks better to you.
+Tweaks.multicursor = "jake-stewart"
+
 -- telescope field widths. These depend on the characters per line in the terminal
 -- setup. So it needs to be tweakable
 Tweaks.telescope_symbol_width = 60
