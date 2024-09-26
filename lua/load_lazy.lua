@@ -42,7 +42,7 @@ lazy.setup({
       { "<C-n>",         "<Cmd>MultipleCursorsAddMatches<CR>",       mode = { "n", "x" } },
       { "<C-n><C-n>",    "<Cmd>MultipleCursorsAddJumpNextMatch<CR>", mode = { "n", "x" } },
       { "<C-n><C-l>",    "<Cmd>MultipleCursorsLock<CR>",             mode = { "n", "x" } },
-      { "<leader>n",     "<Cmd>MultipleCursorsJumpNextMatch<CR>",    mode = { "n", "x" } },
+      { "<leader>n",     "<Cmd>MultipleCursorsJumpNextMatch<CR>",    mode = { "n", "x" } }
     },
     config = function()
       require("plugins.others").setup.multicursor_brenton()
@@ -536,7 +536,7 @@ lazy.setup({
     cmd = { "Outline", "OutlineOpen", "OutlineClose" },
     lazy = true,
     config = function()
-      require("plugins.symbols_outline-forked")
+      require("plugins.outline")
     end
   },
   {
