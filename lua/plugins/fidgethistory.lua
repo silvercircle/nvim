@@ -84,46 +84,51 @@ local telescope_fidgethistory = function(opts)
       end,
     }),
     sorter = conf.generic_sorter(opts),
-    attach_mappings = function(prompt_bufnr, map)
+    attach_mappings = function(_, _)  -- params: prompt_bufnr, map
+      -- generate a preview of the message, using a nui popup window.
+      -- Requires nui: https://github.com/MunifTanjim/nui.nvim
+      -- do nothing if this plugin is not available.
       actions.select_default:replace(function()
         local event = require("nui.utils.autocmd").event
-        local popup = require("nui.popup")
+        local status, popup = pcall(require, "nui.popup")
 
-        local lines = {}
-        local selection = action_state.get_selected_entry()
-        local notification = selection.value
-        local p = popup({
-          position = {
-            col = "50%",
-            row = "50%"
-          },
-          relative = "editor",
-          enter = true,
-          focusable = true,
-          border = {
-            style = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
-            padding = { 1, 1 },
+        if status == true then
+          local lines = {}
+          local selection = action_state.get_selected_entry()
+          local notification = selection.value
+          local p = popup({
+            position = {
+              col = "50%",
+              row = "50%"
+            },
+            relative = "editor",
+            enter = true,
+            focusable = true,
+            border = {
+              style = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+              padding = { 1, 1 },
             text = {
-              top = " Message text:",
-              top_align = "left"
-            }
-          },
-          size = {
-            width = 100,
-            height = 10,
-          },
-        })
-        p:mount()
-        p:on(event.BufLeave, function() p:unmount() end)
+                top = " Message text:",
+                top_align = "left"
+              }
+            },
+            size = {
+              width = 100,
+              height = 10,
+            },
+          })
+          p:mount()
+          p:on(event.BufLeave, function() p:unmount() end)
 
-        for s in notification.message:gmatch("[^\r\n]+") do
-          table.insert(lines, s)
-        end
+          for s in notification.message:gmatch("[^\r\n]+") do
+            table.insert(lines, s)
+          end
 
-        vim.api.nvim_buf_clear_namespace(p.bufnr, -1, 0, -1)
-        vim.api.nvim_buf_set_lines(p.bufnr, 0, 1, false, lines)
-        for i = 0, #lines, 1 do
-          vim.api.nvim_buf_add_highlight(p.bufnr, -1, notification.style, i, 0, -1)
+          vim.api.nvim_buf_clear_namespace(p.bufnr, -1, 0, -1)
+          vim.api.nvim_buf_set_lines(p.bufnr, 0, 1, false, lines)
+          for i = 0, #lines, 1 do
+            vim.api.nvim_buf_add_highlight(p.bufnr, -1, notification.style, i, 0, -1)
+          end
         end
       end)
       return true
