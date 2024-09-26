@@ -48,7 +48,7 @@ command_center.add({
     desc = "Show all bookmarks (Telescope)",
     cmd = function()
       --_t.extensions.bookmarks.list(__Telescope_vertical_dropdown_theme({
-      local bookmark_actions = require("telescope").extensions.vim_bookmarks.actions
+      local bookmark_actions = _t.extensions.vim_bookmarks.actions
       _t.extensions.vim_bookmarks.all(__Telescope_vertical_dropdown_theme({
         shorten_path = true,
         width_text = 40,
