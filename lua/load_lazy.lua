@@ -35,25 +35,18 @@ lazy.setup({
     "brenton-leighton/multiple-cursors.nvim",
     cond = vim.g.tweaks.multicursor == "brenton-leighton",
     version = "*", -- Use the latest tagged version
-    opts = {
-      pre_hook = function()
-        vim.cmd("set nocul")
-        -- vim.cmd("NoMatchParen")
-      end,
-      post_hook = function()
-        vim.cmd("set cul")
-        -- vim.cmd("DoMatchParen")
-      end,
-    },
     keys = {
-      { "<C-Down>",      "<Cmd>MultipleCursorsAddDown<CR>",           mode = { "n", "i" } },
-      { "<C-Up>",        "<Cmd>MultipleCursorsAddUp<CR>",             mode = { "n", "i" } },
-      { "<C-LeftMouse>", "<Cmd>MultipleCursorsMouseAddDelete<CR>",    mode = { "n", "i" } },
-      { "<C-n>",         "<Cmd>MultipleCursorsAddMatches<CR>",        mode = { "n", "x" } },
-      { "<C-n><C-n>",    "<Cmd>MultipleCursorsAddJumpNextMatch<CR>",  mode = { "n", "x" } },
-      { "<C-n><C-l>",    "<Cmd>MultipleCursorsLock<CR>",              mode = { "n", "x" } },
-      { "<leader>n",     "<Cmd>MultipleCursorsJumpNextMatch<CR>",     mode = { "n", "x" } },
+      { "<C-Down>",      "<Cmd>MultipleCursorsAddDown<CR>",          mode = { "n", "i" } },
+      { "<C-Up>",        "<Cmd>MultipleCursorsAddUp<CR>",            mode = { "n", "i" } },
+      { "<C-LeftMouse>", "<Cmd>MultipleCursorsMouseAddDelete<CR>",   mode = { "n", "i" } },
+      { "<C-n>",         "<Cmd>MultipleCursorsAddMatches<CR>",       mode = { "n", "x" } },
+      { "<C-n><C-n>",    "<Cmd>MultipleCursorsAddJumpNextMatch<CR>", mode = { "n", "x" } },
+      { "<C-n><C-l>",    "<Cmd>MultipleCursorsLock<CR>",             mode = { "n", "x" } },
+      { "<leader>n",     "<Cmd>MultipleCursorsJumpNextMatch<CR>",    mode = { "n", "x" } },
     },
+    config = function()
+      require("plugins.others").setup.multicursor_brenton()
+    end
   },
   {
     "jake-stewart/multicursor.nvim",

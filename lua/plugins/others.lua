@@ -308,8 +308,8 @@ M.setup = {
     mc.setup()
 
     -- Add cursors above/below the main cursor.
-    vim.keymap.set({ "n", "v", "i" }, "<C-up>", function() mc.addCursor("k") end)
-    vim.keymap.set({ "n", "v", "i" }, "<C-down>", function() mc.addCursor("j") end)
+    vim.keymap.set({ "n", "v" }, "<C-up>", function() mc.addCursor("k") end)
+    vim.keymap.set({ "n", "v" }, "<C-down>", function() mc.addCursor("j") end)
 
     -- Add a cursor and jump to the next word under cursor.
     vim.keymap.set({ "n", "v" }, "<c-n>", function() mc.addCursor("*") end)
@@ -369,6 +369,24 @@ M.setup = {
     vim.api.nvim_set_hl(0, "MultiCursorVisual", { link = "Visual" })
     vim.api.nvim_set_hl(0, "MultiCursorDisabledCursor", { link = "Visual" })
     vim.api.nvim_set_hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
+  end,
+
+  multicursor_brenton = function()
+    require("multiple-cursors").setup({
+      opts = {
+        pre_hook = function()
+          vim.cmd("set nocul")
+          -- vim.cmd("NoMatchParen")
+        end,
+        post_hook = function()
+          vim.cmd("set cul")
+          -- vim.cmd("DoMatchParen")
+        end,
+        custom_key_maps = {
+          {"n", "<Leader>>", function() require("multiple-cursors").align() end}
+        }
+      }
+    })
   end
 }
 
