@@ -197,14 +197,14 @@ lazy.setup({
     event = { "InsertEnter", "CmdLineEnter" },
     dependencies = {
       'hrsh7th/cmp-cmdline',
-      { 'hrsh7th/cmp-nvim-lsp' },
+      'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
-      { 'hrsh7th/cmp-emoji' },
-      { 'dcampos/cmp-snippy' },
-      { 'hrsh7th/cmp-nvim-lua' },
-      { 'PhilRunninger/cmp-rpncalc'},
-      { "kdheepak/cmp-latex-symbols"},
-      { 'hrsh7th/cmp-nvim-lsp-signature-help' },
+      'hrsh7th/cmp-emoji',
+      'dcampos/cmp-snippy',
+      'hrsh7th/cmp-nvim-lua',
+      'PhilRunninger/cmp-rpncalc',
+      "kdheepak/cmp-latex-symbols",
+      'hrsh7th/cmp-nvim-lsp-signature-help',
       {
         'https://gitlab.com/silvercircle74/cmp-wordlist.nvim',
         config = function()
