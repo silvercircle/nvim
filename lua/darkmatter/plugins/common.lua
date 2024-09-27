@@ -235,7 +235,7 @@ local function _set()
   -- jake-stewart multicursor
   c.link("MultiCursorCursor", "Search")
   c.link("MultiCursorVisual", "CurSearch")
-  c.link("MultiCursorDisabledCursor", "Visual")
+  c.link("MultiCursorDisabledCursor", "DiffText")
   c.link("MultiCursorDisabledVisual", "Visual")
 
   c.hl_with_defaults("QuickFixLine", c.NONE, c.P.accent)
