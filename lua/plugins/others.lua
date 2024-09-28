@@ -305,7 +305,9 @@ M.setup = {
   multicursor_stewart = function()
     local mc = require("multicursor-nvim")
 
-    mc.setup()
+    mc.setup({
+      shallowUndo = true,
+    })
 
     -- Add cursors above/below the main cursor.
     vim.keymap.set({ "n", "v" }, "<C-up>", function() mc.addCursor("k") end)
@@ -337,6 +339,11 @@ M.setup = {
       end
     end)
 
+    vim.keymap.set({ "n", "v" }, "<c-q>", function()
+      -- clone every cursor and disable the originals
+      mc.duplicateCursors()
+    end)
+
     vim.keymap.set("n", "<esc>", function()
       if not mc.cursorsEnabled() then
         mc.enableCursors()
@@ -365,10 +372,12 @@ M.setup = {
     vim.keymap.set("v", "<leader>T", function() mc.transposeCursors(-1) end)
 
     -- Customize how cursors look.
-    vim.api.nvim_set_hl(0, "MultiCursorCursor", { link = "Cursor" })
-    vim.api.nvim_set_hl(0, "MultiCursorVisual", { link = "Visual" })
-    vim.api.nvim_set_hl(0, "MultiCursorDisabledCursor", { link = "Visual" })
-    vim.api.nvim_set_hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
+    -- this is done by my theme which has support for this plugin. You may need to uncomment
+    -- this for different themes
+    -- vim.api.nvim_set_hl(0, "MultiCursorCursor", { link = "Cursor" })
+    -- vim.api.nvim_set_hl(0, "MultiCursorVisual", { link = "Visual" })
+    -- vim.api.nvim_set_hl(0, "MultiCursorDisabledCursor", { link = "Visual" })
+    -- vim.api.nvim_set_hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
   end,
 
   multicursor_brenton = function()
