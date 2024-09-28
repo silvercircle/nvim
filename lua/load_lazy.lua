@@ -287,7 +287,7 @@ lazy.setup({
       {
         'dnlhc/glance.nvim',
         config = function()
-          require("plugins.glance")
+          require("plugins.others").setup.glance()
         end
       },
       { "danymat/neogen",
