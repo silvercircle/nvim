@@ -422,7 +422,7 @@ lspconfig.jsonls.setup {
 if vim.g.tweaks.lsp.csharp == "omnisharp" then
   require("lsp.omnisharp")
 elseif vim.g.tweaks.lsp.csharp == "roslyn" then
-  require("lsp.roslyn")
+  require("lsp.nvim-roslyn")
 elseif vim.g.tweaks.lsp.csharp == "csharp_ls" then
   require("lsp.csharp_ls")
 end
