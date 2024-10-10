@@ -615,7 +615,7 @@ function Wsplit.refresh()
         vim.api.nvim_buf_set_lines(Wsplit.bufid, 0, -1, false, lines)
         vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 11, 0, -1)
 
-        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Debug", 1, 0, -1)
+        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Function", 1, 0, -1)
         -- temp
         hl = temp_to_hl(results["3"]) -- the current temperature, also colorize the condition string
         vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 2, 0, -1)
