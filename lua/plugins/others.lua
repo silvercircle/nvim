@@ -244,6 +244,7 @@ M.setup = {
     })
   end,
 
+  -- unused
   orgmode = function()
     require('orgmode').setup_ts_grammar()
     require("orgmode").setup({
@@ -273,6 +274,7 @@ M.setup = {
     require("mini.pick").setup()
   end,
 
+  -- https://github.com/j-hui/fidget.nvim
   fidget = function()
     __Globals.notifier = require("fidget").notify
     vim.notify = require("fidget").notify
@@ -302,11 +304,12 @@ M.setup = {
     })
   end,
 
+  -- https://github.com/jake-stewart/multicursor.nvim
   multicursor_stewart = function()
     local mc = require("multicursor-nvim")
 
     mc.setup({
-      shallowUndo = true,
+      shallowUndo = true
     })
 
     -- Add cursors above/below the main cursor.
@@ -374,12 +377,14 @@ M.setup = {
     -- Customize how cursors look.
     -- this is done by my theme which has support for this plugin. You may need to uncomment
     -- this for different themes
+    -- vim.api.nvim_set_hl(0, "MultiCursorSign", { link = "Normal" })
     -- vim.api.nvim_set_hl(0, "MultiCursorCursor", { link = "Cursor" })
     -- vim.api.nvim_set_hl(0, "MultiCursorVisual", { link = "Visual" })
     -- vim.api.nvim_set_hl(0, "MultiCursorDisabledCursor", { link = "Visual" })
     -- vim.api.nvim_set_hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
   end,
 
+  -- https://github.com/brenton-leighton/multiple-cursors.nvim
   multicursor_brenton = function()
     require("multiple-cursors").setup({
       opts = {

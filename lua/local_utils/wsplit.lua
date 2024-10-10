@@ -76,6 +76,25 @@ local conditions = {
     ['9'] = " Wind",
     ['2'] = " Strong wind",
     ['3'] = " Strong wind",
+  },
+  OWM3 = {
+    c = "󰖕 Partly Cloudy",
+    b = "󰖕 Mostly Clear",
+    a = "󰖙 Clear",
+    e = "󰖐 Cloudy",
+    f = "󰖐 Cloudy",
+    d = "󰖐 Mostly Cloudy",
+    j = "󰖖 Heavy Rain",
+    s = "󰖖 Rain",
+    o = "󰼶 Snow",
+    w = "󰼶 Snow",
+    k = "󰖓 Thunderstorm",
+    x = " Sleet/Drizzle",
+    g = " Light Rain",
+    ['0'] = " Fog",
+    ['9'] = " Wind",
+    ['2'] = " Strong wind",
+    ['3'] = " Strong wind",
   }
 }
 
