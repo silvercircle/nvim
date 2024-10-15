@@ -8,9 +8,35 @@
 -- 2. mytweaks can be edited and will overwrite settings in this file as long as it is
 --    present. Updating the repo with git pull won't overwrite your changes in mytweaks.
 --    So do NOT change this file directly, because your changes may be lost when updating
---    from the repo..
+--    from the repo.
+-- 3. for performance reasons, you can edit your mytweaks.lua and delete everything that
+--    should not be changed. This will speed up marging the tables a bit.
 local Tweaks = {}
 Tweaks.lsp = {}
+
+-- plugin choices.
+-- notification system
+-- either "mini", "fidget" or "nvim-notify". All three are supported and can act as
+-- vim.notify backend.
+Tweaks.notifier = "fidget"
+
+-- set this to "Outline" to use the symbols-outline plugin.
+-- set it to "aerial" to use the Aerial plugin.
+-- this is a ONLY A DEFAULT, it can be switched at runtime and the setting
+-- will be remembered
+Tweaks.outline_plugin = "outline"
+
+-- what plugin to use for breadcrumbs in the winbar
+-- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
+Tweaks.breadcrumb = 'navic'
+
+-- which multicursor plugin to use: either "brenton-leighton" or "jake-stewart"
+-- see:
+-- https://github.com/jake-stewart/multicursor.nvim
+-- https://github.com/brenton-leighton/multiple-cursors.nvim
+-- for more information about these plugins. They are quite similar in functionality, so
+-- choose whatever looks better to you.
+Tweaks.multicursor = "jake-stewart"
 
 -- telescope field widths. These depend on the characters per line in the terminal
 -- setup. So it needs to be tweakable
@@ -47,7 +73,7 @@ Tweaks.lsp = {
     -- phpactor      =   '/usr/local/bin/phpactor',
     rust_analyzer =   Tweaks.lsp.masonbinpath .. 'rust-analyzer',
     gopls         =   Tweaks.lsp.masonbinpath .. 'gopls',
-    nimls         =   Tweaks.lsp.homepath .. '/.nimble/bin/nimlsp',
+    nimls         =   Tweaks.lsp.homepath .. '/.nimble/bin/nimlangserver',
     texlab        =   Tweaks.lsp.localbin .. 'texlab',
     clangd        =   '/usr/bin/clangd',
     -- dartls        =   '/opt/flutter/bin/dart',
@@ -130,7 +156,7 @@ Tweaks.cmp = {
       whl_comp = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual"
     },
     bordered = {
-      border = "single",
+      border = "thicc",
       whl_comp = "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None",
       whl_doc =  "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None"
     }
@@ -150,17 +176,18 @@ Tweaks.borderfactory = function(style)
     return { " ", " ", " ", "", " ", " ", " ", "" }
   elseif style == "none" then
     return { "", "", "", "", "", "", "", "" }
+  elseif style == "thicc" then
+    return { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" }
+  elseif style == "thiccc" then
+    return { "▛", "▀", "▜", "▐", "▟", "▄", "▙", "▌" }
+  else
+    -- default to single
+    return { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
   end
 end
 -- don't touch this unless you know what you're doing
 --Tweaks.cmp.kind_attr = Tweaks.cmp.style == "experimental" and { bold=true, reverse=true } or {}
-Tweaks.cmp.kind_attr = { bold=true, reverse=false } or {}
-
--- set this to "Outline" to use the symbols-outline plugin.
--- set it to "aerial" to use the Aerial plugin.
--- this is a ONLY A DEFAULT, it can be switched at runtime and the setting
--- will be remembered
-Tweaks.outline_plugin = "outline"
+Tweaks.cmp.kind_attr = { bold = true, reverse = false }
 
 -- list of filetypes for which no views are created when saving or leaving the buffer
 -- by default, help files and terminals don't need views
@@ -182,9 +209,7 @@ Tweaks.numberwidth_rel = 2
 -- signcolumn, you can use something like auto:3-5. see :h signcolumn
 Tweaks.signcolumn = "yes:3"
 
--- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
-Tweaks.breadcrumb = 'navic'
-Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://www.vimiscool.tech/neotip'
+Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
 --Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
 
 -- settings for the fortune cookie split
@@ -203,7 +228,8 @@ Tweaks.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and tr
 -- the key prefix used for various utility functions. See keymap.lua
 Tweaks.keymap = {
   utility_key = "<C-l>",
-  mapleader = ","
+  mapleader = ",",
+  fzf_prefix = "<C-q>"
 }
 
 Tweaks.treesitter = {
@@ -234,7 +260,7 @@ Tweaks.jdtls = {
   workspace_base = "/home/alex/.cache/jdtls_workspace/",
   java_executable = "/usr/bin/java",
   jdtls_install_dir = "/home/alex/.local/share/nvim/mason/packages/jdtls/",
-  equinox_version = "1.6.800.v20240304-1850",
+  equinox_version = "1.6.900.v20240613-2009",
   config = "config_linux"
 }
 -- a list of filename patterns that define a project root. This will be used as some kind of
@@ -284,4 +310,42 @@ Tweaks.cokeline = {
 }
 Tweaks.texviewer = "okular"
 Tweaks.mdguiviewer = "okular"
+
+-- base folder for your zettelkasten when using zk. This is used for the zettelkasten
+-- live grep feature via telescope/fzf-lua
+Tweaks.zk = {
+  root_dir = "~/Documents/zettelkasten"
+}
+
+-- tweaks for the fzf-lua plugin
+-- fzf-lua is an alternative to telescope. It offers a bit more pickers and features, but some
+-- extensions are only available for telescope. So both plugins are kept available in this confit
+-- and care has been taken to make them appear visually similar and consistent.
+Tweaks.fzf = {
+  -- customize for what feature sets fzf-lua should be preferred over telescope
+  enable_keys = true,       -- use generic (grep, files...) fzf-lua pickers instead of telescope
+  prefer_for = {
+    lsp       = true,       -- use fzf-lua for lsp pickers
+    git       = true,       -- use fzf-lua for git pickers
+    selector  = true        -- use-fzf-lua for basic selectors (buffers, oldfiles)
+  },
+  -- some predefined window layouts
+  winopts = {
+    small_no_preview     =  { row = 0.25, width=0.5, height = 0.4, preview = { hidden="hidden" } },
+    mini_list            =  { row = 0.25, width=50, height = 0.6, preview = { hidden="hidden" } },
+    std_preview_top      =  { width = 0.6, height = 0.8, preview = { border = 'border', layout = 'vertical', vertical = "up:30%" } },
+    std_preview_none     =  { width = 0.6, height = 0.8, preview = { hidden = 'hidden' } },
+    big_preview_top      =  { width = 0.7, height = 0.9, preview = { border = 'border', layout = 'vertical', vertical = "up:35%" } },
+    big_preview_topbig   =  { width = 0.7, height = 0.9, preview = { border = 'border', layout = 'vertical', vertical = "up:45%" } },
+    narrow_no_preview    =  { width = 0.5, height = 0.8, preview = { hidden = 'hidden' } },
+    narrow_small_preview =  { width = 0.5, height = 0.8, preview = { border = 'border', layout = 'vertical', vertical = "up:35%" } },
+    narrow_big_preview   =  { width = 0.5, height = 0.9, preview = { border = 'border', layout = 'vertical', vertical = "up:45%" } },
+    mini_with_preview    =  { width = 80, height = 0.8, preview = { border = 'border', layout = 'vertical', vertical = "up:30%" } },
+  },
+  image_preview = {
+    png = { "chafa" },
+    svg = { "chafa" },
+    jpeg = { "chafa" }
+  }
+}
 return Tweaks

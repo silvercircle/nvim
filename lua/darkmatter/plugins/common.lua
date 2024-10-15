@@ -96,7 +96,7 @@ local function _set()
   c.hl_with_defaults("TelescopeNormal", c.P.fg_dim, c.P.treebg)
   c.hl("TelescopeTitle", c.P.accent_fg, c.P.accent, conf.attrib.bold)
   c.hl("TelescopePromptNormal", c.P.fg_dim, c.P.treebg, conf.attrib.bold)
-  c.hl("TelescopeMatching", c.P.deepred, c.NONE, conf.attrib.bold)
+  c.hl("TelescopeMatching", c.P.brightteal, c.NONE, conf.attrib.bold)
 
   c.link("MiniPickBorder", "TelescopeBorder")
   c.link("MiniPickBorderBusy", "TelescopeBorder")
@@ -104,17 +104,29 @@ local function _set()
   c.link("MiniPickNormal", "TelescopeNormal")
   c.link("MiniPickHeader", "TelescopeTitle")
   c.link("MiniPickMatchCurrent", "Visual")
+  c.link("MiniFilesCursorLine", "Visual")
   c.link("TelescopeResultsLineNr", "Yellow")
   c.link("TelescopePromptPrefix", "Blue")
   c.link("TelescopeSelection", "TreeCursorLine")
+
   c.link("FzfLuaNormal", "TelescopeNormal")
   c.link("FzfLuaBorder", "TelescopeBorder")
   c.link("FzfLuaSearch", "TelescopeMatching")
+  c.link("FzfLuaPreviewTitle", "TelescopePreviewTitle")
+  c.link("FzfLuaCursorLine", "Visual")
+  c.link("FzfLuaMatch", "TelescopeMatching")
+  c.link("FzfLuaFzfMatch", "TelescopeMatching")
+  c.link("FzfLuaPathLineNr", "Orange")
+  c.link("FzfLuaBufNr", "Brown")
 
   c.link("GitSignsAdd", "GreenSign")
+  c.link("GitSignsStagedAdd", "GreenSign")
   c.link("GitSignsAddNr", "GreenSign")
+  c.link("GitSignsStagedAddNr", "GreenSign")
   c.link("GitSignsChange", "BlueSign")
+  c.link("GitSignsStagedChange", "BlueSign")
   c.link("GitSignsChangeNr", "BlueSign")
+  c.link("GitSignsStagedChangeNr", "BlueSign")
   c.link("GitSignsDelete", "RedSign")
   c.link("GitSignsDeleteNr", "RedSign")
   c.link("GitSignsAddLn", "GreenSign")
@@ -136,71 +148,71 @@ local function _set()
   vim.api.nvim_set_hl(0, "NavicIconsFile",          {bg = c.P.accent[1], fg = c.P.fg[1]})
 
   vim.api.nvim_set_hl(0, "NavicIconsModule",        {bg = c.P.accent[1], fg = c.P.olive[1]})
-  c.link("AerialModuleIcon", "@module")
+  c.link("AerialModule", "@module")
 
   vim.api.nvim_set_hl(0, "NavicIconsNamespace",     {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
-  c.link("AerialNamespaceIcon", "@module")
+  c.link("AerialNamespace", "@module")
 
   vim.api.nvim_set_hl(0, "NavicIconsPackage",       {bg = c.P.accent[1], fg = c.P.olive[1]})
-  c.link("AerialPackageIcon", "@module")
+  c.link("AerialPackage", "@module")
 
   vim.api.nvim_set_hl(0, "NavicIconsClass",         {bg = c.P.accent[1], fg = c.P.styled.class[1]})
-  c.link("AerialClassIcon", "Class")
+  c.link("AerialClass", "Class")
 
   vim.api.nvim_set_hl(0, "NavicIconsMethod",        {bg = c.P.accent[1], fg = c.P.brightteal[1]})
-  c.link("AerialMethodIcon", "Method")
+  c.link("AerialMethod", "Method")
 
   vim.api.nvim_set_hl(0, "NavicIconsProperty",      {bg = c.P.accent[1], fg = c.P.orange[1]})
-  c.link("AerialPropertyIcon", "Member")
+  c.link("AerialProperty", "Member")
 
   vim.api.nvim_set_hl(0, "NavicIconsField",         {bg = c.P.accent[1], fg = c.P.orange[1]})
-  c.link("AeriaFieldIcon", "Member")
+  c.link("AeriaField", "Member")
 
   vim.api.nvim_set_hl(0, "NavicIconsConstructor",   {bg = c.P.accent[1], fg = c.P.yellow[1]})
-  c.link("AerialConstructorIcon", "@constructor")
+  c.link("AerialConstructor", "@constructor")
 
   vim.api.nvim_set_hl(0, "NavicIconsEnum",          {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
-  c.link("AerialEnumIcon", "@type")
+  c.link("AerialEnum", "@type")
 
   vim.api.nvim_set_hl(0, "NavicIconsInterface",     {bg = c.P.accent[1], fg = c.P.purple[1]})
-  c.link("AerialInterfaceIcon", "Interface")
+  c.link("AerialInterface", "Interface")
 
   vim.api.nvim_set_hl(0, "NavicIconsFunction",      {bg = c.P.accent[1], fg = c.P.teal[1]})
-  c.link("AerialFunctionIcon", "Function")
+  c.link("AerialFunction", "Function")
 
   vim.api.nvim_set_hl(0, "NavicIconsVariable",      {bg = c.P.accent[1], fg = c.P.fg[1]})
 
   vim.api.nvim_set_hl(0, "NavicIconsConstant",      {bg = c.P.accent[1], fg = c.P.purple[1]})
-  c.link("AerialConstantIcon", "@constant" )
+  c.link("AerialConstant", "@constant" )
 
   vim.api.nvim_set_hl(0, "NavicIconsString",        {bg = c.P.accent[1], fg = c.P.string[1]})
-  c.link("AerialStringIcon", "String")
+  c.link("AerialString", "String")
 
   vim.api.nvim_set_hl(0, "NavicIconsNumber",        {bg = c.P.accent[1], fg = c.P.styled.number[1]})
-  c.link("AerialNumberIcon", "Number")
+  c.link("AerialNumber", "Number")
 
   vim.api.nvim_set_hl(0, "NavicIconsBoolean",       {bg = c.P.accent[1], fg = c.P.deepred[1]})
-  c.link("AerialBooleanIcon", "Boolean")
+  c.link("AerialBoolean", "Boolean")
 
   vim.api.nvim_set_hl(0, "NavicIconsArray",         {bg = c.P.accent[1], fg = c.P.lpurple[1]})
 
   vim.api.nvim_set_hl(0, "NavicIconsObject",        {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
-  c.link("AerialObjectIcon", "Type")
+  c.link("AerialObject", "Type")
 
   vim.api.nvim_set_hl(0, "NavicIconsKey",           {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
   vim.api.nvim_set_hl(0, "NavicIconsNull",          {bg = c.P.accent[1], fg = c.P.lpurple[1]})
 
   vim.api.nvim_set_hl(0, "NavicIconsEnumMember",    {bg = c.P.accent[1], fg = c.P.orange[1]})
-  c.link("AerialEnumMemberIcon", "@constant")
+  c.link("AerialEnumMember", "@constant")
 
   vim.api.nvim_set_hl(0, "NavicIconsStruct",        {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
-  c.link("AerialStructIcon", "Struct")
+  c.link("AerialStruct", "Struct")
   -- c.link("AerialStruct", "CmpItemKindStruct")
   --
   vim.api.nvim_set_hl(0, "NavicIconsEvent",         {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
 
   vim.api.nvim_set_hl(0, "NavicIconsOperator",      {bg = c.P.accent[1], fg = c.P.styled.operator[1]})
-  c.link("AerialOperatorIcon", "@operator")
+  c.link("AerialOperator", "@operator")
 
   vim.api.nvim_set_hl(0, "NavicIconsTypeParameter", {bg = c.P.accent[1], fg = c.P.darkpurple[1]})
   vim.api.nvim_set_hl(0, "NavicText",               {bg = c.P.accent[1], fg = c.P.fg_dim[1]})
@@ -217,8 +229,15 @@ local function _set()
   c.set_hl(0, "CokelineActiveModified", { bg = cokeline_active_bg, fg = c.P.red[1] })
   c.set_hl(0, "CokelineInactiveModified", { bg = c.P.statuslinebg[1], fg = c.P.red[1] })
 
-  c.link("MultiCursor", "CurSearch")
-  c.link("MultiCursorMain", "CurSearch")
+  -- brenton-leighton multiple-cursors
+  c.link("MultipleCursorsCursor", "Search")
+  c.link("MultipleCursorsVisual", "CurSearch")
+  -- jake-stewart multicursor
+  c.link("MultiCursorCursor", "Search")
+  c.link("MultiCursorVisual", "CurSearch")
+  c.link("MultiCursorDisabledCursor", "DiffText")
+  c.link("MultiCursorDisabledVisual", "Visual")
+
   c.hl_with_defaults("QuickFixLine", c.NONE, c.P.accent)
   -- quick fix
   c.link("qfLineNr", "Number")

@@ -13,6 +13,8 @@
 --License:      MIT
 --it features multiple background modes (cold, warm and deepdark) and three levels
 --of color saturation: bright vivid and two desaturated modes
+--it's also extensible via plugins and can support multiple base themes (including
+--light themes). This is not yet implemented.
 --
 --TODO: * cleanup, organize the highlight groups better
 --      * maybe (just maybe) a bright background variant
@@ -70,7 +72,7 @@ M.attr_override = {}
 
 -- the theme configuration. This can be changed by calling setup({...})
 -- after changing the configuration configure() must be called before the theme
--- can be activated with set()
+-- can be (re)activated with set()
 local conf = {
   disabled = false,
   -- the scheme name. Configuration is loaded from themes/conf.scheme.lua
@@ -326,7 +328,7 @@ local function set_all()
   M.hl_with_defaults("DiffDelete", M.NONE, M.P.diff_red)
   M.hl_with_defaults("DiffText", M.P.bg0, M.P.blue)
   M.hl("Directory", M.P.blue, M.NONE, conf.attrib.bold)
-  M.hl("ErrorMsg", M.P.red, M.NONE, { bold = true, underline = true })
+  M.hl("ErrorMsg", M.P.red, M.NONE, { bold = true })
   M.hl("WarningMsg", M.P.yellow, M.NONE, conf.attrib.bold)
   M.hl("ModeMsg", M.P.fg, M.NONE, conf.attrib.bold)
   M.hl("MoreMsg", M.P.blue, M.NONE, conf.attrib.bold)
@@ -693,6 +695,9 @@ end
 
 -- this activates the theme.
 function M.set()
+  if conf.disabled == true then
+    return
+  end
   configure()
   for _, v in ipairs(conf.plugins.customize) do
     require("darkmatter.plugins." .. v)
