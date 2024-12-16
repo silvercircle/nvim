@@ -105,32 +105,33 @@ lazy.setup({
       vim.notify = require("notify")
     end
   },
-  {
-    'echasnovski/mini.notify',
-    cond = vim.g.tweaks.notifier == "mini",
-    config = function()
-      require("mini.notify").setup({
-        window = {
-          config = {
-            anchor = "SE",
-            row = vim.o.lines
-          },
-          winblend = 0
-        }
-      })
-      vim.notify = require("mini.notify").make_notify({
-        DEBUG = { duration = 5000 },
-        TRACE = { duration = 5000 },
-        ERROR = { duration = 5000 },
-        WARN  = { duration = 3000 },
-        INFO  = { duration = 5000 }
-      })
-      __Globals.notifier = vim.notify
-    end
-  },
+--  {
+--    'echasnovski/mini.notify',
+--    cond = vim.g.tweaks.notifier == "mini",
+--    config = function()
+--      require("mini.notify").setup({
+--        window = {
+--          config = {
+--            anchor = "SE",
+--            row = vim.o.lines
+--          },
+--          winblend = 0
+--        }
+--      })
+--      vim.notify = require("mini.notify").make_notify({
+--        DEBUG = { duration = 5000 },
+--        TRACE = { duration = 5000 },
+--        ERROR = { duration = 5000 },
+--        WARN  = { duration = 3000 },
+--        INFO  = { duration = 5000 }
+--      })
+--      __Globals.notifier = vim.notify
+--    end
+--  },
   'nvim-lua/plenary.nvim',
   {
     'nvim-lualine/lualine.nvim',
+    -- commit = "ef3f2ee04140aeca037bdcabafab4339da4d5b5f",
     event = "UIEnter",
     config = function()
       require("plugins.lualine")
@@ -168,7 +169,7 @@ lazy.setup({
   -- treesitter + friends
   {
     'nvim-treesitter/nvim-treesitter',
-    branch = "main",
+    branch = "master",
     event = { "BufReadPre" },
     config = function()
       require("plugins.treesitter")
@@ -320,8 +321,6 @@ lazy.setup({
     config = function()
       require("plugins.lsp")
     end
-  },
-  {
   },
   {
     'williamboman/mason.nvim',
@@ -649,7 +648,6 @@ lazy.setup({
   },
   {
     "ibhagwan/fzf-lua",
-    -- cond = false,
     lazy = true,
     event = "BufReadPost",
     config = function()

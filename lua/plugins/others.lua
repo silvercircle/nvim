@@ -399,6 +399,9 @@ M.setup = {
         custom_key_maps = {
           {"n", "<Leader>>", function() require("multiple-cursors").align() end}
         }
+      },
+      keys = {
+        {"<C-q>", "<Cmd>MultipleCursorsMouseAddDelete<CR>", mode = {"n", "i"}, desc = "Add or remove a cursor"},
       }
     })
   end,
