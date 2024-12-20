@@ -130,7 +130,7 @@ require("lualine").setup({
                  'dap-repl', 'dapui_console', 'dapui_watches', 'dapui_stacks', 'dapui_scopes', 'dapui_breakpoints' },
       tabline = {},
     },
-    -- ignore_focus = {'NvimTree'},
+    -- ignore_focus = {'NvimTree', 'neo-tree'},
     always_divide_middle = true,
     globalstatus = false,
     refresh = {
