@@ -138,7 +138,7 @@ autocmd({ "UIEnter" }, {
   end
 })
 
-autocmd( { "InsertEnter", "InsertLeave" }, {
+autocmd( { "ModeChanged" }, {
   pattern = "*",
   callback = function()
     vim.schedule(function() require("lualine").refresh() end)
