@@ -47,6 +47,7 @@ lspconfig.omnisharp.setup({
       IncludePrereleases = true,
     },
   },
+  single_file_support = true,
   filetypes = { "cs", "vb" },
   root_dir = util.root_pattern('*.sln', '*.csproj', 'omnisharp.json', 'function.json'),
   on_new_config = function(new_config, new_root_dir)
@@ -90,7 +91,8 @@ lspconfig.omnisharp.setup({
       vim.list_extend(new_config.cmd, flatten(new_config.settings))
     end
 
-    new_config.capabilities = __Globals.get_lsp_capabilities()
+    local capabilities = __Globals.get_lsp_capabilities()
+    new_config.capabilities = vim.deepcopy(capabilities)
     new_config.capabilities.workspace.workspaceFolders = false
   end,
   init_options = {}

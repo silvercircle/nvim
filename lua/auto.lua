@@ -138,6 +138,13 @@ autocmd({ "UIEnter" }, {
   end
 })
 
+autocmd( { "InsertEnter", "InsertLeave" }, {
+  pattern = "*",
+  callback = function()
+    vim.schedule(function() require("lualine").refresh() end)
+  end,
+  group = agroup_views
+})
 
 -- create a view to save folds when saving the file
 autocmd({ 'bufwritepost' }, {
