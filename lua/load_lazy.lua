@@ -263,9 +263,61 @@ lazy.setup({
     cond = vim.g.tweaks.completion.version == "blink",
     config = function()
       require("plugins.blink")
-    end
+    end,
+    dependencies = {
+      { 'windwp/nvim-autopairs',
+        config = function()
+          require("nvim-autopairs").setup({})
+          if __Globals.perm_config.autopair then
+            require("nvim-autopairs").enable()
+          else
+            require("nvim-autopairs").disable()
+          end
+        end
+      },
+      {
+        'https://gitlab.com/silvercircle74/cmp-wordlist.nvim',
+        config = function()
+          require("cmp_wordlist").setup({
+            wordfiles = { 'wordlist.txt', "personal.txt" },
+            debug = false,
+            read_on_setup = false,
+            watch_files = true,
+            telescope_theme = __Telescope_dropdown_theme
+          })
+        end
+      },
+      {
+        "saghen/blink.compat",
+        -- use the latest release, via version = '*', if you also use the latest release for blink.cmp
+        version = "*",
+        -- lazy.nvim will automatically load the plugin when it's required by blink.cmp
+        lazy = true,
+        -- make sure to set opts so that lazy.nvim calls blink.compat's setup
+        opts = {},
+      },
+      "hrsh7th/cmp-emoji",
+      "dcampos/cmp-snippy",
+      {
+        "dcampos/nvim-snippy",
+        lazy = true,
+        config = function()
+          require("snippy").setup({
+            mappings = {
+              is = {
+                ["<Tab>"] = "expand_or_advance",
+                ["<S-Tab>"] = "previous",
+              },
+              nx = {
+                ["<leader>x"] = "cut_text",
+              },
+            },
+          })
+        end
+      }
+    }
   },
-  -- lsp
+    -- lsp
   {
     "SmiteshP/nvim-navbuddy",
     lazy = true,

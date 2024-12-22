@@ -114,7 +114,10 @@ Tweaks.completion = {
 }
 
 Tweaks.blink = {
-
+  border = "single",
+  auto_doc = true,
+  keymap_preset = "enter",
+  ghost_text = true
 }
 -- tweaks for the cmp autocompletion system
 Tweaks.cmp = {

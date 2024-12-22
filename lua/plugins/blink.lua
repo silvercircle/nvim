@@ -1,3 +1,42 @@
+local border = vim.g.tweaks.blink.border
+local function select_next_idx(idx, dir)
+  dir = dir or 1
+
+  local list = require "blink.cmp.completion.list"
+  if #list.items == 0 then
+    return
+  end
+
+  local target_idx
+  -- haven't selected anything yet
+  if list.selected_item_idx == nil then
+    if dir == 1 then
+      target_idx = idx
+    else
+      target_idx = #list.items - idx
+    end
+  elseif list.selected_item_idx == #list.items then
+    if dir == 1 then
+      target_idx = 1
+    else
+      target_idx = #list.items - idx
+    end
+  elseif list.selected_item_idx == 1 and dir == -1 then
+    target_idx = #list.items - idx
+  else
+    target_idx = list.selected_item_idx + (idx * dir)
+  end
+
+  -- clamp
+  if target_idx < 1 then
+    target_idx = 1
+  elseif target_idx > #list.items then
+    target_idx = #list.items
+  end
+
+  list.select(target_idx)
+end
+
 require("blink.cmp").setup({
   appearance = {
     -- Sets the fallback highlight groups to nvim-cmp's highlight groups
@@ -9,11 +48,54 @@ require("blink.cmp").setup({
     nerd_font_variant = "mono"
   },
   keymap = {
-    preset = "enter"
+    preset = vim.g.tweaks.blink.keymap_preset,
+    ['<C-Up>']      = { 'scroll_documentation_up', 'fallback' },
+    ['<C-Down>']    = { 'scroll_documentation_down', 'fallback' },
+    ["<PageDown>"]  = {
+      function(cmp)
+        if not cmp.is_visible() then
+          return
+        end
+        vim.schedule(function()
+          select_next_idx(5)
+        end)
+        return true
+      end,
+      "fallback"
+    },
+    ["<PageUp>"]    = {
+      function(cmp)
+        if not cmp.is_visible() then
+          return
+        end
+        vim.schedule(function()
+          select_next_idx(5, -1)
+        end)
+        return true
+      end,
+      'fallback'
+    }
+  },
+  sources = {
+    default = { 'lsp', 'path', 'snippets', 'buffer', 'snippy', 'emoji', 'wordlist' },
+    providers = {
+      snippy = {
+        name = "snippy",
+        module = 'blink.compat.source'
+      },
+      emoji = {
+        name = "emoji",
+        module = 'blink.compat.source'
+      },
+      wordlist = {
+        name = "wordlist",
+        module = 'blink.compat.source'
+      }
+    }
   },
   completion = {
     menu = {
-      border = "single",
+      border = border,
       draw = {
        columns = {
           { "label", "label_description", gap = 2 },
@@ -28,12 +110,15 @@ require("blink.cmp").setup({
       }
     },
     documentation = {
-      auto_show = true,
-      window = { border = "single" }
+      auto_show = vim.g.tweaks.blink.auto_doc,
+      window = { border = border }
     },
     ghost_text = {
-      enabled = true
+      enabled = vim.g.tweaks.blink.ghost_text
     }
   },
-  signature = { window = { border = "single" } }
+  signature = {
+    enabled = true,
+    window = { border = border }
+  }
 })
