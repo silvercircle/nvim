@@ -109,6 +109,13 @@ Tweaks.lsp = {
   virtual_lines = false
 }
 
+Tweaks.completion = {
+  version = "blink"
+}
+
+Tweaks.blink = {
+
+}
 -- tweaks for the cmp autocompletion system
 Tweaks.cmp = {
   -- max buffer size to enable the buffer words autocompletion source in cmp
@@ -247,6 +254,16 @@ Tweaks.theme = {
   all_types_bold = false,
   disable = false
 }
+
+-- which status line plugin to use.
+-- right now, only lualine is supported by this config. This might change in the
+-- future.
+Tweaks.statusline = {
+  version = "lualine",
+  -- specific tweaks for lualine. Currently none.
+  lualine = {}
+}
+
 -- filetree tweaks
 Tweaks.tree = {
   -- valid versions are Neo (for NeoTree) or Nvim (for NvimTree)

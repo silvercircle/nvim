@@ -138,13 +138,18 @@ autocmd({ "UIEnter" }, {
   end
 })
 
-autocmd( { "ModeChanged" }, {
-  pattern = "*",
-  callback = function()
-    vim.schedule(function() require("lualine").refresh() end)
-  end,
-  group = agroup_views
-})
+-- force refresh lualine on ModeChanged event. This allows for higher debounce timers
+-- (= better performance) and still get instant response for mode changes (which I feel
+-- is important)
+if vim.g.tweaks.statusline.version == "lualine" then
+  autocmd( { "ModeChanged" }, {
+    pattern = "*",
+    callback = function()
+      vim.schedule(function() require("lualine").refresh() end)
+    end,
+    group = agroup_views
+  })
+end
 
 -- create a view to save folds when saving the file
 autocmd({ 'bufwritepost' }, {

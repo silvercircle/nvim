@@ -195,6 +195,7 @@ lazy.setup({
   {
     'hrsh7th/nvim-cmp',
     lazy = true,
+    cond = vim.g.tweaks.completion.version == "nvim-cmp",
     event = { "InsertEnter", "CmdLineEnter" },
     dependencies = {
       'hrsh7th/cmp-cmdline',
@@ -249,6 +250,19 @@ lazy.setup({
     },
     config = function()
       require("plugins.cmp")
+    end
+  },
+  -- blink (alternative to nvim-cmp)
+  -- experimental, needs config!
+  {
+    'saghen/blink.cmp',
+    -- version = '*',
+    build = "cargo build --release",
+    lazy = true,
+    event = "ModeChanged",
+    cond = vim.g.tweaks.completion.version == "blink",
+    config = function()
+      require("plugins.blink")
     end
   },
   -- lsp
