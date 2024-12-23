@@ -57,7 +57,7 @@ require("blink.cmp").setup({
           return
         end
         vim.schedule(function()
-          select_next_idx(5)
+          select_next_idx(vim.g.tweaks.blink.window_height - 1)
         end)
         return true
       end,
@@ -69,7 +69,7 @@ require("blink.cmp").setup({
           return
         end
         vim.schedule(function()
-          select_next_idx(5, -1)
+          select_next_idx(vim.g.tweaks.blink.window_height - 1, -1)
         end)
         return true
       end,
@@ -81,7 +81,8 @@ require("blink.cmp").setup({
     providers = {
       snippy = {
         name = "snippy",
-        module = 'blink.compat.source'
+        module = 'blink.compat.source',
+        score_offset = 5
       },
       emoji = {
         name = "emoji",
@@ -90,28 +91,39 @@ require("blink.cmp").setup({
       wordlist = {
         name = "wordlist",
         module = 'blink.compat.source'
+      },
+      lsp = {
+        score_offset = 10
       }
     }
   },
   completion = {
     menu = {
+      auto_show = true,
       border = border,
+      max_height = vim.g.tweaks.blink.window_height,
+      winhighlight = vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.comp].whl_comp,
       draw = {
-       columns = {
-          { "label", "label_description", gap = 2 },
-          { "kind_icon", "kind", gap = 2 }
+        align_to_component = 'label',
+        treesitter = {"lua"},
+        padding = 1,
+        columns = {
+          { "label",     "label_description", gap = 2 },
+          { "kind_icon", "kind", "source_name", gap = 2 }
         },
-        -- columns = { { "kind_icon" }, { "label", "label_description", gap = 2 } },
-        components = {
-          item_idx = {
-            text = function(ctx) return ctx.idx == 10 and "0" or ctx.idx >= 10 and " " or tostring(ctx.idx) end,
-          }
-        }
+        --components = {
+        --  item_idx = {
+        --    text = function(ctx) return ctx.idx == 10 and "0" or ctx.idx >= 10 and " " or tostring(ctx.idx) end,
+        --  }
+        --}
       }
     },
     documentation = {
       auto_show = vim.g.tweaks.blink.auto_doc,
-      window = { border = border }
+      window = {
+        winhighlight = vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.comp].whl_doc,
+        border = border
+      }
     },
     ghost_text = {
       enabled = vim.g.tweaks.blink.ghost_text
