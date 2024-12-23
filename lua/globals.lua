@@ -537,6 +537,9 @@ function M.restore_config()
     custom_colors = {
       c1 = "#5a8aba"
     },
+    plugins = {
+      hl = (vim.g.tweaks.completion.version == "blink") and { "markdown", "syntax", "common", "blink" } or { "markdown", "syntax", "common" },
+    },
     attrib = {
       dark = {
         cmpkind = cmp_kind_attr,
