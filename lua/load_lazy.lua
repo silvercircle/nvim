@@ -289,7 +289,8 @@ lazy.setup({
             debug = false,
             read_on_setup = false,
             watch_files = true,
-            telescope_theme = __Telescope_dropdown_theme
+            telescope_theme = __Telescope_dropdown_theme,
+            blink_compat = true
           })
         end
       },

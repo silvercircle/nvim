@@ -111,7 +111,7 @@ Tweaks.lsp = {
 }
 
 Tweaks.completion = {
-  version = "nvim-cmp"
+  version = "blink"
 }
 
 Tweaks.blink = {
@@ -123,7 +123,7 @@ Tweaks.blink = {
   ghost_text = false,  -- this might still be a bit buggy in blink.cmp.
   -- maximum height of the popup window
   window_height = 12,
-  label_max_width = 40,
+  label_max_width = 50,
   prefetch = true,
   -- if you use a theme that does not yet support blink.cmp, set this to true
   -- to use the fallback nvim-cmp hl groups

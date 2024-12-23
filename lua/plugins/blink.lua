@@ -53,7 +53,8 @@ require("blink.cmp").setup({
     use_nvim_cmp_as_default = vim.g.tweaks.blink.use_cmp_hl,
     -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
     -- Adjusts spacing to ensure icons are aligned
-    nerd_font_variant = "mono"
+    nerd_font_variant = "mono",
+    kind_icons = vim.g.lspkind_symbols
   },
   keymap = {
     preset = vim.g.tweaks.blink.keymap_preset,
@@ -140,8 +141,8 @@ require("blink.cmp").setup({
         treesitter = {"lua"},
         padding = 1,
         columns = {
-          { "label",     "label_description", gap = 2 },
-          { "kind_icon", "kind", "source_name", gap = 1 }
+          { "kind_icon", "label", "label_description", gap = 1 },
+          { "kind", "source_name", gap = 1 }
         },
         components = {
           label = {
