@@ -1,8 +1,9 @@
 local border = vim.g.tweaks.blink.border
+local list = require "blink.cmp.completion.list"
+
 local function select_next_idx(idx, dir)
   dir = dir or 1
 
-  local list = require "blink.cmp.completion.list"
   if #list.items == 0 then
     return
   end
@@ -77,7 +78,7 @@ require("blink.cmp").setup({
     }
   },
   sources = {
-    default = { 'lsp', 'path', 'snippets', 'buffer', 'snippy', 'emoji', 'wordlist' },
+    default = { 'lsp', 'path', 'snippets', 'buffer', 'snippy', 'emoji', 'wordlist', 'nvim_lua' },
     providers = {
       snippy = {
         name = "snippy",
@@ -94,6 +95,11 @@ require("blink.cmp").setup({
       },
       lsp = {
         score_offset = 10
+      },
+      nvim_lua = {
+        name = 'nvim_lua',
+        module = 'blink.compat.source',
+        score_offset = 8
       }
     }
   },
@@ -109,7 +115,7 @@ require("blink.cmp").setup({
         padding = 1,
         columns = {
           { "label",     "label_description", gap = 2 },
-          { "kind_icon", "kind", "source_name", gap = 2 }
+          { "kind_icon", "kind", "source_name", gap = 1 }
         },
         --components = {
         --  item_idx = {

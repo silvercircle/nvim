@@ -298,6 +298,7 @@ lazy.setup({
       },
       "hrsh7th/cmp-emoji",
       "dcampos/cmp-snippy",
+      'hrsh7th/cmp-nvim-lua',
       {
         "dcampos/nvim-snippy",
         lazy = true,

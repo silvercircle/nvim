@@ -86,7 +86,7 @@ require("scrollbar").setup({
     },
   },
   excluded_buftypes = {
-    "terminal",
+    "terminal"
   },
   excluded_filetypes = {
     "prompt",
@@ -102,6 +102,8 @@ require("scrollbar").setup({
     "neo-tree-popup",
     "cmp_menu",
     "cmp_docs",
+    "blink-cmp-menu",
+    "blink-cmp-documentation",
     "weather",
     "sysmon",
     "dropbar_menu",
