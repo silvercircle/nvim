@@ -98,7 +98,7 @@ require("blink.cmp").setup({
     }
   },
   sources = {
-    default = { 'lsp', 'path', 'snippets', 'buffer', 'snippy', 'emoji', 'wordlist', 'nvim_lua' },
+    default = { 'lsp', 'path', 'buffer', 'snippy', 'emoji', 'wordlist', 'nvim_lua' },
     providers = {
       snippy = {
         name = "snippy",
@@ -120,7 +120,8 @@ require("blink.cmp").setup({
         name = 'nvim_lua',
         module = 'blink.compat.source',
         score_offset = 8
-      }
+      },
+      snippets = {}
     }
   },
   completion = {
