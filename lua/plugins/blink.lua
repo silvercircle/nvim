@@ -50,6 +50,7 @@ require("blink.cmp").setup({
   },
   keymap = {
     preset = vim.g.tweaks.blink.keymap_preset,
+    ['<Esc>']         = { 'hide', 'fallback' },
     ['<C-Up>']      = { 'scroll_documentation_up', 'fallback' },
     ['<C-Down>']    = { 'scroll_documentation_down', 'fallback' },
     ["<PageDown>"]  = {
