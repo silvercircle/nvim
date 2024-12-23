@@ -193,17 +193,22 @@ lazy.setup({
   },
   -- cmp and all its helpers
   {
-    'hrsh7th/nvim-cmp',
+    --'hrsh7th/nvim-cmp',
+    "iguanacucumber/magazine.nvim",
+    name = 'nvim-cmp',
     lazy = true,
     cond = vim.g.tweaks.completion.version == "nvim-cmp",
     event = { "InsertEnter", "CmdLineEnter" },
     dependencies = {
-      'hrsh7th/cmp-cmdline',
-      'hrsh7th/cmp-nvim-lsp',
+      { "iguanacucumber/mag-cmdline", name = "cmp-cmdline" },
+      --'hrsh7th/cmp-cmdline',
+      --'hrsh7th/cmp-nvim-lsp',
+      { "iguanacucumber/mag-nvim-lsp", name = "cmp-nvim-lsp", opts = {} },
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-emoji',
       'dcampos/cmp-snippy',
-      'hrsh7th/cmp-nvim-lua',
+      --'hrsh7th/cmp-nvim-lua',
+      { "iguanacucumber/mag-nvim-lua", name = "cmp-nvim-lua" },
       'PhilRunninger/cmp-rpncalc',
       "kdheepak/cmp-latex-symbols",
       'hrsh7th/cmp-nvim-lsp-signature-help',
@@ -219,7 +224,8 @@ lazy.setup({
           })
         end
       },
-      { 'hrsh7th/cmp-buffer' },
+      --{ 'hrsh7th/cmp-buffer' },
+      { "iguanacucumber/mag-buffer", name = "cmp-buffer" },
       { 'windwp/nvim-autopairs',
         config = function()
           require("nvim-autopairs").setup({})

@@ -111,7 +111,7 @@ Tweaks.lsp = {
 }
 
 Tweaks.completion = {
-  version = "blink"
+  version = "nvim-cmp"
 }
 
 Tweaks.blink = {
@@ -134,13 +134,13 @@ Tweaks.cmp = {
   -- max buffer size to enable the buffer words autocompletion source in cmp
   -- this is a performance tweak. Value is in bytes and 300kB is a reasonable default, even for
   -- slower machines. On fast hardware you can increase this to much higher values
-  buffer_maxsize = 300 * 1024,
+  buffer_maxsize = 3000 * 1024,
   -- maximum width for the item abbreviation. This is the completion item's name
   abbr_maxwidth = 50,
   -- maximum width for the details column. Normally the rightmost column
   details_maxwidth = 20,
   -- I prefer to have only manual cmp complation (hit Ctrl-Space)
-  autocomplete = false,
+  autocomplete = true,
   -- minimum keyword length for auto-complete to kick in (only if the above is true)
   keywordlen = 2,
   --enable experimental ghost text feature. Set to false (disable) or a table
