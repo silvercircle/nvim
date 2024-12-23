@@ -114,11 +114,19 @@ Tweaks.completion = {
 }
 
 Tweaks.blink = {
+  -- if false, you have to manually invoke the popup (Control-Space)
+  auto_show = true,
   border = "single",
   auto_doc = true,
   keymap_preset = "enter",
-  ghost_text = true,
-  window_height = 12
+  ghost_text = false,  -- this might still be a bit buggy in blink.cmp.
+  -- maximum height of the popup window
+  window_height = 12,
+  label_max_width = 40,
+  prefetch = true,
+  -- if you use a theme that does not yet support blink.cmp, set this to true
+  -- to use the fallback nvim-cmp hl groups
+  use_cmp_hl = false
 }
 -- tweaks for the cmp autocompletion system
 Tweaks.cmp = {

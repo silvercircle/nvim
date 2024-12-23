@@ -1,6 +1,15 @@
+-- blink.cmp configuration
+-- supports some nvim-cmp sources: emoji, snippy, nvim_lua and my wordlist plugin
+-- requires blink.compat
+
 local border = vim.g.tweaks.blink.border
 local list = require "blink.cmp.completion.list"
 
+--- workaround for missing feature (scroll completion window page-wise)
+--- @param idx number: number of entries to scroll
+--- @param dir? number: direction to scroll (+1 to scroll down, -1 to scroll up, defaults to 1)-
+--- this respects the cycle setting and ensures no invalid entries can be
+--- selected.
 local function select_next_idx(idx, dir)
   dir = dir or 1
 
@@ -40,10 +49,8 @@ end
 
 require("blink.cmp").setup({
   appearance = {
-    -- Sets the fallback highlight groups to nvim-cmp's highlight groups
-    -- Useful for when your theme doesn't support blink.cmp
     -- Will be removed in a future release
-    use_nvim_cmp_as_default = false,
+    use_nvim_cmp_as_default = vim.g.tweaks.blink.use_cmp_hl,
     -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
     -- Adjusts spacing to ensure icons are aligned
     nerd_font_variant = "mono"
@@ -52,7 +59,19 @@ require("blink.cmp").setup({
     preset = vim.g.tweaks.blink.keymap_preset,
     ['<Esc>']         = { 'hide', 'fallback' },     -- make <Esc> behave like <C-e>
     ['<C-Up>']      = { 'scroll_documentation_up', 'fallback' },
-    ['<C-Down>']    = { 'scroll_documentation_down', 'fallback' },
+    ["<C-Down>"]   = { "scroll_documentation_down", "fallback" },
+    ["<Tab>"]      = {
+      function(cmp)
+        if cmp.snippet_active() then
+          return cmp.accept()
+        else
+          return cmp.select_and_accept()
+        end
+      end,
+      "snippet_forward",
+      "fallback"
+    },
+    ["<S-Tab>"]    = { "snippet_backward", "fallback" },
     ["<PageDown>"]  = {
       function(cmp)
         if not cmp.is_visible() then
@@ -105,11 +124,16 @@ require("blink.cmp").setup({
     }
   },
   completion = {
+    trigger = {
+      prefetch_on_insert = vim.g.tweaks.blink.prefetch
+    },
+    list = {
+      selection = "auto_insert"
+    },
     menu = {
-      auto_show = true,
+      auto_show = vim.g.tweaks.blink.auto_show,
       border = border,
       max_height = vim.g.tweaks.blink.window_height,
-      winhighlight = vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.comp].whl_comp,
       draw = {
         align_to_component = 'label',
         treesitter = {"lua"},
@@ -121,7 +145,7 @@ require("blink.cmp").setup({
         components = {
           label = {
             ellipsis = true,
-            width = { fill = true, max = 30 }
+            width = { fill = true, max = vim.g.tweaks.blink.label_max_width }
           }
         --  item_idx = {
         --    text = function(ctx) return ctx.idx == 10 and "0" or ctx.idx >= 10 and " " or tostring(ctx.idx) end,
@@ -132,7 +156,6 @@ require("blink.cmp").setup({
     documentation = {
       auto_show = vim.g.tweaks.blink.auto_doc,
       window = {
-        winhighlight = vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.comp].whl_doc,
         border = border
       }
     },
