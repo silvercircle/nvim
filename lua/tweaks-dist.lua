@@ -97,7 +97,8 @@ Tweaks.lsp = {
     emmet         =   Tweaks.lsp.masonbinpath .. 'emmet-language-server',
     groovy        =   Tweaks.lsp.masonbinpath .. 'groovy-language-server',
     roslyn        =   vim.fn.stdpath("data") .. "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll",
-    jsonls        =   Tweaks.lsp.masonbinpath .. "vscode-json-language-server"
+    jsonls        =   Tweaks.lsp.masonbinpath .. "vscode-json-language-server",
+    zls           =   Tweaks.lsp.localbin .. "zls"
   },
   -- use either omnisharp or csharp_ls for c# and .NET development
   -- both options work reasonably well with a few issues and missing features

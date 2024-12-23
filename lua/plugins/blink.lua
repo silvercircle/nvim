@@ -157,7 +157,14 @@ require("blink.cmp").setup({
     documentation = {
       auto_show = vim.g.tweaks.blink.auto_doc,
       window = {
-        border = border
+        border = border,
+        min_width = 30,
+        max_width = 85,
+        max_height = 30,
+        direction_priority = {
+          menu_north = { "w", "e", "n", "s" },
+          menu_south = { "w", "e", "s", "n" },
+        }
       }
     },
     ghost_text = {

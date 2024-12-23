@@ -418,6 +418,18 @@ lspconfig.jsonls.setup {
   single_file_support = true,
   on_attach = On_attach
 }
+
+lspconfig.zls.setup {
+  cmd = { vim.g.lsp_server_bin[ "zls" ] },
+  on_new_config = function(new_config, new_root_dir)
+    if vim.fn.filereadable(vim.fs.joinpath(new_root_dir, "zls.json")) ~= 0 then
+      new_config.cmd = { "zls", "--config-path", "zls.json" }
+    end
+  end,
+  filetypes = { "zig", "zir" },
+  root_dir = util.root_pattern("zls.json", "build.zig", ".git"),
+  single_file_support = true,
+}
 -- outsourced because it's too big
 if vim.g.tweaks.lsp.csharp == "omnisharp" then
   require("lsp.omnisharp")
