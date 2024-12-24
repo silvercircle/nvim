@@ -110,24 +110,36 @@ Tweaks.lsp = {
   virtual_lines = false
 }
 
+-- completion framework to use. Can be "blink" or "nvim-cmp"
+-- nvim-cmp uses the magazine fork (optimized for performance)
+-- blink is more modern and probably faster, but should be considered
+-- beta quality.
 Tweaks.completion = {
   version = "blink"
 }
 
 Tweaks.blink = {
-  -- if false, you have to manually invoke the popup (Control-Space)
+  -- if false, you have to manually invoke the completion popup (Control-Space)
   auto_show = true,
   border = "single",
+  -- show the documentation window automatically
   auto_doc = true,
   keymap_preset = "enter",
   ghost_text = false,  -- this might still be a bit buggy in blink.cmp.
   -- maximum height of the popup window
   window_height = 12,
+  -- maximum width of the completion label
   label_max_width = 50,
-  prefetch = true,
+  -- prefetch on InsertEnter. This might improve performance but might have
+  -- memory leaks at the moment.
+  prefetch = false,
   -- if you use a theme that does not yet support blink.cmp, set this to true
   -- to use the fallback nvim-cmp hl groups
-  use_cmp_hl = false
+  use_cmp_hl = false,
+  -- list of filetypes for which we want to allow the "buffer" source to
+  -- collect all the buffer words.
+  -- set this to an empty table to allow buffer words for all filetype
+  buffer_source_ft_allowed = { "tex", "markdown" }
 }
 -- tweaks for the cmp autocompletion system
 Tweaks.cmp = {

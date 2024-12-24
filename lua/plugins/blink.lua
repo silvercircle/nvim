@@ -122,7 +122,22 @@ require("blink.cmp").setup({
         module = 'blink.compat.source',
         score_offset = 8
       },
-      snippets = {}
+      snippets = {},
+      buffer = {
+        module = "blink.cmp.sources.buffer",
+        opts = {
+          -- enable the buffer source for filetypes listed
+          -- in tweaks.blink.buffer_source_ft_allowed
+          get_bufnrs = function()
+            return vim.iter(vim.api.nvim_list_wins())
+              :map(function(win) return vim.api.nvim_win_get_buf(win) end)
+              :filter(function(buf)
+                return (vim.bo[buf].buftype ~= "nofile") and ((#vim.g.tweaks.blink.buffer_source_ft_allowed == 0) or
+                  (vim.tbl_contains(vim.g.tweaks.blink.buffer_source_ft_allowed, vim.bo[buf].filetype) == true))
+              end):totable()
+          end,
+        }
+      }
     }
   },
   completion = {
