@@ -419,6 +419,8 @@ lspconfig.jsonls.setup {
   on_attach = On_attach
 }
 
+vim.g.zig_fmt_parse_errors = 0
+vim.g.zig_fmt_autosave = 0
 lspconfig.zls.setup {
   cmd = { vim.g.lsp_server_bin[ "zls" ] },
   on_new_config = function(new_config, new_root_dir)
