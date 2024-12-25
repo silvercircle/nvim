@@ -11,6 +11,7 @@ local list = require "blink.cmp.completion.list"
 --- @param dir? number: direction to scroll (+1 to scroll down, -1 to scroll up, defaults to 1)-
 --- this respects the cycle setting and ensures no invalid entries can be
 --- selected.
+--- reference: https://github.com/Saghen/blink.cmp/issues/569
 local function select_next_idx(idx, dir)
   dir = dir or 1
 
@@ -113,7 +114,8 @@ require("blink.cmp").setup({
       },
       wordlist = {
         name = "wordlist",
-        module = 'blink.compat.source'
+        module = 'blink.compat.source',
+        min_keyword_length = 2
       },
       lsp = {
         score_offset = 10
@@ -128,6 +130,7 @@ require("blink.cmp").setup({
       snippets = {},
       buffer = {
         module = "blink.cmp.sources.buffer",
+        min_keyword_length = 3,
         opts = {
           -- enable the buffer source for filetypes listed
           -- in tweaks.blink.buffer_source_ft_allowed
@@ -155,7 +158,7 @@ require("blink.cmp").setup({
       border = border,
       max_height = T.window_height,
       draw = {
-        align_to_component = 'label',
+        align_to = 'label',
         treesitter = {"lua"},
         padding = 1,
         columns = {

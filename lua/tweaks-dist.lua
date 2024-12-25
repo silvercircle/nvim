@@ -111,9 +111,9 @@ Tweaks.lsp = {
 }
 
 -- completion framework to use. Can be "blink" or "nvim-cmp"
--- nvim-cmp uses the magazine fork (optimized for performance)
--- blink is more modern and probably faster, but should be considered
--- beta quality.
+-- If set to nvim-cmp, the magazine fork (optimized for performance) is used.
+-- blink is more modern and probably faster, but should be considered beta 
+-- quality software (as of December 2024). Breaking changes are likely.
 Tweaks.completion = {
   version = "blink"
 }
@@ -124,6 +124,8 @@ Tweaks.blink = {
   border = "single",
   -- show the documentation window automatically
   auto_doc = true,
+  -- keymap preset to use. Read the blink docs. Note that some
+  -- keys are overriden or customized from the preset. See lua/plugins/blink.lua
   keymap_preset = "enter",
   ghost_text = false,  -- this might still be a bit buggy in blink.cmp.
   -- maximum height of the popup window
@@ -134,7 +136,7 @@ Tweaks.blink = {
   -- memory leaks at the moment.
   prefetch = false,
   -- if you use a theme that does not yet support blink.cmp, set this to true
-  -- to use the fallback nvim-cmp hl groups
+  -- to use the fallback nvim-cmp hl groups which are supported by most themes
   use_cmp_hl = false,
   -- list of filetypes for which we want to allow the "buffer" source to
   -- collect all the buffer words.
