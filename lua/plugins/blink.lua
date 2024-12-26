@@ -162,13 +162,25 @@ require("blink.cmp").setup({
         treesitter = {"lua"},
         padding = 1,
         columns = {
-          { "kind_icon", "label", "label_description", gap = 1 },
+          { "kind_icon", "sep1", "label", "label_description", gap = 0 },
           { "kind", "source_name", gap = 1 }
         },
         components = {
           label = {
             ellipsis = true,
             width = { fill = true, max = T.label_max_width }
+          },
+          sep = {
+            text = function() return "▌ " end,
+            highlight = "BlinkCmpMenuBorder",
+          },
+          sep1 = {
+            text = function() return "┃" end,
+            highlight = "BlinkCmpMenuBorder",
+          },
+          sep_end = {
+            text = function() return "▐" end,
+            highlight = "BlinkCmpMenuBorder",
           }
         --  item_idx = {
         --    text = function(ctx) return ctx.idx == 10 and "0" or ctx.idx >= 10 and " " or tostring(ctx.idx) end,
