@@ -141,7 +141,7 @@ Tweaks.blink = {
   -- list of filetypes for which we want to allow the "buffer" source to
   -- collect all the buffer words.
   -- set this to an empty table to allow buffer words for all filetype
-  buffer_source_ft_allowed = { "tex", "markdown" }
+  buffer_source_ft_allowed = {} -- { "tex", "markdown" }
 }
 -- tweaks for the cmp autocompletion system
 Tweaks.cmp = {
@@ -301,9 +301,9 @@ Tweaks.tree = {
 
 -- settings for the nvim-jdtls plugin. See ftplugin/java.lua
 Tweaks.jdtls = {
-  workspace_base = "/home/alex/.cache/jdtls_workspace/",
+  workspace_base = "~/.cache/jdtls_workspace/",
   java_executable = "/usr/bin/java",
-  jdtls_install_dir = "/home/alex/.local/share/nvim/mason/packages/jdtls/",
+  jdtls_install_dir = "~/.local/share/nvim/mason/packages/jdtls/",
   equinox_version = "1.6.900.v20240613-2009",
   config = "config_linux"
 }
