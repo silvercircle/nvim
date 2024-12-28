@@ -219,6 +219,7 @@ Tweaks.borderfactory = function(style)
     return { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
   end
 end
+
 -- don't touch this unless you know what you're doing
 --Tweaks.cmp.kind_attr = Tweaks.cmp.style == "experimental" and { bold=true, reverse=true } or {}
 Tweaks.cmp.kind_attr = { bold = true, reverse = false }

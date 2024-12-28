@@ -12,7 +12,6 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local snippy = require("snippy")
 local cmp = require("cmp")
 local cmp_types = require("cmp.types.cmp")
 local types = require("cmp.types")
@@ -55,7 +54,7 @@ local cmp_item_menu = {
   wordlist = "Wordlist",
   nvim_lsp_signature_help = "Signature",
   latex_symbols = "Latex",
-  snippy = "Snippy",
+  snippets = "Snippets",
   emoji = "Emoji",
   calc = "Calculate"
 
@@ -168,11 +167,11 @@ cmp.setup({
     autocomplete = vim.g.tweaks.cmp.autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or {},
     completeopt = "menu,menuone",
   },
-  snippet = {
-    expand = function(args)
-      snippy.expand_snippet(args.body)
-    end,
-  },
+  --snippet = {
+  --  expand = function(args)
+  --    snippy.expand_snippet(args.body)
+  --  end,
+  --},
   view = {
     docs = {
       auto_open = __Globals.perm_config.cmp_show_docs
@@ -218,30 +217,30 @@ cmp.setup({
     ["<PageUp>"] = cmp.mapping.select_prev_item({ behavior = cmp_types.SelectBehavior.Select, count = 15 }),
     ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
     ["<Insert>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
-    ["<Tab>"] = {
-      i = function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item()
-        elseif snippy.can_expand_or_advance() then
-          vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(snippy-expand-or-advance)", true, true, true), "")
-        elseif has_words_before() then
-          cmp.complete()
-        else
-          fallback()
-        end
-      end,
-    },
-    ["<S-Tab>"] = {
-      i = function(fallback)
-        if cmp.visible() then
-          cmp.select_prev_item()
-        elseif snippy.can_jump(-1) then
-          vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(snippy-previous)", true, true, true), "")
-        else
-          fallback()
-        end
-      end,
-    },
+    --["<Tab>"] = {
+    --  i = function(fallback)
+    --    if cmp.visible() then
+    --      cmp.select_next_item()
+    --    elseif snippy.can_expand_or_advance() then
+    --      vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(snippy-expand-or-advance)", true, true, true), "")
+    --    elseif has_words_before() then
+    --      cmp.complete()
+    --    else
+    --      fallback()
+    --    end
+    --  end,
+    --},
+    --["<S-Tab>"] = {
+    --  i = function(fallback)
+    --    if cmp.visible() then
+    --      cmp.select_prev_item()
+    --    elseif snippy.can_jump(-1) then
+    --      vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(snippy-previous)", true, true, true), "")
+    --    else
+    --      fallback()
+    --    end
+    --  end,
+    --},
     -- toggle docs, remember it in a permconfig setting
     ['<f1>']  = {
       i = function(fallback)
@@ -275,7 +274,7 @@ cmp.setup({
   sources = {
     { name = "nvim_lsp", priority = 110, group_index = 1, max_item_count = 50, trigger_characters = {".", ":", "->", "::" }, keyword_length = 2 },
     { name = "path", priority = 30 },
-    { name = "snippy", priority = 100, group_index = 1, keyword_length = 3 },
+    { name = "snippets", priority = 100, group_index = 1, keyword_length = 3 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
     { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 3 },
     { name = 'rpncalc' },

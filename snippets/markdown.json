@@ -1,0 +1,52 @@
+{
+  "zkfrontmatter": {
+    "prefix": [ "zkfm", "zkfrontmatter" ],
+    "body": [
+	    "---",
+	    "title: $1",
+    	"tags: $2",
+    	"date: $3",
+    	"---"
+    ]
+  },
+  "frontmatter": {
+    "prefix": [ "front", "fm" ],
+    "body": [
+      "---",
+      "author: $0",
+      "title: $1",
+      "date: $2",
+      "modified: $3",
+      "layout: no_sidebar",
+      "categories: []",
+      "menucontext: topics",
+      "section: $4",
+      "backlink: /blog",
+      "isso: true",
+      "words: ",
+      "reduced: small",
+      "tag: []",
+      "keywords: []",
+      "excerpt: >",
+      "  $5",
+      "image:",
+      "  source: ",
+      "  width: 100px",
+      "  align: right",
+      "share: 1",
+      "---"
+    ]
+  },
+  "test": {
+    "prefix": "mdtest",
+    "body": [
+      "MDTEST"
+    ]
+  },
+  "test1": {
+    "prefix": "mdtest1",
+    "body": [
+      "MDTEST1"
+    ]
+  }
+}

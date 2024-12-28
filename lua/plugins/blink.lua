@@ -101,13 +101,8 @@ require("blink.cmp").setup({
     }
   },
   sources = {
-    default = { 'lsp', 'path', 'buffer', 'snippy', 'emoji', 'wordlist', 'nvim_lua' },
+    default = { 'lsp', 'path', 'buffer', 'snippets', 'emoji', 'wordlist', 'nvim_lua' },
     providers = {
-      snippy = {
-        name = "snippy",
-        module = 'blink.compat.source',
-        score_offset = 5
-      },
       emoji = {
         name = "emoji",
         module = 'blink.compat.source'
@@ -127,7 +122,13 @@ require("blink.cmp").setup({
       },
       -- disable the snippets source, we use nvim-snippy
       -- LSP snippets are not affected by this
-      snippets = {},
+      snippets = {
+        module = 'blink.cmp.sources.snippets',
+        name = "Snippets",
+        opts = {
+          friendly_snippets = true,
+        }
+      },
       buffer = {
         module = "blink.cmp.sources.buffer",
         min_keyword_length = 3,

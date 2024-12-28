@@ -105,29 +105,6 @@ lazy.setup({
       vim.notify = require("notify")
     end
   },
---  {
---    'echasnovski/mini.notify',
---    cond = vim.g.tweaks.notifier == "mini",
---    config = function()
---      require("mini.notify").setup({
---        window = {
---          config = {
---            anchor = "SE",
---            row = vim.o.lines
---          },
---          winblend = 0
---        }
---      })
---      vim.notify = require("mini.notify").make_notify({
---        DEBUG = { duration = 5000 },
---        TRACE = { duration = 5000 },
---        ERROR = { duration = 5000 },
---        WARN  = { duration = 3000 },
---        INFO  = { duration = 5000 }
---      })
---      __Globals.notifier = vim.notify
---    end
---  },
   'nvim-lua/plenary.nvim',
   {
     'nvim-lualine/lualine.nvim',
@@ -206,8 +183,7 @@ lazy.setup({
       { "iguanacucumber/mag-nvim-lsp", name = "cmp-nvim-lsp", opts = {} },
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-emoji',
-      'dcampos/cmp-snippy',
-      --'hrsh7th/cmp-nvim-lua',
+      --'dcampos/cmp-snippy',
       { "iguanacucumber/mag-nvim-lua", name = "cmp-nvim-lua" },
       'PhilRunninger/cmp-rpncalc',
       "kdheepak/cmp-latex-symbols",
@@ -226,6 +202,60 @@ lazy.setup({
       },
       --{ 'hrsh7th/cmp-buffer' },
       { "iguanacucumber/mag-buffer", name = "cmp-buffer" },
+      { "rafamadriz/friendly-snippets" },
+      {
+        "garymjr/nvim-snippets",
+        dependencies = {
+        },
+        config = function()
+          require("snippets").setup({
+            friendly_snippets = true
+          })
+        end,
+        keys = {
+          {
+            "<Tab>",
+            function()
+              if vim.snippet.active({ direction = 1 }) then
+                vim.schedule(function()
+                  vim.snippet.jump(1)
+                end)
+                return
+              end
+              return "<Tab>"
+            end,
+            expr = true,
+            silent = true,
+            mode = "i",
+          },
+          {
+            "<Tab>",
+            function()
+              vim.schedule(function()
+                vim.snippet.jump(1)
+              end)
+            end,
+            expr = true,
+            silent = true,
+            mode = "s",
+          },
+          {
+            "<S-Tab>",
+            function()
+              if vim.snippet.active({ direction = -1 }) then
+                vim.schedule(function()
+                  vim.snippet.jump(-1)
+                end)
+                return
+              end
+              return "<S-Tab>"
+            end,
+            expr = true,
+            silent = true,
+            mode = { "i", "s" },
+          },
+        },
+      },
       { 'windwp/nvim-autopairs',
         config = function()
           require("nvim-autopairs").setup({})
@@ -236,30 +266,12 @@ lazy.setup({
           end
         end
       },
-      {
-        'dcampos/nvim-snippy',
-        lazy = true,
-        config = function()
-          require('snippy').setup({
-            mappings = {
-              is = {
-                ['<Tab>'] = 'expand_or_advance',
-                ['<S-Tab>'] = 'previous',
-              },
-              nx = {
-                ['<leader>x'] = 'cut_text',
-              },
-            },
-          })
-        end
-      }
     },
     config = function()
       require("plugins.cmp")
     end
   },
   -- blink (alternative to nvim-cmp)
-  -- experimental, needs config!
   {
     'saghen/blink.cmp',
     -- version = '*',
@@ -271,7 +283,7 @@ lazy.setup({
       require("plugins.blink")
     end,
     dependencies = {
-      --{'rafamadriz/friendly-snippets' },
+      { "rafamadriz/friendly-snippets" },
       { 'windwp/nvim-autopairs',
         config = function()
           require("nvim-autopairs").setup({})
@@ -305,25 +317,7 @@ lazy.setup({
         opts = {},
       },
       "hrsh7th/cmp-emoji",
-      "dcampos/cmp-snippy",
       'hrsh7th/cmp-nvim-lua',
-      {
-        "dcampos/nvim-snippy",
-        lazy = true,
-        config = function()
-          require("snippy").setup({
-            mappings = {
-              is = {
-                ["<Tab>"] = "expand_or_advance",
-                ["<S-Tab>"] = "previous",
-              },
-              nx = {
-                ["<leader>x"] = "cut_text",
-              },
-            },
-          })
-        end
-      }
     }
   },
     -- lsp
