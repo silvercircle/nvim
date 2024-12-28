@@ -271,6 +271,7 @@ lazy.setup({
       require("plugins.blink")
     end,
     dependencies = {
+      --{'rafamadriz/friendly-snippets' },
       { 'windwp/nvim-autopairs',
         config = function()
           require("nvim-autopairs").setup({})
@@ -374,21 +375,21 @@ lazy.setup({
         "lewis6991/hover.nvim",
         config = function()
           require("hover").setup({
-           init = function()
-           -- Require providers
-             require("hover.providers.lsp")
-           -- require('hover.providers.gh')
-           -- require('hover.providers.gh_user')
-           -- require('hover.providers.jira')
-           -- require('hover.providers.man')
-           -- require('hover.providers.dictionary')
-           end,
-           preview_opts = {
-             border = __Globals.perm_config.float_borders
-           },
-           preview_window = false,
-           title = false
-        })
+            init = function()
+              -- Require providers
+              require("hover.providers.lsp")
+              -- require('hover.providers.gh')
+              -- require('hover.providers.gh_user')
+              -- require('hover.providers.jira')
+              -- require('hover.providers.man')
+              -- require('hover.providers.dictionary')
+            end,
+            preview_opts = {
+              border = __Globals.perm_config.float_borders
+            },
+            preview_window = false,
+            title = false
+          })
         end
       }
     },

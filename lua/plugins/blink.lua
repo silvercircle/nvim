@@ -147,11 +147,14 @@ require("blink.cmp").setup({
     }
   },
   completion = {
+    accept = {
+      create_undo_point = false,
+    },
     trigger = {
       prefetch_on_insert = T.prefetch
     },
     list = {
-      selection = "auto_insert"
+      selection = "manual"
     },
     menu = {
       auto_show = T.auto_show,
@@ -182,9 +185,6 @@ require("blink.cmp").setup({
             text = function() return "▐" end,
             highlight = "BlinkCmpMenuBorder",
           }
-        --  item_idx = {
-        --    text = function(ctx) return ctx.idx == 10 and "0" or ctx.idx >= 10 and " " or tostring(ctx.idx) end,
-        --  }
         }
       }
     },
