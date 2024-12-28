@@ -141,6 +141,7 @@ require "fzf-lua".setup({
     -- set to `false` to remove a flag
     -- set to '' for a non-value flag
     -- for raw args use `fzf_args` instead
+    ["--scrollbar"]      = "██",
     ["--ansi"]           = "",
     ["--info"]           = "inline",
     ["--height"]         = "100%",
