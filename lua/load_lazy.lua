@@ -99,13 +99,13 @@ lazy.setup({
       require("plugins.treesitter")
     end,
   },
-  {
-    'silvercircle/alpha-nvim',
-    branch = "mine",
-    config = function()
-      require("plugins.alpha")
-    end
-  },
+  --{
+  --  'silvercircle/alpha-nvim',
+  --  branch = "mine",
+  --  config = function()
+  --    require("plugins.alpha")
+  --  end
+  --},
   {
     'dcampos/nvim-snippy',
     lazy = true,
@@ -148,24 +148,71 @@ lazy.setup({
       require("plugins.telescope_setup")
     end
   },
-  -- cmp and all its helpers
+    -- blink (alternative to nvim-cmp)
+  -- experimental, needs config!
   {
-    'hrsh7th/nvim-cmp',
+    'saghen/blink.cmp',
+    -- version = '*',
+    build = "cargo build --release",
     lazy = true,
-    event = { "InsertEnter", "CmdLineEnter" },
-    dependencies = {
-      'hrsh7th/cmp-cmdline',
-      { 'hrsh7th/cmp-nvim-lsp' },
-      'hrsh7th/cmp-path',
-      { 'hrsh7th/cmp-emoji' },
-      { 'dcampos/cmp-snippy' },
-      { 'hrsh7th/cmp-nvim-lua' },
-      { 'hrsh7th/cmp-nvim-lsp-signature-help' },
-      { 'hrsh7th/cmp-buffer' },
-    },
+    event = "ModeChanged",
     config = function()
-      require("plugins.cmp")
-    end
+      require("plugins.blink")
+    end,
+    dependencies = {
+      { 'windwp/nvim-autopairs',
+        config = function()
+          require("nvim-autopairs").setup({})
+          if __Globals.perm_config.autopair then
+            require("nvim-autopairs").enable()
+          else
+            require("nvim-autopairs").disable()
+          end
+        end
+      },
+      {
+        'https://gitlab.com/silvercircle74/cmp-wordlist.nvim',
+        config = function()
+          require("cmp_wordlist").setup({
+            wordfiles = { 'wordlist.txt', "personal.txt" },
+            debug = false,
+            read_on_setup = false,
+            watch_files = true,
+            telescope_theme = __Telescope_dropdown_theme,
+            blink_compat = true
+          })
+        end
+      },
+      {
+        "saghen/blink.compat",
+        -- use the latest release, via version = '*', if you also use the latest release for blink.cmp
+        version = "*",
+        -- lazy.nvim will automatically load the plugin when it's required by blink.cmp
+        lazy = true,
+        -- make sure to set opts so that lazy.nvim calls blink.compat's setup
+        opts = {},
+      },
+      "hrsh7th/cmp-emoji",
+      "dcampos/cmp-snippy",
+      'hrsh7th/cmp-nvim-lua',
+      {
+        "dcampos/nvim-snippy",
+        lazy = true,
+        config = function()
+          require("snippy").setup({
+            mappings = {
+              is = {
+                ["<Tab>"] = "expand_or_advance",
+                ["<S-Tab>"] = "previous",
+              },
+              nx = {
+                ["<leader>x"] = "cut_text",
+              },
+            },
+          })
+        end
+      }
+    }
   },
   -- lsp
   {
@@ -248,10 +295,9 @@ lazy.setup({
     end
   },
   { 'voldikss/vim-floaterm',      cmd = { "FloatermNew", "FloatermToggle" } },
-  --{ 'numToStr/FTerm.nvim', lazy=true },
+  { 'numToStr/FTerm.nvim', lazy=true },
   { 'preservim/vim-markdown',     ft = "markdown" },
   'echasnovski/mini.move',
-  { 'kevinhwang91/rnvimr', lazy = true, cmd = { "RnvimrToggle" } },
   {
     'willothy/nvim-cokeline', branch = "main",
     event = "UIEnter",

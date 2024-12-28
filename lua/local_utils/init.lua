@@ -260,8 +260,8 @@ end
 -- confirm buffer close when file is modified. May discard the file but always save the view.
 function Utils.BufClose()
   -- local closecmd = "call Mkview() | Kwbd"
-  local closecmd = "Kwbd"
-  local saveclosecmd = "update! | Kwbd"
+  local closecmd = "silent! Kwbd"
+  local saveclosecmd = "update! | silent! Kwbd"
 
   -- do not close these filetypes
   local dontclose = { "neo-tree ", "NvimTree", "Outline", "weather", "terminal", "sysmon", "aerial" }
@@ -417,6 +417,11 @@ local border_layout_prompt_top = {
     prompt  = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
     preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
   },
+  thicc = {
+    results = { "━", "┃", "━", "┃", "┣", "┫", "┛", "┗" },
+    prompt =  { "━", "┃", "━", "┃", "┏", "┓", "┛", "┗" },
+    preview = { "━", "┃", "━", "┃", "┏", "┓", "┛", "┗" }
+  },
   none = {
     results = { " ", " ", " ", " ", " ", " ", " ", " " },
     prompt  = { " ", " ", " ", " ", " ", " ", " ", " " },
@@ -434,6 +439,11 @@ local border_layout_prompt_bottom = {
     results = { "─", "│", "─", "│", "╭", "╮", "┤", "├" },
     prompt =  { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
     preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
+  },
+  thicc = {
+    results = { "━", "┃", "━", "┃", "┏", "┓", "┫", "┣" },
+    prompt =  { "━", "┃", "━", "┃", "┏", "┓", "┛", "┗" },
+    preview = { "━", "┃", "━", "┃", "┏", "┓", "┛", "┗" }
   },
   none = {
     results = { " ", " ", " ", " ", " ", " ", " ", " " },
@@ -477,6 +487,11 @@ local border_layout_vertical_dropdown = {
     results = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
     prompt =  { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
     preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
+  },
+  thicc = {
+    results = { "━", "┃", " ", "┃", "┏", "┓", "┃", "┃" },
+    prompt =  { "━", "┃", "━", "┃", "┣", "┫", "┛", "┗" },
+    preview = { "━", "┃", "━", "┃", "┏", "┓", "┛", "┗" }
   },
   none = {
     results = { " ", " ", " ", " ", " ", " ", " ", " " },
@@ -568,4 +583,20 @@ function Utils.truncate(text, max_length)
   end
 end
 
+--- show notification history, depending on which plugin we use for notifications
+function Utils.notification_history()
+  if vim.g.tweaks.notifier == "mini" then
+    require("detour").DetourCurrentWindow()
+    require("mini.notify").show_history()
+  elseif vim.g.tweaks.notifier == "fidget" then
+    require("plugins.fidgethistory").open()
+  elseif vim.g.tweaks.notifier == "nvim-notify" then
+    require("telescope").extensions.notify.notify(__Telescope_vertical_dropdown_theme({
+        width_text = 40,
+        width_annotation = 50,
+        prompt_title = "Notifications",
+        layout_config = Config.telescope_vertical_preview_layout
+      }))
+  end
+end
 return Utils

@@ -76,6 +76,25 @@ local conditions = {
     ['9'] = " Wind",
     ['2'] = " Strong wind",
     ['3'] = " Strong wind",
+  },
+  OWM3 = {
+    c = "󰖕 Partly Cloudy",
+    b = "󰖕 Mostly Clear",
+    a = "󰖙 Clear",
+    e = "󰖐 Cloudy",
+    f = "󰖐 Cloudy",
+    d = "󰖐 Mostly Cloudy",
+    j = "󰖖 Heavy Rain",
+    s = "󰖖 Rain",
+    o = "󰼶 Snow",
+    w = "󰼶 Snow",
+    k = "󰖓 Thunderstorm",
+    x = " Sleet/Drizzle",
+    g = " Light Rain",
+    ['0'] = " Fog",
+    ['9'] = " Wind",
+    ['2'] = " Strong wind",
+    ['3'] = " Strong wind",
   }
 }
 
@@ -596,7 +615,7 @@ function Wsplit.refresh()
         vim.api.nvim_buf_set_lines(Wsplit.bufid, 0, -1, false, lines)
         vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 11, 0, -1)
 
-        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Debug", 1, 0, -1)
+        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Function", 1, 0, -1)
         -- temp
         hl = temp_to_hl(results["3"]) -- the current temperature, also colorize the condition string
         vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 2, 0, -1)

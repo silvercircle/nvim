@@ -6,6 +6,7 @@ M.main_winid = 0
 M.cur_bufsize = 0
 M.outline_is_open = false
 M.lsp_capabilities = nil
+M.notifier = nil
 
 M.term = {
   bufid = nil,
@@ -491,7 +492,7 @@ function M.write_config()
 end
 
 --- read the permanent config from the JSON dump.
---- if anything goes wrong, then restore the defaults.
+--- restore the defaults if anything goes wrong
 function M.restore_config()
   local file = get_permconfig_filename()
   local f = io.open(file, "r")
@@ -528,6 +529,9 @@ function M.restore_config()
     indentguide_colors = {
       dark = vim.g.tweaks.indentguide.color.dark,
       light = vim.g.tweaks.indentguide.color.light
+    },
+    plugins = {
+      hl = { "markdown", "syntax", "common", "blink" }
     },
     rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast,
     tweaks = {
@@ -632,13 +636,13 @@ local notify_classes = {
 function M.notify(msg, level, ...)
   local arg = { ... }
   local params = {}
-  if vim.g.notifier == nil then
+  if M.notifier == nil then
     return
   end
   if level >= 0 and level <= 4 then
     params.icon = notify_classes[level + 1].icon
     params.title = (arg[1] == nil) and notify_classes[level + 1].title or arg[1]
-    vim.g.notifier.notify(msg, level, params)
+    M.notifier(msg, level, params)
   end
 end
 
@@ -727,6 +731,7 @@ function M.mini_pick_center(width, height, col_anchor)
     width = width,
     row = math.floor(_ca * (vim.o.lines - height)),
     col = math.floor(0.5 * (vim.o.columns - width)),
+    border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" }
   }
 end
 
@@ -825,7 +830,7 @@ end
 --- @return table
 function M.get_lsp_capabilities()
   if M.lsp_capabilities == nil then
-    local cmp_lsp = require("cmp_nvim_lsp")
+    -- local cmp_lsp = require("cmp_nvim_lsp")
     M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
     --M.lsp_capabilities = cmp_lsp.default_capabilities(M.lsp_capabilities)
 

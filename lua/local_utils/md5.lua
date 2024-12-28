@@ -175,7 +175,7 @@ else
 
       local floor = math.floor
 
-      for i=1, bits do
+      for _=1, bits do
         n = n/2
         n = bit_or(floor(n), high_bit)
       end
@@ -188,7 +188,7 @@ else
         n = bit_not(math.abs(n)) + 1
       end
 
-      for i=1, bits do
+      for _=1, bits do
         n = n*2
       end
       return bit_and(n, 0xFFFFFFFF)
