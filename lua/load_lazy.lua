@@ -271,7 +271,7 @@ lazy.setup({
       require("plugins.cmp")
     end
   },
-  -- blink (alternative to nvim-cmp)
+  -- blink.cmp (alternative to nvim-cmp)
   {
     'saghen/blink.cmp',
     -- version = '*',
@@ -294,6 +294,7 @@ lazy.setup({
           end
         end
       },
+      -- this is also a nvim-cmp source, usable via blink.compat
       {
         'https://gitlab.com/silvercircle74/cmp-wordlist.nvim',
         config = function()
@@ -303,19 +304,18 @@ lazy.setup({
             read_on_setup = false,
             watch_files = true,
             telescope_theme = __Telescope_dropdown_theme,
+            -- this is needed for blink.compat.
             blink_compat = true
           })
         end
       },
       {
         "saghen/blink.compat",
-        -- use the latest release, via version = '*', if you also use the latest release for blink.cmp
         version = "*",
-        -- lazy.nvim will automatically load the plugin when it's required by blink.cmp
         lazy = true,
-        -- make sure to set opts so that lazy.nvim calls blink.compat's setup
         opts = {},
       },
+      -- cmp sources which will be used via blink.compat
       "hrsh7th/cmp-emoji",
       'hrsh7th/cmp-nvim-lua',
     }
@@ -450,11 +450,6 @@ lazy.setup({
       }
     }
   },
-  --  {'lewis6991/satellite.nvim',
-  --    config = function()
-  --      require("plugins.satellite")
-  --    end
-  --  },
   {
     'stevearc/dressing.nvim',
     event = { "UIEnter" },

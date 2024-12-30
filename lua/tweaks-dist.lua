@@ -38,6 +38,16 @@ Tweaks.breadcrumb = 'navic'
 -- choose whatever looks better to you.
 Tweaks.multicursor = "jake-stewart"
 
+-- completion framework to use. Can be "blink" or "nvim-cmp"
+-- If set to nvim-cmp, the magazine fork (optimized for performance) is used.
+-- blink is more modern and probably faster, but should be considered beta 
+-- quality software (as of December 2024). Breaking changes are likely.
+--
+-- look further below for plugin-specific tweaks.
+Tweaks.completion = {
+  version = "blink"
+}
+
 -- telescope field widths. These depend on the characters per line in the terminal
 -- setup. So it needs to be tweakable
 Tweaks.telescope_symbol_width = 60
@@ -110,17 +120,11 @@ Tweaks.lsp = {
   virtual_lines = false
 }
 
--- completion framework to use. Can be "blink" or "nvim-cmp"
--- If set to nvim-cmp, the magazine fork (optimized for performance) is used.
--- blink is more modern and probably faster, but should be considered beta 
--- quality software (as of December 2024). Breaking changes are likely.
-Tweaks.completion = {
-  version = "blink"
-}
-
+-- blink.cmp related tweaks
 Tweaks.blink = {
   -- if false, you have to manually invoke the completion popup (Control-Space)
-  auto_show = true,
+  auto_show = false,
+  -- auto-show after that many milliseconds
   border = "single",
   -- show the documentation window automatically
   auto_doc = true,
@@ -143,6 +147,7 @@ Tweaks.blink = {
   -- set this to an empty table to allow buffer words for all filetype
   buffer_source_ft_allowed = {} -- { "tex", "markdown" }
 }
+
 -- tweaks for the cmp autocompletion system
 Tweaks.cmp = {
   -- max buffer size to enable the buffer words autocompletion source in cmp
@@ -301,6 +306,8 @@ Tweaks.tree = {
 }
 
 -- settings for the nvim-jdtls plugin. See ftplugin/java.lua
+-- avoid absolute paths except for system binaries, we vim.fn.expand() it when
+-- needed
 Tweaks.jdtls = {
   workspace_base = "~/.cache/jdtls_workspace/",
   java_executable = "/usr/bin/java",

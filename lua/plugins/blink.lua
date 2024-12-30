@@ -6,6 +6,20 @@ local T = vim.g.tweaks.blink
 local border = T.border
 local list = require "blink.cmp.completion.list"
 
+-- helper function which may become handy at some point (from nvim-cmp)
+-- returns true when there is content in front of the cursor
+local has_words_before = function()
+  unpack = unpack or table.unpack
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+-- send the tab key via feedkeys()
+local send_tab_key = function()
+  local tab_key = vim.api.nvim_replace_termcodes("<Tab>", true, true, true)
+  vim.api.nvim_feedkeys(tab_key, "n", true)
+end
+
 --- workaround for missing feature (scroll completion window page-wise)
 --- @param idx number: number of entries to scroll
 --- @param dir? number: direction to scroll (+1 to scroll down, -1 to scroll up, defaults to 1)-
@@ -75,6 +89,8 @@ require("blink.cmp").setup({
       "fallback"
     },
     ["<S-Tab>"]    = { "snippet_backward", "fallback" },
+    -- PageUp/PageDown scroll the menu per page
+    -- this uses a simple workaround
     ["<PageDown>"]  = {
       function(cmp)
         if not cmp.is_visible() then
@@ -120,9 +136,8 @@ require("blink.cmp").setup({
         module = 'blink.compat.source',
         score_offset = 8
       },
-      -- disable the snippets source, we use nvim-snippy
-      -- LSP snippets are not affected by this
       snippets = {
+        score_offset = 5,
         module = 'blink.cmp.sources.snippets',
         name = "Snippets",
         opts = {
@@ -152,7 +167,8 @@ require("blink.cmp").setup({
       create_undo_point = false,
     },
     trigger = {
-      prefetch_on_insert = T.prefetch
+      prefetch_on_insert = T.prefetch,
+      show_on_trigger_character = true
     },
     list = {
       selection = "manual"
