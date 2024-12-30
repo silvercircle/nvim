@@ -45,7 +45,7 @@ Tweaks.multicursor = "jake-stewart"
 --
 -- look further below for plugin-specific tweaks.
 Tweaks.completion = {
-  version = "blink"
+  version = "nvim-cmp"
 }
 
 -- telescope field widths. These depend on the characters per line in the terminal

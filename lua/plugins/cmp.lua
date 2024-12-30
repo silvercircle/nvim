@@ -94,18 +94,18 @@ end
 -- formatting function for the standard layout
 local f_std = function(entry, vim_item)
   local menu_is_lsp = false
-  -- fancy icons and a name of kind
-  vim_item.kind_symbol = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
-  -- vim_item.kind = " " .. vim_item.kind_symbol .. " " .. Config.iconpad .. vim_item.kind
+  local lkind
   if vim_item.kind ~= nil then
-    vim_item.kind = vim_item.kind_symbol .. " " .. vim_item.kind
+    lkind = utils.rpad(vim_item.kind, 11, " ")
   else
-    vim_item.kind = vim_item.kind_symbol .. " "
+    lkind = "           "
   end
-  vim_item.abbr = utils.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)
+  -- fancy icons and a name of kind
+  vim_item.kind = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
+  vim_item.abbr = utils.truncate("┃ " .. vim_item.abbr .. " ", vim.g.tweaks.cmp.abbr_maxwidth + 2)
   -- The 'menu' section: source, detail information (lsp, snippet), etc.
   -- set a name for each source (see the sources section below)
-  vim_item.menu = cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name)
+  vim_item.menu = lkind .. cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name)
   -- highlight groups for item.menu
   vim_item.menu_hl_group = cmp_menu_hl_group[entry.source.name]     -- default is CmpItemMenu
   -- detail information (optional)
@@ -115,7 +115,7 @@ local f_std = function(entry, vim_item)
     -- Display which LSP servers this item came from.
     local lspserver_name = entry.source.source.client.name
     if lspserver_name == "lua_ls" then lspserver_name = "Lua" end
-    vim_item.menu = lspserver_name
+    vim_item.menu = lkind .. lspserver_name
     menu_is_lsp = true
     -- Some language servers provide details, e.g. type information.
     -- The details info hide the name of lsp server, but mostly we'll have one LSP
@@ -133,7 +133,7 @@ local f_std = function(entry, vim_item)
       return lspserver_name == "Lua" and "Lua" or this_item.detail
     end)(cmp_item)
     if detail_txt then
-      vim_item.menu = detail_txt
+      vim_item.menu = lkind .. detail_txt
     end
   end
   vim_item.menu_hl_group = "CmpItemMenuDetail"
@@ -150,7 +150,7 @@ end
 local cmp_layouts = {
   -- classic layout field order
   standard =   {
-    fields = { "abbr", "kind", "menu" },
+    fields = { "kind", "abbr", "menu" },
     fn = f_std
   },
   -- modern. kind icon in front of symbol name
