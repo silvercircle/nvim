@@ -96,25 +96,24 @@ local f_std = function(entry, vim_item)
   local menu_is_lsp = false
   local lkind
   if vim_item.kind ~= nil then
-    lkind = utils.rpad(vim_item.kind, 11, " ")
+    lkind = utils.rpad(vim_item.kind, vim.g.tweaks.cmp.kind_maxwidth, " ")
   else
-    lkind = "           "
+    lkind = string.rep(" ", vim.g.tweaks.cmp.kind_maxwidth)
   end
   -- fancy icons and a name of kind
   vim_item.kind = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
   vim_item.abbr = utils.truncate("┃ " .. vim_item.abbr .. " ", vim.g.tweaks.cmp.abbr_maxwidth + 2)
   -- The 'menu' section: source, detail information (lsp, snippet), etc.
   -- set a name for each source (see the sources section below)
-  vim_item.menu = lkind .. cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name)
+  vim_item.menu = lkind .. (cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name))
   -- highlight groups for item.menu
   vim_item.menu_hl_group = cmp_menu_hl_group[entry.source.name]     -- default is CmpItemMenu
   -- detail information (optional)
   local cmp_item = entry:get_completion_item()
-  local dmw = vim.g.tweaks.cmp.details_maxwidth
+  local dmw = vim.g.tweaks.cmp.details_maxwidth + vim.g.tweaks.cmp.kind_maxwidth
   if entry.source.name == "nvim_lsp" then
     -- Display which LSP servers this item came from.
     local lspserver_name = entry.source.source.client.name
-    if lspserver_name == "lua_ls" then lspserver_name = "Lua" end
     vim_item.menu = lkind .. lspserver_name
     menu_is_lsp = true
     -- Some language servers provide details, e.g. type information.
@@ -167,11 +166,6 @@ cmp.setup({
     autocomplete = vim.g.tweaks.cmp.autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or {},
     completeopt = "menu,menuone",
   },
-  --snippet = {
-  --  expand = function(args)
-  --    snippy.expand_snippet(args.body)
-  --  end,
-  --},
   view = {
     docs = {
       auto_open = __Globals.perm_config.cmp_show_docs
@@ -280,7 +274,7 @@ cmp.setup({
     { name = 'rpncalc' },
     { name = 'emoji', priority = 10, max_item_count = 40 },        -- cmp-emoji source
     { name = 'nvim_lua', priority = 111, trigger_characters = {"."}, keyword_length = math.huge },    -- nvim lua api completion source
-    { name = 'buffer', priority = 10, group_index = 2, keyword_length = 3,
+    { name = 'buffer', priority = 10, group_index = 2, keyword_length = 2,
       option = {
         max_indexed_line_length = 1024,
         keyword_pattern = [[\k\+]],
