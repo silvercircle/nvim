@@ -1,3 +1,62 @@
 {
-
+  "isodate": {
+    "prefix": "isodate",
+    "body": ""
+  },
+  "timenow": {
+    "prefix": "timenow",
+    "body": ""
+  },
+  "today": {
+    "prefix": "today",
+    "body": ""
+  },
+  "emdash": {
+    "prefix": "emdash",
+    "body": "\t —"
+  },
+  "dquotes": {
+    "prefix": "dquotes",
+    "body": "    „$0“"
+  },
+  "bracks": {
+    "prefix": "bracks",
+    "body": "    ‹$0›"
+  },
+  "dbracks": {
+    "prefix": "dbracks",
+    "body": "    «$0»"
+  },
+  "frontmatter": {
+    "prefix": "frontmatter",
+    "body": [
+      "\t---",
+      "\tauthor: $0",
+      "\ttitle: $1",
+      "\tdate: $2",
+      "\tmodified: $3",
+      "\tlayout: no_sidebar",
+      "\tcategories: []",
+      "\tmenucontext: topics",
+      "\tsection: $4",
+      "\tbacklink: /blog",
+      "\tisso: true",
+      "\twords: ",
+      "\treduced: small",
+      "\ttag: []",
+      "\tkeywords: []",
+      "\texcerpt: >",
+      "\t  $5",
+      "\timage:",
+      "\t  source: ",
+      "\t  width: 100px",
+      "\t  align: right",
+      "\tshare: 1",
+      "\t---"
+    ]
+  },
+  "testsnippet": {
+    "prefix": "testsnippet",
+    "body": "emph{„${1:\\$VISUAL}“)"
+  }
 }

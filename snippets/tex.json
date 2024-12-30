@@ -1,0 +1,50 @@
+{
+  "cast": {
+    "prefix": "cast",
+    "body": "   hypertarget{cast_$0\\}{$1\\}"
+  },
+  "link": {
+    "prefix": "link",
+    "body": "   hyperlink{$0\\}{$1\\}"
+  },
+  "emphquote": {
+    "prefix": "emphquote",
+    "body": ""
+  },
+  "textbold": {
+    "prefix": "textbold",
+    "body": ""
+  },
+  "emph": {
+    "prefix": "emph",
+    "body": ""
+  },
+  "textmedium": {
+    "prefix": "textmedium",
+    "body": ""
+  },
+  "textmediumitalic": {
+    "prefix": "textmediumitalic",
+    "body": ""
+  },
+  "chapter": {
+    "prefix": "chapter",
+    "body": ""
+  },
+  "section": {
+    "prefix": "section",
+    "body": ""
+  },
+  "subsection": {
+    "prefix": "subsection",
+    "body": ""
+  },
+  "subsubsection": {
+    "prefix": "subsubsection",
+    "body": ""
+  },
+  "begin": {
+    "prefix": "begin",
+    "body": ""
+  }
+}

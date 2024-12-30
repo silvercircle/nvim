@@ -1,5 +1,33 @@
 local lazy = require("lazy")
 lazy.setup({
+  {
+  "smjonas/snippet-converter.nvim",
+  cond = false,
+  -- SnippetConverter uses semantic versioning. Example: use version = "1.*" to avoid breaking changes on version 1.
+  -- Uncomment the next line to follow stable releases only.
+  -- tag = "*",
+  config = function()
+    local template = {
+      -- name = "t1", (optionally give your template a name to refer to it in the `ConvertSnippets` command)
+      sources = {
+        snipmate = {
+          vim.fn.stdpath("config") .. "/oldsnippets"
+        },
+      },
+      output = {
+        -- Specify the output formats and paths
+        vscode_luasnip = {
+          vim.fn.stdpath("config") .. "/snippets",
+        },
+      },
+    }
+    require("snippet_converter").setup {
+      templates = { template },
+      -- To change the default settings (see configuration section in the documentation)
+      -- settings = {},
+    }
+  end
+  },
   'sharkdp/fd',
   {
     "lervag/vimtex",

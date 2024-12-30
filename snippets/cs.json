@@ -1,0 +1,11 @@
+{
+  "foreach": {
+    "prefix": "foreach",
+    "body": [
+      "foreach ($0 in $1) {",
+      "\t$2",
+      "\\}",
+      ""
+    ]
+  }
+}
