@@ -135,7 +135,7 @@ Tweaks.blink = {
   -- maximum height of the popup window
   window_height = 12,
   -- maximum width of the completion label
-  label_max_width = 50,
+  label_max_width = 40,
   -- prefetch on InsertEnter. This might improve performance but might have
   -- memory leaks at the moment.
   prefetch = false,

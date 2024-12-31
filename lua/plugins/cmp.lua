@@ -34,6 +34,7 @@ local function reverse_hl_groups()
   "CmpItemKindUnit",
   "CmpItemKindConstant",
   "CmpItemKindEnum",
+  "CmpItemKindEnumMember",
   "CmpItemKindSnippet",
   "CmpItemKindOperator",
   "CmpItemKindInterface",
@@ -44,7 +45,7 @@ local function reverse_hl_groups()
     local hl = vim.api.nvim_get_hl(0, { name = v })
     if hl.link ~= nil then
       local fg = vim.api.nvim_get_hl(0, { name = hl.link }).fg
-      vim.api.nvim_set_hl(0, v .. "Rev", { fg = fg, reverse = true })
+      vim.api.nvim_set_hl(0, v .. "Rev", { fg = fg, bg = "NONE", reverse = true })
     end
   end
 end
@@ -126,7 +127,8 @@ local f_std = function(entry, vim_item)
   vim_item.abbr = utils.truncate(vim_item.abbr .. " ", T.abbr_maxwidth)
   -- The 'menu' section: source, detail information (lsp, snippet), etc.
   -- set a name for each source (see the sources section below)
-  vim_item.menu = lkind .. utils.lpad((cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name)), T.source_maxwidth, " ")
+  --vim_item.menu = lkind .. utils.lpad((cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name)), T.source_maxwidth, " ")
+  vim_item.menu = lkind .. (cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name))
   -- highlight groups for item.menu
   vim_item.menu_hl_group = "Comment" -- cmp_menu_hl_group[string.lower(entry.source.name)] or "CmpItemMenuDefault"    -- default is CmpItemMenu
   -- detail information (optional)
@@ -226,31 +228,6 @@ cmp.setup({
     ["<PageUp>"] = cmp.mapping.select_prev_item({ behavior = cmp_types.SelectBehavior.Select, count = 15 }),
     ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
     ["<Insert>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
-    --["<Tab>"] = {
-    --  i = function(fallback)
-    --    if cmp.visible() then
-    --      cmp.select_next_item()
-    --    elseif snippy.can_expand_or_advance() then
-    --      vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(snippy-expand-or-advance)", true, true, true), "")
-    --    elseif has_words_before() then
-    --      cmp.complete()
-    --    else
-    --      fallback()
-    --    end
-    --  end,
-    --},
-    --["<S-Tab>"] = {
-    --  i = function(fallback)
-    --    if cmp.visible() then
-    --      cmp.select_prev_item()
-    --    elseif snippy.can_jump(-1) then
-    --      vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(snippy-previous)", true, true, true), "")
-    --    else
-    --      fallback()
-    --    end
-    --  end,
-    --},
-    -- toggle docs, remember it in a permconfig setting
     ['<f1>']  = {
       i = function(fallback)
         if cmp.visible() then

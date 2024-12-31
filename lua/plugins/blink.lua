@@ -63,6 +63,43 @@ local function select_next_idx(idx, dir)
   list.select(target_idx)
 end
 
+local function reverse_hl_groups()
+  local groups = {
+  "BlinkCmpKindDefault",
+  "BlinkCmpKind",
+  "BlinkCmpMenuPath",
+  "BlinkCmpKindStruct",
+  "BlinkCmpKindConstructor",
+  "BlinkCmpKindMethod",
+  "BlinkCmpKindModule",
+  "BlinkCmpKindClass",
+  "BlinkCmpKindVariable",
+  "BlinkCmpKindProperty",
+  "BlinkCmpKindField",
+  "BlinkCmpKindFunction",
+  "BlinkCmpKindKeyword",
+  "BlinkCmpKindText",
+  "BlinkCmpKindUnit",
+  "BlinkCmpKindConstant",
+  "BlinkCmpKindEnum",
+  "BlinkCmpKindEnumMember",
+  "BlinkCmpKindSnippet",
+  "BlinkCmpKindOperator",
+  "BlinkCmpKindInterface",
+  "BlinkCmpKindValue",
+  "BlinkCmpKindTypeParameter" }
+
+  for _,v in ipairs(groups) do
+    local hl = vim.api.nvim_get_hl(0, { name = v })
+    if hl.link ~= nil then
+      local fg = vim.api.nvim_get_hl(0, { name = hl.link }).fg
+      vim.api.nvim_set_hl(0, v .. "Rev", { fg = fg, bg = "NONE", reverse = true })
+    end
+  end
+end
+
+reverse_hl_groups()
+
 require("blink.cmp").setup({
   appearance = {
     -- Will be removed in a future release
@@ -182,13 +219,20 @@ require("blink.cmp").setup({
         treesitter = {"lsp"},
         padding = 1,
         columns = {
-          { "kind_icon", "sep1", "label", "label_description", gap = 0 },
+          { "kind_icon", "label", "label_description", gap = 1 },
           { "kind", "source_name", gap = 1 }
         },
         components = {
+          kind_icon = {
+            text = function(ctx)
+              return "▌" .. ctx.kind_icon .. "▐"
+            end,
+            highlight = function(ctx) return "BlinkCmpKind" .. ctx.kind .. "Rev" end
+          },
           label = {
             ellipsis = true,
-            width = { fill = true, max = T.label_max_width }
+            width = { fill = true, max = T.label_max_width },
+            highlight = function(ctx) return "BlinkCmpKind" .. ctx.kind end
           },
           sep = {
             text = function() return "▌ " end,
