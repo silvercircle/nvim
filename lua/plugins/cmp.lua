@@ -12,6 +12,42 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+local function reverse_hl_groups()
+  local groups = {
+  "CmpItemKindDefault",
+  "CmpItemKind",
+  "CmpItemMenuPath",
+  "CmpItemKindStruct",
+  "CmpItemKindConstructor",
+  "CmpItemKindMethod",
+  "CmpItemKindModule",
+  "CmpItemKindClass",
+  "CmpItemKindVariable",
+  "CmpItemKindProperty",
+  "CmpItemKindField",
+  "CmpItemKindFunction",
+  "CmpItemKindKeyword",
+  "CmpItemKindText",
+  "CmpItemKindUnit",
+  "CmpItemKindConstant",
+  "CmpItemKindEnum",
+  "CmpItemKindSnippet",
+  "CmpItemKindOperator",
+  "CmpItemKindInterface",
+  "CmpItemKindValue",
+  "CmpItemKindTypeParameter" }
+
+  for _,v in ipairs(groups) do
+    local hl = vim.api.nvim_get_hl(0, { name = v })
+    if hl.link ~= nil then
+      local fg = vim.api.nvim_get_hl(0, { name = hl.link }).fg
+      vim.api.nvim_set_hl(0, v .. "Rev", { fg = fg, reverse = true })
+    end
+  end
+end
+
+reverse_hl_groups()
+
 local cmp = require("cmp")
 local cmp_types = require("cmp.types.cmp")
 local types = require("cmp.types")
@@ -64,32 +100,8 @@ local cmp_menu_hl_group = {
   buffer = "CmpItemMenuBuffer",
   nvim_lsp = "CmpItemMenuLSP",
   path = "CmpItemMenuPath",
+  snippet = "CmpItemMenuSnippet"
 }
-
--- formatting function for the experimental ("modern") layout
-local f_exp = function(entry, vim_item)
-  local kind_maxlen = 13
-  -- fancy icons and a name of kind
-  vim_item.menu = utils.lpad(vim_item.kind, kind_maxlen, " ")
-  vim_item.menu_hl_group = "CmpItemKind" .. vim_item.kind
-  vim_item.kind = "▌" .. (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) -- .. "▐"
-  -- Truncate the item if it is too long
-  vim_item.abbr = utils.truncate(vim_item.abbr, vim.g.tweaks.cmp.abbr_maxwidth)
-  -- The 'menu' section: source, detail information (lsp, snippet), etc.
-  -- set a name for each source (see the sources section below)
-  -- vim_item.menu = (cmp_item_menu)[entry.source.name] or string.format("%s", entry.source.name)
-  -- highlight groups for item.menu
-  -- detail information (optional)
-  --local cmp_item = entry:get_completion_item()
-  local dmw = vim.g.tweaks.cmp.details_maxwidth
-  --vim_item.menu = vim_item.menu .. (cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name))
-  if vim.fn.strcharlen(vim_item.menu) < dmw then
-    vim_item.menu = utils.lpad(vim_item.menu, dmw, " ")
-  elseif vim.fn.strcharlen(vim_item.menu) > dmw then
-    vim_item.menu = utils.truncate(vim_item.menu, dmw)
-  end
-  return vim_item
-end
 
 -- formatting function for the standard layout
 local f_std = function(entry, vim_item)
@@ -101,13 +113,15 @@ local f_std = function(entry, vim_item)
     lkind = string.rep(" ", vim.g.tweaks.cmp.kind_maxwidth)
   end
   -- fancy icons and a name of kind
-  vim_item.kind = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind)
-  vim_item.abbr = utils.truncate("┃ " .. vim_item.abbr .. " ", vim.g.tweaks.cmp.abbr_maxwidth + 2)
+  vim_item.kind_hl_group = "CmpItemKind" .. vim_item.kind .. "Rev"
+  vim_item.abbr_hl_group = "CmpItemKind" .. vim_item.kind
+  vim_item.kind = "▌" .. (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) .. "▐"
+  vim_item.abbr = utils.truncate(vim_item.abbr .. " ", vim.g.tweaks.cmp.abbr_maxwidth)
   -- The 'menu' section: source, detail information (lsp, snippet), etc.
   -- set a name for each source (see the sources section below)
-  vim_item.menu = lkind .. (cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name))
+  vim_item.menu = lkind .. utils.lpad((cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name)), 12, " ")
   -- highlight groups for item.menu
-  vim_item.menu_hl_group = cmp_menu_hl_group[entry.source.name]     -- default is CmpItemMenu
+  vim_item.menu_hl_group = cmp_menu_hl_group[string.lower(entry.source.name)] or "CmpItemMenuDefault"    -- default is CmpItemMenu
   -- detail information (optional)
   local cmp_item = entry:get_completion_item()
   local dmw = vim.g.tweaks.cmp.details_maxwidth + vim.g.tweaks.cmp.kind_maxwidth
@@ -135,13 +149,12 @@ local f_std = function(entry, vim_item)
       vim_item.menu = lkind .. detail_txt
     end
   end
-  vim_item.menu_hl_group = "CmpItemMenuDetail"
   if menu_is_lsp == true then
     if vim.fn.strcharlen(vim_item.menu) > dmw then
       vim_item.menu = utils.truncate(vim_item.menu, dmw)
     end
   else
-    vim_item.menu = utils.lpad(vim_item.menu, vim.g.tweaks.cmp.details_maxwidth, " ")
+    vim_item.menu = utils.truncate(vim_item.menu, dmw)
   end
   return vim_item
 end
@@ -151,11 +164,6 @@ local cmp_layouts = {
   standard =   {
     fields = { "kind", "abbr", "menu" },
     fn = f_std
-  },
-  -- modern. kind icon in front of symbol name
-  experimental = {
-    fields = { "kind", "abbr", "menu" },
-    fn = f_exp
   }
 }
 
@@ -194,7 +202,7 @@ cmp.setup({
       border = vim.g.tweaks.borderfactory(vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.comp].border),
       winhighlight = vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.comp].whl_comp,
       scrollbar = true,
-      side_padding = 1
+      side_padding = 0
     },
   },
   mapping = {
@@ -262,14 +270,14 @@ cmp.setup({
     ["<C-Down>"] = cmp.mapping.scroll_docs(4),
   },
   formatting = {
-    fields = cmp_layouts[__Globals.perm_config.cmp_layout].fields,
-    format = cmp_layouts[__Globals.perm_config.cmp_layout].fn
+    fields = cmp_layouts.standard.fields,
+    format = cmp_layouts.standard.fn
   },
   sources = {
-    { name = "nvim_lsp", priority = 110, group_index = 1, max_item_count = 50, trigger_characters = {".", ":", "->", "::" }, keyword_length = 2 },
+    { name = "nvim_lsp", priority = 110, group_index = 1, max_item_count = 50, trigger_characters = {".", ":", "->", "::" }, keyword_length = 1 },
     { name = "path", priority = 30 },
-    { name = "snippets", priority = 100, group_index = 1, keyword_length = 3 },
-    { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 2 },
+    { name = "snippets", priority = 100, group_index = 1, keyword_length = 2 },
+    { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 1 },
     { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 3 },
     { name = 'rpncalc' },
     { name = 'emoji', priority = 10, max_item_count = 40 },        -- cmp-emoji source
@@ -378,8 +386,8 @@ function M.configure_layout(layout)
   __Globals.perm_config.cmp_layout = layout
   cmp.setup({
     formatting = {
-      fields = cmp_layouts[__Globals.perm_config.cmp_layout].fields,
-      format = cmp_layouts[__Globals.perm_config.cmp_layout].fn
+      fields = cmp_layouts.standard.fields,
+      format = cmp_layouts.standard.fn
     }
   })
 end

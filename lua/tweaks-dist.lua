@@ -161,7 +161,7 @@ Tweaks.cmp = {
   -- maximum width for the details column. Normally the rightmost column
   details_maxwidth = 30,
   -- I prefer to have only manual cmp complation (hit Ctrl-Space)
-  autocomplete = true,
+  autocomplete = false,
   -- minimum keyword length for auto-complete to kick in (only if the above is true)
   keywordlen = 2,
   --enable experimental ghost text feature. Set to false (disable) or a table
@@ -188,7 +188,7 @@ Tweaks.cmp = {
       border = "none",
       -- windowhighlight options for the docs and complation popup
       whl_doc = "Normal:NormalFloat,FloatBorder:NormalFloat,CursorLine:Visual,Search:None",
-      whl_comp = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual"
+      whl_comp = "Normal:NeoTreeNormalNC,FloatBorder:CmpBorder,CursorLine:Visual"
 
     },
     topflat = {

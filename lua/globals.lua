@@ -514,7 +514,7 @@ function M.restore_config()
   end
   -- configure the theme
   --local cmp_kind_attr = M.perm_config.cmp_layout == "experimental" and { bold=true, reverse=true } or {}
-  local cmp_kind_attr = { bold=true, reverse=false }
+  local cmp_kind_attr = { bold=true, reverse=true }
   Config.theme.setup({
     scheme = vim.g.tweaks.theme.scheme,
     variant = M.perm_config.theme_variant,
