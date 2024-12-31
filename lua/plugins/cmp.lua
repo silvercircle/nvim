@@ -1,6 +1,9 @@
 -- nvim-cmp: completion support
 local utils = require("local_utils")
 local cmp_helper = {}
+
+local T = vim.g.tweaks.cmp
+
 -- file types that allow buffer indexing for the cmp_buffer source
 
 -- helper function for cmp <TAB> mapping.
@@ -83,6 +86,7 @@ if st == true then
   )
 end
 
+-- this translate cmp source names to readable strings
 local cmp_item_menu = {
   buffer = "Buffer",
   nvim_lsp = "LSP",
@@ -96,11 +100,13 @@ local cmp_item_menu = {
 
 }
 
+-- this translates source names to highlight groups
 local cmp_menu_hl_group = {
   buffer = "CmpItemMenuBuffer",
   nvim_lsp = "CmpItemMenuLSP",
+  nvim_lua = "CmpItemMenuLSP",
   path = "CmpItemMenuPath",
-  snippet = "CmpItemMenuSnippet"
+  snippets = "CmpItemMenuSnippet"
 }
 
 -- formatting function for the standard layout
@@ -108,23 +114,24 @@ local f_std = function(entry, vim_item)
   local menu_is_lsp = false
   local lkind
   if vim_item.kind ~= nil then
-    lkind = utils.rpad(vim_item.kind, vim.g.tweaks.cmp.kind_maxwidth, " ")
+    lkind = utils.rpad(vim_item.kind, T.kind_maxwidth, " ")
   else
-    lkind = string.rep(" ", vim.g.tweaks.cmp.kind_maxwidth)
+    lkind = string.rep(" ", T.kind_maxwidth)
   end
-  -- fancy icons and a name of kind
+  -- fancy icons and a name of kind. use the reversed highlight for the icon
+  -- and the normal item kind color for the actual item.
   vim_item.kind_hl_group = "CmpItemKind" .. vim_item.kind .. "Rev"
   vim_item.abbr_hl_group = "CmpItemKind" .. vim_item.kind
   vim_item.kind = "▌" .. (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) .. "▐"
-  vim_item.abbr = utils.truncate(vim_item.abbr .. " ", vim.g.tweaks.cmp.abbr_maxwidth)
+  vim_item.abbr = utils.truncate(vim_item.abbr .. " ", T.abbr_maxwidth)
   -- The 'menu' section: source, detail information (lsp, snippet), etc.
   -- set a name for each source (see the sources section below)
-  vim_item.menu = lkind .. utils.lpad((cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name)), 12, " ")
+  vim_item.menu = lkind .. utils.lpad((cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name)), T.source_maxwidth, " ")
   -- highlight groups for item.menu
-  vim_item.menu_hl_group = cmp_menu_hl_group[string.lower(entry.source.name)] or "CmpItemMenuDefault"    -- default is CmpItemMenu
+  vim_item.menu_hl_group = "Comment" -- cmp_menu_hl_group[string.lower(entry.source.name)] or "CmpItemMenuDefault"    -- default is CmpItemMenu
   -- detail information (optional)
   local cmp_item = entry:get_completion_item()
-  local dmw = vim.g.tweaks.cmp.details_maxwidth + vim.g.tweaks.cmp.kind_maxwidth
+  local dmw = T.details_maxwidth + T.kind_maxwidth
   if entry.source.name == "nvim_lsp" then
     -- Display which LSP servers this item came from.
     local lspserver_name = entry.source.source.client.name
@@ -171,7 +178,7 @@ cmp.setup({
   preselect = cmp.PreselectMode.Item,
   enabled = true,
   completion = {
-    autocomplete = vim.g.tweaks.cmp.autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or {},
+    autocomplete = T.autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or {},
     completeopt = "menu,menuone",
   },
   view = {
@@ -188,19 +195,19 @@ cmp.setup({
     --max_view_entries = 200,
   },
   experimental = {
-    ghost_text = vim.g.tweaks.cmp.ghost
+    ghost_text = T.ghost
   },
   window = {
     documentation = {
-      border = vim.g.tweaks.borderfactory(vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.doc].border),
-      winhighlight = vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.doc].whl_doc,
+      border = vim.g.tweaks.borderfactory(T.decorations[T.decoration.doc].border),
+      winhighlight = T.decorations[T.decoration.doc].whl_doc,
       max_height = 20,
       scrollbar = true,
       max_width = 80
     },
     completion = {
-      border = vim.g.tweaks.borderfactory(vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.comp].border),
-      winhighlight = vim.g.tweaks.cmp.decorations[vim.g.tweaks.cmp.decoration.comp].whl_comp,
+      border = vim.g.tweaks.borderfactory(T.decorations[T.decoration.comp].border),
+      winhighlight = T.decorations[T.decoration.comp].whl_comp,
       scrollbar = true,
       side_padding = 0
     },
@@ -292,7 +299,7 @@ cmp.setup({
           if Config.cmp.buffer_ft_allowed[ft] == nil then
             return {}
           end
-          if __Globals.cur_bufsize > vim.g.tweaks.cmp.buffer_maxsize then -- 300kb
+          if __Globals.cur_bufsize > T.buffer_maxsize then -- 300kb
             vim.notify("File " .. vim.api.nvim_buf_get_name(buf) .. " too big, cmp_buffer disabled.", vim.log.levels.INFO)
             return {}
           end
@@ -345,7 +352,7 @@ cmp.setup.cmdline(":", {
   }),
   completion = {
     completeopt = "menu,menuone,noselect",
-    autocomplete = vim.g.tweaks.cmp.autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or {}
+    autocomplete = T.autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or {}
   }
 })
  -- Custom sorting/ranking for completion items.
@@ -416,12 +423,12 @@ function M.setup_theme(theme, decoration, decoration_doc)
   cmp.setup({
     window = {
       documentation = {
-        border = vim.g.tweaks.borderfactory(vim.g.tweaks.cmp.decorations[decoration_doc].border),
-        winhighlight = vim.g.tweaks.cmp.decorations[decoration_doc].whl_doc
+        border = vim.g.tweaks.borderfactory(T.decorations[decoration_doc].border),
+        winhighlight = T.decorations[decoration_doc].whl_doc
       },
       completion = {
-        border = vim.g.tweaks.borderfactory(vim.g.tweaks.cmp.decorations[decoration].border),
-        winhighlight = vim.g.tweaks.cmp.decorations[decoration].whl_comp,
+        border = vim.g.tweaks.borderfactory(T.decorations[decoration].border),
+        winhighlight = T.decorations[decoration].whl_comp,
         scrollbar = false,
         side_padding = 1
       }
