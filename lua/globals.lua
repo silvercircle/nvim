@@ -830,7 +830,7 @@ end
 --- @return table
 function M.get_lsp_capabilities()
   if M.lsp_capabilities == nil then
-    -- local cmp_lsp = require("cmp_nvim_lsp")
+    --local cmp_lsp = require("cmp_nvim_lsp")
     M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
     --M.lsp_capabilities = cmp_lsp.default_capabilities(M.lsp_capabilities)
 

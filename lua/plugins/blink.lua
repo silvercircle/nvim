@@ -51,35 +51,20 @@ end
 
 local function reverse_hl_groups()
   local groups = {
-  "BlinkCmpKindDefault",
-  "BlinkCmpKind",
-  "BlinkCmpMenuPath",
-  "BlinkCmpKindStruct",
-  "BlinkCmpKindConstructor",
-  "BlinkCmpKindMethod",
-  "BlinkCmpKindModule",
-  "BlinkCmpKindClass",
-  "BlinkCmpKindVariable",
-  "BlinkCmpKindProperty",
-  "BlinkCmpKindField",
-  "BlinkCmpKindFunction",
-  "BlinkCmpKindKeyword",
-  "BlinkCmpKindText",
-  "BlinkCmpKindUnit",
-  "BlinkCmpKindConstant",
-  "BlinkCmpKindEnum",
-  "BlinkCmpKindEnumMember",
-  "BlinkCmpKindSnippet",
-  "BlinkCmpKindOperator",
-  "BlinkCmpKindInterface",
-  "BlinkCmpKindValue",
-  "BlinkCmpKindTypeParameter" }
+  "BlinkCmpKindDefault", "BlinkCmpKind", "BlinkCmpMenuPath",
+  "BlinkCmpKindStruct", "BlinkCmpKindConstructor", "BlinkCmpKindMethod",
+  "BlinkCmpKindModule", "BlinkCmpKindClass", "BlinkCmpKindVariable",
+  "BlinkCmpKindProperty", "BlinkCmpKindField", "BlinkCmpKindFunction",
+  "BlinkCmpKindKeyword", "BlinkCmpKindText", "BlinkCmpKindUnit",
+  "BlinkCmpKindConstant", "BlinkCmpKindEnum", "BlinkCmpKindEnumMember",
+  "BlinkCmpKindSnippet", "BlinkCmpKindOperator", "BlinkCmpKindInterface",
+  "BlinkCmpKindValue", "BlinkCmpKindTypeParameter" }
 
   for _,v in ipairs(groups) do
     local hl = vim.api.nvim_get_hl(0, { name = v })
     if hl.link ~= nil then
       local fg = vim.api.nvim_get_hl(0, { name = hl.link }).fg
-      vim.api.nvim_set_hl(0, v .. "Rev", { fg = fg, bg = "NONE", reverse = true })
+      vim.api.nvim_set_hl(0, v .. "Rev", { fg = fg, bg = "NONE", reverse = true, bold = true })
     end
   end
 end

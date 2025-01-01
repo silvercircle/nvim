@@ -6,29 +6,14 @@ local T = vim.g.tweaks.cmp
 
 local function reverse_hl_groups()
   local groups = {
-  "CmpItemKindDefault",
-  "CmpItemKind",
-  "CmpItemMenuPath",
-  "CmpItemKindStruct",
-  "CmpItemKindConstructor",
-  "CmpItemKindMethod",
-  "CmpItemKindModule",
-  "CmpItemKindClass",
-  "CmpItemKindVariable",
-  "CmpItemKindProperty",
-  "CmpItemKindField",
-  "CmpItemKindFunction",
-  "CmpItemKindKeyword",
-  "CmpItemKindText",
-  "CmpItemKindUnit",
-  "CmpItemKindConstant",
-  "CmpItemKindEnum",
-  "CmpItemKindEnumMember",
-  "CmpItemKindSnippet",
-  "CmpItemKindOperator",
-  "CmpItemKindInterface",
-  "CmpItemKindValue",
-  "CmpItemKindTypeParameter" }
+  "CmpItemKindDefault", "CmpItemKind", "CmpItemMenuPath",
+  "CmpItemKindStruct", "CmpItemKindConstructor", "CmpItemKindMethod",
+  "CmpItemKindModule", "CmpItemKindClass", "CmpItemKindVariable",
+  "CmpItemKindProperty", "CmpItemKindField", "CmpItemKindFunction",
+  "CmpItemKindKeyword", "CmpItemKindText", "CmpItemKindUnit",
+  "CmpItemKindConstant", "CmpItemKindEnum", "CmpItemKindEnumMember",
+  "CmpItemKindSnippet", "CmpItemKindOperator", "CmpItemKindInterface",
+  "CmpItemKindValue", "CmpItemKindTypeParameter" }
 
   for _,v in ipairs(groups) do
     local hl = vim.api.nvim_get_hl(0, { name = v })
@@ -99,58 +84,73 @@ local cmp_menu_hl_group = {
 }
 
 -- formatting function for the standard layout
-local f_std = function(entry, vim_item)
-  local lkind
-  if vim_item.kind ~= nil then
-    lkind = utils.rpad(vim_item.kind, T.kind_maxwidth, " ")
-  else
-    lkind = string.rep(" ", T.kind_maxwidth)
-  end
+local f_modern = function(entry, vim_item)
+  local lkind = (vim_item.kind ~= nil) and utils.rpad(vim_item.kind, T.kind_maxwidth, " ") or string.rep(" ", T.kind_maxwidth)
   -- fancy icons and a name of kind. use the reversed highlight for the icon
   -- and the normal item kind color for the actual item.
   vim_item.kind_hl_group = "CmpItemKind" .. vim_item.kind .. "Rev"
   vim_item.abbr_hl_group = "CmpItemKind" .. vim_item.kind
   vim_item.kind = "▌" .. (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) .. "▐"
   vim_item.abbr = utils.truncate(vim_item.abbr .. " ", T.abbr_maxwidth)
-  -- The 'menu' section: source, detail information (lsp, snippet), etc.
-  -- set a name for each source (see the sources section below)
+  -- menu is the rightmost columns, includes item kind (LSP)
+  -- and the source name
   vim_item.menu = lkind .. (cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name))
   -- highlight groups for item.menu
   vim_item.menu_hl_group = "FgDim"
   -- detail information (optional)
-  local cmp_item = entry:get_completion_item()
-  local dmw = T.details_maxwidth + T.kind_maxwidth
   if entry.source.name == "nvim_lsp" then
+    local cmp_item = entry:get_completion_item()
     -- Display which LSP servers this item came from.
     local lspserver_name = entry.source.source.client.name
-    vim_item.menu = lkind .. lspserver_name
     -- Some language servers provide details, e.g. type information.
     -- The details info hide the name of lsp server, but mostly we'll have one LSP
     -- per filetype, and we use special highlights so it's OK to hide it..
-    local detail_txt = (function(this_item)
-      if not this_item.detail then
-        return nil
-      end
-      -- OmniSharp sometimes provides details (e.g. for overloaded operators). So leave some
-      -- space for them.
-      --if lspserver_name == "omnisharp" then
-      return #this_item.detail > 0 and this_item.detail or lspserver_name
-      --end
-      --return lspserver_name == "Lua" and "Lua" or this_item.detail
-    end)(cmp_item)
-    if detail_txt then
-      vim_item.menu = lkind .. detail_txt
+    if cmp_item.detail ~= nil and #cmp_item.detail > 0 then
+      vim_item.menu = lkind .. cmp_item.detail
+    else
+      vim_item.menu = lkind .. lspserver_name
     end
   end
-  vim_item.menu = utils.truncate(vim_item.menu, dmw)
+  vim_item.menu = utils.truncate(vim_item.menu, T.details_maxwidth)
+  return vim_item
+end
+
+local f_classic = function(entry, vim_item)
+  vim_item.kind_hl_group = "CmpItemKind" .. vim_item.kind
+  vim_item.kind = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) .. " " .. vim_item.kind
+  vim_item.abbr = utils.truncate(vim_item.abbr .. " ", T.abbr_maxwidth)
+  -- menu is the rightmost columns, includes item kind (LSP)
+  -- and the source name
+  vim_item.menu = (cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name))
+  -- highlight groups for item.menu
+  vim_item.menu_hl_group = "FgDim"
+  -- detail information (optional)
+  if entry.source.name == "nvim_lsp" then
+    local cmp_item = entry:get_completion_item()
+    -- Display which LSP servers this item came from.
+    local lspserver_name = entry.source.source.client.name
+    -- Some language servers provide details, e.g. type information.
+    -- The details info hide the name of lsp server, but mostly we'll have one LSP
+    -- per filetype, and we use special highlights so it's OK to hide it..
+    if cmp_item.detail ~= nil and #cmp_item.detail > 0 then
+      vim_item.menu = cmp_item.detail
+    else
+      vim_item.menu = lspserver_name
+    end
+  end
+  vim_item.menu = utils.truncate(vim_item.menu, T.details_maxwidth)
   return vim_item
 end
 
 local cmp_layouts = {
   -- classic layout field order
-  standard =   {
+  modern =   {
     fields = { "kind", "abbr", "menu" },
-    fn = f_std
+    fn = f_modern
+  },
+  classic =   {
+    fields = { "abbr", "kind", "menu" },
+    fn = f_classic
   }
 }
 
@@ -189,7 +189,7 @@ cmp.setup({
       border = vim.g.tweaks.borderfactory(T.decorations[T.decoration.comp].border),
       winhighlight = T.decorations[T.decoration.comp].whl_comp,
       scrollbar = true,
-      side_padding = 0
+      side_padding = 1
     },
   },
   mapping = {
@@ -232,8 +232,8 @@ cmp.setup({
     ["<C-Down>"] = cmp.mapping.scroll_docs(4),
   },
   formatting = {
-    fields = cmp_layouts.standard.fields,
-    format = cmp_layouts.standard.fn
+    fields = cmp_layouts[__Globals.perm_config.cmp_layout].fields,
+    format = cmp_layouts[__Globals.perm_config.cmp_layout].fn
   },
   sources = {
     { name = "nvim_lsp", priority = 110, group_index = 1, max_item_count = 50, trigger_characters = {".", ":", "->", "::" }, keyword_length = 1 },
@@ -341,15 +341,15 @@ local M = {}
 --- the order of the menu columns.
 --- @param layout string The content style.
 function M.configure_layout(layout)
-  if layout ~= "standard" and layout ~= "experimental" then
+  if layout ~= "classic" and layout ~= "modern" then
     vim.notify(layout .. " is not a supported cmp content layout")
     return
   end
   __Globals.perm_config.cmp_layout = layout
   cmp.setup({
     formatting = {
-      fields = cmp_layouts.standard.fields,
-      format = cmp_layouts.standard.fn
+      fields = cmp_layouts[__Globals.perm_config.cmp_layout].fields,
+      format = cmp_layouts[__Globals.perm_config.cmp_layout].fn
     }
   })
 end
@@ -405,16 +405,16 @@ function M.select_layout()
       if choice ~= nil then
         local nr = string.sub(choice, 1, 1)
         if nr == "1" then
-          style = "standard"
+          style = "classic"
           decoration = "bordered"
         elseif nr == "2" then
-          style = "standard"
+          style = "classic"
           decoration = "flat"
         elseif nr == "3" then
-          style = "experimental"
+          style = "modern"
           decoration = "bordered"
         elseif nr == "4" then
-          style = "experimental"
+          style = "modern"
           decoration = "flat"
         end
         M.configure_layout(style)

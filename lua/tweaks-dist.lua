@@ -160,7 +160,7 @@ Tweaks.cmp = {
   kind_maxwidth = 12,
   source_maxwidth = 12,
   -- maximum width for the details column. Normally the rightmost column
-  details_maxwidth = 30,
+  details_maxwidth = 40,
   -- I prefer to have only manual cmp complation (hit Ctrl-Space)
   autocomplete = false,
   -- minimum keyword length for auto-complete to kick in (only if the above is true)

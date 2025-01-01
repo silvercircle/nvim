@@ -47,7 +47,7 @@ lspconfig.omnisharp.setup({
       IncludePrereleases = true,
     },
   },
-  single_file_support = true,
+  -- single_file_support = true,
   filetypes = { "cs", "vb" },
   root_dir = util.root_pattern('*.sln', '*.csproj', 'omnisharp.json', 'function.json'),
   on_new_config = function(new_config, new_root_dir)
