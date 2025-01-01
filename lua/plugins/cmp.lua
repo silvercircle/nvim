@@ -4,17 +4,6 @@ local cmp_helper = {}
 
 local T = vim.g.tweaks.cmp
 
--- file types that allow buffer indexing for the cmp_buffer source
-
--- helper function for cmp <TAB> mapping.
-local has_words_before = function()
-  if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
-    return false
-  end
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
 local function reverse_hl_groups()
   local groups = {
   "CmpItemKindDefault",
@@ -98,7 +87,6 @@ local cmp_item_menu = {
   snippets = "Snippets",
   emoji = "Emoji",
   calc = "Calculate"
-
 }
 
 -- this translates source names to highlight groups
@@ -112,7 +100,6 @@ local cmp_menu_hl_group = {
 
 -- formatting function for the standard layout
 local f_std = function(entry, vim_item)
-  local menu_is_lsp = false
   local lkind
   if vim_item.kind ~= nil then
     lkind = utils.rpad(vim_item.kind, T.kind_maxwidth, " ")
@@ -127,10 +114,9 @@ local f_std = function(entry, vim_item)
   vim_item.abbr = utils.truncate(vim_item.abbr .. " ", T.abbr_maxwidth)
   -- The 'menu' section: source, detail information (lsp, snippet), etc.
   -- set a name for each source (see the sources section below)
-  --vim_item.menu = lkind .. utils.lpad((cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name)), T.source_maxwidth, " ")
   vim_item.menu = lkind .. (cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name))
   -- highlight groups for item.menu
-  vim_item.menu_hl_group = "Comment" -- cmp_menu_hl_group[string.lower(entry.source.name)] or "CmpItemMenuDefault"    -- default is CmpItemMenu
+  vim_item.menu_hl_group = "FgDim"
   -- detail information (optional)
   local cmp_item = entry:get_completion_item()
   local dmw = T.details_maxwidth + T.kind_maxwidth
@@ -138,7 +124,6 @@ local f_std = function(entry, vim_item)
     -- Display which LSP servers this item came from.
     local lspserver_name = entry.source.source.client.name
     vim_item.menu = lkind .. lspserver_name
-    menu_is_lsp = true
     -- Some language servers provide details, e.g. type information.
     -- The details info hide the name of lsp server, but mostly we'll have one LSP
     -- per filetype, and we use special highlights so it's OK to hide it..
@@ -148,23 +133,16 @@ local f_std = function(entry, vim_item)
       end
       -- OmniSharp sometimes provides details (e.g. for overloaded operators). So leave some
       -- space for them.
-      if lspserver_name == "omnisharp" then
-        --return #this_item.detail > 0 and utils.rpad(string.sub(this_item.detail, 1, 8), 10, " ") .. "OmniSharp" or "          OmniSharp"
-        return this_item.detail .. "OmniSharp"
-      end
-      return lspserver_name == "Lua" and "Lua" or this_item.detail
+      --if lspserver_name == "omnisharp" then
+      return #this_item.detail > 0 and this_item.detail or lspserver_name
+      --end
+      --return lspserver_name == "Lua" and "Lua" or this_item.detail
     end)(cmp_item)
     if detail_txt then
       vim_item.menu = lkind .. detail_txt
     end
   end
-  if menu_is_lsp == true then
-    if vim.fn.strcharlen(vim_item.menu) > dmw then
-      vim_item.menu = utils.truncate(vim_item.menu, dmw)
-    end
-  else
-    vim_item.menu = utils.truncate(vim_item.menu, dmw)
-  end
+  vim_item.menu = utils.truncate(vim_item.menu, dmw)
   return vim_item
 end
 
