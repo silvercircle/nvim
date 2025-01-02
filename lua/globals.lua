@@ -74,7 +74,7 @@ M.perm_config_default = {
   float_borders = "single",
   cmp_show_docs = true,
   autopair = true,
-  cmp_layout = "standard"
+  cmp_layout = "classic"
 }
 
 M.perm_config = {}

@@ -293,7 +293,6 @@ lazy.setup({
   -- blink.cmp (alternative to nvim-cmp)
   {
     'saghen/blink.cmp',
-    -- version = '*',
     build = "cargo build --release",
     lazy = true,
     event = "ModeChanged",

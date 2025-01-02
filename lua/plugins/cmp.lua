@@ -13,7 +13,7 @@ local function reverse_hl_groups()
   "CmpItemKindKeyword", "CmpItemKindText", "CmpItemKindUnit",
   "CmpItemKindConstant", "CmpItemKindEnum", "CmpItemKindEnumMember",
   "CmpItemKindSnippet", "CmpItemKindOperator", "CmpItemKindInterface",
-  "CmpItemKindValue", "CmpItemKindTypeParameter" }
+  "CmpItemKindValue", "CmpItemKindTypeParameter", "CmpItemKindFile" }
 
   for _,v in ipairs(groups) do
     local hl = vim.api.nvim_get_hl(0, { name = v })
@@ -83,7 +83,8 @@ local cmp_menu_hl_group = {
   snippets = "CmpItemMenuSnippet"
 }
 
--- formatting function for the standard layout
+-- formatting function for the modern layout (icon with inverted 
+-- highlight in front)
 local f_modern = function(entry, vim_item)
   local lkind = (vim_item.kind ~= nil) and utils.rpad(vim_item.kind, T.kind_maxwidth, " ") or string.rep(" ", T.kind_maxwidth)
   -- fancy icons and a name of kind. use the reversed highlight for the icon
@@ -115,6 +116,7 @@ local f_modern = function(entry, vim_item)
   return vim_item
 end
 
+-- classic formatting function. icon + item kind in column #2
 local f_classic = function(entry, vim_item)
   vim_item.kind_hl_group = "CmpItemKind" .. vim_item.kind
   vim_item.kind = (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) .. " " .. vim_item.kind
@@ -167,6 +169,7 @@ cmp.setup({
     }
   },
   performance = {
+    -- using all defaults here.
     --debounce = 60,
     --throttle = 30,
     --fetching_timeout = 500,
@@ -197,7 +200,6 @@ cmp.setup({
     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete({
         reason = cmp.ContextReason.Manual,
       }), {"i", "c"}),
-    -- ["<C-Space>"] = cmp.mapping.complete({reason = cmp.ContextReason.Auto}),
     ["<C-e>"] = cmp.mapping.abort(),
     ["<Esc>"] = cmp.mapping.close(), -- ESC close complete popup. Feels more natural than <C-e>
     ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp_types.SelectBehavior.Select }),
@@ -238,13 +240,13 @@ cmp.setup({
   sources = {
     { name = "nvim_lsp", priority = 110, group_index = 1, max_item_count = 50, trigger_characters = {".", ":", "->", "::" }, keyword_length = 1 },
     { name = "path", priority = 30 },
-    { name = "snippets", priority = 100, group_index = 1, keyword_length = 2 },
+    { name = "snippets", priority = 70, group_index = 1, keyword_length = 2 },
     { name = "nvim_lsp_signature_help", priority = 110, keyword_length = 1 },
-    { name = 'wordlist', priority = 10, group_index = 2, keyword_length = 3 },
+    { name = 'wordlist', priority = 55, group_index = 2, keyword_length = 3 },
     { name = 'rpncalc' },
     { name = 'emoji', priority = 10, max_item_count = 40 },        -- cmp-emoji source
-    { name = 'nvim_lua', priority = 111, trigger_characters = {"."}, keyword_length = math.huge },    -- nvim lua api completion source
-    { name = 'buffer', priority = 10, group_index = 2, keyword_length = 2,
+    { name = 'nvim_lua', priority = 100, trigger_characters = {"."}, keyword_length = math.huge },    -- nvim lua api completion source
+    { name = 'buffer', priority = 60, group_index = 2, keyword_length = 2,
       option = {
         max_indexed_line_length = 1024,
         keyword_pattern = [[\k\+]],
@@ -271,11 +273,10 @@ cmp.setup({
   },
   sorting = {
     comparators = {
-      -- function(...) return cmp_buffer:compare_locality(...) end,
       cmp.config.compare.offset,
       cmp.config.compare.exact,
       cmp.config.compare.score,
-      function(...) return cmp_helper.compare.deprioritize_snippet(...) end,
+      -- function(...) return cmp_helper.compare.deprioritize_snippet(...) end,
 --      function(...)
 --        return cmp_helper.compare.prioritize_argument(...)
 --      end,
@@ -283,10 +284,10 @@ cmp.setup({
 --        return cmp_helper.compare.deprioritize_underscore(...)
 --      end,
       cmp.config.compare.recently_used,
-      -- cmp.config.compare.locality,
+      cmp.config.compare.locality,
       cmp.config.compare.kind,
-      --cmp.config.compare.sort_text,
-      --cmp.config.compare.length,
+      cmp.config.compare.sort_text,
+      cmp.config.compare.length,
       cmp.config.compare.order
     }
   }
@@ -378,7 +379,8 @@ function M.setup_theme(theme, decoration, decoration_doc)
   cmp.setup({
     window = {
       documentation = {
-        border = vim.g.tweaks.borderfactory(T.decorations[decoration_doc].border),
+        -- border = vim.g.tweaks.borderfactory(T.decorations[decoration_doc].border),
+        border = vim.g.tweaks.borderfactory("thicc"),
         winhighlight = T.decorations[decoration_doc].whl_doc
       },
       completion = {
