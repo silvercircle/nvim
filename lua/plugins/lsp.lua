@@ -422,6 +422,9 @@ lspconfig.jsonls.setup {
 vim.g.zig_fmt_parse_errors = 0
 vim.g.zig_fmt_autosave = 0
 lspconfig.zls.setup {
+  on_attach = function(client, buf)
+    On_attach(client, buf)
+  end,
   cmd = { vim.g.lsp_server_bin[ "zls" ] },
   on_new_config = function(new_config, new_root_dir)
     if vim.fn.filereadable(vim.fs.joinpath(new_root_dir, "zls.json")) ~= 0 then
