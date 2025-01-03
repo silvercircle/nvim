@@ -7,6 +7,7 @@ M.cur_bufsize = 0
 M.outline_is_open = false
 M.lsp_capabilities = nil
 M.notifier = nil
+M.cmp_setup_done = false
 
 M.term = {
   bufid = nil,
@@ -74,7 +75,8 @@ M.perm_config_default = {
   float_borders = "single",
   cmp_show_docs = true,
   autopair = true,
-  cmp_layout = "classic"
+  cmp_layout = "classic",
+  cmp_autocomplete = vim.g.tweaks.cmp.autocomplete
 }
 
 M.perm_config = {}
@@ -848,6 +850,20 @@ function M.TestDetour()
   require("detour").DetourCurrentWindow()
   vim.api.nvim_win_set_option(0, "winbar", "")
   vim.cmd("setlocal winhl=NormalFloat:Normal,FloatBorder:TelescopeBorder")
+end
+
+function M.toggle_autocomplete()
+  if M.cmp_setup_done == false then
+    return
+  end
+  __Globals.perm_config.cmp_autocomplete = not __Globals.perm_config.cmp_autocomplete
+  require("cmp").setup({
+    completion = {
+      autocomplete = __Globals.perm_config.cmp_autocomplete == true and { require("cmp.types.cmp").TriggerEvent.TextChanged } or {},
+      completeopt = "menu,menuone",
+    }
+  })
+  vim.notify("CMP autocomplete is now " .. (__Globals.perm_config.cmp_autocomplete == true and "Enabled" or "Disabled"))
 end
 
 return M

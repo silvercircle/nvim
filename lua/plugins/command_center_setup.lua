@@ -388,7 +388,7 @@ command_center.add({
   },
   {
     desc = "Toggle CMP autocomplete",
-    cmd = function() require("plugins.cmp").toggle_autocomplete() end,
+    cmd = function() __Globals.toggle_autocomplete() end,
     keys = {
       { "n", "<leader>ca", noremap },
     },

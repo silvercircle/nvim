@@ -160,7 +160,7 @@ cmp.setup({
   preselect = cmp.PreselectMode.Item,
   enabled = true,
   completion = {
-    autocomplete = T.autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or {},
+    autocomplete = __Globals.perm_config.cmp_autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or {},
     completeopt = "menu,menuone",
   },
   view = {
@@ -335,6 +335,8 @@ cmp_helper.compare = {
   end
 }
 
+__Globals.cmp_setup_done = true
+
 local M = {}
 
 --- update the CMP configuration for the content style
@@ -423,19 +425,6 @@ function M.select_layout()
         M.setup_theme(style, decoration, decoration)
       end
     end)
-end
-
-local _autocomplete = T.autocomplete
-
-function M.toggle_autocomplete()
-  _autocomplete = not _autocomplete
-  cmp.setup({
-    completion = {
-      autocomplete = _autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or {},
-      completeopt = "menu,menuone",
-    }
-  })
-  vim.notify("CMP autocomplete is now " .. (_autocomplete == true and "Enabled" or "Disabled"))
 end
 
 return M
