@@ -1,16 +1,17 @@
 -- user tweakable stuff
 -- most of this is for cosmetical or performance purpose. Other tweaks are still
--- in config.lua and options.lua, but the goal is to have all user-tweakable options
--- here. This is WIP.
+-- in config.lua and options.lua, but the goal is to have all user-tweakable options,
+-- that are not neovim core options, here. This is WIP.
 --
 -- how to use this file:
--- 1. make a copy and name it mytweaks.lua
--- 2. mytweaks can be edited and will overwrite settings in this file as long as it is
+-- 1. make a copy and name it mytweaks.lua (exactly that name, on Linux, the name is case-
+--    sensitive)
+-- 2. mytweaks.lua can be edited and will overwrite settings in this file as long as it is
 --    present. Updating the repo with git pull won't overwrite your changes in mytweaks.
 --    So do NOT change this file directly, because your changes may be lost when updating
 --    from the repo.
 -- 3. for performance reasons, you can edit your mytweaks.lua and delete everything that
---    should not be changed. This will speed up marging the tables a bit.
+--    you do not want to change. The file does not have to be complete.
 local Tweaks = {}
 Tweaks.lsp = {}
 

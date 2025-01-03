@@ -387,6 +387,14 @@ command_center.add({
     category = "@Setup"
   },
   {
+    desc = "Toggle CMP autocomplete",
+    cmd = function() require("plugins.cmp").toggle_autocomplete() end,
+    keys = {
+      { "n", "<leader>ca", noremap },
+    },
+    category = "@Setup"
+  },
+  {
     desc = "ZK tags",
     cmd = function()
       require("telescope").extensions.zk.tags( __Telescope_vertical_dropdown_theme({ layout_config={preview_height=0.7, width=0.5, height=0.9}} ) )

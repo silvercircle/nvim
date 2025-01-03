@@ -424,5 +424,19 @@ function M.select_layout()
       end
     end)
 end
+
+local _autocomplete = T.autocomplete
+
+function M.toggle_autocomplete()
+  _autocomplete = not _autocomplete
+  cmp.setup({
+    completion = {
+      autocomplete = _autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or {},
+      completeopt = "menu,menuone",
+    }
+  })
+  vim.notify("CMP autocomplete is now " .. (_autocomplete == true and "Enabled" or "Disabled"))
+end
+
 return M
 
