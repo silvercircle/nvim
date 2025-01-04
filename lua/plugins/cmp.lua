@@ -13,7 +13,8 @@ local function reverse_hl_groups()
   "CmpItemKindKeyword", "CmpItemKindText", "CmpItemKindUnit",
   "CmpItemKindConstant", "CmpItemKindEnum", "CmpItemKindEnumMember",
   "CmpItemKindSnippet", "CmpItemKindOperator", "CmpItemKindInterface",
-  "CmpItemKindValue", "CmpItemKindTypeParameter", "CmpItemKindFile" }
+  "CmpItemKindValue", "CmpItemKindTypeParameter", "CmpItemKindFile",
+  "CmpItemKindFolder" }
 
   for _,v in ipairs(groups) do
     local hl = vim.api.nvim_get_hl(0, { name = v })
@@ -24,7 +25,23 @@ local function reverse_hl_groups()
   end
 end
 
+local function italizemenugroups()
+  local groups = {
+    "CmpItemMenu", "CmpItemMenuPath", "CmpItemMenuDetail",
+    "CmpItemMenuBuffer", "CmpItemMenuSnippet", "CmpItemMenuLSP" }
+
+  for _,v in ipairs(groups) do
+    local hl = vim.api.nvim_get_hl(0, { name = v })
+    if hl.link ~= nil then
+      local fg = vim.api.nvim_get_hl(0, { name = hl.link }).fg
+      local bg = vim.api.nvim_get_hl(0, { name = hl.link }).bg
+      vim.api.nvim_set_hl(0, v, { fg = fg, bg = bg, italic = true })
+    end
+  end
+end
+
 reverse_hl_groups()
+italizemenugroups()
 
 local cmp = require("cmp")
 local cmp_types = require("cmp.types.cmp")
@@ -85,7 +102,7 @@ local cmp_menu_hl_group = {
 
 -- formatting function for the modern layout (icon with inverted 
 -- highlight in front)
-local f_modern = function(entry, vim_item)
+local f_modern_deprecated = function(entry, vim_item)
   local lkind = (vim_item.kind ~= nil) and utils.rpad(vim_item.kind, T.kind_maxwidth, " ") or string.rep(" ", T.kind_maxwidth)
   -- fancy icons and a name of kind. use the reversed highlight for the icon
   -- and the normal item kind color for the actual item.
@@ -111,6 +128,44 @@ local f_modern = function(entry, vim_item)
     else
       vim_item.menu = lkind .. lspserver_name
     end
+  end
+  vim_item.menu = utils.truncate(vim_item.menu, T.details_maxwidth)
+  return vim_item
+end
+
+-- formatting function for the modern layout (icon with inverted 
+-- highlight in front)
+local f_modern = function(entry, vim_item)
+  local kind_hl = "CmpItemKind" .. vim_item.kind
+  vim_item.abbr_hl_group = "Fg"
+
+  local abbr_prefix = "▌" .. (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) .. "▐"
+  local abbr_prefix_len = #abbr_prefix
+  vim_item.abbr = abbr_prefix .. "┃" .. utils.truncate(vim_item.abbr .. " ", T.abbr_maxwidth)
+  vim_item.menu = (cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name))
+  vim_item.abbr_hl_group = {
+    { kind_hl .. "Rev", range = {0, abbr_prefix_len - 1}},
+    { "CmpBorder", range = {abbr_prefix_len, abbr_prefix_len + 2}},
+    { "Fg", range = { abbr_prefix_len + 3, 50 }}
+  }
+  vim_item.menu_hl_group = "CmpItemMenu"
+  -- detail information (optional)
+  if entry.source.name == "nvim_lsp" then
+    local cmp_item = entry:get_completion_item()
+    -- Display which LSP servers this item came from.
+    local lspserver_name = entry.source.source.client.name
+    -- Some language servers provide details, e.g. type information.
+    -- The details info hide the name of lsp server, but mostly we'll have one LSP
+    -- per filetype, and we use special highlights so it's OK to hide it..
+    if cmp_item.detail ~= nil and #cmp_item.detail > 0 then
+      vim_item.menu = cmp_item.detail
+      vim_item.menu_hl_group = "CmpItemMenuDetail"
+    else
+      vim_item.menu = lspserver_name
+      vim_item.menu_hl_group = "CmpItemMenuLSP"
+    end
+  elseif cmp_menu_hl_group[entry.source.name] ~= nil then
+    vim_item.menu_hl_group = cmp_menu_hl_group[entry.source.name]
   end
   vim_item.menu = utils.truncate(vim_item.menu, T.details_maxwidth)
   return vim_item
@@ -147,7 +202,7 @@ end
 local cmp_layouts = {
   -- classic layout field order
   modern =   {
-    fields = { "kind", "abbr", "menu" },
+    fields = { "abbr", "kind", "menu" },
     fn = f_modern
   },
   classic =   {
@@ -192,7 +247,7 @@ cmp.setup({
       border = vim.g.tweaks.borderfactory(T.decorations[T.decoration.comp].border),
       winhighlight = T.decorations[T.decoration.comp].whl_comp,
       scrollbar = true,
-      side_padding = 1
+      side_padding = 0
     },
   },
   mapping = {
