@@ -136,16 +136,12 @@ end
 -- formatting function for the modern layout (icon with inverted 
 -- highlight in front)
 local f_modern = function(entry, vim_item)
-  local kind_hl = "CmpItemKind" .. vim_item.kind
-  vim_item.abbr_hl_group = "Fg"
-
   local abbr_prefix = "▌" .. (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) .. "▐"
   local abbr_prefix_len = #abbr_prefix
-  vim_item.abbr = abbr_prefix .. "┃" .. utils.truncate(vim_item.abbr .. " ", T.abbr_maxwidth)
+  vim_item.abbr = abbr_prefix .. " " .. utils.truncate(vim_item.abbr .. " ", T.abbr_maxwidth)
   vim_item.menu = (cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name))
   vim_item.abbr_hl_group = {
-    { kind_hl .. "Rev", range = {0, abbr_prefix_len - 1}},
-    { "CmpBorder", range = {abbr_prefix_len, abbr_prefix_len + 2}},
+    { "CmpItemKind" .. vim_item.kind .. "Rev", range = {0, abbr_prefix_len - 1}},
     { "Fg", range = { abbr_prefix_len + 3, 50 }}
   }
   vim_item.menu_hl_group = "CmpItemMenu"
@@ -154,6 +150,9 @@ local f_modern = function(entry, vim_item)
     local cmp_item = entry:get_completion_item()
     -- Display which LSP servers this item came from.
     local lspserver_name = entry.source.source.client.name
+    if lspserver_name == "lua_ls" then
+      lspserver_name = lspserver_name .. "  "
+    end
     -- Some language servers provide details, e.g. type information.
     -- The details info hide the name of lsp server, but mostly we'll have one LSP
     -- per filetype, and we use special highlights so it's OK to hide it..
@@ -208,7 +207,11 @@ local cmp_layouts = {
   classic =   {
     fields = { "abbr", "kind", "menu" },
     fn = f_classic
-  }
+  },
+  modern_old =   {
+    fields = { "abbr", "kind", "menu" },
+    fn = f_modern_deprecated
+  },
 }
 
 cmp.setup({
@@ -247,7 +250,7 @@ cmp.setup({
       border = vim.g.tweaks.borderfactory(T.decorations[T.decoration.comp].border),
       winhighlight = T.decorations[T.decoration.comp].whl_comp,
       scrollbar = true,
-      side_padding = 0
+      side_padding = 1
     },
   },
   mapping = {
