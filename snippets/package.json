@@ -32,6 +32,12 @@
           "cs"
         ],
         "path": "./cs.json"
+      },
+      {
+        "language": [
+          "zig"
+        ],
+        "path": "./zig.json"
       }
     ]
   }

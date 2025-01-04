@@ -1,0 +1,6 @@
+{
+  "emptycatch": {
+    "prefix": "ecatch",
+    "body": " catch {}"
+  }
+}
