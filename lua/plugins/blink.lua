@@ -69,7 +69,36 @@ local function reverse_hl_groups()
   end
 end
 
+local function italizemenugroups()
+  local groups = {
+    "CmpItemMenu", "CmpItemMenuPath", "CmpItemMenuDetail",
+    "CmpItemMenuBuffer", "CmpItemMenuSnippet", "CmpItemMenuLSP" }
+
+  for _,v in ipairs(groups) do
+    local fg, bg, name
+    local hl = vim.api.nvim_get_hl(0, { name = v })
+    if hl.link ~= nil then
+      name = hl.link
+    else
+      name = v
+    end
+    fg = vim.api.nvim_get_hl(0, { name = name }).fg
+    bg = vim.api.nvim_get_hl(0, { name = name }).bg
+    vim.api.nvim_set_hl(0, v, { fg = fg, bg = bg, italic = true })
+  end
+end
+
 reverse_hl_groups()
+italizemenugroups()
+
+local blink_menu_hl_group = {
+  buffer = "CmpItemMenuBuffer",
+  lsp = "CmpItemMenuLSP",
+  lua = "CmpItemMenuLSP",
+  path = "CmpItemMenuPath",
+  snippets = "CmpItemMenuSnippet",
+  wordlist = "CmpItemMenuBuffer"
+}
 
 require("blink.cmp").setup({
   appearance = {
@@ -203,7 +232,7 @@ require("blink.cmp").setup({
           label = {
             ellipsis = true,
             width = { fill = true, max = T.label_max_width },
-            highlight = function(ctx) return "BlinkCmpKind" .. ctx.kind end
+            highlight = "Fg"
           },
           sep = {
             text = function() return "▌ " end,
@@ -216,6 +245,25 @@ require("blink.cmp").setup({
           sep_end = {
             text = function() return "▐" end,
             highlight = "BlinkCmpMenuBorder",
+          },
+          source_name = {
+            text = function(ctx)
+              if ctx.item.detail ~= nil and #ctx.item.detail > 1 then
+                return ctx.item.detail
+              end
+              return ctx.source_name
+            end,
+            highlight = function(ctx)
+              if ctx.item.detail ~= nil and #ctx.item.detail > 1 then
+                return "CmpItemMenuDetail"
+              else
+                if blink_menu_hl_group[ctx.source_id] ~= nil then
+                  return blink_menu_hl_group[ctx.source_id]
+                else
+                  return "CmpItemMenuDefault"
+                end
+              end
+            end
           }
         }
       }

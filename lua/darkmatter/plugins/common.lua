@@ -8,6 +8,7 @@
 -- * Navic
 -- * Navbuddy
 -- * Cokeline
+-- * Glance
 
 local function _set()
   local c = require("darkmatter")

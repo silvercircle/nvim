@@ -17,11 +17,15 @@ local function reverse_hl_groups()
   "CmpItemKindFolder" }
 
   for _,v in ipairs(groups) do
+    local fg, name
     local hl = vim.api.nvim_get_hl(0, { name = v })
     if hl.link ~= nil then
-      local fg = vim.api.nvim_get_hl(0, { name = hl.link }).fg
-      vim.api.nvim_set_hl(0, v .. "Rev", { fg = fg, bg = "NONE", reverse = true })
+      name = hl.link
+    else
+      name = v
     end
+    fg = vim.api.nvim_get_hl(0, { name = name }).fg
+    vim.api.nvim_set_hl(0, v .. "Rev", { fg = fg, bg = "NONE", reverse = true })
   end
 end
 
@@ -31,12 +35,16 @@ local function italizemenugroups()
     "CmpItemMenuBuffer", "CmpItemMenuSnippet", "CmpItemMenuLSP" }
 
   for _,v in ipairs(groups) do
+    local fg, bg, name
     local hl = vim.api.nvim_get_hl(0, { name = v })
     if hl.link ~= nil then
-      local fg = vim.api.nvim_get_hl(0, { name = hl.link }).fg
-      local bg = vim.api.nvim_get_hl(0, { name = hl.link }).bg
-      vim.api.nvim_set_hl(0, v, { fg = fg, bg = bg, italic = true })
+      name = hl.link
+    else
+      name = v
     end
+    fg = vim.api.nvim_get_hl(0, { name = name }).fg
+    bg = vim.api.nvim_get_hl(0, { name = name }).bg
+    vim.api.nvim_set_hl(0, v, { fg = fg, bg = bg, italic = true })
   end
 end
 
@@ -142,7 +150,7 @@ local f_modern = function(entry, vim_item)
   vim_item.menu = (cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name))
   vim_item.abbr_hl_group = {
     { "CmpItemKind" .. vim_item.kind .. "Rev", range = {0, abbr_prefix_len - 1}},
-    { "Fg", range = { abbr_prefix_len + 3, 50 }}
+    { "Fg", range = { abbr_prefix_len + 1, 50 }}
   }
   vim_item.menu_hl_group = "CmpItemMenu"
   -- detail information (optional)
@@ -199,7 +207,6 @@ local f_classic = function(entry, vim_item)
 end
 
 local cmp_layouts = {
-  -- classic layout field order
   modern =   {
     fields = { "abbr", "kind", "menu" },
     fn = f_modern
