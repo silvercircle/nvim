@@ -39,11 +39,6 @@
         }, handler, req_bufnr)
     end
 end
---- @type string[]
-local args = {
-  "--logLevel=Information",
-  "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
-}
 
 local util = require 'lspconfig.util'
 require("roslyn").setup({
