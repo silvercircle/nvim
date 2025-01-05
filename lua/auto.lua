@@ -193,6 +193,7 @@ autocmd({ 'BufEnter' }, {
       vim.schedule(function() wsplit.refresh() end)
     end
     marks.BufWinEnterHandler(args) -- update marks in sign column
+    vim.schedule(function() require("lualine").refresh() end)
   end,
   group = agroup_views
 })

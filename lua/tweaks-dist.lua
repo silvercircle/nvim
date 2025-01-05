@@ -114,7 +114,7 @@ Tweaks.lsp = {
   -- use either omnisharp or csharp_ls for c# and .NET development
   -- both options work reasonably well with a few issues and missing features
   -- the third option "roslyn" is highly experimental and not recommended
-  csharp = "omnisharp",
+  csharp = "roslyn",
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
   -- this can show multiple diagnostic messages for a single line.
   -- otherwise, use normal virtual text.
@@ -137,6 +137,8 @@ Tweaks.blink = {
   window_height = 12,
   -- maximum width of the completion label
   label_max_width = 40,
+  -- label_description maximum width
+  desc_max_width = 30,
   -- prefetch on InsertEnter. This might improve performance but might have
   -- memory leaks at the moment.
   prefetch = false,
