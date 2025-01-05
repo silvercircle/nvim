@@ -67,7 +67,7 @@ require("roslyn").setup({
      vim.fs.joinpath(vim.fn.stdpath("data"), "roslyn", "Microsoft.CodeAnalysis.LanguageServer.dll"),
   },
   args = {
-    "--logLevel=Trace", "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path())
+    "--logLevel=Information", "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path())
   },
   settings = {
     ["csharp|background_analysis"] = {
