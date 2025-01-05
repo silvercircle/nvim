@@ -8,7 +8,7 @@ lspconfig.roslyn.setup({
   end,
   cmd = {
     "/opt/dotnet/dotnet",
-    vim.g.lsp_server_bin['roslyn'], "--logLevel=Information", "--extensionLogDirectory=" .. vim.fn.stdpath("data")
+    vim.g.lsp_server_bin['roslyn'], "--logLevel=Trace", "--extensionLogDirectory=" .. vim.fn.stdpath("data")
   },
   --handlers = {
     --["textDocument/definition"] = require('omnisharp_extended').handler

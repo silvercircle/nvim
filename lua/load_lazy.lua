@@ -697,15 +697,11 @@ lazy.setup({
     }
   },
   {
-    'jmederosalvarado/roslyn.nvim',
+    'seblj/roslyn.nvim',
     cond = (vim.g.tweaks.lsp.csharp == "roslyn"),
-    lazy = true,
     ft = { "cs" },
     config = function()
-      require("roslyn").setup({
-        roslyn_version = "4.9.0-3.23604.10",
-        capabilities = __Globals.get_lsp_capabilities()
-      })
+      require("plugins.roslyn")
     end
   },
   {

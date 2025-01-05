@@ -56,6 +56,17 @@ if not configs.ada then
   }
 end
 
+--if not configs.roslyn then
+--  configs.roslyn = {
+--    default_config = {
+--      capabilities = capabilities,
+--      on_attach = On_attach,
+--      cmd = { vim.g.lsp_server_bin['roslyn'] },
+--      filetypes = { 'cs' },
+--      root_dir = util.root_pattern('Makefile', '.git', '*.sln', '*.csproj'),
+--    }
+--  }
+--end
 -- this was tsserver (will be deprecated in the future)
 lspconfig.ts_ls.setup({
   init_options = { hostInfo = 'neovim' },
@@ -439,7 +450,7 @@ lspconfig.zls.setup {
 if vim.g.tweaks.lsp.csharp == "omnisharp" then
   require("lsp.omnisharp")
 elseif vim.g.tweaks.lsp.csharp == "roslyn" then
-  require("lsp.nvim-roslyn")
+  --require("lsp.nvim-roslyn")
 elseif vim.g.tweaks.lsp.csharp == "csharp_ls" then
   require("lsp.csharp_ls")
 end

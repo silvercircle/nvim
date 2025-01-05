@@ -9,7 +9,7 @@ charset = utf-8
 
 # Matches multiple files with brace expansion notation
 # Set default charset
-[*.{js,py,css,scss,nim,lua,vim}]
+[*.{js,py,css,scss,nim,lua,vim,zig}]
 indent_style = space
 indent_size = 2
 textwidth=128
