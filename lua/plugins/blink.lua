@@ -58,7 +58,8 @@ local function reverse_hl_groups()
   "BlinkCmpKindKeyword", "BlinkCmpKindText", "BlinkCmpKindUnit",
   "BlinkCmpKindConstant", "BlinkCmpKindEnum", "BlinkCmpKindEnumMember",
   "BlinkCmpKindSnippet", "BlinkCmpKindOperator", "BlinkCmpKindInterface",
-  "BlinkCmpKindValue", "BlinkCmpKindTypeParameter" }
+  "BlinkCmpKindValue", "BlinkCmpKindTypeParameter", "BlinkCmpKindFile",
+  "BlinkCmpKindFolder", "BlinkCmpKindEvent"}
 
   for _,v in ipairs(groups) do
     local hl = vim.api.nvim_get_hl(0, { name = v })
@@ -157,13 +158,15 @@ require("blink.cmp").setup({
     default = { 'lsp', 'path', 'buffer', 'snippets', 'emoji', 'wordlist', 'nvim_lua' },
     providers = {
       emoji = {
+        score_offset = 0,
         name = "emoji",
         module = 'blink.compat.source'
       },
       wordlist = {
         name = "wordlist",
         module = 'blink.compat.source',
-        min_keyword_length = 2
+        min_keyword_length = 2,
+        score_offset = 0
       },
       lsp = {
         score_offset = 10
@@ -182,6 +185,7 @@ require("blink.cmp").setup({
         }
       },
       buffer = {
+        score_offset = 3,
         module = "blink.cmp.sources.buffer",
         min_keyword_length = 3,
         opts = {
@@ -215,9 +219,9 @@ require("blink.cmp").setup({
       border = border,
       max_height = T.window_height,
       draw = {
-        align_to = 'label',
+        align_to = 'kind_icon',
         treesitter = {"lsp"},
-        padding = 1,
+        padding = { 0, 1 },
         columns = {
           { "kind_icon", "label", "label_description", gap = 1 },
           { "kind", "source_name", gap = 1 }
@@ -231,20 +235,12 @@ require("blink.cmp").setup({
           },
           label = {
             ellipsis = true,
-            width = { fill = true, max = T.label_max_width },
-            highlight = "Fg"
+            width = { fill = true, max = T.label_max_width }
           },
-          sep = {
-            text = function() return "▌ " end,
-            highlight = "BlinkCmpMenuBorder",
-          },
-          sep1 = {
-            text = function() return "┃" end,
-            highlight = "BlinkCmpMenuBorder",
-          },
-          sep_end = {
-            text = function() return "▐" end,
-            highlight = "BlinkCmpMenuBorder",
+          label_description = {
+            ellipsis = true,
+            width = { fill = true, max = T.desc_max_width },
+            highlight = "Comment"
           },
           source_name = {
             text = function(ctx)

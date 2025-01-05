@@ -14,7 +14,7 @@ local function reverse_hl_groups()
   "CmpItemKindConstant", "CmpItemKindEnum", "CmpItemKindEnumMember",
   "CmpItemKindSnippet", "CmpItemKindOperator", "CmpItemKindInterface",
   "CmpItemKindValue", "CmpItemKindTypeParameter", "CmpItemKindFile",
-  "CmpItemKindFolder" }
+  "CmpItemKindFolder", "CmpItemKindEvent" }
 
   for _,v in ipairs(groups) do
     local fg, name

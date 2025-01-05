@@ -86,6 +86,7 @@ local function _set()
   c.link("CmpItemKindOperator", "Operator")
   c.link("CmpItemKindInterface", "Interface")
   c.link("CmpItemKindValue", "StorageClass")
+  c.link("CmpItemKindEvent", "Keyword")
   c.link("CmpItemKindTypeParameter", "Type")
 
   c.hl_with_defaults("CmpFloat", c.P.fg_dim, c.P.treebg)
