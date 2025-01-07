@@ -159,7 +159,7 @@ lazy.setup({
     -- commit = "ef3f2ee04140aeca037bdcabafab4339da4d5b5f",
     event = "UIEnter",
     config = function()
-      require("plugins.lualine")
+      require("plugins.lualine_setup")
     end
   },
   -- telescope + extensions, mandatory
@@ -194,7 +194,7 @@ lazy.setup({
   -- treesitter + friends
   {
     'nvim-treesitter/nvim-treesitter',
-    branch = "master",
+    branch = "main",
     event = { "BufReadPre" },
     config = function()
       require("plugins.treesitter")
@@ -314,7 +314,7 @@ lazy.setup({
       },
     },
     config = function()
-      require("plugins.cmp")
+      require("plugins.cmp_setup")
     end
   },
   -- blink.cmp (alternative to nvim-cmp)
@@ -644,7 +644,7 @@ lazy.setup({
     cmd = { "Outline", "OutlineOpen", "OutlineClose" },
     lazy = true,
     config = function()
-      require("plugins.outline")
+      require("plugins.outline_setup")
     end
   },
   {
@@ -756,7 +756,7 @@ lazy.setup({
     lazy = true,
     event = "BufReadPost",
     config = function()
-      require("plugins.fzf-lua")
+      require("plugins.fzf-lua_setup")
     end
   },
   --{
