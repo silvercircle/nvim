@@ -1,5 +1,31 @@
 local lazy = require("lazy")
 lazy.setup({
+  {
+    "luukvbaal/statuscol.nvim",
+    cond = vim.g.tweaks.use_foldlevel_patch == false,
+    lazy = true,
+    event = "BufReadPost",
+    config = function()
+      -- local builtin = require("statuscol.builtin")
+      local builtin = require("statuscol.builtin")
+      require("statuscol").setup({
+        -- configuration goes here, for example:
+        relculright = true,
+        segments = {
+          {
+            sign = { namespace = { ".*" }, name = { ".*" }, maxwidth = 2, colwidth = 1, fillchar = " ", auto = false},
+            click = ""
+          },
+          {
+            sign = { namespace = { "diagnostic/sign" }, maxwidth = 2, colwidth = 2, fillchar = " ", auto = false},
+            click = ""
+          },
+          { text = { builtin.lnumfunc }, maxwidth = 5, click = "v:lua.ScLa", },
+          { text = { " ", builtin.foldfunc, " " }, click = "v:lua.ScFa" }
+        }
+      })
+    end,
+  },
   'nvim-tree/nvim-web-devicons',
   'nvim-lua/plenary.nvim',
   {
