@@ -251,13 +251,15 @@ cmp.setup({
       winhighlight = T.decorations[T.decoration.doc].whl_doc,
       max_height = 20,
       scrollbar = true,
-      max_width = 80
+      max_width = 80,
+      winblend = T.winblend.doc
     },
     completion = {
       border = vim.g.tweaks.borderfactory(T.decorations[T.decoration.comp].border),
       winhighlight = T.decorations[T.decoration.comp].whl_comp,
       scrollbar = true,
-      side_padding = 1
+      side_padding = 1,
+      winblend = T.winblend.menu
     },
   },
   mapping = {

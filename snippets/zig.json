@@ -2,5 +2,9 @@
   "emptycatch": {
     "prefix": "ecatch",
     "body": "catch {}"
+  },
+  "string": {
+    "prefix": [ "string","char*" ],
+    "body": "[]const u8"
   }
 }

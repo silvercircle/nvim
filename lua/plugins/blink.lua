@@ -4,7 +4,7 @@
 
 local T = vim.g.tweaks.blink
 local border = T.border
-local list = require "blink.cmp.completion.list"
+local itemlist
 
 --- workaround for missing feature (scroll completion window page-wise)
 --- @param idx number: number of entries to scroll
@@ -15,38 +15,38 @@ local list = require "blink.cmp.completion.list"
 local function select_next_idx(idx, dir)
   dir = dir or 1
 
-  if #list.items == 0 then
+  if #itemlist.items == 0 then
     return
   end
 
   local target_idx
   -- haven't selected anything yet
-  if list.selected_item_idx == nil then
+  if itemlist.selected_item_idx == nil then
     if dir == 1 then
       target_idx = idx
     else
-      target_idx = #list.items - idx
+      target_idx = #itemlist.items - idx
     end
-  elseif list.selected_item_idx == #list.items then
+  elseif itemlist.selected_item_idx == #itemlist.items then
     if dir == 1 then
       target_idx = 1
     else
-      target_idx = #list.items - idx
+      target_idx = #itemlist.items - idx
     end
-  elseif list.selected_item_idx == 1 and dir == -1 then
-    target_idx = #list.items - idx
+  elseif itemlist.selected_item_idx == 1 and dir == -1 then
+    target_idx = #itemlist.items - idx
   else
-    target_idx = list.selected_item_idx + (idx * dir)
+    target_idx = itemlist.selected_item_idx + (idx * dir)
   end
 
   -- clamp
   if target_idx < 1 then
     target_idx = 1
-  elseif target_idx > #list.items then
-    target_idx = #list.items
+  elseif target_idx > #itemlist.items then
+    target_idx = #itemlist.items
   end
 
-  list.select(target_idx)
+  itemlist.select(target_idx)
 end
 
 local function reverse_hl_groups()
@@ -107,7 +107,7 @@ require("blink.cmp").setup({
     use_nvim_cmp_as_default = T.use_cmp_hl,
     -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
     -- Adjusts spacing to ensure icons are aligned
-    nerd_font_variant = "mono",
+    nerd_font_variant = "normal",
     kind_icons = vim.g.lspkind_symbols
   },
   keymap = {
@@ -212,12 +212,13 @@ require("blink.cmp").setup({
       show_on_trigger_character = true
     },
     list = {
-      selection = "manual"
+      selection = {preselect = true, auto_insert = false }
     },
     menu = {
       auto_show = T.auto_show,
       border = border,
-      max_height = T.window_height,
+      winblend = T.winblend.menu,
+      max_height = T.localwindow_height,
       draw = {
         align_to = 'kind_icon',
         treesitter = {"lsp"},
@@ -268,6 +269,7 @@ require("blink.cmp").setup({
       auto_show = T.auto_doc,
       window = {
         border = border,
+        winblend = T.winblend.doc,
         min_width = 30,
         max_width = 85,
         max_height = 30,
@@ -286,3 +288,4 @@ require("blink.cmp").setup({
     window = { border = border }
   }
 })
+itemlist = require "blink.cmp.completion.list"
