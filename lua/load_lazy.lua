@@ -1,7 +1,26 @@
 local lazy = require("lazy")
 lazy.setup({
   {
-    'smjonas/snippet-converter.nvim',
+    "luukvbaal/statuscol.nvim",
+    config = function()
+      -- local builtin = require("statuscol.builtin")
+      local builtin = require("statuscol.builtin")
+      require("statuscol").setup({
+        -- configuration goes here, for example:
+        relculright = true,
+        segments = {
+          {
+            sign = { namespace = { ".*" }, name = { ".*" }, maxwidth = 4, colwidth = 1, fillchar = " ", auto = false},
+            click = ""
+          },
+          { text = { builtin.lnumfunc }, maxwidth = 5, click = "v:lua.ScLa", },
+          { text = { " ", builtin.foldfunc, " " }, click = "v:lua.ScFa" }
+        }
+      })
+    end,
+  },
+  {
+    "smjonas/snippet-converter.nvim",
     cond = false,
     config = function()
       local template = {
@@ -78,7 +97,8 @@ lazy.setup({
     end
   },
   {
-    (vim.g.tweaks.use_foldlevel_patch == true) and "silvercircle/fidget.nvim" or "j-hui/fidget.nvim",
+    --(vim.g.tweaks.use_foldlevel_patch == true) and "silvercircle/fidget.nvim" or "j-hui/fidget.nvim",
+    "silvercircle/fidget.nvim",
     cond = vim.g.tweaks.notifier == "fidget",
     branch = "mine",
     lazy = true,

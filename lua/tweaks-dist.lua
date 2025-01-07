@@ -40,8 +40,9 @@ Tweaks.breadcrumb = 'navic'
 Tweaks.multicursor = "jake-stewart"
 
 -- completion framework to use. Can be "blink" or "nvim-cmp"
+-- if you set this to any other value, completion will be UNAVAILABLE
 -- If set to nvim-cmp, the magazine fork (optimized for performance) is used.
--- blink is more modern and probably faster, but should be considered beta 
+-- blink is more modern and probably faster, but should be considered beta
 -- quality software (as of December 2024). Breaking changes are likely.
 --
 -- look further below for plugin-specific tweaks.
@@ -145,6 +146,10 @@ Tweaks.blink = {
   -- if you use a theme that does not yet support blink.cmp, set this to true
   -- to use the fallback nvim-cmp hl groups which are supported by most themes
   use_cmp_hl = false,
+  winblend = {
+    doc = 0,
+    menu = 0
+  },
   -- list of filetypes for which we want to allow the "buffer" source to
   -- collect all the buffer words.
   -- set this to an empty table to allow buffer words for all filetype
@@ -184,6 +189,10 @@ Tweaks.cmp = {
   decoration = {
     comp = "bordered",
     doc = "bordered"
+  },
+  winblend = {
+    doc = 0,
+    menu = 0
   },
   -- list of available decorations
   decorations = {
@@ -269,7 +278,7 @@ Tweaks.fortune = {
 
 -- leave this alone. Do not set the environment variable unless you know what you're
 -- doing..
-Tweaks.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and true or false
+Tweaks.use_foldlevel_patch = false --(os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and true or false
 
 -- the key prefix used for various utility functions. See keymap.lua
 Tweaks.keymap = {
