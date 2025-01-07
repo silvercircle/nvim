@@ -413,35 +413,21 @@ require "fzf-lua".setup({
   lines               = {
     previewer       = "builtin",   -- set to 'false' to disable
     prompt          = "Lines❯ ",
+    show_bufname    = true,
+    winopts  = { treesitter = true },
+    file_icons      = true,
     show_unlisted   = false,       -- exclude 'help' buffers
-    no_term_buffers = true,        -- exclude 'term' buffers
-    fzf_opts        = {
+    fzf_opts = {
       -- do not include bufnr in fuzzy matching
       -- tiebreak by line no.
-      ["--delimiter"] = "[\\]:]",
-      ["--nth"]       = "2..",
-      ["--tiebreak"]  = "index",
+      ["--multi"]     = true,
+      ["--delimiter"] = "[\t]",
       ["--tabstop"]   = "1",
-    },
-    -- actions inherit from 'actions.buffers' and merge
-    actions         = {
-      ["default"] = actions.buf_edit_or_qf,
-      ["alt-q"]   = actions.buf_sel_to_qf,
-      ["alt-l"]   = actions.buf_sel_to_ll
-    },
-  },
-  blines              = {
-    previewer       = "builtin",   -- set to 'false' to disable
-    prompt          = "BLines❯ ",
-    show_unlisted   = true,        -- include 'help' buffers
-    no_term_buffers = false,       -- include 'term' buffers
-    fzf_opts        = {
-      -- hide filename, tiebreak by line no.
-      ["--delimiter"] = "[\\]:]",
+      ["--tiebreak"]  = "index",
       ["--with-nth"]  = "2..",
-      ["--tiebreak"]  = "index",
-      ["--tabstop"]   = "1",
+      ["--nth"]       = "4..",
     },
+    no_term_buffers = true,          -- exclude 'term' buffers
     -- actions inherit from 'actions.buffers' and merge
     actions         = {
       ["default"] = actions.buf_edit_or_qf,

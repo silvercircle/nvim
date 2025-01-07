@@ -2,6 +2,9 @@ local lazy = require("lazy")
 lazy.setup({
   {
     "luukvbaal/statuscol.nvim",
+    cond = vim.g.tweaks.use_foldlevel_patch == false,
+    lazy = true,
+    event = "BufReadPost",
     config = function()
       -- local builtin = require("statuscol.builtin")
       local builtin = require("statuscol.builtin")

@@ -49,6 +49,8 @@ local function select_next_idx(idx, dir)
   itemlist.select(target_idx)
 end
 
+-- create the reverse highlight groups for the kind icon in the first
+-- column.
 local function reverse_hl_groups()
   local groups = {
   "BlinkCmpKindDefault", "BlinkCmpKind", "BlinkCmpMenuPath",
@@ -92,6 +94,7 @@ end
 reverse_hl_groups()
 italizemenugroups()
 
+-- this maps source names to highlight groups
 local blink_menu_hl_group = {
   buffer = "CmpItemMenuBuffer",
   lsp = "CmpItemMenuLSP",
