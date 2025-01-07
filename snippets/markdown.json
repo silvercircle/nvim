@@ -1,0 +1,13 @@
+{
+  "zkfrontmatter": {
+    "prefix": "zkfrontmatter",
+    "body": [
+      "---",
+      "title: $1",
+      "tags: $2",
+      "date: $3",
+      "---",
+      ""
+    ]
+  }
+}

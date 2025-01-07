@@ -93,35 +93,11 @@ lazy.setup({
   },
   {
     'nvim-treesitter/nvim-treesitter',
-    branch = "main",
+    branch = "master",
     event = { "BufReadPre" },
     config = function()
       require("plugins.treesitter")
     end,
-  },
-  --{
-  --  'silvercircle/alpha-nvim',
-  --  branch = "mine",
-  --  config = function()
-  --    require("plugins.alpha")
-  --  end
-  --},
-  {
-    'dcampos/nvim-snippy',
-    lazy = true,
-    config = function()
-      require('snippy').setup({
-        mappings = {
-          is = {
-            ['<Tab>'] = 'expand_or_advance',
-            ['<S-Tab>'] = 'previous',
-          },
-          nx = {
-            ['<leader>x'] = 'cut_text',
-          },
-        },
-      })
-    end
   },
   {
     'nvim-tree/nvim-tree.lua',
@@ -152,7 +128,6 @@ lazy.setup({
   -- experimental, needs config!
   {
     'saghen/blink.cmp',
-    -- version = '*',
     build = "cargo build --release",
     lazy = true,
     event = "ModeChanged",
@@ -160,6 +135,7 @@ lazy.setup({
       require("plugins.blink")
     end,
     dependencies = {
+      { "rafamadriz/friendly-snippets" },
       { 'windwp/nvim-autopairs',
         config = function()
           require("nvim-autopairs").setup({})
@@ -193,25 +169,7 @@ lazy.setup({
         opts = {},
       },
       "hrsh7th/cmp-emoji",
-      "dcampos/cmp-snippy",
-      'hrsh7th/cmp-nvim-lua',
-      {
-        "dcampos/nvim-snippy",
-        lazy = true,
-        config = function()
-          require("snippy").setup({
-            mappings = {
-              is = {
-                ["<Tab>"] = "expand_or_advance",
-                ["<S-Tab>"] = "previous",
-              },
-              nx = {
-                ["<leader>x"] = "cut_text",
-              },
-            },
-          })
-        end
-      }
+      'hrsh7th/cmp-nvim-lua'
     }
   },
   -- lsp
@@ -226,25 +184,7 @@ lazy.setup({
         config = function()
           require("plugins.glance")
         end
-      },
-      --{
-      --  "vigoux/notifier.nvim",
-      --  event = "UIEnter",
-      --  cond = false,
-      --  lazy = true,
-      --  config = function()
-      --    require("notifier").setup({
-      --      components = {
-      --        --"nvim",
-      --        -- "lsp"
-      --      },
-      --      notify = {
-      --        min_level = 0
-      --      }
-      --    })
-      --    -- vim.g.notifier = require("notifier")
-      --  end
-      --},
+      }
     },
     config = function()
       require("plugins.lsp")

@@ -1,0 +1,46 @@
+{
+  "emdash": {
+    "prefix": "emdash",
+    "body": "—"
+  },
+  "dquotes": {
+    "prefix": "dquotes",
+    "body": "„$0“"
+  },
+  "bracks": {
+    "prefix": "bracks",
+    "body": "‹$0›"
+  },
+  "dbracks": {
+    "prefix": "dbracks",
+    "body": "«$0»"
+  },
+  "frontmatter": {
+    "prefix": "frontmatter",
+    "body": [
+      "---",
+      "author: $0",
+      "title: $1",
+      "date: $2",
+      "modified: $3",
+      "layout: no_sidebar",
+      "categories: []",
+      "menucontext: topics",
+      "section: $4",
+      "backlink: /blog",
+      "isso: true",
+      "words: ",
+      "reduced: small",
+      "tag: []",
+      "keywords: []",
+      "excerpt: >",
+      "  $5",
+      "image:",
+      "  source: ",
+      "  width: 100px",
+      "  align: right",
+      "share: 1",
+      "---"
+    ]
+  }
+}

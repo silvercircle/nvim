@@ -1,16 +1,17 @@
 -- user tweakable stuff
 -- most of this is for cosmetical or performance purpose. Other tweaks are still
--- in config.lua and options.lua, but the goal is to have all user-tweakable options
--- here. This is WIP.
+-- in config.lua and options.lua, but the goal is to have all user-tweakable options,
+-- that are not neovim core options, here. This is WIP.
 --
 -- how to use this file:
--- 1. make a copy and name it mytweaks.lua
--- 2. mytweaks can be edited and will overwrite settings in this file as long as it is
+-- 1. make a copy and name it mytweaks.lua (exactly that name, on Linux, the name is case-
+--    sensitive)
+-- 2. mytweaks.lua can be edited and will overwrite settings in this file as long as it is
 --    present. Updating the repo with git pull won't overwrite your changes in mytweaks.
 --    So do NOT change this file directly, because your changes may be lost when updating
 --    from the repo.
 -- 3. for performance reasons, you can edit your mytweaks.lua and delete everything that
---    should not be changed. This will speed up marging the tables a bit.
+--    you do not want to change. The file does not have to be complete.
 local Tweaks = {}
 Tweaks.lsp = {}
 
@@ -37,6 +38,17 @@ Tweaks.breadcrumb = 'navic'
 -- for more information about these plugins. They are quite similar in functionality, so
 -- choose whatever looks better to you.
 Tweaks.multicursor = "jake-stewart"
+
+-- completion framework to use. Can be "blink" or "nvim-cmp"
+-- if you set this to any other value, completion will be UNAVAILABLE
+-- If set to nvim-cmp, the magazine fork (optimized for performance) is used.
+-- blink is more modern and probably faster, but should be considered beta
+-- quality software (as of December 2024). Breaking changes are likely.
+--
+-- look further below for plugin-specific tweaks.
+Tweaks.completion = {
+  version = "blink"
+}
 
 -- telescope field widths. These depend on the characters per line in the terminal
 -- setup. So it needs to be tweakable
@@ -97,20 +109,24 @@ Tweaks.lsp = {
     emmet         =   Tweaks.lsp.masonbinpath .. 'emmet-language-server',
     groovy        =   Tweaks.lsp.masonbinpath .. 'groovy-language-server',
     roslyn        =   vim.fn.stdpath("data") .. "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll",
-    jsonls        =   Tweaks.lsp.masonbinpath .. "vscode-json-language-server"
+    jsonls        =   Tweaks.lsp.masonbinpath .. "vscode-json-language-server",
+    zls           =   Tweaks.lsp.localbin .. "zls"
   },
   -- use either omnisharp or csharp_ls for c# and .NET development
   -- both options work reasonably well with a few issues and missing features
   -- the third option "roslyn" is highly experimental and not recommended
-  csharp = "omnisharp",
+  csharp = "roslyn",
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
   -- this can show multiple diagnostic messages for a single line.
   -- otherwise, use normal virtual text.
   virtual_lines = false
 }
+
+-- blink.cmp related tweaks
 Tweaks.blink = {
   -- if false, you have to manually invoke the completion popup (Control-Space)
-  auto_show = true,
+  auto_show = false,
+  -- auto-show after that many milliseconds
   border = "single",
   -- show the documentation window automatically
   auto_doc = true,
@@ -121,28 +137,38 @@ Tweaks.blink = {
   -- maximum height of the popup window
   window_height = 12,
   -- maximum width of the completion label
-  label_max_width = 50,
+  label_max_width = 40,
+  -- label_description maximum width
+  desc_max_width = 30,
   -- prefetch on InsertEnter. This might improve performance but might have
   -- memory leaks at the moment.
   prefetch = false,
   -- if you use a theme that does not yet support blink.cmp, set this to true
   -- to use the fallback nvim-cmp hl groups which are supported by most themes
   use_cmp_hl = false,
+  winblend = {
+    doc = 0,
+    menu = 0
+  },
   -- list of filetypes for which we want to allow the "buffer" source to
   -- collect all the buffer words.
   -- set this to an empty table to allow buffer words for all filetype
   buffer_source_ft_allowed = {} -- { "tex", "markdown" }
 }
+
 -- tweaks for the cmp autocompletion system
 Tweaks.cmp = {
   -- max buffer size to enable the buffer words autocompletion source in cmp
   -- this is a performance tweak. Value is in bytes and 300kB is a reasonable default, even for
   -- slower machines. On fast hardware you can increase this to much higher values
-  buffer_maxsize = 300 * 1024,
+  buffer_maxsize = 7000 * 1024,
   -- maximum width for the item abbreviation. This is the completion item's name
-  abbr_maxwidth = 50,
+  abbr_maxwidth = 40,
+  -- max length of item kind description (without the symbol)
+  kind_maxwidth = 12,
+  source_maxwidth = 12,
   -- maximum width for the details column. Normally the rightmost column
-  details_maxwidth = 20,
+  details_maxwidth = 40,
   -- I prefer to have only manual cmp complation (hit Ctrl-Space)
   autocomplete = false,
   -- minimum keyword length for auto-complete to kick in (only if the above is true)
@@ -164,19 +190,23 @@ Tweaks.cmp = {
     comp = "bordered",
     doc = "bordered"
   },
+  winblend = {
+    doc = 0,
+    menu = 0
+  },
   -- list of available decorations
   decorations = {
     flat = {
       -- border specifies what borderfactory() will use to create the window border
       border = "none",
       -- windowhighlight options for the docs and complation popup
-      whl_doc = "Normal:NormalFloat,FloatBorder:NormalFloat,CursorLine:Visual,Search:None",
-      whl_comp = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual"
+      whl_doc = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None",
+      whl_comp = "Normal:NeoTreeNormalNC,FloatBorder:CmpBorder,CursorLine:Visual"
 
     },
     topflat = {
       border = "topflat",
-      whl_doc = "Normal:NormalFloat,FloatBorder:NormalFloat,CursorLine:Visual,Search:None",
+      whl_doc = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None",
       whl_comp = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual"
     },
     bordered = {
@@ -209,6 +239,7 @@ Tweaks.borderfactory = function(style)
     return { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
   end
 end
+
 -- don't touch this unless you know what you're doing
 --Tweaks.cmp.kind_attr = Tweaks.cmp.style == "experimental" and { bold=true, reverse=true } or {}
 Tweaks.cmp.kind_attr = { bold = true, reverse = false }
@@ -247,7 +278,7 @@ Tweaks.fortune = {
 
 -- leave this alone. Do not set the environment variable unless you know what you're
 -- doing..
-Tweaks.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and true or false
+Tweaks.use_foldlevel_patch = false --(os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and true or false
 
 -- the key prefix used for various utility functions. See keymap.lua
 Tweaks.keymap = {
@@ -271,26 +302,38 @@ Tweaks.theme = {
   all_types_bold = false,
   disable = false
 }
+
+-- which status line plugin to use.
+-- right now, only lualine is supported by this config. This might change in the
+-- future.
+Tweaks.statusline = {
+  version = "lualine",
+  -- specific tweaks for lualine. Currently none.
+  lualine = {}
+}
+
 -- filetree tweaks
 Tweaks.tree = {
   -- valid versions are Neo (for NeoTree) or Nvim (for NvimTree)
-  version = "Nvim",
+  version = "Neo",
   -- use the git integration (currently only available for NeoTree)
   use_git = true
 }
 
 -- settings for the nvim-jdtls plugin. See ftplugin/java.lua
+-- avoid absolute paths except for system binaries, we vim.fn.expand() it when
+-- needed
 Tweaks.jdtls = {
-  workspace_base = "/home/alex/.cache/jdtls_workspace/",
+  workspace_base = "~/.cache/jdtls_workspace/",
   java_executable = "/usr/bin/java",
-  jdtls_install_dir = "/home/alex/.local/share/nvim/mason/packages/jdtls/",
+  jdtls_install_dir = "~/.local/share/nvim/mason/packages/jdtls/",
   equinox_version = "1.6.900.v20240613-2009",
   config = "config_linux"
 }
 -- a list of filename patterns that define a project root. This will be used as some kind of
 -- fallback when no other means of finding a project's root are successfull. This is highly
 -- incomplete and inaccurate, but you can expand this with whatever you want.
-Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "settings.gradle", "pom.xml", "*.sln" }
+Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "settings.gradle", "pom.xml", "*.sln", "build.zig" }
 -- tweaks for the indent guides
 Tweaks.indentguide = {
   -- character used by the indent-blankline plugin to draw vertical indent guides

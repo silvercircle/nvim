@@ -1,0 +1,54 @@
+{
+  "cast": {
+    "prefix": "cast",
+    "body": "\\hypertarget{cast_$0\\}{$1\\}"
+  },
+  "link": {
+    "prefix": "link",
+    "body": "\\hyperlink{$0\\}{$1\\}"
+  },
+  "emphquote": {
+    "prefix": "emphquote",
+    "body": "\\emph{„$0”}"
+  },
+  "textbold": {
+    "prefix": "textbold",
+    "body": "\\textbf{$0}"
+  },
+  "emph": {
+    "prefix": "emph",
+    "body": "\\emph{$0}"
+  },
+  "textmedium": {
+    "prefix": "textmedium",
+    "body": "\\textmf{$0}"
+  },
+  "textmediumitalic": {
+    "prefix": "textmediumitalic",
+    "body": "\\textmi{$0}"
+  },
+  "chapter": {
+    "prefix": "chapter",
+    "body": "\\chapter{${1:name}}"
+  },
+  "section": {
+    "prefix": "section",
+    "body": "\\section{${1:name}}"
+  },
+  "subsection": {
+    "prefix": "subsection",
+    "body": "\\subsection{${1:name}}"
+  },
+  "subsubsection": {
+    "prefix": "subsubsection",
+    "body": "\\subsubsection{${1:name}}"
+  },
+  "begin": {
+    "prefix": "texbegin",
+    "body": "\\begin{${1:name}}"
+  },
+  "end": {
+    "prefix": "texend",
+    "body": "\\end{${1:name}}"
+  }
+}
