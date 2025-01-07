@@ -106,51 +106,11 @@ lazy.setup({
   {
     --(vim.g.tweaks.use_foldlevel_patch == true) and "silvercircle/fidget.nvim" or "j-hui/fidget.nvim",
     "silvercircle/fidget.nvim",
-    cond = vim.g.tweaks.notifier == "fidget",
     branch = "mine",
     lazy = true,
     event = "BufReadPost",
     config = function()
       require("plugins.others").setup.fidget()
-    end
-  },
-  {
-    "rcarriga/nvim-notify",
-    cond = vim.g.tweaks.notifier == "nvim-notify",
-    config = function()
-      local stages_util = require("notify.stages.util")
-      require("notify").setup({
-        fps = 2,
-        top_down = false,
-        render = "default",
-        level = 0,
-        stages = {
-          function(state)
-            local next_height = state.message.height + 2
-            local next_row = stages_util.available_slot(state.open_windows, next_height, "bottom_up")
-            if not next_row then
-              return nil
-            end
-            return {
-              relative = "editor",
-              anchor = "NE",
-              width = state.message.width,
-              height = state.message.height,
-              col = vim.opt.columns:get(),
-              row = next_row,
-              border = "single",
-              style = "minimal",
-            }
-          end,
-          function()
-            return {
-              col = vim.opt.columns:get(),
-              time = true,
-            }
-          end,
-        }
-      })
-      vim.notify = require("notify")
     end
   },
   'nvim-lua/plenary.nvim',
@@ -217,6 +177,7 @@ lazy.setup({
     }
   },
   -- cmp and all its helpers
+  -- using the magazine nvim-cmp fork.
   {
     --'hrsh7th/nvim-cmp',
     "iguanacucumber/magazine.nvim",
@@ -463,13 +424,13 @@ lazy.setup({
         }
       })
       local map = vim.keymap.set
-      map("n", "mm", bm.bookmark_toggle) -- add or remove bookmark at current line
-      map("n", "mi", bm.bookmark_ann) -- add or edit mark annotation at current line
-      map("n", "mc", bm.bookmark_clean) -- clean all marks in local buffer
-      map("n", "mn", bm.bookmark_next) -- jump to next mark in local buffer
-      map("n", "mp", bm.bookmark_prev) -- jump to previous mark in local buffer
-      map("n", "ml", bm.bookmark_list) -- show marked file list in quickfix window
-      map("n", "mx", bm.bookmark_clear_all) -- removes all bookmarks
+      map("n", "<leader>bm", bm.bookmark_toggle) -- add or remove bookmark at current line
+      map("n", "<leader>bi", bm.bookmark_ann) -- add or edit mark annotation at current line
+      map("n", "<leader>bc", bm.bookmark_clean) -- clean all marks in local buffer
+      map("n", "<leader>bn", bm.bookmark_next) -- jump to next mark in local buffer
+      map("n", "<leader>bp", bm.bookmark_prev) -- jump to previous mark in local buffer
+      map("n", "<leader>bl", bm.bookmark_list) -- show marked file list in quickfix window
+      map("n", "<leader>bx", bm.bookmark_clear_all) -- removes all bookmarks
     end
   },
   {

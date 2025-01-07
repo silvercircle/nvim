@@ -813,6 +813,19 @@ if vim.g.tweaks.fzf.enable_keys == true then
         { "i", "<f8>", noremap }
       },
       category = "@FZF"
+    },
+    {
+      desc = "FZF marks",
+      cmd = function()
+        fzf.marks({
+          winopts = fzf_tweaks.winopts.mini_with_preview,
+        })
+      end,
+      keys = {
+        { "n", "<C-x>m", noremap },
+        { "i", "<C-x>m", noremap }
+      },
+      category = "@Telescope"
     }
   })
 end

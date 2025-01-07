@@ -245,6 +245,21 @@ if vim.g.tweaks.fzf.enable_keys == false then
     category = "@Telescope"
   },
   {
+    desc = "Telescope marks",
+    cmd = function()
+      _tb.marks(__Telescope_vertical_dropdown_theme({
+        prompt_prefix = lutils.getTelescopePromptPrefix(),
+        symbol_highlights = Config.telescope_symbol_highlights,
+        layout_config = Config.minipicker_layout
+      }))
+    end,
+    keys = {
+      { "n", "<C-x>m", noremap },
+      { "i", "<C-x>m", noremap }
+    },
+    category = "@Telescope"
+  },
+  {
     desc = "Spell suggestions",
     cmd = function() _tb.spell_suggest(__Telescope_dropdown_theme { prompt_prefix = lutils.getTelescopePromptPrefix(), title = "Spell suggestions", height = 0.5, width = 0.2 }) end,
     keys = {
