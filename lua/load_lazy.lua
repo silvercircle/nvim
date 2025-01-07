@@ -10,7 +10,11 @@ lazy.setup({
         relculright = true,
         segments = {
           {
-            sign = { namespace = { ".*" }, name = { ".*" }, maxwidth = 4, colwidth = 1, fillchar = " ", auto = false},
+            sign = { namespace = { ".*" }, name = { ".*" }, maxwidth = 2, colwidth = 1, fillchar = " ", auto = false},
+            click = ""
+          },
+          {
+            sign = { namespace = { "diagnostic/sign" }, maxwidth = 3, colwidth = 2, fillchar = " ", auto = false},
             click = ""
           },
           { text = { builtin.lnumfunc }, maxwidth = 5, click = "v:lua.ScLa", },

@@ -193,7 +193,7 @@ M.setup = {
         ignore_whitespace = false,
       },
       current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
-      sign_priority = 1000,
+      sign_priority = 65535,
       update_debounce = 1000,
       status_formatter = nil, -- Use default
       max_file_length = 40000, -- Disable if file is longer than this (in lines)
