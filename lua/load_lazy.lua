@@ -17,7 +17,7 @@ lazy.setup({
             click = ""
           },
           {
-            sign = { namespace = { "diagnostic/sign" }, maxwidth = 3, colwidth = 2, fillchar = " ", auto = false},
+            sign = { namespace = { "diagnostic/sign" }, maxwidth = 2, colwidth = 2, fillchar = " ", auto = false},
             click = ""
           },
           { text = { builtin.lnumfunc }, maxwidth = 5, click = "v:lua.ScLa", },
@@ -194,7 +194,7 @@ lazy.setup({
   -- treesitter + friends
   {
     'nvim-treesitter/nvim-treesitter',
-    branch = "main",
+    branch = "master",
     event = { "BufReadPre" },
     config = function()
       require("plugins.treesitter")
@@ -231,7 +231,6 @@ lazy.setup({
       { "iguanacucumber/mag-nvim-lsp", name = "cmp-nvim-lsp", opts = {} },
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-emoji',
-      --'dcampos/cmp-snippy',
       { "iguanacucumber/mag-nvim-lua", name = "cmp-nvim-lua" },
       'PhilRunninger/cmp-rpncalc',
       "kdheepak/cmp-latex-symbols",
@@ -449,13 +448,29 @@ lazy.setup({
   },
   -- { 'tpope/vim-liquid', ft = "liquid" },
   {
-    'MattesGroeger/vim-bookmarks',
-    event = "BufReadPre",
-    dependencies = {
-      {
-        'https://gitlab.com/silvercircle74/telescope-vim-bookmarks.nvim'
-      }
-    }
+    'tomasky/bookmarks.nvim',
+    event = "UIEnter",
+    config = function()
+      local bm = require "bookmarks"
+      require("bookmarks").setup({
+        -- sign_priority = 8,  --set bookmark sign priority to cover other sign
+        save_file = vim.fn.stdpath("state") .. "/.bookmarks", -- bookmarks save file path
+        keywords = {
+          ["@t"] = " ", -- mark annotation startswith @t ,signs this icon as `Todo`
+          ["@w"] = " ", -- mark annotation startswith @w ,signs this icon as `Warn`
+          ["@f"] = " ", -- mark annotation startswith @f ,signs this icon as `Fix`
+          ["@n"] = "󰈔 ", -- mark annotation startswith @n ,signs this icon as `Note`
+        }
+      })
+      local map = vim.keymap.set
+      map("n", "mm", bm.bookmark_toggle) -- add or remove bookmark at current line
+      map("n", "mi", bm.bookmark_ann) -- add or edit mark annotation at current line
+      map("n", "mc", bm.bookmark_clean) -- clean all marks in local buffer
+      map("n", "mn", bm.bookmark_next) -- jump to next mark in local buffer
+      map("n", "mp", bm.bookmark_prev) -- jump to previous mark in local buffer
+      map("n", "ml", bm.bookmark_list) -- show marked file list in quickfix window
+      map("n", "mx", bm.bookmark_clear_all) -- removes all bookmarks
+    end
   },
   {
     'lewis6991/gitsigns.nvim',
@@ -656,34 +671,6 @@ lazy.setup({
       require("plugins.aerialsetup")
     end
   },
-  --{
-  --  "folke/which-key.nvim",
-  --  keys = { "<c-h>" },
-  --  config = function()
-  --    require("which-key").setup({
-  --      plugins = {
-  --        registers = false,
-  --        marks = false,
-  --        spelling = {
-  --          enabled = false
-  --        }
-  --      },
-  --      window = {
-  --        border = 'single',
-  --      },
-  --      layout = {
-  --        height = { max = 10 }
-  --      }
-  --    })
-  --  end
-  --},
-  --{
-  --  '3rd/image.nvim',
-  --  lazy = true,
-  --  config = function()
-  --    require("plugins.image-nvim")
-  --  end
-  --},
   {
     'edluffy/hologram.nvim',
     lazy = true,
