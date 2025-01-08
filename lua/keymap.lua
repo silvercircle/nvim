@@ -202,18 +202,16 @@ end, { expr = true, desc = "Export HlsLens results to Quickfix list" })
 map('n', 'hl', "<CMD>Inspect<CR>", opts)
 
 vim.g.setkey({ 'i', 'n' }, fkeys.s_f1, function() vim.lsp.buf.signature_help() end, "Show signature help")
-vim.g.setkey({ 'i', 'n' }, '<f1>', function()
-  local hover = require("hover")
-  local status, ufo = pcall(require, "ufo")
-  if status == false then
-    hover.hover()
-  else
-    local wid = ufo.peekFoldedLinesUnderCursor()
-    if not wid then
-      hover.hover()
-    end
-  end
-end, "LSP Hover help")
+
+vim.keymap.set({ "n", "i" }, '<f1>', function()
+	local api = vim.api
+	local hover_win = vim.b.hover_preview
+	if hover_win and api.nvim_win_is_valid(hover_win) then
+		api.nvim_set_current_win(hover_win)
+	else
+		require("hover").hover()
+	end
+end, { desc = "LSP hover window" })
 
 vim.g.setkey({ 'i', 'n' }, '<C-x>D', function()
   vim.lsp.buf.definition()
