@@ -4,7 +4,7 @@
 
 local T = vim.g.tweaks.blink
 local border = T.border
-local itemlist
+local itemlist = nil
 
 --- workaround for missing feature (scroll completion window page-wise)
 --- @param idx number: number of entries to scroll
@@ -14,6 +14,10 @@ local itemlist
 --- reference: https://github.com/Saghen/blink.cmp/issues/569
 local function select_next_idx(idx, dir)
   dir = dir or 1
+
+  if itemlist == nil then
+    itemlist = require("blink.cmp.completion.list")
+  end
 
   if #itemlist.items == 0 then
     return
@@ -163,7 +167,7 @@ require("blink.cmp").setup({
       emoji = {
         score_offset = 0,
         name = "emoji",
-        module = 'blink.compat.source'
+        module = 'blink-emoji'
       },
       wordlist = {
         name = "wordlist",
@@ -291,4 +295,3 @@ require("blink.cmp").setup({
     window = { border = border }
   }
 })
-itemlist = require "blink.cmp.completion.list"

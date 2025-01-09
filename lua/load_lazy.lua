@@ -13,7 +13,7 @@ lazy.setup({
         relculright = true,
         segments = {
           {
-            sign = { namespace = { ".*" }, name = { ".*" }, maxwidth = 2, colwidth = 1, fillchar = " ", auto = false},
+            sign = { namespace = { ".*" }, name = { ".*" }, maxwidth = 3, colwidth = 1, fillchar = " ", auto = false},
             click = ""
           },
           {
@@ -187,8 +187,6 @@ lazy.setup({
     event = { "InsertEnter", "CmdLineEnter" },
     dependencies = {
       { "iguanacucumber/mag-cmdline", name = "cmp-cmdline" },
-      --'hrsh7th/cmp-cmdline',
-      --'hrsh7th/cmp-nvim-lsp',
       { "iguanacucumber/mag-nvim-lsp", name = "cmp-nvim-lsp", opts = {} },
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-emoji',
@@ -289,6 +287,7 @@ lazy.setup({
     end,
     dependencies = {
       { "rafamadriz/friendly-snippets" },
+      { "moyiz/blink-emoji.nvim" },
       { 'windwp/nvim-autopairs',
         config = function()
           require("nvim-autopairs").setup({})
@@ -321,7 +320,6 @@ lazy.setup({
         opts = {},
       },
       -- cmp sources which will be used via blink.compat
-      "hrsh7th/cmp-emoji",
       'hrsh7th/cmp-nvim-lua',
     }
   },

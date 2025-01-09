@@ -257,7 +257,7 @@ Tweaks.mkview_on_save = true
 Tweaks.cmdheight = 0
 
 -- width of line number (absolute numbers)
-Tweaks.numberwidth = 6
+Tweaks.numberwidth = 5
 -- for relative numbers, 2 should normally be sufficient
 Tweaks.numberwidth_rel = 2
 -- 3 signs should be sufficient in most cases. If you don't mind a "jumping"
