@@ -127,7 +127,7 @@ Tweaks.blink = {
   -- if false, you have to manually invoke the completion popup (Control-Space)
   auto_show = false,
   -- auto-show after that many milliseconds
-  border = "single",
+  border = "thicc", -- see borderfactory() for supported values
   -- show the documentation window automatically
   auto_doc = true,
   -- keymap preset to use. Read the blink docs. Note that some
