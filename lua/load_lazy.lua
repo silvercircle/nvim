@@ -287,6 +287,7 @@ lazy.setup({
     end,
     dependencies = {
       { "rafamadriz/friendly-snippets" },
+      { 'Kaiser-Yang/blink-cmp-dictionary' },
       { "moyiz/blink-emoji.nvim" },
       { 'windwp/nvim-autopairs',
         config = function()
@@ -704,7 +705,14 @@ lazy.setup({
     config = function()
       require("plugins.fzf-lua_setup")
     end
-  },
+    },
+    {
+      "stevearc/quicker.nvim",
+      event = "FileType qf",
+      config = function()
+        require("quicker").setup()
+      end
+    }
   --{
   --  "folke/noice.nvim",
   --  event = "VeryLazy",

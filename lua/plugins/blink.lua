@@ -162,7 +162,7 @@ require("blink.cmp").setup({
     }
   },
   sources = {
-    default = { 'lsp', 'path', 'buffer', 'snippets', 'emoji', 'wordlist', 'nvim_lua' },
+    default = { 'lsp', 'path', 'buffer', 'snippets', 'emoji', 'wordlist', 'nvim_lua', 'dictionary' },
     providers = {
       emoji = {
         score_offset = 0,
@@ -206,6 +206,31 @@ require("blink.cmp").setup({
                   (vim.tbl_contains(T.buffer_source_ft_allowed, vim.bo[buf].filetype) == true))
               end):totable()
           end,
+        }
+      },
+      dictionary = {
+        module = 'blink-cmp-dictionary',
+        name = 'Dict',
+        opts = {
+          get_command = {
+            "rg",             -- make sure this command is available in your system
+            "--color=never",
+            "--no-line-number",
+            "--no-messages",
+            "--no-filename",
+            "--ignore-case",
+            "--",
+            "${prefix}",                                                  -- this will be replaced by the result of 'get_prefix' function
+            vim.fn.expand("~/.config/nvim/american-english"),             -- where you dictionary is
+          },
+          documentation = {
+            enable = true,
+            get_command = {
+              "wn",                    -- make sure this command is available in your system
+              "${word}",               -- this will be replaced by the word to search
+              "-over"
+            }
+          }
         }
       }
     }
@@ -292,6 +317,9 @@ require("blink.cmp").setup({
   },
   signature = {
     enabled = true,
-    window = { border = border }
+    window = {
+      show_documentation = true,
+      border = border
+    }
   }
 })
