@@ -623,15 +623,6 @@ lazy.setup({
     end
   },
   {
-    'stevearc/aerial.nvim',
-    branch = 'mine',
-    cond = false,
-    lazy = true,
-    config = function()
-      require("plugins.aerialsetup")
-    end
-  },
-  {
     'edluffy/hologram.nvim',
     lazy = true,
     config = function()

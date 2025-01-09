@@ -854,6 +854,8 @@ function M.TestDetour()
   vim.cmd("setlocal winhl=NormalFloat:Normal,FloatBorder:TelescopeBorder")
 end
 
+-- toggles nvim-cmp or blink (depending on which plugin is active) autoshow
+-- setting.
 function M.toggle_autocomplete()
   local mode = vim.g.tweaks.completion == "nvim-cmp" and "cmp" or "blink"
   if mode == "cmp" and M.cmp_setup_done == false then
