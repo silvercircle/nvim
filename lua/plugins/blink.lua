@@ -221,7 +221,7 @@ require("blink.cmp").setup({
             "--ignore-case",
             "--",
             "${prefix}",                                                  -- this will be replaced by the result of 'get_prefix' function
-            vim.fn.expand("~/.config/nvim/american-english"),             -- where you dictionary is
+            vim.fn.expand("~/.config/nvim/american-english"),             -- where you dictionary is dict
           },
           documentation = {
             enable = true,
@@ -247,7 +247,8 @@ require("blink.cmp").setup({
       selection = {preselect = true, auto_insert = false }
     },
     menu = {
-      auto_show = T.auto_show,
+      enabled = true,
+      auto_show = function() return __Globals.perm_config.cmp_autocomplete end,
       border = border,
       winblend = T.winblend.menu,
       max_height = T.localwindow_height,

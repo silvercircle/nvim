@@ -855,17 +855,20 @@ function M.TestDetour()
 end
 
 function M.toggle_autocomplete()
-  if M.cmp_setup_done == false then
+  local mode = vim.g.tweaks.completion == "nvim-cmp" and "cmp" or "blink"
+  if mode == "cmp" and M.cmp_setup_done == false then
     return
   end
   __Globals.perm_config.cmp_autocomplete = not __Globals.perm_config.cmp_autocomplete
-  require("cmp").setup({
-    completion = {
-      autocomplete = __Globals.perm_config.cmp_autocomplete == true and { require("cmp.types.cmp").TriggerEvent.TextChanged } or {},
-      completeopt = "menu,menuone",
-    }
-  })
-  vim.notify("CMP autocomplete is now " .. (__Globals.perm_config.cmp_autocomplete == true and "Enabled" or "Disabled"))
+  if mode == "nvim-cmp" then
+    require("cmp").setup({
+      completion = {
+        autocomplete = __Globals.perm_config.cmp_autocomplete == true and { require("cmp.types.cmp").TriggerEvent.TextChanged } or {},
+        completeopt = "menu,menuone",
+      }
+    })
+  end
+  vim.notify("CMP/Blink autocomplete is now " .. (__Globals.perm_config.cmp_autocomplete == true and "Enabled" or "Disabled"))
 end
 
 return M
