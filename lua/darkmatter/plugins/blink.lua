@@ -2,13 +2,13 @@
 
 local function _set()
   local c = require("darkmatter")
-  local conf = c.get_conf()
 
   c.link("BlinkCmpMenu", "NeoTreeNormalNC")
   c.link("BlinkCmpMenuBorder", "CmpBorder")
-
   c.link("BlinkCmpDoc", "NeoTreeNormalNC")
   c.link("BlinkCmpDocBorder", "CmpBorder")
+  c.link("BlinkCmpSignature", "NeoTreeNormalNC")
+  c.link("BlinkCmpSignatureBorder", "CmpBorder")
   c.link("BlinkCmpDocSeparator", "Debug")
   c.link("BlinkCmpDocCursorLine", "CursorLine")
 
