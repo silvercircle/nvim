@@ -76,7 +76,8 @@ M.perm_config_default = {
   cmp_show_docs = true,
   autopair = true,
   cmp_layout = "classic",
-  cmp_autocomplete = vim.g.tweaks.cmp.autocomplete
+  cmp_autocomplete = vim.g.tweaks.cmp.autocomplete,
+  cmp_ghost = false
 }
 
 M.perm_config = {}
@@ -871,6 +872,23 @@ function M.toggle_autocomplete()
     })
   end
   vim.notify("CMP/Blink autocomplete is now " .. (__Globals.perm_config.cmp_autocomplete == true and "Enabled" or "Disabled"))
+end
+-- toggles nvim-cmp or blink (depending on which plugin is active) autoshow
+-- ghost text setting.
+function M.toggle_ghost()
+  local mode = vim.g.tweaks.completion == "nvim-cmp" and "cmp" or "blink"
+  if mode == "cmp" and M.cmp_setup_done == false then
+    return
+  end
+  __Globals.perm_config.cmp_ghost = not __Globals.perm_config.cmp_ghost
+  if mode == "nvim-cmp" then
+    require("cmp").setup({
+      experimental = {
+        ghost_text = __Globals.perm_config.cmp_ghost
+      }
+    })
+  end
+  vim.notify("CMP/Blink ghost text is now " .. (__Globals.perm_config.cmp_ghost == true and "Enabled" or "Disabled"))
 end
 
 return M

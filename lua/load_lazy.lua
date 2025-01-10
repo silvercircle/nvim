@@ -116,7 +116,6 @@ lazy.setup({
   'nvim-lua/plenary.nvim',
   {
     'nvim-lualine/lualine.nvim',
-    -- commit = "ef3f2ee04140aeca037bdcabafab4339da4d5b5f",
     event = "UIEnter",
     config = function()
       require("plugins.lualine_setup")
@@ -299,29 +298,9 @@ lazy.setup({
           end
         end
       },
-      -- this is also a nvim-cmp source, usable via blink.compat
       {
-        'https://gitlab.com/silvercircle74/cmp-wordlist.nvim',
-        config = function()
-          require("cmp_wordlist").setup({
-            wordfiles = { 'wordlist.txt', "personal.txt" },
-            debug = false,
-            read_on_setup = false,
-            watch_files = true,
-            telescope_theme = __Telescope_dropdown_theme,
-            -- this is needed for blink.compat.
-            blink_compat = true
-          })
-        end
-      },
-      {
-        "saghen/blink.compat",
-        version = "*",
-        lazy = true,
-        opts = {},
-      },
-      -- cmp sources which will be used via blink.compat
-      'hrsh7th/cmp-nvim-lua',
+        dir = '/mnt/shared/data/code/neovim_plugins/blink-cmp-wordlist.nvim/',
+      }
     }
   },
     -- lsp
@@ -383,7 +362,7 @@ lazy.setup({
               -- require('hover.providers.dictionary')
             end,
             preview_opts = {
-              border = __Globals.perm_config.float_borders
+              border = vim.g.tweaks.borderfactory("thicc")
             },
             preview_window = false,
             title = false
@@ -574,7 +553,6 @@ lazy.setup({
   {
     'silvercircle/alpha-nvim',
     branch = "mine",
-    cond = Config.plain == false,
     config = function()
       require("plugins.alpha")
     end
@@ -703,7 +681,24 @@ lazy.setup({
       config = function()
         require("quicker").setup()
       end
-    }
+    },
+    {
+      "folke/lazydev.nvim",
+      ft = "lua", -- only load on lua files
+      opts = {
+        library = {
+        },
+        -- always enable unless `vim.g.lazydev_enabled = false`
+        -- This is the default
+        enabled = function(root_dir)
+          return vim.g.lazydev_enabled == nil and true or vim.g.lazydev_enabled
+        end
+        ---- disable when a .luarc.json file is found
+        --enabled = function(root_dir)
+        --  return not vim.uv.fs_stat(root_dir .. "/.luarc.json")
+        --end,
+      },
+    },
   --{
   --  "folke/noice.nvim",
   --  event = "VeryLazy",
