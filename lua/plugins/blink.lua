@@ -12,12 +12,8 @@ local itemlist = nil
 --- this respects the cycle setting and ensures no invalid entries can be
 --- selected.
 --- reference: https://github.com/Saghen/blink.cmp/issues/569
-local function select_next_idx(cmp, idx, dir)
+local function select_next_idx(idx, dir)
   dir = dir or 1
-
-  if not cmp.is_visible() then
-    return
-  end
 
   if itemlist == nil then
     itemlist = require("blink.cmp.completion.list")
@@ -57,12 +53,9 @@ local function select_next_idx(cmp, idx, dir)
   itemlist.select(target_idx)
 end
 
-local function list_home_or_end(cmp, dir)
+local function list_home_or_end(dir)
   dir = dir or 0
 
-  if not cmp.is_visible() then
-    return
-  end
   if itemlist == nil then
     itemlist = require("blink.cmp.completion.list")
   end
@@ -162,7 +155,7 @@ require("blink.cmp").setup({
           return
         end
         vim.schedule(function()
-          select_next_idx(cmp, T.window_height - 1)
+          select_next_idx(T.window_height - 1)
         end)
         return true
       end,
@@ -170,8 +163,11 @@ require("blink.cmp").setup({
     },
     ["<PageUp>"]    = {
       function(cmp)
+        if not cmp.is_visible() then
+          return
+        end
         vim.schedule(function()
-          select_next_idx(cmp, T.window_height - 1, -1)
+          select_next_idx(T.window_height - 1, -1)
         end)
         return true
       end,
@@ -179,8 +175,11 @@ require("blink.cmp").setup({
     },
     ["<Home>"] = {
       function(cmp)
+        if not cmp.is_visible() then
+          return
+        end
         vim.schedule(function()
-          list_home_or_end(cmp, 0)
+          list_home_or_end(0)
         end)
         return true
       end,
@@ -188,8 +187,11 @@ require("blink.cmp").setup({
     },
     ["<End>"] = {
       function(cmp)
+        if not cmp.is_visible() then
+          return
+        end
         vim.schedule(function()
-          list_home_or_end(cmp, 1)
+          list_home_or_end(1)
         end)
         return true
       end,
@@ -197,7 +199,7 @@ require("blink.cmp").setup({
     }
   },
   sources = {
-    default = { 'lsp', 'path', 'buffer', 'snippets', 'emoji', 'wordlist', 'lazydev', 'dictionary' },
+    default = { 'lsp', 'path', 'buffer', 'snippets', 'emoji', 'wordlist', 'dictionary', 'lua' },
     providers = {
       wordlist = {
         score_offset = 9,
@@ -211,6 +213,11 @@ require("blink.cmp").setup({
           telescope_theme = __Telescope_dropdown_theme,
         }
       },
+      lua = {
+        score_offset = 9,
+        name = "Lua",
+        module = "blink-cmp-lua"
+      },
       emoji = {
         score_offset = 0,
         name = "emoji",
@@ -219,13 +226,14 @@ require("blink.cmp").setup({
       lsp = {
         score_offset = 10
       },
-      lazydev = {
-        module = "lazydev.integrations.blink",
-        score_offset = 8,
-        name = "LazyDev"
-      },
+      --lazydev = {
+      --  module = "lazydev.integrations.blink",
+      --  score_offset = 8,
+      --  name = "LazyDev"
+      --},
       snippets = {
         score_offset = 5,
+        min_keyword_length = 2,
         module = 'blink.cmp.sources.snippets',
         name = "Snippets",
         opts = {
@@ -250,28 +258,46 @@ require("blink.cmp").setup({
         }
       },
       dictionary = {
+        min_keyword_length = 3,
+        max_items = 8,
+        async = true,
         module = 'blink-cmp-dictionary',
         name = 'Dict',
+        --opts = {
+        --  get_command = {
+        --    "rg",             -- make sure this command is available in your system
+        --    "--color=never",
+        --    "--no-line-number",
+        --    "--no-messages",
+        --    "--no-filename",
+        --    "--ignore-case",
+        --    "--",
+        --    "${prefix}",                                                  -- this will be replaced by the result of 'get_prefix' function
+        --    vim.fn.expand("~/.config/nvim/dict/american-english.txt"),             -- where you dictionary is dict
+        --  },
+        --  documentation = {
+        --    enable = true,
+        --    get_command = {
+        --      "wn",                    -- make sure this command is available in your system
+        --      "${word}",               -- this will be replaced by the word to search
+        --      "-over"
+        --    }
+        --  }
+        --}
         opts = {
-          get_command = {
-            "rg",             -- make sure this command is available in your system
-            "--color=never",
-            "--no-line-number",
-            "--no-messages",
-            "--no-filename",
-            "--ignore-case",
-            "--",
-            "${prefix}",                                                  -- this will be replaced by the result of 'get_prefix' function
-            vim.fn.expand("~/.config/nvim/american-english"),             -- where you dictionary is dict
-          },
-          documentation = {
-            enable = true,
-            get_command = {
-              "wn",                    -- make sure this command is available in your system
-              "${word}",               -- this will be replaced by the word to search
-              "-over"
+          dictionary_directories = { vim.fn.expand('~/.config/nvim/dict') },
+          get_command = "rg",
+          get_command_args = function(prefix)
+            return {             -- make sure this command is available in your system
+              "--color=never",
+              "--no-line-number",
+              "--no-messages",
+              "--no-filename",
+              "--ignore-case",
+              "--",
+              prefix
             }
-          }
+          end,
         }
       }
     }

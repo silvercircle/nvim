@@ -11,6 +11,7 @@ lazy.setup({
       require("statuscol").setup({
         -- configuration goes here, for example:
         relculright = true,
+        bt_ignore = { "nofile", "terminal" },
         segments = {
           {
             sign = { namespace = { ".*" }, name = { ".*" }, maxwidth = 3, colwidth = 1, fillchar = " ", auto = false},
@@ -298,9 +299,8 @@ lazy.setup({
           end
         end
       },
-      {
-        dir = '/mnt/shared/data/code/neovim_plugins/blink-cmp-wordlist.nvim/',
-      }
+      { dir = '/mnt/shared/data/code/neovim_plugins/blink-cmp-wordlist.nvim/' },
+      { dir = '/mnt/shared/data/code/neovim_plugins/blink-cmp-lua.nvim/' }
     }
   },
     -- lsp
@@ -684,6 +684,7 @@ lazy.setup({
     },
     {
       "folke/lazydev.nvim",
+      cond = false,
       ft = "lua", -- only load on lua files
       opts = {
         library = {
@@ -699,21 +700,9 @@ lazy.setup({
         --end,
       },
     },
-  --{
-  --  "folke/noice.nvim",
-  --  event = "VeryLazy",
-  --  config = function()
-  --    require("plugins.noice")
-  --  end
-  --}
 },
 {
   ui = {
     border = __Globals.perm_config.float_borders
   },
-  --dev = {
-  --  path = "/mnt/shared/data/code/neovim_plugins",
-  --  patterns = { "FeiyouG" },
-  --  fallback = false
-  --}
 })

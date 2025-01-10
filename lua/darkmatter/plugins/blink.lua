@@ -9,6 +9,8 @@ local function _set()
   c.link("BlinkCmpDocBorder", "CmpBorder")
   c.link("BlinkCmpSignature", "NeoTreeNormalNC")
   c.link("BlinkCmpSignatureBorder", "CmpBorder")
+  c.link("BlinkCmpSignatureHelp", "NeoTreeNormalNC")
+  c.link("BlinkCmpSignatureHelpBorder", "CmpBorder")
   c.link("BlinkCmpDocSeparator", "Debug")
   c.link("BlinkCmpDocCursorLine", "CursorLine")
 

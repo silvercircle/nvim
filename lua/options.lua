@@ -51,8 +51,8 @@ o.numberwidth =  vim.g.tweaks.numberwidth
 vim.opt.listchars = {tab = '  ', trail = '▪', extends = '>', precedes = '<', eol = '↴' }
 vim.opt.list = true
 if vim.g.tweaks.use_foldlevel_patch == true then
-  --o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]
-  o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
+  o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]
+  --o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
 else
   o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
 end
