@@ -8,6 +8,7 @@
 --
 -- this requires nui libary and (obviously) the telescope plugin
 -- https://github.com/MunifTanjim/nui.nvim
+-- TODO: make a fzf-lua version
 
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
