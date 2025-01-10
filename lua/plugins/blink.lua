@@ -1,5 +1,5 @@
 -- blink.cmp configuration
--- supports some nvim-cmp sources: emoji, snippy, nvim_lua and my wordlist plugin
+-- supports some nvim-cmp sources: nvim_lua and my wordlist plugin
 -- requires blink.compat
 
 local T = vim.g.tweaks.blink
@@ -12,8 +12,12 @@ local itemlist = nil
 --- this respects the cycle setting and ensures no invalid entries can be
 --- selected.
 --- reference: https://github.com/Saghen/blink.cmp/issues/569
-local function select_next_idx(idx, dir)
+local function select_next_idx(cmp, idx, dir)
   dir = dir or 1
+
+  if not cmp.is_visible() then
+    return
+  end
 
   if itemlist == nil then
     itemlist = require("blink.cmp.completion.list")
@@ -53,6 +57,22 @@ local function select_next_idx(idx, dir)
   itemlist.select(target_idx)
 end
 
+local function list_home_or_end(cmp, dir)
+  dir = dir or 0
+
+  if not cmp.is_visible() then
+    return
+  end
+  if itemlist == nil then
+    itemlist = require("blink.cmp.completion.list")
+  end
+
+  if dir == 0 then
+    itemlist.select(1)
+  else
+    itemlist.select(#itemlist.items)
+  end
+end
 -- create the reverse highlight groups for the kind icon in the first
 -- column.
 local function reverse_hl_groups()
@@ -142,7 +162,7 @@ require("blink.cmp").setup({
           return
         end
         vim.schedule(function()
-          select_next_idx(T.window_height - 1)
+          select_next_idx(cmp, T.window_height - 1)
         end)
         return true
       end,
@@ -150,11 +170,26 @@ require("blink.cmp").setup({
     },
     ["<PageUp>"]    = {
       function(cmp)
-        if not cmp.is_visible() then
-          return
-        end
         vim.schedule(function()
-          select_next_idx(T.window_height - 1, -1)
+          select_next_idx(cmp, T.window_height - 1, -1)
+        end)
+        return true
+      end,
+      'fallback'
+    },
+    ["<Home>"] = {
+      function(cmp)
+        vim.schedule(function()
+          list_home_or_end(cmp, 0)
+        end)
+        return true
+      end,
+      'fallback'
+    },
+    ["<End>"] = {
+      function(cmp)
+        vim.schedule(function()
+          list_home_or_end(cmp, 1)
         end)
         return true
       end,
@@ -162,26 +197,32 @@ require("blink.cmp").setup({
     }
   },
   sources = {
-    default = { 'lsp', 'path', 'buffer', 'snippets', 'emoji', 'wordlist', 'nvim_lua', 'dictionary' },
+    default = { 'lsp', 'path', 'buffer', 'snippets', 'emoji', 'wordlist', 'lazydev', 'dictionary' },
     providers = {
+      wordlist = {
+        score_offset = 9,
+        module = "blink-cmp-wordlist",
+        name = "wordlist",
+        opts = {
+          wordfiles = { "wordlist.txt", "personal.txt" },
+          debug = false,
+          read_on_setup = false,
+          watch_files = true,
+          telescope_theme = __Telescope_dropdown_theme,
+        }
+      },
       emoji = {
         score_offset = 0,
         name = "emoji",
         module = 'blink-emoji'
       },
-      wordlist = {
-        name = "wordlist",
-        module = 'blink.compat.source',
-        min_keyword_length = 2,
-        score_offset = 0
-      },
       lsp = {
         score_offset = 10
       },
-      nvim_lua = {
-        name = 'nvim_lua',
-        module = 'blink.compat.source',
-        score_offset = 8
+      lazydev = {
+        module = "lazydev.integrations.blink",
+        score_offset = 8,
+        name = "LazyDev"
       },
       snippets = {
         score_offset = 5,
@@ -249,7 +290,7 @@ require("blink.cmp").setup({
     menu = {
       enabled = true,
       auto_show = function() return __Globals.perm_config.cmp_autocomplete end,
-      border = vim.g.tweaks.borderfactory(T.border),
+      border = vim.g.tweaks.borderfactory(border),
       winblend = T.winblend.menu,
       max_height = T.localwindow_height,
       draw = {
@@ -301,7 +342,7 @@ require("blink.cmp").setup({
     documentation = {
       auto_show = T.auto_doc,
       window = {
-        border = vim.g.tweaks.borderfactory(T.border),
+        border = vim.g.tweaks.borderfactory(border),
         winblend = T.winblend.doc,
         min_width = 30,
         max_width = 85,
@@ -313,14 +354,16 @@ require("blink.cmp").setup({
       }
     },
     ghost_text = {
-      enabled = T.ghost_text
+      enabled = T.ghost_text,
+      show_with_selection = true,
+      show_without_selection = false
     }
   },
   signature = {
     enabled = true,
     window = {
       show_documentation = true,
-      border = vim.g.tweaks.borderfactory(T.border)
+      border = vim.g.tweaks.borderfactory(border)
     }
   }
 })
