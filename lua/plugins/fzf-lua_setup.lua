@@ -174,7 +174,7 @@ require "fzf-lua".setup({
       -- pager        = "delta --width=$FZF_PREVIEW_COLUMNS",
     },
     man = {
-      -- NOTE: remove the `-c` flag when using man-db
+      -- NOTE remove the `-c` flag when using man-db
       cmd = "man -c %s | col -bx",
     },
     builtin = {
@@ -215,7 +215,7 @@ require "fzf-lua".setup({
     -- executed command priority is 'cmd' (if exists)
     -- otherwise auto-detect prioritizes `fd`:`rg`:`find`
     -- default options are controlled by 'fd|rg|find|_opts'
-    -- NOTE: 'find -printf' requires GNU find
+    -- NOTE 'find -printf' requires GNU find
     -- cmd            = "find . -type f -printf '%P\n'",
     find_opts    = [[-type f -not -path '*/\.git/*' -printf '%P\n']],
     rg_opts      = "--color=never --files --hidden --follow -g '!.git'",
@@ -498,7 +498,7 @@ require "fzf-lua".setup({
       symbol_style     = 1,       -- style for document/workspace symbols
       -- false: disable,    1: icon+kind
       --     2: icon only,  3: kind only
-      -- NOTE: icons are extracted from
+      -- NOTE icons are extracted from
       -- vim.lsp.protocol.CompletionItemKind
       -- colorize using nvim-cmp's CmpItemKindXXX highlights
       -- can also be set to 'TS' for treesitter highlights ('TSProperty', etc)
@@ -838,7 +838,7 @@ if vim.g.tweaks.fzf.prefer_for.selector == true then
     fzf.oldfiles({ winopts = fzf_tweaks.winopts.small_no_preview })
   end, "FZF oldfiles")
 end
--- GIT
+-- NOTE: GIT
 if vim.g.tweaks.fzf.prefer_for.git == true then
   command_center.add({
     {
@@ -906,6 +906,7 @@ if vim.g.tweaks.fzf.prefer_for.git == true then
     }
   })
 end
+-- NOTE: LSP
 if vim.g.tweaks.fzf.prefer_for.lsp == true then
   command_center.add({
     {

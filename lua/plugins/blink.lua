@@ -200,6 +200,7 @@ require("blink.cmp").setup({
   },
   sources = {
     default = { 'lsp', 'path', 'buffer', 'snippets', 'emoji', 'wordlist', 'dictionary', 'lua' },
+    --default = { 'lsp', 'path', 'buffer', 'snippets' },
     providers = {
       wordlist = {
         score_offset = 9,
@@ -263,41 +264,20 @@ require("blink.cmp").setup({
         async = true,
         module = 'blink-cmp-dictionary',
         name = 'Dict',
-        --opts = {
-        --  get_command = {
-        --    "rg",             -- make sure this command is available in your system
-        --    "--color=never",
-        --    "--no-line-number",
-        --    "--no-messages",
-        --    "--no-filename",
-        --    "--ignore-case",
-        --    "--",
-        --    "${prefix}",                                                  -- this will be replaced by the result of 'get_prefix' function
-        --    vim.fn.expand("~/.config/nvim/dict/american-english.txt"),             -- where you dictionary is dict
-        --  },
-        --  documentation = {
-        --    enable = true,
-        --    get_command = {
-        --      "wn",                    -- make sure this command is available in your system
-        --      "${word}",               -- this will be replaced by the word to search
-        --      "-over"
-        --    }
-        --  }
-        --}
         opts = {
           dictionary_directories = { vim.fn.expand('~/.config/nvim/dict') },
-          get_command = "rg",
-          get_command_args = function(prefix)
-            return {             -- make sure this command is available in your system
-              "--color=never",
-              "--no-line-number",
-              "--no-messages",
-              "--no-filename",
-              "--ignore-case",
-              "--",
-              prefix
-            }
-          end,
+          --get_command = "rg",
+          --get_command_args = function(prefix)
+          --  return {             -- make sure this command is available in your system
+          --    "--color=never",
+          --    "--no-line-number",
+          --    "--no-messages",
+          --    "--no-filename",
+          --    "--ignore-case",
+          --    "--",
+          --    prefix
+          --  }
+          --end,
         }
       }
     }
@@ -371,8 +351,8 @@ require("blink.cmp").setup({
         border = vim.g.tweaks.borderfactory(border),
         winblend = T.winblend.doc,
         min_width = 30,
-        max_width = 85,
-        max_height = 30,
+        max_width = 95,
+        max_height = 35,
         direction_priority = {
           menu_north = { "w", "e", "n", "s" },
           menu_south = { "w", "e", "s", "n" },

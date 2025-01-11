@@ -262,7 +262,7 @@ command_center.add({
   },
   {
     desc = "Inspect auto word list (wordlist plugin)",
-    cmd = function() require("cmp_wordlist").autolist() end,
+    cmd = function() require(vim.g.tweaks.completion == "nvim-cmp" and "cmp_wordlist" or "blink-cmp-wordlist").autolist() end,
     keys = { "n", "<leader>zw", noremap },
     category = "@Neovim"
   },
