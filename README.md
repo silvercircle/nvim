@@ -29,12 +29,11 @@ their plugin configuration.
 
 ## LSP Config (main branch)
 
-This is my (experimental) LSP configuration for Neovim. It should be considered a fast moving target and 
-plugin configuration might change. This configuration is built around:
+This is my LSP configuration for Neovim. It should be considered a fast moving target and plugin 
+configuration might change. This configuration is built around:
 
 * Native Neovim LSP together with [mason](https://github.com/williamboman/mason.nvim), 
-  [lspconfig](https://github.com/neovim/nvim-lspconfig) and 
-  [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim). Mason is optional for comfortably
+  [lspconfig](https://github.com/neovim/nvim-lspconfig) and Mason, but the latter  is optional for comfortably
   installing and updating language servers, but essentially, nvim-lspconfig is enough.
   The configuration has presets for the following languages:
 

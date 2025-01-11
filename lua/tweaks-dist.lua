@@ -133,7 +133,7 @@ Tweaks.blink = {
   -- keymap preset to use. Read the blink docs. Note that some
   -- keys are overriden or customized from the preset. See lua/plugins/blink.lua
   keymap_preset = "enter",
-  ghost_text = true,  -- this might still be a bit buggy in blink.cmp.
+  ghost_text = false,  -- this might still be a bit buggy in blink.cmp.
   -- maximum height of the popup window
   window_height = 12,
   -- maximum width of the completion label
@@ -297,7 +297,7 @@ Tweaks.theme = {
   sync_kittybg = true,
   kittenexec = "kitten",
   kittysocket = "/tmp/mykittysocket",
-  rainbow_contrast = "low",
+  rainbow_contrast = "high",
   scheme = "dark",
   all_types_bold = false,
   disable = false

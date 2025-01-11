@@ -27,27 +27,27 @@ lazy.setup({
       })
     end,
   },
-  {
-    "smjonas/snippet-converter.nvim",
-    cond = false,
-    config = function()
-      local template = {
-        sources = {
-          snipmate = {
-            vim.fn.stdpath("config") .. "/oldsnippets"
-          }
-        },
-        output = {
-          vscode_luasnip = {
-            vim.fn.stdpath("config") .. "/snippets"
-          }
-        }
-      }
-      require("snippet_converter").setup {
-        templates = { template }
-      }
-    end
-  },
+  --{
+  --  "smjonas/snippet-converter.nvim",
+  --  cond = false,
+  --  config = function()
+  --    local template = {
+  --      sources = {
+  --        snipmate = {
+  --          vim.fn.stdpath("config") .. "/oldsnippets"
+  --        }
+  --      },
+  --      output = {
+  --        vscode_luasnip = {
+  --          vim.fn.stdpath("config") .. "/snippets"
+  --        }
+  --      }
+  --    }
+  --    require("snippet_converter").setup {
+  --      templates = { template }
+  --    }
+  --  end
+  --},
   'sharkdp/fd',
   {
     "lervag/vimtex",
@@ -287,7 +287,9 @@ lazy.setup({
     end,
     dependencies = {
       { "rafamadriz/friendly-snippets" },
-      { 'Kaiser-Yang/blink-cmp-dictionary' },
+      {
+        'Kaiser-Yang/blink-cmp-dictionary',
+      },
       { "moyiz/blink-emoji.nvim" },
       { 'windwp/nvim-autopairs',
         config = function()
@@ -299,8 +301,12 @@ lazy.setup({
           end
         end
       },
-      { dir = '/mnt/shared/data/code/neovim_plugins/blink-cmp-wordlist.nvim/' },
-      { dir = '/mnt/shared/data/code/neovim_plugins/blink-cmp-lua.nvim/' }
+      {
+        dir = '/mnt/shared/data/code/neovim_plugins/blink-cmp-wordlist.nvim/'
+      },
+      {
+        dir = '/mnt/shared/data/code/neovim_plugins/blink-cmp-lua.nvim/'
+      }
     }
   },
     -- lsp
@@ -385,7 +391,7 @@ lazy.setup({
       })
     end
   },
-  -- { 'tpope/vim-liquid', ft = "liquid" },
+   { 'tpope/vim-liquid', ft = "liquid" },
   {
     'tomasky/bookmarks.nvim',
     event = "UIEnter",
@@ -420,12 +426,64 @@ lazy.setup({
     end
   },
   {
-    'lukas-reineke/indent-blankline.nvim',
-    event = "BufReadPre",
-    config = function()
-      require("plugins.iblsetup")
-    end
+    "saghen/blink.nvim",
+    -- all modules handle lazy loading internally
+    lazy = false,
+    opts = {
+      indent = {
+        enabled = true,
+        -- start with indent guides visible
+        visible = true,
+        blocked = {
+          buftypes = {'nofile', 'prompt', 'terminal'},
+          filetypes = {'alpha', 'help', 'sysmon'},
+        },
+        static = {
+          enabled = true,
+          char = "│",
+          priority = 1,
+          --highlights = { 'BlinkIndentRed', 'BlinkIndentOrange', 'BlinkIndentYellow', 'BlinkIndentGreen', 'BlinkIndentViolet', 'BlinkIndentCyan' },         -- specify multiple highlights here for rainbow-style indent guides
+          highlights = { "IndentBlankLineChar" },
+        },
+        scope = {
+          enabled = true,
+          char = "┃",
+          priority = 1024,
+          -- set this to a single highlight, such as 'BlinkIndent' to disable rainbow-style indent guides
+          -- highlights = { 'BlinkIndent' },
+          highlights = {
+            "IndentBlanklineIndent1",
+            "IndentBlanklineIndent2",
+            "IndentBlanklineIndent3",
+            "IndentBlanklineIndent4",
+            "IndentBlanklineIndent5",
+            "IndentBlanklineIndent6",
+            "IndentBlanklineIndent6",
+          },
+          underline = {
+            -- enable to show underlines on the line above the current scope
+            enabled = false,
+            highlights = {
+              "BlinkIndentRedUnderline",
+              "BlinkIndentYellowUnderline",
+              "BlinkIndentBlueUnderline",
+              "BlinkIndentOrangeUnderline",
+              "BlinkIndentGreenUnderline",
+              "BlinkIndentVioletUnderline",
+              "BlinkIndentCyanUnderline",
+            },
+          },
+        },
+      },
+    },
   },
+  --{
+  --  'lukas-reineke/indent-blankline.nvim',
+  --  event = "BufReadPost",
+  --  config = function()
+  --    require("plugins.iblsetup")
+  --  end
+  --},
   {
     'petertriho/nvim-scrollbar',
     event = "BufReadPre",
@@ -573,7 +631,6 @@ lazy.setup({
       require("dap.nvim_dap")
     end
   },
-  { 'kevinhwang91/rnvimr', cond = false, lazy = true, cmd = { "RnvimrToggle" } },
   {
     "smjonas/inc-rename.nvim",
     event = { "BufRead" },
@@ -600,24 +657,24 @@ lazy.setup({
       require("plugins.outline_setup")
     end
   },
-  {
-    'edluffy/hologram.nvim',
-    lazy = true,
-    config = function()
-      require("hologram").setup({})
-    end
-  },
-  {
-    'kevinhwang91/nvim-ufo',
-    cond = false,
-    --event = "UIEnter",
-    config = function()
-      require("plugins.others").setup.ufo()
-    end,
-    dependencies = {
-      'kevinhwang91/promise-async'
-    }
-  },
+  --{
+  --  'edluffy/hologram.nvim',
+  --  lazy = true,
+  --  config = function()
+  --    require("hologram").setup({})
+  --  end
+  --},
+  --{
+  --  'kevinhwang91/nvim-ufo',
+  --  cond = false,
+  --  --event = "UIEnter",
+  --  config = function()
+  --    require("plugins.others").setup.ufo()
+  --  end,
+  --  dependencies = {
+  --    'kevinhwang91/promise-async'
+  --  }
+  --},
   {
     'mfussenegger/nvim-jdtls',
     lazy = true
@@ -660,46 +717,38 @@ lazy.setup({
     end
   },
   {
-    'folke/edgy.nvim',
-    cond = false,
-    event = "VeryLazy",
-    config = function()
-      require("plugins.edgy")
-    end
-  },
-  {
     "ibhagwan/fzf-lua",
     lazy = true,
     event = "BufReadPost",
     config = function()
       require("plugins.fzf-lua_setup")
     end
-    },
-    {
-      "stevearc/quicker.nvim",
-      event = "FileType qf",
-      config = function()
-        require("quicker").setup()
-      end
-    },
-    {
-      "folke/lazydev.nvim",
-      cond = false,
-      ft = "lua", -- only load on lua files
-      opts = {
-        library = {
-        },
-        -- always enable unless `vim.g.lazydev_enabled = false`
-        -- This is the default
-        enabled = function(root_dir)
-          return vim.g.lazydev_enabled == nil and true or vim.g.lazydev_enabled
-        end
-        ---- disable when a .luarc.json file is found
-        --enabled = function(root_dir)
-        --  return not vim.uv.fs_stat(root_dir .. "/.luarc.json")
-        --end,
+  },
+  {
+    "stevearc/quicker.nvim",
+    event = "FileType qf",
+    config = function()
+      require("quicker").setup()
+    end
+  },
+  {
+    "folke/lazydev.nvim",
+    cond = false,
+    ft = "lua", -- only load on lua files
+    opts = {
+      library = {
       },
+      -- always enable unless `vim.g.lazydev_enabled = false`
+      -- This is the default
+      enabled = function(root_dir)
+        return vim.g.lazydev_enabled == nil and true or vim.g.lazydev_enabled
+      end
+      ---- disable when a .luarc.json file is found
+      --enabled = function(root_dir)
+      --  return not vim.uv.fs_stat(root_dir .. "/.luarc.json")
+      --end,
     },
+  },
 },
 {
   ui = {

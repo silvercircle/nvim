@@ -412,12 +412,14 @@ vim.keymap.set('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cw
 -- Alt-d: Detach all TUI sessions from the (headless) master
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-d>', function() __Globals.detach_all_tui() end, "Detach all TUI")
 
+local wordlist_module = vim.g.tweaks.completion == "nvim-cmp" and "cmp_wordlist" or "blink-cmp-wordlist"
+
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'za', function()
-  require("cmp_wordlist").add_cword()
+  require(wordlist_module).add_cword()
 end, "Add current word to wordlist")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'zt', function()
-  require("cmp_wordlist").add_cword_with_translation()
+  require(wordlist_module).add_cword_with_translation()
 end, "Add current word with translation to wordlist")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'wt', function()
@@ -476,4 +478,4 @@ vim.g.setkey({ 'n', 'i' }, '<A-e>', function()
 end, "Mini.Picker Buffer list")
 
 require("local_utils.marks").set_keymaps()
-vim.cmd("nunmap <cr>")
+-- vim.cmd("nunmap <cr>")

@@ -2,6 +2,7 @@
 -- note: ibl requires version 3
 local _char = vim.g.tweaks.indentguide.char
 
+  vim.notify("indentblankline setup")
 require("ibl").setup({
   -- for example, context is off by default, use this to turn it on
   enabled = __Globals.perm_config.ibl_enabled,
