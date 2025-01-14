@@ -835,15 +835,13 @@ end
 --- @return table
 function M.get_lsp_capabilities()
   if M.lsp_capabilities == nil then
-    --local cmp_lsp = require("cmp_nvim_lsp")
-    M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
-    --M.lsp_capabilities = cmp_lsp.default_capabilities(M.lsp_capabilities)
+    if vim.g.tweaks.completion.version == "blink" then
+      M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+      M.lsp_capabilities = require("blink.cmp").get_lsp_capabilities(M.lsp_capabilities)
+    else
+      M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+    end
 
-    -- required for some plugins (ufo) to use lsp as a folding provider
-    M.lsp_capabilities.textDocument.foldingRange = {
-      dynamicRegistration = false,
-      lineFoldingOnly = true
-    }
     M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
   end
   return M.lsp_capabilities

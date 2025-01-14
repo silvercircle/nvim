@@ -166,13 +166,6 @@ lazy.setup({
         config = function()
           require("plugins.others").setup.treesitter_context()
         end
-      },
-      {
-        'nvim-treesitter/nvim-treesitter-textobjects',
-        cond = false,
-        lazy = true,
-        config = function()
-        end
       }
     }
   },
@@ -446,7 +439,7 @@ lazy.setup({
           highlights = { "IndentBlankLineChar" },
         },
         scope = {
-          enabled = true,
+          enabled = Config.nightly == 1 and true or false,
           char = "┃",
           priority = 1024,
           -- set this to a single highlight, such as 'BlinkIndent' to disable rainbow-style indent guides
@@ -567,19 +560,22 @@ lazy.setup({
       require("plugins.others").setup.mini_files()
     end
   },
-  {
-    'nvim-tree/nvim-tree.lua',
-    cond = vim.g.tweaks.tree.version == "Nvim",
-    config = function()
-      require("plugins.nvim-tree")
-    end
-  },
+  --{
+  --  'nvim-tree/nvim-tree.lua',
+  --  cond = vim.g.tweaks.tree.version == "Nvim",
+  --  lazy = true,
+  --  config = function()
+  --    require("plugins.nvim-tree")
+  --  end
+  --},
   {
     'nvim-neo-tree/neo-tree.nvim',
     cond = vim.g.tweaks.tree.version == "Neo",
     config = function()
       require("plugins.neotree")
     end,
+    verylazy = true,
+    event = "VeryLazy",
     dependencies = {
       'MunifTanjim/nui.nvim',
       {

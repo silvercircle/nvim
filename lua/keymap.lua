@@ -478,4 +478,4 @@ vim.g.setkey({ 'n', 'i' }, '<A-e>', function()
 end, "Mini.Picker Buffer list")
 
 require("local_utils.marks").set_keymaps()
--- vim.cmd("nunmap <cr>")
+vim.cmd("nunmap <cr>")

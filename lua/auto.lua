@@ -66,7 +66,7 @@ autocmd({ "UIEnter" }, {
     __Globals.main_winid = vim.fn.win_getid()
     if Config.plain == false then
       if __Globals.perm_config.tree.active == true then
-        __Globals.open_tree()
+        vim.schedule(function() __Globals.open_tree() end)
       end
       if __Globals.perm_config.terminal.active == true then
         __Globals.termToggle(__Globals.perm_config.terminal.height)
