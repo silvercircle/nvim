@@ -53,6 +53,9 @@ local function select_next_idx(idx, dir)
   itemlist.select(target_idx)
 end
 
+--- handle <Home> or <End> keys and scroll list to item begin or end
+--- @param dir number 0 to scroll to begin of the list, any other numerical
+--- value scrolls to the end.
 local function list_home_or_end(dir)
   dir = dir or 0
 
@@ -199,7 +202,7 @@ require("blink.cmp").setup({
     }
   },
   sources = {
-    default = { 'lsp', 'path', 'buffer', 'snippets', 'emoji', 'wordlist', 'dictionary', 'lua' },
+    default = { 'lsp', 'path', 'buffer', 'snippets', 'emoji', 'wordlist', 'lua', 'dictionary' },
     --default = { 'lsp', 'path', 'buffer', 'snippets' },
     providers = {
       wordlist = {
@@ -285,6 +288,9 @@ require("blink.cmp").setup({
   completion = {
     accept = {
       create_undo_point = false,
+      auto_brackets = {
+        enabled = true
+      }
     },
     trigger = {
       prefetch_on_insert = T.prefetch,
