@@ -107,6 +107,7 @@ lazy.setup({
   {
     --(vim.g.tweaks.use_foldlevel_patch == true) and "silvercircle/fidget.nvim" or "j-hui/fidget.nvim",
     "silvercircle/fidget.nvim",
+    cond = vim.g.tweaks.notifier == "fidget",
     branch = "mine",
     lazy = true,
     event = "BufReadPost",
@@ -421,12 +422,14 @@ lazy.setup({
   {
     "folke/snacks.nvim",
     lazy = false,
-    cond = vim.g.tweaks.indent.version == "snacks",
     config = function()
       require("snacks").setup({
+        notifier = {
+          enabled = vim.g.tweaks.notifier == "snacks" and true or false,
+        },
         indent = {
           priority = 1,
-          enabled = true,   -- enable indent guides
+          enabled = vim.g.tweaks.indent.version == "snacks" and true or false,   -- enable indent guides
           char = "│",
           only_scope = false, -- only show indent guides of the scope
           only_current = false, -- only show indent guides in the current window
@@ -446,7 +449,7 @@ lazy.setup({
             char = "┃",
             underline = false, -- underline the start of the scope
             only_current = false, -- only show scope in the current window
-            hl = "IndentBlanklineIndent4", ---@type string|string[] hl group for scopes
+            hl = "IndentBlanklineIndent3", ---@type string|string[] hl group for scopes
           },
           chunk = {
             -- when enabled, scopes will be rendered as chunks, except for the
@@ -636,13 +639,11 @@ lazy.setup({
     config = function()
       require("plugins.neotree")
     end,
-    verylazy = true,
     event = "VeryLazy",
     dependencies = {
       'MunifTanjim/nui.nvim',
       {
         's1n7ax/nvim-window-picker',
-        event = "VeryLazy",
         config = function()
           require("window-picker").setup({
             hint = 'floating-big-letter'
