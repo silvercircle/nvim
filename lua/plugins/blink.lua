@@ -203,7 +203,6 @@ require("blink.cmp").setup({
   },
   sources = {
     default = { 'lsp', 'path', 'buffer', 'snippets', 'emoji', 'wordlist', 'lua', 'dictionary' },
-    --default = { 'lsp', 'path', 'buffer', 'snippets' },
     providers = {
       wordlist = {
         score_offset = 9,
