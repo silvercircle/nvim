@@ -15,9 +15,7 @@ require("neo-tree").setup({
   },
   enable_opened_markers = true,   -- Enable tracking of opened files. Required for `components.name.highlight_opened_files`
   enable_refresh_on_write = true, -- Refresh the tree when a file is written. Only used if `use_libuv_file_watcher` is false.
-  enable_normal_mode_for_inputs = false, -- Enable normal mode for input dialogs.
   git_status_async = true,
-  close_floats_on_escape_key = true,
   add_blank_line_at_top = false,
   close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
   popup_border_style = "single",
@@ -39,7 +37,7 @@ require("neo-tree").setup({
     statusline = false, -- toggle to show selector on statusline
     show_scrolled_off_parent_node = false, -- this will replace the tabs with the parent path
     -- of the top visible node when scrolled down.
-    tab_labels = { -- falls back to source_name if nil
+    sources = { -- falls back to source_name if nil
       filesystem = "  Files ",
       buffers = "  Buffers ",
       git_status = "  Git ",
@@ -254,7 +252,7 @@ require("neo-tree").setup({
         --".null-ls_*",
       },
     },
-    follow_current_file = false, -- This will find and focus the file in the active buffer every
+    follow_current_file = { enabled = false }, -- This will find and focus the file in the active buffer every
     -- time the current file is changed while the tree is open.
     group_empty_dirs = false, -- when true, empty folders will be grouped together
     hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
@@ -286,10 +284,18 @@ require("neo-tree").setup({
     {
       event = "neo_tree_window_after_close",
       handler = function() __Globals.tree_close_handler() end
+    },
+    {
+      event = "neo_tree_popup_input_ready",
+      ---@param args { bufnr: integer, winid: integer }
+      handler = function(args)
+        vim.cmd("stopinsert")
+        vim.keymap.set("i", "<esc>", vim.cmd.stopinsert, { noremap = true, buffer = args.bufnr })
+      end,
     }
   },
   buffers = {
-    follow_current_file = true, -- This will find and focus the file in the active buffer every
+    follow_current_file = { enabled = true }, -- This will find and focus the file in the active buffer every
     -- time the current file is changed while the tree is open.
     group_empty_dirs = true, -- when true, empty folders will be grouped together
     show_unloaded = true,
