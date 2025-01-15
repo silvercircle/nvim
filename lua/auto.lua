@@ -66,10 +66,12 @@ autocmd({ "UIEnter" }, {
     __Globals.main_winid = vim.fn.win_getid()
     if Config.plain == false then
       if __Globals.perm_config.tree.active == true then
-        vim.schedule(function() __Globals.open_tree() end)
+        local timer = vim.uv.new_timer()
+        --timer:start(1000, 0, vim.schedule_wrap(function() __Globals.open_tree() vim.fn.win_gotoid(__Globals.main_winid) end))
+        __Globals.open_tree()
       end
       if __Globals.perm_config.terminal.active == true then
-        __Globals.termToggle(__Globals.perm_config.terminal.height)
+        vim.schedule(function() __Globals.termToggle(__Globals.perm_config.terminal.height) vim.fn.win_gotoid(__Globals.main_winid) end)
       end
       -- create the WinResized watcher to keep track of the terminal split height.
       -- also call the resize handlers for the usplit/wsplit frames.
@@ -199,12 +201,13 @@ autocmd({ 'BufEnter' }, {
 })
 
 -- restore view when reading a file
-autocmd({ 'bufread' }, {
+autocmd({ 'BufReadPost' }, {
   pattern = "*",
   callback = function()
     vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then
-      vim.cmd("silent! loadview")
+      vim.schedule(function() vim.treesitter.foldexpr() vim.cmd("silent! loadview") end)
+      --vim.cmd("silent! loadview")
     end
   end,
   group = agroup_views
@@ -364,3 +367,5 @@ autocmd({ 'User'}, {
     vim.cmd("hi nCursor blend=0")
   end
 })
+
+

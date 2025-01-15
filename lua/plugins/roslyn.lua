@@ -51,7 +51,6 @@ require("roslyn").setup({
     on_attach = function(client, bufnr)
       require("nvim-navic").attach(client, bufnr)
       require("nvim-navbuddy").attach(client, bufnr)
-      --vim.lsp.buf_attach_client(client, bufnr)
       monkey_patch_semantic_tokens(client)
     end,
   },

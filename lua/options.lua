@@ -62,6 +62,7 @@ o.foldcolumn = "1"
 if Config.treesitter == true then
   o.foldmethod = "expr"
   vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+  --vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
   -- vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 else
   o.foldmethod = "indent"

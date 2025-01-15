@@ -247,7 +247,6 @@ vim.g.setkey('n', fkeys.s_f11, function() perform_command('Lazy') end, "Open Laz
 
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-l>', function() __Globals.toggle_statuscol() end, "Toggle absolute/relative line numbers")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-k>', function() __Globals.toggle_colorcolumn() end, "Toggle color column display")
-vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-p>', function() __Globals.toggle_ibl_rainbow() end, "Toggle indent-blankline rainbow mode")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-o>', function() __Globals.toggle_ibl() end, "Toggle indent-blankline active")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-u>', function() __Globals.toggle_ibl_context() end, "Toggle indent-blankline context")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-z>', function()
