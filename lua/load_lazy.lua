@@ -419,9 +419,71 @@ lazy.setup({
     end
   },
   {
+    "folke/snacks.nvim",
+    lazy = false,
+    cond = vim.g.tweaks.indent.version == "snacks",
+    config = function()
+      require("snacks").setup({
+        indent = {
+          priority = 1,
+          enabled = true,   -- enable indent guides
+          char = "│",
+          only_scope = false, -- only show indent guides of the scope
+          only_current = false, -- only show indent guides in the current window
+          hl = "IndentBlankLineChar", ---@type string|string[] hl groups for indent guides
+          animate = {
+            enabled = true,
+            style = "out",
+            easing = "linear",
+            duration = {
+              step = 10, -- ms per step
+              total = 200, -- maximum duration
+            },
+          },
+          scope = {
+            enabled = true, -- enable highlighting the current scope
+            priority = 200,
+            char = "┃",
+            underline = false, -- underline the start of the scope
+            only_current = false, -- only show scope in the current window
+            hl = "IndentBlanklineIndent4", ---@type string|string[] hl group for scopes
+          },
+          chunk = {
+            -- when enabled, scopes will be rendered as chunks, except for the
+            -- top-level scope which will be rendered as a scope.
+            enabled = false,
+            -- only show chunk scopes in the current window
+            only_current = false,
+            priority = 200,
+            hl = "SnacksIndentChunk", ---@type string|string[] hl group for chunk scopes
+            char = {
+              corner_top = "┌",
+              corner_bottom = "└",
+              -- corner_top = "╭",
+              -- corner_bottom = "╰",
+              horizontal = "─",
+              vertical = "│",
+              arrow = ">",
+            }
+          },
+          blank = {
+            char = " ",
+            -- char = "·",
+            hl = "SnacksIndentBlank", ---@type string|string[] hl group for blank spaces
+          },
+          -- filter for buffers to enable indent guides
+          filter = function(buf)
+            return vim.g.snacks_indent ~= false and vim.b[buf].snacks_indent ~= false and vim.bo[buf].buftype == ""
+          end
+        }
+      })
+    end
+  },
+  {
     "saghen/blink.nvim",
     -- all modules handle lazy loading internally
     lazy = false,
+    cond = vim.g.tweaks.indent.version == "blink",
     opts = {
       indent = {
         enabled = true,

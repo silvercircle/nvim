@@ -50,6 +50,11 @@ Tweaks.completion = {
   version = "blink"
 }
 
+-- which indent plugin to use. Options are "blink" or "snacks"
+Tweaks.indent = {
+  version = "snacks"
+}
+
 -- telescope field widths. These depend on the characters per line in the terminal
 -- setup. So it needs to be tweakable
 Tweaks.telescope_symbol_width = 60

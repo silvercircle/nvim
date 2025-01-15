@@ -663,18 +663,18 @@ function M.toggle_debug()
   end
 end
 
--- enable/disable ibl rainbow guides
-function M.toggle_ibl_rainbow()
-  M.perm_config.ibl_rainbow = not M.perm_config.ibl_rainbow
-  require("ibl").update({
-    indent = { highlight = M.perm_config.ibl_rainbow == true and M.ibl_rainbow_highlight or M.ibl_highlight },
-  })
-end
-
 -- enable/disable ibl
 function M.toggle_ibl()
   M.perm_config.ibl_enabled = not M.perm_config.ibl_enabled
-  require("ibl").update({ enabled = M.perm_config.ibl_enabled })
+  if vim.g.tweaks.indent.version == "snacks" then
+    if M.perm_config.ibl_enabled then
+      require("snacks").indent.enable()
+    else
+      require("snacks").indent.disable()
+    end
+  else
+    vim.notify("function not supported with current plugin configuration")
+  end
 end
 
 -- enable/disable ibl context display
