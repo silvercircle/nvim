@@ -826,6 +826,19 @@ if vim.g.tweaks.fzf.enable_keys == true then
         { "i", "<C-x>m", noremap }
       },
       category = "@Telescope"
+    },
+    {
+      desc = "FZF Helptags",
+      cmd = function()
+        fzf.helptags({
+          winopts = fzf_tweaks.winopts.big_preview_topbig,
+        })
+      end,
+      keys = {
+        { "n", "<C-x><C-h>", noremap },
+        { "i", "<C-x><C-h>", noremap }
+      },
+      category = "@Telescope"
     }
   })
 end
