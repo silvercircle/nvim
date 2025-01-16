@@ -723,17 +723,16 @@ lazy.setup({
   --    require("hologram").setup({})
   --  end
   --},
-  --{
-  --  'kevinhwang91/nvim-ufo',
-  --  cond = false,
-  --  --event = "UIEnter",
-  --  config = function()
-  --    require("plugins.others").setup.ufo()
-  --  end,
-  --  dependencies = {
-  --    'kevinhwang91/promise-async'
-  --  }
-  --},
+  {
+    'kevinhwang91/nvim-ufo',
+    --event = "UIEnter",
+    config = function()
+      require("plugins.others").setup.ufo()
+    end,
+    dependencies = {
+      'kevinhwang91/promise-async'
+    }
+  },
   {
     'mfussenegger/nvim-jdtls',
     lazy = true
