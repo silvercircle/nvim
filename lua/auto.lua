@@ -201,13 +201,12 @@ autocmd({ 'BufEnter' }, {
 })
 
 -- restore view when reading a file
-autocmd({ 'BufReadPost' }, {
+autocmd({ 'BufRead' }, {
   pattern = "*",
-  callback = function()
+  callback = function(args)
     vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
-    if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") ~= 'nofile' then
-      vim.schedule(function() vim.treesitter.foldexpr() vim.cmd("silent! loadview") end)
-      --vim.cmd("silent! loadview")
+    if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
+      vim.cmd("silent! loadview")
     end
   end,
   group = agroup_views
@@ -228,13 +227,13 @@ autocmd({ 'FileType' }, {
 })
 
 -- handle treesitter configuration and start it on supported filetypes.
-autocmd({ "Filetype" }, {
-  pattern = Config.treesitter_types,
-  callback = function()
-    vim.treesitter.start()
-  end,
-  group = agroup_hl
-})
+--autocmd({ "Filetype" }, {
+--  pattern = Config.treesitter_types,
+--  callback = function()
+--    vim.treesitter.start()
+--  end,
+--  group = agroup_hl
+--})
 -- pattern for which the indent and tabstop options must be set.
 local tabstop_pattern = { 'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go' }
 -- filetypes for which we want conceal enabled

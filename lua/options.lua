@@ -61,7 +61,7 @@ o.foldcolumn = "1"
 -- indentation-based folding.
 if Config.treesitter == true then
   o.foldmethod = "expr"
-  vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+  vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 else
   o.foldmethod = "indent"
   o.foldexpr = ""
