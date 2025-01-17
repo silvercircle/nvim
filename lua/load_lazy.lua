@@ -748,12 +748,12 @@ lazy.setup({
       require("plugins.others").setup.trouble()
     end
   },
-  {
-    "MaximilianLloyd/ascii.nvim",
-    dependencies = {
-      "MunifTanjim/nui.nvim"
-    }
-  },
+  --{
+  --  "MaximilianLloyd/ascii.nvim",
+  --  dependencies = {
+  --    "MunifTanjim/nui.nvim"
+  --  }
+  --},
   {
     'seblj/roslyn.nvim',
     cond = (vim.g.tweaks.lsp.csharp == "roslyn"),

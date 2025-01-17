@@ -122,7 +122,7 @@ M.setup = {
       provider_selector = function()
         return { "treesitter", "indent" }
       end,
-      fold_virt_text_handler = nil, --__Globals.ufo_virtual_text_handler,
+      fold_virt_text_handler = __Globals.ufo_virtual_text_handler,
       preview = {
         mappings = {
           scrollU = "<Up>",
@@ -132,10 +132,16 @@ M.setup = {
         },
         win_config = {
           max_height = 30,
-          border = "single" -- __Globals.perm_config.telescope_borders
+          winhighlight = "Normal:NeoTreeNormalNC",
+          border = vim.g.tweaks.borderfactory("thicc") -- __Globals.perm_config.telescope_borders
         }
       }
+
     })
+    vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+    vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+    vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds)
+    vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith)
   end,
 
   trouble = function()

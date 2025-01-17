@@ -204,13 +204,16 @@ map('n', 'hl', "<CMD>Inspect<CR>", opts)
 vim.g.setkey({ 'i', 'n' }, fkeys.s_f1, function() vim.lsp.buf.signature_help() end, "Show signature help")
 
 vim.keymap.set({ "n", "i" }, '<f1>', function()
-	local api = vim.api
-	local hover_win = vim.b.hover_preview
-	if hover_win and api.nvim_win_is_valid(hover_win) then
-		api.nvim_set_current_win(hover_win)
-	else
-		require("hover").hover()
-	end
+  local winid = require('ufo').peekFoldedLinesUnderCursor()
+  if not winid then
+  	local api = vim.api
+	  local hover_win = vim.b.hover_preview
+  	if hover_win and api.nvim_win_is_valid(hover_win) then
+	  	api.nvim_set_current_win(hover_win)
+  	else
+	  	require("hover").hover()
+  	end
+  end
 end, { desc = "LSP hover window" })
 
 vim.g.setkey({ 'i', 'n' }, '<C-x>D', function()

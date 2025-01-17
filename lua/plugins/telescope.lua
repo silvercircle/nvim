@@ -207,7 +207,7 @@ require("telescope").setup({
 -- finally, load the extensions
 require("telescope").load_extension("bookmarks")
 require("telescope").load_extension("fzf")
-require("telescope").load_extension("ascii")
+--require("telescope").load_extension("ascii")
 --require("telescope").load_extension("noice")
 
 local noremap  = { noremap = true }

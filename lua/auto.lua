@@ -49,7 +49,7 @@ autocmd({ 'VimEnter' }, {
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
 -- environment variable or command line option forbids it for better startup performance and
 -- a clean UI
-autocmd({ "UIEnter" }, {
+autocmd({ "VimEnter" }, {
   callback = function()
     -- this should only run on initial UIEnter (nvim start), exactly ONCE. UIEnter is also
     -- fired when nvim resumes from suspend (Ctrl-Z) in which case this code is no longer needed
@@ -67,8 +67,8 @@ autocmd({ "UIEnter" }, {
     if Config.plain == false then
       if __Globals.perm_config.tree.active == true then
         local timer = vim.uv.new_timer()
-        --timer:start(1000, 0, vim.schedule_wrap(function() __Globals.open_tree() vim.fn.win_gotoid(__Globals.main_winid) end))
-        __Globals.open_tree()
+        timer:start(500, 0, vim.schedule_wrap(function() __Globals.open_tree() vim.fn.win_gotoid(__Globals.main_winid) end))
+        -- __Globals.open_tree()
       end
       if __Globals.perm_config.terminal.active == true then
         vim.schedule(function() __Globals.termToggle(__Globals.perm_config.terminal.height) vim.fn.win_gotoid(__Globals.main_winid) end)

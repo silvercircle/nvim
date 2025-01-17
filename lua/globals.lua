@@ -182,6 +182,7 @@ function M.tree_open_handler()
     wsplit.content = __Globals.perm_config.weather.content
     if wsplit.winid == nil then
       wsplit.openleftsplit(Config.weather.file)
+      --vim.schedule(function() wsplit.openleftsplit(Config.weather.file) end)
     end
   end
 end
