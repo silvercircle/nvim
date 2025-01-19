@@ -46,97 +46,102 @@ autocmd({ 'VimEnter' }, {
     end
   end
 })
+local function main_layout()
+  -- this should only run on initial UIEnter (nvim start), exactly ONCE. UIEnter is also
+  -- fired when nvim resumes from suspend (Ctrl-Z) in which case this code is no longer needed
+  -- because all the sub splits have already been created
+  -- running this more than once will cause all kind of mayhem, so don't
+  if did_UIEnter == true then
+    return
+  end
+
+  -- create custom telescope themes as globals
+  __Telescope_dropdown_theme = utils.Telescope_dropdown_theme
+  __Telescope_vertical_dropdown_theme = utils.Telescope_vertical_dropdown_theme
+  did_UIEnter = true
+  __Globals.main_winid = vim.fn.win_getid()
+  if Config.plain == false then
+    if __Globals.perm_config.tree.active == true then
+      --local timer = vim.uv.new_timer()
+      --timer:start(500, 0, vim.schedule_wrap(function() __Globals.open_tree() vim.fn.win_gotoid(__Globals.main_winid) end))
+      __Globals.open_tree()
+    end
+    if __Globals.perm_config.terminal.active == true then
+      vim.schedule(function() __Globals.termToggle(__Globals.perm_config.terminal.height) vim.fn.win_gotoid(__Globals.main_winid) end)
+    end
+    -- create the WinResized watcher to keep track of the terminal split height.
+    -- also call the resize handlers for the usplit/wsplit frames.
+    -- keep track of tree/outline window widths
+    autocmd({ "WinClosed", "WinResized" }, {
+      callback = function(sizeevent)
+        require("local_utils.usplit").resize_or_closed(sizeevent)
+        -- require("local_utils.wsplit").resize_or_closed()
+        if sizeevent.event == "WinClosed" then
+          if __Globals.term.winid ~= nil and vim.api.nvim_win_is_valid(__Globals.term.winid) == false then
+            __Globals.term.winid = nil
+            __Globals.term.visible = false
+          end
+          if wsplit.winid ~= nil and vim.api.nvim_win_is_valid(wsplit.winid) == false then
+            wsplit.winid = nil
+          end
+          if usplit.winid ~= nil and vim.api.nvim_win_is_valid(usplit.winid) == false then
+            usplit.winid = nil
+          end
+          local id = sizeevent.match
+          local status, target = pcall(vim.api.nvim_win_get_var, tonumber(id), "termheight")
+          if status and __Globals.term.winid ~= nil then
+            vim.schedule(function() vim.api.nvim_win_set_height(__Globals.term.winid, tonumber(target)) end)
+          end
+        end
+        if sizeevent.event == "WinResized" then
+          if __Globals.term.winid ~= nil then
+            __Globals.perm_config.terminal.height = vim.api.nvim_win_get_height(__Globals.term.winid)
+          end
+          wsplit.set_minheight()
+          wsplit.refresh()
+          local status = __Globals.is_outline_open()
+          local tree = __Globals.findwinbyBufType(treeft)
+          if status.outline ~= 0 then
+            __Globals.perm_config.outline.width = vim.api.nvim_win_get_width(status.outline)
+          end
+          if status.aerial ~= 0 then
+            __Globals.perm_config.outline.width = vim.api.nvim_win_get_width(status.aerial)
+          end
+          if __Globals.perm_config.outline.width < Config.outline_width then
+            __Globals.perm_config.outline.width = Config.outline_width
+          end
+          if #tree > 0 and tree[1] ~= nil then
+            __Globals.perm_config.tree.width = vim.api.nvim_win_get_width(tree[1])
+            if __Globals.perm_config.tree.width < Config.filetree_width then
+              __Globals.perm_config.tree.width = Config.filetree_width
+            end
+          end
+        end
+      end,
+      group = agroup_views
+    })
+    vim.api.nvim_command("wincmd p")
+    if __Globals.perm_config.weather.active == true then
+      wsplit.content = __Globals.perm_config.weather.content
+      wsplit.content_set_winid(__Globals.main_winid)
+    end
+    if __Globals.perm_config.sysmon.active then
+      usplit.content = __Globals.perm_config.sysmon.content
+    end
+    if __Globals.perm_config.transbg == true then
+      Config.theme.set_bg()
+    end
+  end
+  vim.fn.win_gotoid(__Globals.main_winid)
+end
+
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
 -- environment variable or command line option forbids it for better startup performance and
 -- a clean UI
-autocmd({ "VimEnter" }, {
-  callback = function()
-    -- this should only run on initial UIEnter (nvim start), exactly ONCE. UIEnter is also
-    -- fired when nvim resumes from suspend (Ctrl-Z) in which case this code is no longer needed
-    -- because all the sub splits have already been created
-    -- running this more than once will cause all kind of mayhem, so don't
-    if did_UIEnter == true then
-      return
-    end
 
-    -- create custom telescope themes as globals
-    __Telescope_dropdown_theme = utils.Telescope_dropdown_theme
-    __Telescope_vertical_dropdown_theme = utils.Telescope_vertical_dropdown_theme
-    did_UIEnter = true
-    __Globals.main_winid = vim.fn.win_getid()
-    if Config.plain == false then
-      if __Globals.perm_config.tree.active == true then
-        local timer = vim.uv.new_timer()
-        timer:start(500, 0, vim.schedule_wrap(function() __Globals.open_tree() vim.fn.win_gotoid(__Globals.main_winid) end))
-        -- __Globals.open_tree()
-      end
-      if __Globals.perm_config.terminal.active == true then
-        vim.schedule(function() __Globals.termToggle(__Globals.perm_config.terminal.height) vim.fn.win_gotoid(__Globals.main_winid) end)
-      end
-      -- create the WinResized watcher to keep track of the terminal split height.
-      -- also call the resize handlers for the usplit/wsplit frames.
-      -- keep track of tree/outline window widths
-      autocmd({ "WinClosed", "WinResized" }, {
-        callback = function(sizeevent)
-          require("local_utils.usplit").resize_or_closed(sizeevent)
-          -- require("local_utils.wsplit").resize_or_closed()
-          if sizeevent.event == "WinClosed" then
-            if __Globals.term.winid ~= nil and vim.api.nvim_win_is_valid(__Globals.term.winid) == false then
-              __Globals.term.winid = nil
-              __Globals.term.visible = false
-            end
-            if wsplit.winid ~= nil and vim.api.nvim_win_is_valid(wsplit.winid) == false then
-              wsplit.winid = nil
-            end
-            if usplit.winid ~= nil and vim.api.nvim_win_is_valid(usplit.winid) == false then
-              usplit.winid = nil
-            end
-            local id = sizeevent.match
-            local status, target = pcall(vim.api.nvim_win_get_var, tonumber(id), "termheight")
-            if status and __Globals.term.winid ~= nil then
-              vim.schedule(function() vim.api.nvim_win_set_height(__Globals.term.winid, tonumber(target)) end)
-            end
-          end
-          if sizeevent.event == "WinResized" then
-            if __Globals.term.winid ~= nil then
-              __Globals.perm_config.terminal.height = vim.api.nvim_win_get_height(__Globals.term.winid)
-            end
-            wsplit.set_minheight()
-            wsplit.refresh()
-            local status = __Globals.is_outline_open()
-            local tree = __Globals.findwinbyBufType(treeft)
-            if status.outline ~= 0 then
-              __Globals.perm_config.outline.width = vim.api.nvim_win_get_width(status.outline)
-            end
-            if status.aerial ~= 0 then
-              __Globals.perm_config.outline.width = vim.api.nvim_win_get_width(status.aerial)
-            end
-            if __Globals.perm_config.outline.width < Config.outline_width then
-              __Globals.perm_config.outline.width = Config.outline_width
-            end
-            if #tree > 0 and tree[1] ~= nil then
-              __Globals.perm_config.tree.width = vim.api.nvim_win_get_width(tree[1])
-              if __Globals.perm_config.tree.width < Config.filetree_width then
-                __Globals.perm_config.tree.width = Config.filetree_width
-              end
-            end
-          end
-        end,
-        group = agroup_views
-      })
-      vim.api.nvim_command("wincmd p")
-      if __Globals.perm_config.weather.active == true then
-        wsplit.content = __Globals.perm_config.weather.content
-        wsplit.content_set_winid(__Globals.main_winid)
-      end
-      if __Globals.perm_config.sysmon.active then
-        usplit.content = __Globals.perm_config.sysmon.content
-      end
-      if __Globals.perm_config.transbg == true then
-        Config.theme.set_bg()
-      end
-    end
-    vim.fn.win_gotoid(__Globals.main_winid)
+autocmd({ "UIEnter" }, {
+  callback = function()
+    main_layout()
   end
 })
 

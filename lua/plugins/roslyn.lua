@@ -1,3 +1,6 @@
+--- the following functions are necessary to support semantic tokens with the roslyn
+--- language server.
+--- this function works with current nightly (neovim-0.11)
 local function monkey_patch_semantic_tokens_11(client)
     -- NOTE: Super hacky... Don't know if I like that we set a random variable on
     -- the client Seems to work though ~seblj
@@ -40,6 +43,7 @@ local function monkey_patch_semantic_tokens_11(client)
     end
 end
 
+--- and this is for neovim-0.10.
 local function monkey_patch_semantic_tokens_10(client)
   if not client.is_hacked_roslyn then
     client.is_hacked_roslyn = true
@@ -103,6 +107,7 @@ require("roslyn").setup({
   config = {
     capabilities = vim.lsp.protocol.make_client_capabilities(),
     --handlers = require "rzls.roslyn_handlers",
+    --the project root needs a .sln file (mandatory)
     root_dir = function(fname)
       return util.root_pattern "*.sln" (fname)
     end,
@@ -119,7 +124,7 @@ require("roslyn").setup({
   roslyn_version = "4.13.0-3.25054.1",
   dotnet_cmd = "dotnet",
   exe = {
-    "/opt/dotnet/dotnet",
+    "dotnet",
      vim.fs.joinpath(vim.fn.stdpath("data"), "roslyn", "Microsoft.CodeAnalysis.LanguageServer.dll"),
   },
   args = {

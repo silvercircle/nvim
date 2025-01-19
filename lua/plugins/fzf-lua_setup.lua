@@ -767,7 +767,8 @@ if vim.g.tweaks.fzf.enable_keys == true then
       cmd = function() fzf.live_grep({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top }) end,
       keys = {
         { "n", '<C-x>g', noremap },
-        { "i", '<C-x>g', noremap }
+        { "i", '<C-x>g', noremap },
+        { "v", '<C-x>g', noremap }
       },
       category = "@FZF"
     },
@@ -778,7 +779,8 @@ if vim.g.tweaks.fzf.enable_keys == true then
       end,
       keys = {
         { "n", '<C-x><C-g>', noremap },
-        { "i", '<C-x><C-g>', noremap }
+        { "i", '<C-x><C-g>', noremap },
+        { "v", '<C-x><C-g>', noremap }
       },
       category = "@FZF"
     },

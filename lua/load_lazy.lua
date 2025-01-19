@@ -27,27 +27,6 @@ lazy.setup({
       })
     end,
   },
-  --{
-  --  "smjonas/snippet-converter.nvim",
-  --  cond = false,
-  --  config = function()
-  --    local template = {
-  --      sources = {
-  --        snipmate = {
-  --          vim.fn.stdpath("config") .. "/oldsnippets"
-  --        }
-  --      },
-  --      output = {
-  --        vscode_luasnip = {
-  --          vim.fn.stdpath("config") .. "/snippets"
-  --        }
-  --      }
-  --    }
-  --    require("snippet_converter").setup {
-  --      templates = { template }
-  --    }
-  --  end
-  --},
   'sharkdp/fd',
   {
     "lervag/vimtex",
@@ -385,7 +364,7 @@ lazy.setup({
       })
     end
   },
-   { 'tpope/vim-liquid', ft = "liquid" },
+  { 'tpope/vim-liquid', ft = "liquid" },
   {
     'tomasky/bookmarks.nvim',
     event = "UIEnter",
@@ -668,28 +647,28 @@ lazy.setup({
     end
   },
   {
-    'silvercircle/alpha-nvim',
-    branch = "mine",
+    'goolord/alpha-nvim',
+    branch = "main",
     config = function()
       require("plugins.alpha")
     end
   },
-  {
-    'mfussenegger/nvim-dap',
-    lazy = true,
-    dependencies = {
-      'nvim-neotest/nvim-nio',
-      {
-        'rcarriga/nvim-dap-ui',
-        config = function()
-          require("dap.nvim_dap_ui")
-        end
-      }
-    },
-    config = function()
-      require("dap.nvim_dap")
-    end
-  },
+  --{
+  --  'mfussenegger/nvim-dap',
+  --  lazy = true,
+  --  dependencies = {
+  --    'nvim-neotest/nvim-nio',
+  --    {
+  --      'rcarriga/nvim-dap-ui',
+  --      config = function()
+  --        require("dap.nvim_dap_ui")
+  --      end
+  --    }
+  --  },
+  --  config = function()
+  --    require("dap.nvim_dap")
+  --  end
+  --},
   {
     "smjonas/inc-rename.nvim",
     event = { "BufRead" },
@@ -716,16 +695,9 @@ lazy.setup({
       require("plugins.outline_setup")
     end
   },
-  --{
-  --  'edluffy/hologram.nvim',
-  --  lazy = true,
-  --  config = function()
-  --    require("hologram").setup({})
-  --  end
-  --},
   {
     'kevinhwang91/nvim-ufo',
-    --event = "UIEnter",
+    cond = (Config.nightly == 1),
     config = function()
       require("plugins.others").setup.ufo()
     end,
@@ -788,25 +760,7 @@ lazy.setup({
     config = function()
       require("quicker").setup()
     end
-  },
-  {
-    "folke/lazydev.nvim",
-    cond = false,
-    ft = "lua", -- only load on lua files
-    opts = {
-      library = {
-      },
-      -- always enable unless `vim.g.lazydev_enabled = false`
-      -- This is the default
-      enabled = function(root_dir)
-        return vim.g.lazydev_enabled == nil and true or vim.g.lazydev_enabled
-      end
-      ---- disable when a .luarc.json file is found
-      --enabled = function(root_dir)
-      --  return not vim.uv.fs_stat(root_dir .. "/.luarc.json")
-      --end,
-    },
-  },
+  }
 },
 {
   ui = {

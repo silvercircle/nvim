@@ -455,6 +455,10 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<C-x>ft', function()
   __Globals.notify("Filetype is: " .. vim.api.nvim_get_option_value("filetype", { buf = 0 }), 2, " ")
 end, "Show filetype of current buffer")
 
+vim.g.setkey({ 'n', 'i', 't', 'v' }, '<C-x>bt', function()
+  __Globals.notify("Buftype is: " .. vim.api.nvim_get_option_value("buftype", { buf = 0 }), 2, " ")
+end, "Show buftype of current buffer")
+
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
   local status = __Globals.is_outline_open()
   if status.aerial ~= 0 then
