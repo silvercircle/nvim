@@ -764,7 +764,9 @@ if vim.g.tweaks.fzf.enable_keys == true then
     },
     {
       desc = "FZF live grep (current directory)",
-      cmd = function() fzf.live_grep({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top }) end,
+      cmd = function()
+        fzf.live_grep({ query = __Globals.get_selection(), cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top })
+      end,
       keys = {
         { "n", '<C-x>g', noremap },
         { "i", '<C-x>g', noremap },
@@ -775,7 +777,7 @@ if vim.g.tweaks.fzf.enable_keys == true then
     {
       desc = "FZF live grep (project root)",
       cmd = function()
-        fzf.live_grep({ cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.std_preview_top })
+        fzf.live_grep({ query = __Globals.get_selection(), cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.std_preview_top })
       end,
       keys = {
         { "n", '<C-x><C-g>', noremap },
@@ -786,7 +788,7 @@ if vim.g.tweaks.fzf.enable_keys == true then
     },
     {
       desc = "FZF live grep resume",
-      cmd = function() fzf.live_grep_resule({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
+      cmd = function() fzf.live_grep_resume({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
       keys = {
         { "n", '<C-x>G', noremap },
         { "i", '<C-x>G', noremap }
@@ -827,7 +829,7 @@ if vim.g.tweaks.fzf.enable_keys == true then
         { "n", "<C-x>m", noremap },
         { "i", "<C-x>m", noremap }
       },
-      category = "@Telescope"
+      category = "@FZF"
     },
     {
       desc = "FZF Helptags",
@@ -840,7 +842,7 @@ if vim.g.tweaks.fzf.enable_keys == true then
         { "n", "<C-x><C-h>", noremap },
         { "i", "<C-x><C-h>", noremap }
       },
-      category = "@Telescope"
+      category = "@FZF"
     }
   })
 end

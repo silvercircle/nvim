@@ -890,4 +890,17 @@ function M.toggle_ghost()
   vim.notify("CMP/Blink ghost text is now " .. (__Globals.perm_config.cmp_ghost == true and "Enabled" or "Disabled"))
 end
 
+function M.get_selection()
+  if vim.fn.mode() ~= 'v' then
+    return ""
+  end
+
+  local result = vim.fn.getregion(vim.fn.getpos ".", vim.fn.getpos "v", { mode = vim.fn.mode() } )
+  if result[1] ~= nil and #result[1] > 0 then
+    return result[1]
+  else
+    return ""
+  end
+end
+
 return M

@@ -485,3 +485,7 @@ end, "Mini.Picker Buffer list")
 
 require("local_utils.marks").set_keymaps()
 vim.cmd("nunmap <cr>")
+
+vim.g.setkey({ 'n', 'i', 'v' }, '<A-g>', function()
+  print(__Globals.get_selection())
+end, "Mini.Picker Buffer list")
