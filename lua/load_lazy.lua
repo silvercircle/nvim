@@ -283,11 +283,21 @@ lazy.setup({
     }
   },
     -- lsp
+  --{
+  --  "SmiteshP/nvim-navbuddy",
+  --  lazy = true,
+  --  cond = vim.g.tweaks.breadcrumb == "navic",
+  --  event = "BufReadPre",
+  --  dependencies = {
+  --  },
+  --  config = function()
+  --    require("plugins.others").setup.navbuddy()
+  --  end
+  --},
   {
-    "SmiteshP/nvim-navbuddy",
+    'neovim/nvim-lspconfig',
     lazy = true,
-    cond = vim.g.tweaks.breadcrumb == "navic",
-    event = "BufReadPre",
+    event = { "LspAttach" },
     dependencies = {
       {
         "silvercircle/nvim-navic",
@@ -295,17 +305,7 @@ lazy.setup({
         config = function()
           require("plugins.others").setup.navic()
         end
-      }
-    },
-    config = function()
-      require("plugins.others").setup.navbuddy()
-    end
-  },
-  {
-    'neovim/nvim-lspconfig',
-    lazy = true,
-    event = { "LspAttach" },
-    dependencies = {
+      },
       { 'Hoffs/omnisharp-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "omnisharp") },         -- omnisharp decompilation support
       { 'Decodetalkers/csharpls-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "csharp_ls") },  -- this is for csharp_ls decompilation support
       'onsails/lspkind-nvim',
@@ -602,14 +602,14 @@ lazy.setup({
       require("plugins.others").setup.mini_files()
     end
   },
-  --{
-  --  'nvim-tree/nvim-tree.lua',
-  --  cond = vim.g.tweaks.tree.version == "Nvim",
-  --  lazy = true,
-  --  config = function()
-  --    require("plugins.nvim-tree")
-  --  end
-  --},
+  {
+    'nvim-tree/nvim-tree.lua',
+    cond = vim.g.tweaks.tree.version == "Nvim",
+    lazy = true,
+    config = function()
+      require("plugins.nvim-tree")
+    end
+  },
   {
     'nvim-neo-tree/neo-tree.nvim',
     cond = vim.g.tweaks.tree.version == "Neo",
@@ -693,16 +693,16 @@ lazy.setup({
       require("plugins.outline_setup")
     end
   },
-  --{
-  --  'kevinhwang91/nvim-ufo',
-  --  cond = (Config.nightly == 1),
-  --  config = function()
-  --    require("plugins.others").setup.ufo()
-  --  end,
-  --  dependencies = {
-  --    'kevinhwang91/promise-async'
-  --  }
-  --},
+  {
+    'kevinhwang91/nvim-ufo',
+    cond = (Config.nightly == 1),
+    config = function()
+      require("plugins.others").setup.ufo()
+    end,
+    dependencies = {
+      'kevinhwang91/promise-async'
+    }
+  },
   {
     'mfussenegger/nvim-jdtls',
     lazy = true
@@ -758,6 +758,10 @@ lazy.setup({
     config = function()
       require("quicker").setup()
     end
+  },
+  {
+    'sindrets/diffview.nvim',
+    event = "VeryLazy"
   }
 },
 {

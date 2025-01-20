@@ -8,7 +8,7 @@ local configs = require("lspconfig.configs")
 On_attach = function(client, buf)
   if navic_status then
     navic.attach(client, buf)
-    require("nvim-navbuddy").attach(client, buf)
+    -- require("nvim-navbuddy").attach(client, buf)
   end
   if client.name == 'gopls' then
     client.server_capabilities.semanticTokensProvider = {

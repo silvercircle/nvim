@@ -113,7 +113,7 @@ require("roslyn").setup({
     end,
     on_attach = function(client, bufnr)
       require("nvim-navic").attach(client, bufnr)
-      require("nvim-navbuddy").attach(client, bufnr)
+      -- require("nvim-navbuddy").attach(client, bufnr)
       if vim.fn.has("nvim-0.11") == 1 then
         monkey_patch_semantic_tokens_11(client)
       else
