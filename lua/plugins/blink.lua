@@ -202,7 +202,7 @@ require("blink.cmp").setup({
     }
   },
   sources = {
-    default = { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'lua', 'dictionary', 'buffer' },
+    default = { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'lua', 'buffer', 'dictionary' },
     providers = {
       wordlist = {
         score_offset = 9,
@@ -268,18 +268,18 @@ require("blink.cmp").setup({
         name = 'Dict',
         opts = {
           dictionary_directories = { vim.fn.expand('~/.config/nvim/dict') },
-          --get_command = "rg",
-          --get_command_args = function(prefix)
-          --  return {             -- make sure this command is available in your system
-          --    "--color=never",
-          --    "--no-line-number",
-          --    "--no-messages",
-          --    "--no-filename",
-          --    "--ignore-case",
-          --    "--",
-          --    prefix
-          --  }
-          --end,
+          get_command = "rg",
+          get_command_args = function(prefix)
+            return {             -- make sure this command is available in your system
+              "--color=never",
+              "--no-line-number",
+              "--no-messages",
+              "--no-filename",
+              "--ignore-case",
+              "--",
+              prefix
+            }
+          end,
         }
       }
     }
