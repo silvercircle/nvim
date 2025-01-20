@@ -615,4 +615,18 @@ Utils.send_tab_key = function()
   vim.api.nvim_feedkeys(tab_key, "n", true)
 end
 
+--- when visual mode is active, return current selection
+function Utils.get_selection()
+  if vim.fn.mode() ~= 'v' then
+    return ""
+  end
+
+  local result = vim.fn.getregion(vim.fn.getpos("."), vim.fn.getpos("v"), { mode = vim.fn.mode() } )
+  if result[1] ~= nil and #result[1] > 0 then
+    return result[1]
+  else
+    return ""
+  end
+end
+
 return Utils
