@@ -134,17 +134,13 @@ vim.g.setkey({ 'n', 'i' }, '<C-a>f', function()
   utils.PickFoldingMode(vim.o.foldmethod)
 end, "Pick folding mode")
 
-vim.g.setkey('n', '<C-a>e', function()
-  require("mini.extra").pickers.explorer(
-  { cwd = vim.fn.expand("%:p:h")  },
-  { window = { config = __Globals.mini_pick_center(60, 0.7, 0.2) } })
-end, "Open Mini.Explorer at current directory")
+vim.g.setkey({'n', 'i'}, '<C-a>e', function()
+  require("fzf-lua").files({ cwd = vim.fn.expand("%:p:h"), winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+end, "Open Mini File Browser at current directory")
 
-vim.g.setkey('n', '<C-a><C-e>', function()
-  require("mini.extra").pickers.explorer(
-  { cwd = utils.getroot_current()  },
-  { window = { config = __Globals.mini_pick_center(60, 0.7, 0.2) } })
-end, "Open Mini.Explorer at project root")
+vim.g.setkey({'n', 'i'}, '<C-a><C-e>', function()
+  require("fzf-lua").files({ cwd = utils.getroot_current(), winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+end, "Open Mini File Browser at project root")
 
 vim.g.setkey('n', '<C-a>w', function()
   require("mini.files").open(vim.fn.expand("%:p:h"))
@@ -154,18 +150,6 @@ vim.g.setkey('n', '<C-a><C-w>', function()
   require("mini.files").open(utils.getroot_current())
 end, "Open Mini.Files at project root")
 
---_Config_SetKey('n', '<C-a>m', function()
---  require("mini.extra").pickers.marks(
---  { },
---  { window = { config = __Globals.mini_pick_center(50, 0.6, 0.2) } })
---end, "Mini.Picker for marks")
-
-vim.g.setkey('n', '<C-a>h', function()
-  require("mini.pick").builtin.help(
-  { },
-  { window = { config = __Globals.mini_pick_center(60, 0.5, 0.2) } })
-end, "Mini.Picker for help tags")
----
 vim.g.setkey({'n', 'i', 'v'}, '<C-S-Down>', function() perform_command('silent! cnext') end, "Quickfix next entry")
 vim.g.setkey({'n', 'i', 'v'}, '<C-S-Up>', function() perform_command('silent! cprev') end, "Quickfix previous entry")
 vim.g.setkey({'n', 'i', 'v'}, '<C-S-PageDown>', function() perform_command('silent! lnext') end, "Loclist next entry")

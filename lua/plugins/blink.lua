@@ -158,7 +158,7 @@ require("blink.cmp").setup({
           return
         end
         vim.schedule(function()
-          select_next_idx(T.window_height - 1)
+          select_next_idx(T.window_height - 3)
         end)
         return true
       end,
@@ -170,7 +170,7 @@ require("blink.cmp").setup({
           return
         end
         vim.schedule(function()
-          select_next_idx(T.window_height - 1, -1)
+          select_next_idx(T.window_height - 3, -1)
         end)
         return true
       end,
@@ -202,7 +202,7 @@ require("blink.cmp").setup({
     }
   },
   sources = {
-    default = { 'lsp', 'path', 'buffer', 'snippets', 'emoji', 'wordlist', 'lua', 'dictionary' },
+    default = { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'lua', 'dictionary', 'buffer' },
     providers = {
       wordlist = {
         score_offset = 9,
@@ -246,7 +246,7 @@ require("blink.cmp").setup({
       buffer = {
         score_offset = 3,
         module = "blink.cmp.sources.buffer",
-        min_keyword_length = 3,
+        min_keyword_length = 4,
         opts = {
           -- enable the buffer source for filetypes listed
           -- in tweaks.blink.buffer_source_ft_allowed

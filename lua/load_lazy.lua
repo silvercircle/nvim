@@ -135,7 +135,7 @@ lazy.setup({
   {
     'nvim-treesitter/nvim-treesitter',
     branch = "master",
-    event = { "BufReadPre" },
+    event = { "UIEnter" },
     config = function()
       require("plugins.treesitter")
     end,
@@ -407,19 +407,25 @@ lazy.setup({
           enabled = vim.g.tweaks.notifier == "snacks" and true or false,
         },
         indent = {
-          priority = 1,
-          enabled = vim.g.tweaks.indent.version == "snacks" and true or false,   -- enable indent guides
-          char = "│",
-          only_scope = false, -- only show indent guides of the scope
-          only_current = false, -- only show indent guides in the current window
-          hl = "IndentBlankLineChar", ---@type string|string[] hl groups for indent guides
+          indent = {
+            priority = 1,
+            enabled = true, --vim.g.tweaks.indent.version == "snacks" and true or false,   -- enable indent guides
+            char = "│",
+            only_scope = false, -- only show indent guides of the scope
+            only_current = false, -- only show indent guides in the current window
+            --hl = "IndentBlankLineChar", ---@type string|string[] hl groups for indent guides
+            hl = {
+              "IndentBlanklineIndent1", "IndentBlanklineIndent2", "IndentBlanklineIndent3", "IndentBlanklineIndent4",
+              "IndentBlanklineIndent5", "IndentBlanklineIndent6", "IndentBlanklineIndent1", "IndentBlanklineIndent2"
+            },
+          },
           animate = {
             enabled = true,
             style = "out",
             easing = "linear",
             duration = {
               step = 10, -- ms per step
-              total = 200, -- maximum duration
+              total = 100, -- maximum duration
             },
           },
           scope = {
@@ -428,7 +434,7 @@ lazy.setup({
             char = "┃",
             underline = false, -- underline the start of the scope
             only_current = false, -- only show scope in the current window
-            hl = "IndentBlanklineIndent3", ---@type string|string[] hl group for scopes
+            hl = "FgDim", ---@type string|string[] hl group for scopes
           },
           chunk = {
             -- when enabled, scopes will be rendered as chunks, except for the
@@ -589,14 +595,6 @@ lazy.setup({
     end
   },
   {
-    'echasnovski/mini.extra',
-    version = false,
-    lazy = true,
-    config = function()
-      require("plugins.others").setup.mini_extra()
-    end
-  },
-  {
     'echasnovski/mini.files',
     version = false,
     lazy = true,
@@ -695,16 +693,16 @@ lazy.setup({
       require("plugins.outline_setup")
     end
   },
-  {
-    'kevinhwang91/nvim-ufo',
-    cond = (Config.nightly == 1),
-    config = function()
-      require("plugins.others").setup.ufo()
-    end,
-    dependencies = {
-      'kevinhwang91/promise-async'
-    }
-  },
+  --{
+  --  'kevinhwang91/nvim-ufo',
+  --  cond = (Config.nightly == 1),
+  --  config = function()
+  --    require("plugins.others").setup.ufo()
+  --  end,
+  --  dependencies = {
+  --    'kevinhwang91/promise-async'
+  --  }
+  --},
   {
     'mfussenegger/nvim-jdtls',
     lazy = true

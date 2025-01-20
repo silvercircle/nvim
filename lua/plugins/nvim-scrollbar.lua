@@ -106,10 +106,9 @@ require("scrollbar").setup({
     "blink-cmp-documentation",
     "weather",
     "sysmon",
-    "dropbar_menu",
-    "dropbar_menu_fzf",
     "Glance",
-    "Navbuddy"
+    "Navbuddy",
+    "fzf"
   },
   autocmd = {
     render = {

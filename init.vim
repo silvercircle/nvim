@@ -30,7 +30,7 @@ package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/shar
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 -- bootstrap lazy
-vim.g._ts_force_sync_parsing = true
+--vim.g._ts_force_sync_parsing = true
 require('config')
 __Globals.restore_config()
 __Globals.set_statuscol(__Globals.perm_config.statuscol_current)

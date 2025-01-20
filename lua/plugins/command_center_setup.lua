@@ -293,18 +293,6 @@ command_center.add({
     category = "@Neovim"
   },
   {
-    desc = "Quickfix list (mini.picker)",
-    cmd = function() require("mini.extra").pickers.list({ scope = "quickfix" }, { window = { config = __Globals.mini_pick_center(110, 25, 0.1) } }) end,
-    keys = { "n", "qfl", noremap },
-    category = "@Neovim"
-  },
-  {
-    desc = "Location list (mini.picker)",
-    cmd = function() require("mini.extra").pickers.list({ scope = "location" }, { window = { config = __Globals.mini_pick_center(110, 25, 0.1) } }) end,
-    keys = { "n", "lll", noremap },
-    category = "@Neovim"
-  },
-  {
     desc = "GitSigns next hunk",
     cmd = function() require("gitsigns").next_hunk() end,
     keys = {

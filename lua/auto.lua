@@ -206,16 +206,29 @@ autocmd({ 'BufEnter' }, {
 })
 
 -- restore view when reading a file
-autocmd({ 'BufRead' }, {
-  pattern = "*",
-  callback = function(args)
-    vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
-    if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
-      vim.cmd("silent! loadview")
-    end
-  end,
-  group = agroup_views
-})
+if Config.nightly == 1 then
+  autocmd({ 'BufReadPost' }, {
+    pattern = "*",
+    callback = function(args)
+      vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
+      if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
+        vim.cmd("silent! loadview")
+      end
+    end,
+    group = agroup_views
+  })
+else
+  autocmd({ 'BufReadPost' }, {
+    pattern = "*",
+    callback = function(args)
+      vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
+      if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
+        vim.cmd("silent! loadview")
+      end
+    end,
+    group = agroup_views
+  })
+end
 
 -- for these file types we want spellcheck
 autocmd({ 'FileType' }, {
