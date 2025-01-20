@@ -87,7 +87,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   sort_by = 'name',
   root_dirs = {},
   prefer_startup_root = false,
-  sync_root_with_cwd = false,
+  sync_root_with_cwd = true,
   reload_on_bufenter = false,
   respect_buf_cwd = false,
   select_prompts = false,
@@ -144,14 +144,17 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
       diagnostics_placement = "right_align",
       modified_placement = "right_align",
       bookmarks_placement = "right_align",
+      hidden_placement = "right_align",
       git_placement = 'right_align',
-      padding = ' ' .. Config.iconpad,
+      padding = ' ',
       symlink_arrow = ' ➛ ',
       show = {
         file = true,
         folder = true,
         folder_arrow = true,
         git = true,
+        modified = true,
+        hidden = true
       },
       glyphs = {
         default = ' ',
@@ -168,13 +171,13 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
           symlink_open = ' ',
         },
         git = {
-          unstaged = '✗',
-          staged = '✓',
+          unstaged = "󰊢",
+          staged = "",
           unmerged = '',
-          renamed = '➜',
-          untracked = '★',
-          deleted = '',
-          ignored = '◌',
+          untracked = "",
+          ignored = "",
+          deleted = "󰮉", -- this can only be used in the git_status source
+          renamed = "󰑕" -- this can only be used in the git_status source
         },
       },
     },
