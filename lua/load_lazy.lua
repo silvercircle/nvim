@@ -610,25 +610,25 @@ lazy.setup({
       require("plugins.nvim-tree")
     end
   },
-  {
-    'nvim-neo-tree/neo-tree.nvim',
-    cond = vim.g.tweaks.tree.version == "Neo",
-    config = function()
-      require("plugins.neotree")
-    end,
-    event = "VeryLazy",
-    dependencies = {
-      'MunifTanjim/nui.nvim',
-      {
-        's1n7ax/nvim-window-picker',
-        config = function()
-          require("window-picker").setup({
-            hint = 'floating-big-letter'
-          })
-        end
-      }
-    }
-  },
+  --{
+  --  'nvim-neo-tree/neo-tree.nvim',
+  --  cond = vim.g.tweaks.tree.version == "Neo",
+  --  config = function()
+  --    require("plugins.neotree")
+  --  end,
+  --  event = "VeryLazy",
+  --  dependencies = {
+  --    'MunifTanjim/nui.nvim',
+  --    {
+  --      's1n7ax/nvim-window-picker',
+  --      config = function()
+  --        require("window-picker").setup({
+  --          hint = 'floating-big-letter'
+  --        })
+  --      end
+  --    }
+  --  }
+  --},
   {
     "zk-org/zk-nvim",
     lazy = true,

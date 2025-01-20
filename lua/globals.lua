@@ -158,13 +158,13 @@ end
 -- works with NeoTree and NvimTree
 -- This tries to find the root folder of the current project.
 function M.sync_tree()
+  local root = require("local_utils").getroot_current()
   if vim.g.tweaks.tree.version == "Neo" then
-    local root = require("local_utils").getroot_current()
     local nc = require("neo-tree.command")
     nc.execute( {action="show", dir=root, source="filesystem" } )
     nc.execute( {action="show", reveal=true, reveal_force_cwd=true, source="filesystem" } )
   elseif vim.g.tweaks.tree.version == "Nvim" then
-    require('nvim-tree.api').tree.change_root(require("local_utils").getroot_current())
+    require('nvim-tree.api').tree.change_root(root)
     vim.cmd("NvimTreeFindFile")
   end
 end

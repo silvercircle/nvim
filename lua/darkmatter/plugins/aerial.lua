@@ -2,8 +2,6 @@
 
 local function _set()
   local c = require("darkmatter")
-  local conf = c.get_conf()
-
   c.link("AerialModule", "@module")
   c.link("AerialNamespace", "@module")
   c.link("AerialPackage", "@module")
