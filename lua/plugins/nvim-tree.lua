@@ -76,7 +76,7 @@ end
 
 require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   auto_reload_on_write = true,
-  disable_netrw = false,
+  disable_netrw = true,
   hijack_cursor = false,
   hijack_netrw = false,
   on_attach = on_attach,
@@ -100,7 +100,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
     preserve_window_proportions = true,
     number = false,
     relativenumber = false,
-    signcolumn = 'no',
+    signcolumn = 'yes',
     float = {
       enable = false,
       quit_on_focus_loss = true,
@@ -116,10 +116,16 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   },
   renderer = {
     add_trailing = false,
+    decorators = { "Git", "Open", "Hidden", "Modified", "Bookmark", "Diagnostics", "Copied", "Cut", },
     group_empty = false,
-    highlight_git = true,
+    highlight_git = "all",
+    highlight_diagnostics = "all",
+    highlight_opened_files = "all",
+    highlight_modified = "all",
+    highlight_hidden = "all",
+    highlight_bookmarks = "all",
+    highlight_clipboard = "name",
     full_name = false,
-    highlight_opened_files = 'all',
     root_folder_label = ':~:s?$?/..?',
     indent_width = 2,
     indent_markers = {
@@ -135,7 +141,10 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
     },
     icons = {
       webdev_colors = true,
-      git_placement = 'after',
+      diagnostics_placement = "right_align",
+      modified_placement = "right_align",
+      bookmarks_placement = "right_align",
+      git_placement = 'right_align',
       padding = ' ' .. Config.iconpad,
       symlink_arrow = ' ➛ ',
       show = {
@@ -145,18 +154,18 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
         git = true,
       },
       glyphs = {
-        default = '',
-        symlink = '',
+        default = ' ',
+        symlink = ' ',
         bookmark = '',
         folder = {
           arrow_closed = '',
           arrow_open = '',
-          default = '',
-          open = '',
-          empty = '',
-          empty_open = '',
-          symlink = '',
-          symlink_open = '',
+          default = ' ',
+          open = ' ',
+          empty = ' ',
+          empty_open = ' ',
+          symlink = ' ',
+          symlink_open = ' ',
         },
         git = {
           unstaged = '✗',
