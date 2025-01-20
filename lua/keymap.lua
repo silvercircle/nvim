@@ -191,7 +191,7 @@ vim.g.setkey({ 'i', 'n' }, fkeys.s_f1, function() vim.lsp.buf.signature_help() e
 --- show a hover for it instead.
 --- press <F1> again to enter the hover window, press <q> to dismiss it.
 vim.keymap.set({ "n", "i" }, '<f1>', function()
-  local ufo, status = pcall(require, "ufo")
+  local status, ufo = pcall(require, "ufo")
   local winid = (status == true) and ufo.peekFoldedLinesUnderCursor() or false
   if not winid then
   	local api = vim.api
