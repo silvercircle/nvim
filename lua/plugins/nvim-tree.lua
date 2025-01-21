@@ -1,6 +1,6 @@
 local api = require('nvim-tree.api')
 
-local function on_attach(bufnr)
+local function on_tree_attach(bufnr)
   local function opts(desc)
     return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
   end
@@ -79,7 +79,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   disable_netrw = true,
   hijack_cursor = false,
   hijack_netrw = false,
-  on_attach = on_attach,
+  on_attach = on_tree_attach,
   hijack_unnamed_buffer_when_opening = false,
 --  ignore_buffer_on_setup = false,
 --  open_on_setup = false,
@@ -224,7 +224,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   },
   filesystem_watchers = {
     enable = true,
-    debounce_delay = 50,
+    debounce_delay = 100,
     ignore_dirs = {},
   },
   git = {
@@ -277,7 +277,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   },
   live_filter = {
     prefix = '[FILTER]: ',
-    always_show_folders = true,
+    always_show_folders = false,
   },
   tab = {
     sync = {

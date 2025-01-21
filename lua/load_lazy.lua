@@ -420,7 +420,7 @@ lazy.setup({
             },
           },
           animate = {
-            enabled = true,
+            enabled = false,
             style = "out",
             easing = "linear",
             duration = {
@@ -434,7 +434,7 @@ lazy.setup({
             char = "┃",
             underline = false, -- underline the start of the scope
             only_current = false, -- only show scope in the current window
-            hl = "FgDim", ---@type string|string[] hl group for scopes
+            hl = "Brown", ---@type string|string[] hl group for scopes
           },
           chunk = {
             -- when enabled, scopes will be rendered as chunks, except for the
@@ -695,7 +695,7 @@ lazy.setup({
   },
   {
     'kevinhwang91/nvim-ufo',
-    --cond = (Config.nightly == 1),
+    cond = (Config.nightly == 1),
     config = function()
       require("plugins.others").setup.ufo()
     end,
