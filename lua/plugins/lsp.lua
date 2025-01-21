@@ -10,15 +10,15 @@ On_attach = function(client, buf)
     navic.attach(client, buf)
     -- require("nvim-navbuddy").attach(client, buf)
   end
-  if client.name == 'gopls' then
-    client.server_capabilities.semanticTokensProvider = {
-      full = true,
-      legend = {
-        tokenTypes = { 'namespace', 'type', 'class', 'enum', 'interface', 'struct', 'typeParameter', 'parameter', 'variable', 'property', 'enumMember', 'event', 'function', 'method', 'macro', 'keyword', 'modifier', 'comment', 'string', 'number', 'regexp', 'operator', 'decorator' },
-        tokenModifiers = { 'declaration', 'definition', 'readonly', 'static', 'deprecated', 'abstract', 'async', 'modification', 'documentation', 'defaultLibrary' }
-      }
-    }
-  end
+  --if client.name == 'gopls' then
+  --  client.server_capabilities.semanticTokensProvider = {
+  --    full = true,
+  --    legend = {
+  --      tokenTypes = { 'namespace', 'type', 'class', 'enum', 'interface', 'struct', 'typeParameter', 'parameter', 'variable', 'property', 'enumMember', 'event', 'function', 'method', 'macro', 'keyword', 'modifier', 'comment', 'string', 'number', 'regexp', 'operator', 'decorator' },
+  --      tokenModifiers = { 'declaration', 'definition', 'readonly', 'static', 'deprecated', 'abstract', 'async', 'modification', 'documentation', 'defaultLibrary' }
+  --    }
+  --  }
+  --end
 end
 
 -- custom config for ada, because als is deprecated in future nvim-lspconfig
@@ -270,7 +270,20 @@ lspconfig.gopls.setup({
   filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
   settings = {
     gopls = {
-      semanticTokens = true
+      semanticTokens = true,
+      analyses = {
+        unusedparams = true,
+      },
+      staticcheck = true,
+      hints = {
+        assignVariableTypes = true,
+        compositeLiteralFields = true,
+        compositeLiteralTypes = true,
+        constantValues = true,
+        functionTypeParameters = true,
+        parameterNames = true,
+        rangeVariableTypes = true,
+      },
     }
   },
   root_dir = function(fname)
