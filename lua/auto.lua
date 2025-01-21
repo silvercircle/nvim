@@ -212,7 +212,9 @@ if Config.nightly == 1 then
     callback = function(args)
       vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
       if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
-        vim.cmd("silent! loadview")
+        -- this is ugly, but it apparently works with the async parser for now.
+        vim.treesitter.get_parser():parse(true, function() vim.cmd("silent! loadview") end)
+        --vim.cmd("silent! loadview")
       end
     end,
     group = agroup_views

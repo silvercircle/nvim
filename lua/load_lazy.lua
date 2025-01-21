@@ -695,7 +695,7 @@ lazy.setup({
   },
   {
     'kevinhwang91/nvim-ufo',
-    cond = (Config.nightly == 1),
+    --cond = (Config.nightly == 1),
     config = function()
       require("plugins.others").setup.ufo()
     end,

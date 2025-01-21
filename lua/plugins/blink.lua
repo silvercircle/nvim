@@ -202,7 +202,7 @@ require("blink.cmp").setup({
     }
   },
   sources = {
-    default = { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'lua', 'buffer', 'dictionary' },
+    default = { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'lua', 'dictionary', 'buffer' },
     providers = {
       wordlist = {
         score_offset = 9,
@@ -303,7 +303,7 @@ require("blink.cmp").setup({
       auto_show = function() return __Globals.perm_config.cmp_autocomplete end,
       border = vim.g.tweaks.borderfactory(border),
       winblend = T.winblend.menu,
-      max_height = T.localwindow_height,
+      max_height = T.window_height,
       draw = {
         align_to = 'kind_icon',
         treesitter = {"lsp"},

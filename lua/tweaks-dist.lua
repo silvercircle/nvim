@@ -139,7 +139,7 @@ Tweaks.blink = {
   keymap_preset = "enter",
   ghost_text = false,  -- this might still be a bit buggy in blink.cmp.
   -- maximum height of the popup window
-  window_height = 12,
+  window_height = 15,
   -- maximum width of the completion label
   label_max_width = 40,
   -- label_description maximum width
