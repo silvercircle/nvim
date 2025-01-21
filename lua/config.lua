@@ -23,7 +23,7 @@ end
 Config = {
   telescope_fname_width = tweaks.telescope_fname_width,
   telescope_vertical_preview_layout = tweaks.telescope_vertical_preview_layout,
-  nightly = nvim_11,
+  nightly = (nvim_11 ~= 0) and true or false,
   telescope_dropdown='bottom',                  -- position for the input box in the dropdown theme. 'bottom' or 'top'
   cpalette_dropdown = 'top',                    -- same for the command palette
   -- the minipicker is the small telescope picker used for references, symbols and
@@ -110,7 +110,7 @@ Config = {
   },
   treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
                        "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid",
-                       "yaml", "rust", "javascript", "ruby", "objc", "groovy", "org", "markdown", "zig" },
+                       "yaml", "rust", "javascript", "ruby", "objc", "groovy", "org", "markdown", "liquid", "zig" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   outline_plugin = nil,
   theme = require("darkmatter")

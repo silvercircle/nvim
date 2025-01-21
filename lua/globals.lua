@@ -543,6 +543,13 @@ function M.restore_config()
     custom_colors = {
       c1 = "#5a8aba"
     },
+    usercolors = {
+      user1 = "#ffffff",
+      user2 = "#ffff00"
+    },
+    style = {
+      macro = "user2"
+    },
     plugins = {
       hl = (vim.g.tweaks.completion.version == "blink") and { "markdown", "syntax", "common", "blink" } or { "markdown", "syntax", "common" },
     },
@@ -746,6 +753,8 @@ end
 function M.configure_treesitter()
   vim.treesitter.language.register("objc", "objcpp")
   vim.treesitter.language.register("markdown", "telekasten")
+  vim.treesitter.language.register("markdown", "liquid")
+  vim.treesitter.language.register("css", "scss")
   vim.treesitter.language.register("html", "jsp")
   vim.treesitter.language.register("ini", "editorconfig")
   -- disable injections for these languages, because they can be slow

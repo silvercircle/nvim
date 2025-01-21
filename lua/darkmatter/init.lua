@@ -132,7 +132,11 @@ local conf = {
     constructor = "altyellow",
     macro = "lpurple"
   },
-  usercolors = {},
+  --- these colors will be added to the standard palette. They can be used for
+  --- styled colors.
+  usercolors = {
+    user1 = "#ffffff"
+  },
   indentguide_colors = {
     light = "#505050",
     dark = "#505050"

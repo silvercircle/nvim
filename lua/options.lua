@@ -50,12 +50,12 @@ o.wrap = false
 o.numberwidth =  vim.g.tweaks.numberwidth
 vim.opt.listchars = {tab = '  ', trail = '▪', extends = '>', precedes = '<', eol = '↴' }
 vim.opt.list = true
---if vim.g.tweaks.use_foldlevel_patch == true then
---  o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]
+if vim.g.tweaks.use_foldlevel_patch == true then
+  o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]
 --  --o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
---else
-o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
---end
+else
+  o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
+end
 o.foldcolumn = "1"
 -- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 
 -- indentation-based folding.

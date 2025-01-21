@@ -206,7 +206,7 @@ autocmd({ 'BufEnter' }, {
 })
 
 -- restore view when reading a file
-if Config.nightly == 1 then
+if Config.nightly then
   autocmd({ 'BufReadPost' }, {
     pattern = "*",
     callback = function(args)

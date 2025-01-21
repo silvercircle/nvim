@@ -489,7 +489,7 @@ lazy.setup({
           highlights = { "IndentBlankLineChar" },
         },
         scope = {
-          enabled = Config.nightly == 1 and true or false,
+          enabled = Config.nightly,
           char = "┃",
           priority = 1024,
           -- set this to a single highlight, such as 'BlinkIndent' to disable rainbow-style indent guides
@@ -695,7 +695,7 @@ lazy.setup({
   },
   {
     'kevinhwang91/nvim-ufo',
-    cond = (Config.nightly == 1),
+    cond = (Config.nightly == true),
     config = function()
       require("plugins.others").setup.ufo()
     end,
