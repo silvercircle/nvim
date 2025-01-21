@@ -851,10 +851,10 @@ end
 -- file selectors (buffers, oldfiles)
 if vim.g.tweaks.fzf.prefer_for.selector == true then
   vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
-    fzf.buffers({ no_action_zz = true, no_action_set_cursor = true, winopts = fzf_tweaks.winopts.small_no_preview })
+    fzf.buffers({ mru = true, no_action_zz = true, no_action_set_cursor = true, winopts = fzf_tweaks.winopts.small_no_preview })
   end, "FZF buffer list")
   vim.g.setkey({ "n", "i", "t", "v" }, "<C-p>", function()
-    fzf.oldfiles({ winopts = fzf_tweaks.winopts.small_no_preview })
+    fzf.oldfiles({ mru = true, winopts = fzf_tweaks.winopts.small_no_preview })
   end, "FZF oldfiles")
 end
 -- NOTE: GIT

@@ -547,9 +547,6 @@ function M.restore_config()
       user1 = "#ffffff",
       user2 = "#ffff00"
     },
-    style = {
-      macro = "user2"
-    },
     plugins = {
       hl = (vim.g.tweaks.completion.version == "blink") and { "markdown", "syntax", "common", "blink" } or { "markdown", "syntax", "common" },
     },
