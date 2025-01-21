@@ -372,6 +372,7 @@ require "fzf-lua".setup({
     prompt                  = "History❯ ",
     cwd_only                = false,
     stat_file               = true,  -- verify files exist on disk
+    mru                     = true,
     include_current_session = false, -- include bufs from current session
   },
   buffers             = {
@@ -383,6 +384,7 @@ require "fzf-lua".setup({
     show_unloaded     = true,         -- show unloaded buffers
     cwd_only          = false,        -- buffers for the cwd only
     cwd               = nil,
+    mru           = true,
     actions       = {
       -- actions inherit from 'actions.buffers' and merge
       -- by supplying a table of functions we're telling
