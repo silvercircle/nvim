@@ -85,11 +85,10 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
 --  open_on_setup = false,
 --  open_on_setup_file = false,
   sort_by = 'name',
-  root_dirs = {},
+  root_dirs = { },
   prefer_startup_root = false,
   sync_root_with_cwd = true,
   reload_on_bufenter = false,
-  respect_buf_cwd = false,
   select_prompts = false,
   view = {
     adaptive_size = false,
@@ -191,7 +190,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   update_focused_file = {
     enable = false,
     debounce_delay = 50,
-    update_root = true,
+    update_root = false,
     ignore_list = {},
   },
   -- ignore_ft_on_setup = {},
@@ -320,7 +319,7 @@ api.events.subscribe(Event.TreeClose, function(_)
   __Globals.tree_close_handler()
 end)
 
-vim.g.setkey({'n', 'v'}, '<leader>r', function() vim.cmd('NvimTreeFindFile') end, "Sync NvimTree with current Buffer")
+vim.g.setkey({'n', 'v'}, '<leader>r', function() vim.cmd('NvimTreeFindFile!|wincmd p') end, "Sync NvimTree with current Buffer")
 vim.g.setkey('n', '<leader>,', function() require('nvim-tree.api').tree.toggle() end, "Toggle NvimTree")
 
 vim.g.setkey('n', '<leader>R', function()
