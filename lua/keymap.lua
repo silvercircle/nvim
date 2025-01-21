@@ -275,7 +275,7 @@ end, "Telescope Buffer list")
 if vim.g.tweaks.fzf.prefer_for.selector == true then
   vim.g.setkey({'n', 'i'}, '<C-p>', function()
     require('fzf-lua').oldfiles( { winopts = vim.g.tweaks.fzf.winopts.small_no_preview })
-  end, "Telescope old files")
+  end, "FZF-LUA old files")
 else
   vim.g.setkey({'n', 'i'}, '<C-p>', function()
     require('telescope.builtin').oldfiles(
@@ -466,10 +466,6 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-n>', function()
     require("aerial").nav_open()
   end
 end, "Open Navbuddy window")
-
-vim.g.setkey({ 'n', 'i' }, '<A-e>', function()
-  require("mini.pick").builtin.buffers({include_current=false}, {window = { config = __Globals.mini_pick_center(100, 20, 0.1) } } )
-end, "Mini.Picker Buffer list")
 
 require("local_utils.marks").set_keymaps()
 vim.cmd("nunmap <cr>")
