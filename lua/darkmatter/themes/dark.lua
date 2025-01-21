@@ -157,7 +157,9 @@ function M.attributes()
     cmpkind      = {},
     uri          = {},
     bool         = { bold = true },
-    module       = { bold = true }
+    module       = { bold = true },
+    constant     = {},
+    macro        = { bold = true }
   }
 end
 

@@ -129,7 +129,8 @@ local conf = {
     type = "darkpurple",
     struct = "darkpurple",
     bool = "deepred",
-    constructor = "altyellow"
+    constructor = "altyellow",
+    macro = "lpurple"
   },
   usercolors = {},
   indentguide_colors = {
@@ -391,7 +392,7 @@ local function set_all()
   M.hl("Interface", M.P.styled.interface, M.NONE, conf.attrib.interface)
   M.hl("StorageClass", M.P.styled.storage, M.NONE, conf.attrib.storage)
   M.hl_with_defaults("Identifier", M.P.styled.identifier, M.NONE)
-  M.hl_with_defaults("Constant", M.P.styled.constant, M.NONE)
+  M.hl_with_defaults("Constant", M.P.styled.constant, conf.attrib.constant)
   M.hl("Include", M.P.styled.module, M.NONE, conf.attrib.module)
   M.hl("Boolean", M.P.styled.bool, M.NONE, conf.attrib.bool)
   M.hl("Keyword", M.P.styled.keyword, M.NONE, conf.attrib.keyword)
@@ -403,7 +404,7 @@ local function set_all()
   M.hl("Exception", conf.theme_strings == "yellow" and M.P.green or M.P.yellow, M.NONE, conf.attrib.keyword)
   M.hl("Repeat", M.P.blue, M.NONE, conf.attrib.keyword)
   M.hl("Statement", M.P.blue, M.NONE, conf.attrib.keyword)
-  M.hl_with_defaults("Macro", M.P.lpurple, M.NONE)
+  M.hl_with_defaults("Macro", M.P.styled.macro, conf.attrib.macro)
   M.hl_with_defaults("Error", M.P.red, M.NONE)
   M.hl_with_defaults("Label", M.P.lpurple, M.NONE)
   M.hl("Special", M.P.altblue, M.NONE, conf.attrib.bold)
@@ -550,7 +551,7 @@ local function set_all()
   M.link("@conditional", "Conditional")
   M.link("@constant", "Constant")
   M.link("@constant.builtin", "Builtin")
-  M.link("@constant.macro", "OrangeItalic")
+  M.link("@constant.macro", "Macro")
   M.hl("@constructor", M.P.styled.constructor, M.NONE, {} )
   M.link("@exception", "Exception")
   M.link("@field", "Member")
@@ -626,6 +627,7 @@ local function set_all()
   M.link("@lsp.type.enum_name", "Structure")
   M.link("@lsp.type.enum_member_name", "Constant")
   M.link("@lsp.type.delegateName", "Function")
+  M.link("@lsp.type.macro", "Macro")
   M.link("@lsp.typemod.method.static", "StaticMethod")
   M.link("@lsp.typemod.method_name.static_symbol", "StaticMethod")
   M.link("@lsp.typemod.property.static", "StaticMember")
