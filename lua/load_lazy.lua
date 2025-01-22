@@ -364,7 +364,7 @@ lazy.setup({
       })
     end
   },
-  { 'tpope/vim-liquid', ft = "liquid" },
+  --{ 'tpope/vim-liquid', ft = "liquid" },
   {
     'tomasky/bookmarks.nvim',
     event = "UIEnter",
