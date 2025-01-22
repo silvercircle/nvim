@@ -82,9 +82,6 @@ Tweaks.lsp.localbin      = vim.fn.getenv('HOME') .. '/.local/bin/'
 Tweaks.lsp.homepath      = vim.fn.getenv('HOME')
 
 Tweaks.lsp = {
-  -- if verify is set to true, the config will, at startup, check for the
-  -- server executables to be present and warn you about missing ones.
-  verify        = false,
   server_bin = {
     -- phpactor      =   '/usr/local/bin/phpactor',
     rust_analyzer =   Tweaks.lsp.masonbinpath .. 'rust-analyzer',
@@ -116,9 +113,10 @@ Tweaks.lsp = {
     jsonls        =   Tweaks.lsp.masonbinpath .. "vscode-json-language-server",
     zls           =   Tweaks.lsp.localbin .. "zls"
   },
-  -- use either omnisharp or csharp_ls for c# and .NET development
-  -- both options work reasonably well with a few issues and missing features
-  -- the third option "roslyn" is highly experimental and not recommended
+  -- the roslyn language server is now sufficiently stable for development and supported by
+  -- a stable plugin. Alternatives are still "omnisharp" and "csharp_ls", but both are not
+  -- on the same level. The roslyn ls is officially supported by Microsoft and is the default
+  -- LS for Visual Studio and Visual Studio Code.
   csharp = "roslyn",
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
   -- this can show multiple diagnostic messages for a single line.

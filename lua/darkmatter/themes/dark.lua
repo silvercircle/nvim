@@ -6,6 +6,8 @@
 -- * variants(variant_name)
 -- * attributes()
 
+-- custom themes must be named as themename.lua and reside in the darkmatter/themes
+-- folder.
 local vivid_colors = {
   orange = { "#dfa690", 215 },
   blue = { "#4a4adf", 239 },

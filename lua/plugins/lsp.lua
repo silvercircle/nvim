@@ -270,7 +270,7 @@ lspconfig.gopls.setup({
   filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
   settings = {
     gopls = {
-      semanticTokens = true,
+      semanticTokens = false,
       analyses = {
         unusedparams = true,
       },
