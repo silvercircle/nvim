@@ -200,7 +200,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   },
   diagnostics = {
     enable = true,
-    show_on_dirs = true,
+    show_on_dirs = false,
     show_on_open_dirs = true,
     debounce_delay = 100,
     severity = {

@@ -306,7 +306,7 @@ require("blink.cmp").setup({
       max_height = T.window_height,
       draw = {
         align_to = 'kind_icon',
-        treesitter = {"lsp"},
+        treesitter = {},
         padding = { 0, 1 },
         columns = {
           { "kind_icon", "label", "label_description", gap = 1 },

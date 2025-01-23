@@ -446,7 +446,7 @@ lspconfig.zls.setup {
   end,
   filetypes = { "zig", "zir" },
   root_dir = util.root_pattern("zls.json", "build.zig", ".git"),
-  single_file_support = true,
+  single_file_support = true
 }
 -- outsourced because it's too big
 if vim.g.tweaks.lsp.csharp == "omnisharp" then

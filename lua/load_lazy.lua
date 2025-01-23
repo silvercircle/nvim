@@ -695,7 +695,7 @@ lazy.setup({
   },
   {
     'kevinhwang91/nvim-ufo',
-    cond = (Config.nightly == true),
+    cond = false,
     config = function()
       require("plugins.others").setup.ufo()
     end,
@@ -761,7 +761,7 @@ lazy.setup({
   },
   {
     'sindrets/diffview.nvim',
-    event = "VeryLazy"
+    lazy = true,
   }
 },
 {

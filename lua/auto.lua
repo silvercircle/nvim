@@ -46,6 +46,8 @@ autocmd({ 'VimEnter' }, {
     end
   end
 })
+
+--- this function configures the UI layout on UIEnter
 local function main_layout()
   -- this should only run on initial UIEnter (nvim start), exactly ONCE. UIEnter is also
   -- fired when nvim resumes from suspend (Ctrl-Z) in which case this code is no longer needed
@@ -306,7 +308,6 @@ autocmd({ 'FileType' }, {
     -- metals, attach on filetype
     elseif args.match == "scala" or args.match == "sbt" then
       require("metals").initialize_or_attach({
-        -- TODO: review config
         capabilities = __Globals.get_lsp_capabilities(),
         settings = {
           metalsBinaryPath = vim.g.lsp_server_bin["metals"]
@@ -387,4 +388,10 @@ autocmd({ 'User'}, {
   end
 })
 
-
+--- refresh the outline view when a LSP server attaches
+autocmd({ 'LspAttach' }, {
+  pattern = "*",
+  callback = function()
+    require("outline").refresh()
+  end
+})
