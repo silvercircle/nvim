@@ -448,6 +448,15 @@ lspconfig.zls.setup {
   root_dir = util.root_pattern("zls.json", "build.zig", ".git"),
   single_file_support = true
 }
+
+lspconfig.neocmake.setup {
+  cmd = { 'neocmakelsp', '--stdio' },
+  filetypes = { 'cmake' },
+  root_dir = function(fname)
+    return util.root_pattern(unpack({ '.git', 'build', 'cmake' }))(fname)
+  end,
+  single_file_support = true
+}
 -- outsourced because it's too big
 if vim.g.tweaks.lsp.csharp == "omnisharp" then
   require("lsp.omnisharp")

@@ -329,6 +329,7 @@ lazy.setup({
       },
       {
         "lewis6991/hover.nvim",
+        event = "BufReadPost",
         config = function()
           require("hover").setup({
             init = function()
@@ -337,14 +338,16 @@ lazy.setup({
               -- require('hover.providers.gh')
               -- require('hover.providers.gh_user')
               -- require('hover.providers.jira')
-              -- require('hover.providers.man')
               -- require('hover.providers.dictionary')
+              require('hover.providers.fold_preview')
+              require('hover.providers.diagnostic')
+              require('hover.providers.man')
             end,
             preview_opts = {
               border = vim.g.tweaks.borderfactory("thicc")
             },
-            preview_window = false,
-            title = false
+            preview_window = true,
+            title = true
           })
         end
       }
