@@ -161,7 +161,8 @@ function M.attributes()
     bool         = { bold = true },
     module       = { bold = true },
     constant     = {},
-    macro        = { bold = true }
+    macro        = { bold = true },
+    defaultlib   = { bold = true, italic = true }
   }
 end
 

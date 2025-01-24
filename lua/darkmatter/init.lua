@@ -130,7 +130,8 @@ local conf = {
     struct = "darkpurple",
     bool = "deepred",
     constructor = "altyellow",
-    macro = "lpurple"
+    macro = "lpurple",
+    defaultlib = "palegreen"
   },
   --- these colors will be added to the standard palette. They can be used for
   --- styled colors.
@@ -396,6 +397,7 @@ local function set_all()
   M.hl("Class", M.P.styled.class, M.NONE, conf.attrib.class)
   M.hl("Interface", M.P.styled.interface, M.NONE, conf.attrib.interface)
   M.hl("StorageClass", M.P.styled.storage, M.NONE, conf.attrib.storage)
+  M.hl("DefaultLib", M.P.styled.defaultlib, M.NONE, conf.attrib.defaultlib)
   M.hl_with_defaults("Identifier", M.P.styled.identifier, M.NONE)
   M.hl_with_defaults("Constant", M.P.styled.constant, conf.attrib.constant)
   M.hl("Include", M.P.styled.module, M.NONE, conf.attrib.module)
@@ -636,10 +638,10 @@ local function set_all()
   M.link("@lsp.typemod.method.static", "StaticMethod")
   M.link("@lsp.typemod.method_name.static_symbol", "StaticMethod")
   M.link("@lsp.typemod.property.static", "StaticMember")
-  M.link("@lsp.typemod.function.defaultLibrary", "Builtin")
+  M.link("@lsp.typemod.function.defaultLibrary", "DefaultLib")
   M.link("@lsp.typemod.function.global", "StaticMethod")
   M.link("@lsp.typemod.class.constructorOrDestructor", "@constructor")
-  M.link("@lsp.mod.defaultLibrary", "Function")
+  M.link("@lsp.mod.defaultLibrary", "DefaultLib")
   M.link("@lsp.mod.constructorOrDestructor", "@constructor")
 
   M.link("BookmarkSign", "BlueSign")
