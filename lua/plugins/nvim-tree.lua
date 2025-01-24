@@ -115,14 +115,14 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   },
   renderer = {
     add_trailing = false,
-    decorators = { "Git", "Open", "Hidden", "Modified", "Bookmark", "Diagnostics", "Copied", "Cut", },
+    decorators = { "Git", "Open", "Modified", "Hidden", "Bookmark", "Diagnostics", "Copied", "Cut", },
     group_empty = false,
-    highlight_git = "all",
-    highlight_diagnostics = "all",
-    highlight_opened_files = "all",
+    highlight_git = "none",
+    highlight_diagnostics = "name",
+    highlight_opened_files = "name",
     highlight_modified = "all",
     highlight_hidden = "all",
-    highlight_bookmarks = "all",
+    highlight_bookmarks = "name",
     highlight_clipboard = "name",
     full_name = false,
     root_folder_label = ':~:s?$?/..?',
@@ -153,12 +153,14 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
         folder_arrow = true,
         git = true,
         modified = true,
-        hidden = true
+        hidden = true,
+        bookmarks = true
       },
       glyphs = {
         default = ' ',
         symlink = ' ',
-        bookmark = '',
+        bookmark = '',
+        modified = '●',
         folder = {
           arrow_closed = '',
           arrow_open = '',
