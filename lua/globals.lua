@@ -545,7 +545,10 @@ function M.restore_config()
     },
     usercolors = {
       user1 = "#ffffff",
-      user2 = "#ffff00"
+      user2 = "#4a7099"
+    },
+    style = {
+      defaultlib = "user2"
     },
     plugins = {
       hl = (vim.g.tweaks.completion.version == "blink") and { "markdown", "syntax", "common", "blink" } or { "markdown", "syntax", "common" },
@@ -557,7 +560,8 @@ function M.restore_config()
         types = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
         class = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
         interface = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-        struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {}
+        struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+        defaultlib = { italic = false }
       },
       light = {
         cmpkind = cmp_kind_attr,

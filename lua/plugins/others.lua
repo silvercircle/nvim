@@ -6,7 +6,7 @@ M.setup = {
     local i = require("neogen.types.template").item
     require("neogen").setup({
       enabled = true,
-      snippet_engine = "snippy",
+      snippet_engine = "nvim",
       languages = {
         cs = {
           template = {
