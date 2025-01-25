@@ -236,7 +236,7 @@ end
 
 -- for these file types we want spellcheck
 autocmd({ 'FileType' }, {
-  pattern = { 'tex', 'markdown', 'text', 'telekasten', 'liquid' },
+  pattern = { 'tex', 'markdown', 'text', 'telekasten', 'liquid', 'typst' },
   callback = function()
     if vim.bo.modifiable == true then
       vim.cmd("setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nwqtc | setlocal foldmethod=manual")

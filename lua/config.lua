@@ -109,7 +109,7 @@ Config = {
     }
   },
   treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
-                       "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid",
+                       "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid", "typst",
                        "yaml", "rust", "javascript", "ruby", "objc", "groovy", "org", "markdown", "zig" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   outline_plugin = nil,
@@ -149,8 +149,6 @@ vim.g.confirm_actions = {
 
 local g = vim.g
 -- disable some standard plugins
---g.loaded_netrw       = 1
---g.loaded_netrwPlugin = 1
 
 g.loaded_zipPlugin= 1
 g.loaded_zip = 1
