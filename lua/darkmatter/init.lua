@@ -113,6 +113,7 @@ local conf = {
     conditional = "blue",
     kwfunc = "deepred",
     member = "orange",
+    staticmember = "orange",
     method = "brightteal",
     func = "teal",
     operator = "brown",
@@ -131,7 +132,8 @@ local conf = {
     bool = "deepred",
     constructor = "altyellow",
     macro = "lpurple",
-    defaultlib = "palegreen"
+    defaultlib = "palegreen",
+    staticmethod = "palegreen"
   },
   --- these colors will be added to the standard palette. They can be used for
   --- styled colors.
@@ -421,10 +423,10 @@ local function set_all()
   M.hl("Number", M.P.styled.number, M.NONE, conf.attrib.number)
   M.hl_with_defaults("Float", M.P.lpurple, M.NONE)
   M.hl("Function", M.P.teal, M.NONE, conf.attrib.func)
-  M.hl("Method", M.P.brightteal, M.NONE, conf.attrib.method)
-  M.hl("StaticMethod", M.P.brightteal, M.NONE, conf.attrib.staticmethod)
-  M.hl("Member", M.P.orange, M.NONE, conf.attrib.member)
-  M.hl("StaticMember", M.P.orange, M.NONE, conf.attrib.staticmember)
+  M.hl("Method", M.P.styled.method, M.NONE, conf.attrib.method)
+  M.hl("StaticMethod", M.P.styled.staticmethod, M.NONE, conf.attrib.staticmethod)
+  M.hl("Member", M.P.styled.member, M.NONE, conf.attrib.member)
+  M.hl("StaticMember", M.P.styled.staticmember, M.NONE, conf.attrib.staticmember)
   M.hl("Builtin", M.P.styled.builtin, M.NONE, conf.attrib.bold)
   M.link("PreProc", "Include")
   M.hl("Title", M.P.red, M.NONE, conf.attrib.bold)
@@ -635,11 +637,13 @@ local function set_all()
   M.link("@lsp.type.enum_member_name", "Constant")
   M.link("@lsp.type.delegateName", "Function")
   M.link("@lsp.type.macro", "Macro")
+  M.link("@lsp.type.constructor", "@constructor")
   M.link("@lsp.typemod.method.static", "StaticMethod")
   M.link("@lsp.typemod.method_name.static_symbol", "StaticMethod")
   M.link("@lsp.typemod.property.static", "StaticMember")
   M.link("@lsp.typemod.function.defaultLibrary", "DefaultLib")
   M.link("@lsp.typemod.function.global", "StaticMethod")
+  M.link("@lsp.typemod.function.static", "StaticMethod")
   M.link("@lsp.typemod.class.constructorOrDestructor", "@constructor")
   M.link("@lsp.mod.defaultLibrary", "DefaultLib")
   M.link("@lsp.mod.constructorOrDestructor", "@constructor")
