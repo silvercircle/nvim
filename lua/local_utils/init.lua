@@ -107,11 +107,15 @@ function Utils.getLatexPreviewPath(_filename, _useglobal)
   local useglobal = _useglobal or false
   local path = vim.fn.expand(Config.texoutput)
   local finalpath
-  __Globals.debugmsg("The preview path is: " .. path)
-  if useglobal == true and #path > 0 and vim.fn.isdirectory(path) == 1 then
-    finalpath = path .. vim.fn.expand(vim.fn.fnamemodify(_filename, ":t:r")) .. ".pdf"
+  if vim.bo.filetype == "typst" then
+    finalpath = vim.fn.expand("%:p:r") .. ".pdf"
   else
-    finalpath = vim.fn.expand(vim.fn.fnamemodify(_filename, ":r")) .. ".pdf"
+    __Globals.debugmsg("The preview path is: " .. path)
+    if useglobal == true and #path > 0 and vim.fn.isdirectory(path) == 1 then
+      finalpath = path .. vim.fn.expand(vim.fn.fnamemodify(_filename, ":t:r")) .. ".pdf"
+    else
+      finalpath = vim.fn.expand(vim.fn.fnamemodify(_filename, ":r")) .. ".pdf"
+    end
   end
   if vim.fn.filereadable(finalpath) == 1 then
     return true, finalpath
