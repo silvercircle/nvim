@@ -111,13 +111,16 @@ Tweaks.lsp = {
     groovy        =   Tweaks.lsp.masonbinpath .. 'groovy-language-server',
     roslyn        =   vim.fn.stdpath("data") .. "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll",
     jsonls        =   Tweaks.lsp.masonbinpath .. "vscode-json-language-server",
-    zls           =   Tweaks.lsp.localbin .. "zls"
+    zls           =   Tweaks.lsp.localbin .. "zls",
+    ccls          =   Tweaks.lsp.localbin .. "ccls"
   },
   -- the roslyn language server is now sufficiently stable for development and supported by
   -- a stable plugin. Alternatives are still "omnisharp" and "csharp_ls", but both are not
   -- on the same level. The roslyn ls is officially supported by Microsoft and is the default
   -- LS for Visual Studio and Visual Studio Code.
   csharp = "roslyn",
+  -- use either clangd or ccls for c/cpp/objc.
+  cpp = "ccls",
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
   -- this can show multiple diagnostic messages for a single line.
   -- otherwise, use normal virtual text.

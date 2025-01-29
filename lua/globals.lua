@@ -548,7 +548,8 @@ function M.restore_config()
       user2 = "#4a7099"
     },
     style = {
-      defaultlib = "user2"
+      defaultlib = "user2",
+      staticmethod = "user2"
     },
     plugins = {
       hl = (vim.g.tweaks.completion.version == "blink") and { "markdown", "syntax", "common", "blink" } or { "markdown", "syntax", "common" },
@@ -593,6 +594,12 @@ function M.theme_callback(what)
   elseif what == "trans" then
     M.perm_config.transbg = conf.is_trans
     M.notify("Theme transparency is now " .. (conf.is_trans == true and "On" or "Off"), vim.log.levels.INFO, "Theme")
+  end
+
+  if vim.g.tweaks.completion.version == "blink" then
+    require("plugins.blink").update_hl()
+  else
+    require("plugins.cmp_setup").update_hl()
   end
 end
 

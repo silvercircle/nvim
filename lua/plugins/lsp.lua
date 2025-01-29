@@ -178,37 +178,69 @@ local clangd_root_files = {
   'compile_flags.txt',
   'configure.ac', -- AutoTools
 }
-lspconfig.clangd.setup({
-  cmd = { 'clangd', "--header-insertion-decorators", "--background-index", "--malloc-trim", "--pch-storage=memory", "--log=error" },
-  filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
-  root_dir = function(fname)
-    return util.root_pattern(unpack(clangd_root_files))(fname) or util.find_git_ancestor(fname)
-  end,
-  single_file_support = true,
-  on_attach = On_attach,
-  capabilities = {
-    textDocument = {
-      completion = {
-        editsNearCursor = true,
+if vim.g.tweaks.lsp.cpp == "clangd" then
+  lspconfig.clangd.setup({
+    cmd = { "clangd", "--background-index", "--malloc-trim", "--pch-storage=memory", "--log=error" },
+    filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+    root_dir = function(fname)
+      return util.root_pattern(unpack(clangd_root_files))(fname) or util.find_git_ancestor(fname)
+    end,
+    single_file_support = true,
+    on_attach = On_attach,
+    capabilities = {
+      textDocument = {
+        completion = {
+          editsNearCursor = true,
+        },
+      },
+      offsetEncoding = { "utf-8", "utf-16" },
+    },
+    commands = {
+      ClangdSwitchSourceHeader = {
+        function()
+          clangd_switch_source_header(0)
+        end,
+        description = "Switch between source/header",
+      },
+      ClangdShowSymbolInfo = {
+        function()
+          clangd_symbol_info()
+        end,
+        description = "Show symbol info",
+      },
+    }
+  })
+end
+
+if vim.g.tweaks.lsp.cpp == "ccls" then
+  lspconfig.ccls.setup({
+    default_config = {
+      cmd = { "ccls" },
+      filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+      root_dir = function(fname)
+        return util.root_pattern("compile_commands.json", ".ccls", "configure.ac")(fname) or vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
+      end,
+      offset_encoding = "utf-32",
+      -- ccls does not support sending a null root directory
+      single_file_support = false,
+      capabilities = {
+        textDocument = {
+          completion = {
+            editsNearCursor = true,
+          }
+        }
+      }
+    },
+    commands = {
+      CclsSwitchSourceHeader = {
+        function()
+          clangd_switch_source_header(0)
+        end,
+        description = "Switch between source/header",
       },
     },
-    offsetEncoding = { 'utf-8', 'utf-16' },
-  },
-  commands = {
-    ClangdSwitchSourceHeader = {
-      function()
-        clangd_switch_source_header(0)
-      end,
-      description = 'Switch between source/header',
-    },
-    ClangdShowSymbolInfo = {
-      function()
-        clangd_symbol_info()
-      end,
-      description = 'Show symbol info',
-    },
-  }
-})
+  })
+end
 
 lspconfig.ada.setup({})
 
