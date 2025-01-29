@@ -5,6 +5,7 @@
 local T = vim.g.tweaks.blink
 local border = T.border
 local itemlist = nil
+local M = {}
 
 --- workaround for missing feature (scroll completion window page-wise)
 --- @param idx number: number of entries to scroll
@@ -111,8 +112,12 @@ local function italizemenugroups()
   end
 end
 
-reverse_hl_groups()
-italizemenugroups()
+function M.update_hl()
+  reverse_hl_groups()
+  italizemenugroups()
+end
+
+M.update_hl()
 
 -- this maps source names to highlight groups
 local blink_menu_hl_group = {
@@ -372,9 +377,19 @@ require("blink.cmp").setup({
   },
   signature = {
     enabled = true,
+    trigger = {
+      enabled = true,
+      show_on_trigger_character = false,
+      show_on_keyword = false,
+      show_on_insert = false,
+      show_on_insert_on_trigger_character = true
+    },
     window = {
       show_documentation = true,
       border = vim.g.tweaks.borderfactory(border)
     }
   }
 })
+
+return M
+

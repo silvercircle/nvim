@@ -494,5 +494,10 @@ function M.select_layout()
     end)
 end
 
+function M.update_hl()
+  reverse_hl_groups()
+  italizemenugroups()
+end
+
 return M
 
