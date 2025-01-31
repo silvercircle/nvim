@@ -330,7 +330,7 @@ command_center.add({
   },
   {
     desc = "Configure CMP layout",
-    cmd = function() require("plugins.cmp").select_layout() end,
+    cmd = function() require("plugins.cmp_setup").select_layout() end,
     keys = {
       { "n", "<leader>cc", noremap },
     },

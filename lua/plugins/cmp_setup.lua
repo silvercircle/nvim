@@ -14,7 +14,7 @@ local function reverse_hl_groups()
   "CmpItemKindConstant", "CmpItemKindEnum", "CmpItemKindEnumMember",
   "CmpItemKindSnippet", "CmpItemKindOperator", "CmpItemKindInterface",
   "CmpItemKindValue", "CmpItemKindTypeParameter", "CmpItemKindFile",
-  "CmpItemKindFolder", "CmpItemKindEvent" }
+  "CmpItemKindFolder", "CmpItemKindEvent", "CmpItemKindReference" }
 
   for _,v in ipairs(groups) do
     local fg, name
@@ -146,7 +146,7 @@ end
 local f_modern = function(entry, vim_item)
   local abbr_prefix = "▌" .. (lspkind.symbolic or lspkind.get_symbol)(vim_item.kind) .. "▐"
   local abbr_prefix_len = #abbr_prefix
-  vim_item.abbr = abbr_prefix .. " " .. utils.truncate(vim_item.abbr .. " ", T.abbr_maxwidth)
+  vim_item.abbr = abbr_prefix .. " " .. utils.truncate(vim_item.abbr, T.abbr_maxwidth)
   vim_item.menu = (cmp_item_menu[entry.source.name] or string.format("%s", entry.source.name))
   vim_item.abbr_hl_group = {
     { "CmpItemKind" .. vim_item.kind .. "Rev", range = {0, abbr_prefix_len - 1}},
@@ -158,9 +158,6 @@ local f_modern = function(entry, vim_item)
     local cmp_item = entry:get_completion_item()
     -- Display which LSP servers this item came from.
     local lspserver_name = entry.source.source.client.name
-    if lspserver_name == "lua_ls" then
-      lspserver_name = lspserver_name .. "  "
-    end
     -- Some language servers provide details, e.g. type information.
     -- The details info hide the name of lsp server, but mostly we'll have one LSP
     -- per filetype, and we use special highlights so it's OK to hide it..
@@ -258,7 +255,7 @@ cmp.setup({
       border = vim.g.tweaks.borderfactory(T.decorations[T.decoration.comp].border),
       winhighlight = T.decorations[T.decoration.comp].whl_comp,
       scrollbar = true,
-      side_padding = 1,
+      side_padding = 0,
       winblend = T.winblend.menu
     },
   },
@@ -455,8 +452,8 @@ function M.setup_theme(theme, decoration, decoration_doc)
       completion = {
         border = vim.g.tweaks.borderfactory(T.decorations[decoration].border),
         winhighlight = T.decorations[decoration].whl_comp,
-        scrollbar = false,
-        side_padding = 1
+        scrollbar = true,
+        side_padding = 0
       }
     }
   })
@@ -490,6 +487,7 @@ function M.select_layout()
         end
         M.configure_layout(style)
         M.setup_theme(style, decoration, decoration)
+        M.update_hl()
       end
     end)
 end
