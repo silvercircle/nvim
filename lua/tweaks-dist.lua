@@ -120,7 +120,7 @@ Tweaks.lsp = {
   -- LS for Visual Studio and Visual Studio Code.
   csharp = "roslyn",
   -- use either clangd or ccls for c/cpp/objc.
-  cpp = "ccls",
+  cpp = "clangd",
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
   -- this can show multiple diagnostic messages for a single line.
   -- otherwise, use normal virtual text.
@@ -147,7 +147,7 @@ Tweaks.blink = {
   desc_max_width = 30,
   -- prefetch on InsertEnter. This might improve performance but might have
   -- memory leaks at the moment.
-  prefetch = false,
+  prefetch = true,
   -- if you use a theme that does not yet support blink.cmp, set this to true
   -- to use the fallback nvim-cmp hl groups which are supported by most themes
   use_cmp_hl = false,
@@ -339,6 +339,7 @@ Tweaks.jdtls = {
 -- fallback when no other means of finding a project's root are successfull. This is highly
 -- incomplete and inaccurate, but you can expand this with whatever you want.
 Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "settings.gradle", "pom.xml", "*.sln", "build.zig", "go.mod", "go.sum" }
+Tweaks.srclocations = { "src", "source", "sources", "SRC", "Src", "SOURCE", "Source", "Sources" }
 -- tweaks for the indent guides
 Tweaks.indentguide = {
   -- character used by the indent-blankline plugin to draw vertical indent guides
