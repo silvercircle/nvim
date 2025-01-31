@@ -133,7 +133,8 @@ local conf = {
     constructor = "altyellow",
     macro = "lpurple",
     defaultlib = "palegreen",
-    staticmethod = "palegreen"
+    staticmethod = "palegreen",
+    attribute = "olive"
   },
   --- these colors will be added to the standard palette. They can be used for
   --- styled colors.
@@ -437,8 +438,8 @@ local function set_all()
   M.hl("Underlined", M.NONE, M.NONE, { underline = true })
   M.hl("Parameter", M.P.fg_dim, M.NONE, conf.attrib.parameter)
 
-  M.hl("Attribute", M.P.olive, M.NONE, conf.attrib.attribute)
-  M.hl("Annotation", M.P.olive, M.NONE, conf.attrib.annotation)
+  M.hl("Attribute", M.P.styled.attribute, M.NONE, conf.attrib.attribute)
+  M.hl("Annotation", M.P.styled.attribute, M.NONE, conf.attrib.attribute)
   M.hl_with_defaults("Fg", M.P.fg, M.NONE)
   M.hl("FgBold", M.P.fg, M.NONE, conf.attrib.bold)
   M.hl("FgItalic", M.P.fg, M.NONE, conf.attrib.italic)

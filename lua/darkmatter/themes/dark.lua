@@ -143,7 +143,6 @@ function M.attributes()
     func         = {},   -- functions
     method       = {},                -- class methods
     attribute    = { bold = true, italic = true },
-    annotation   = { bold = true, italic = true },
     staticmethod = { bold = true },
     member       = {},                -- class member (field, property...)
     staticmember = { bold = true },
