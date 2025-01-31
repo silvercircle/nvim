@@ -129,7 +129,7 @@ vim.g.setkey({'n', 'i'}, '<C-f>c', function()
   __Globals.close_qf_or_loc()
 end, "Close quickfix/loclist window")
 
---- mini picker shortcuts, all start with <C-m>
+--- mini picker shortcuts, all start with <C-a>
 vim.g.setkey({ 'n', 'i' }, '<C-a>f', function()
   utils.PickFoldingMode(vim.o.foldmethod)
 end, "Pick folding mode")
@@ -198,7 +198,9 @@ end, { expr = true, desc = "Export HlsLens results to Quickfix list" })
 
 map('n', 'hl', "<CMD>Inspect<CR>", opts)
 
-vim.g.setkey({ 'i', 'n' }, fkeys.s_f1, function() vim.lsp.buf.signature_help() end, "Show signature help")
+if vim.g.tweaks.completion.version ~= "blink" then
+  vim.g.setkey({ 'i', 'n' }, fkeys.s_f1, function() vim.lsp.buf.signature_help() end, "Show signature help")
+end
 
 --- opens a hover for the symbol under the cursor. if it's a closed UFO fold, then
 --- show a hover for it instead.

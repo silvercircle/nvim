@@ -206,11 +206,11 @@ Tweaks.cmp = {
       border = "none",
       -- windowhighlight options for the docs and complation popup
       whl_doc = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None",
-      whl_comp = "Normal:NeoTreeNormalNC,FloatBorder:CmpBorder,CursorLine:Visual"
+      whl_comp = "Normal:CmpBrightBack,FloatBorder:CmpBorder,CursorLine:Visual"
 
     },
     topflat = {
-      border = "topflat",
+      border = "none",
       whl_doc = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None",
       whl_comp = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual"
     },
@@ -319,7 +319,7 @@ Tweaks.statusline = {
 
 -- filetree tweaks
 Tweaks.tree = {
-  -- valid versions are Neo (for NeoTree) or Nvim (for NvimTree)
+  -- valid versions are Neo (for NeoTree), Nvim (for NvimTree)
   version = "Nvim",
   -- use the git integration (currently only available for NeoTree)
   use_git = true
@@ -339,7 +339,7 @@ Tweaks.jdtls = {
 -- fallback when no other means of finding a project's root are successfull. This is highly
 -- incomplete and inaccurate, but you can expand this with whatever you want.
 Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "settings.gradle", "pom.xml", "*.sln", "build.zig", "go.mod", "go.sum" }
-Tweaks.srclocations = { "src", "source", "sources", "SRC", "Src", "SOURCE", "Source", "Sources" }
+Tweaks.srclocations = { "src", "source", "sources", "SRC", "Src", "SOURCE", "Source", "Sources", "lua" }
 -- tweaks for the indent guides
 Tweaks.indentguide = {
   -- character used by the indent-blankline plugin to draw vertical indent guides

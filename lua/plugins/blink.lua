@@ -204,7 +204,8 @@ require("blink.cmp").setup({
         return true
       end,
       'fallback'
-    }
+    },
+    ["<f13>"] = { 'show_signature', 'hide_signature', 'fallback' }
   },
   sources = {
     default = { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'lua', 'dictionary', 'buffer' },
@@ -378,11 +379,11 @@ require("blink.cmp").setup({
   signature = {
     enabled = true,
     trigger = {
-      enabled = true,
+      enabled = false,
       show_on_trigger_character = false,
       show_on_keyword = false,
       show_on_insert = false,
-      show_on_insert_on_trigger_character = true
+      show_on_insert_on_trigger_character = false
     },
     window = {
       show_documentation = true,
