@@ -180,7 +180,9 @@ local clangd_root_files = {
 }
 if vim.g.tweaks.lsp.cpp == "clangd" then
   lspconfig.clangd.setup({
-    cmd = { "clangd", "--background-index", "--malloc-trim", "--pch-storage=memory", "--log=error" },
+    cmd = { "clangd", "--background-index", "--malloc-trim",
+      "--pch-storage=memory", "--log=error", "--header-insertion=never",
+      "--completion-style=detailed", "--function-arg-placeholders" },
     filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
     root_dir = function(fname)
       return util.root_pattern(unpack(clangd_root_files))(fname) or util.find_git_ancestor(fname)
