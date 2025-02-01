@@ -287,6 +287,7 @@ local function configure()
   }
 
   M.P.treebg = { M.T[conf.variant].treebg, 232 }
+  M.P.floatbg = { M.T[conf.variant].floatbg, 232 }
   M.P.selbg = { M.T["selbg"], 234 }
 
   local seq = 245
@@ -348,8 +349,8 @@ local function set_all()
   M.link("WildMenu", "PmenuSel")
 
   M.hl_with_defaults("PmenuThumb", M.NONE, M.P.grey)
-  M.hl_with_defaults("NormalFloat", M.P.fg, M.P.treebg)
-  M.hl_with_defaults("FloatBorder", M.P.accent, M.P.treebg)
+  M.hl_with_defaults("NormalFloat", M.P.fg, M.P.floatbg)
+  M.hl_with_defaults("FloatBorder", M.P.accent, M.P.floatbg)
   M.link("LspInfoBorder", "FloatBorder")
   M.hl_with_defaults("FloatTitle", M.P.accent_fg, M.P.bg_dim)
   M.hl_with_defaults("Question", M.P.yellow, M.NONE)
