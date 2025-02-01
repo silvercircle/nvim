@@ -140,7 +140,7 @@ require("blink.cmp").setup({
   },
   keymap = {
     preset = T.keymap_preset,
-    ['<Esc>']      = { 'hide', 'fallback' },     -- make <Esc> behave like <C-e>
+    ['<Esc>']      = { 'cancel', 'fallback' },     -- make <Esc> behave like <C-e>
     ['<C-Up>']     = { 'scroll_documentation_up', 'fallback' },
     ["<C-Down>"]   = { "scroll_documentation_down", "fallback" },
     ["<Tab>"]      = {

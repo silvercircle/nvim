@@ -1,33 +1,6 @@
 " Set configuration variables
-
-let g:bookmark_no_default_key_mappings = 1
-let g:bookmark_auto_save_file = stdpath("state") .. '/bookmarks'
-let g:bookmark_sign = ' '
-let g:bookmark_highlight_lines = 1
-let g:bookmark_annotation_sign = " "
-
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_frontmatter = 1
-let g:rnvimr_enable_picker = 1
-let g:rnvimr_draw_border = 1
-let g:VM_theme = 'sand'
-
-" Customize the initial layout
-" Rnvimr plugin (ranger filemanager integration)
-" Activate with <C-f8>
-let g:rnvimr_layout = {
-            \ 'relative': 'editor',
-            \ 'width': float2nr(round(0.9 * &columns)),
-            \ 'height': float2nr(round(0.9 * &lines)),
-            \ 'col': float2nr(round(0.05 * &columns)),
-            \ 'row': float2nr(round(0.05 * &lines)),
-            \ 'style': 'minimal'
-            \ }
-
 lua << EOB
 vim.loader.enable()
---vim.g.loaded_netrw = 1
---vim.g.loaded_netrwPlugin = 1
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

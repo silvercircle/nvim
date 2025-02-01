@@ -64,13 +64,8 @@ Config = {
   null_ls = false,                              -- setup by lazy loader
   treesitter = true,
   plain = (env_plain ~= nil or vim.g.want_plain == true) and true or false,
-  -- statuscol_normal = '%s%=%{printf("%4d", v:lnum)} %C ',
   statuscol_normal = '%s%=%l %C ',
-  --statuscol_normal = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:lnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:lnum) : ""} %C%#IndentBlankLineChar#│ ',
-  --statuscol_rel = '%s%=%{printf("%4d", v:relnum)} %C ',
   statuscol_rel = '%s%=%r %C ',
-  --again, with highlighting relative number
-  --statuscol_rel = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:relnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:relnum) : ""} %C%#IndentBlankLineChar#│ ',
   nvim_tree = true,
   fortunecookie = false,                      --"fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
                                               -- needs fortune and cowsay installed.
@@ -149,15 +144,6 @@ vim.g.confirm_actions = {
 
 local g = vim.g
 -- disable some standard plugins
-
-g.loaded_zipPlugin= 1
-g.loaded_zip = 1
-
-g.loaded_tarPlugin= 1
-g.loaded_tar = 1
-
-g.loaded_gzipPlugin= 1
-g.loaded_gzip = 1
 
 -- global variables for plugins
 g.mapleader = vim.g.tweaks.keymap.mapleader
