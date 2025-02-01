@@ -205,7 +205,8 @@ require("blink.cmp").setup({
       end,
       'fallback'
     },
-    ["<f13>"] = { 'show_signature', 'hide_signature', 'fallback' }
+    ["<f13>"] = { 'show_signature', 'hide_signature', 'fallback' },
+    ["<C-k>"] = { }
   },
   sources = {
     default = { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'lua', 'dictionary', 'buffer' },
