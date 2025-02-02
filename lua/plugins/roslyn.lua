@@ -105,7 +105,7 @@ end
 local util = require 'lspconfig.util'
 require("roslyn").setup({
   config = {
-    capabilities = vim.lsp.protocol.make_client_capabilities(),
+    capabilities = __Globals.lsp_capabilities,
     --handlers = require "rzls.roslyn_handlers",
     --the project root needs a .sln file (mandatory)
     root_dir = function(fname)

@@ -860,9 +860,10 @@ function M.get_lsp_capabilities()
       M.lsp_capabilities = require("blink.cmp").get_lsp_capabilities(M.lsp_capabilities)
     else
       M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+      -- M.lsp_capabilities = require("cmp_nvim_lsp").default_capabilities(M.lsp_capabilities)
     end
-
     M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
+    M.lsp_capabilities.textDocument.completion.editsNearCursor = true
   end
   return M.lsp_capabilities
 end

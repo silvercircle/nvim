@@ -25,7 +25,7 @@ end
 if not configs.ada then
   configs.ada = {
     default_config = {
-      capabilities = capabilities,
+      capabilities = __Globals.lsp_capabilities,
       on_attach = On_attach,
       cmd = { vim.g.lsp_server_bin['als'] },
       filetypes = { 'ada' },
@@ -119,13 +119,13 @@ lspconfig.ts_ls.setup({
     return util.root_pattern 'tsconfig.json' (fname) or util.root_pattern('package.json', 'jsconfig.json', '.git')(fname)
   end,
   on_attach = On_attach,
-  capabilities = capabilities
+  capabilities = __Globals.lsp_capabilities
 })
 
 lspconfig.texlab.setup({
   cmd = { vim.g.lsp_server_bin['texlab'] },
   on_attach = On_attach,
-  capabilities = capabilities
+  capabilities = __Globals.lsp_capabilities
 })
 
 lspconfig.tinymist.setup({
@@ -136,12 +136,12 @@ lspconfig.tinymist.setup({
   end,
   single_file_support = true,
   on_attach = On_attach,
-  capabilities = capabilities
+  capabilities = __Globals.lsp_capabilities
 })
 
 lspconfig.nim_langserver.setup({
   on_attach = On_attach,
-  capabilities = capabilities,
+  capabilities = __Globals.lsp_capabilities,
   cmd = { vim.g.lsp_server_bin['nimls'] },
   filetypes = { 'nim' },
   root_dir = function(fname)
@@ -152,7 +152,7 @@ lspconfig.nim_langserver.setup({
 
 lspconfig.bashls.setup({
   on_attach = On_attach,
-  capabilities = capabilities,
+  capabilities = __Globals.lsp_capabilities,
   cmd = { vim.g.lsp_server_bin['bashls'], 'start' },
   filetypes = { 'sh' },
   root_dir = util.find_git_ancestor,
@@ -182,21 +182,14 @@ if vim.g.tweaks.lsp.cpp == "clangd" then
   lspconfig.clangd.setup({
     cmd = { "clangd", "--background-index", "--malloc-trim",
       "--pch-storage=memory", "--log=error", "--header-insertion=never",
-      "--completion-style=detailed", "--function-arg-placeholders" },
+      "--completion-style=detailed", "--function-arg-placeholders=1" },
     filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
     root_dir = function(fname)
       return util.root_pattern(unpack(clangd_root_files))(fname) or util.find_git_ancestor(fname)
     end,
     single_file_support = true,
     on_attach = On_attach,
-    capabilities = {
-      textDocument = {
-        completion = {
-          editsNearCursor = true,
-        },
-      },
-      offsetEncoding = { "utf-8", "utf-16" },
-    },
+    capabilities = __Globals.lsp_capabilities,
     commands = {
       ClangdSwitchSourceHeader = {
         function()
@@ -225,13 +218,7 @@ if vim.g.tweaks.lsp.cpp == "ccls" then
       offset_encoding = "utf-32",
       -- ccls does not support sending a null root directory
       single_file_support = false,
-      capabilities = {
-        textDocument = {
-          completion = {
-            editsNearCursor = true,
-          }
-        }
-      }
+      capabilities = __Globals.lsp_capabilities
     },
     commands = {
       CclsSwitchSourceHeader = {
@@ -259,7 +246,7 @@ end
 lspconfig.rust_analyzer.setup({
   cmd = { vim.g.lsp_server_bin['rust_analyzer'] },
   on_attach = On_attach,
-  capabilities = capabilities,
+  capabilities = __Globals.lsp_capabilities,
   filetypes = { 'rust' },
   root_dir = function(fname)
     local cargo_crate_dir = util.root_pattern 'Cargo.toml' (fname)
@@ -319,7 +306,7 @@ lspconfig.rust_analyzer.setup({
   }
 })
 lspconfig.emmet_language_server.setup({
-  capabilities = capabilities,
+  capabilities = __Globals.lsp_capabilities,
   cmd = { vim.g.lsp_server_bin['emmet'], '--stdio' },
   filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass",
                 "scss", "svelte", "pug", "typescriptreact", "vue", "jsp" },
@@ -352,7 +339,7 @@ lspconfig.cssls.setup({
   root_dir = util.root_pattern('package.json', '.git'),
   single_file_support = true,
   on_attach = On_attach,
-  capabilities = capabilities,
+  capabilities = __Globals.lsp_capabilities,
   settings = {
     css = { validate = true },
     scss = { validate = true },
@@ -372,13 +359,13 @@ lspconfig.html.setup({
     configurationSection = { 'html', 'css', 'javascript' },
   },
   on_attach = On_attach,
-  capabilities = capabilities
+  capabilities = __Globals.lsp_capabilities
 })
 
 lspconfig.gopls.setup({
   on_attach = On_attach,
   cmd = { vim.g.lsp_server_bin['gopls'] },
-  capabilities = capabilities,
+  capabilities = __Globals.lsp_capabilities,
   single_file_support = true,
   filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
   settings = {
@@ -407,18 +394,12 @@ lspconfig.gopls.setup({
 lspconfig.vimls.setup({
   cmd = { vim.g.lsp_server_bin['vimlsp'], '--stdio' },
   on_attach = On_attach,
-  capabilities = capabilities
-})
-
-lspconfig.serve_d.setup({
-  cmd = { vim.g.lsp_server_bin['serve_d'] },
-  on_attach = On_attach,
-  capabilities = capabilities
+  capabilities = __Globals.lsp_capabilities
 })
 
 lspconfig.yamlls.setup({
   on_attach = On_attach,
-  capabilities = capabilities,
+  capabilities = __Globals.lsp_capabilities,
   cmd = { vim.g.lsp_server_bin['yamlls'], '--stdio' },
   filetypes = { 'yaml', 'yaml.docker-compose' },
   root_dir = util.find_git_ancestor,
@@ -428,13 +409,6 @@ lspconfig.yamlls.setup({
     redhat = { telemetry = { enabled = false } },
   }
 })
-
--- python pyright
---lspconfig.pyright.setup({
---  cmd = { vim.g.lsp_server_bin['pyright'], '--stdio' },
---  on_attach = On_attach,
---  capabilities = capabilities
---})
 
 -- markdown
 lspconfig.marksman.setup({
@@ -446,13 +420,13 @@ lspconfig.marksman.setup({
     return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname)
   end,
   single_file_support = true,
-  capabilities = capabilities
+  capabilities = __Globals.lsp_capabilities
 })
 
 -- xml
 lspconfig.lemminx.setup({
   on_attach = On_attach,
-  capabilities = capabilities,
+  capabilities = __Globals.lsp_capabilities,
   cmd = { vim.g.lsp_server_bin['lemminx'] },
   filetypes = { 'xml', 'xsd', 'xsl', 'xslt', 'svg' },
   root_dir = util.find_git_ancestor,
@@ -462,7 +436,7 @@ lspconfig.lemminx.setup({
 -- toml
 lspconfig.taplo.setup({
   on_attach = On_attach,
-  capabilities = capabilities,
+  capabilities = __Globals.lsp_capabilities,
   cmd = { vim.g.lsp_server_bin['taplo'], 'lsp', 'stdio' },
   filetypes = { 'toml' },
   root_dir = function(fname)
@@ -482,7 +456,7 @@ local lua_root_files = {
 }
 
 lspconfig.lua_ls.setup {
-  capabilities = capabilities,
+  capabilities = __Globals.lsp_capabilities,
   on_attach = On_attach,
   cmd = { vim.g.lsp_server_bin['lua_ls'], '--logpath=' .. vim.fn.stdpath("state") },
   root_dir = function(fname)
@@ -525,7 +499,7 @@ lspconfig.lua_ls.setup {
 }
 
 lspconfig.groovyls.setup {
-  capabilities = capabilities,
+  capabilities = __Globals.lsp_capabilities,
   on_attach = On_attach,
   cmd = { vim.g.lsp_server_bin['groovy'] },
   filetypes = { 'groovy' },
@@ -542,7 +516,8 @@ lspconfig.jsonls.setup {
   },
   root_dir = util.find_git_ancestor,
   single_file_support = true,
-  on_attach = On_attach
+  on_attach = On_attach,
+  capabilities = __Globals.lsp_capabilities
 }
 
 vim.g.zig_fmt_parse_errors = 0
@@ -559,7 +534,8 @@ lspconfig.zls.setup {
   end,
   filetypes = { "zig", "zir" },
   root_dir = util.root_pattern("zls.json", "build.zig", ".git"),
-  single_file_support = true
+  single_file_support = true,
+  capabilities = __Globals.lsp_capabilities
 }
 
 lspconfig.neocmake.setup {
@@ -568,7 +544,8 @@ lspconfig.neocmake.setup {
   root_dir = function(fname)
     return util.root_pattern(unpack({ '.git', 'build', 'cmake' }))(fname)
   end,
-  single_file_support = true
+  single_file_support = true,
+  capabilities = __Globals.lsp_capabilities
 }
 -- outsourced because it's too big
 if vim.g.tweaks.lsp.csharp == "omnisharp" then
