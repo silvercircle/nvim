@@ -111,6 +111,8 @@ local conf = {
     keyword = "blue",
     kwspec = "deepred",
     conditional = "blue",
+    ['repeat'] = "blue",
+    exception = "blue",
     kwfunc = "deepred",
     member = "orange",
     staticmember = "orange",
@@ -160,7 +162,8 @@ local conf = {
     c1 = '#ff0000',
     c2 = '#00ff00',
     c3 = '#303080',
-    c4 = '#ff00ff'
+    c4 = '#ff00ff',
+    c5 = '#ff00ff'
   },
   -- plugins. there are 3 kinds of plugins:
   -- customize: executed after configure() but before colors are set. Allows
@@ -268,10 +271,11 @@ local function configure()
 
   M.P.styled.fg = { M.T[conf.variant].fg , 1 }
   M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
-  M.P.styled.c1 = { conf.custom_colors.c1, 91 }
-  M.P.styled.c2 = { conf.custom_colors.c2, 92 }
-  M.P.styled.c3 = { conf.custom_colors.c3, 93 }
-  M.P.styled.c4 = { conf.custom_colors.c4, 94 }
+  M.P.c1 = { conf.custom_colors.c1, 91 }
+  M.P.c2 = { conf.custom_colors.c2, 92 }
+  M.P.c3 = { conf.custom_colors.c3, 93 }
+  M.P.c4 = { conf.custom_colors.c4, 94 }
+  M.P.c5 = { conf.custom_colors.c5, 94 }
 
   -- merge the variant-dependent colors
   M.P = vim.tbl_deep_extend("force", M.P, theme.variants(conf.variant))
@@ -315,7 +319,7 @@ local function set_all()
   M.hl("PunctDelim", M.P.styled.delim, M.NONE, conf.attrib.delim)
   M.hl("Delimiter", M.P.styled.delim, M.NONE, conf.attrib.delim)
   M.hl("PunctSpecial", M.P.styled.delim, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("ScrollView", M.P.teal, M.P.styled.c3)
+  M.hl_with_defaults("ScrollView", M.P.teal, M.P.c3)
   M.hl_with_defaults("Normal", M.P.fg, M.P.bg)
   M.hl_with_defaults("Accent", M.P.black, M.P.accent)
   M.hl_with_defaults("Terminal", M.P.fg, M.P.treebg)
@@ -410,10 +414,10 @@ local function set_all()
   M.hl("KeywordSpecial", M.P.styled.kwspec, M.NONE, conf.attrib.keyword)
   -- use extra color for coditional keywords (if, else...)?
   M.hl("Conditional", M.P.styled.conditional, M.NONE, conf.attrib.conditional)
+  M.hl("Repeat", M.P.styled['repeat'], M.NONE, conf.attrib['repeat'])
+  M.hl("Exception", M.P.styled.exception, M.NONE, conf.attrib.exception)
   M.hl_with_defaults("Define", M.P.red, M.NONE)
   M.hl("Typedef", M.P.red, M.NONE, conf.attrib.types)
-  M.hl("Exception", conf.theme_strings == "yellow" and M.P.green or M.P.yellow, M.NONE, conf.attrib.keyword)
-  M.hl("Repeat", M.P.blue, M.NONE, conf.attrib.keyword)
   M.hl("Statement", M.P.blue, M.NONE, conf.attrib.keyword)
   M.hl_with_defaults("Macro", M.P.styled.macro, conf.attrib.macro)
   M.hl_with_defaults("Error", M.P.red, M.NONE)
@@ -564,7 +568,6 @@ local function set_all()
   M.link("@constant.builtin", "Builtin")
   M.link("@constant.macro", "Macro")
   M.hl("@constructor", M.P.styled.constructor, M.NONE, {} )
-  M.link("@exception", "Exception")
   M.link("@field", "Member")
   M.link("@float", "Number")
   M.link("@function", "Teal")
@@ -577,9 +580,10 @@ local function set_all()
   M.link("@keyword.operator", "Operator")
   M.link("@keyword.conditional", "Conditional")
   M.link("@keyword.conditional.ternary", "Operator")
-  M.link("@keyword.repeat", "Conditional")
+  M.link("@keyword.repeat", "Repeat")
+  M.link("@keyword.exception", "Exception")
   M.link("@keyword.storage", "StorageClass")
-  M.link("@keyword.import", "Keyword")
+  M.link("@keyword.import", "KeywordSpecial")
   M.link("@label", "Red")
   M.link("@method", "Method")
   M.link("@namespace", "@module")
@@ -683,7 +687,7 @@ local function set_all()
   M.hl_with_defaults("NeoTreeFloatBorder", M.P.grey_dim, M.P.treebg)
   M.hl("NeoTreeFileNameOpened", M.P.blue, M.P.treebg, conf.attrib.italic)
   M.hl_with_defaults("SymbolsOutlineConnector", M.P.grey_dim, M.NONE)
-  M.hl_with_defaults("TreeCursorLine", M.NONE, M.P.styled.c3)
+  M.hl_with_defaults("TreeCursorLine", M.NONE, M.P.c3)
   M.hl_with_defaults("NotifierTitle", M.P.yellow, M.NONE)
   M.link("NotifierContent", "NeoTreeNormalNC")
 
