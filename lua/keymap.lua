@@ -143,15 +143,21 @@ vim.g.setkey({'n', 'i'}, '<C-a><C-e>', function()
 end, "Open Mini File Browser at project root")
 
 -- this is a bit hacky. it tries to find the root directory of the sources
--- in the current project. it assumes that sources are located in one of the 
+-- in the current project. it assumes that sources are located in one of the
 -- subfolders listed in Tweaks.srclocations. You can customize this if you want
 vim.g.setkey({'n', 'i'}, '<A-e>', function()
+  local found = false
   local path = utils.getroot_current()
   for _, v in ipairs(vim.g.tweaks.srclocations) do
     local res = vim.fs.joinpath(path, v)
     if vim.fn.isdirectory(res) == 1 then
+      found = true
       require("fzf-lua").files({ cwd = res, winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
     end
+  end
+  -- if we cannot find a source root, use the project root instead
+  if found == false and path ~= nil and vim.fn.isdirectory(path) then
+    require("fzf-lua").files({ cwd = path, winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
   end
 end, "Open Mini File Browser and guess sources root")
 

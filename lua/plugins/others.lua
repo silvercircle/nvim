@@ -304,7 +304,7 @@ M.setup = {
         window = {
           winblend = 0,
           normal_hl = "NormalFloat",
-          border = "single"
+          border = vim.g.tweaks.borderfactory("thicc")
         }
       }
     })
