@@ -200,7 +200,7 @@ function M.theme()
     },
     deepblack = {
       statuslinebg = "#222228",
-      bg = "#0a0a0a",
+      bg = "#080808",
       treebg = "#101010",
       floatbg = "#191919",
       gutterbg = "#0f0f0f",
