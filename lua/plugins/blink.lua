@@ -129,10 +129,13 @@ local blink_menu_hl_group = {
   wordlist = "CmpItemMenuBuffer"
 }
 
+local context_sources = {
+  default = { 'lsp', 'path', 'snippets', 'buffer' },
+  lua =     { 'lsp', 'path', 'snippets', 'lua', 'buffer' },
+  text =    { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'dictionary', 'buffer' },
+}
 require("blink.cmp").setup({
   appearance = {
-    -- Will be removed in a future release
-    use_nvim_cmp_as_default = T.use_cmp_hl,
     -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
     -- Adjusts spacing to ensure icons are aligned
     nerd_font_variant = "normal",
@@ -209,7 +212,16 @@ require("blink.cmp").setup({
     ["<C-k>"] = { }
   },
   sources = {
-    default = { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'lua', 'dictionary', 'buffer' },
+    -- default = { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'lua', 'dictionary', 'buffer' },
+    default = function(_)
+      if vim.bo.filetype == 'lua' then
+        return context_sources.lua
+      elseif vim.tbl_contains({ 'tex', 'markdown', 'typst', 'html' }, vim.bo.filetype) then
+        return context_sources.text
+      else
+        return context_sources.default
+      end
+    end,
     providers = {
       wordlist = {
         score_offset = 9,
@@ -294,8 +306,15 @@ require("blink.cmp").setup({
   completion = {
     accept = {
       create_undo_point = false,
+      resolve_timeout_ms = 50,
       auto_brackets = {
-        enabled = true
+        enabled = true,
+        kind_resolution = {
+          enabled = true
+        },
+        semantic_token_resolution = {
+          enabled = false
+        }
       }
     },
     trigger = {
