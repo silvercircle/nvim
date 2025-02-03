@@ -14,16 +14,26 @@ require("snacks").setup({
         jump = {
           close = true
         }
+      },
+      buffers = {
+        win = {
+          input = {
+            keys = {
+              ["<c-d>"] = { "bufdelete", mode = { "n", "i" } }
+            }
+          }
+        }
       }
     },
     ui_select = false,
     win = {
       input = {
         keys = {
-          ["<PageDown>"] = "list_scroll_down",
-          ["<PageUp>"] = "list_scroll_up",
-          ["<Home>"] = "list_top",
-          ["<End>"] = "list_bottom",
+          ["<PageDown>"] = { "list_scroll_down", mode = { 'i', 'n' } },
+          ["<PageUp>"] = { "list_scroll_up", mode = { 'i', 'n' } },
+          ["<Home>"] =  { "list_top", mode = { 'i', 'n' } },
+          ["<End>"] = { "list_bottom", mode = { 'i', 'n' } },
+          ["<A-q>"] = { "qflist", mode = { 'i', 'n' } },
         }
       },
       list = {
@@ -32,6 +42,7 @@ require("snacks").setup({
           ["<PageUp>"] = "list_scroll_up",
           ["<Home>"] = "list_top",
           ["<End>"] = "list_bottom",
+          ["<A-q>"] = { "qflist", mode = { 'i', 'n' } },
         },
         wo = {
           concealcursor = "nvc"

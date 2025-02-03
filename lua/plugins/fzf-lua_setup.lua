@@ -46,7 +46,7 @@ require "fzf-lua".setup({
       -- Only used with the builtin previewer:
       title        = true,          -- preview border title (file/buf)?
       title_pos  = "left",        -- left|center|right, title alignment
-      scrollbar    = "float",       -- `false` or string:'float|border'
+      scrollbar    = false,       -- `false` or string:'float|border'
       -- float:  in-window floating border
       -- border: in-border chars (see below)
       scrolloff    = "-2", -- float scrollbar offset from right
