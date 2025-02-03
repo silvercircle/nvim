@@ -410,13 +410,40 @@ lazy.setup({
         notifier = {
           enabled = vim.g.tweaks.notifier == "snacks" and true or false,
         },
+        explorer = {
+          replace_netrw = false
+        },
         picker = {
-          layout = {
-            height = 0.9,
-            border = "single",
-            preset = "vertical"
+          sources = {
+            explorer = {
+              auto_close = true,
+              jump = {
+                close = true
+              }
+            }
           },
-          ui_select = false
+          ui_select = false,
+          win = {
+            input = {
+              keys = {
+                ["<PageDown>"] = "list_scroll_down",
+                ["<PageUp>"] = "list_scroll_up",
+                ["<Home>"] = "list_top",
+                ["<End>"] = "list_bottom",
+              }
+            },
+            list = {
+              keys = {
+                ["<PageDown>"] = "list_scroll_down",
+                ["<PageUp>"] = "list_scroll_up",
+                ["<Home>"] = "list_top",
+                ["<End>"] = "list_bottom",
+              }
+            }
+          }
+        },
+        input = {
+          enabled = true
         },
         indent = {
           indent = {

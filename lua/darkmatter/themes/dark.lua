@@ -136,6 +136,7 @@ function M.attributes()
     conditional  = { bold = true },   -- if/then
     ['repeat']   = { bold = true },   -- loops
     exception    = { bold = true },
+    ['return']   = { bold = true },   -- return keyword(s)
     types        = {},                -- types (classes, interfaces)
     storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
     struct       = {},

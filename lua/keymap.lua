@@ -142,6 +142,9 @@ vim.g.setkey({'n', 'i'}, '<C-a><C-e>', function()
   require("fzf-lua").files({ cwd = utils.getroot_current(), winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
 end, "Open Mini File Browser at project root")
 
+vim.g.setkey({'n', 'i'}, '<A-E>', function()
+  require("snacks").picker.explorer({cwd = utils.getroot_current(), layout = { preview = false, layout = { position="float", width = 80, height = 0.9, left = 10, border = vim.g.tweaks.borderfactory("thicc") }}} )
+end, "Open Snacks Explorer")
 -- this is a bit hacky. it tries to find the root directory of the sources
 -- in the current project. it assumes that sources are located in one of the
 -- subfolders listed in Tweaks.srclocations. You can customize this if you want

@@ -537,9 +537,6 @@ function M.restore_config()
       light = vim.g.tweaks.indentguide.color.light
     },
     rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast,
-    tweaks = {
-      conditional = false
-    },
     custom_colors = {
       c1 = "#5a8aba"
     },
@@ -565,7 +562,7 @@ function M.restore_config()
         interface = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
         struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
         defaultlib = { italic = false },
-        attribute = { italic = false, bold = true }
+        attribute = { italic = false, bold = true },
       },
       light = {
         cmpkind = cmp_kind_attr,

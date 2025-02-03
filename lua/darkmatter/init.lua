@@ -113,6 +113,7 @@ local conf = {
     conditional = "blue",
     ['repeat'] = "blue",
     exception = "blue",
+    ['return'] = "blue",
     kwfunc = "deepred",
     member = "orange",
     staticmember = "orange",
@@ -416,6 +417,7 @@ local function set_all()
   M.hl("Conditional", M.P.styled.conditional, M.NONE, conf.attrib.conditional)
   M.hl("Repeat", M.P.styled['repeat'], M.NONE, conf.attrib['repeat'])
   M.hl("Exception", M.P.styled.exception, M.NONE, conf.attrib.exception)
+  M.hl("Return", M.P.styled['return'], M.NONE, conf.attrib['return'])
   M.hl_with_defaults("Define", M.P.red, M.NONE)
   M.hl("Typedef", M.P.red, M.NONE, conf.attrib.types)
   M.hl("Statement", M.P.blue, M.NONE, conf.attrib.keyword)
@@ -582,6 +584,7 @@ local function set_all()
   M.link("@keyword.conditional.ternary", "Operator")
   M.link("@keyword.repeat", "Repeat")
   M.link("@keyword.exception", "Exception")
+  M.link("@keyword.return", "Return")
   M.link("@keyword.storage", "StorageClass")
   M.link("@keyword.import", "KeywordSpecial")
   M.link("@label", "Red")
