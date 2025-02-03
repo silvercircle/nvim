@@ -195,7 +195,7 @@ function M.theme()
       statuslinebg = "#2a2626",
       bg = "#161414",
       treebg = "#1b1818",
-      floatbg = "1f2222",
+      floatbg = "#1f2222",
       gutterbg = "#131010",
       kittybg = "#1b1818",
       fg = "#aaa0a5",
