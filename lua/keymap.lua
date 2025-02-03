@@ -143,7 +143,7 @@ vim.g.setkey({'n', 'i'}, '<C-a><C-e>', function()
 end, "Open Mini File Browser at project root")
 
 vim.g.setkey({'n', 'i'}, '<A-E>', function()
-  require("snacks").picker.explorer({cwd = utils.getroot_current(), layout = { preview = false, layout = { position="float", width = 80, height = 0.9, left = 10, border = vim.g.tweaks.borderfactory("thicc") }}} )
+  require("snacks").picker.explorer({cwd = utils.getroot_current(), layout = __Globals.gen_snacks_picker_layout( { width = 70 }) })
 end, "Open Snacks Explorer")
 -- this is a bit hacky. it tries to find the root directory of the sources
 -- in the current project. it assumes that sources are located in one of the

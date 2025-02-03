@@ -96,10 +96,7 @@ require("scrollbar").setup({
     "mason",
     "lazy",
     "alpha",
-    "lspinfo",
     "NvimTree",
-    "neo-tree",
-    "neo-tree-popup",
     "cmp_menu",
     "cmp_docs",
     "blink-cmp-menu",
@@ -107,8 +104,10 @@ require("scrollbar").setup({
     "weather",
     "sysmon",
     "Glance",
-    "Navbuddy",
-    "fzf"
+    "fzf",
+    "snacks_picker_list",
+    "snacks_picker_input",
+    "snacks_input"
   },
   autocmd = {
     render = {

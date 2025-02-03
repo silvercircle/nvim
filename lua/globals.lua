@@ -907,4 +907,17 @@ function M.toggle_ghost()
   vim.notify("CMP/Blink ghost text is now " .. (__Globals.perm_config.cmp_ghost == true and "Enabled" or "Disabled"))
 end
 
+function M.gen_snacks_picker_layout(params)
+  -- local opts = params or { preview = false, width = 80, height = 0.8 }
+  local opts = params or {}
+  return {
+    preview = opts.preview or false,
+    layout = {
+      position = opts.position or "float",
+      width = opts.width or 80,
+      height = opts.height or 0.9,
+      border = opts.border and vim.g.tweaks.borderfactory(opts.border) or vim.g.tweaks.borderfactory("thicc")
+    }
+  }
+end
 return M
