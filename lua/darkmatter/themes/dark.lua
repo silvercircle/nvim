@@ -133,10 +133,11 @@ function M.attributes()
   return {
     comment      = {},
     keyword      = { bold = true },   -- keywords
-    conditional  = { bold = true },   -- if/then
-    ['repeat']   = { bold = true },   -- loops
-    exception    = { bold = true },
-    ['return']   = { bold = true },   -- return keyword(s)
+    kwspecial    = { bold = true },   -- keywords
+    kwconditional= { bold = true },   -- if/then
+    kwrepeat     = { bold = true },   -- loops
+    kwexception  = { bold = true },
+    kwreturn     = { bold = true },   -- return keyword(s)
     types        = {},                -- types (classes, interfaces)
     storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
     struct       = {},

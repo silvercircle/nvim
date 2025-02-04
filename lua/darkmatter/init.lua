@@ -110,10 +110,10 @@ local conf = {
     comment = "grey",
     keyword = "blue",
     kwspec = "deepred",
-    conditional = "blue",
-    ['repeat'] = "blue",
-    exception = "blue",
-    ['return'] = "blue",
+    kwconditional = "blue",
+    kwrepeat = "blue",
+    kwexception = "blue",
+    kwreturn = "blue",
     kwfunc = "deepred",
     member = "orange",
     staticmember = "orange",
@@ -412,12 +412,11 @@ local function set_all()
   M.hl("Include", M.P.styled.module, M.NONE, conf.attrib.module)
   M.hl("Boolean", M.P.styled.bool, M.NONE, conf.attrib.bool)
   M.hl("Keyword", M.P.styled.keyword, M.NONE, conf.attrib.keyword)
-  M.hl("KWSpecial", M.P.styled.kwspec, M.NONE, conf.attrib.keyword)
-  -- use extra color for coditional keywords (if, else...)?
-  M.hl("KWConditional", M.P.styled.conditional, M.NONE, conf.attrib.conditional)
-  M.hl("KWRepeat", M.P.styled['repeat'], M.NONE, conf.attrib['repeat'])
-  M.hl("KWException", M.P.styled.exception, M.NONE, conf.attrib.exception)
-  M.hl("KWReturn", M.P.styled['return'], M.NONE, conf.attrib['return'])
+  M.hl("KWSpecial", M.P.styled.kwspec, M.NONE, conf.attrib.kwspecial)
+  M.hl("KWConditional", M.P.styled.kwconditional, M.NONE, conf.attrib.kwconditional)
+  M.hl("KWRepeat", M.P.styled.kwrepeat, M.NONE, conf.attrib.kwrepeat)
+  M.hl("KWException", M.P.styled.kwexception, M.NONE, conf.attrib.kwexception)
+  M.hl("KWReturn", M.P.styled.kwreturn, M.NONE, conf.attrib.kwreturn)
   M.hl_with_defaults("Define", M.P.red, M.NONE)
   M.hl("Typedef", M.P.red, M.NONE, conf.attrib.types)
   M.hl("Statement", M.P.blue, M.NONE, conf.attrib.keyword)
