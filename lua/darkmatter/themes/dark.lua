@@ -205,9 +205,19 @@ function M.theme()
     deepblack = {
       statuslinebg = "#222228",
       bg = "#080808",
-      treebg = "#101010",
+      treebg = "#121212",
       floatbg = "#191919",
       gutterbg = "#0f0f0f",
+      kittybg = "#121212",
+      fg = "#b0b0b5",
+      fg_dim = "#95959c"
+    },
+    pitchblack = {
+      statuslinebg = "#222228",
+      bg = "#020202",
+      treebg = "#080808",
+      floatbg = "#101010",
+      gutterbg = "#020202",
       kittybg = "#121212",
       fg = "#b0b0b5",
       fg_dim = "#95959c"
