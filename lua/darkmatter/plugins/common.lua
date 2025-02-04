@@ -9,6 +9,7 @@
 -- * Navbuddy
 -- * Cokeline
 -- * Glance
+-- * snacks
 
 local function _set()
   local c = require("darkmatter")
@@ -206,6 +207,10 @@ local function _set()
   -- quick fix
   c.link("qfLineNr", "Number")
   c.link("qfFileName", "String")
+
+  -- snacks
+  c.link("SnacksInputTitle", "FloatTitle")
+
 end
 
 local M = {}
