@@ -43,7 +43,7 @@ local dressing_select_default = {
     show_numbers = false,
     -- These are passed to nvim_open_win
     -- anchor = "NW",
-    border = __Globals.perm_config.float_borders,
+    border = vim.g.tweaks.borderfactory(__Globals.perm_config.float_borders),
     -- 'editor' and 'win' will default to being centered
     relative = "editor",
 

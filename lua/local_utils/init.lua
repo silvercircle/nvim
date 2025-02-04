@@ -545,7 +545,7 @@ function Utils.command_center_theme(opts)
     borderchars = border_layout_prompt_top[__Globals.perm_config.telescope_borders],
     layout_config = {
       anchor = "N",
-      width = lopts.width or 100,
+      width = lopts.width or 120,
       height = lopts.height or 0.4,
       prompt_position = Config.cpalette_dropdown,
     },

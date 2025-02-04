@@ -5,6 +5,9 @@ require("snacks").setup({
   explorer = {
     replace_netrw = false
   },
+  projects = {
+    patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "CMakeFile.txt", "Cargo.toml", "*.nimble", "pom.xml", "settings.gradle", "*.sln", "build.zig", "go.mod", "*.gpr" }
+  },
   picker = {
     layout = { preset = "vertical", preview = false, layout = {width=80, border = vim.g.tweaks.borderfactory("double")} },
     sources = {
@@ -51,12 +54,19 @@ require("snacks").setup({
     }
   },
   input = {
-    enabled = true
+    enabled = true,
+    win = {
+      border = vim.g.tweaks.borderfactory(__Globals.perm_config.float_borders),
+      row = -5,
+      wo = {
+        winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder,FloatTitle:FloatTitle",
+      }
+    }
   },
   indent = {
     indent = {
       priority = 1,
-      enabled = true,             --vim.g.tweaks.indent.version == "snacks" and true or false,   -- enable indent guides
+      enabled = vim.g.tweaks.indent.version == "snacks" and true or false,   -- enable indent guides
       char = "│",
       only_scope = false,         -- only show indent guides of the scope
       only_current = false,       -- only show indent guides in the current window

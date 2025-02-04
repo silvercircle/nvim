@@ -419,7 +419,7 @@ lazy.setup({
           highlights = { "IndentBlankLineChar" },
         },
         scope = {
-          enabled = Config.nightly,
+          enabled = true,
           char = "┃",
           priority = 1024,
           -- set this to a single highlight, such as 'BlinkIndent' to disable rainbow-style indent guides
