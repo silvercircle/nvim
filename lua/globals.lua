@@ -913,6 +913,7 @@ function M.gen_snacks_picker_layout(params)
   return {
     preview = opts.preview or false,
     layout = {
+      backdrop = opts.backdrop or false,
       row = opts.row or nil,
       col = opts.col or nil,
       position = opts.position or "float",
@@ -920,6 +921,7 @@ function M.gen_snacks_picker_layout(params)
       min_height = opts.min_height or 20,
       min_width = opts.min_width or 40,
       height = opts.height or 0.9,
+      title = opts.title or nil,
       border = opts.border and vim.g.tweaks.borderfactory(opts.border) or vim.g.tweaks.borderfactory("thicc")
     }
   }

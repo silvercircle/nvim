@@ -3,13 +3,17 @@ require("snacks").setup({
     enabled = vim.g.tweaks.notifier == "snacks" and true or false,
   },
   explorer = {
-    replace_netrw = false
+    replace_netrw = true,
+    layout = {
+      preset = "vertical"
+    }
   },
   projects = {
-    patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "CMakeFile.txt", "Cargo.toml", "*.nimble", "pom.xml", "settings.gradle", "*.sln", "build.zig", "go.mod", "*.gpr" }
+    dev = { "/data/mnt/shared/data/", "/Media/NVIM/", "~/Downloads/Projects/" },
+    patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "pom.xml", "settings.gradle", "*.sln", "build.zig", "go.mod", "*.gpr" }
   },
   picker = {
-    layout = { preset = "vertical", preview = false, layout = {width=80, border = vim.g.tweaks.borderfactory("double")} },
+    layout = { preset = "vertical", layout = {backdrop = false, width=120, border = vim.g.tweaks.borderfactory("thicc")} },
     sources = {
       explorer = {
         auto_close = true,
@@ -49,6 +53,11 @@ require("snacks").setup({
         },
         wo = {
           concealcursor = "nvc"
+        }
+      },
+      preview = {
+        wo = {
+          number = true, relativenumber = true, signcolumn = "no"
         }
       }
     }

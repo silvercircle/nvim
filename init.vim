@@ -1,6 +1,9 @@
 " Set configuration variables
 lua << EOB
 vim.loader.enable()
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

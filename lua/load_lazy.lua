@@ -118,11 +118,16 @@ lazy.setup({
         end
       },
       {
-        'https://gitlab.com/silvercircle74/quickfavs.nvim',
+        dir = "/mnt/shared/data/code/neovim_plugins/quickfavs.nvim/",
+        -- 'https://gitlab.com/silvercircle74/quickfavs.nvim',
         lazy = true,
         config = function()
           require("quickfavs").setup({
-            telescope_theme = require("local_utils").Telescope_dropdown_theme
+            telescope_theme = require("local_utils").Telescope_dropdown_theme,
+            picker = "snacks",
+            snacks_layout = __Globals.gen_snacks_picker_layout( { width = 120, height = 10, row = 5 }),
+            fzf_winopts = vim.g.tweaks.fzf.winopts.narrow_small_preview,
+            explorer_layout = __Globals.gen_snacks_picker_layout( { width = 70 })
           })
         end
       }
