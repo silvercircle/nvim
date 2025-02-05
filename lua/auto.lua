@@ -279,7 +279,7 @@ autocmd({ 'FileType' }, {
       end
       vim.api.nvim_win_set_width(0, __Globals.perm_config.outline.width)
     elseif args.match == "DressingSelect" then
-      vim.cmd("setlocal winhl=CursorLine:TreeCursorLine | hi nCursor blend=100")
+      vim.cmd("setlocal winhl=CursorLine:TreeCursorLine | hi nCursor blend=100 | set statuscolumn=")
     elseif args.match == "DressingInput" then
       vim.cmd("hi nCursor blend=0")
     elseif args.match == "mail" then

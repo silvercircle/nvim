@@ -49,7 +49,8 @@ Tweaks.completion = {
   version = "blink"
 }
 
--- which indent plugin to use. Options are "blink" or "snacks"
+-- which indent guides plugin to use. Options are "blink" or "snacks"
+-- This plugin is responsible for drawing the indent guides.
 Tweaks.indent = {
   version = "snacks"
 }

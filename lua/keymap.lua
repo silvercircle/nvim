@@ -494,6 +494,13 @@ end, "Open Navbuddy window")
 require("local_utils.marks").set_keymaps()
 vim.cmd("nunmap <cr>")
 
-vim.g.setkey({ 'n', 'i', 'v' }, '<A-g>', function()
-  print(__Globals.get_selection())
-end, "Mini.Picker Buffer list")
+local status, snacks = pcall(require, "snacks")
+if status == true then
+  vim.g.setkey( 'n', '<C-S-P>', function()
+    snacks.picker.projects({ layout = __Globals.gen_snacks_picker_layout( {width = 50, height = 20, row = 5} ) })
+  end, "Open snacks projects picker")
+  vim.g.setkey( {'n', 'i'}, '<C-S-E>', function()
+    snacks.picker.buffers({ layout = __Globals.gen_snacks_picker_layout( {width = 120, height = 20, row = 5} ) })
+  end, "Snacks buffer list")
+
+end
