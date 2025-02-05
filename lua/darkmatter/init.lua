@@ -755,7 +755,7 @@ function M.disable()
   vim.cmd("hi! link NeoTreeNormalNC NeoTreeNormal")
 end
 
-local supported_variants = { "warm", "cold", "deepblack" }
+local supported_variants = { "warm", "cold", "deepblack", "pitchblack" }
 --- setup the theme
 --- @param opt table - the options to set. will be merged with local
 --- conf table.

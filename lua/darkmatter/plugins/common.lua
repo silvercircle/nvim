@@ -149,7 +149,7 @@ local function _set()
   c.link("TroubleNormal", "NeoTreeNormalNC")
 
   -- Glance plugin: https://github.com/DNLHC/glance.nvim
-  c.hl_with_defaults("GlancePreviewNormal", c.P.fg, c.P.black)
+  c.hl_with_defaults("GlancePreviewNormal", c.P.fg, c.P.treebg)
   c.hl_with_defaults("GlancePreviewMatch", c.P.yellow, c.NONE)
   c.hl_with_defaults("GlanceListMatch", c.P.yellow, c.NONE)
   c.link("GlanceListCursorLine", "Visual")
