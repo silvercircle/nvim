@@ -373,25 +373,26 @@ autocmd({ 'WinLeave' }, {
   group = agroup_hl
 })
 
-autocmd({ 'User'}, {
-  pattern = "MiniFilesWindowOpen",
-  callback = function()
-    vim.cmd("hi nCursor blend=100")
-    vim.cmd("setlocal winhl=MiniFilesCursorLine:Visual")
-  end
-})
-
-autocmd({ 'User'}, {
-  pattern = "MiniFilesExplorerClose",
-  callback = function()
-    vim.cmd("hi nCursor blend=0")
-  end
-})
-
 --- refresh the outline view when a LSP server attaches
 autocmd({ 'LspAttach' }, {
   pattern = "*",
   callback = function()
     require("outline").refresh()
+  end
+})
+
+local _delayloaded = false
+
+autocmd( { 'BufReadPost' }, {
+  callback = function()
+    if _delayloaded == true then
+      return
+    end
+    _delayloaded = true
+    local timer = vim.uv.new_timer()
+    timer:start(1000, 0, vim.schedule_wrap(function()
+      vim.notify("delay loading")
+      require("telescope")
+    end))
   end
 })

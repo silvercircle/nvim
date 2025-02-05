@@ -106,13 +106,21 @@ lazy.setup({
   {
     'nvim-telescope/telescope.nvim', --  branch = '0.1.x',
     lazy = true,
+    key = { "<A-p>", "<C-x> "},
     dependencies = {
-      { 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
+      --{ 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
+      {
+        "ibhagwan/fzf-lua",
+        lazy = true,
+        config = function()
+          require("plugins.fzf-lua_setup")
+        end
+      },
       {
         'FeiyouG/commander.nvim',
         version = "v0.1.0",
         -- dev = (vim.g.tweaks.use_foldlevel_patch == true) and true or false,
-        event = { "BufReadPost" },
+        -- event = { "BufReadPost" },
         config = function()
           require("plugins.command_center_setup")
         end
@@ -530,14 +538,6 @@ lazy.setup({
     end
   },
   {
-    'echasnovski/mini.files',
-    version = false,
-    lazy = true,
-    config = function()
-      require("plugins.others").setup.mini_files()
-    end
-  },
-  {
     'nvim-tree/nvim-tree.lua',
     cond = vim.g.tweaks.tree.version == "Nvim",
     lazy = true,
@@ -677,14 +677,6 @@ lazy.setup({
     cmd = { "Detour", "DetourCurrentWindow" },
     config = function()
       vim.keymap.set("n", "<c-w><enter>", ":DetourCurrentWindow<cr>")
-    end
-  },
-  {
-    "ibhagwan/fzf-lua",
-    lazy = true,
-    event = "BufReadPost",
-    config = function()
-      require("plugins.fzf-lua_setup")
     end
   },
   {
