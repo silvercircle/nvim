@@ -381,9 +381,16 @@ autocmd({ 'LspAttach' }, {
   end
 })
 
+local delcmd = nil
 local _delayloaded = false
 
-autocmd( { 'BufReadPost' }, {
+local function _delcmd()
+  if delcmd ~= nil and _delayloaded == true then
+    vim.api.nvim_del_autocmd(delcmd)
+  end
+end
+
+delcmd = autocmd( { 'BufReadPost' }, {
   callback = function()
     if _delayloaded == true then
       return
@@ -391,8 +398,9 @@ autocmd( { 'BufReadPost' }, {
     _delayloaded = true
     local timer = vim.uv.new_timer()
     timer:start(1000, 0, vim.schedule_wrap(function()
-      vim.notify("delay loading")
       require("telescope")
+      vim.schedule(function() _delcmd() end)
     end))
   end
 })
+

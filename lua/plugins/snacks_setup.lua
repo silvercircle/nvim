@@ -4,9 +4,7 @@ require("snacks").setup({
   },
   explorer = {
     replace_netrw = true,
-    layout = {
-      preset = "vertical"
-    }
+    layout = __Globals.gen_snacks_picker_layout( { input = "top", width = 80, psize = 12 } )
   },
   projects = {
     dev = { "/data/mnt/shared/data/", "/Media/NVIM/", "~/Downloads/Projects/" },
@@ -41,6 +39,8 @@ require("snacks").setup({
           ["<Home>"] =  { "list_top", mode = { 'i', 'n' } },
           ["<End>"] = { "list_bottom", mode = { 'i', 'n' } },
           ["<A-q>"] = { "qflist", mode = { 'i', 'n' } },
+          ["<C-Up>"] = { "preview_scroll_up", mode = { 'i', 'n' } },
+          ["<C-Down>"] = { "preview_scroll_down", mode = { 'i', 'n' } }
         }
       },
       list = {
@@ -50,14 +50,16 @@ require("snacks").setup({
           ["<Home>"] = "list_top",
           ["<End>"] = "list_bottom",
           ["<A-q>"] = { "qflist", mode = { 'i', 'n' } },
+          ["<C-Up>"] = { "preview_scroll_up", mode = { 'i', 'n' } },
+          ["<C-Down>"] = { "preview_scroll_down", mode = { 'i', 'n' } }
         },
         wo = {
-          concealcursor = "nvc"
+          concealcursor = "nvc", signcolumn = "no", foldcolumn = "0"
         }
       },
       preview = {
         wo = {
-          number = true, relativenumber = true, signcolumn = "no"
+          signcolumn = "no", foldcolumn = "0"
         }
       }
     }

@@ -90,6 +90,9 @@ lazy.setup({
     branch = "mine",
     lazy = true,
     event = "BufReadPost",
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+    },
     config = function()
       require("plugins.others").setup.fidget()
     end
@@ -119,8 +122,6 @@ lazy.setup({
       {
         'FeiyouG/commander.nvim',
         version = "v0.1.0",
-        -- dev = (vim.g.tweaks.use_foldlevel_patch == true) and true or false,
-        -- event = { "BufReadPost" },
         config = function()
           require("plugins.command_center_setup")
         end
@@ -133,7 +134,7 @@ lazy.setup({
           require("quickfavs").setup({
             telescope_theme = require("local_utils").Telescope_dropdown_theme,
             picker = "snacks",
-            snacks_layout = __Globals.gen_snacks_picker_layout( { width = 120, height = 10, row = 5 }),
+            snacks_layout = __Globals.gen_snacks_picker_layout( { width = 120, height = 10, row = 5, input = "top" }),
             fzf_winopts = vim.g.tweaks.fzf.winopts.narrow_small_preview,
             explorer_layout = __Globals.gen_snacks_picker_layout( { width = 70 })
           })
@@ -299,7 +300,7 @@ lazy.setup({
   {
     'neovim/nvim-lspconfig',
     lazy = true,
-    event = { "LspAttach" },
+    event = { "BufReadPost" },
     dependencies = {
       {
         "silvercircle/nvim-navic",

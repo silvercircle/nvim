@@ -910,10 +910,12 @@ end
 function M.gen_snacks_picker_layout(params)
   -- local opts = params or { preview = false, width = 80, height = 0.8 }
   local opts = params or {}
-  return {
+  local input_pos = opts.input or "bottom"
+  return input_pos == "bottom" and {
     preview = opts.preview or false,
     layout = {
       backdrop = opts.backdrop or false,
+      box = opts.box or "vertical",
       row = opts.row or nil,
       col = opts.col or nil,
       position = opts.position or "float",
@@ -922,8 +924,30 @@ function M.gen_snacks_picker_layout(params)
       min_width = opts.min_width or 40,
       height = opts.height or 0.9,
       title = opts.title or nil,
-      border = opts.border and vim.g.tweaks.borderfactory(opts.border) or vim.g.tweaks.borderfactory("thicc")
+      border = opts.border and vim.g.tweaks.borderfactory(opts.border) or vim.g.tweaks.borderfactory("thicc"),
+      { win = "preview", title = "{preview}", height = opts.psize or 10, border = "bottom" },
+      { win = "list",  border = "none" },
+      { win = "input", height = 1, border = "top" },
     }
+  } or {
+    preview = opts.preview or false,
+    layout = {
+      backdrop = opts.backdrop or false,
+      box = opts.box or "vertical",
+      row = opts.row or nil,
+      col = opts.col or nil,
+      position = opts.position or "float",
+      width = opts.width or 80,
+      min_height = opts.min_height or 20,
+      min_width = opts.min_width or 40,
+      height = opts.height or 0.9,
+      title = opts.title or nil,
+      border = opts.border and vim.g.tweaks.borderfactory(opts.border) or vim.g.tweaks.borderfactory("thicc"),
+      { win = "input", height = 1, border = "bottom" },
+      { win = "list",  border = "none" },
+      { win = "preview", title = "{preview}", height = opts.psize or 10, border = "top" },
+    }
+
   }
 end
 return M

@@ -143,7 +143,7 @@ vim.g.setkey({'n', 'i'}, '<C-a><C-e>', function()
 end, "Open Mini File Browser at project root")
 
 vim.g.setkey({'n', 'i'}, '<A-E>', function()
-  require("snacks").picker.explorer({cwd = utils.getroot_current(), layout = __Globals.gen_snacks_picker_layout( { width = 70 }) })
+  require("snacks").picker.explorer({cwd = utils.getroot_current(), layout = __Globals.gen_snacks_picker_layout( { width = 70, psize = 12, input = "top" }) })
 end, "Open Snacks Explorer")
 -- this is a bit hacky. it tries to find the root directory of the sources
 -- in the current project. it assumes that sources are located in one of the
@@ -497,10 +497,10 @@ vim.cmd("nunmap <cr>")
 local status, snacks = pcall(require, "snacks")
 if status == true then
   vim.g.setkey( 'n', '<C-S-P>', function()
-    snacks.picker.projects({ layout = __Globals.gen_snacks_picker_layout( {width = 50, height = 20, row = 5} ) })
+    snacks.picker.projects({ layout = __Globals.gen_snacks_picker_layout( {width = 50, height = 20, row = 5, title = "Projects" } ) })
   end, "Open snacks projects picker")
   vim.g.setkey( {'n', 'i'}, '<C-S-E>', function()
-    snacks.picker.buffers({ layout = __Globals.gen_snacks_picker_layout( {width = 120, height = 20, row = 5} ) })
+    snacks.picker.buffers({ layout = __Globals.gen_snacks_picker_layout( {width = 70, height = 20, row = 5, title = "Buffers", input = "top" } ) })
   end, "Snacks buffer list")
 
 end
