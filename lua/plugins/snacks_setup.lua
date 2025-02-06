@@ -1,3 +1,6 @@
+
+local chunklines = vim.g.tweaks.borderfactory(vim.g.tweaks.indent.chunk.lines)
+
 require("snacks").setup({
   notifier = {
     enabled = vim.g.tweaks.notifier == "snacks" and true or false,
@@ -68,7 +71,7 @@ require("snacks").setup({
     enabled = true,
     win = {
       border = vim.g.tweaks.borderfactory(__Globals.perm_config.float_borders),
-      row = -5,
+      row = -10,
       wo = {
         winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder,FloatTitle:FloatTitle",
       }
@@ -76,19 +79,19 @@ require("snacks").setup({
   },
   indent = {
     indent = {
-      priority = 1,
+      priority = 100,
       enabled = vim.g.tweaks.indent.version == "snacks" and true or false,   -- enable indent guides
       char = "│",
       only_scope = false,         -- only show indent guides of the scope
       only_current = false,       -- only show indent guides in the current window
       --hl = "IndentBlankLineChar", ---@type string|string[] hl groups for indent guides
-      hl = {
+      hl = vim.g.tweaks.indent.rainbow_guides == true and {
         "IndentBlanklineIndent1", "IndentBlanklineIndent2", "IndentBlanklineIndent3", "IndentBlanklineIndent4",
         "IndentBlanklineIndent5", "IndentBlanklineIndent6", "IndentBlanklineIndent1", "IndentBlanklineIndent2"
-      },
+      } or "IndentBlankLineChar",
     },
     animate = {
-      enabled = false,
+      enabled = vim.g.tweaks.indent.animate,
       style = "out",
       easing = "linear",
       duration = {
@@ -97,26 +100,26 @@ require("snacks").setup({
       },
     },
     scope = {
-      enabled = true,       -- enable highlighting the current scope
+      enabled = vim.g.tweaks.indent.scope.enabled,       -- enable highlighting the current scope
       priority = 200,
-      char = "┃",
+      char = vim.g.tweaks.indent.scope.char,
       underline = false,          -- underline the start of the scope
       only_current = false,       -- only show scope in the current window
-      hl = "Brown", ---@type string|string[] hl group for scopes
+      hl = vim.g.tweaks.indent.scope.hl ---@type string|string[] hl group for scopes
     },
     chunk = {
       -- when enabled, scopes will be rendered as chunks, except for the
       -- top-level scope which will be rendered as a scope.
-      enabled = true,
+      enabled = vim.g.tweaks.indent.chunk.enabled,
       -- only show chunk scopes in the current window
-      only_current = false,
+      only_current = true,
       priority = 200,
-      hl = "Brown", ---@type string|string[] hl group for chunk scopes
+      hl = vim.g.tweaks.indent.scope.hl, ---@type string|string[] hl group for scopes
       char = {
-        corner_top = "┏",
-        corner_bottom = "┗",
-        horizontal = "━",
-        vertical = "┃",
+        corner_top = chunklines[1],
+        corner_bottom = chunklines[7],
+        horizontal = chunklines[2],
+        vertical = chunklines[4],
         arrow = ">",
       }
     },
