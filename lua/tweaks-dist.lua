@@ -12,6 +12,15 @@
 --    from the repo.
 -- 3. for performance reasons, you can edit your mytweaks.lua and delete everything that
 --    you do not want to change. The file does not have to be complete.
+local borderstyles = {
+  single    = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
+  rounded   = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+  flat      = { " ", " ", " ", " ", " ", " ", " ", " " },
+  topflat   = { " ", " ", " ", "", " ", " ", " ", "" },
+  none      = { "", "", "", "", "", "", "", "" },
+  thicc     = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+  thiccc    = { "▛", "▀", "▜", "▐", "▟", "▄", "▙", "▌" },
+}
 local Tweaks = {}
 Tweaks.lsp = {}
 
@@ -249,23 +258,10 @@ Tweaks.cmp = {
 -- internal function to create the border characters. You can expand it with more styles
 -- and use them in the "decoration" option above.
 Tweaks.borderfactory = function(style)
-  if style == "single" then
-    return { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-  elseif style == "rounded" then
-    return { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
-  elseif style == "flat" then
-    return { " ", " ", " ", " ", " ", " ", " ", " " }
-  elseif style == "topflat" then
-    return { " ", " ", " ", "", " ", " ", " ", "" }
-  elseif style == "none" then
-    return { "", "", "", "", "", "", "", "" }
-  elseif style == "thicc" then
-    return { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" }
-  elseif style == "thiccc" then
-    return { "▛", "▀", "▜", "▐", "▟", "▄", "▙", "▌" }
+  if borderstyles[style] ~= nil then
+    return borderstyles[style]
   else
-    -- default to single
-    return { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+    return borderstyles.single
   end
 end
 

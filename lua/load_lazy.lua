@@ -531,14 +531,6 @@ lazy.setup({
     end
   },
   {
-    'echasnovski/mini.pick',
-    version = false,
-    lazy = true,
-    config = function()
-      require("plugins.others").setup.mini_pick()
-    end
-  },
-  {
     'nvim-tree/nvim-tree.lua',
     cond = vim.g.tweaks.tree.version == "Nvim",
     lazy = true,

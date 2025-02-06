@@ -302,54 +302,61 @@ function Utils.BufClose()
 end
 
 local fdm = {
-  { text = Utils.pad("Indent", 25, " "), val = "indent" },
-  { text = Utils.pad("Expression", 25, " "), val = "expr" },
-  { text = Utils.pad("Syntax", 25, " "), val = "syntax" },
-  { text = Utils.pad("Marker", 25, " "), val = "marker" },
-  { text = Utils.pad("Diff", 25, " "), val = "diff" },
-  { text = Utils.pad("Manual", 25, " "), val = "manual" },
+  { pos = 2, text = "Indent", val = "indent" },
+  { pos = 3, text = "Expression", val = "expr" },
+  { pos = 4, text = "Syntax", val = "syntax" },
+  { pos = 5, text = "Marker", val = "marker" },
+  { pos = 6, text = "Diff",  val = "diff" },
+  { pos = 7, text = "Manual", val = "manual" },
 }
 
---- use mini.pick to pick a folding method.
---- @param currentmode string: the current folding method will be placed on top of the list and highlighted
 function Utils.PickFoldingMode(currentmode)
+  local Snacks = require("snacks")
+  local Align = Snacks.picker.util.align
+  local maxlength = 0
+
   if currentmode == nil or currentmode == "" then
     return
   end
 
-  local pick = require("mini.pick")
-  local index = 0
-  for i, v in ipairs(fdm) do
-    if v.val == currentmode then
-      index = i
+  for _, v in ipairs(fdm) do
+    v.pos = v.val == currentmode and 1000 or 1
+    if #v.text > maxlength then
+      maxlength = #v.text
     end
   end
-  if index > 0 then
-    local swap = fdm[1]
-    fdm[1] = fdm[index]
-    fdm[index] = swap
-  end
-  pick.start({
-    source = {
-      items = fdm,
-      name = "Foldmethod",
-      choose = function(item)
-        if item.val ~= "none" then
-          __Globals.debugmsg("Selected folding method: " .. item.val)
+  return Snacks.picker({
+    layout = __Globals.gen_snacks_picker_layout({ height = #fdm, min_height = #fdm, width = maxlength + 6,
+                                        min_width = maxlength + 6, title = "Select Folding mode", input = "off" }),
+    focus = "list",
+    finder = function()
+      return fdm
+    end,
+    sort = {
+      fields = { "pos:desc" }
+    },
+    matcher = { sort_empty = true },
+    format = function(item, _)
+      local entry = {}
+      local pos = #entry
+
+      entry[pos + 1] = { Align(item.text, maxlength, { align="center" }), "Fg" }
+      return entry
+    end,
+    confirm = function(picker, item)
+      if item.val ~= "none" then
+        picker:close()
+        __Globals.debugmsg("Selected folding method: " .. item.val)
+        vim.schedule(function()
+          vim.o.foldmethod = item.val
+        end)
+        if item.val == "expr" then
           vim.schedule(function()
-            vim.o.foldmethod = item.val
+            vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
           end)
-          if item.val == "expr" then
-            vim.schedule(function()
-              vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-            end)
-          end
         end
-      end,
-    },
-    window = {
-      config = __Globals.mini_pick_center(25, 6, 0.3),
-    },
+      end
+    end
   })
 end
 

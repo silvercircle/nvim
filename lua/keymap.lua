@@ -500,7 +500,7 @@ if status == true then
     snacks.picker.projects({ layout = __Globals.gen_snacks_picker_layout( {width = 50, height = 20, row = 5, title = "Projects" } ) })
   end, "Open snacks projects picker")
   vim.g.setkey( {'n', 'i'}, '<C-S-E>', function()
-    snacks.picker.buffers({ layout = __Globals.gen_snacks_picker_layout( {width = 70, height = 20, row = 5, title = "Buffers", input = "top" } ) })
+    snacks.picker.smart({ layout = __Globals.gen_snacks_picker_layout( {width = 70, height = 20, row = 5, title = "Buffers", input = "top" } ) })
   end, "Snacks buffer list")
 
 end

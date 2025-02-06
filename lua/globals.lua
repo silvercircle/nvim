@@ -913,6 +913,7 @@ function M.gen_snacks_picker_layout(params)
   local input_pos = opts.input or "bottom"
   return (input_pos == "bottom" or input_pos == "off") and {
     preview = opts.preview or false,
+    preset = opts.preset or nil,
     layout = {
       backdrop = opts.backdrop or false,
       box = opts.box or "vertical",
@@ -931,6 +932,7 @@ function M.gen_snacks_picker_layout(params)
     }
   } or {
     preview = opts.preview or false,
+    preset = opts.preset or nil,
     layout = {
       backdrop = opts.backdrop or false,
       box = opts.box or "vertical",
@@ -949,5 +951,44 @@ function M.gen_snacks_picker_layout(params)
     }
 
   }
+end
+
+function M.testpicker()
+  local Snacks = require("snacks")
+  local Align = Snacks.picker.util.align
+  local maxlength = 0
+
+  local items = {
+    { text = "The first item", value = 2 },
+    { text = "The second item, quite long", value = 1 },
+    { text = "The third item", value = 1000 },
+  }
+  for _, v in ipairs(items) do
+    if #v.text > maxlength then
+      maxlength = #v.text
+    end
+  end
+  return Snacks.picker({
+    finder = function()
+      return items
+    end,
+    layout = M.gen_snacks_picker_layout({ height = #items, min_height = #items, width = maxlength + 2,
+                                        min_width = maxlength + 2, title = "Testpicker", input = "off" }),
+    focus = "list",
+    format = function(item, _)
+      vim.notify(vim.inspect(item))
+      local entry = {}
+      local pos = #entry
+
+      entry[pos + 1] = { Align(item.text, maxlength, { align="center" }), "String" }
+      return entry
+    end,
+    sort = {
+      fields = { "value:desc" }
+    },
+    matcher = {
+      sort_empty = true
+    }
+  })
 end
 return M
