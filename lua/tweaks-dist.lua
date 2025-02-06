@@ -52,7 +52,30 @@ Tweaks.completion = {
 -- which indent guides plugin to use. Options are "blink" or "snacks"
 -- This plugin is responsible for drawing the indent guides.
 Tweaks.indent = {
-  version = "snacks"
+  version = "snacks",
+  rainbow_guides = true,
+  -- colors for the non-rainbow lines
+  color = {
+    -- the color for light- and dark background themes.
+    light = "#808080",
+    dark = "#404040"
+  },
+  -- this works only with the snacks version
+  animate = false,
+  -- mark the current scope
+  scope = {
+    enabled = true,
+    char = "┃",
+    hl = "Brown"
+  },
+  -- chunk only works with the snacks version
+  chunk = {
+    enabled = true,
+    -- line variant, allowed are: "normal", "thicc" and "rounded"
+    -- the actual characters are produced by the borderfactory()
+    -- function (see below)
+    lines = "normal",
+  }
 }
 
 -- telescope field widths. These depend on the characters per line in the terminal
@@ -341,19 +364,6 @@ Tweaks.jdtls = {
 -- incomplete and inaccurate, but you can expand this with whatever you want.
 Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "settings.gradle", "pom.xml", "*.sln", "build.zig", "go.mod", "go.sum" }
 Tweaks.srclocations = { "src", "source", "sources", "SRC", "Src", "SOURCE", "Source", "Sources", "lua" }
--- tweaks for the indent guides
-Tweaks.indentguide = {
-  -- character used by the indent-blankline plugin to draw vertical indent guides
-  -- a light dotted line, sometimes barely visible
-  --char = "",
-  -- solid, thicker line
-  char = "│",
-  color = {
-    -- the color for light- and dark background themes.
-    light = "#808080",
-    dark = "#404040"
-  }
-}
 Tweaks.cokeline = {
   enabled = true,
   closebutton = false,

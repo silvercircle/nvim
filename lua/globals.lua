@@ -533,8 +533,8 @@ function M.restore_config()
     kittenexec = vim.g.tweaks.theme.kittenexec,
     callback = M.theme_callback,
     indentguide_colors = {
-      dark = vim.g.tweaks.indentguide.color.dark,
-      light = vim.g.tweaks.indentguide.color.light
+      dark = vim.g.tweaks.indent.color.dark,
+      light = vim.g.tweaks.indent.color.light
     },
     rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast,
     custom_colors = {
@@ -911,7 +911,7 @@ function M.gen_snacks_picker_layout(params)
   -- local opts = params or { preview = false, width = 80, height = 0.8 }
   local opts = params or {}
   local input_pos = opts.input or "bottom"
-  return input_pos == "bottom" and {
+  return (input_pos == "bottom" or input_pos == "off") and {
     preview = opts.preview or false,
     layout = {
       backdrop = opts.backdrop or false,
@@ -927,7 +927,7 @@ function M.gen_snacks_picker_layout(params)
       border = opts.border and vim.g.tweaks.borderfactory(opts.border) or vim.g.tweaks.borderfactory("thicc"),
       { win = "preview", title = "{preview}", height = opts.psize or 10, border = "bottom" },
       { win = "list",  border = "none" },
-      { win = "input", height = 1, border = "top" },
+      input_pos ~= "off" and { win = "input", height = 1, border = "top" } or nil,
     }
   } or {
     preview = opts.preview or false,
@@ -943,7 +943,7 @@ function M.gen_snacks_picker_layout(params)
       height = opts.height or 0.9,
       title = opts.title or nil,
       border = opts.border and vim.g.tweaks.borderfactory(opts.border) or vim.g.tweaks.borderfactory("thicc"),
-      { win = "input", height = 1, border = "bottom" },
+      input_pos ~= "off" and { win = "input", height = 1, border = "bottom" } or nil,
       { win = "list",  border = "none" },
       { win = "preview", title = "{preview}", height = opts.psize or 10, border = "top" },
     }
