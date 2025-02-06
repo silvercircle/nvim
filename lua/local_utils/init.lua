@@ -593,7 +593,8 @@ function Utils.notification_history()
     require("detour").DetourCurrentWindow()
     require("mini.notify").show_history()
   elseif vim.g.tweaks.notifier == "fidget" then
-    require("plugins.fidgethistory").open()
+    require("plugins.fidgethistory_snacks").open( {
+            layout = __Globals.gen_snacks_picker_layout( { preview = true, width=120, height = 40, input = "top", psize = 20, row = 8 } ) } )
   elseif vim.g.tweaks.notifier == "nvim-notify" then
     require("telescope").extensions.notify.notify(__Telescope_vertical_dropdown_theme({
         width_text = 40,

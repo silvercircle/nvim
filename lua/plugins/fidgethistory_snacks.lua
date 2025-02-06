@@ -58,7 +58,7 @@ local snacks_fidgethistory = function(layout)
     prompt_title = "Filter notifications",
     finder = function()
       for _, item in ipairs(notifs) do
-        item.text = (item.annotate or "") .. item.group_name .. " " .. item.message
+        item.text = (item.annote or "") .. item.group_name .. " " .. item.message
       end
       return notifs
     end,
@@ -74,23 +74,16 @@ local snacks_fidgethistory = function(layout)
       entry[pos + 2] = { align(utils.truncate(item.group_name, cols.group.width - 1),
                          cols.group.width ), cols.group.hl}
       entry[pos + 3] = { align(item.group_icon or " ", 3), item.style or "DeepRedBold" }
-      entry[pos + 4] = { align(utils.truncate(item.annote and (" (" .. item.annote .. ")") or "No source",
+      entry[pos + 4] = { align(utils.truncate(item.annote and (" (" .. item.annote .. ")") or " (No Information)",
                          cols.title.width - 1), cols.title.width), cols.title.hl }
-      entry[pos + 5] = { align(item.content_key or item.message, message_width, { align = "right" }), item.style or "DeepRedBold" }
+      entry[pos + 5] = { align(utils.truncate(item.message or item.content_key, message_width - 1), message_width, { align = "right" }), item.style or "DeepRedBold" }
 
       return entry
     end,
     sort = {
-      fields = {
-        'last_updated:desc'
-      }
+      fields = { 'last_updated:desc'  }
     },
-    filter = {
-
-    },
-    confirm = function(picker, item)
-      -- picker:close()
-      print(vim.inspect(item))
+    confirm = function(_, item)
       local event = require("nui.utils.autocmd").event
       local status, popup = pcall(require, "nui.popup")
       if status == true then
@@ -114,7 +107,7 @@ local snacks_fidgethistory = function(layout)
           },
           size = {
             width = 100,
-            height = 10,
+            height = 15,
           },
         })
         p:mount()
