@@ -106,7 +106,7 @@ function M.basepalette(desaturate, dlevel)
 end
 
 function M.variants(variant)
-    if variant == "cold" or variant == "deepblack" then
+    if variant ~= "warm" then
       return {
         black = { "#121215", 232 },
         bg_dim = { "#222327", 232 },
