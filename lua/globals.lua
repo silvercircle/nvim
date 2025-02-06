@@ -921,8 +921,8 @@ function M.gen_snacks_picker_layout(params)
       col = opts.col or nil,
       position = opts.position or "float",
       width = opts.width or 80,
-      min_height = opts.min_height or 20,
-      min_width = opts.min_width or 40,
+      min_height = opts.height,
+      min_width = opts.width,
       height = opts.height or 0.9,
       title = opts.title or nil,
       border = opts.border and vim.g.tweaks.borderfactory(opts.border) or vim.g.tweaks.borderfactory("thicc"),
@@ -940,8 +940,8 @@ function M.gen_snacks_picker_layout(params)
       col = opts.col or nil,
       position = opts.position or "float",
       width = opts.width or 80,
-      min_height = opts.min_height or 20,
-      min_width = opts.min_width or 40,
+      min_height = opts.height,
+      min_width = opts.width,
       height = opts.height or 0.9,
       title = opts.title or nil,
       border = opts.border and vim.g.tweaks.borderfactory(opts.border) or vim.g.tweaks.borderfactory("thicc"),
@@ -953,42 +953,4 @@ function M.gen_snacks_picker_layout(params)
   }
 end
 
-function M.testpicker()
-  local Snacks = require("snacks")
-  local Align = Snacks.picker.util.align
-  local maxlength = 0
-
-  local items = {
-    { text = "The first item", value = 2 },
-    { text = "The second item, quite long", value = 1 },
-    { text = "The third item", value = 1000 },
-  }
-  for _, v in ipairs(items) do
-    if #v.text > maxlength then
-      maxlength = #v.text
-    end
-  end
-  return Snacks.picker({
-    finder = function()
-      return items
-    end,
-    layout = M.gen_snacks_picker_layout({ height = #items, min_height = #items, width = maxlength + 2,
-                                        min_width = maxlength + 2, title = "Testpicker", input = "off" }),
-    focus = "list",
-    format = function(item, _)
-      vim.notify(vim.inspect(item))
-      local entry = {}
-      local pos = #entry
-
-      entry[pos + 1] = { Align(item.text, maxlength, { align="center" }), "String" }
-      return entry
-    end,
-    sort = {
-      fields = { "value:desc" }
-    },
-    matcher = {
-      sort_empty = true
-    }
-  })
-end
 return M

@@ -33,7 +33,7 @@ require("snacks").setup({
         }
       }
     },
-    ui_select = false,
+    ui_select = true,
     win = {
       input = {
         keys = {

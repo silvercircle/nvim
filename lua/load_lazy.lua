@@ -494,13 +494,13 @@ lazy.setup({
       }
     }
   },
-  {
-    'stevearc/dressing.nvim',
-    event = { "UIEnter" },
-    config = function()
-      require("plugins.dressing")
-    end
-  },
+  --{
+  --  'stevearc/dressing.nvim',
+  --  event = { "UIEnter" },
+  --  config = function()
+  --    require("plugins.dressing")
+  --  end
+  --},
   {
     'akinsho/toggleterm.nvim',
     lazy = true,

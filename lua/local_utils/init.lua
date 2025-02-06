@@ -36,6 +36,17 @@ function Utils.getFileSymbol(filename)
   return symbol, hl
 end
 
+function Utils.getLongestString(items, labelname)
+  local maxlength = 0
+
+  for _, v in ipairs(items) do
+    if vim.fn.strwidth(v[labelname]) > maxlength then
+      maxlength = vim.fn.strwidth(v[labelname])
+    end
+  end
+  return maxlength
+end
+
 --- output a debug message
 --- @param msg string - what's to be printed
 --- does nothing when conf.debugmode = false (default)
@@ -274,25 +285,42 @@ function Utils.BufClose()
   end
 
   if vim.api.nvim_buf_get_option(0, "modified") == true then
+    local items = {
+      { cmd = "save", text = "Save and Close", hl = "Number" },
+      { cmd = "discard", text = "Close and discard", hl = "DeepRedBold" },
+      { cmd = "cancel", text = "Cancel operation", hl = "Keyword" },
+    }
+    local maxlength = Utils.getLongestString(items, "text")
+
     if vim.g.confirm_actions["close_buffer"] == true then
-      vim.ui.select({ "Save and Close", "Close and discard", "Cancel Operation" }, {
-        prompt = "Close modified buffer?",
-        format_item = function(item)
-          return Utils.pad(item, 46, " ")
+      local Snacks = require("snacks")
+      local Align = Snacks.picker.util.align
+      return Snacks.picker({
+        finder = function()
+          return items
+        end,
+        focus = "list",
+        layout = __Globals.gen_snacks_picker_layout( { input = "off", height = 3, width = maxlength + 8, title = "File modified" } ),
+        format = function(item)
+          local entry = {}
+          entry[#entry + 1] = { Align(item.text, maxlength + 6, { align="center" }), item.hl }
+          return entry
+        end,
+        confirm = function(picker, item)
+          picker:close()
+          if item.cmd == "cancel" then
+            return
+          elseif item.cmd == "save" then
+            vim.cmd(saveclosecmd)
+            return
+          elseif item.cmd == "discard" then
+            vim.cmd(closecmd)
+            return
+          else
+            return
+          end
         end
-      }, function(choice)
-        if choice == "Cancel Operation" then
-          return
-        elseif choice == "Save and Close" then
-          vim.cmd(saveclosecmd)
-          return
-        elseif choice == "Close and discard" then
-          vim.cmd(closecmd)
-          return
-        else
-          return
-        end
-      end)
+      })
     else
       vim.cmd(closecmd)
     end
@@ -310,24 +338,19 @@ local fdm = {
   { pos = 7, text = "Manual", val = "manual" },
 }
 
+local fdm_maxlength = Utils.getLongestString(fdm, "text")
+
 function Utils.PickFoldingMode(currentmode)
   local Snacks = require("snacks")
   local Align = Snacks.picker.util.align
-  local maxlength = 0
 
   if currentmode == nil or currentmode == "" then
     return
   end
 
-  for _, v in ipairs(fdm) do
-    v.pos = v.val == currentmode and 1000 or 1
-    if #v.text > maxlength then
-      maxlength = #v.text
-    end
-  end
   return Snacks.picker({
-    layout = __Globals.gen_snacks_picker_layout({ height = #fdm, min_height = #fdm, width = maxlength + 6,
-                                        min_width = maxlength + 6, title = "Select Folding mode", input = "off" }),
+    layout = __Globals.gen_snacks_picker_layout({ height = #fdm, width = fdm_maxlength + 6,
+                                                  title = "Select Folding", input = "off" }),
     focus = "list",
     finder = function()
       return fdm
@@ -338,9 +361,8 @@ function Utils.PickFoldingMode(currentmode)
     matcher = { sort_empty = true },
     format = function(item, _)
       local entry = {}
-      local pos = #entry
 
-      entry[pos + 1] = { Align(item.text, maxlength, { align="center" }), "Fg" }
+      entry[#entry + 1] = { Align(item.text, fdm_maxlength + 4, { align="center" }), "Fg" }
       return entry
     end,
     confirm = function(picker, item)
@@ -363,52 +385,59 @@ end
 function Utils.Quitapp()
   local bufs = vim.api.nvim_list_bufs()
   local have_modified_buf = false
+  local menuitems = {}
+  local prompt = ""
+  local Snacks = require("snacks")
+  local Align = Snacks.picker.util.align
 
   for _, bufnr in ipairs(bufs) do
     if vim.api.nvim_buf_get_option(bufnr, "modified") == true then
       have_modified_buf = true
     end
   end
-  if have_modified_buf == false then
-    -- no modified files, but we want to confirm exit anyway
-    if vim.g.confirm_actions["exit"] == true then
-      vim.ui.select({ "Really exit?", "Cancel operation" }, {
-        prompt = "Exit (no modified buffers)",
-        border = "single",
-        format_item = function(item)
-          return Utils.pad(item, 40, " ")
-        end,
-      }, function(choice)
-        if choice == "Really exit?" then
-          vim.cmd("qa!")
-        else
-          return
-        end
-      end)
-    else
-      vim.cmd("qa!")
-    end
-  else
-    -- let the user choose (save all, discard all, cancel)
 
-    vim.ui.select({ "Save all modified buffers and exit",
-                    "Discard all modified buffers and exit",
-                    "Cancel operation" }, {
-      prompt = "Exit (all unsaved changes are lost)",
-      format_item = function(item)
-        return Utils.pad(item, 41, " ")
-      end,
-    }, function(choice)
-      if choice == "Discard all modified buffers and exit" then
+  if have_modified_buf == false then
+    menuitems = {
+      { cmd = "hardexit", text = "Really exit?", hl = "DeepRedBold" },
+      { cmd = "cancel", text = "Cancel operation", hl = "Keyword" }
+    }
+    prompt = "Exit (no modified buffers)"
+  else
+    prompt = "Exit (all unsaved changes are lost)"
+    menuitems = {
+      { cmd = "save", text = "Save all modified buffers and exit", hl = "Number" },
+      { cmd = "discard", text = "Discard all modified buffers and exit", hl = "DeepRedBold" },
+      { cmd = "cancel", text = "Cancel operation", hl = "Keyword" }
+    }
+  end
+
+  local maxlength = Utils.getLongestString(menuitems, "text")
+  maxlength = #prompt > maxlength and #prompt or maxlength
+
+  vim.cmd.stopinsert()
+  return Snacks.picker({
+    finder = function()
+      return menuitems
+    end,
+    focus = "list",
+    layout = __Globals.gen_snacks_picker_layout( {input = "off", width = maxlength + 6, height = #menuitems, title = prompt } ),
+    format = function(item)
+      local entry = {}
+      entry[#entry + 1] = { Align(item.text, maxlength + 4, { align="center" }), item.hl }
+      return entry
+    end,
+    confirm = function(picker, item)
+      picker:close()
+      if item.cmd == "hardexit" or item.cmd == "discard" then
         vim.cmd("qa!")
-      elseif choice == "Save all modified buffers and exit" then
+      elseif item.cmd == "cancel" then
+        return
+      elseif item.cmd == "save" then
         vim.cmd("wa!")
         vim.cmd("qa!")
-      else
-        return
       end
-    end)
-  end
+    end
+  })
 end
 
 -----------------------------------------------------------------

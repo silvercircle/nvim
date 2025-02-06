@@ -113,7 +113,10 @@ map('n', '<leader>v', '}kV{j', opts) -- select current paragraph
 
 vim.g.setkey({'i', 'n', 'v'}, '<C-s><C-s>', function() perform_command("update!") end, "Save file")
 
-vim.g.setkey({'n', 'i', 'v'}, '<C-s><C-c>', function() require("local_utils").BufClose() end, "Close Buffer")
+vim.g.setkey({'n', 'i', 'v'}, '<C-s><C-c>', function()
+  vim.cmd.stopinsert()
+  vim.schedule(function() require("local_utils").BufClose() end)
+end, "Close Buffer")
 vim.g.setkey({'n', 'i', 'v'}, '<f5>', function() perform_command('nohl') end, "Clear highlighted search results")
 
 vim.g.setkey('i', '<C-z>', function() perform_command("undo") end, "Undo (insert mode)")
@@ -277,8 +280,9 @@ vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-g>', function()
   end
 end, "Declutter status line")
 
-vim.g.setkey('n', '<A-q>', function()
-  utils.Quitapp()
+vim.g.setkey({'n', 'i'}, '<A-q>', function()
+  vim.cmd.stopinsert()
+  vim.schedule(function() utils.Quitapp() end)
 end, "Quit Neovim")
 vim.g.setkey({ 'n', 'i' }, '<C-e>', function()
   require('telescope.builtin').buffers(
