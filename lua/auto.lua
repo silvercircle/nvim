@@ -346,7 +346,7 @@ autocmd({ 'WinEnter' }, {
     end
     -- HACK: NvimTree and outline windows will complain about the buffer being not modifiable
     -- when insert mode is active. So stop it and remember its state
-    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial" then
+    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "Outline" then
       old_mode = vim.api.nvim_get_mode().mode
       vim.cmd.stopinsert()
     end
@@ -363,7 +363,7 @@ autocmd({ 'WinLeave' }, {
     end
     -- HACK: restore the insert mode if it was active when changing to the NvimTree or outline
     -- split.
-    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "Outline" or filetype == "aerial" then
+    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "Outline" then
       if old_mode == 'i' then
         old_mode = ''
         vim.cmd.startinsert()
