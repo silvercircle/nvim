@@ -45,17 +45,16 @@ local snacks_fidgethistory = function(layout)
   local Snacks = require("snacks")
   local utils = require("local_utils")
   local cols = conf.snacks_picker_cols
+  local align = Snacks.picker.util.align
 
   local notifs = notify.get_history()
   --local reversed = {}
   --for i, notif in ipairs(notifs) do
   --  reversed[#notifs - i + 1] = notif
   --end
-
+  layout.layout.title = "Fidget notification history"
   local message_width = layout.layout.width - cols.timestamp.width - cols.group.width - cols.title.width - 5
   return Snacks.picker({
-    results_title = "Fidget notification history",
-    prompt_title = "Filter notifications",
     finder = function()
       for _, item in ipairs(notifs) do
         item.text = (item.annote or "") .. item.group_name .. " " .. item.message
@@ -67,7 +66,6 @@ local snacks_fidgethistory = function(layout)
     layout = layout,
     format = function(item, _)
       local entry = {}
-      local align = Snacks.picker.util.align
       local pos = #entry
 
       entry[pos + 1] = { align(vim.fn.strftime(conf.dateformat.short, item.last_updated), cols.timestamp.width), cols.timestamp.hl }
@@ -82,6 +80,9 @@ local snacks_fidgethistory = function(layout)
     end,
     sort = {
       fields = { 'last_updated:desc'  }
+    },
+    matcher = {
+      sort_empty = true
     },
     confirm = function(_, item)
       local event = require("nui.utils.autocmd").event
