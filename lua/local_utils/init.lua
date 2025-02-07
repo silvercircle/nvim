@@ -204,72 +204,85 @@ end
 
 --- simple telescope picker to list active LSP servers. Allows to terminate a server on selection.
 function Utils.StopLsp()
+  local Snacks = require("snacks")
+  local Align = Snacks.picker.util.align
   local entries = {}
   local clients = vim.lsp.get_active_clients()
+
   for _, client in ipairs(clients) do
     local attached = client["attached_buffers"]
     local count = 0
     for _ in pairs(attached) do count = count + 1 end
-    local entry = Utils.rpad(tostring(client["id"]), 10, " ")
-      .. Utils.rpad(client["name"], 30, " ")
-      .. Utils.rpad(count .. " Buffer(s)  ", 15, " ")
-      .. (type(client["config"]["cmd"]) == "table" and Utils.rpad(vim.fn.fnamemodify(client["config"]["cmd"][1], ":t"), 40, " ") or client["name"])
+    local entry = {
+      id      = client["id"],
+      name    = client["name"],
+      buffers = count,
+      type = (type(client["config"]["cmd"]) == "table" and (vim.fn.fnamemodify(client["config"]["cmd"][1], ":t")) or client["name"]),
+      text = client['name']
+    }
     table.insert(entries, entry)
   end
-  local pickers = require("telescope.pickers")
-  local finders = require("telescope.finders")
-  local tconf = require("telescope.config").values
-  local actions = require("telescope.actions")
-  local action_state = require("telescope.actions.state")
 
-  local function do_terminate(prompt_bufnr)
-    local current_picker = action_state.get_current_picker(prompt_bufnr)
-    local selection = action_state.get_selected_entry()
-    if selection[1] ~= nil and #selection[1] > 0 then
-      local id = tonumber(string.sub(selection[1], 1, 6))
-      if id ~= nil and id > 0 then
-        if #vim.lsp.get_buffers_by_client_id(id) > 0 then
-          vim.notify("The LSP server with id " .. id .. " has attached buffers. Will not terminate.")
-        else
-          current_picker:delete_selection(function(_) end)
-          vim.lsp.stop_client(id, true)
-        end
+  --- terminate the client given by id
+  --- @param id number client id
+  --- @oaram nrbufs number the number of attached buffers
+  local function do_terminate(id, picker)
+    if id ~= nil and id > 0 then
+      if #vim.lsp.get_buffers_by_client_id(id) > 0 then
+        vim.notify("The LSP server with id " .. id .. " has attached buffers and cannot be terminated.")
+      else
+        vim.lsp.stop_client(id, true)
+        entries = vim.iter(entries):filter(function(k, _)
+          if k.id == id then return nil else return k end
+        end):totable()
+        picker:find()
+        collectgarbage("collect")
       end
     end
   end
 
-  local lspselector = function(opts)
-    opts = opts or {}
-    pickers
-      .new(opts, {
-        layout_config = {
-          horizontal = {
-            prompt_position = "bottom",
-          },
-        },
-        finder = finders.new_table({
-          results = entries,
-        }),
-        sorter = tconf.generic_sorter(opts),
-        attach_mappings = function(prompt_bufnr, map)
-          map("i", "<C-d>", function()
-            do_terminate(prompt_bufnr)
-          end)
-          actions.select_default:replace(function()
-            do_terminate(prompt_bufnr)
-          end)
-          return true
-        end
-      })
-      :find()
-  end
-  lspselector(
-    __Telescope_dropdown_theme({
-      width = 0.4,
-      height = 0.4,
-      prompt_title = "Active LSP clients (<C-d> or <Enter> to terminate, ESC cancels)",
-    })
-  )
+  return Snacks.picker({
+    finder = function()
+      return entries
+    end,
+    sort = { fields = {"id:desc"} },
+    matcher = { sort_empty = true },
+    layout = __Globals.gen_snacks_picker_layout( { width=90, height=20, row=10, input="bottom",
+                                                   title="Active LSP clients, <C-d> or <Enter> to terminate, ESC cancels" } ),
+    format = function(item)
+      local entry = {}
+      local pos = #entry
+      local hl = item.buffers > 0 and "DeepRedBold" or "Number"
+
+      entry[pos + 1] = { Align(tostring(item.id), 6, { align="right" }), hl }
+      entry[pos + 2] = { Align(item.name, 15, { align="center" }), hl }
+      entry[pos + 3] = { Align(tostring(item.buffers) .. " Buffers", 20, { align="right" }), hl }
+      entry[pos + 4] = { Align(item.type, 40, { align="right" }), hl }
+
+      return entry
+    end,
+    win = {
+      list = {
+        keys = {
+          ['<C-d>'] = { 'del_entry', mode = { 'i', 'n' }}
+        }
+      },
+      input = {
+        keys = {
+          ['<C-d>'] = { 'del_entry', mode = { 'i', 'n' }}
+        }
+      }
+    },
+    confirm = function(picker, item)
+      do_terminate(picker:current().id, picker)
+    end,
+    actions = {
+      del_entry = function(picker)
+        local id = picker:current().id
+        do_terminate(id, picker)
+      end
+    }
+  })
 end
 
 -- confirm buffer close when file is modified. May discard the file but always save the view.
@@ -391,9 +404,7 @@ function Utils.Quitapp()
   local Align = Snacks.picker.util.align
 
   for _, bufnr in ipairs(bufs) do
-    if vim.api.nvim_buf_get_option(bufnr, "modified") == true then
-      have_modified_buf = true
-    end
+    have_modified_buf = vim.api.nvim_buf_get_option(bufnr, "modified") == true and true or have_modified_buf
   end
 
   if have_modified_buf == false then
@@ -414,7 +425,6 @@ function Utils.Quitapp()
   local maxlength = Utils.getLongestString(menuitems, "text")
   maxlength = #prompt > maxlength and #prompt or maxlength
 
-  vim.cmd.stopinsert()
   return Snacks.picker({
     finder = function()
       return menuitems

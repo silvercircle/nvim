@@ -328,7 +328,7 @@ autocmd({ 'CmdLineEnter' }, {
 
 -- filetypes for left, right and bottom splits. They are meant to have a different background
 -- color and no cursor
-local enter_leave_filetypes = { "DressingSelect", "aerial", "Outline", "NvimTree", "neo-tree"  }
+local enter_leave_filetypes = { "DressingSelect", "aerial", "Outline", "NvimTree", "neo-tree", 'snacks_picker_list'  }
 local old_mode
 
 autocmd({ 'WinEnter' }, {

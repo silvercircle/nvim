@@ -364,18 +364,17 @@ command_center.add({
     },
     category = "@ZK"
   },
-  -- unused stuff keep it here in case we need it at some point
-  --  {
-  --    desc = "Neotree buffer list",
-  --    cmd = "<CMD>Neotree buffers dir=%:p:h position=float<CR>",
-  --    keys = { "n", "<C-t>", noremap },
-  --    category = "@Neovim"
-  --  },
-  --  {
-  --    desc = "Neotree Git status",
-  --    cmd = "<CMD>Neotree git_status dir=%:p:h position=float<CR>",
-  --    keys = { "n", "<C-g>", noremap },
-  --    category = "@Neovim"
-  --  },
+  {
+    desc = "Command history (FZF)",
+    cmd = function() require("snacks").picker.command_history( { layout = __Globals.gen_snacks_picker_layout( {input="top", width=140, height = 0.7, row = 7, preview = false } ) } ) end,
+    keys = { "n", "<A-C>", noremap },
+    category = "@FZF"
+  },
+  {
+    desc = "Command list (FZF)",
+    cmd = function() require("snacks").picker.commands( { layout = __Globals.gen_snacks_picker_layout( {input="top", width=80, height = 0.8, row = 7, preview = false } ) } ) end,
+    keys = { "n", "<A-c>", noremap },
+    category = "@FZF"
+  },
 })
 

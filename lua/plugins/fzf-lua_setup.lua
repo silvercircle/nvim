@@ -638,18 +638,6 @@ if vim.g.tweaks.fzf.enable_keys == true then
       category = "@ZK"
     },
     {
-      desc = "Command history (FZF)",
-      cmd = function() fzf.command_history( { winopts = fzf_tweaks.winopts.std_preview_none } ) end,
-      keys = { "n", "<A-C>", noremap },
-      category = "@FZF"
-    },
-    {
-      desc = "Command list (FZF)",
-      cmd = function() fzf.commands( { winopts = fzf_tweaks.winopts.std_preview_none } ) end,
-      keys = { "n", "<A-c>", noremap },
-      category = "@FZF"
-    },
-    {
       desc = "Spell suggestions",
       cmd = function() fzf.spell_suggest( { winopts = { height=0.5, width =60, preview = { hidden="hidden" }}} ) end,
       keys = {
