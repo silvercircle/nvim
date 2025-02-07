@@ -953,4 +953,48 @@ function M.gen_snacks_picker_layout(params)
   }
 end
 
+function M.custom_lsp()
+  local Snacks = require("snacks")
+  local Align = Snacks.picker.util.align
+  local lutils = require("local_utils")
+
+  Snacks.picker.lsp_symbols({
+    format = function(item, picker)
+      local opts = picker.opts
+      local ret = {}
+      if item.tree and not opts.workspace then
+        vim.list_extend(ret, Snacks.picker.format.tree(item, picker))
+      end
+      local kind = item.kind or "Unknown"
+      local kind_hl = "SnacksPickerIcon" .. kind
+      ret[#ret + 1] = { picker.opts.icons.kinds[kind], kind_hl }
+      local name = vim.trim(item.name:gsub("\r?\n", " "))
+      name = name == "" and item.detail or name
+      Snacks.picker.highlight.format(item, name, ret)
+      -- vim.notify(vim.inspect(ret[#ret]))
+      ret[#ret] = { Align(ret[#ret][1], 30, {align="left"})}
+      ret[#ret + 1] = { "|", "Number" }
+      if opts.workspace then
+        local offset = Snacks.picker.highlight.offset(ret, { char_idx = true })
+        ret[#ret + 1] = { Align(" ", 40 - offset) }
+        vim.list_extend(ret, M.filename(item, picker))
+      end
+      ret[#ret +1] = { Align(vim.trim(item.detail), 40, {align="right"}), "Comment"}
+      return ret
+    end,
+    layout = {
+      preset = "select",
+      preview = true,
+      layout = {
+        width = 80,
+        height = 0.8
+      }
+    },
+    win = {
+      preview = {
+        wo = { winbar = "" }
+      }
+    }
+  })
+end
 return M

@@ -680,4 +680,8 @@ function Utils.get_selection()
   end
 end
 
+function Utils.trim(s)
+  return s:match( "^%s*(.-)%s*$" )
+end
+
 return Utils

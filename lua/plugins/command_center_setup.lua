@@ -24,21 +24,18 @@ command_center.add({
     category = "@Notifications"
   },
   {
-    desc = "Show all bookmarks (Telescope)",
+    desc = "Show all bookmarks (Snacks picker)",
     cmd = function()
-      _t.extensions.bookmarks.list(__Telescope_vertical_dropdown_theme({
-        shorten_path = true,
-        width_text = 40,
-        width_annotation = 50,
-        path_display = false,
-        --attach_mappings = function(_, map)
-        --  map("i", "<C-d>", bookmark_actions.delete_selected_or_at_cursor)
-        --  return true
-        --end,
-        prompt_title = "All Bookmarks",
-        hide_filename = false,
-        layout_config = Config.telescope_vertical_preview_layout
-      }))
+      local layout = __Globals.gen_snacks_picker_layout({
+        preset = "select",
+        preview = true,
+        width = 120,
+        height = 0.7,
+        psize = 12,
+        input = "bottom",
+        title = "Select Bookmark"
+      })
+      require("plugins.bookmarkspicker").open({layout = layout})
     end,
     keys = {
       { "n", "<A-b>", noremap },

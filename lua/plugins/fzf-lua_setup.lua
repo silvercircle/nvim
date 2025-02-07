@@ -3,6 +3,12 @@ local old_mode = nil
 local fzf_tweaks = vim.g.tweaks.fzf
 
 require "fzf-lua".setup({
+  defaults = {
+   formatter  = "path.dirname_first"
+  },
+  hls = {
+    file_part = "Number"
+  },
   -- fzf_bin         = 'sk',            -- use skim instead of fzf?
   -- https://github.com/lotabout/skim
   global_resume       = true, -- enable global `resume`?
@@ -211,7 +217,9 @@ require "fzf-lua".setup({
     git_icons    = true,      -- show git icons?
     file_icons   = true,      -- show file icons?
     color_icons  = true,      -- colorize file|git icons
-    -- path_shorten   = 1,              -- 'true' or number, shorten path?
+    cwd_prompt_shorten_len = 32,        -- shorten prompt beyond this length
+    cwd_prompt_shorten_val = 2,
+    path_shorten   = 5,              -- 'true' or number, shorten path?
     -- executed command priority is 'cmd' (if exists)
     -- otherwise auto-detect prioritizes `fd`:`rg`:`find`
     -- default options are controlled by 'fd|rg|find|_opts'
