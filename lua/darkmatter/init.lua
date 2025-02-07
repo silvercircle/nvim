@@ -889,7 +889,17 @@ end
 -- use vim.ui.select to choose from a list of themes
 function M.ui_select_variant()
   local utils = require("local_utils")
+  local Snacks = require("snacks")
+  local Align = Snacks.picker.util.align
 
+  local variants = {
+    { cmd = "warm", text = "Warm (red tint", p = 1 },
+    { cmd = "cold", text = "Cold (blue tint", p = 1 },
+    { cmd = "deepblack", text = "Deep dark", p = 1 },
+    { cmd = "pitchblack", text = "OLED (pitch black", p = 1 },
+  }
+  variants = vim.iter(variants):filter(function(k) if k.cmd == conf.variant then k.p = 1000 else k.p = 1 end return k end):totable()
+  
   vim.ui.select({ "Warm (red tint)", "Cold (blue tint)", "Deep dark", "OLED (pitch black" }, {
     prompt = "Select a theme variant",
     border = "rounded",
