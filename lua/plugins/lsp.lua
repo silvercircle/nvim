@@ -8,17 +8,12 @@ local configs = require("lspconfig.configs")
 On_attach = function(client, buf)
   if navic_status then
     navic.attach(client, buf)
-    -- require("nvim-navbuddy").attach(client, buf)
+    vim.g.inlay_hints_visible = true
+    if client.server_capabilities.inlayHintProvider then
+ 		  vim.g.inlay_hints_visible = true
+			vim.lsp.inlay_hint.enable()
+    end
   end
-  --if client.name == 'gopls' then
-  --  client.server_capabilities.semanticTokensProvider = {
-  --    full = true,
-  --    legend = {
-  --      tokenTypes = { 'namespace', 'type', 'class', 'enum', 'interface', 'struct', 'typeParameter', 'parameter', 'variable', 'property', 'enumMember', 'event', 'function', 'method', 'macro', 'keyword', 'modifier', 'comment', 'string', 'number', 'regexp', 'operator', 'decorator' },
-  --      tokenModifiers = { 'declaration', 'definition', 'readonly', 'static', 'deprecated', 'abstract', 'async', 'modification', 'documentation', 'defaultLibrary' }
-  --    }
-  --  }
-  --end
 end
 
 -- custom config for ada, because als is deprecated in future nvim-lspconfig
@@ -182,7 +177,7 @@ if vim.g.tweaks.lsp.cpp == "clangd" then
   lspconfig.clangd.setup({
     cmd = { "clangd", "--background-index", "--malloc-trim",
       "--pch-storage=memory", "--log=error", "--header-insertion=never",
-      "--completion-style=detailed", "--function-arg-placeholders=1" },
+      "--completion-style=detailed", "--function-arg-placeholders=1", "--inlay-hints=true" },
     filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
     root_dir = function(fname)
       return util.root_pattern(unpack(clangd_root_files))(fname) or util.find_git_ancestor(fname)
@@ -483,7 +478,7 @@ lspconfig.lua_ls.setup {
         }
       },
       hint = {
-        enable = false
+        enable = true
       },
       runtime = {
         version = "LuaJIT", -- Lua 5.1/LuaJIT

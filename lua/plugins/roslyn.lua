@@ -112,6 +112,7 @@ require("roslyn").setup({
       return util.root_pattern "*.sln" (fname)
     end,
     on_attach = function(client, bufnr)
+      On_attach(client, bufnr)
       require("nvim-navic").attach(client, bufnr)
       -- require("nvim-navbuddy").attach(client, bufnr)
       if vim.fn.has("nvim-0.11") == 1 then
@@ -120,6 +121,29 @@ require("roslyn").setup({
         monkey_patch_semantic_tokens_10(client)
       end
     end,
+    settings = {
+      ["csharp|background_analysis"] = {
+        dotnet_analyzer_diagnostics_scope = "fullSolution",
+        dotnet_compiler_diagnostics_scope = "fullSolution"
+      },
+      ["csharp|inlay_hints"] = {
+        csharp_enable_inlay_hints_for_implicit_object_creation = true,
+        csharp_enable_inlay_hints_for_implicit_variable_types = true,
+        csharp_enable_inlay_hints_for_lambda_parameter_types = true,
+        csharp_enable_inlay_hints_for_types = true,
+        dotnet_enable_inlay_hints_for_indexer_parameters = true,
+        dotnet_enable_inlay_hints_for_literal_parameters = true,
+        dotnet_enable_inlay_hints_for_object_creation_parameters = true,
+        dotnet_enable_inlay_hints_for_other_parameters = true,
+        dotnet_enable_inlay_hints_for_parameters = true,
+        dotnet_suppress_inlay_hints_for_parameters_that_differ_only_by_suffix = true,
+        dotnet_suppress_inlay_hints_for_parameters_that_match_argument_name = true,
+        dotnet_suppress_inlay_hints_for_parameters_that_match_method_intent = true,
+      },
+      ["csharp|code_lens"] = {
+        dotnet_enable_references_code_lens = true,
+      }
+    }
   },
   roslyn_version = "4.13.0-3.25054.1",
   dotnet_cmd = "dotnet",
@@ -130,27 +154,4 @@ require("roslyn").setup({
   args = {
     "--stdio", "--logLevel=Information", "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path())
   },
-  settings = {
-    ["csharp|background_analysis"] = {
-      dotnet_analyzer_diagnostics_scope = "fullSolution",
-      dotnet_compiler_diagnostics_scope = "fullSolution"
-    },
-    ["csharp|inlay_hints"] = {
-      csharp_enable_inlay_hints_for_implicit_object_creation = true,
-      csharp_enable_inlay_hints_for_implicit_variable_types = true,
-      csharp_enable_inlay_hints_for_lambda_parameter_types = true,
-      csharp_enable_inlay_hints_for_types = true,
-      dotnet_enable_inlay_hints_for_indexer_parameters = true,
-      dotnet_enable_inlay_hints_for_literal_parameters = true,
-      dotnet_enable_inlay_hints_for_object_creation_parameters = true,
-      dotnet_enable_inlay_hints_for_other_parameters = true,
-      dotnet_enable_inlay_hints_for_parameters = true,
-      dotnet_suppress_inlay_hints_for_parameters_that_differ_only_by_suffix = true,
-      dotnet_suppress_inlay_hints_for_parameters_that_match_argument_name = true,
-      dotnet_suppress_inlay_hints_for_parameters_that_match_method_intent = true,
-    },
-    ["csharp|code_lens"] = {
-      dotnet_enable_references_code_lens = true,
-    }
-  }
 })

@@ -1,4 +1,3 @@
-
 local chunklines = vim.g.tweaks.borderfactory(vim.g.tweaks.indent.chunk.lines)
 
 require("snacks").setup({
@@ -15,6 +14,9 @@ require("snacks").setup({
   },
   picker = {
     layout = { preset = "vertical", layout = {backdrop = false, width=120, border = vim.g.tweaks.borderfactory("thicc")} },
+    icons = {
+      kind = vim.g.lspkind_symbols
+    },
     sources = {
       explorer = {
         auto_close = true,
