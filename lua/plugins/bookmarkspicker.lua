@@ -50,7 +50,7 @@ function M.open(opts)
 
       local pos = #entry
       entry[pos + 1] = { Align(tostring(item.pos[1]), 6, { align = "left" }), "Number" }
-      entry[pos + 2] = { Align(lutils.trim(item.annot), 40, { align = "left" }), "Fg" }
+      entry[pos + 2] = { Align(vim.trim(item.annot), 40, { align = "left" }), "Fg" }
       entry[pos + 3] = { "│", "Comment" }
       entry[pos + 4] = { Align(item.file, 60, { align = "right" }), "String" }
 

@@ -57,7 +57,7 @@ Config = {
   },
   minipicker_iprefix = "#>",
   -- these are minimal values
-  filetree_width = 44,                          -- width nvim-tree plugin (file tree)
+  filetree_width = 42,                          -- width nvim-tree plugin (file tree)
   outline_width = 36,                           -- split width for symbols-outline window (right sidebar)
   -- some optional plugins
   mason = true,                                 -- on demand, setup in setup_lsp.lua
