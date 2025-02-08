@@ -298,7 +298,7 @@ vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
   require("fzf-lua").buffers({ formatter = "path.filename_first", mru = true, no_action_zz = true, no_action_set_cursor = true, winopts = vim.g.tweaks.fzf.winopts.small_no_preview })
 end, "FZF buffer list")
 vim.g.setkey({'n', 'i', 'v' }, '<A-p>', function()
-  require("local_utils.cmdpalette").open()
+  require("commandpicker").open()
 end, "Telescope command palette")
 
 -- quick-focus the four main areas

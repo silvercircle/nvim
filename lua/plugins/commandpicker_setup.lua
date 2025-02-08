@@ -344,9 +344,22 @@ require("commandpicker").setup({
     },
     {
       desc = "Function without keys",
-      cmd = function() vim.notify("that does nothing") end,
-      category = "@Notifications"
-    }
+      cmd = function() vim.notify("command without keys that does nothing") end,
+      category = "@Testing"
+    },
+    {
+      desc = "Function with simple mapping",
+      cmd = function() vim.notify("simple mapping that does nothing") end,
+      category = "@Testing",
+      keys = { 'n', "foo" }
+    },
+    {
+      desc = "Function with single mapping multiple modes",
+      cmd = function() vim.notify("simple mapping that does nothing") vim.cmd.startinsert() vim.fn.feedkeys("hurray") end,
+      category = "@Testing",
+      keys = { 'i', '<C-x>6' },
+      key = { { 'n', 'v' }, "bar" }
+    },
   },
   columns = {
     desc = { width = 43, hl = "Fg" }

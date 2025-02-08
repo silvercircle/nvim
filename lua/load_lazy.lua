@@ -86,6 +86,14 @@ lazy.setup({
     end
   },
   {
+    dir = "/mnt/shared/data/code/neovim_plugins/commandpicker.nvim/",
+    lazy = true,
+    event = "BufReadPost",
+    config = function()
+      require("plugins.commandpicker_setup")
+    end
+  },
+  {
     dir = "/mnt/shared/data/code/neovim_plugins/quickfavs.nvim/",
     -- 'https://gitlab.com/silvercircle74/quickfavs.nvim',
     lazy = true,
