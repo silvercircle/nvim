@@ -21,6 +21,7 @@ local function _set()
   c.link("SnacksPickerIconEnumMember", "@constant")
   c.link("SnacksPickerIconStruct", "Struct")
   c.link("SnacksPickerIconOperator", "@operator")
+  c.hl_with_defaults("SnacksInputBorder", c.P.brown, c.NONE)
 end
 
 local M = {}

@@ -245,7 +245,7 @@ local function configure()
     brightgreen = M.T.accent_color,
     darkestcyan = "#005f5f",
     mediumcyan = "#87dfff",
-    darkestblue = "#005f87",
+    darkestblue = "#002f47",
     darkred = "#870000",
     brightred = M.T.alt_accent_color,
     brightorange = "#2f47df",
@@ -387,7 +387,7 @@ local function set_all()
   if diff then
     M.hl("CursorLineNr", M.P.yellow, M.NONE, { underline = true })
   else
-    M.hl_with_defaults("CursorLineNr", M.P.yellow, M.P.darkbg)
+    M.hl_with_defaults("CursorLineNr", M.P.olive, M.P.darkbg)
   end
 
   M.link("MsgArea", "StatusLine")
@@ -822,13 +822,13 @@ function M.Lualine_internal_theme()
         fg = LuaLineColors.darkestgreen,
         bg = LuaLineColors.brightgreen, --[[, gui = 'bold']]
       },
-      b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
+      b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
       c = "StatusLine",
       x = "StatusLine",
     },
     insert = {
       a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred },
-      b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
+      b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
       c = "StatusLine",
       x = "StatusLine",
     },
