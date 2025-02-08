@@ -889,43 +889,22 @@ end
 -- use vim.ui.select to choose from a list of themes
 function M.ui_select_variant()
   local utils = require("local_utils")
-  local Snacks = require("snacks")
-  local Align = Snacks.picker.util.align
 
   local variants = {
-    { cmd = "warm", text = "Warm (red tint", p = 1 },
-    { cmd = "cold", text = "Cold (blue tint", p = 1 },
-    { cmd = "deepblack", text = "Deep dark", p = 1 },
-    { cmd = "pitchblack", text = "OLED (pitch black", p = 1 },
+    { hl = "Fg", cmd = "warm", text = "Warm (red tint", p = 1 },
+    { hl = "Fg", cmd = "cold", text = "Cold (blue tint", p = 1 },
+    { hl = "Fg", cmd = "deepblack", text = "Deep dark", p = 1 },
+    { hl = "Fg", cmd = "pitchblack", text = "OLED (pitch black", p = 1 },
   }
   variants = vim.iter(variants):filter(function(k) if k.cmd == conf.variant then k.p = 1000 else k.p = 1 end return k end):totable()
-  
-  vim.ui.select({ "Warm (red tint)", "Cold (blue tint)", "Deep dark", "OLED (pitch black" }, {
-    prompt = "Select a theme variant",
-    border = "rounded",
-    format_item = function(item)
-      return utils.pad(item, 40, " ")
-    end,
-  }, function(choice)
-    if choice == nil or #choice < 4 then
-      return
-    end
-    local short = string.sub(choice, 1, 4)
-    if short == "Warm" then
-      conf.variant = "warm"
-    elseif short == "Cold" then
-      conf.variant = "cold"
-    elseif short == "Deep" then
-      conf.variant = "deepblack"
-    elseif short == "OLED" then
-      conf.variant = "pitchblack"
-    else
-      return
-    end
+
+  local function execute(cmd)
+    conf.variant = cmd
+    configure()
     M.set()
-    conf_callback("variant")
-  end)
-  return conf.variant
+  end
+
+  utils.simplepicker(variants, "p:desc", "Select theme variant", execute)
 end
 
 -- use UI to present a selection of possible color configurations
@@ -933,35 +912,33 @@ end
 -- mini.picker that can enhance ui.select
 function M.ui_select_colorweight()
   local utils = require("local_utils")
-  vim.ui.select(
-    { "Vivid (rich colors, high contrast)", "Medium (somewhat desaturated colors)", "Pastel (low intensity colors)" },
-    {
-      prompt = "Select a color intensity",
-      border = "rounded",
-      format_item = function(item)
-        return utils.pad(item, 50, " ")
-      end,
-    },
-    function(choice)
-      if choice == nil or #choice < 6 then
-        return
-      end
-      local short = string.sub(choice, 1, 6)
-      if short == "Vivid " then
-        conf.desaturate = false
-        conf.dlevel = 1
-      elseif short == "Medium" then
-        conf.desaturate = true
-        conf.dlevel = 1
-      elseif short == "Pastel" then
-        conf.desaturate = true
-        conf.dlevel = 2
-      end
-      M.set()
-      conf_callback("desaturate")
+  local items = {
+    { cmd = "rich", text = "Vivid (rich colors, high contrast)", p = 1, d = false, level = 1 },
+    { cmd = "medium", text = "Medium (somewhat desaturated colors)", p = 2, d = true, level = 1, current = true },
+    { cmd = "pastel", text = "Pastel (low intensity colors)", p = 3, d = true, level = 2 }
+  }
+
+  vim.iter(items):map(function(k)
+    if conf.desaturate == k.d and conf.dlevel == k.level then k.p = 1000 else k.p = 1 end
+    return k
+  end):totable()
+
+  local function execute(cmd)
+    if cmd== "rich" then
+      conf.desaturate = false
+      conf.dlevel = 1
+    elseif cmd == "medium" then
+      conf.desaturate = true
+      conf.dlevel = 1
+    elseif cmd == "pastel" then
+      conf.desaturate = true
+      conf.dlevel = 2
     end
-  )
-  return conf.desaturate, conf.dlevel
+    M.set()
+    conf_callback("desaturate")
+  end
+
+  utils.simplepicker(items, "p:desc", "Select Color variant", execute)
 end
 
 -- toggle strings color. Allowed values are either "yellow" or "green"
