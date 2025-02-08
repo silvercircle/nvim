@@ -138,11 +138,11 @@ vim.g.setkey({ 'n', 'i' }, '<C-a>f', function()
 end, "Pick folding mode")
 
 vim.g.setkey({'n', 'i'}, '<C-a>e', function()
-  require("fzf-lua").files({ cwd = vim.fn.expand("%:p:h"), winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+  require("fzf-lua").files({ formatter = "path.filename_first", cwd = vim.fn.expand("%:p:h"), winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
 end, "Open Mini File Browser at current directory")
 
 vim.g.setkey({'n', 'i'}, '<C-a><C-e>', function()
-  require("fzf-lua").files({ cwd = utils.getroot_current(), winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+  require("fzf-lua").files({ formatter = "path.filename_first", cwd = utils.getroot_current(), winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
 end, "Open Mini File Browser at project root")
 
 vim.g.setkey({'n', 'i'}, '<A-E>', function()
@@ -158,7 +158,7 @@ vim.g.setkey({'n', 'i'}, '<A-e>', function()
     local res = vim.fs.joinpath(path, v)
     if vim.fn.isdirectory(res) == 1 then
       found = true
-      require("fzf-lua").files({ cwd = res, winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+      require("fzf-lua").files({ formatter = "path.filename_first", cwd = res, winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
     end
   end
   -- if we cannot find a source root, use the project root instead
@@ -289,36 +289,16 @@ vim.g.setkey({'n', 'i'}, '<A-q>', function()
   vim.cmd.stopinsert()
   vim.schedule(function() utils.Quitapp() end)
 end, "Quit Neovim")
-vim.g.setkey({ 'n', 'i' }, '<C-e>', function()
-  require('telescope.builtin').buffers(
-    __Telescope_dropdown_theme({
-      title = 'Buffer list',
-      width = 120,
-      prompt_prefix = utils.getTelescopePromptPrefix(),
-      height = 0.4,
-      sort_lastused = true,
-      sort_mru = true,
-      show_all_buffers = true,
-      ignore_current_buffer = true,
-      sorter = require('telescope.sorters').get_substr_matcher(),
-    })
-  )
-end, "Telescope Buffer list")
 
-if vim.g.tweaks.fzf.prefer_for.selector == true then
-  vim.g.setkey({'n', 'i'}, '<C-p>', function()
-    require('fzf-lua').oldfiles( { winopts = vim.g.tweaks.fzf.winopts.small_no_preview })
-  end, "FZF-LUA old files")
-else
-  vim.g.setkey({'n', 'i'}, '<C-p>', function()
-    require('telescope.builtin').oldfiles(
-      __Telescope_dropdown_theme({ prompt_prefix = utils.getTelescopePromptPrefix(), title = 'Old files', width = 120, height = 0.5 })
-    )
-  end, "Telescope old files")
-end
+vim.g.setkey({'n', 'i'}, '<C-p>', function()
+  require('fzf-lua').oldfiles( { formatter = "path.filename_first", winopts = vim.g.tweaks.fzf.winopts.small_no_preview })
+end, "FZF-LUA old files")
+
+vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
+  require("fzf-lua").buffers({ formatter = "path.filename_first", mru = true, no_action_zz = true, no_action_set_cursor = true, winopts = vim.g.tweaks.fzf.winopts.small_no_preview })
+end, "FZF buffer list")
 vim.g.setkey({'n', 'i', 'v' }, '<A-p>', function()
-  -- require('telescope').extensions.command_center.command_center({ filter={ mode = 'n' }})
-  require("local_utils.commandcenter").open()
+  require("local_utils.cmdpalette").open()
 end, "Telescope command palette")
 
 -- quick-focus the four main areas

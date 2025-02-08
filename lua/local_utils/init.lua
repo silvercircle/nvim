@@ -389,7 +389,7 @@ function Utils.Quitapp()
       { cmd = "cancel", text = "Cancel operation", hl = "Keyword", p = 1 }
     }
   end
-  local function pickresult(result)
+  local function execute(result)
     if result == "hardexit" or result == "discard" then
       vim.cmd("qa!")
     elseif result == "cancel" then
@@ -400,7 +400,7 @@ function Utils.Quitapp()
     end
   end
 
-  Utils.simplepicker(menuitems, "p", prompt, pickresult)
+  Utils.simplepicker(menuitems, "p", prompt, execute)
 end
 
 -----------------------------------------------------------------

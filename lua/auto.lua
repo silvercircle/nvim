@@ -398,7 +398,8 @@ delcmd = autocmd( { 'BufReadPost' }, {
     _delayloaded = true
     local timer = vim.uv.new_timer()
     timer:start(1000, 0, vim.schedule_wrap(function()
-      require("telescope")
+      -- require("telescope")
+      require("local_utils.cmdpalette").init()
       vim.schedule(function() _delcmd() end)
     end))
   end
