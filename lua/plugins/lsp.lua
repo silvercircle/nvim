@@ -11,7 +11,7 @@ On_attach = function(client, buf)
     vim.g.inlay_hints_visible = true
     if client.server_capabilities.inlayHintProvider then
  		  vim.g.inlay_hints_visible = true
-			vim.lsp.inlay_hint.enable()
+			vim.lsp.inlay_hint.enable(false)
     end
   end
 end
