@@ -1,32 +1,5 @@
 local lazy = require("lazy")
 lazy.setup({
-  {
-    "luukvbaal/statuscol.nvim",
-    cond = vim.g.tweaks.use_foldlevel_patch == false,
-    lazy = true,
-    event = "BufReadPost",
-    config = function()
-      -- local builtin = require("statuscol.builtin")
-      local builtin = require("statuscol.builtin")
-      require("statuscol").setup({
-        -- configuration goes here, for example:
-        relculright = true,
-        bt_ignore = { "nofile", "terminal" },
-        segments = {
-          {
-            sign = { namespace = { ".*" }, name = { ".*" }, maxwidth = 3, colwidth = 1, fillchar = " ", auto = false},
-            click = ""
-          },
-          {
-            sign = { namespace = { "diagnostic/sign" }, maxwidth = 2, colwidth = 2, fillchar = " ", auto = false},
-            click = ""
-          },
-          { text = { builtin.lnumfunc }, maxwidth = 5, click = "v:lua.ScLa", },
-          { text = { " ", builtin.foldfunc, " " }, click = "v:lua.ScFa" }
-        }
-      })
-    end,
-  },
   'sharkdp/fd',
   {
     "lervag/vimtex",
@@ -112,45 +85,18 @@ lazy.setup({
       require("plugins.fzf-lua_setup")
     end
   },
-  -- telescope + extensions, mandatory
   {
-    'nvim-telescope/telescope.nvim', --  branch = '0.1.x',
+    dir = "/mnt/shared/data/code/neovim_plugins/quickfavs.nvim/",
+    -- 'https://gitlab.com/silvercircle74/quickfavs.nvim',
     lazy = true,
-    cond = false,
-    -- key = { "<A-p>", "<C-x> "},
-    dependencies = {
-      --{ 'nvim-telescope/telescope-fzf-native.nvim', build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
-      {
-        "ibhagwan/fzf-lua",
-        lazy = true,
-        config = function()
-          require("plugins.fzf-lua_setup")
-        end
-      },
-      {
-        'FeiyouG/commander.nvim',
-        version = "v0.1.0",
-        config = function()
-          require("plugins.command_center_setup")
-        end
-      },
-      {
-        dir = "/mnt/shared/data/code/neovim_plugins/quickfavs.nvim/",
-        -- 'https://gitlab.com/silvercircle74/quickfavs.nvim',
-        lazy = true,
-        config = function()
-          require("quickfavs").setup({
-            telescope_theme = require("local_utils").Telescope_dropdown_theme,
-            picker = "snacks",
-            snacks_layout = __Globals.gen_snacks_picker_layout( { width = 120, height = 20, row = 5, input = "top" }),
-            fzf_winopts = vim.g.tweaks.fzf.winopts.narrow_small_preview,
-            explorer_layout = __Globals.gen_snacks_picker_layout( { width = 70 })
-          })
-        end
-      }
-    },
     config = function()
-      require("plugins.telescope")
+      require("quickfavs").setup({
+        telescope_theme = require("local_utils").Telescope_dropdown_theme,
+        picker = "snacks",
+        snacks_layout = __Globals.gen_snacks_picker_layout( { width = 120, height = 20, row = 5, input = "top" }),
+        fzf_winopts = vim.g.tweaks.fzf.winopts.narrow_small_preview,
+        explorer_layout = __Globals.gen_snacks_picker_layout( { width = 70 })
+      })
     end
   },
   -- treesitter + friends
