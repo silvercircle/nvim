@@ -75,7 +75,7 @@ require("snacks").setup({
       border = vim.g.tweaks.borderfactory(__Globals.perm_config.float_borders),
       row = -10,
       wo = {
-        winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder,FloatTitle:FloatTitle",
+        -- winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder,FloatTitle:FloatTitle",
       }
     }
   },

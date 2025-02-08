@@ -7,7 +7,9 @@ require "fzf-lua".setup({
    formatter  = "path.dirname_first"
   },
   hls = {
-    file_part = "DefaultLib"
+    file_part = "DefaultLib",
+    dir_part = "Member",
+    path_linenr = "Number"
   },
   -- fzf_bin         = 'sk',            -- use skim instead of fzf?
   -- https://github.com/lotabout/skim

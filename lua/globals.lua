@@ -551,7 +551,7 @@ function M.restore_config()
       attribute = "user3"
     },
     plugins = {
-      hl = (vim.g.tweaks.completion.version == "blink") and { "markdown", "syntax", "common", "blink" } or { "markdown", "syntax", "common" },
+      hl = (vim.g.tweaks.completion.version == "blink") and { "markdown", "syntax", "common", "blink", "snacks" } or { "markdown", "syntax", "common", "snacks" },
     },
     attrib = {
       dark = {

@@ -149,7 +149,7 @@ require("lualine").setup({
       end
     },
     }, -- display textwidth after formattingoptions
-    lualine_b = { "branch", "diff", "diagnostics" },
+    lualine_b = { "branch", "diff", "diagnostics"  },
     lualine_c = {"filename", "searchcount", { get_permissions_color } },
     lualine_x = {
       { indentstats },

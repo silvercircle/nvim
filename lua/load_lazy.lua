@@ -87,6 +87,7 @@ lazy.setup({
   },
   {
     dir = "/mnt/shared/data/code/neovim_plugins/commandpicker.nvim/",
+    branch = "v1",
     lazy = true,
     event = "BufReadPost",
     config = function()
@@ -111,7 +112,7 @@ lazy.setup({
   {
     'nvim-treesitter/nvim-treesitter',
     branch = "master",
-    event = { "UIEnter" },
+    -- event = { "UIEnter" },
     config = function()
       require("plugins.treesitter")
     end,
@@ -558,7 +559,7 @@ lazy.setup({
   --},
   {
     "smjonas/inc-rename.nvim",
-    event = { "BufRead" },
+    cmd = "IncRename",
     config = function()
       require("inc_rename").setup()
     end
