@@ -494,7 +494,8 @@ lazy.setup({
   },
   {
     'nvim-tree/nvim-tree.lua',
-    cond = vim.g.tweaks.tree.version == "Nvim",
+    -- cond = vim.g.tweaks.tree.version == "Nvim",
+    cond = false,
     lazy = true,
     config = function()
       require("plugins.nvim-tree")

@@ -5,7 +5,7 @@ require("snacks").setup({
     enabled = vim.g.tweaks.notifier == "snacks" and true or false,
   },
   explorer = {
-    replace_netrw = true,
+    replace_netrw = false,
     layout = __Globals.gen_snacks_picker_layout( { input = "top", width = 80, psize = 12 } )
   },
   projects = {
@@ -78,6 +78,9 @@ require("snacks").setup({
         -- winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder,FloatTitle:FloatTitle",
       }
     }
+  },
+  dashboard = {
+    enabled = false
   },
   indent = {
     indent = {

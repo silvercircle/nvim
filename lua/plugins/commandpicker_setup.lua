@@ -51,7 +51,7 @@ require("commandpicker").setup({
     },
     {
       desc = "LSP server info",
-      cmd = "LspInfo",
+      cmd = "<cmd>LspInfo<cr>",
       keys = { "n", "lsi", noremap },
       category = "@LSP"
     },
@@ -342,28 +342,16 @@ require("commandpicker").setup({
       category = "@Notifications"
     },
     {
-      desc = "Function without keys",
-      cmd = function() vim.notify("command without keys that does nothing") end,
-      category = "@Testing"
-    },
-    {
       desc = "Function with simple mapping",
-      cmd = function() vim.notify("simple mapping that does nothing") end,
+      cmd = "<c-k>vv",
       category = "@Testing",
-      keys = { 'n', "foo" }
-    },
-    {
-      desc = "Function with single mapping multiple modes",
-      cmd = function() vim.notify("simple mapping that does nothing") vim.cmd.startinsert() vim.fn.feedkeys("hurray") end,
-      category = "@Testing",
-      keys = { 'i', '<C-x>6' },
-      key = { { 'n', 'v' }, "bar" }
-    },
+      keys = { 'i', "foo" }
+    }
   },
-  order = { 'desc', 'cmd', 'mappings', 'cat' },
-  custom_layout = __Globals.gen_snacks_picker_layout( { width=120, height=10, row=5, input="bottom", title="Command Palette", preview = false } ),
+  order = { 'desc', 'cmd', 'mappings', 'category' },
+  custom_layout = __Globals.gen_snacks_picker_layout( { width=120, height=20, row=5, input="bottom", title="Command Palette", preview = false } ),
   width = 120,
-  height = 5
+  height = 20
 })
 require("commandpicker").add({
   {
