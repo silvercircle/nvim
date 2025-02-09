@@ -247,16 +247,16 @@ function Utils.StopLsp()
     end,
     sort = { fields = {"id:desc"} },
     matcher = { sort_empty = true },
-    layout = __Globals.gen_snacks_picker_layout( { width=90, height=20, row=10, input="bottom",
+    layout = __Globals.gen_snacks_picker_layout( { width=100, height=20, row=10, input="bottom",
                                                    title="Active LSP clients, <C-d> or <Enter> to terminate, ESC cancels" } ),
     format = function(item)
       local entry = {}
       local pos = #entry
       local hl = item.buffers > 0 and "DeepRedBold" or "Number"
 
-      entry[pos + 1] = { Align(tostring(item.id), 6, { align="right" }), hl }
-      entry[pos + 2] = { Align(item.name, 15, { align="center" }), hl }
-      entry[pos + 3] = { Align(tostring(item.buffers) .. " Buffers", 20, { align="right" }), hl }
+      entry[pos + 1] = { Align("ID:" .. tostring(item.id), 6, { align="right" }), hl }
+      entry[pos + 2] = { Align(" " .. item.name, 25, { align="left" }), hl }
+      entry[pos + 3] = { Align(tostring(item.buffers) .. (item.buffers == 1 and " Buffer" or " Buffers"), 20, { align="right" }), hl }
       entry[pos + 4] = { Align(item.type, 40, { align="right" }), hl }
 
       return entry
