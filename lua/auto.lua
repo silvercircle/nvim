@@ -376,7 +376,10 @@ autocmd({ 'WinLeave' }, {
 --- refresh the outline view when a LSP server attaches
 autocmd({ 'LspAttach' }, {
   pattern = "*",
-  callback = function()
+  callback = function(args)
+    if vim.bo[args.buf].ft == "razor" then
+      vim.cmd("hi! link @lsp.type.field Member")
+    end
     require("outline").refresh()
   end
 })

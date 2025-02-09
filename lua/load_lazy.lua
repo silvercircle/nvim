@@ -62,7 +62,7 @@ lazy.setup({
     cond = vim.g.tweaks.notifier == "fidget",
     branch = "mine",
     lazy = true,
-    event = "BufReadPost",
+    event = "BufReadPre",
     dependencies = {
       'MunifTanjim/nui.nvim',
     },
@@ -448,7 +448,7 @@ lazy.setup({
             build_position_cb = function(plist, _, _, _)
               require("scrollbar.handlers.search").handler.show(plist.start_pos)
             end,
-            calm_down = false,    -- set to true to clear all lenses when cursor moves
+            calm_down = true,    -- set to true to clear all lenses when cursor moves
             nearest_float_when = "never",
             nearest_only = true
           })
@@ -615,16 +615,29 @@ lazy.setup({
   --  }
   --},
   {
-    'seblj/roslyn.nvim',
+    'seblyng/roslyn.nvim',
     cond = (vim.g.tweaks.lsp.csharp == "roslyn"),
-    ft = { "cs" },
+    ft = { "cs", "razor" },
     config = function()
       require("plugins.roslyn")
-    end
-  },
-  {
-    "jlcrochet/vim-razor",
-    ft = { "cshtml", "razor" }
+    end,
+    dependencies = {
+      {
+        'tris203/rzls.nvim',
+        config = function()
+          require('rzls').setup {}
+          -- revert some wrong highlight redefinitions
+        end,
+        init = function()
+      -- we add the razor filetypes before the plugin loads
+          vim.filetype.add({
+            extension = {
+              razor = 'razor',
+              cshtml = 'razor',
+            }})
+        end
+      }
+    }
   },
   {
     "carbon-steel/detour.nvim",

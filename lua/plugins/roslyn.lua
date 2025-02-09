@@ -105,8 +105,9 @@ end
 local util = require 'lspconfig.util'
 require("roslyn").setup({
   config = {
+    filetypes = { "cs", "razor" },
     capabilities = __Globals.lsp_capabilities,
-    --handlers = require "rzls.roslyn_handlers",
+    handlers = require "rzls.roslyn_handlers",
     --the project root needs a .sln file (mandatory)
     root_dir = function(fname)
       return util.root_pattern "*.sln" (fname)
@@ -114,7 +115,6 @@ require("roslyn").setup({
     on_attach = function(client, bufnr)
       On_attach(client, bufnr)
       require("nvim-navic").attach(client, bufnr)
-      -- require("nvim-navbuddy").attach(client, bufnr)
       if vim.fn.has("nvim-0.11") == 1 then
         monkey_patch_semantic_tokens_11(client)
       else
@@ -152,6 +152,25 @@ require("roslyn").setup({
      vim.fs.joinpath(vim.fn.stdpath("data"), "roslyn", "Microsoft.CodeAnalysis.LanguageServer.dll"),
   },
   args = {
-    "--stdio", "--logLevel=Information", "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path())
+    "--stdio",
+    "--logLevel=Information",
+    "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
+    "--razorSourceGenerator=" .. vim.fs.joinpath(
+      vim.fn.stdpath 'data' --[[@as string]],
+      'mason',
+      'packages',
+      'roslyn',
+      'libexec',
+      'Microsoft.CodeAnalysis.Razor.Compiler.dll'
+    ),
+    "--razorDesignTimePath=" .. vim.fs.joinpath(
+      vim.fn.stdpath 'data' --[[@as string]],
+      'mason',
+      'packages',
+      'rzls',
+      'libexec',
+      'Targets',
+      'Microsoft.NET.Sdk.Razor.DesignTime.targets'
+    )
   },
 })

@@ -13,6 +13,9 @@ On_attach = function(client, buf)
  		  vim.g.inlay_hints_visible = true
 			vim.lsp.inlay_hint.enable(false)
     end
+    if client.name == "rzls" then
+      vim.cmd("hi! link @lsp.type.field Member")
+    end
   end
 end
 
@@ -304,7 +307,7 @@ lspconfig.emmet_language_server.setup({
   capabilities = __Globals.lsp_capabilities,
   cmd = { vim.g.lsp_server_bin['emmet'], '--stdio' },
   filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass",
-                "scss", "svelte", "pug", "typescriptreact", "vue", "jsp" },
+                "scss", "svelte", "pug", "typescriptreact", "vue", "jsp", "razor" },
   root_dir = util.root_pattern('package.json', '.git'),
   -- Read more about this options in the [vscode docs](https://code.visualstudio.com/docs/editor/emmet#_emmet-configuration).
   -- **Note:** only the options listed in the table are supported.
@@ -344,7 +347,7 @@ lspconfig.cssls.setup({
 
 lspconfig.html.setup({
   cmd = { vim.g.lsp_server_bin['html'], '--stdio' },
-  filetypes = { 'html', 'xhtml', 'jsp' },
+  filetypes = { 'html', 'xhtml', 'jsp', 'razor' },
   root_dir = util.root_pattern('package.json', '.git'),
   single_file_support = true,
   settings = {},
