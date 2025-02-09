@@ -9,7 +9,12 @@ require "fzf-lua".setup({
   hls = {
     file_part = "DefaultLib",
     dir_part = "Member",
-    path_linenr = "Number"
+    path_linenr = "Number",
+    fzf = {
+      match = "Error",
+      separator = "Operator",
+      gutter = "StatusLine"
+    }
   },
   -- fzf_bin         = 'sk',            -- use skim instead of fzf?
   -- https://github.com/lotabout/skim

@@ -7,7 +7,6 @@ local Terminal   = require("toggleterm.terminal").Terminal
 -- require("telescope")
 local noremap    = true
 require("commandpicker").setup({
-  custom_layout = __Globals.gen_snacks_picker_layout( { width=120, height=25, row=5, input="bottom", title="Command Palette", preview=false } ),
   commands = {
     {
       desc = "Show notification history",
@@ -361,11 +360,10 @@ require("commandpicker").setup({
       key = { { 'n', 'v' }, "bar" }
     },
   },
-  columns = {
-    desc = { width = 43, hl = "Fg" }
-  },
+  order = { 'desc', 'cmd', 'mappings', 'cat' },
+  custom_layout = __Globals.gen_snacks_picker_layout( { width=120, height=10, row=5, input="bottom", title="Command Palette", preview = false } ),
   width = 120,
-  height = 10
+  height = 5
 })
 require("commandpicker").add({
   {
