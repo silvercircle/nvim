@@ -1,4 +1,4 @@
-local chunklines = vim.g.tweaks.borderfactory(vim.g.tweaks.indent.chunk.lines)
+local chunklines = Borderfactory(vim.g.tweaks.indent.chunk.lines)
 
 require("snacks").setup({
   notifier = {
@@ -13,7 +13,7 @@ require("snacks").setup({
     patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "pom.xml", "settings.gradle", "*.sln", "build.zig", "go.mod", "*.gpr" }
   },
   picker = {
-    layout = { preset = "vertical", layout = {backdrop = false, width=120, border = vim.g.tweaks.borderfactory("thicc")} },
+    layout = { preset = "vertical", layout = {backdrop = false, width=120, border = Borderfactory("thicc")} },
     icons = {
       kind = vim.g.lspkind_symbols
     },
@@ -72,7 +72,7 @@ require("snacks").setup({
   input = {
     enabled = true,
     win = {
-      border = vim.g.tweaks.borderfactory(__Globals.perm_config.float_borders),
+      border = Borderfactory("thicc"),
       row = -10,
       wo = {
         -- winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder,FloatTitle:FloatTitle",

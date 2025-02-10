@@ -310,7 +310,7 @@ lazy.setup({
               require('hover.providers.man')
             end,
             preview_opts = {
-              border = vim.g.tweaks.borderfactory("thicc")
+              border = Borderfactory("thicc")
             },
             preview_window = true,
             title = true
@@ -494,8 +494,7 @@ lazy.setup({
   },
   {
     'nvim-tree/nvim-tree.lua',
-    -- cond = vim.g.tweaks.tree.version == "Nvim",
-    cond = false,
+    cond = vim.g.tweaks.tree.version == "Nvim",
     lazy = true,
     config = function()
       require("plugins.nvim-tree")
@@ -662,6 +661,6 @@ lazy.setup({
 },
 {
   ui = {
-    border = __Globals.perm_config.float_borders
+    border = Borderfactory("thicc")
   },
 })

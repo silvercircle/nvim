@@ -12,7 +12,8 @@ if status == true then
   tweaks = vim.tbl_deep_extend("force", tweaks, tw)
 end
 vim.g.tweaks = tweaks
-
+Tweaks = tweaks
+Borderfactory = vim.g.tweaks.borderfactory
 -- FIXME: silence deprecation warnings in dev builds. currently 0.11
 -- adjust this for future dev builds
 local nvim_11 = vim.fn.has("nvim-0.11")

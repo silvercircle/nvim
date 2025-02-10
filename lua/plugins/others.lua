@@ -133,7 +133,7 @@ M.setup = {
         win_config = {
           max_height = 30,
           winhighlight = "Normal:NeoTreeNormalNC",
-          border = vim.g.tweaks.borderfactory("thicc") -- __Globals.perm_config.telescope_borders
+          border = Borderfactory("thicc") -- __Globals.perm_config.telescope_borders
         }
       }
 
@@ -304,7 +304,7 @@ M.setup = {
         window = {
           winblend = 0,
           normal_hl = "NormalFloat",
-          border = vim.g.tweaks.borderfactory("thicc")
+          border = Borderfactory("thicc")
         }
       }
     })

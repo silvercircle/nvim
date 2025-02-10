@@ -244,7 +244,7 @@ cmp.setup({
   },
   window = {
     documentation = {
-      border = vim.g.tweaks.borderfactory(T.decorations[T.decoration.doc].border),
+      border = Borderfactory(T.decorations[T.decoration.doc].border),
       winhighlight = T.decorations[T.decoration.doc].whl_doc,
       max_height = 20,
       scrollbar = true,
@@ -252,7 +252,7 @@ cmp.setup({
       winblend = T.winblend.doc
     },
     completion = {
-      border = vim.g.tweaks.borderfactory(T.decorations[T.decoration.comp].border),
+      border = Borderfactory(T.decorations[T.decoration.comp].border),
       winhighlight = T.decorations[T.decoration.comp].whl_comp,
       scrollbar = true,
       side_padding = 0,
@@ -446,11 +446,11 @@ function M.setup_theme(theme, decoration, decoration_doc)
     window = {
       documentation = {
         -- border = vim.g.tweaks.borderfactory(T.decorations[decoration_doc].border),
-        border = vim.g.tweaks.borderfactory("thicc"),
+        border = Borderfactory("thicc"),
         winhighlight = T.decorations[decoration_doc].whl_doc
       },
       completion = {
-        border = vim.g.tweaks.borderfactory(T.decorations[decoration].border),
+        border = Borderfactory(T.decorations[decoration].border),
         winhighlight = T.decorations[decoration].whl_comp,
         scrollbar = true,
         side_padding = 0

@@ -327,7 +327,7 @@ require("blink.cmp").setup({
     menu = {
       enabled = true,
       auto_show = function() return __Globals.perm_config.cmp_autocomplete end,
-      border = vim.g.tweaks.borderfactory(border),
+      border = Borderfactory(border),
       winblend = T.winblend.menu,
       max_height = T.window_height,
       draw = {
@@ -398,7 +398,7 @@ require("blink.cmp").setup({
     documentation = {
       auto_show = T.auto_doc,
       window = {
-        border = vim.g.tweaks.borderfactory(border),
+        border = Borderfactory(border),
         winblend = T.winblend.doc,
         min_width = 30,
         max_width = 95,
@@ -426,7 +426,7 @@ require("blink.cmp").setup({
     },
     window = {
       show_documentation = true,
-      border = vim.g.tweaks.borderfactory(border)
+      border = Borderfactory(border)
     }
   }
 })
