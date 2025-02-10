@@ -26,7 +26,7 @@ command_center.add({
   {
     desc = "Show all bookmarks (Snacks picker)",
     cmd = function()
-      local layout = __Globals.gen_snacks_picker_layout({
+      local layout = SPL({
         preset = "select",
         preview = true,
         width = 120,
@@ -363,13 +363,13 @@ command_center.add({
   },
   {
     desc = "Command history (FZF)",
-    cmd = function() require("snacks").picker.command_history( { layout = __Globals.gen_snacks_picker_layout( {input="top", width=140, height = 0.7, row = 7, preview = false } ) } ) end,
+    cmd = function() require("snacks").picker.command_history( { layout = SPL( {input="top", width=140, height = 0.7, row = 7, preview = false } ) } ) end,
     keys = { "n", "<A-C>", noremap },
     category = "@FZF"
   },
   {
     desc = "Command list (FZF)",
-    cmd = function() require("snacks").picker.commands( { layout = __Globals.gen_snacks_picker_layout( {input="top", width=80, height = 0.8, row = 7, preview = false } ) } ) end,
+    cmd = function() require("snacks").picker.commands( { layout = SPL( {input="top", width=80, height = 0.8, row = 7, preview = false } ) } ) end,
     keys = { "n", "<A-c>", noremap },
     category = "@FZF"
   },

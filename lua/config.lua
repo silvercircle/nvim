@@ -179,3 +179,49 @@ vim.g.lspkind_symbols = {
 
 vim.g.is_tmux = vim.fn.exists("$TMUX")
 
+-- generate a snacks picker layout
+function SPL(params)
+  -- local opts = params or { preview = false, width = 80, height = 0.8 }
+  local opts = params or {}
+  local input_pos = opts.input or "bottom"
+  return (input_pos == "bottom" or input_pos == "off") and {
+    preview = opts.preview or false,
+    preset = opts.preset or nil,
+    layout = {
+      backdrop = opts.backdrop or false,
+      box = opts.box or "vertical",
+      row = opts.row or nil,
+      col = opts.col or nil,
+      position = opts.position or "float",
+      width = opts.width or 80,
+      min_height = opts.height,
+      min_width = opts.width,
+      height = opts.height or 0.9,
+      title = opts.title or nil,
+      border = opts.border and Borderfactory(opts.border) or Borderfactory("thicc"),
+      { win = "preview", title = "{preview}", height = opts.psize or 10, border = "bottom" },
+      { win = "list",  border = "none" },
+      input_pos ~= "off" and { win = "input", height = 1,
+        border = opts.iborder and Borderfactory(opts.iborder) or "top" } or nil,
+    }
+  } or {
+    preview = opts.preview or false,
+    preset = opts.preset or nil,
+    layout = {
+      backdrop = opts.backdrop or false,
+      box = opts.box or "vertical",
+      row = opts.row or nil,
+      col = opts.col or nil,
+      position = opts.position or "float",
+      width = opts.width or 80,
+      min_width = opts.width,
+      min_height = opts.height,
+      height = opts.height or 0.9,
+      title = opts.title or nil,
+      border = opts.border and Borderfactory(opts.border) or Borderfactory("thicc"),
+      input_pos ~= "off" and { win = "input", height = 1, border = "single" } or nil,
+      { win = "list",  border = "none" },
+      { win = "preview", title = "{preview}", height = opts.psize or 10, border = "top" },
+    }
+  }
+end

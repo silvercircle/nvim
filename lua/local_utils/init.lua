@@ -247,7 +247,7 @@ function Utils.StopLsp()
     end,
     sort = { fields = {"id:desc"} },
     matcher = { sort_empty = true },
-    layout = __Globals.gen_snacks_picker_layout( { width=100, height=20, row=10, input="bottom",
+    layout = SPL( { width=100, height=20, row=10, input="bottom",
                                                    title="Active LSP clients, <C-d> or <Enter> to terminate, ESC cancels" } ),
     format = function(item)
       local entry = {}
@@ -435,7 +435,7 @@ function Utils.notification_history()
     require("mini.notify").show_history()
   elseif vim.g.tweaks.notifier == "fidget" then
     require("plugins.fidgethistory_snacks").open( {
-            layout = __Globals.gen_snacks_picker_layout( { preview = true, width=120, height = 40, input = "top", psize = 20, row = 8 } ) } )
+            layout = SPL( { preview = true, width=120, height = 40, input = "top", psize = 20, row = 8 } ) } )
   end
 end
 
@@ -476,7 +476,7 @@ function Utils.simplepicker(entries, sortby, prompt, fn)
 
   maxlength = vim.fn.strwidth(prompt) <= maxlength and maxlength or vim.fn.strwidth(prompt)
 
-  local layout = __Globals.gen_snacks_picker_layout( { width = maxlength + 6, height = #entries, input = "off", title = prompt } )
+  local layout = SPL( { width = maxlength + 6, height = #entries, input = "off", title = prompt } )
   return Snacks.picker({
     finder = function()
       return entries

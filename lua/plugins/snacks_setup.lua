@@ -6,7 +6,7 @@ require("snacks").setup({
   },
   explorer = {
     replace_netrw = false,
-    layout = __Globals.gen_snacks_picker_layout( { input = "top", width = 80, psize = 12 } )
+    layout = SPL( { input = "top", width = 80, psize = 12 } )
   },
   projects = {
     dev = { "/data/mnt/shared/data/", "/Media/NVIM/", "~/Downloads/Projects/" },
