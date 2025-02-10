@@ -341,15 +341,9 @@ require("commandpicker").setup({
       },
       category = "@Notifications"
     },
-    {
-      desc = "Function with simple mapping",
-      cmd = "<c-k>vv",
-      category = "@Testing",
-      keys = { 'i', "foo" }
-    }
   },
   order = { 'desc', 'cmd', 'mappings', 'category' },
-  custom_layout = __Globals.gen_snacks_picker_layout( { width=120, height=20, row=5, input="bottom", title="Command Palette", preview = false } ),
+  custom_layout = __Globals.gen_snacks_picker_layout( { width=120, height=20, row=5, input="bottom", preview = false } ),
   width = 120,
   height = 20
 })

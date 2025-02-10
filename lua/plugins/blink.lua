@@ -231,8 +231,7 @@ require("blink.cmp").setup({
           wordfiles = { "wordlist.txt", "personal.txt" },
           debug = false,
           read_on_setup = false,
-          watch_files = true,
-          telescope_theme = __Telescope_dropdown_theme,
+          watch_files = true
         }
       },
       lua = {

@@ -57,9 +57,6 @@ local function main_layout()
     return
   end
 
-  -- create custom telescope themes as globals
-  __Telescope_dropdown_theme = utils.Telescope_dropdown_theme
-  __Telescope_vertical_dropdown_theme = utils.Telescope_vertical_dropdown_theme
   did_UIEnter = true
   __Globals.main_winid = vim.fn.win_getid()
   if Config.plain == false then

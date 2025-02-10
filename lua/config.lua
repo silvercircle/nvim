@@ -22,36 +22,7 @@ if nvim_11 == 1 then
 end
 
 Config = {
-  telescope_fname_width = tweaks.telescope_fname_width,
-  telescope_vertical_preview_layout = tweaks.telescope_vertical_preview_layout,
   nightly = (nvim_11 ~= 0) and true or false,
-  telescope_dropdown='bottom',                  -- position for the input box in the dropdown theme. 'bottom' or 'top'
-  cpalette_dropdown = 'top',                    -- same for the command palette
-  -- the minipicker is the small telescope picker used for references, symbols and
-  -- treesitter-symbols. It also works in insert mode.
-  minipicker_symbolwidth = tweaks.telescope_symbol_width,
-  minipicker_layout = {
-    height = 0.85,
-    width = tweaks.telescope_mini_picker_width,
-    preview_height =10,
-    anchor = "N",
-  },
-  -- map symbol types to highlight groups for telescope since telescope does not use lspkind
-  telescope_symbol_highlights = {
-    Package   = "@namespace",
-    Module    = "@include",
-    Function  = "@function",
-    Constant  = "@constant",
-    Field     = "@field",
-    Property  = "@property",
-    Constructor = "@constructor",
-    Method    = "@method",
-    Class     = "@lsp.type.class",
-    Struct    = "@lsp.type.struct",
-    Namespace = "@namespace",
-    Enum      = "@lsp.type.enum_name",
-    Enummember= "@lsp.type.enum_member_name"
-  },
   cmp = {
     -- the following lists file types that are allowed to use the cmp_buffer source
     buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true, liquid = true },
