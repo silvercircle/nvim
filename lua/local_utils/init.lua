@@ -319,7 +319,7 @@ function Utils.BufClose()
     }
 
     if vim.g.confirm_actions["close_buffer"] == true then
-      Utils.simplepicker(items, "p", "Buffer is modified", execute)
+      Utils.simplepicker(items, execute, { prompt = "Buffer is modified" })
     else
       vim.cmd(closecmd)
     end
@@ -343,7 +343,8 @@ function Utils.PickFoldingMode(currentmode)
   end
 
   fdm = vim.iter(fdm):map(function(k)
-    if k.cmd == currentmode then k.p = 1000 k.hl = "Number" else k.p = 1 k.hl = "Fg" end
+    -- if k.cmd == currentmode then k.p = 1000 k.hl = "Number" else k.p = 1 k.hl = "Fg" end
+    if k.cmd == currentmode then k.current = true k.hl = "Number" else k.current = false k.hl = "Fg" end
     return k
   end):totable()
 
@@ -360,7 +361,7 @@ function Utils.PickFoldingMode(currentmode)
       end
     end
   end
-  Utils.simplepicker(fdm, "p:desc", "Pick a folding mode", execute)
+  Utils.simplepicker(fdm, execute,  { sortby = { "p:desc" }, prompt = "Pick a folding mode", pre = "current" })
 end
 
 function Utils.Quitapp()
@@ -369,7 +370,6 @@ function Utils.Quitapp()
   local menuitems = {}
   local prompt = ""
   local Snacks = require("snacks")
-  local Align = Snacks.picker.util.align
 
   for _, bufnr in ipairs(bufs) do
     have_modified_buf = vim.api.nvim_buf_get_option(bufnr, "modified") == true and true or have_modified_buf
@@ -399,8 +399,7 @@ function Utils.Quitapp()
       vim.cmd("qa!")
     end
   end
-
-  Utils.simplepicker(menuitems, "p", prompt, execute)
+  Utils.simplepicker(menuitems, execute, { prompt = prompt, sortby = { 'p:desc' }})
 end
 
 --- truncate the path and display the rightmost maxlen characters
@@ -468,7 +467,17 @@ function Utils.get_selection()
   end
 end
 
-function Utils.simplepicker(entries, sortby, prompt, fn)
+--- create a simple picker from the list of entries
+--- @param entries table: the items
+--- @param fn function: function to execute on confirm
+--- @param opts table: the options
+--- opts.sortby list sort by this field, may contain a :desc prefix
+--- opts.pre    string use this item field to determine the current item
+--- opts.prompt string: the prompt for the picker
+---
+function Utils.simplepicker(entries, fn, opts)
+  opts = opts or {}
+  local prompt = opts.prompt or ""
   local utils = require("local_utils")
   local Snacks = require("snacks")
   local Align = Snacks.picker.util.align
@@ -482,7 +491,7 @@ function Utils.simplepicker(entries, sortby, prompt, fn)
       return entries
     end,
     sort = {
-      fields = { sortby },
+      fields = opts.sortby or {},
     },
     focus = "list",
     matcher = { sort_empty = true },
@@ -495,7 +504,19 @@ function Utils.simplepicker(entries, sortby, prompt, fn)
       picker:close()
       fn(item.cmd)
     end,
-    layout = layout
+    layout = layout,
+    --- NOTE: how to preselect a picker item. if the field given in @param pre
+    --- is found and true, this item will be preselected.
+    on_show = function(picker)
+      if opts.pre ~= nil then
+        for i, item in ipairs(picker:items()) do
+          if item[opts.pre] ~= nil and item[opts.pre] == true then
+            picker.list:view(i)
+            Snacks.picker.actions.list_scroll_center(picker)
+          end
+        end
+      end
+    end
   })
 end
 

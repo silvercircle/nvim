@@ -896,7 +896,9 @@ function M.ui_select_variant()
     { hl = "Fg", cmd = "deepblack", text = "Deep dark", p = 1 },
     { hl = "Fg", cmd = "pitchblack", text = "OLED (pitch black", p = 1 },
   }
-  variants = vim.iter(variants):filter(function(k) if k.cmd == conf.variant then k.p = 1000 else k.p = 1 end return k end):totable()
+  variants = vim.iter(variants):filter(function(k)
+    if k.cmd == conf.variant then k.current = true else k.current = false end return k
+  end):totable()
 
   local function execute(cmd)
     conf.variant = cmd
@@ -904,7 +906,7 @@ function M.ui_select_variant()
     M.set()
   end
 
-  utils.simplepicker(variants, "p:desc", "Select theme variant", execute)
+  utils.simplepicker(variants, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select theme variant" })
 end
 
 -- use UI to present a selection of possible color configurations
@@ -919,7 +921,7 @@ function M.ui_select_colorweight()
   }
 
   vim.iter(items):map(function(k)
-    if conf.desaturate == k.d and conf.dlevel == k.level then k.p = 1000 else k.p = 1 end
+    if conf.desaturate == k.d and conf.dlevel == k.level then k.current = true else k.current = false end
     return k
   end):totable()
 
@@ -938,7 +940,7 @@ function M.ui_select_colorweight()
     conf_callback("desaturate")
   end
 
-  utils.simplepicker(items, "p:desc", "Select Color variant", execute)
+  utils.simplepicker(items, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select Color variant" })
 end
 
 -- toggle strings color. Allowed values are either "yellow" or "green"
