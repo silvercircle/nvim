@@ -90,6 +90,7 @@ local function _set()
   c.link("CmpItemKindInterface", "Interface")
   c.link("CmpItemKindValue", "StorageClass")
   c.link("CmpItemKindEvent", "Keyword")
+  c.link("CmpItemKindDict", "Fg")
   c.link("CmpItemKindTypeParameter", "Type")
   c.link("CmpItemKindReference", "Interface")
 

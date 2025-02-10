@@ -75,7 +75,7 @@ require("snacks").setup({
       border = Borderfactory("thicc"),
       row = -10,
       wo = {
-        -- winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder,FloatTitle:FloatTitle",
+        winhighlight = "NormalFloat:NormalFloat,FloatBorder:SnacksInputBorder,FloatTitle:FloatTitle",
       }
     }
   },

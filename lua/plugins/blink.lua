@@ -82,7 +82,8 @@ local function reverse_hl_groups()
   "BlinkCmpKindConstant", "BlinkCmpKindEnum", "BlinkCmpKindEnumMember",
   "BlinkCmpKindSnippet", "BlinkCmpKindOperator", "BlinkCmpKindInterface",
   "BlinkCmpKindValue", "BlinkCmpKindTypeParameter", "BlinkCmpKindFile",
-  "BlinkCmpKindFolder", "BlinkCmpKindEvent", "BlinkCmpKindReference"}
+  "BlinkCmpKindFolder", "BlinkCmpKindEvent", "BlinkCmpKindReference",
+  "BlinkCmpKindDict"}
 
   for _,v in ipairs(groups) do
     local hl = vim.api.nvim_get_hl(0, { name = v })
@@ -285,6 +286,9 @@ require("blink.cmp").setup({
         module = 'blink-cmp-dictionary',
         name = 'Dict',
         opts = {
+          kind_icons = {
+            Dict = " "
+          },
           dictionary_directories = { vim.fn.expand('~/.config/nvim/dict') },
           get_command = "rg",
           get_command_args = function(prefix)
@@ -340,6 +344,7 @@ require("blink.cmp").setup({
         components = {
           kind_icon = {
             text = function(ctx)
+              -- ctx.kind_icon = ctx.kind == "Dict" and "󰘝 " or ctx.kind_icon
               return "▌" .. ctx.kind_icon .. "▐"
             end,
             highlight = function(ctx) return "BlinkCmpKind" .. ctx.kind .. "Rev" end
