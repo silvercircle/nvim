@@ -13,10 +13,18 @@ require("snacks").setup({
     patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "pom.xml", "settings.gradle", "*.sln", "build.zig", "go.mod", "*.gpr" }
   },
   picker = {
+    formatters = {
+      file = {
+        filename_first = true,
+        truncate = 80
+      }
+    },
     layout = { preset = "vertical", layout = {backdrop = false, width=120, border = Borderfactory("thicc")} },
     icons = {
       kind = vim.g.lspkind_symbols
     },
+    -- on_show = function() vim.notify("on show") end,
+    -- on_close = function() vim.notify("on close") end,
     sources = {
       explorer = {
         auto_close = true,

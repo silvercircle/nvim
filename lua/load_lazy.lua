@@ -91,7 +91,12 @@ lazy.setup({
     lazy = true,
     event = "BufReadPost",
     config = function()
-      require("plugins.commandpicker_setup")
+      require("commandpicker").setup({
+        order = { 'desc', 'cmd', 'mappings', 'category' },
+        custom_layout = SPL( { width=120, height=20, row=5, input="bottom", preview = false } ),
+        width = 120,
+        height = 20
+      })
     end
   },
   {
@@ -229,7 +234,7 @@ lazy.setup({
   -- blink.cmp (alternative to nvim-cmp)
   {
     'silvercircle/blink.cmp',
-    branch = "mine",
+    branch = "repeat-via-completion",
     build = "cargo build --release",
     lazy = true,
     event = "ModeChanged",

@@ -493,3 +493,8 @@ if status == true then
   end, "Snacks buffer list")
 
 end
+-- allow to move the cursor during multicursor-editing, prevent <Left>, <Right> from
+-- creating undo points..
+vim.keymap.set('i', "<Left>",  "<C-g>U<Left>", { silent = true, noremap = true } )
+vim.keymap.set('i', "<Right>",  "<C-g>U<Right>", { silent = true, noremap = true } )
+

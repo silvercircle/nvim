@@ -308,7 +308,8 @@ require("blink.cmp").setup({
   },
   completion = {
     accept = {
-      create_undo_point = false,
+      -- dot_repeatable = true,
+      create_undo_point = true,
       resolve_timeout_ms = 50,
       auto_brackets = {
         enabled = true,
