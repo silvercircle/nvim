@@ -68,7 +68,7 @@ kms({ "n", "i" }, "<C-l>", "<NOP>", opts)
 
 -- disable <ins> toggling the (annoying) replace mode. Instead use <c-ins> to switch to replace
 map("i", "<ins>", "<nop>", opts)
-map("i", "<C-v>", "<c-r><c-p>+", opts)
+-- map("i", "<C-v>", "<c-r><c-p>+", opts)
 
 map('n', '<leader><tab>', '<CMD>tabnext<CR>', opts)
 
@@ -113,7 +113,10 @@ map('n', '<leader>v', '}kV{j', opts) -- select current paragraph
 
 vim.g.setkey({'i', 'n', 'v'}, '<C-s><C-s>', function() perform_command("update!") end, "Save file")
 
-vim.g.setkey({'n', 'i', 'v'}, '<C-s><C-c>', function() require("local_utils").BufClose() end, "Close Buffer")
+vim.g.setkey({'n', 'i', 'v'}, '<C-s><C-c>', function()
+  vim.cmd.stopinsert()
+  vim.schedule(function() require("local_utils").BufClose() end)
+end, "Close Buffer")
 vim.g.setkey({'n', 'i', 'v'}, '<f5>', function() perform_command('nohl') end, "Clear highlighted search results")
 
 vim.g.setkey('i', '<C-z>', function() perform_command("undo") end, "Undo (insert mode)")
@@ -121,37 +124,57 @@ vim.g.setkey('i', '<C-z>', function() perform_command("undo") end, "Undo (insert
 -- various
 map('i', '<C-y>-', '—', opts) -- emdash
 map('i', '<C-y>"', '„”', opts) -- typographic quotes („”)
-vim.g.setkey({ 'n', 'i' }, '<A-w>', function() if vim.fn.win_getid() ~= __Globals.main_winid then vim.cmd('close') end end, "Close Window")
+vim.g.setkey({ 'n', 'i' }, '<A-w>', function()
+  if vim.fn.win_getid() ~= __Globals.main_winid then vim.cmd('close') end
+end, "Close Window")
 
-vim.g.setkey({'n', 'i'}, '<C-f>c', function() __Globals.close_qf_or_loc() end, "Close quickfix/loclist window")
+vim.g.setkey({'n', 'i'}, '<C-f>c', function()
+  __Globals.close_qf_or_loc()
+end, "Close quickfix/loclist window")
 
---- mini picker shortcuts, all start with <C-m>
-vim.g.setkey({ 'n', 'i' }, '<C-a>f', function() utils.PickFoldingMode(vim.o.foldmethod) end, "Pick folding mode")
+--- mini picker shortcuts, all start with <C-a>
+vim.g.setkey({ 'n', 'i' }, '<C-a>f', function()
+  utils.PickFoldingMode(vim.o.foldmethod)
+end, "Pick folding mode")
 
-vim.g.setkey('n', '<C-a>e', function()
-  require("mini.extra").pickers.explorer(
-  { cwd = vim.fn.expand("%:p:h")  },
-  { window = { config = __Globals.mini_pick_center(60, 0.6, 0.2) } })
-end, "Open Mini.Explorer at current directory")
+vim.g.setkey({'n', 'i'}, '<C-a>e', function()
+  require("fzf-lua").files({ formatter = "path.filename_first", cwd = vim.fn.expand("%:p:h"), winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+end, "Open Mini File Browser at current directory")
 
-vim.g.setkey( 'n', '<C-a><C-e>', function()
-  require("mini.extra").pickers.explorer(
-  { cwd = utils.getroot_current()  },
-  { window = { config = __Globals.mini_pick_center(60, 0.6, 0.2) } })
-end, "Open Mini.Explorer at project root")
+vim.g.setkey({'n', 'i'}, '<C-a><C-e>', function()
+  require("fzf-lua").files({ formatter = "path.filename_first", cwd = utils.getroot_current(), winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+end, "Open Mini File Browser at project root")
 
---_Config_SetKey('n', '<C-a>m', function()
---  require("mini.extra").pickers.marks(
---  { },
---  { window = { config = __Globals.mini_pick_center(50, 0.6, 0.2) } })
---end, "Mini.Picker for marks")
+vim.g.setkey({'n', 'i'}, '<A-E>', function()
+  require("snacks").picker.explorer({cwd = utils.getroot_current(), layout = __Globals.gen_snacks_picker_layout( { width = 70, psize = 12, input = "top" }) })
+end, "Open Snacks Explorer")
+-- this is a bit hacky. it tries to find the root directory of the sources
+-- in the current project. it assumes that sources are located in one of the
+-- subfolders listed in Tweaks.srclocations. You can customize this if you want
+vim.g.setkey({'n', 'i'}, '<A-e>', function()
+  local found = false
+  local path = utils.getroot_current()
+  for _, v in ipairs(vim.g.tweaks.srclocations) do
+    local res = vim.fs.joinpath(path, v)
+    if vim.fn.isdirectory(res) == 1 then
+      found = true
+      require("fzf-lua").files({ formatter = "path.filename_first", cwd = res, winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+    end
+  end
+  -- if we cannot find a source root, use the project root instead
+  if found == false and path ~= nil and vim.fn.isdirectory(path) then
+    require("fzf-lua").files({ cwd = path, winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+  end
+end, "Open Mini File Browser and guess sources root")
 
-vim.g.setkey('n', '<C-a>h', function()
-  require("mini.pick").builtin.help(
-  { },
-  { window = { config = __Globals.mini_pick_center(60, 0.5, 0.2) } })
-end, "Mini.Picker for help tags")
----
+vim.g.setkey('n', '<C-a>w', function()
+  require("mini.files").open(vim.fn.expand("%:p:h"))
+end, "Open Mini.Files at current directory")
+
+vim.g.setkey('n', '<C-a><C-w>', function()
+  require("mini.files").open(utils.getroot_current())
+end, "Open Mini.Files at project root")
+
 vim.g.setkey({'n', 'i', 'v'}, '<C-S-Down>', function() perform_command('silent! cnext') end, "Quickfix next entry")
 vim.g.setkey({'n', 'i', 'v'}, '<C-S-Up>', function() perform_command('silent! cprev') end, "Quickfix previous entry")
 vim.g.setkey({'n', 'i', 'v'}, '<C-S-PageDown>', function() perform_command('silent! lnext') end, "Loclist next entry")
@@ -187,19 +210,26 @@ end, { expr = true, desc = "Export HlsLens results to Quickfix list" })
 
 map('n', 'hl', "<CMD>Inspect<CR>", opts)
 
-vim.g.setkey({ 'i', 'n' }, fkeys.s_f1, function() vim.lsp.buf.signature_help() end, "Show signature help")
-vim.g.setkey({ 'i', 'n' }, '<f1>', function()
-  local hover = require("hover")
+if vim.g.tweaks.completion.version ~= "blink" then
+  vim.g.setkey({ 'i', 'n' }, fkeys.s_f1, function() vim.lsp.buf.signature_help() end, "Show signature help")
+end
+
+--- opens a hover for the symbol under the cursor. if it's a closed UFO fold, then
+--- show a hover for it instead.
+--- press <F1> again to enter the hover window, press <q> to dismiss it.
+vim.keymap.set({ "n", "i" }, '<f1>', function()
   local status, ufo = pcall(require, "ufo")
-  if status == false then
-    hover.hover()
-  else
-    local wid = ufo.peekFoldedLinesUnderCursor()
-    if not wid then
-      hover.hover()
-    end
+  local winid = (status == true) and ufo.peekFoldedLinesUnderCursor() or false
+  if not winid then
+  	local api = vim.api
+	  local hover_win = vim.b.hover_preview
+  	if hover_win and api.nvim_win_is_valid(hover_win) then
+	  	api.nvim_set_current_win(hover_win)
+  	else
+	  	require("hover").hover()
+  	end
   end
-end, "LSP Hover help")
+end, { desc = "LSP hover window" })
 
 vim.g.setkey({ 'i', 'n' }, '<C-x>D', function()
   vim.lsp.buf.definition()
@@ -234,8 +264,12 @@ vim.g.setkey('n', fkeys.s_f11, function() perform_command('Lazy') end, "Open Laz
 -- they use a prefix key, by default <C-l>. Can be customized in tweaks.lua
 
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-l>', function() __Globals.toggle_statuscol() end, "Toggle absolute/relative line numbers")
+vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-p>', function()
+  local status = vim.lsp.inlay_hint.is_enabled({bufnr = 0})
+  vim.notify("Toggle inlay")
+  vim.lsp.inlay_hint.enable(not status, {bufnr = 0})
+end, "Toggle LSP inlay hints")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-k>', function() __Globals.toggle_colorcolumn() end, "Toggle color column display")
-vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-p>', function() __Globals.toggle_ibl_rainbow() end, "Toggle indent-blankline rainbow mode")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-o>', function() __Globals.toggle_ibl() end, "Toggle indent-blankline active")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-u>', function() __Globals.toggle_ibl_context() end, "Toggle indent-blankline context")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-z>', function()
@@ -251,35 +285,20 @@ vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-g>', function()
   end
 end, "Declutter status line")
 
-vim.g.setkey('n', '<A-q>', function()
-  utils.Quitapp()
+vim.g.setkey({'n', 'i'}, '<A-q>', function()
+  vim.cmd.stopinsert()
+  vim.schedule(function() utils.Quitapp() end)
 end, "Quit Neovim")
-vim.g.setkey({ 'n', 'i' }, '<C-e>', function()
-  require('telescope.builtin').buffers(
-    __Telescope_dropdown_theme({
-      title = 'Buffer list',
-      width = 120,
-      prompt_prefix = utils.getTelescopePromptPrefix(),
-      height = 0.4,
-      sort_lastused = true,
-      sort_mru = true,
-      show_all_buffers = true,
-      ignore_current_buffer = true,
-      sorter = require('telescope.sorters').get_substr_matcher(),
-    })
-  )
-end, "Telescope Buffer list")
-vim.g.setkey({ 'n', 'i' }, '<A-e>', function()
-  require("mini.pick").builtin.buffers({include_current=false}, {window = { config = __Globals.mini_pick_center(100, 20, 0.1) } } )
-end, "Mini.Picker Buffer list")
 
 vim.g.setkey({'n', 'i'}, '<C-p>', function()
-  require('telescope.builtin').oldfiles(
-    __Telescope_dropdown_theme({ prompt_prefix = utils.getTelescopePromptPrefix(), title = 'Old files', width = 120, height = 0.5 })
-  )
-end, "Telescope old files")
-vim.g.setkey('n', '<A-p>', function()
-  require('telescope').extensions.command_center.command_center({ filter={ mode = 'n' }})
+  require('fzf-lua').oldfiles( { formatter = "path.filename_first", winopts = vim.g.tweaks.fzf.winopts.small_no_preview })
+end, "FZF-LUA old files")
+
+vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
+  require("fzf-lua").buffers({ formatter = "path.filename_first", mru = true, no_action_zz = true, no_action_set_cursor = true, winopts = vim.g.tweaks.fzf.winopts.small_no_preview })
+end, "FZF buffer list")
+vim.g.setkey({'n', 'i', 'v' }, '<A-p>', function()
+  require("commandpicker").open()
 end, "Telescope command palette")
 
 -- quick-focus the four main areas
@@ -302,6 +321,13 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   -- otherwise search it and if none is found, open it.
   if __Globals.findbufbyType(__Globals.perm_config.outline_filetype) == false then
     __Globals.open_outline()
+    local status = __Globals.is_outline_open()
+    if status.aerial ~= 0 then
+      require("aerial").refetch_symbols(0) -- aerial plugin, refresh symbols
+    end
+    if status.outline ~= 0 then
+      require("outline").refresh_outline()
+    end
   end
 end, "Focus Outline window") -- Outline
 
@@ -389,12 +415,14 @@ vim.keymap.set('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cw
 -- Alt-d: Detach all TUI sessions from the (headless) master
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-d>', function() __Globals.detach_all_tui() end, "Detach all TUI")
 
+local wordlist_module = vim.g.tweaks.completion == "nvim-cmp" and "cmp_wordlist" or "blink-cmp-wordlist"
+
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'za', function()
-  require("cmp_wordlist").add_cword()
+  require(wordlist_module).add_cword()
 end, "Add current word to wordlist")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'zt', function()
-  require("cmp_wordlist").add_cword_with_translation()
+  require(wordlist_module).add_cword_with_translation()
 end, "Add current word with translation to wordlist")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'wt', function()
@@ -428,6 +456,10 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<C-x>ft', function()
   __Globals.notify("Filetype is: " .. vim.api.nvim_get_option_value("filetype", { buf = 0 }), 2, " ")
 end, "Show filetype of current buffer")
 
+vim.g.setkey({ 'n', 'i', 't', 'v' }, '<C-x>bt', function()
+  __Globals.notify("Buftype is: " .. vim.api.nvim_get_option_value("buftype", { buf = 0 }), 2, " ")
+end, "Show buftype of current buffer")
+
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
   local status = __Globals.is_outline_open()
   if status.aerial ~= 0 then
@@ -447,6 +479,17 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-n>', function()
     require("aerial").nav_open()
   end
 end, "Open Navbuddy window")
+
 require("local_utils.marks").set_keymaps()
+vim.cmd("nunmap <cr>")
 
+local status, snacks = pcall(require, "snacks")
+if status == true then
+  vim.g.setkey( 'n', '<C-S-P>', function()
+    snacks.picker.projects({ layout = __Globals.gen_snacks_picker_layout( {width = 50, height = 20, row = 5, title = "Projects" } ) })
+  end, "Open snacks projects picker")
+  vim.g.setkey( {'n', 'i'}, '<C-S-E>', function()
+    snacks.picker.smart({ layout = __Globals.gen_snacks_picker_layout( {width = 70, height = 20, row = 5, title = "Buffers", input = "top" } ) })
+  end, "Snacks buffer list")
 
+end

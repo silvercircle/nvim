@@ -2,21 +2,23 @@
 
 local function _set()
   local c = require("darkmatter")
-  local conf = c.get_conf()
 
-  c.link("BlinkCmpMenu", "NeoTreeNormalNC")
+  c.link("BlinkCmpMenu", "CmpFloat")
   c.link("BlinkCmpMenuBorder", "CmpBorder")
-
-  c.link("BlinkCmpDoc", "NeoTreeNormalNC")
+  c.link("BlinkCmpDoc", "CmpFloat")
   c.link("BlinkCmpDocBorder", "CmpBorder")
+  c.link("BlinkCmpSignature", "CmpFloat")
+  c.link("BlinkCmpSignatureBorder", "CmpBorder")
+  c.link("BlinkCmpSignatureHelp", "CmpFloat")
+  c.link("BlinkCmpSignatureHelpBorder", "CmpBorder")
   c.link("BlinkCmpDocSeparator", "Debug")
   c.link("BlinkCmpDocCursorLine", "CursorLine")
-
-  c.link("BlinkCmpLabelDetail", "Include")
+  c.link("BlinkCmpLabel", "CmpItemAbbr")
+  c.link("BlinkCmpLabelDetail", "String")
   c.link("BlinkCmpMenuSnippet", "Number")
   c.link("BlinkCmpMenuLSP", "StorageClass")
   c.set_hl(0, "BlinkCmpLabelDeprecated", { bg = "NONE", strikethrough = true, fg = "#808080" })
-  c.link("BlinkCmpLabelMatch", "RedBold")
+  c.link("BlinkCmpLabelMatch", "DeepRedBold")
   c.link("BlinkCmpLabelMatchFuzzy", "DarkPurpleBold")
   c.link("BlinkCmpSource", "Brown")
   c.link("BlinkCmpKindDefault", "FgDim")
@@ -43,8 +45,10 @@ local function _set()
   c.link("BlinkCmpKindOperator", "Operator")
   c.link("BlinkCmpKindEvent", "Keyword")
   c.link("BlinkCmpKindInterface", "Interface")
+  c.link("BlinkCmpKindDict", "Fg")
   c.link("BlinkCmpKindValue", "StorageClass")
   c.link("BlinkCmpKindTypeParameter", "Type")
+  c.link("BlinkCmpKindReference", "Interface")
 end
 
 local M = {}

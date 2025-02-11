@@ -6,6 +6,8 @@
 -- * variants(variant_name)
 -- * attributes()
 
+-- custom themes must be named as themename.lua and reside in the darkmatter/themes
+-- folder.
 local vivid_colors = {
   orange = { "#dfa690", 215 },
   blue = { "#4a4adf", 239 },
@@ -104,25 +106,25 @@ function M.basepalette(desaturate, dlevel)
 end
 
 function M.variants(variant)
-    if variant == "cold" or variant == "deepblack" then
-      return {
-        black = { "#121215", 232 },
-        bg_dim = { "#222327", 232 },
-        bg0 = { "#2c2e34", 235 },
-        bg1 = { "#33353f", 236 },
-        bg2 = { "#363944", 236 },
-        bg4 = { "#414550", 237 }
-      }
-    else
-      return {
-        black = { "#151212", 232 },
-        bg_dim = { "#242020", 232 },
-        bg0 = { "#302c2e", 235 },
-        bg1 = { "#322a2a", 236 },
-        bg2 = { "#403936", 236 },
-        bg4 = { "#504531", 237 }
-      }
-    end
+  if variant ~= "warm" then
+    return {
+      black = { "#121215", 232 },
+      bg_dim = { "#222327", 232 },
+      bg0 = { "#202026", 235 },
+      bg1 = { "#33353f", 236 },
+      bg2 = { "#363944", 236 },
+      bg4 = { "#414550", 237 }
+    }
+  else
+    return {
+      black = { "#151212", 232 },
+      bg_dim = { "#242020", 232 },
+      bg0 = { "#2c2e34", 235 },
+      bg1 = { "#322a2a", 236 },
+      bg2 = { "#403936", 236 },
+      bg4 = { "#504531", 237 }
+    }
+  end
 end
 
 -- these are the base attributes for a scheme. The setup() function merges them
@@ -131,7 +133,11 @@ function M.attributes()
   return {
     comment      = {},
     keyword      = { bold = true },   -- keywords
-    conditional  = { bold = true },   -- special keywords (if, then...)
+    kwspecial    = { bold = true },   -- keywords
+    kwconditional= { bold = true },   -- if/then
+    kwrepeat     = { bold = true },   -- loops
+    kwexception  = { bold = true },
+    kwreturn     = { bold = true },   -- return keyword(s)
     types        = {},                -- types (classes, interfaces)
     storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
     struct       = {},
@@ -141,7 +147,6 @@ function M.attributes()
     func         = {},   -- functions
     method       = {},                -- class methods
     attribute    = { bold = true, italic = true },
-    annotation   = { bold = true, italic = true },
     staticmethod = { bold = true },
     member       = {},                -- class member (field, property...)
     staticmember = { bold = true },
@@ -157,7 +162,10 @@ function M.attributes()
     cmpkind      = {},
     uri          = {},
     bool         = { bold = true },
-    module       = { bold = true }
+    module       = { bold = true },
+    constant     = {},
+    macro        = { bold = true },
+    defaultlib   = { bold = true, italic = true }
   }
 end
 
@@ -178,6 +186,7 @@ function M.theme()
       statuslinebg = "#262630",
       bg = "#141414",
       treebg = "#18181c",
+      floatbg = "#22221f",
       gutterbg = "#101013",
       kittybg = "#18181c",
       fg = "#a2a0ac",
@@ -187,6 +196,7 @@ function M.theme()
       statuslinebg = "#2a2626",
       bg = "#161414",
       treebg = "#1b1818",
+      floatbg = "#1f2222",
       gutterbg = "#131010",
       kittybg = "#1b1818",
       fg = "#aaa0a5",
@@ -194,10 +204,21 @@ function M.theme()
     },
     deepblack = {
       statuslinebg = "#222228",
-      bg = "#0a0a0a",
+      bg = "#080808",
       treebg = "#121212",
+      floatbg = "#191919",
       gutterbg = "#0f0f0f",
       kittybg = "#121212",
+      fg = "#b0b0b5",
+      fg_dim = "#95959c"
+    },
+    pitchblack = {
+      statuslinebg = "#222228",
+      bg = "#020202",
+      treebg = "#0d0d0d",
+      floatbg = "#101010",
+      gutterbg = "#020202",
+      kittybg = "#0d0d0d",
       fg = "#b0b0b5",
       fg_dim = "#95959c"
     }

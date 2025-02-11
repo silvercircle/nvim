@@ -1,29 +1,14 @@
 " Set configuration variables
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_frontmatter = 1
-
-let g:rnvimr_enable_picker = 1
-let g:rnvimr_draw_border = 1
-let g:VM_theme = 'sand'
-'
-" Customize the initial layout
-" Rnvimr plugin (ranger filemanager integration)
-" Activate with <C-f8>
-let g:rnvimr_layout = {
-            \ 'relative': 'editor',
-            \ 'width': float2nr(round(0.9 * &columns)),
-            \ 'height': float2nr(round(0.9 * &lines)),
-            \ 'col': float2nr(round(0.05 * &columns)),
-            \ 'row': float2nr(round(0.05 * &lines)),
-            \ 'style': 'minimal'
-            \ }
-
 lua << EOB
 vim.loader.enable()
-package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
-package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
+-- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 -- bootstrap lazy
+vim.g._ts_force_sync_parsing = true
 require('config')
 __Globals.restore_config()
 __Globals.set_statuscol(__Globals.perm_config.statuscol_current)
@@ -42,10 +27,8 @@ require('options')
 require('load_lazy')
 require("auto")
 require('keymap')
-EOB
 
-" set guifont=JetBrains\ Mono\ Medium:h9:#e-subpixelantialias:#h-full
-" let g:neovide_fullscreen = v:true
+EOB
 
 run macros/justify.vim
 filetype on
@@ -53,24 +36,7 @@ syntax on
 filetype plugin indent on
 set noshowmode
 
-if exists('g:neoray')
-  run gui/neoray.vim
-endif
-" a key mapping for the kwbd macro to close a buffer
 command C Kwbd
-
-" function! Foobar(event)
-"   echo "UIEnter vimscript"
-"   let chan = a:event["chan"]
-"   lua __Globals.set_session(vim.fn.eval("chan"))
-" endfunction
-
-" augroup filetypes
-"   autocmd!
-"   autocmd FileType ada,d,nim,objc,objcpp,javascript,scala,typescript syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\-\+]'
-"   autocmd FileType lua syn match Braces display '[{}()\[\]\.\:\;\=\>\<\,\!\~\&\|\*\+]'
-"   " autocmd UIEnter * call Foobar(v:event)
-" augroup end
 
 " This is for adding fortune cookies. User will be prompted for a section
 " (multiple sections can be entered separated with spaces) and the fortune
@@ -108,4 +74,19 @@ if executable('rg')
     set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
+
+" simple function to multiply the number under the cursor with a given factor
+function! Mult(fact)
+    let oldv = getreg("v")
+
+    call search('\d\([^0-9\.]\|$\)', 'cW')
+    normal v
+    call search('\(^\|[^0-9\.]\d\)', 'becW')
+
+    normal "vygv
+
+    execute "normal c" . float2nr(@v * a:fact)
+    call setreg("v", oldv)
+endfunction
+
 

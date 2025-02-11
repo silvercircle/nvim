@@ -1,13 +1,11 @@
 -- set vim options and autocommands. No plugins involved
 
 local o = vim.o
-
-o.shada = "!,'200,<20,s10,h,f1,%20,:500,rreplacer://,rterm://,rOUTLINE,rNvimTree_1,rMERGE_MSG"
+o.shada = "!,'100,<20,s10,h,@200,f1,%100,/100,:200,rreplacer://,rterm://,rOUTLINE,rNvimTree_1,rMERGE_MSG,r$metadata"
 o.termguicolors = true
-if Config.nightly == 1 then
-  o.termsync = false
-end
+o.termsync = false
 o.background = "dark"
+o.foldtext = ""
 o.cursorline = true
 o.sessionoptions = "buffers"
 o.wildmenu = true
@@ -25,7 +23,6 @@ o.backspace = "indent,eol,start"
 o.tabstop = 4
 o.textwidth = 76
 o.expandtab = true
-o.clipboard = "unnamed"
 -- which keys allow the cursor to wrap at the begin or ending of a line.
 o.whichwrap = "b,s,<,>,[,]"
 vim.opt_local.formatoptions:remove({ "t" })
@@ -48,33 +45,23 @@ o.showmode = true
 o.showcmd = true
 o.wildmenu = true
 o.ruler = true
-o.tm = 500
 o.wrap = false
 -- gutter config. set numbers (5 digits max)
 o.numberwidth =  vim.g.tweaks.numberwidth
 vim.opt.listchars = {tab = '  ', trail = '▪', extends = '>', precedes = '<', eol = '↴' }
 vim.opt.list = true
-
--- statuscolumn stuff
--- this only customizes the fill chars. statuscolumn is set at the end
--- via the globals function
-if vim.fn.has('nvim-0.9') == 1 then
-  if vim.g.tweaks.use_foldlevel_patch == true then
-    o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]
-    --o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
-  else
-    o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
-  end
-  -- single-column fold guide, using a patched screen.c without the stupid numbers ;)
-  o.foldcolumn="1"
+if vim.g.tweaks.use_foldlevel_patch == true then
+  o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]
+--  --o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
+else
+  o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
 end
-
+o.foldcolumn = "1"
 -- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 
 -- indentation-based folding.
 if Config.treesitter == true then
   o.foldmethod = "expr"
-  vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-  -- vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
+  vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 else
   o.foldmethod = "indent"
   o.foldexpr = ""
@@ -95,16 +82,16 @@ o.signcolumn = vim.g.tweaks.signcolumn
 vim.opt.dictionary:append(vim.fn.stdpath("data") .. "/dict")
 -- do not use swap files.
 o.swapfile = false
--- wait 800ms to show hover popups (diagnostics, for example) this would
+-- wait 500ms to show hover popups (diagnostics, for example) this would
 -- also set the timeout after which the swapfile for the current buffer is
 -- updated. But since we use none..
-o.updatetime = 800
+o.updatetime = 500
 o.updatecount = 0
 -- wait that many milliseconds for keq sequences to complete
 o.timeoutlen = 800
 o.scrolloff = 5
 o.undolevels = 50
-o.scrolljump = 1
+o.scrolljump = 2
 o.sidescrolloff = 5
 o.sidescroll = 5
 o.conceallevel = 0

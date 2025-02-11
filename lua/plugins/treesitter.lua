@@ -2,7 +2,7 @@ require("nvim-treesitter.configs").setup({
   auto_install = true,
   ensure_installed = Config.treesitter_types,
   textobjects = {
-    enable = false
+    enable = true
   },
   incremental_selection = {
     enable = true,
@@ -40,4 +40,3 @@ require("nvim-treesitter.configs").setup({
   }
 })
 __Globals.configure_treesitter()
-vim.treesitter.language.register("css", "scss")

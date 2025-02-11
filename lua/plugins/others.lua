@@ -6,7 +6,7 @@ M.setup = {
     local i = require("neogen.types.template").item
     require("neogen").setup({
       enabled = true,
-      snippet_engine = "snippy",
+      snippet_engine = "nvim",
       languages = {
         cs = {
           template = {
@@ -85,7 +85,7 @@ M.setup = {
       -- Separator between context and content. Should be a single character string, like '-'.
       -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
       separator = "─",
-      zindex = 100,       -- The Z-index of the context window
+      zindex = 10,       -- The Z-index of the context window
       on_attach = function()
         return true
       end
@@ -114,14 +114,15 @@ M.setup = {
       }
     })
   end,
+
   ufo = function()
     require("ufo").setup({
       open_fold_hl_timeout = 0,
       --provider_selector = function(bufnr, filetype, buftype)
       provider_selector = function()
-        return { "treesitter", "indent" }
+        return { "treesitter" }
       end,
-      -- fold_virt_text_handler = __Globals.ufo_virtual_text_handler,
+      fold_virt_text_handler = __Globals.ufo_virtual_text_handler,
       preview = {
         mappings = {
           scrollU = "<Up>",
@@ -131,10 +132,16 @@ M.setup = {
         },
         win_config = {
           max_height = 30,
-          border = __Globals.perm_config.telescope_borders
+          winhighlight = "Normal:NeoTreeNormalNC",
+          border = Borderfactory("thicc") -- __Globals.perm_config.telescope_borders
         }
       }
+
     })
+    vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+    vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+    vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds)
+    vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith)
   end,
 
   trouble = function()
@@ -157,6 +164,23 @@ M.setup = {
 
   gitsigns = function()
     require("gitsigns").setup({
+      signs = {
+        add          = { text = "┃" },
+        change       = { text = "┃" },
+        delete       = { text = "━" },
+        topdelete    = { text = "‾" },
+        changedelete = { text = "~" },
+        untracked    = { text = "┆" },
+      },
+      signs_staged = {
+        add          = { text = "▌" },
+        change       = { text = "▌" },
+        delete       = { text = "━" },
+        topdelete    = { text = "‾" },
+        changedelete = { text = "~" },
+        untracked    = { text = "┆" },
+      },
+      signs_staged_enable = true,
       _refresh_staged_on_update = false,
       signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
       numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
@@ -175,21 +199,22 @@ M.setup = {
         ignore_whitespace = false,
       },
       current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
-      sign_priority = 0,
+      sign_priority = 1, --65535,
       update_debounce = 1000,
       status_formatter = nil, -- Use default
       max_file_length = 40000, -- Disable if file is longer than this (in lines)
       preview_config = {
         -- Options passed to nvim_open_win
-        border = __Globals.perm_config.telescope_borders,
+        border = "single", -- __Globals.perm_config.telescope_borders,
+
         style = "minimal",
         relative = "cursor",
         row = 0,
-        col = 1,
-      },
-      yadm = {
-        enable = false,
-      },
+        col = 1
+      }
+      --yadm = {
+      --  enable = false,
+      --},
     })
   end,
 
@@ -208,7 +233,6 @@ M.setup = {
 
   -- currently not in use
   conform = function()
-    local util = require("conform.util")
     require("conform").setup({
       formatters_by_ft = {
         lua = { "stylua" },
@@ -226,6 +250,7 @@ M.setup = {
     })
   end,
 
+  -- unused
   orgmode = function()
     require('orgmode').setup_ts_grammar()
     require("orgmode").setup({
@@ -236,6 +261,221 @@ M.setup = {
 
   cabinet = function()
     require("cabinet"):setup()
+  end,
+
+  mini_extra = function()
+    require("mini.extra").setup()
+  end,
+
+  mini_files = function()
+    require("mini.files").setup({
+      windows = {
+        preview = true,
+        width_preview = 80
+      }
+    })
+  end,
+
+  mini_pick = function()
+    require("mini.pick").setup()
+  end,
+
+  -- https://github.com/j-hui/fidget.nvim
+  fidget = function()
+    __Globals.notifier = require("fidget").notify
+    vim.notify = require("fidget").notify
+    require("fidget").setup({
+      progress = {
+        poll_rate = 1,
+        ignore_done_already = true,
+        ignore_empty_message = true,
+        display = {
+          render_limit = 4,
+          skip_history = false
+        }
+      },
+      notification = {
+        override_vim_notify = true,
+        history_size = 50,
+        filter = vim.log.levels.TRACE,
+        configs = {
+          --default = require("fidget.notification").default_config
+        },
+        window = {
+          winblend = 0,
+          normal_hl = "NormalFloat",
+          border = Borderfactory("thicc")
+        }
+      }
+    })
+  end,
+
+  -- https://github.com/jake-stewart/multicursor.nvim
+  multicursor_stewart = function()
+    local mc = require("multicursor-nvim")
+
+    mc.setup({
+      shallowUndo = true
+    })
+
+    -- Add cursors above/below the main cursor.
+    vim.keymap.set({ "n", "v" }, "<C-up>", function() mc.addCursor("k") end)
+    vim.keymap.set({ "n", "v" }, "<C-down>", function() mc.addCursor("j") end)
+
+    -- Add a cursor and jump to the next word under cursor.
+    vim.keymap.set({ "n", "v" }, "<c-n>", function() mc.addCursor("*") end)
+
+    -- Jump to the next word under cursor but do not add a cursor.
+    vim.keymap.set({ "n", "v" }, "<c-m>", function() mc.skipCursor("*") end)
+
+    -- Rotate the main cursor.
+    vim.keymap.set({ "n", "v" }, "<C-left>", mc.nextCursor)
+    vim.keymap.set({ "n", "v" }, "<C-right>", mc.prevCursor)
+
+    -- Delete the main cursor.
+    vim.keymap.set({ "n", "v" }, "<leader>x", mc.deleteCursor)
+
+    -- Add and remove cursors with control + left click.
+    vim.keymap.set("n", "<c-leftmouse>", mc.handleMouse)
+
+    vim.keymap.set({ "n", "v" }, "<c-q>", function()
+      if mc.cursorsEnabled() then
+        -- Stop other cursors from moving.
+        -- This allows you to reposition the main cursor.
+        mc.disableCursors()
+      else
+        mc.addCursor()
+      end
+    end)
+
+    vim.keymap.set({ "n", "v" }, "<leader>q", function()
+      -- clone every cursor and disable the originals
+      mc.duplicateCursors()
+    end)
+
+    vim.keymap.set("n", "<esc>", function()
+      if not mc.cursorsEnabled() then
+        mc.enableCursors()
+      elseif mc.hasCursors() then
+        mc.clearCursors()
+      else
+        -- Default <esc> handler.
+      end
+    end)
+
+    -- Align cursor columns.
+    vim.keymap.set("n", "<leader>a", mc.alignCursors)
+
+    -- Split visual selections by regex.
+    vim.keymap.set("v", "S", mc.splitCursors)
+
+    -- Append/insert for each line of visual selections.
+    vim.keymap.set("v", "I", mc.insertVisual)
+    vim.keymap.set("v", "A", mc.appendVisual)
+
+    -- match new cursors within visual selections by regex.
+    vim.keymap.set("v", "M", mc.matchCursors)
+
+    -- Rotate visual selection contents.
+    vim.keymap.set("v", "<leader>t", function() mc.transposeCursors(1) end)
+    vim.keymap.set("v", "<leader>T", function() mc.transposeCursors(-1) end)
+
+    -- Customize how cursors look.
+    -- this is done by my theme which has support for this plugin. You may need to uncomment
+    -- this for different themes
+    -- vim.api.nvim_set_hl(0, "MultiCursorSign", { link = "Normal" })
+    -- vim.api.nvim_set_hl(0, "MultiCursorCursor", { link = "Cursor" })
+    -- vim.api.nvim_set_hl(0, "MultiCursorVisual", { link = "Visual" })
+    -- vim.api.nvim_set_hl(0, "MultiCursorDisabledCursor", { link = "Visual" })
+    -- vim.api.nvim_set_hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
+  end,
+
+  -- https://github.com/brenton-leighton/multiple-cursors.nvim
+  multicursor_brenton = function()
+    require("multiple-cursors").setup({
+      opts = {
+        pre_hook = function()
+          vim.cmd("set nocul")
+          -- vim.cmd("NoMatchParen")
+        end,
+        post_hook = function()
+          vim.cmd("set cul")
+          -- vim.cmd("DoMatchParen")
+        end,
+        custom_key_maps = {
+          {"n", "<Leader>>", function() require("multiple-cursors").align() end}
+        }
+      },
+      keys = {
+        {"<C-q>", "<Cmd>MultipleCursorsMouseAddDelete<CR>", mode = {"n", "i"}, desc = "Add or remove a cursor"},
+      }
+    })
+  end,
+
+  glance = function()
+    local glance = require("glance")
+    local actions = glance.actions
+    glance.setup({
+      height = 25, -- Height of the window
+      border = {
+        enable = true, -- Show window borders. Only horizontal borders allowed
+        top_char = "—",
+        bottom_char = "—",
+      },
+      preview_win_opts = { -- Configure preview window options
+        cursorline = true,
+        number = true,
+        wrap = false,
+        foldcolumn = "0",
+      },
+      list = {
+        position = "right", -- Position of the list window 'left'|'right'
+        width = 0.25,   -- 33% width relative to the active window, min 0.1, max 0.5
+      },
+      theme = {         -- This feature might not work properly in nvim-0.7.2
+        enable = false, -- Will generate colors for the plugin based on your current colorscheme
+        mode = "darken", -- 'brighten'|'darken'|'auto', 'auto' will set mode based on the brightness of your colorscheme
+      },
+      mappings = {
+        list = {
+          ["j"] = actions.next, -- Bring the cursor to the next item in the list
+          ["k"] = actions.previous, -- Bring the cursor to the previous item in the list
+          ["<Down>"] = actions.next,
+          ["<Up>"] = actions.previous,
+          ["<Tab>"] = actions.next_location,   -- Bring the cursor to the next location skipping groups in the list
+          ["<S-Tab>"] = actions.previous_location, -- Bring the cursor to the previous location skipping groups in the list
+          ["<C-Up>"] = actions.preview_scroll_win(5),
+          ["<C-Down>"] = actions.preview_scroll_win(-5),
+          ["v"] = actions.jump_vsplit,
+          ["s"] = actions.jump_split,
+          ["t"] = actions.jump_tab,
+          ["<CR>"] = actions.jump,
+          ["o"] = actions.jump,
+          ["<A-Left>"] = actions.enter_win("preview"), -- Focus preview window
+          ["q"] = actions.close,
+          ["Q"] = actions.close,
+          ["<Esc>"] = actions.close,
+        },
+        preview = {
+          ["Q"] = actions.close,
+          ["<Tab>"] = actions.next_location,
+          ["<S-Tab>"] = actions.previous_location,
+          ["<A-Right>"] = actions.enter_win("list"), -- Focus list window
+        },
+      },
+      folds = {
+        fold_closed = "",
+        fold_open = "",
+        folded = false, -- Automatically fold list on startup
+      },
+      indent_lines = {
+        enable = true,
+        icon = "│",
+      },
+      winbar = {
+        enable = true, -- Available strating from nvim-0.8+
+      },
+    })
   end
 }
 

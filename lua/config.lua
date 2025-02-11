@@ -12,7 +12,8 @@ if status == true then
   tweaks = vim.tbl_deep_extend("force", tweaks, tw)
 end
 vim.g.tweaks = tweaks
-
+Tweaks = tweaks
+Borderfactory = vim.g.tweaks.borderfactory
 -- FIXME: silence deprecation warnings in dev builds. currently 0.11
 -- adjust this for future dev builds
 local nvim_11 = vim.fn.has("nvim-0.11")
@@ -21,56 +22,22 @@ if nvim_11 == 1 then
 end
 
 Config = {
-  telescope_fname_width = tweaks.telescope_fname_width,
-  telescope_vertical_preview_layout = tweaks.telescope_vertical_preview_layout,
-  nightly = nvim_11,
-  telescope_dropdown='bottom',                  -- position for the input box in the dropdown theme. 'bottom' or 'top'
-  cpalette_dropdown = 'top',                    -- same for the command palette
-  -- the minipicker is the small telescope picker used for references, symbols and
-  -- treesitter-symbols. It also works in insert mode.
-  minipicker_symbolwidth = tweaks.telescope_symbol_width,
-  minipicker_layout = {
-    height = 0.85,
-    width = tweaks.telescope_mini_picker_width,
-    preview_height =10,
-    anchor = "N",
-  },
-  -- map symbol types to highlight groups for telescope since telescope does not use lspkind
-  telescope_symbol_highlights = {
-    Package   = "@namespace",
-    Module    = "@include",
-    Function  = "@function",
-    Constant  = "@constant",
-    Field     = "@field",
-    Property  = "@property",
-    Constructor = "@constructor",
-    Method    = "@method",
-    Class     = "@lsp.type.class",
-    Struct    = "@lsp.type.struct",
-    Namespace = "@namespace",
-    Enum      = "@lsp.type.enum_name",
-    Enummember= "@lsp.type.enum_member_name"
-  },
+  nightly = (nvim_11 ~= 0) and true or false,
   cmp = {
     -- the following lists file types that are allowed to use the cmp_buffer source
     buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true, liquid = true },
   },
   minipicker_iprefix = "#>",
   -- these are minimal values
-  filetree_width = 44,                          -- width nvim-tree plugin (file tree)
+  filetree_width = 42,                          -- width nvim-tree plugin (file tree)
   outline_width = 36,                           -- split width for symbols-outline window (right sidebar)
   -- some optional plugins
   mason = true,                                 -- on demand, setup in setup_lsp.lua
   null_ls = false,                              -- setup by lazy loader
   treesitter = true,
   plain = (env_plain ~= nil or vim.g.want_plain == true) and true or false,
-  -- statuscol_normal = '%s%=%{printf("%4d", v:lnum)} %C ',
   statuscol_normal = '%s%=%l %C ',
-  --statuscol_normal = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:lnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:lnum) : ""} %C%#IndentBlankLineChar#│ ',
-  --statuscol_rel = '%s%=%{printf("%4d", v:relnum)} %C ',
   statuscol_rel = '%s%=%r %C ',
-  --again, with highlighting relative number
-  --statuscol_rel = '%s%=%#LineNr#%{v:relnum != 0 ? printf("%4d",v:relnum) : ""}%#Yellow#%{v:relnum == 0 ? printf("%4d", v:relnum) : ""} %C%#IndentBlankLineChar#│ ',
   nvim_tree = true,
   fortunecookie = false,                      --"fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
                                               -- needs fortune and cowsay installed.
@@ -109,8 +76,8 @@ Config = {
     }
   },
   treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
-                       "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid",
-                       "yaml", "rust", "javascript", "ruby", "objc", "groovy", "org", "markdown" },
+                       "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid", "typst",
+                       "yaml", "rust", "javascript", "ruby", "objc", "groovy", "org", "markdown", "zig" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   outline_plugin = nil,
   theme = require("darkmatter")
@@ -149,17 +116,6 @@ vim.g.confirm_actions = {
 
 local g = vim.g
 -- disable some standard plugins
---g.loaded_netrw       = 1
---g.loaded_netrwPlugin = 1
-
-g.loaded_zipPlugin= 1
-g.loaded_zip = 1
-
-g.loaded_tarPlugin= 1
-g.loaded_tar = 1
-
-g.loaded_gzipPlugin= 1
-g.loaded_gzip = 1
 
 -- global variables for plugins
 g.mapleader = vim.g.tweaks.keymap.mapleader
@@ -218,8 +174,55 @@ vim.g.lspkind_symbols = {
   Object      = " ",
   Key         = " ",
   Null        = "󰟢 ",
-  TypeParameter = "𝙏 "
+  TypeParameter = "𝙏 ",
+  Dict        = " ",
 }
 
 vim.g.is_tmux = vim.fn.exists("$TMUX")
 
+-- generate a snacks picker layout
+function SPL(params)
+  -- local opts = params or { preview = false, width = 80, height = 0.8 }
+  local opts = params or {}
+  local input_pos = opts.input or "bottom"
+  return (input_pos == "bottom" or input_pos == "off") and {
+    preview = opts.preview or false,
+    preset = opts.preset or nil,
+    layout = {
+      backdrop = opts.backdrop or false,
+      box = opts.box or "vertical",
+      row = opts.row or nil,
+      col = opts.col or nil,
+      position = opts.position or "float",
+      width = opts.width or 80,
+      min_height = opts.height,
+      min_width = opts.width,
+      height = opts.height or 0.9,
+      title = opts.title or nil,
+      border = opts.border and Borderfactory(opts.border) or Borderfactory("thicc"),
+      { win = "preview", title = "{preview}", height = opts.psize or 10, border = "bottom" },
+      { win = "list",  border = "none" },
+      input_pos ~= "off" and { win = "input", height = 1,
+        border = opts.iborder and Borderfactory(opts.iborder) or "top" } or nil,
+    }
+  } or {
+    preview = opts.preview or false,
+    preset = opts.preset or nil,
+    layout = {
+      backdrop = opts.backdrop or false,
+      box = opts.box or "vertical",
+      row = opts.row or nil,
+      col = opts.col or nil,
+      position = opts.position or "float",
+      width = opts.width or 80,
+      min_width = opts.width,
+      min_height = opts.height,
+      height = opts.height or 0.9,
+      title = opts.title or nil,
+      border = opts.border and Borderfactory(opts.border) or Borderfactory("thicc"),
+      input_pos ~= "off" and { win = "input", height = 1, border = "single" } or nil,
+      { win = "list",  border = "none" },
+      { win = "preview", title = "{preview}", height = opts.psize or 10, border = "top" },
+    }
+  }
+end

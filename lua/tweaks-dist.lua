@@ -12,13 +12,21 @@
 --    from the repo.
 -- 3. for performance reasons, you can edit your mytweaks.lua and delete everything that
 --    you do not want to change. The file does not have to be complete.
+local borderstyles = {
+  single    = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
+  rounded   = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+  flat      = { " ", " ", " ", " ", " ", " ", " ", " " },
+  topflat   = { " ", " ", " ", "", " ", " ", " ", "" },
+  none      = { "", "", "", "", "", "", "", "" },
+  thicc     = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+  thiccc    = { "▛", "▀", "▜", "▐", "▟", "▄", "▙", "▌" },
+}
 local Tweaks = {}
 Tweaks.lsp = {}
 
 -- plugin choices.
 -- notification system
--- either "mini", "fidget" or "nvim-notify". All three are supported and can act as
--- vim.notify backend.
+-- either "mini", "fidget" or "snacks".
 Tweaks.notifier = "fidget"
 
 -- set this to "Outline" to use the symbols-outline plugin.
@@ -50,19 +58,35 @@ Tweaks.completion = {
   version = "blink"
 }
 
--- telescope field widths. These depend on the characters per line in the terminal
--- setup. So it needs to be tweakable
-Tweaks.telescope_symbol_width = 60
-Tweaks.telescope_fname_width = 120
--- the width for the vertical layout with preview on top
-Tweaks.telescope_vertical_preview_layout = {
-  width = 120,
-  preview_height = 15
+-- which indent guides plugin to use. Options are "blink" or "snacks"
+-- This plugin is responsible for drawing the indent guides.
+Tweaks.indent = {
+  version = "snacks",
+  rainbow_guides = true,
+  -- colors for the non-rainbow lines
+  color = {
+    -- the color for light- and dark background themes.
+    light = "#808080",
+    dark = "#404040"
+  },
+  -- this works only with the snacks version
+  animate = false,
+  -- mark the current scope
+  scope = {
+    enabled = true,
+    char = "┃",
+    hl = "Brown"
+  },
+  -- chunk only works with the snacks version
+  chunk = {
+    enabled = true,
+    -- line variant, allowed are: "normal", "thicc" and "rounded"
+    -- the actual characters are produced by the borderfactory()
+    -- function (see below)
+    lines = "normal",
+  }
 }
--- the overall width for the "mini" telescope picker. These are used for LSP symbols
--- and references.
-Tweaks.telescope_mini_picker_width = 76
--- length of the filename in the cokeline winbar
+
 Tweaks.cokeline_filename_width = 25
 
 -- edit this to reflect your installation directories for lsp servers. Most will
@@ -78,9 +102,6 @@ Tweaks.lsp.localbin      = vim.fn.getenv('HOME') .. '/.local/bin/'
 Tweaks.lsp.homepath      = vim.fn.getenv('HOME')
 
 Tweaks.lsp = {
-  -- if verify is set to true, the config will, at startup, check for the
-  -- server executables to be present and warn you about missing ones.
-  verify        = false,
   server_bin = {
     -- phpactor      =   '/usr/local/bin/phpactor',
     rust_analyzer =   Tweaks.lsp.masonbinpath .. 'rust-analyzer',
@@ -92,7 +113,7 @@ Tweaks.lsp = {
     vimlsp        =   Tweaks.lsp.masonbinpath .. 'vim-language-server',
     omnisharp     =   vim.fn.stdpath("data") .. "/omnisharp/OmniSharp",
     metals        =   '/home/alex/.local/share/coursier/bin/metals',
-    pyright       =   Tweaks.lsp.masonbinpath .. 'pyright-langserver',
+    basedpyright  =   Tweaks.lsp.masonbinpath .. 'basedpyright-langserver',
     lua_ls        =   Tweaks.lsp.masonbinpath .. 'lua-language-server',
     serve_d       =   Tweaks.lsp.localbin .. 'serve-d',
     cssls         =   Tweaks.lsp.masonbinpath .. 'vscode-css-language-server',
@@ -110,12 +131,16 @@ Tweaks.lsp = {
     groovy        =   Tweaks.lsp.masonbinpath .. 'groovy-language-server',
     roslyn        =   vim.fn.stdpath("data") .. "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll",
     jsonls        =   Tweaks.lsp.masonbinpath .. "vscode-json-language-server",
-    zls           =   Tweaks.lsp.localbin .. "zls"
+    zls           =   Tweaks.lsp.localbin .. "zls",
+    ccls          =   Tweaks.lsp.localbin .. "ccls"
   },
-  -- use either omnisharp or csharp_ls for c# and .NET development
-  -- both options work reasonably well with a few issues and missing features
-  -- the third option "roslyn" is highly experimental and not recommended
+  -- the roslyn language server is now sufficiently stable for development and supported by
+  -- a stable plugin. Alternatives are still "omnisharp" and "csharp_ls", but both are not
+  -- on the same level. The roslyn ls is officially supported by Microsoft and is the default
+  -- LS for Visual Studio and Visual Studio Code.
   csharp = "roslyn",
+  -- use either clangd or ccls for c/cpp/objc.
+  cpp = "clangd",
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
   -- this can show multiple diagnostic messages for a single line.
   -- otherwise, use normal virtual text.
@@ -127,7 +152,7 @@ Tweaks.blink = {
   -- if false, you have to manually invoke the completion popup (Control-Space)
   auto_show = false,
   -- auto-show after that many milliseconds
-  border = "single",
+  border = "thicc", -- see borderfactory() for supported values
   -- show the documentation window automatically
   auto_doc = true,
   -- keymap preset to use. Read the blink docs. Note that some
@@ -135,14 +160,14 @@ Tweaks.blink = {
   keymap_preset = "enter",
   ghost_text = false,  -- this might still be a bit buggy in blink.cmp.
   -- maximum height of the popup window
-  window_height = 12,
+  window_height = 15,
   -- maximum width of the completion label
   label_max_width = 40,
   -- label_description maximum width
   desc_max_width = 30,
   -- prefetch on InsertEnter. This might improve performance but might have
   -- memory leaks at the moment.
-  prefetch = false,
+  prefetch = true,
   -- if you use a theme that does not yet support blink.cmp, set this to true
   -- to use the fallback nvim-cmp hl groups which are supported by most themes
   use_cmp_hl = false,
@@ -201,11 +226,11 @@ Tweaks.cmp = {
       border = "none",
       -- windowhighlight options for the docs and complation popup
       whl_doc = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None",
-      whl_comp = "Normal:NeoTreeNormalNC,FloatBorder:CmpBorder,CursorLine:Visual"
+      whl_comp = "Normal:CmpBrightBack,FloatBorder:CmpBorder,CursorLine:Visual"
 
     },
     topflat = {
-      border = "topflat",
+      border = "none",
       whl_doc = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None",
       whl_comp = "Normal:NormalFloat,FloatBorder:CmpBorder,CursorLine:Visual"
     },
@@ -220,23 +245,10 @@ Tweaks.cmp = {
 -- internal function to create the border characters. You can expand it with more styles
 -- and use them in the "decoration" option above.
 Tweaks.borderfactory = function(style)
-  if style == "single" then
-    return { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-  elseif style == "rounded" then
-    return { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
-  elseif style == "flat" then
-    return { " ", " ", " ", " ", " ", " ", " ", " " }
-  elseif style == "topflat" then
-    return { " ", " ", " ", "", " ", " ", " ", "" }
-  elseif style == "none" then
-    return { "", "", "", "", "", "", "", "" }
-  elseif style == "thicc" then
-    return { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" }
-  elseif style == "thiccc" then
-    return { "▛", "▀", "▜", "▐", "▟", "▄", "▙", "▌" }
+  if borderstyles[style] ~= nil then
+    return borderstyles[style]
   else
-    -- default to single
-    return { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+    return borderstyles.single
   end
 end
 
@@ -257,7 +269,7 @@ Tweaks.mkview_on_save = true
 Tweaks.cmdheight = 0
 
 -- width of line number (absolute numbers)
-Tweaks.numberwidth = 6
+Tweaks.numberwidth = 5
 -- for relative numbers, 2 should normally be sufficient
 Tweaks.numberwidth_rel = 2
 -- 3 signs should be sufficient in most cases. If you don't mind a "jumping"
@@ -278,7 +290,7 @@ Tweaks.fortune = {
 
 -- leave this alone. Do not set the environment variable unless you know what you're
 -- doing..
-Tweaks.use_foldlevel_patch = false --(os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and true or false
+Tweaks.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and true or false
 
 -- the key prefix used for various utility functions. See keymap.lua
 Tweaks.keymap = {
@@ -314,8 +326,8 @@ Tweaks.statusline = {
 
 -- filetree tweaks
 Tweaks.tree = {
-  -- valid versions are Neo (for NeoTree) or Nvim (for NvimTree)
-  version = "Neo",
+  -- valid versions are Neo (for NeoTree), Nvim (for NvimTree)
+  version = "Nvim",
   -- use the git integration (currently only available for NeoTree)
   use_git = true
 }
@@ -333,20 +345,8 @@ Tweaks.jdtls = {
 -- a list of filename patterns that define a project root. This will be used as some kind of
 -- fallback when no other means of finding a project's root are successfull. This is highly
 -- incomplete and inaccurate, but you can expand this with whatever you want.
-Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "settings.gradle", "pom.xml", "*.sln", "build.zig" }
--- tweaks for the indent guides
-Tweaks.indentguide = {
-  -- character used by the indent-blankline plugin to draw vertical indent guides
-  -- a light dotted line, sometimes barely visible
-  --char = "",
-  -- solid, thicker line
-  char = "│",
-  color = {
-    -- the color for light- and dark background themes.
-    light = "#808080",
-    dark = "#404040"
-  }
-}
+Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "settings.gradle", "pom.xml", "*.sln", "build.zig", "go.mod", "go.sum" }
+Tweaks.srclocations = { "src", "source", "sources", "SRC", "Src", "SOURCE", "Source", "Sources", "lua" }
 Tweaks.cokeline = {
   enabled = true,
   closebutton = false,
@@ -405,6 +405,7 @@ Tweaks.fzf = {
     big_preview_top      =  { width = 0.7, height = 0.9, preview = { border = 'border', layout = 'vertical', vertical = "up:35%" } },
     big_preview_topbig   =  { width = 0.7, height = 0.9, preview = { border = 'border', layout = 'vertical', vertical = "up:45%" } },
     narrow_no_preview    =  { width = 0.5, height = 0.8, preview = { hidden = 'hidden' } },
+    very_narrow_no_preview= { width = 70, height = 0.8, preview = { hidden = 'hidden' } },
     narrow_small_preview =  { width = 0.5, height = 0.8, preview = { border = 'border', layout = 'vertical', vertical = "up:35%" } },
     narrow_big_preview   =  { width = 0.5, height = 0.9, preview = { border = 'border', layout = 'vertical', vertical = "up:45%" } },
     mini_with_preview    =  { width = 80, height = 0.8, preview = { border = 'border', layout = 'vertical', vertical = "up:30%" } },

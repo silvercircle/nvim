@@ -31,7 +31,7 @@ local function _set()
     -- syn_begin: python
     -- builtin
   c.link("pythonBuiltin", "BlueItalic")
-  c.link("pythonExceptions", "Exception")
+  c.link("pythonExceptions", "KWException")
   c.link("pythonDecoratorName", "OrangeItalic")
     -- syn_begin: lua
     -- builtin:

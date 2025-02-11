@@ -86,7 +86,7 @@ require("scrollbar").setup({
     },
   },
   excluded_buftypes = {
-    "terminal",
+    "terminal"
   },
   excluded_filetypes = {
     "prompt",
@@ -96,15 +96,18 @@ require("scrollbar").setup({
     "mason",
     "lazy",
     "alpha",
-    "lspinfo",
     "NvimTree",
     "cmp_menu",
     "cmp_docs",
+    "blink-cmp-menu",
+    "blink-cmp-documentation",
     "weather",
     "sysmon",
-    "dropbar_menu",
-    "dropbar_menu_fzf",
-    "Glance"
+    "Glance",
+    "fzf",
+    "snacks_picker_list",
+    "snacks_picker_input",
+    "snacks_input"
   },
   autocmd = {
     render = {
@@ -129,7 +132,7 @@ require("scrollbar").setup({
     diagnostic = true,
     gitsigns = true, -- Requires gitsigns
     handle = true,
-    search = true, -- Requires hlslens
+    search = true -- Requires hlslens
   },
 })
 

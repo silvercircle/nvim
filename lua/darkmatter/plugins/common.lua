@@ -9,6 +9,7 @@
 -- * Navbuddy
 -- * Cokeline
 -- * Glance
+-- * snacks
 
 local function _set()
   local c = require("darkmatter")
@@ -27,7 +28,9 @@ local function _set()
   c.link("NvimTreeEmptyFolderName", "Fg")
   c.link("NvimTreeOpenedFolderName", "GreenBold")
   c.link("NvimTreeExecFile", "Fg")
-  c.link("NvimTreeOpenedFile", "Orange")
+  c.link("NvimTreeOpenedFile", "Yellow")
+  c.link("NvimTreeModifiedFile", "DeepRedBold")
+  c.link("NvimTreeBookmarkHL", "Keyword")
   c.link("NvimTreeSpecialFile", "Fg")
   c.link("NvimTreeImageFile", "Fg")
   c.link("NvimTreeMarkdownFile", "Fg")
@@ -87,10 +90,13 @@ local function _set()
   c.link("CmpItemKindInterface", "Interface")
   c.link("CmpItemKindValue", "StorageClass")
   c.link("CmpItemKindEvent", "Keyword")
+  c.link("CmpItemKindDict", "Fg")
   c.link("CmpItemKindTypeParameter", "Type")
+  c.link("CmpItemKindReference", "Interface")
 
-  c.hl_with_defaults("CmpFloat", c.P.fg_dim, c.P.treebg)
-  c.hl_with_defaults("CmpBorder", c.P.accent, c.P.treebg)
+  c.hl_with_defaults("CmpFloat", c.P.fg_dim, c.P.floatbg)
+  c.hl_with_defaults("CmpBorder", c.P.accent, c.P.floatbg)
+  c.hl_with_defaults("CmpBrightBack", c.P.fg_dim, c.P.statuslinebg)
   c.link("Pmenu", "CmpFloat")
   c.hl_with_defaults("PmenuSbar", c.NONE, c.P.bg2)
   c.link("PmenuSel", "Visual")
@@ -144,7 +150,7 @@ local function _set()
   c.link("TroubleNormal", "NeoTreeNormalNC")
 
   -- Glance plugin: https://github.com/DNLHC/glance.nvim
-  c.hl_with_defaults("GlancePreviewNormal", c.P.fg, c.P.black)
+  c.hl_with_defaults("GlancePreviewNormal", c.P.fg, c.P.treebg)
   c.hl_with_defaults("GlancePreviewMatch", c.P.yellow, c.NONE)
   c.hl_with_defaults("GlanceListMatch", c.P.yellow, c.NONE)
   c.link("GlanceListCursorLine", "Visual")
@@ -202,6 +208,10 @@ local function _set()
   -- quick fix
   c.link("qfLineNr", "Number")
   c.link("qfFileName", "String")
+
+  -- snacks
+  c.link("SnacksInputTitle", "FloatTitle")
+
 end
 
 local M = {}

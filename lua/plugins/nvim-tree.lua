@@ -1,8 +1,6 @@
 local api = require('nvim-tree.api')
 
-local function on_attach(bufnr)
-  local api = require('nvim-tree.api')
-
+local function on_tree_attach(bufnr)
   local function opts(desc)
     return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
   end
@@ -81,17 +79,16 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   disable_netrw = false,
   hijack_cursor = false,
   hijack_netrw = false,
-  on_attach = on_attach,
+  on_attach = on_tree_attach,
   hijack_unnamed_buffer_when_opening = false,
 --  ignore_buffer_on_setup = false,
 --  open_on_setup = false,
 --  open_on_setup_file = false,
   sort_by = 'name',
-  root_dirs = {},
+  root_dirs = { },
   prefer_startup_root = false,
-  sync_root_with_cwd = false,
+  sync_root_with_cwd = true,
   reload_on_bufenter = false,
-  respect_buf_cwd = false,
   select_prompts = false,
   view = {
     adaptive_size = false,
@@ -102,7 +99,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
     preserve_window_proportions = true,
     number = false,
     relativenumber = false,
-    signcolumn = 'no',
+    signcolumn = 'yes',
     float = {
       enable = false,
       quit_on_focus_loss = true,
@@ -118,10 +115,16 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   },
   renderer = {
     add_trailing = false,
+    decorators = { "Git", "Open", "Modified", "Hidden", "Bookmark", "Diagnostics", "Copied", "Cut", },
     group_empty = false,
-    highlight_git = true,
+    highlight_git = "none",
+    highlight_diagnostics = "name",
+    highlight_opened_files = "name",
+    highlight_modified = "all",
+    highlight_hidden = "all",
+    highlight_bookmarks = "name",
+    highlight_clipboard = "name",
     full_name = false,
-    highlight_opened_files = 'all',
     root_folder_label = ':~:s?$?/..?',
     indent_width = 2,
     indent_markers = {
@@ -137,37 +140,45 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
     },
     icons = {
       webdev_colors = true,
-      git_placement = 'after',
-      padding = ' ' .. Config.iconpad,
+      diagnostics_placement = "right_align",
+      modified_placement = "right_align",
+      bookmarks_placement = "right_align",
+      hidden_placement = "right_align",
+      git_placement = 'right_align',
+      padding = ' ',
       symlink_arrow = ' ➛ ',
       show = {
         file = true,
         folder = true,
         folder_arrow = true,
         git = true,
+        modified = true,
+        hidden = true,
+        bookmarks = true
       },
       glyphs = {
-        default = '',
-        symlink = '',
-        bookmark = '',
+        default = ' ',
+        symlink = ' ',
+        bookmark = '',
+        modified = '●',
         folder = {
           arrow_closed = '',
           arrow_open = '',
-          default = '',
-          open = '',
-          empty = '',
-          empty_open = '',
-          symlink = '',
-          symlink_open = '',
+          default = ' ',
+          open = ' ',
+          empty = ' ',
+          empty_open = ' ',
+          symlink = ' ',
+          symlink_open = ' ',
         },
         git = {
-          unstaged = '✗',
-          staged = '✓',
+          unstaged = "󰊢",
+          staged = "",
           unmerged = '',
-          renamed = '➜',
-          untracked = '★',
-          deleted = '',
-          ignored = '◌',
+          untracked = "",
+          ignored = "",
+          deleted = "󰮉", -- this can only be used in the git_status source
+          renamed = "󰑕" -- this can only be used in the git_status source
         },
       },
     },
@@ -181,7 +192,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   update_focused_file = {
     enable = false,
     debounce_delay = 50,
-    update_root = true,
+    update_root = false,
     ignore_list = {},
   },
   -- ignore_ft_on_setup = {},
@@ -191,7 +202,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   },
   diagnostics = {
     enable = true,
-    show_on_dirs = true,
+    show_on_dirs = false,
     show_on_open_dirs = true,
     debounce_delay = 100,
     severity = {
@@ -214,7 +225,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   },
   filesystem_watchers = {
     enable = true,
-    debounce_delay = 50,
+    debounce_delay = 100,
     ignore_dirs = {},
   },
   git = {
@@ -267,7 +278,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   },
   live_filter = {
     prefix = '[FILTER]: ',
-    always_show_folders = true,
+    always_show_folders = false,
   },
   tab = {
     sync = {
@@ -310,7 +321,7 @@ api.events.subscribe(Event.TreeClose, function(_)
   __Globals.tree_close_handler()
 end)
 
-vim.g.setkey({'n', 'v'}, '<leader>r', function() vim.cmd('NvimTreeFindFile') end, "Sync NvimTree with current Buffer")
+vim.g.setkey({'n', 'v'}, '<leader>r', function() vim.cmd('NvimTreeFindFile!|wincmd p') end, "Sync NvimTree with current Buffer")
 vim.g.setkey('n', '<leader>,', function() require('nvim-tree.api').tree.toggle() end, "Toggle NvimTree")
 
 vim.g.setkey('n', '<leader>R', function()

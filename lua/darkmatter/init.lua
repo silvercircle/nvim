@@ -110,9 +110,13 @@ local conf = {
     comment = "grey",
     keyword = "blue",
     kwspec = "deepred",
-    conditional = "blue",
+    kwconditional = "blue",
+    kwrepeat = "blue",
+    kwexception = "blue",
+    kwreturn = "blue",
     kwfunc = "deepred",
     member = "orange",
+    staticmember = "orange",
     method = "brightteal",
     func = "teal",
     operator = "brown",
@@ -129,9 +133,17 @@ local conf = {
     type = "darkpurple",
     struct = "darkpurple",
     bool = "deepred",
-    constructor = "altyellow"
+    constructor = "altyellow",
+    macro = "lpurple",
+    defaultlib = "palegreen",
+    staticmethod = "palegreen",
+    attribute = "olive"
   },
-  usercolors = {},
+  --- these colors will be added to the standard palette. They can be used for
+  --- styled colors.
+  usercolors = {
+    user1 = "#ffffff"
+  },
   indentguide_colors = {
     light = "#505050",
     dark = "#505050"
@@ -151,7 +163,8 @@ local conf = {
     c1 = '#ff0000',
     c2 = '#00ff00',
     c3 = '#303080',
-    c4 = '#ff00ff'
+    c4 = '#ff00ff',
+    c5 = '#ff00ff'
   },
   -- plugins. there are 3 kinds of plugins:
   -- customize: executed after configure() but before colors are set. Allows
@@ -232,7 +245,7 @@ local function configure()
     brightgreen = M.T.accent_color,
     darkestcyan = "#005f5f",
     mediumcyan = "#87dfff",
-    darkestblue = "#005f87",
+    darkestblue = "#002f47",
     darkred = "#870000",
     brightred = M.T.alt_accent_color,
     brightorange = "#2f47df",
@@ -259,10 +272,11 @@ local function configure()
 
   M.P.styled.fg = { M.T[conf.variant].fg , 1 }
   M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
-  M.P.styled.c1 = { conf.custom_colors.c1, 91 }
-  M.P.styled.c2 = { conf.custom_colors.c2, 92 }
-  M.P.styled.c3 = { conf.custom_colors.c3, 93 }
-  M.P.styled.c4 = { conf.custom_colors.c4, 94 }
+  M.P.c1 = { conf.custom_colors.c1, 91 }
+  M.P.c2 = { conf.custom_colors.c2, 92 }
+  M.P.c3 = { conf.custom_colors.c3, 93 }
+  M.P.c4 = { conf.custom_colors.c4, 94 }
+  M.P.c5 = { conf.custom_colors.c5, 94 }
 
   -- merge the variant-dependent colors
   M.P = vim.tbl_deep_extend("force", M.P, theme.variants(conf.variant))
@@ -278,6 +292,7 @@ local function configure()
   }
 
   M.P.treebg = { M.T[conf.variant].treebg, 232 }
+  M.P.floatbg = { M.T[conf.variant].floatbg, 232 }
   M.P.selbg = { M.T["selbg"], 234 }
 
   local seq = 245
@@ -305,7 +320,7 @@ local function set_all()
   M.hl("PunctDelim", M.P.styled.delim, M.NONE, conf.attrib.delim)
   M.hl("Delimiter", M.P.styled.delim, M.NONE, conf.attrib.delim)
   M.hl("PunctSpecial", M.P.styled.delim, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("ScrollView", M.P.teal, M.P.styled.c3)
+  M.hl_with_defaults("ScrollView", M.P.teal, M.P.c3)
   M.hl_with_defaults("Normal", M.P.fg, M.P.bg)
   M.hl_with_defaults("Accent", M.P.black, M.P.accent)
   M.hl_with_defaults("Terminal", M.P.fg, M.P.treebg)
@@ -342,7 +357,7 @@ local function set_all()
   M.hl_with_defaults("NormalFloat", M.P.fg, M.P.treebg)
   M.hl_with_defaults("FloatBorder", M.P.accent, M.P.treebg)
   M.link("LspInfoBorder", "FloatBorder")
-  M.hl_with_defaults("FloatTitle", M.P.accent_fg, M.P.bg_dim)
+  M.hl_with_defaults("FloatTitle", M.P.accent_fg, M.P.accent)
   M.hl_with_defaults("Question", M.P.yellow, M.NONE)
   M.hl("SpellBad", M.NONE, M.NONE, { undercurl = true, sp = M.P.red[1] })
   M.hl("SpellCap", M.NONE, M.NONE, { undercurl = true, sp = M.P.yellow[1] })
@@ -372,7 +387,7 @@ local function set_all()
   if diff then
     M.hl("CursorLineNr", M.P.yellow, M.NONE, { underline = true })
   else
-    M.hl_with_defaults("CursorLineNr", M.P.yellow, M.P.darkbg)
+    M.hl_with_defaults("CursorLineNr", M.P.olive, M.P.darkbg)
   end
 
   M.link("MsgArea", "StatusLine")
@@ -386,24 +401,26 @@ local function set_all()
   M.hl_with_defaults("Substitute", M.P.bg0, M.P.yellow)
 
   M.hl("Type", M.P.styled.type, M.NONE, conf.attrib.types)
+  M.hl("TypeDefinition", M.P.styled.type, M.NONE, { bold = true })
   M.hl("Structure", M.P.styled.struct, M.NONE, conf.attrib.struct)
   M.hl("Class", M.P.styled.class, M.NONE, conf.attrib.class)
   M.hl("Interface", M.P.styled.interface, M.NONE, conf.attrib.interface)
   M.hl("StorageClass", M.P.styled.storage, M.NONE, conf.attrib.storage)
+  M.hl("DefaultLib", M.P.styled.defaultlib, M.NONE, conf.attrib.defaultlib)
   M.hl_with_defaults("Identifier", M.P.styled.identifier, M.NONE)
-  M.hl_with_defaults("Constant", M.P.styled.constant, M.NONE)
+  M.hl_with_defaults("Constant", M.P.styled.constant, conf.attrib.constant)
   M.hl("Include", M.P.styled.module, M.NONE, conf.attrib.module)
   M.hl("Boolean", M.P.styled.bool, M.NONE, conf.attrib.bool)
   M.hl("Keyword", M.P.styled.keyword, M.NONE, conf.attrib.keyword)
-  M.hl("KeywordSpecial", M.P.styled.kwspec, M.NONE, conf.attrib.keyword)
-  -- use extra color for coditional keywords (if, else...)?
-  M.hl("Conditional", M.P.styled.conditional, M.NONE, conf.attrib.conditional)
+  M.hl("KWSpecial", M.P.styled.kwspec, M.NONE, conf.attrib.kwspecial)
+  M.hl("KWConditional", M.P.styled.kwconditional, M.NONE, conf.attrib.kwconditional)
+  M.hl("KWRepeat", M.P.styled.kwrepeat, M.NONE, conf.attrib.kwrepeat)
+  M.hl("KWException", M.P.styled.kwexception, M.NONE, conf.attrib.kwexception)
+  M.hl("KWReturn", M.P.styled.kwreturn, M.NONE, conf.attrib.kwreturn)
   M.hl_with_defaults("Define", M.P.red, M.NONE)
   M.hl("Typedef", M.P.red, M.NONE, conf.attrib.types)
-  M.hl("Exception", conf.theme_strings == "yellow" and M.P.green or M.P.yellow, M.NONE, conf.attrib.keyword)
-  M.hl("Repeat", M.P.blue, M.NONE, conf.attrib.keyword)
   M.hl("Statement", M.P.blue, M.NONE, conf.attrib.keyword)
-  M.hl_with_defaults("Macro", M.P.lpurple, M.NONE)
+  M.hl_with_defaults("Macro", M.P.styled.macro, conf.attrib.macro)
   M.hl_with_defaults("Error", M.P.red, M.NONE)
   M.hl_with_defaults("Label", M.P.lpurple, M.NONE)
   M.hl("Special", M.P.altblue, M.NONE, conf.attrib.bold)
@@ -413,10 +430,10 @@ local function set_all()
   M.hl("Number", M.P.styled.number, M.NONE, conf.attrib.number)
   M.hl_with_defaults("Float", M.P.lpurple, M.NONE)
   M.hl("Function", M.P.teal, M.NONE, conf.attrib.func)
-  M.hl("Method", M.P.brightteal, M.NONE, conf.attrib.method)
-  M.hl("StaticMethod", M.P.brightteal, M.NONE, conf.attrib.staticmethod)
-  M.hl("Member", M.P.orange, M.NONE, conf.attrib.member)
-  M.hl("StaticMember", M.P.orange, M.NONE, conf.attrib.staticmember)
+  M.hl("Method", M.P.styled.method, M.NONE, conf.attrib.method)
+  M.hl("StaticMethod", M.P.styled.staticmethod, M.NONE, conf.attrib.staticmethod)
+  M.hl("Member", M.P.styled.member, M.NONE, conf.attrib.member)
+  M.hl("StaticMember", M.P.styled.staticmember, M.NONE, conf.attrib.staticmember)
   M.hl("Builtin", M.P.styled.builtin, M.NONE, conf.attrib.bold)
   M.link("PreProc", "Include")
   M.hl("Title", M.P.red, M.NONE, conf.attrib.bold)
@@ -427,8 +444,8 @@ local function set_all()
   M.hl("Underlined", M.NONE, M.NONE, { underline = true })
   M.hl("Parameter", M.P.fg_dim, M.NONE, conf.attrib.parameter)
 
-  M.hl("Attribute", M.P.olive, M.NONE, conf.attrib.attribute)
-  M.hl("Annotation", M.P.olive, M.NONE, conf.attrib.annotation)
+  M.hl("Attribute", M.P.styled.attribute, M.NONE, conf.attrib.attribute)
+  M.hl("Annotation", M.P.styled.attribute, M.NONE, conf.attrib.attribute)
   M.hl_with_defaults("Fg", M.P.fg, M.NONE)
   M.hl("FgBold", M.P.fg, M.NONE, conf.attrib.bold)
   M.hl("FgItalic", M.P.fg, M.NONE, conf.attrib.italic)
@@ -547,12 +564,11 @@ local function set_all()
   M.link("@boolean", "Boolean")
   M.link("@character", "Yellow")
   M.link("@comment", "Comment")
-  M.link("@conditional", "Conditional")
+  M.link("@conditional", "KWConditional")
   M.link("@constant", "Constant")
   M.link("@constant.builtin", "Builtin")
-  M.link("@constant.macro", "OrangeItalic")
+  M.link("@constant.macro", "Macro")
   M.hl("@constructor", M.P.styled.constructor, M.NONE, {} )
-  M.link("@exception", "Exception")
   M.link("@field", "Member")
   M.link("@float", "Number")
   M.link("@function", "Teal")
@@ -561,13 +577,15 @@ local function set_all()
   M.link("@include", "Include")
   M.link("@module", "Include")
   M.link("@keyword", "Keyword")
-  M.link("@keyword.function", "KeywordSpecial")
+  M.link("@keyword.function", "KWSpecial")
   M.link("@keyword.operator", "Operator")
-  M.link("@keyword.conditional", "Conditional")
+  M.link("@keyword.conditional", "KWConditional")
   M.link("@keyword.conditional.ternary", "Operator")
-  M.link("@keyword.repeat", "Conditional")
+  M.link("@keyword.repeat", "KWRepeat")
+  M.link("@keyword.exception", "KWException")
+  M.link("@keyword.return", "KWReturn")
   M.link("@keyword.storage", "StorageClass")
-  M.link("@keyword.import", "Keyword")
+  M.link("@keyword.import", "KWSpecial")
   M.link("@label", "Red")
   M.link("@method", "Method")
   M.link("@namespace", "@module")
@@ -580,7 +598,7 @@ local function set_all()
   M.link("@punctuation.bracket", "Braces")
   M.link("@punctuation.delimiter", "PunctDelim")
   M.link("@punctuation.special", "PunctSpecial")
-  M.link("@repeat", "Conditional")
+  M.link("@repeat", "KWRepeat")
   M.link("@storageclass", "StorageClass")
   M.link("@string", "String")
   M.link("@string.escape", "Green")
@@ -593,7 +611,7 @@ local function set_all()
   M.link("@math", "Yellow")
   M.link("@type", "Type")
   M.link("@type.builtin", "Builtin")
-  M.link("@type.definition", "DeepRedBold")
+  M.link("@type.definition", "TypeDefintion")
   M.link("@type.qualifier", "StorageClass")
   M.link("@uri", "URI")
   M.link("@text.uri", "URI")
@@ -622,15 +640,21 @@ local function set_all()
   M.link("@lsp.type.property_name", "Member")
   M.link("@lsp.type.field_name", "Member")
   M.link("@lsp.type.operator", "Operator")
+  M.link("@lsp.type.builtin", "Builtin")
   M.link("@lsp.type.enum_name", "Structure")
   M.link("@lsp.type.enum_member_name", "Constant")
   M.link("@lsp.type.delegateName", "Function")
+  M.link("@lsp.type.macro", "Macro")
+  M.link("@lsp.type.constructor", "@constructor")
   M.link("@lsp.typemod.method.static", "StaticMethod")
   M.link("@lsp.typemod.method_name.static_symbol", "StaticMethod")
   M.link("@lsp.typemod.property.static", "StaticMember")
-  M.link("@lsp.typemod.function.defaultLibrary", "Builtin")
+  M.link("@lsp.typemod.function.defaultLibrary", "DefaultLib")
   M.link("@lsp.typemod.function.global", "StaticMethod")
-  M.link("@lsp.mod.defaultLibrary", "Function")
+  M.link("@lsp.typemod.function.static", "StaticMethod")
+  M.link("@lsp.typemod.class.constructorOrDestructor", "@constructor")
+  M.link("@lsp.mod.defaultLibrary", "DefaultLib")
+  M.link("@lsp.mod.constructorOrDestructor", "@constructor")
 
   M.link("BookmarkSign", "BlueSign")
   M.link("BookmarkAnnotationSign", "GreenSign")
@@ -665,7 +689,7 @@ local function set_all()
   M.hl_with_defaults("NeoTreeFloatBorder", M.P.grey_dim, M.P.treebg)
   M.hl("NeoTreeFileNameOpened", M.P.blue, M.P.treebg, conf.attrib.italic)
   M.hl_with_defaults("SymbolsOutlineConnector", M.P.grey_dim, M.NONE)
-  M.hl_with_defaults("TreeCursorLine", M.NONE, M.P.styled.c3)
+  M.hl_with_defaults("TreeCursorLine", M.NONE, M.P.c3)
   M.hl_with_defaults("NotifierTitle", M.P.yellow, M.NONE)
   M.link("NotifierContent", "NeoTreeNormalNC")
 
@@ -731,7 +755,7 @@ function M.disable()
   vim.cmd("hi! link NeoTreeNormalNC NeoTreeNormal")
 end
 
-local supported_variants = { "warm", "cold", "deepblack" }
+local supported_variants = { "warm", "cold", "deepblack", "pitchblack" }
 --- setup the theme
 --- @param opt table - the options to set. will be merged with local
 --- conf table.
@@ -798,13 +822,13 @@ function M.Lualine_internal_theme()
         fg = LuaLineColors.darkestgreen,
         bg = LuaLineColors.brightgreen, --[[, gui = 'bold']]
       },
-      b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
+      b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
       c = "StatusLine",
       x = "StatusLine",
     },
     insert = {
       a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred },
-      b = { fg = LuaLineColors.gray10, bg = LuaLineColors.gray5 },
+      b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
       c = "StatusLine",
       x = "StatusLine",
     },
@@ -866,30 +890,23 @@ end
 function M.ui_select_variant()
   local utils = require("local_utils")
 
-  vim.ui.select({ "Warm (red tint)", "Cold (blue tint)", "Deep dark" }, {
-    prompt = "Select a theme variant",
-    border = "rounded",
-    format_item = function(item)
-      return utils.pad(item, 40, " ")
-    end,
-  }, function(choice)
-    if choice == nil or #choice < 4 then
-      return
-    end
-    local short = string.sub(choice, 1, 4)
-    if short == "Warm" then
-      conf.variant = "warm"
-    elseif short == "Cold" then
-      conf.variant = "cold"
-    elseif short == "Deep" then
-      conf.variant = "deepblack"
-    else
-      return
-    end
+  local variants = {
+    { hl = "Fg", cmd = "warm", text = "Warm (red tint", p = 1 },
+    { hl = "Fg", cmd = "cold", text = "Cold (blue tint", p = 1 },
+    { hl = "Fg", cmd = "deepblack", text = "Deep dark", p = 1 },
+    { hl = "Fg", cmd = "pitchblack", text = "OLED (pitch black", p = 1 },
+  }
+  variants = vim.iter(variants):filter(function(k)
+    if k.cmd == conf.variant then k.current = true else k.current = false end return k
+  end):totable()
+
+  local function execute(cmd)
+    conf.variant = cmd
+    configure()
     M.set()
-    conf_callback("variant")
-  end)
-  return conf.variant
+  end
+
+  utils.simplepicker(variants, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select theme variant" })
 end
 
 -- use UI to present a selection of possible color configurations
@@ -897,35 +914,33 @@ end
 -- mini.picker that can enhance ui.select
 function M.ui_select_colorweight()
   local utils = require("local_utils")
-  vim.ui.select(
-    { "Vivid (rich colors, high contrast)", "Medium (somewhat desaturated colors)", "Pastel (low intensity colors)" },
-    {
-      prompt = "Select a color intensity",
-      border = "rounded",
-      format_item = function(item)
-        return utils.pad(item, 50, " ")
-      end,
-    },
-    function(choice)
-      if choice == nil or #choice < 6 then
-        return
-      end
-      local short = string.sub(choice, 1, 6)
-      if short == "Vivid " then
-        conf.desaturate = false
-        conf.dlevel = 1
-      elseif short == "Medium" then
-        conf.desaturate = true
-        conf.dlevel = 1
-      elseif short == "Pastel" then
-        conf.desaturate = true
-        conf.dlevel = 2
-      end
-      M.set()
-      conf_callback("desaturate")
+  local items = {
+    { cmd = "rich", text = "Vivid (rich colors, high contrast)", p = 1, d = false, level = 1 },
+    { cmd = "medium", text = "Medium (somewhat desaturated colors)", p = 2, d = true, level = 1, current = true },
+    { cmd = "pastel", text = "Pastel (low intensity colors)", p = 3, d = true, level = 2 }
+  }
+
+  vim.iter(items):map(function(k)
+    if conf.desaturate == k.d and conf.dlevel == k.level then k.current = true else k.current = false end
+    return k
+  end):totable()
+
+  local function execute(cmd)
+    if cmd== "rich" then
+      conf.desaturate = false
+      conf.dlevel = 1
+    elseif cmd == "medium" then
+      conf.desaturate = true
+      conf.dlevel = 1
+    elseif cmd == "pastel" then
+      conf.desaturate = true
+      conf.dlevel = 2
     end
-  )
-  return conf.desaturate, conf.dlevel
+    M.set()
+    conf_callback("desaturate")
+  end
+
+  utils.simplepicker(items, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select Color variant" })
 end
 
 -- toggle strings color. Allowed values are either "yellow" or "green"

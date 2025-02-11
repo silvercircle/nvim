@@ -4,11 +4,11 @@ require("todo-comments").setup({
   -- keywords recognized as todo comments
   keywords = {
     FIX =  { icon = " ", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
-    TODO = { icon = " ", color = "info" },
-    HACK = { icon = " ", color = "warning" },
+    TODO = { icon = " ", color = "info" },
+    HACK = { icon = "󰣈 ", color = "warning" },
     WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
-    PERF = { icon = " ", color = "warning", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-    NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+    PERF = { icon = "󰅒 ", color = "warning", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+    NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
     TEST = { icon = "󰙨 ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
   },
   gui_style = {

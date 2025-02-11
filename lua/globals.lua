@@ -7,6 +7,7 @@ M.cur_bufsize = 0
 M.outline_is_open = false
 M.lsp_capabilities = nil
 M.notifier = nil
+M.cmp_setup_done = false
 
 M.term = {
   bufid = nil,
@@ -74,7 +75,9 @@ M.perm_config_default = {
   float_borders = "single",
   cmp_show_docs = true,
   autopair = true,
-  cmp_layout = "standard"
+  cmp_layout = "classic",
+  cmp_autocomplete = vim.g.tweaks.cmp.autocomplete,
+  cmp_ghost = false
 }
 
 M.perm_config = {}
@@ -155,13 +158,13 @@ end
 -- works with NeoTree and NvimTree
 -- This tries to find the root folder of the current project.
 function M.sync_tree()
+  local root = require("local_utils").getroot_current()
   if vim.g.tweaks.tree.version == "Neo" then
-    local root = require("local_utils").getroot_current()
     local nc = require("neo-tree.command")
     nc.execute( {action="show", dir=root, source="filesystem" } )
     nc.execute( {action="show", reveal=true, reveal_force_cwd=true, source="filesystem" } )
   elseif vim.g.tweaks.tree.version == "Nvim" then
-    require('nvim-tree.api').tree.change_root(require("local_utils").getroot_current())
+    require('nvim-tree.api').tree.change_root(root)
     vim.cmd("NvimTreeFindFile")
   end
 end
@@ -179,6 +182,7 @@ function M.tree_open_handler()
     wsplit.content = __Globals.perm_config.weather.content
     if wsplit.winid == nil then
       wsplit.openleftsplit(Config.weather.file)
+      --vim.schedule(function() wsplit.openleftsplit(Config.weather.file) end)
     end
   end
 end
@@ -202,7 +206,9 @@ function M.set_statuscol(mode)
     return
   end
   M.perm_config.statuscol_current = mode
-  vim.o.statuscolumn = Config["statuscol_" .. mode]
+  if vim.g.tweaks.use_foldlevel_patch == true then
+    vim.o.statuscolumn = Config["statuscol_" .. mode]
+  end
   if mode == "normal" then
     vim.o.relativenumber = false
     vim.o.numberwidth = vim.g.tweaks.numberwidth
@@ -514,7 +520,7 @@ function M.restore_config()
   end
   -- configure the theme
   --local cmp_kind_attr = M.perm_config.cmp_layout == "experimental" and { bold=true, reverse=true } or {}
-  local cmp_kind_attr = { bold=true, reverse=false }
+  local cmp_kind_attr = { bold=true, reverse=true }
   Config.theme.setup({
     scheme = vim.g.tweaks.theme.scheme,
     variant = M.perm_config.theme_variant,
@@ -527,18 +533,25 @@ function M.restore_config()
     kittenexec = vim.g.tweaks.theme.kittenexec,
     callback = M.theme_callback,
     indentguide_colors = {
-      dark = vim.g.tweaks.indentguide.color.dark,
-      light = vim.g.tweaks.indentguide.color.light
-    },
-    plugins = {
-      hl = { "markdown", "syntax", "common", "blink" }
+      dark = vim.g.tweaks.indent.color.dark,
+      light = vim.g.tweaks.indent.color.light
     },
     rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast,
-    tweaks = {
-      conditional = false
-    },
     custom_colors = {
       c1 = "#5a8aba"
+    },
+    usercolors = {
+      user1 = "#ffffff",
+      user2 = "#4a7099",
+      user3 = "#708070"
+    },
+    style = {
+      defaultlib = "user2",
+      staticmethod = "user2",
+      attribute = "user3"
+    },
+    plugins = {
+      hl = (vim.g.tweaks.completion.version == "blink") and { "markdown", "syntax", "common", "blink", "snacks" } or { "markdown", "syntax", "common", "snacks" },
     },
     attrib = {
       dark = {
@@ -547,7 +560,9 @@ function M.restore_config()
         types = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
         class = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
         interface = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-        struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {}
+        struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+        defaultlib = { italic = false },
+        attribute = { italic = false, bold = true },
       },
       light = {
         cmpkind = cmp_kind_attr,
@@ -579,6 +594,12 @@ function M.theme_callback(what)
   elseif what == "trans" then
     M.perm_config.transbg = conf.is_trans
     M.notify("Theme transparency is now " .. (conf.is_trans == true and "On" or "Off"), vim.log.levels.INFO, "Theme")
+  end
+
+  if vim.g.tweaks.completion.version == "blink" then
+    require("plugins.blink").update_hl()
+  else
+    require("plugins.cmp_setup").update_hl()
   end
 end
 
@@ -658,18 +679,18 @@ function M.toggle_debug()
   end
 end
 
--- enable/disable ibl rainbow guides
-function M.toggle_ibl_rainbow()
-  M.perm_config.ibl_rainbow = not M.perm_config.ibl_rainbow
-  require("ibl").update({
-    indent = { highlight = M.perm_config.ibl_rainbow == true and M.ibl_rainbow_highlight or M.ibl_highlight },
-  })
-end
-
 -- enable/disable ibl
 function M.toggle_ibl()
   M.perm_config.ibl_enabled = not M.perm_config.ibl_enabled
-  require("ibl").update({ enabled = M.perm_config.ibl_enabled })
+  if vim.g.tweaks.indent.version == "snacks" then
+    if M.perm_config.ibl_enabled then
+      require("snacks").indent.enable()
+    else
+      require("snacks").indent.disable()
+    end
+  else
+    vim.notify("function not supported with current plugin configuration")
+  end
 end
 
 -- enable/disable ibl context display
@@ -739,7 +760,8 @@ end
 -- treesitter is first started (in auto.lua)
 function M.configure_treesitter()
   vim.treesitter.language.register("objc", "objcpp")
-  vim.treesitter.language.register("markdown", "telekasten")
+  vim.treesitter.language.register("markdown", { "telekasten", "liquid" } )
+  vim.treesitter.language.register("css", "scss")
   vim.treesitter.language.register("html", "jsp")
   vim.treesitter.language.register("ini", "editorconfig")
   -- disable injections for these languages, because they can be slow
@@ -830,16 +852,15 @@ end
 --- @return table
 function M.get_lsp_capabilities()
   if M.lsp_capabilities == nil then
-    -- local cmp_lsp = require("cmp_nvim_lsp")
-    M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
-    --M.lsp_capabilities = cmp_lsp.default_capabilities(M.lsp_capabilities)
-
-    -- required for some plugins (ufo) to use lsp as a folding provider
-    M.lsp_capabilities.textDocument.foldingRange = {
-      dynamicRegistration = false,
-      lineFoldingOnly = true
-    }
+    if vim.g.tweaks.completion.version == "blink" then
+      M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+      M.lsp_capabilities = require("blink.cmp").get_lsp_capabilities(M.lsp_capabilities)
+    else
+      M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+      -- M.lsp_capabilities = require("cmp_nvim_lsp").default_capabilities(M.lsp_capabilities)
+    end
     M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
+    M.lsp_capabilities.textDocument.completion.editsNearCursor = true
   end
   return M.lsp_capabilities
 end
@@ -850,4 +871,84 @@ function M.TestDetour()
   vim.cmd("setlocal winhl=NormalFloat:Normal,FloatBorder:TelescopeBorder")
 end
 
+-- toggles nvim-cmp or blink (depending on which plugin is active) autoshow
+-- setting.
+function M.toggle_autocomplete()
+  local mode = vim.g.tweaks.completion == "nvim-cmp" and "cmp" or "blink"
+  if mode == "cmp" and M.cmp_setup_done == false then
+    return
+  end
+  __Globals.perm_config.cmp_autocomplete = not __Globals.perm_config.cmp_autocomplete
+  if mode == "nvim-cmp" then
+    require("cmp").setup({
+      completion = {
+        autocomplete = __Globals.perm_config.cmp_autocomplete == true and { require("cmp.types.cmp").TriggerEvent.TextChanged } or {},
+        completeopt = "menu,menuone",
+      }
+    })
+  end
+  vim.notify("CMP/Blink autocomplete is now " .. (__Globals.perm_config.cmp_autocomplete == true and "Enabled" or "Disabled"))
+end
+-- toggles nvim-cmp or blink (depending on which plugin is active) autoshow
+-- ghost text setting.
+function M.toggle_ghost()
+  local mode = vim.g.tweaks.completion == "nvim-cmp" and "cmp" or "blink"
+  if mode == "cmp" and M.cmp_setup_done == false then
+    return
+  end
+  __Globals.perm_config.cmp_ghost = not __Globals.perm_config.cmp_ghost
+  if mode == "nvim-cmp" then
+    require("cmp").setup({
+      experimental = {
+        ghost_text = __Globals.perm_config.cmp_ghost
+      }
+    })
+  end
+  vim.notify("CMP/Blink ghost text is now " .. (__Globals.perm_config.cmp_ghost == true and "Enabled" or "Disabled"))
+end
+
+function M.custom_lsp()
+  local Snacks = require("snacks")
+  local Align = Snacks.picker.util.align
+  local lutils = require("local_utils")
+
+  Snacks.picker.lsp_symbols({
+    format = function(item, picker)
+      local opts = picker.opts
+      local ret = {}
+      if item.tree and not opts.workspace then
+        vim.list_extend(ret, Snacks.picker.format.tree(item, picker))
+      end
+      local kind = item.kind or "Unknown"
+      local kind_hl = "SnacksPickerIcon" .. kind
+      ret[#ret + 1] = { picker.opts.icons.kinds[kind], kind_hl }
+      local name = vim.trim(item.name:gsub("\r?\n", " "))
+      name = name == "" and item.detail or name
+      Snacks.picker.highlight.format(item, name, ret)
+      -- vim.notify(vim.inspect(ret[#ret]))
+      ret[#ret] = { Align(ret[#ret][1], 30, {align="left"})}
+      ret[#ret + 1] = { "|", "Number" }
+      if opts.workspace then
+        local offset = Snacks.picker.highlight.offset(ret, { char_idx = true })
+        ret[#ret + 1] = { Align(" ", 40 - offset) }
+        vim.list_extend(ret, M.filename(item, picker))
+      end
+      ret[#ret +1] = { Align(vim.trim(item.detail), 40, {align="right"}), "Comment"}
+      return ret
+    end,
+    layout = {
+      preset = "select",
+      preview = true,
+      layout = {
+        width = 80,
+        height = 0.8
+      }
+    },
+    win = {
+      preview = {
+        wo = { winbar = "" }
+      }
+    }
+  })
+end
 return M
