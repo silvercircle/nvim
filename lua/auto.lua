@@ -204,13 +204,19 @@ autocmd({ 'BufEnter' }, {
   group = agroup_views
 })
 
+local bufread_first = true
 -- restore view when reading a file
 autocmd({ 'BufReadPost' }, {
   pattern = "*",
   callback = function(args)
     vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
-      vim.schedule(function() vim.cmd("silent! loadview") end)
+      if bufread_first == true then
+        bufread_first = false
+        vim.schedule(function() vim.cmd("silent! loadview") end)
+      else
+        vim.cmd("silent! loadview")
+      end
     end
   end,
   group = agroup_views

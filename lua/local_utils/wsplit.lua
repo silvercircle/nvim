@@ -437,6 +437,7 @@ end
 ---   b) The current window or buffer changes (WinEnter, BufWinEnter events)
 function Wsplit.refresh()
   local results = {}
+  local relpath = Config.nightly == true and vim.fs.relpath or require("local_utils.fs").relpath
 
   if Wsplit.bufid == nil or Wsplit.winid == nil then
     return
@@ -462,7 +463,7 @@ function Wsplit.refresh()
       vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", true)
       local lines = {}
       local buf_filename = vim.api.nvim_buf_get_name(curbuf)
-      local name = utils.path_truncate(vim.fs.relpath(utils.getroot(buf_filename), buf_filename), Wsplit.win_width - 3)
+      local name = utils.path_truncate(relpath(utils.getroot(buf_filename), buf_filename), Wsplit.win_width - 3)
 
       local fn_symbol, fn_symbol_hl = utils.getFileSymbol(vim.api.nvim_buf_get_name(curbuf))
       local ft = vim.api.nvim_get_option_value("filetype", { buf = curbuf })

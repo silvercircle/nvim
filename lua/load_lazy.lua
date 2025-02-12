@@ -70,7 +70,7 @@ lazy.setup({
       require("plugins.others").setup.fidget()
     end
   },
-  'nvim-lua/plenary.nvim',
+  --'nvim-lua/plenary.nvim',
   {
     'nvim-lualine/lualine.nvim',
     event = "UIEnter",
@@ -577,7 +577,8 @@ lazy.setup({
     ft = { "qf" }
   },
   {
-    'willothy/nvim-cokeline', lazy = true, event="UIEnter", branch = "main",
+    'silvercircle/nvim-cokeline', lazy = true, event="UIEnter",
+    branch = "mine",
     config = function()
       require("plugins.cokeline")
     end
