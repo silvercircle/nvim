@@ -205,31 +205,16 @@ autocmd({ 'BufEnter' }, {
 })
 
 -- restore view when reading a file
-if Config.nightly then
-  autocmd({ 'BufReadPost' }, {
-    pattern = "*",
-    callback = function(args)
-      vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
-      if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
-        -- this is ugly, but it apparently works with the async parser for now.
-        vim.treesitter.get_parser():parse(true, function() vim.cmd("silent! loadview") end)
-        --vim.cmd("silent! loadview")
-      end
-    end,
-    group = agroup_views
-  })
-else
-  autocmd({ 'BufReadPost' }, {
-    pattern = "*",
-    callback = function(args)
-      vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
-      if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
-        vim.cmd("silent! loadview")
-      end
-    end,
-    group = agroup_views
-  })
-end
+autocmd({ 'BufReadPost' }, {
+  pattern = "*",
+  callback = function(args)
+    vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
+    if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
+      vim.schedule(function() vim.cmd("silent! loadview") end)
+    end
+  end,
+  group = agroup_views
+})
 
 -- for these file types we want spellcheck
 autocmd({ 'FileType' }, {
@@ -404,3 +389,12 @@ delcmd = autocmd( { 'BufReadPost' }, {
   end
 })
 
+autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank()
+    local copy_to_unnamedplus = require("vim.ui.clipboard.osc52").copy("+")
+    copy_to_unnamedplus(vim.v.event.regcontents)
+    local copy_to_unnamed = require("vim.ui.clipboard.osc52").copy("*")
+    copy_to_unnamed(vim.v.event.regcontents)
+  end,
+})

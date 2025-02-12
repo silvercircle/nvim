@@ -92,6 +92,9 @@ lazy.setup({
     event = "BufReadPost",
     config = function()
       require("commandpicker").setup({
+        columns = {
+          desc = { hl = "String" }
+        },
         order = { 'desc', 'cmd', 'mappings', 'category' },
         custom_layout = SPL( { width=120, height=20, row=5, input="bottom", preview = false } ),
         width = 120,
@@ -117,8 +120,6 @@ lazy.setup({
   {
     'nvim-treesitter/nvim-treesitter',
     branch = "master",
-    -- lazy = true,
-    -- event = { "UIEnter" },
     config = function()
       require("plugins.treesitter")
     end,
@@ -234,7 +235,7 @@ lazy.setup({
   -- blink.cmp (alternative to nvim-cmp)
   {
     'silvercircle/blink.cmp',
-    branch = "repeat-via-completion",
+    branch = "mine",
     build = "cargo build --release",
     lazy = true,
     event = "ModeChanged",
@@ -500,7 +501,7 @@ lazy.setup({
   },
   {
     'nvim-tree/nvim-tree.lua',
-    cond = vim.g.tweaks.tree.version == "Nvim",
+    -- cond = vim.g.tweaks.tree.version == "Nvim",
     lazy = true,
     config = function()
       require("plugins.nvim-tree")
@@ -542,6 +543,7 @@ lazy.setup({
   },
   {
     'goolord/alpha-nvim',
+    cond = true,
     branch = "main",
     config = function()
       require("plugins.alpha")
