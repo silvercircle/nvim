@@ -3,7 +3,7 @@
 -- this is useless without.
 -- requires a NERDFont
 
-local plenary = require("plenary.path")
+--local plenary = require("plenary.path")
 local utils = require("local_utils")
 
 local Wsplit = {}
@@ -461,7 +461,8 @@ function Wsplit.refresh()
 
       vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", true)
       local lines = {}
-      local name = utils.path_truncate(plenary:new(vim.api.nvim_buf_get_name(curbuf)):make_relative(), Wsplit.win_width - 3)
+      local buf_filename = vim.api.nvim_buf_get_name(curbuf)
+      local name = utils.path_truncate(vim.fs.relpath(utils.getroot(buf_filename), buf_filename), Wsplit.win_width - 3)
 
       local fn_symbol, fn_symbol_hl = utils.getFileSymbol(vim.api.nvim_buf_get_name(curbuf))
       local ft = vim.api.nvim_get_option_value("filetype", { buf = curbuf })

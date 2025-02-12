@@ -185,7 +185,8 @@ function Utils.getroot(fname)
     if conf.ignore_git == false then
       Utils.debug("No git root found for " .. fname .. " trying root patterns")
     end
-    path = lsputil.root_pattern(conf.root_patterns)(fname)
+    -- path = lsputil.root_pattern(conf.root_patterns)(fname)
+    path = vim.fs.root(fname, conf.root_patterns)
   end
   if path == nil then
     Utils.debug("No root found for " .. fname .. " giving up")
@@ -407,6 +408,7 @@ end
 --- @param maxlen integer: the desired length
 --- @return string: the truncated path
 function Utils.path_truncate(path, maxlen)
+  path = path or ""
   local len = string.len(path)
   if len <= maxlen then
     return path
