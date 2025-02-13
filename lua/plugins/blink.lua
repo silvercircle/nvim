@@ -229,8 +229,8 @@ require("blink.cmp").setup({
         module = "blink-cmp-wordlist",
         name = "wordlist",
         opts = {
-          wordfiles = { "wordlist.txt", "personal.txt" },
-          debug = false,
+          wordfiles = { "wordlist.txt", "personal.txt", "/home/alex/foolist" },
+          debug = true,
           read_on_setup = false,
           watch_files = true
         }

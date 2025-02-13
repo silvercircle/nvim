@@ -91,6 +91,14 @@ local function get_permconfig_filename()
   return vim.fn.stdpath("state") .. "/permconfig.json"
 end
 
+function M.open_with_fzf(cwd)
+  if vim.fn.isdirectory(cwd) then
+    vim.schedule(function() require("fzf-lua").files({ formatter = "path.filename_first", cwd = cwd,
+      winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+     end)
+  end
+end
+
 --- open the outline window
 function M.open_outline()
   local buftype = vim.api.nvim_buf_get_option(0, "buftype")

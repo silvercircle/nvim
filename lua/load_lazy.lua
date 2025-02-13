@@ -70,7 +70,7 @@ lazy.setup({
       require("plugins.others").setup.fidget()
     end
   },
-  --'nvim-lua/plenary.nvim',
+  'nvim-lua/plenary.nvim',
   {
     'nvim-lualine/lualine.nvim',
     event = "UIEnter",
@@ -108,8 +108,10 @@ lazy.setup({
     lazy = true,
     config = function()
       require("quickfavs").setup({
+        filename = vim.fs.joinpath(vim.fn.stdpath("config"), "favs"),
         telescope_theme = require("local_utils").Telescope_dropdown_theme,
         picker = "snacks",
+        debug = true,
         snacks_layout = SPL( { width = 120, height = 20, row = 5, input = "top" }),
         fzf_winopts = vim.g.tweaks.fzf.winopts.narrow_small_preview,
         explorer_layout = SPL( { width = 70 })
@@ -261,7 +263,8 @@ lazy.setup({
         end
       },
       {
-        'https://gitlab.com/silvercircle74/blink-cmp-wordlist'
+        -- 'https://gitlab.com/silvercircle74/blink-cmp-wordlist'
+        dir = "/data/mnt/shared/data/code/neovim_plugins/blink-cmp-wordlist.nvim/"
       },
       {
         'https://gitlab.com/silvercircle74/blink-cmp-lua'
@@ -297,6 +300,7 @@ lazy.setup({
         end
       },
       { "danymat/neogen",
+        cmd = { "Neogen" },
         config = function()
           require("plugins.others").setup.neogen()
         end
@@ -589,6 +593,11 @@ lazy.setup({
     branch = 'mine',
     cmd = { "Outline", "OutlineOpen", "OutlineClose" },
     lazy = true,
+    dependencies = {
+      {
+        'epheien/outline-treesitter-provider.nvim'
+      }
+    },
     config = function()
       require("plugins.outline_setup")
     end

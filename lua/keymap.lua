@@ -488,8 +488,26 @@ if status == true then
   vim.g.setkey( {'n', 'i'}, '<C-S-E>', function()
     snacks.picker.smart({ layout = SPL( {width = 70, height = 20, row = 5, title = "Buffers", input = "top" } ) })
   end, "Snacks buffer list")
-
 end
+
+vim.g.setkey( { 'n', 'i' }, "<C-x>z", function()
+  require("snacks").picker.zoxide({
+  confirm = function(picker, item)
+    picker:close()
+    __Globals.open_with_fzf(item.file)
+  end,
+  layout = SPL({ input = "top", width = 80, height = 0.7, row = 7, preview = false }) })
+end, "Pick from Zoxide")
+
+vim.g.setkey( { 'i', 'n' }, "<C-S-P>", function()
+  require("snacks").picker.projects({
+  confirm = function(picker, item)
+    picker:close()
+    __Globals.open_with_fzf(item.file)
+  end,
+  layout = SPL( {width = 50, height = 20, row = 5, title = "Projects" } ) })
+end, "Pick recent project")
+
 -- allow to move the cursor during multicursor-editing, prevent <Left>, <Right> from
 -- creating undo points..
 vim.keymap.set('i', "<Left>",  "<C-g>U<Left>", { silent = true, noremap = true } )
