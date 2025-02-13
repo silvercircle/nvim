@@ -82,6 +82,7 @@ local on_attach = function(client, buf)
     vim.g.inlay_hints_visible = true
     vim.lsp.inlay_hint.enable(false)
   end
+  -- don't let rzls mess with my hl groups :)
   if client.name == "rzls" then
     vim.cmd("hi! link @lsp.type.field Member")
   end
@@ -91,7 +92,7 @@ end
 require("roslyn").setup({
   config = {
     filetypes = { "cs", "razor" },
-    capabilities = vim.lsp.protocol.make_client_capabilities(),
+    capabilities = __Globals.get_lsp_capabilities(),
     handlers = require "rzls.roslyn_handlers",
     --the project root needs a .sln file (mandatory)
     root_dir = function(fname)
