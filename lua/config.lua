@@ -37,7 +37,7 @@ Config = {
   treesitter = true,
   plain = (env_plain ~= nil or vim.g.want_plain == true) and true or false,
   statuscol_normal = '%s%=%l %C ',
-  statuscol_rel = '%s%=%r %C ',
+  statuscol_rel = nvim_11 == 1 and '%s%=%l %C ' or "%s%=%r %C ",
   nvim_tree = true,
   fortunecookie = false,                      --"fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
                                               -- needs fortune and cowsay installed.

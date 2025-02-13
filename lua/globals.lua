@@ -224,7 +224,7 @@ function M.set_statuscol(mode)
   else
     vim.o.relativenumber = true
     vim.o.numberwidth = vim.g.tweaks.numberwidth_rel
-    vim.o.number = false
+    vim.o.number = true
   end
   M.notify("Line numbers set to: " .. mode, vim.log.levels.INFO)
 end
