@@ -274,7 +274,7 @@ function Utils.StopLsp()
         }
       }
     },
-    confirm = function(picker, item)
+    confirm = function(picker, _)
       do_terminate(picker:current().id, picker)
     end,
     actions = {
@@ -370,7 +370,6 @@ function Utils.Quitapp()
   local have_modified_buf = false
   local menuitems = {}
   local prompt = ""
-  local Snacks = require("snacks")
 
   for _, bufnr in ipairs(bufs) do
     have_modified_buf = vim.api.nvim_buf_get_option(bufnr, "modified") == true and true or have_modified_buf

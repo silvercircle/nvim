@@ -5,9 +5,9 @@ local autocmd = vim.api.nvim_create_autocmd
 local agroup_views = vim.api.nvim_create_augroup("views", {})
 local agroup_hl = vim.api.nvim_create_augroup("hl", {})
 local wsplit = require("local_utils.wsplit")
+wsplit.freeze = true
 local usplit = require("local_utils.usplit")
 local tsc = require("treesitter-context")
-local utils = require("local_utils")
 local marks = require("local_utils.marks")
 local treeft = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
 
@@ -121,6 +121,7 @@ local function main_layout()
     })
     vim.api.nvim_command("wincmd p")
     if __Globals.perm_config.weather.active == true then
+      wsplit.freeze = true
       wsplit.content = __Globals.perm_config.weather.content
       wsplit.content_set_winid(__Globals.main_winid)
     end
@@ -211,7 +212,7 @@ autocmd({ 'BufReadPost' }, {
   callback = function(args)
     vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
-      if bufread_first == true then
+      if bufread_first == true and Config.nightly == true then
         bufread_first = false
         vim.schedule(function() vim.cmd("silent! loadview") end)
       else
@@ -387,11 +388,8 @@ delcmd = autocmd( { 'BufReadPost' }, {
       return
     end
     _delayloaded = true
-    local timer = vim.uv.new_timer()
-    timer:start(1000, 0, vim.schedule_wrap(function()
-      require("plugins.commandpicker_addcommands")
-      vim.schedule(function() _delcmd() end)
-    end))
+    vim.defer_fn(function() require("plugins.commandpicker_addcommands") end, 200)
+    vim.schedule(function() _delcmd() end)
   end
 })
 

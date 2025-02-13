@@ -209,7 +209,7 @@ end
 --- @param target string
 --- @param opts table? Reserved for future use
 --- @return string|nil
-function M.relpath(base, target, opts)
+function M.relpath(base, target)
   --vim.validate('base', base, 'string')
   --vim.validate('target', target, 'string')
   --vim.validate('opts', opts, 'table', true)

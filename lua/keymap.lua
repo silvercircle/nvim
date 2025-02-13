@@ -485,9 +485,6 @@ vim.cmd("nunmap <cr>")
 
 local status, snacks = pcall(require, "snacks")
 if status == true then
-  vim.g.setkey( 'n', '<C-S-P>', function()
-    snacks.picker.projects({ layout = SPL( {width = 50, height = 20, row = 5, title = "Projects" } ) })
-  end, "Open snacks projects picker")
   vim.g.setkey( {'n', 'i'}, '<C-S-E>', function()
     snacks.picker.smart({ layout = SPL( {width = 70, height = 20, row = 5, title = "Buffers", input = "top" } ) })
   end, "Snacks buffer list")

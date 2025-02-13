@@ -6,6 +6,15 @@ local lsputil    = require("lspconfig.util")
 local Terminal   = require("toggleterm.terminal").Terminal
 -- require("telescope")
 local noremap    = true
+
+local function open_with_fzf(cwd)
+  if vim.fn.isdirectory(cwd) then
+    vim.schedule(function() fzf.files({ formatter = "path.filename_first", cwd = cwd,
+      winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+     end)
+  end
+end
+
 require("commandpicker").add({
   {
     desc = "Show notification history",
@@ -339,6 +348,31 @@ require("commandpicker").add({
       { "i", vim.g.tweaks.keymap.utility_key .. "<C-n>" }
     },
     category = "@Notifications"
+  },
+  {
+    desc = "Zoxide history",
+    cmd = function() require("snacks").picker.zoxide({
+      confirm = function(picker, item)
+        picker:close()
+        open_with_fzf(item.file)
+      end,
+      layout = SPL({ input = "top", width = 80, height = 0.7, row = 7, preview = false }) })
+    end,
+    keys = { "n", "<C-x>z", noremap },
+    category = "@Snacks, zoxide"
+  },
+  {
+    desc = "Recent projects list",
+    key = { { 'i', 'n' }, "<C-S-P>" },
+    cmd = function()
+      require("snacks").picker.projects({
+        confirm = function(picker, item)
+          picker:close()
+          open_with_fzf(item.file)
+        end,
+        layout = SPL( {width = 50, height = 20, row = 5, title = "Projects" } ) })
+    end,
+    category = "@Snacks, projects"
   }
 })
 

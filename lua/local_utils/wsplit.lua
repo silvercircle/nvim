@@ -459,12 +459,16 @@ function Wsplit.refresh()
     vim.api.nvim_buf_clear_namespace(Wsplit.bufid, -1, 0, -1)
     if Wsplit.content_winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.content_winid) then
       local curbuf = vim.api.nvim_win_get_buf(Wsplit.content_winid)
+      local name = nil
 
       vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", true)
       local lines = {}
       local buf_filename = vim.api.nvim_buf_get_name(curbuf)
-      local name = utils.path_truncate(relpath(utils.getroot(buf_filename), buf_filename), Wsplit.win_width - 3)
-
+      if buf_filename ~= nil and vim.bo[curbuf].bt == "" and vim.fn.filereadable(buf_filename) then
+        name = utils.path_truncate(relpath(utils.getroot(buf_filename), buf_filename), Wsplit.win_width - 3)
+      else
+        return
+      end
       local fn_symbol, fn_symbol_hl = utils.getFileSymbol(vim.api.nvim_buf_get_name(curbuf))
       local ft = vim.api.nvim_get_option_value("filetype", { buf = curbuf })
 

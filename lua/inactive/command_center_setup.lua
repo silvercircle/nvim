@@ -342,26 +342,6 @@ command_center.add({
     category = "@Setup"
   },
   {
-    desc = "ZK tags",
-    cmd = function()
-      require("telescope").extensions.zk.tags( __Telescope_vertical_dropdown_theme({ layout_config={preview_height=0.7, width=0.5, height=0.9}} ) )
-    end,
-    keys = {
-      { "n", "zkt", noremap },
-    },
-    category = "@ZK"
-  },
-  {
-    desc = "ZK notes",
-    cmd = function()
-      require("telescope").extensions.zk.notes( __Telescope_vertical_dropdown_theme({ layout_config={preview_height=15, width=0.5, height=0.9}} ) )
-    end,
-    keys = {
-      { "n", "zkn", noremap },
-    },
-    category = "@ZK"
-  },
-  {
     desc = "Command history (FZF)",
     cmd = function() require("snacks").picker.command_history( { layout = SPL( {input="top", width=140, height = 0.7, row = 7, preview = false } ) } ) end,
     keys = { "n", "<A-C>", noremap },
@@ -372,6 +352,6 @@ command_center.add({
     cmd = function() require("snacks").picker.commands( { layout = SPL( {input="top", width=80, height = 0.8, row = 7, preview = false } ) } ) end,
     keys = { "n", "<A-c>", noremap },
     category = "@FZF"
-  },
+  }
 })
 
