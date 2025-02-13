@@ -481,7 +481,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-n>', function()
 end, "Open Navbuddy window")
 
 require("local_utils.marks").set_keymaps()
-vim.cmd("nunmap <cr>")
+--vim.cmd("nunmap <cr>")
 
 local status, snacks = pcall(require, "snacks")
 if status == true then
