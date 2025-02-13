@@ -2,14 +2,14 @@ local util = require 'lspconfig.util'
 
 --- the following functions are necessary to support semantic tokens with the roslyn
 --- language server.
---- this function works with current nightly (neovim-0.11)
-local function monkey_patch_semantic_tokens(client)
-  -- NOTE: Super hacky... Don't know if I like that we set a random variable on
-  -- the client Seems to work though ~seblj
-  if client.is_hacked then
+
+--- reference: https://github.com/seblyng/roslyn.nvim/wiki#semantic-tokens
+--- this function should work with 0.10 and 0.11 of Neovim
+local function fix_semantic_tokens(client)
+  if client.is_patched then
     return
   end
-  client.is_hacked = true
+  client.is_patched = true
 
   -- let the runtime know the server can do semanticTokens/full now
   client.server_capabilities = vim.tbl_deep_extend("force", client.server_capabilities, {
@@ -20,6 +20,7 @@ local function monkey_patch_semantic_tokens(client)
 
   -- monkey patch the request proxy
   local request_inner = client.request
+
   if vim.fn.has("nvim-0.11") == 1 then
     function client:request(method, params, handler, req_bufnr)
       if method ~= vim.lsp.protocol.Methods.textDocument_semanticTokens_full then
@@ -84,7 +85,7 @@ local on_attach = function(client, buf)
   if client.name == "rzls" then
     vim.cmd("hi! link @lsp.type.field Member")
   end
-  monkey_patch_semantic_tokens(client)
+  fix_semantic_tokens(client)
 end
 
 require("roslyn").setup({
@@ -132,15 +133,14 @@ require("roslyn").setup({
     "--logLevel=Information",
     "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
     "--razorSourceGenerator=" .. vim.fs.joinpath(
-      vim.fn.stdpath 'data' --[[@as string]],
-      'mason',
-      'packages',
+      vim.fn.stdpath('data'),
+      -- 'mason',
+      -- 'packages',
       'roslyn',
-      'libexec',
       'Microsoft.CodeAnalysis.Razor.Compiler.dll'
     ),
     "--razorDesignTimePath=" .. vim.fs.joinpath(
-      vim.fn.stdpath 'data' --[[@as string]],
+      vim.fn.stdpath('data'),
       'mason',
       'packages',
       'rzls',
