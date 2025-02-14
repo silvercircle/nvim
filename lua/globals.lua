@@ -59,8 +59,7 @@ M.perm_config_default = {
   blist_height = 0.33,
   theme_variant = "warm",
   transbg = false,
-  theme_desaturate = true,
-  theme_dlevel = 1,
+  theme_palette = "vivid",
   theme_strings = "yellow",
   debug = false,
   ibl_rainbow = true,
@@ -532,8 +531,7 @@ function M.restore_config()
   Config.theme.setup({
     scheme = vim.g.tweaks.theme.scheme,
     variant = M.perm_config.theme_variant,
-    desaturate = M.perm_config.theme_desaturate,
-    dlevel = M.perm_config.theme_dlevel,
+    colorpalette = M.perm_config.theme_palette,
     theme_strings = M.perm_config.theme_strings,
     is_trans = M.perm_config.transbg,
     sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
@@ -572,9 +570,15 @@ function M.restore_config()
         defaultlib = { italic = false },
         attribute = { italic = false, bold = true },
       },
-      light = {
+      gruv = {
         cmpkind = cmp_kind_attr,
-        tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {}
+        tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {},
+        types = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+        class = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+        interface = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+        struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+        defaultlib = { italic = false },
+        attribute = { italic = false, bold = true },
       }
     },
   })
@@ -588,14 +592,9 @@ function M.theme_callback(what)
   if what == 'variant' then
     M.perm_config.theme_variant = conf.variant
     M.notify("Theme variant is now: " .. conf.variant, vim.log.levels.INFO, "Theme")
-  elseif what == 'desaturate' then
-    M.perm_config.theme_desaturate = conf.desaturate
-    M.perm_config.theme_dlevel = conf.dlevel
-    if conf.desaturate == false then
-      M.notify("Selected vivid color scheme", vim.log.levels.INFO, "Theme")
-    else
-      M.notify("Selected desaturated (Level " .. conf.dlevel .. ") color scheme", vim.log.levels.INFO, "Theme")
-    end
+  elseif what == 'palette' then
+    M.perm_config.theme_palette = conf.colorpalette
+    M.notify("Selected color palette: " .. conf.colorpalette, vim.log.levels.INFO, "Theme")
   elseif what == 'strings' then
     M.notify("Theme strings set to: " .. conf.theme_strings, vim.log.levels.INFO, "Theme")
     M.perm_config.theme_strings = conf.theme_strings
@@ -603,7 +602,6 @@ function M.theme_callback(what)
     M.perm_config.transbg = conf.is_trans
     M.notify("Theme transparency is now " .. (conf.is_trans == true and "On" or "Off"), vim.log.levels.INFO, "Theme")
   end
-
   if vim.g.tweaks.completion.version == "blink" then
     require("plugins.blink").update_hl()
   else

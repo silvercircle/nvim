@@ -111,7 +111,6 @@ lazy.setup({
         filename = vim.fs.joinpath(vim.fn.stdpath("config"), "favs"),
         telescope_theme = require("local_utils").Telescope_dropdown_theme,
         picker = "snacks",
-        debug = true,
         snacks_layout = SPL( { width = 120, height = 20, row = 5, input = "top" }),
         fzf_winopts = vim.g.tweaks.fzf.winopts.narrow_small_preview,
         explorer_layout = SPL( { width = 70 })
@@ -468,13 +467,6 @@ lazy.setup({
       }
     }
   },
-  --{
-  --  'stevearc/dressing.nvim',
-  --  event = { "UIEnter" },
-  --  config = function()
-  --    require("plugins.dressing")
-  --  end
-  --},
   {
     'akinsho/toggleterm.nvim',
     lazy = true,

@@ -175,6 +175,9 @@ Tweaks.blink = {
     doc = 0,
     menu = 0
   },
+  --- show the effective LSP client name in the last column when available
+  --- otherwise show just the source name (LSP, snippets etc.)
+  show_client_name = true,
   -- list of filetypes for which we want to allow the "buffer" source to
   -- collect all the buffer words.
   -- set this to an empty table to allow buffer words for all filetype

@@ -8,6 +8,10 @@
 
 -- custom themes must be named as themename.lua and reside in the darkmatter/themes
 -- folder.
+
+-- palette to use when basepalette is called with an unknown name
+local _p_fallback = 'vivid'
+
 local colorvariants = {
   vivid = {
     orange = { "#dfa690", 215 },
@@ -122,7 +126,7 @@ function M.basepalette(colorvariant)
   if colorvariants[colorvariant] ~= nil then
     return colorvariants[colorvariant]
   else
-    return colorvariants['vivid']
+    return colorvariants[_p_fallback]
   end
 end
 
@@ -194,15 +198,11 @@ function M.theme()
   return {
     -- accent color is used for important highlights like the currently selected tab (buffer)
     -- and more.
-    --accent_color = '#cbaf00',
     accent_color = "#204050",
-    --accent_color = "#305030",
-    --alt_accent_color = '#bd2f4f',
     alt_accent_color = "#501010",
-    --accent_fg = "#cccc80",
     accent_fg = "#aaaa60",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
-    selbg = "#202070",
+    selbg = "#3c3836",
     cold = {
       statuslinebg = "#262630",
       bg = "#141414",
@@ -215,11 +215,11 @@ function M.theme()
     },
     warm = {
       statuslinebg = "#2a2626",
-      bg = "#161414",
-      treebg = "#1b1818",
+      bg = "#141212",
+      treebg = "#181515",
       floatbg = "#1f2222",
       gutterbg = "#131010",
-      kittybg = "#1b1818",
+      kittybg = "#181515",
       fg = "#aaa0a5",
       fg_dim = "#969090"
     },

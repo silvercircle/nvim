@@ -24,44 +24,7 @@ local M = {}
 -- the "no color"
 M.NONE = { "NONE", "NONE" }
 
-local rainbowpalette = {
-  dark = {
-    low = {
-     "#401C15",
-     "#15401B",
-     "#583329",
-     "#163642",
-     "#112F6F",
-     "#56186D"
-   },
-   high = {
-     "#701C15",
-     "#15701B",
-     "#783329",
-     "#2646a2",
-     "#707010",
-     "#86188D"
-   }
-  },
-  light = {
-    low = {
-     "#ddbbbb",
-     "#bbddbb",
-     "#ddddbb",
-     "#bbdddd",
-     "#bbbbdd",
-     "#ddbbdd"
-    },
-    high = {
-     "#ddbbbb",
-     "#bbddbb",
-     "#ddddbb",
-     "#bbdddd",
-     "#bbbbdd",
-     "#ddbbdd"
-    }
-  }
-}
+local rainbowpalette = {}
 
 M.keys_set = false
 -- the color palette. Dynamically created in the configure() function
@@ -83,8 +46,7 @@ local conf = {
   -- c) "deepblack" - very dark, almost black background. neutral grey tone.
   variant = "warm",
   -- color brightness. Set to false to get very vivid and strong colors.
-  desaturate = true,
-  dlevel = 1, -- desaturation level (1 = mild, 2 = strong, pastel-like")
+  colorpalette = "vivid",
   -- The color of strings. Some prefer yellow, others not so.
   -- Supported are "yellow" and "green".
   theme_strings = "yellow",
@@ -238,6 +200,7 @@ end
 local function configure()
   local theme = require("darkmatter.themes." .. conf.scheme)
   M.T = theme.theme()
+  rainbowpalette = theme.rainbowpalette()
   conf.attrib = vim.tbl_deep_extend("force", theme.attributes(), M.attr_override[conf.scheme])
   LuaLineColors = {
     white = "#ffffff",
@@ -258,7 +221,7 @@ local function configure()
     statuslinebg = M.T[conf.variant].statuslinebg,
   }
   -- setup base palette
-  M.P = theme.basepalette(conf.desaturate, conf.dlevel)
+  M.P = theme.basepalette(conf.colorpalette)
 
   -- TODO: allow cokeline colors per theme variant
   M.P.fg = { M.T[conf.variant].fg, 1 }
@@ -667,12 +630,12 @@ local function set_all()
   M.link("IndentBlanklineSpaceChar", "IndentBlanklineChar")
   M.link("IndentBlanklineSpaceCharBlankline", "IndentBlanklineChar")
   -- rainbow colors
-  M.set_hl(0, "IndentBlanklineIndent1", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][1], nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent2", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][2], nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent3", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][4], nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent4", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][5], nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent5", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][6], nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent6", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][3], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent1", { fg = rainbowpalette[conf.rainbow_contrast][1], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent2", { fg = rainbowpalette[conf.rainbow_contrast][2], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent3", { fg = rainbowpalette[conf.rainbow_contrast][4], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent4", { fg = rainbowpalette[conf.rainbow_contrast][5], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent5", { fg = rainbowpalette[conf.rainbow_contrast][6], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent6", { fg = rainbowpalette[conf.rainbow_contrast][3], nocombine = true })
 
   M.link("diffAdded", "Green")
   M.link("diffRemoved", "Red")
@@ -904,6 +867,7 @@ function M.ui_select_variant()
     conf.variant = cmd
     configure()
     M.set()
+    conf.callback("variant")
   end
 
   utils.simplepicker(variants, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select theme variant" })
@@ -915,29 +879,20 @@ end
 function M.ui_select_colorweight()
   local utils = require("local_utils")
   local items = {
-    { cmd = "rich", text = "Vivid (rich colors, high contrast)", p = 1, d = false, level = 1 },
-    { cmd = "medium", text = "Medium (somewhat desaturated colors)", p = 2, d = true, level = 1, current = true },
-    { cmd = "pastel", text = "Pastel (low intensity colors)", p = 3, d = true, level = 2 }
+    { cmd = "vivid", text = "Vivid (rich colors, high contrast)", p = 1 },
+    { cmd = "medium", text = "Medium (somewhat desaturated colors)", p = 2 },
+    { cmd = "pastel", text = "Pastel (low intensity colors)", p = 3 }
   }
 
   vim.iter(items):map(function(k)
-    if conf.desaturate == k.d and conf.dlevel == k.level then k.current = true else k.current = false end
+    if conf.colorpalette == k.cmd then k.current = true else k.current = false end
     return k
   end):totable()
 
   local function execute(cmd)
-    if cmd== "rich" then
-      conf.desaturate = false
-      conf.dlevel = 1
-    elseif cmd == "medium" then
-      conf.desaturate = true
-      conf.dlevel = 1
-    elseif cmd == "pastel" then
-      conf.desaturate = true
-      conf.dlevel = 2
-    end
+    conf.colorpalette = cmd
     M.set()
-    conf_callback("desaturate")
+    conf_callback("palette")
   end
 
   utils.simplepicker(items, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select Color variant" })
