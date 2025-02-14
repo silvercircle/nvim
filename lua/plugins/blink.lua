@@ -350,9 +350,6 @@ require("blink.cmp").setup({
             end,
             highlight = function(ctx) return "BlinkCmpKind" .. ctx.kind .. "Rev" end
           },
-          kind = {
-            highlight = function(ctx) return "BlinkCmpKind" .. ctx.kind end
-          },
           label = {
             ellipsis = true,
             width = { fill = true, max = T.label_max_width },
@@ -374,27 +371,22 @@ require("blink.cmp").setup({
             end,
           },
           label_description = {
+            text = function(ctx)
+              return ctx.label_description or (ctx.item.detail or "")
+            end,
             ellipsis = true,
             width = { fill = true, max = T.desc_max_width },
             highlight = "Comment"
           },
           source_name = {
             text = function(ctx)
-              if ctx.item.detail ~= nil and #ctx.item.detail > 1 then
-                return ctx.item.detail
-              end
-              return ctx.source_name
+              return Tweaks.blink.show_client_name == true and (ctx.item.client_name or ctx.source_name) or ctx.source_name
             end,
             highlight = function(ctx)
-              if ctx.item.detail ~= nil and #ctx.item.detail > 1 then
-                return "CmpItemMenuDetail"
-              else
-                if blink_menu_hl_group[ctx.source_id] ~= nil then
-                  return blink_menu_hl_group[ctx.source_id]
-                else
-                  return "CmpItemMenuDefault"
-                end
-              end
+              --if ctx.item.detail ~= nil and #ctx.item.detail > 1 then
+              --  return "CmpItemMenuDetail"
+              --else
+              return blink_menu_hl_group[ctx.source_id] or "CmpItemMenuDefault"
             end
           }
         }

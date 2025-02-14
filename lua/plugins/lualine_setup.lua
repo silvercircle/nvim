@@ -126,9 +126,9 @@ require("lualine").setup({
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
       disabled_filetypes = {
-      statusline = { "Outline", 'terminal', 'query', 'qf', 'BufList', 'sysmon', 'weather', "NvimTree", "neo-tree", "aerial", "Trouble" },
-      winbar = { 'Outline', 'terminal', 'query', 'qf', 'NvimTree', 'neo-tree', 'alpha', 'BufList', 'sysmon', 'weather', 'aerial', 'Trouble',
-                 'dap-repl', 'dapui_console', 'dapui_watches', 'dapui_stacks', 'dapui_scopes', 'dapui_breakpoints' },
+      statusline = { "Outline", 'terminal', 'query', 'qf', 'sysmon', 'weather', "NvimTree", "neo-tree", "Trouble" },
+      winbar = { 'Outline', 'terminal', 'query', 'qf', 'NvimTree', 'neo-tree', 'alpha', 'sysmon', 'weather', 'Trouble',
+                 'dap-repl', 'dapui_console', 'dapui_watches', 'dapui_stacks', 'dapui_scopes', 'dapui_breakpoints', "snacks_picker_preview" },
       tabline = {},
     },
     -- ignore_focus = {'NvimTree', 'neo-tree'},

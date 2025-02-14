@@ -200,7 +200,7 @@ function SPL(params)
       height = opts.height or 0.9,
       title = opts.title or nil,
       border = opts.border and Borderfactory(opts.border) or Borderfactory("thicc"),
-      { win = "preview", title = "{preview}", height = opts.psize or 10, border = "bottom" },
+      { win = "preview", title = "{preview}", height = opts.psize or 10, border = "bottom", wo = { winbar = "" } },
       { win = "list",  border = "none" },
       input_pos ~= "off" and { win = "input", height = 1,
         border = opts.iborder and Borderfactory(opts.iborder) or "top" } or nil,
@@ -222,7 +222,7 @@ function SPL(params)
       border = opts.border and Borderfactory(opts.border) or Borderfactory("thicc"),
       input_pos ~= "off" and { win = "input", height = 1, border = "bottom" } or nil,
       { win = "list",  border = "none" },
-      { win = "preview", title = "{preview}", height = opts.psize or 10, border = "top" },
+      { win = "preview", title = "{preview}", height = opts.psize or 10, border = "top", wo = { winbar = "" } },
     }
   }
 end
