@@ -67,40 +67,8 @@ local conf = {
 
   -- the style table controls the special color table that is mostly for syntax
   -- highlight. It defines semantic colors using the basic color names.
-  style = {
-    identifier = "fg_dim",
-    comment = "grey",
-    keyword = "blue",
-    kwspec = "deepred",
-    kwconditional = "blue",
-    kwrepeat = "blue",
-    kwexception = "blue",
-    kwreturn = "blue",
-    kwfunc = "deepred",
-    member = "orange",
-    staticmember = "orange",
-    method = "brightteal",
-    func = "teal",
-    operator = "brown",
-    builtin = "darkyellow",
-    braces = "altblue",
-    delim = "red",
-    number = "altgreen",
-    class = "maroon",
-    interface = "lila",
-    storage = "palegreen",
-    constant = "lpurple",
-    module = "olive",
-    namespace = "olive",
-    type = "darkpurple",
-    struct = "darkpurple",
-    bool = "deepred",
-    constructor = "altyellow",
-    macro = "lpurple",
-    defaultlib = "palegreen",
-    staticmethod = "palegreen",
-    attribute = "olive"
-  },
+  style = {},
+  style_overrides = {},
   --- these colors will be added to the standard palette. They can be used for
   --- styled colors.
   usercolors = {
@@ -199,9 +167,14 @@ end
 -- themes/scheme.lua
 local function configure()
   local theme = require("darkmatter.themes." .. conf.scheme)
+
   M.T = theme.theme()
   rainbowpalette = theme.rainbowpalette()
   conf.attrib = vim.tbl_deep_extend("force", theme.attributes(), M.attr_override[conf.scheme])
+  conf.style = theme.styles()
+  for k,v in pairs(conf.style_overrides) do
+    conf.style[k] = v
+  end
   LuaLineColors = {
     white = "#ffffff",
     darkestgreen = M.T.accent_fg,

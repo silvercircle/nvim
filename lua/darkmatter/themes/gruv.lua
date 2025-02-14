@@ -99,6 +99,41 @@ local colorvariants = {
   }
 }
 
+local styles = {
+  identifier = "fg_dim",
+  comment = "grey",
+  keyword = "blue",
+  kwspec = "deepred",
+  kwconditional = "blue",
+  kwrepeat = "blue",
+  kwexception = "blue",
+  kwreturn = "blue",
+  kwfunc = "deepred",
+  member = "orange",
+  staticmember = "orange",
+  method = "brightteal",
+  func = "teal",
+  operator = "brown",
+  builtin = "darkyellow",
+  braces = "altblue",
+  delim = "red",
+  number = "altgreen",
+  class = "maroon",
+  interface = "lila",
+  storage = "palegreen",
+  constant = "lpurple",
+  module = "olive",
+  namespace = "olive",
+  type = "darkpurple",
+  struct = "darkpurple",
+  bool = "deepred",
+  constructor = "altyellow",
+  macro = "lpurple",
+  defaultlib = "palegreen",
+  staticmethod = "palegreen",
+  attribute = "olive"
+}
+
 local M = {}
 
 function M.rainbowpalette()
@@ -128,6 +163,10 @@ function M.basepalette(colorvariant)
   else
     return colorvariants[_p_fallback]
   end
+end
+
+function M.styles()
+  return styles
 end
 
 function M.variants(variant)

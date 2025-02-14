@@ -8,6 +8,42 @@
 
 -- custom themes must be named as themename.lua and reside in the darkmatter/themes
 -- folder.
+
+local styles = {
+  identifier = "fg_dim",
+  comment = "grey",
+  keyword = "blue",
+  kwspec = "deepred",
+  kwconditional = "blue",
+  kwrepeat = "blue",
+  kwexception = "blue",
+  kwreturn = "blue",
+  kwfunc = "deepred",
+  member = "orange",
+  staticmember = "orange",
+  method = "brightteal",
+  func = "teal",
+  operator = "brown",
+  builtin = "darkyellow",
+  braces = "altblue",
+  delim = "red",
+  number = "altgreen",
+  class = "maroon",
+  interface = "lila",
+  storage = "palegreen",
+  constant = "lpurple",
+  module = "olive",
+  namespace = "olive",
+  type = "darkpurple",
+  struct = "darkpurple",
+  bool = "deepred",
+  constructor = "altyellow",
+  macro = "lpurple",
+  defaultlib = "palegreen",
+  staticmethod = "palegreen",
+  attribute = "olive"
+}
+
 local colorvariants = {
   vivid = {
     orange = { "#dfa690", 215 },
@@ -116,6 +152,10 @@ function M.rainbowpalette()
       "#86188D"
     }
   }
+end
+
+function M.styles()
+  return styles
 end
 
 function M.basepalette(colorvariant)
