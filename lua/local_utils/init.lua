@@ -316,7 +316,7 @@ function Utils.BufClose()
     local items = {
       { p = 1, cmd = "save", text = "Save and Close", hl = "Number" },
       { p = 1, cmd = "discard", text = "Close and discard", hl = "DeepRedBold" },
-      { p = 1, cmd = "cancel", text = "Cancel operation", hl = "Keyword" },
+      { p = 1, cmd = "cancel", text = "Cancel operation", hl = "BlueBold" },
     }
 
     if vim.g.confirm_actions["close_buffer"] == true then
@@ -378,7 +378,7 @@ function Utils.Quitapp()
   if have_modified_buf == false then
     menuitems = {
       { cmd = "hardexit", text = "Really exit?", hl = "DeepRedBold", p = 1 },
-      { cmd = "cancel", text = "Cancel operation", hl = "Keyword", p = 1 }
+      { cmd = "cancel", text = "Cancel operation", hl = "BlueBold", p = 1 }
     }
     prompt = "Exit (no modified buffers)"
   else

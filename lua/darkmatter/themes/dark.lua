@@ -41,7 +41,9 @@ local styles = {
   macro = "lpurple",
   defaultlib = "palegreen",
   staticmethod = "palegreen",
-  attribute = "olive"
+  attribute = "olive",
+  strings   = "yellow",
+  parameter = "altblue"
 }
 
 local colorvariants = {

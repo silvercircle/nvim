@@ -313,7 +313,7 @@ Tweaks.theme = {
   kittenexec = "kitten",
   kittysocket = "/tmp/mykittysocket",
   rainbow_contrast = "low",
-  scheme = "dark",
+  scheme = "gruv",
   all_types_bold = false,
   disable = false
 }

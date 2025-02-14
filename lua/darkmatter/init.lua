@@ -207,7 +207,8 @@ local function configure()
   M.P.fg_dim = { M.T[conf.variant].fg_dim, 2 }
 
   M.P.styled.fg = { M.T[conf.variant].fg , 1 }
-  M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
+  --M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
+  M.P.string = M.P[conf.style.strings]
   M.P.c1 = { conf.custom_colors.c1, 91 }
   M.P.c2 = { conf.custom_colors.c2, 92 }
   M.P.c3 = { conf.custom_colors.c3, 93 }
@@ -378,7 +379,7 @@ local function set_all()
   M.hl_with_defaults("Todo", M.P.blue, M.NONE)
   M.hl_with_defaults("Ignore", M.P.grey, M.NONE)
   M.hl("Underlined", M.NONE, M.NONE, { underline = true })
-  M.hl("Parameter", M.P.fg_dim, M.NONE, conf.attrib.parameter)
+  M.hl("Parameter", M.P.styled.parameter, M.NONE, conf.attrib.parameter)
 
   M.hl("Attribute", M.P.styled.attribute, M.NONE, conf.attrib.attribute)
   M.hl("Annotation", M.P.styled.attribute, M.NONE, conf.attrib.attribute)
@@ -521,7 +522,9 @@ local function set_all()
   M.link("@keyword.exception", "KWException")
   M.link("@keyword.return", "KWReturn")
   M.link("@keyword.storage", "StorageClass")
-  M.link("@keyword.import", "KWSpecial")
+  M.link("@keyword.import", "@module")
+  M.link("@keyword.directive", "Macro")
+  M.link("@keyword.modifier", "StorageClass")
   M.link("@label", "Red")
   M.link("@method", "Method")
   M.link("@namespace", "@module")
@@ -564,6 +567,7 @@ local function set_all()
   M.link("@lsp.type.parameter", "@parameter")
   M.link("@lsp.type.variable", "@variable")
   M.link("@lsp.type.selfKeyword", "Builtin")
+  M.link("@lsp.type.bracket", "Bracews")
   M.link("@lsp.type.method", "Method")
   M.link("@lsp.type.class", "Class")
   M.link("@lsp.type.class_name", "Class")
