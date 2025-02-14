@@ -551,7 +551,7 @@ function M.restore_config()
       user2 = "#4a7099",
       user3 = "#708070"
     },
-    style = {
+    style_overrides = {
       defaultlib = "user2",
       staticmethod = "user2",
       attribute = "user3"
