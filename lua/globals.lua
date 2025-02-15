@@ -551,11 +551,11 @@ function M.restore_config()
       user2 = "#4a7099",
       user3 = "#708070"
     },
-    style_overrides = {
-      defaultlib = "user2",
-      staticmethod = "user2",
-      attribute = "user3"
-    },
+    --colorstyles_ovr = {
+    --  defaultlib = "user2",
+    --  staticmethod = "user2",
+    --  attribute = "user3"
+    --},
     plugins = {
       hl = (vim.g.tweaks.completion.version == "blink") and { "markdown", "syntax", "common", "blink", "snacks" } or { "markdown", "syntax", "common", "snacks" },
     },

@@ -31,7 +31,7 @@ M.keys_set = false
 M.P = nil
 -- the theme. Contains the variants and basic colors for backgrounds etc.
 M.T = nil
-M.attr_override = {}
+M.attributes_ovr = {}
 
 -- the theme configuration. This can be changed by calling setup({...})
 -- after changing the configuration configure() must be called before the theme
@@ -70,7 +70,8 @@ local conf = {
   -- the style table controls the special color table that is mostly for syntax
   -- highlight. It defines semantic colors using the basic color names.
   style = {},
-  style_overrides = {},
+  -- colorstyles overrides from setup()
+  colorstyles_ovr = {},
   --- these colors will be added to the standard palette. They can be used for
   --- styled colors.
   usercolors = {
@@ -172,9 +173,9 @@ local function configure()
 
   M.T = Scheme.bgtheme()
   rainbowpalette = Scheme.rainbowpalette()
-  conf.attrib = vim.tbl_deep_extend("force", Scheme.attributes(), M.attr_override[conf.scheme])
-  conf.style = Scheme.styles()
-  for k,v in pairs(conf.style_overrides) do
+  conf.attrib = vim.tbl_deep_extend("force", Scheme.attributes(), M.attributes_ovr[conf.scheme])
+  conf.style = Scheme.colorstyles()
+  for k,v in pairs(conf.colorstyles_ovr) do
     conf.style[k] = v
   end
   conf.schemeconfig = Scheme.config()
@@ -570,7 +571,7 @@ local function set_all()
   M.link("@lsp.type.parameter", "@parameter")
   M.link("@lsp.type.variable", "@variable")
   M.link("@lsp.type.selfKeyword", "Builtin")
-  M.link("@lsp.type.bracket", "Bracews")
+  M.link("@lsp.type.bracket", "Braces")
   M.link("@lsp.type.method", "Method")
   M.link("@lsp.type.class", "Class")
   M.link("@lsp.type.class_name", "Class")
@@ -622,9 +623,9 @@ local function set_all()
   M.link("diffChanged", "Blue")
   M.link("diffOldFile", "Yellow")
   M.link("diffNewFile", "Orange")
-  M.link("diffFile", "Purple")
+  M.link("diffFile", "DarkPurple")
   M.link("diffLine", "Grey")
-  M.link("diffIndexLine", "Purple")
+  M.link("diffIndexLine", "DarkPurple")
 
   -- allow neotree and other addon panels have different backgrounds
   M.hl_with_defaults("NeoTreeNormalNC", M.P.fg_dim, M.P.treebg)
@@ -707,9 +708,9 @@ function M.setup(opt)
   conf = vim.tbl_deep_extend("force", conf, opt)
 
   if opt.attrib ~= nil then
-    M.attr_override = opt.attrib
+    M.attributes_ovr = opt.attrib
   else
-    M.attr_override = {}
+    M.attributes_ovr = {}
   end
 
   -- both themes and palette modules must be present for a scheme to work

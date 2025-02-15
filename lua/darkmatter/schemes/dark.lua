@@ -9,7 +9,7 @@
 -- custom themes must be named as themename.lua and reside in the darkmatter/themes
 -- folder.
 
-local styles = {
+local colorstyles = {
   identifier = "fg_dim",
   comment = "grey",
   keyword = "blue",
@@ -156,8 +156,8 @@ function M.rainbowpalette()
   }
 end
 
-function M.styles()
-  return styles
+function M.colorstyles()
+  return colorstyles
 end
 
 function M.basepalette(colorvariant)

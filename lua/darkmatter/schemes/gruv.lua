@@ -6,6 +6,7 @@
 -- * attributes()
 -- * styles()
 -- * variant(variant)
+-- * config()
 
 -- custom themes must be named as themename.lua and reside in the darkmatter/schemes
 -- folder.
@@ -15,7 +16,7 @@ local _p_fallback = 'vivid'
 
 local colorvariants = {
   vivid = {
-    orange = { "#bfaa90", 215 },
+    orange = { "#bfaa60", 215 },
     blue = { "#458588", 239 },        -- gruv   original
     altblue = { "#83a598", 239 },     -- gruv   original
     altyellow = { "#fabd2d", 231 },   -- gruv   original
@@ -23,7 +24,7 @@ local colorvariants = {
     lila = { "#7030e0", 241 },
     palegreen = { "#b8bb26", 242 },   -- gruv   original
     maroon = { "#903060", 243 },
-    purple = { "#c030c0", 241 },
+    purple = { "#604040", 241 },
     teal = { "#689d7a", 238 },        -- gruv   original
     brightteal = { "#8ec08c", 238 },  -- gruv   original
     darkpurple = { "#b16286", 240 },  -- gruv   original
@@ -100,41 +101,41 @@ local colorvariants = {
   }
 }
 
-local styles = {
+local colorstyles = {
   identifier = "fg_dim",
   comment = "grey",
   keyword = "darkpurple",
   kwspec = "deepred",
-  kwconditional = "darkpurple",
-  kwrepeat = "darkpurple",
-  kwexception = "darkpurple",
-  kwreturn = "deepred",
-  kwfunc = "deepred",
+  kwconditional = "maroon",
+  kwrepeat = "maroon",
+  kwexception = "maroon",
+  kwreturn = "darkpurple",
+  kwfunc = "maroon",
   member = "orange",
   staticmember = "orange",
   method = "brightteal",
   func = "teal",
   operator = "brown",
   builtin = "darkyellow",
-  braces = "altyellow",
+  braces = "darkyellow",
   delim = "red",
   number = "green",
-  class = "maroon",
+  class = "blue",
   interface = "lila",
-  storage = "blue",
+  storage = "purple",
   constant = "darkyellow",
   module = "olive",
   namespace = "olive",
-  type = "darkpurple",
+  type = "altblue",
   struct = "darkpurple",
-  bool = "lpurple",
+  bool = "deepred",
   constructor = "altyellow",
   macro = "lpurple",
-  defaultlib = "palegreen",
+  defaultlib = "darkyellow",
   staticmethod = "palegreen",
   attribute = "olive",
   strings   = "altgreen",
-  parameter = "altblue",
+  parameter = "fg_dim",
 }
 
 local M = {}
@@ -168,8 +169,8 @@ function M.basepalette(colorvariant)
   end
 end
 
-function M.styles()
-  return styles
+function M.colorstyles()
+  return colorstyles
 end
 
 function M.variants(variant)
@@ -218,7 +219,7 @@ function M.attributes()
     member       = {},                -- class member (field, property...)
     staticmember = { bold = true },
     operator     = { bold = true },   -- operators
-    parameter    = { italic = true }, -- function/method arguments
+    parameter    = { italic = true, bold = true }, -- function/method arguments
     delim        = { bold = true },   -- delimiters
     brace        = { bold = true },   -- braces, brackets, parenthesis
     str          = {},                -- strings
@@ -244,46 +245,46 @@ function M.bgtheme()
     alt_accent_color = "#501010",
     accent_fg = "#aaaa60",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
-    selbg = "#3c3836",
+    selbg = "#4c4866",
     cold = {
       statuslinebg = "#262630",
       bg = "#141414",
       treebg = "#18181c",
-      floatbg = "#22221f",
+      floatbg = "#18181d",
       gutterbg = "#101013",
       kittybg = "#18181c",
       fg = "#ebdbb2",
-      fg_dim = "#bbab82"
+      fg_dim = "#ab9b72"
     },
     warm = {
       statuslinebg = "#2a2626",
       bg = "#141212",
       treebg = "#181515",
-      floatbg = "#1f2222",
+      floatbg = "#191515",
       gutterbg = "#131010",
       kittybg = "#181515",
       fg = "#ebdbb2",
-      fg_dim = "#bbab82"
+      fg_dim = "#ab9b72"
     },
     deepblack = {
       statuslinebg = "#222228",
       bg = "#080808",
       treebg = "#121212",
-      floatbg = "#191919",
+      floatbg = "#131212",
       gutterbg = "#0f0f0f",
       kittybg = "#121212",
       fg = "#ebdbb2",
-      fg_dim = "#bbab82"
+      fg_dim = "#ab9b72"
     },
     pitchblack = {
       statuslinebg = "#222228",
       bg = "#020202",
       treebg = "#0d0d0d",
-      floatbg = "#101010",
+      floatbg = "#0e0d0d",
       gutterbg = "#020202",
       kittybg = "#0d0d0d",
       fg = "#ebdbb2",
-      fg_dim = "#bbab82"
+      fg_dim = "#ab9b72"
     }
   }
 end

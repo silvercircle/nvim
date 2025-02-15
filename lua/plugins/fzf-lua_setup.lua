@@ -8,7 +8,7 @@ require "fzf-lua".setup({
   },
   hls = {
     file_part = "DefaultLib",
-    dir_part = "Member",
+    dir_part = "Comment",
     path_linenr = "Number",
     fzf = {
       match = "Error",
@@ -48,7 +48,7 @@ require "fzf-lua".setup({
     preview    = {
       default      = "builtin",         -- override the default previewer?
       -- default uses the 'builtin' previewer
-      border       = "border",      -- border|noborder, applies only to
+      border       = "thicc",      -- border|noborder, applies only to
       -- native fzf previewers (bat/cat/git/etc)
       wrap         = "nowrap",      -- wrap|nowrap
       hidden       = "nohidden",    -- hidden|nohidden
@@ -239,8 +239,8 @@ require "fzf-lua".setup({
     -- parameter to a different folder than the current working directory
     -- uncomment if you wish to force display of the cwd as part of the
     -- query prompt string (fzf.vim style), header line or both
-    show_cwd_prompt = true,
-    show_cwd_header = true,
+    cwd_prompt = true,
+    cwd_header = true,
     actions      = {
       -- inherits from 'actions.files', here we can override
       -- or set bind to 'false' to disable a default action
