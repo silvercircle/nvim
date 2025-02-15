@@ -327,13 +327,13 @@ require("commandpicker").add({
     category = "@Notifications"
   },
   {
-    desc = "Snacks Jumplist",
-    cmd = function() Snacks.picker.jumps({ layout = SPL({ input="top", psize=15, preview=true, height=.8, width=130  })}) end,
+    desc = "FZF Jumplist",
+    cmd = function() fzf.jumps({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
     keys = {
       { "n", "<A-Backspace>", noremap },
       { "i", "<A-Backspace>", noremap },
     },
-    category = "@Snacks"
+    category = "@FZF"
   },
 })
 

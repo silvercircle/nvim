@@ -40,6 +40,8 @@ local conf = {
   disabled = false,
   -- the scheme name. Configuration is loaded from themes/conf.scheme.lua
   scheme = "dark",
+  -- holds information about the current scheme, including the palettes
+  schemeconfig = {},
   -- color variant. as of now, 3 types are supported:
   -- a) "warm" - the default, a medium-dark grey background with a slightly red-ish tint.
   -- b) "cold" - about the same, but with a blue-ish flavor
@@ -166,15 +168,16 @@ end
 -- it uses the configured scheme (conf.scheme) to load basic color tables from 
 -- themes/scheme.lua
 local function configure()
-  local theme = require("darkmatter.themes." .. conf.scheme)
+  local Scheme = require("darkmatter.schemes." .. conf.scheme)
 
-  M.T = theme.theme()
-  rainbowpalette = theme.rainbowpalette()
-  conf.attrib = vim.tbl_deep_extend("force", theme.attributes(), M.attr_override[conf.scheme])
-  conf.style = theme.styles()
+  M.T = Scheme.bgtheme()
+  rainbowpalette = Scheme.rainbowpalette()
+  conf.attrib = vim.tbl_deep_extend("force", Scheme.attributes(), M.attr_override[conf.scheme])
+  conf.style = Scheme.styles()
   for k,v in pairs(conf.style_overrides) do
     conf.style[k] = v
   end
+  conf.schemeconfig = Scheme.config()
   LuaLineColors = {
     white = "#ffffff",
     darkestgreen = M.T.accent_fg,
@@ -194,7 +197,7 @@ local function configure()
     statuslinebg = M.T[conf.variant].statuslinebg,
   }
   -- setup base palette
-  M.P = theme.basepalette(conf.colorpalette)
+  M.P = Scheme.basepalette(conf.colorpalette)
 
   -- TODO: allow cokeline colors per theme variant
   M.P.fg = { M.T[conf.variant].fg, 1 }
@@ -216,7 +219,7 @@ local function configure()
   M.P.c5 = { conf.custom_colors.c5, 94 }
 
   -- merge the variant-dependent colors
-  M.P = vim.tbl_deep_extend("force", M.P, theme.variants(conf.variant))
+  M.P = vim.tbl_deep_extend("force", M.P, Scheme.variants(conf.variant))
 
   M.cokeline_colors = {
     bg = M.T[conf.variant].statuslinebg,
@@ -710,7 +713,7 @@ function M.setup(opt)
   end
 
   -- both themes and palette modules must be present for a scheme to work
-  local status, _ = pcall(require, "darkmatter.themes." .. conf.scheme)
+  local status, _ = pcall(require, "darkmatter.schemes." .. conf.scheme)
   if status == false then
     vim.notify("The color scheme " .. conf.scheme .. " does not exist. Setting default")
     conf.scheme = "dark"
@@ -855,14 +858,10 @@ end
 -- mini.picker that can enhance ui.select
 function M.ui_select_colorweight()
   local utils = require("local_utils")
-  local items = {
-    { cmd = "vivid", text = "Vivid (rich colors, high contrast)", p = 1 },
-    { cmd = "medium", text = "Medium (somewhat desaturated colors)", p = 2 },
-    { cmd = "pastel", text = "Pastel (low intensity colors)", p = 3 }
-  }
+  local items = conf.schemeconfig.palettes
 
   vim.iter(items):map(function(k)
-    if conf.colorpalette == k.cmd then k.current = true else k.current = false end
+    if conf.colorpalette == k.cmd then k.current = true k.hl = "Green" else k.current = false end
     return k
   end):totable()
 

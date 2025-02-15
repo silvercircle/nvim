@@ -9,35 +9,69 @@
 -- custom themes must be named as themename.lua and reside in the darkmatter/themes
 -- folder.
 
--- palette to use when basepalette is called with an unknown name
-local _p_fallback = 'vivid'
+local styles = {
+  identifier = "fg_dim",
+  comment = "grey",
+  keyword = "blue",
+  kwspec = "deepred",
+  kwconditional = "blue",
+  kwrepeat = "blue",
+  kwexception = "blue",
+  kwreturn = "blue",
+  kwfunc = "deepred",
+  member = "orange",
+  staticmember = "orange",
+  method = "brightteal",
+  func = "teal",
+  operator = "brown",
+  builtin = "darkyellow",
+  braces = "altblue",
+  delim = "red",
+  number = "altgreen",
+  class = "maroon",
+  interface = "lila",
+  storage = "palegreen",
+  constant = "lpurple",
+  module = "olive",
+  namespace = "olive",
+  type = "darkpurple",
+  struct = "darkpurple",
+  bool = "deepred",
+  constructor = "altyellow",
+  macro = "lpurple",
+  defaultlib = "palegreen",
+  staticmethod = "palegreen",
+  attribute = "olive",
+  strings   = "yellow",
+  parameter = "altblue"
+}
 
 local colorvariants = {
   vivid = {
-    orange = { "#bfaa90", 215 },
-    blue = { "#458588", 239 },        -- gruv   original
-    altblue = { "#83a598", 239 },     -- gruv   original
-    altyellow = { "#fabd2d", 231 },   -- gruv   original
-    altgreen = { "#98971a", 232 },    -- gruv   original
+    orange = { "#dfa690", 215 },
+    blue = { "#4a4adf", 239 },
+    altblue = { "#6060cf", 239 },
+    altyellow = { "#cccc60", 231 },
+    altgreen = { "#10801f", 232 },
     lila = { "#7030e0", 241 },
-    palegreen = { "#b8bb26", 242 },   -- gruv   original
+    palegreen = { "#507050", 242 },
     maroon = { "#903060", 243 },
     purple = { "#c030c0", 241 },
-    teal = { "#689d7a", 238 },        -- gruv   original
-    brightteal = { "#8ec08c", 238 },  -- gruv   original
-    darkpurple = { "#b16286", 240 },  -- gruv   original
-    red = { "#fb4934", 203 },         -- gruv   original
-    yellow = { "#d79921", 231 },      -- gruv   original
-    green = { "#40804f", 232 },       -- gruv   original
-    darkyellow = { "#a78624", 180 },  -- gruv   original
+    teal = { "#108080", 238 },
+    brightteal = { "#30a0c0", 238 },
+    darkpurple = { "#903090", 240 },
+    red = { "#cc2d4c", 203 },
+    yellow = { "#aaaa20", 231 },
+    green = { "#10801f", 232 },
+    darkyellow = { "#a78624", 180 },
     grey = { "#707069", 2 },
     grey_dim = { "#595f6f", 240 },
     diff_red = { "#45292d", 52 },
     diff_green = { "#10320a", 22 },
     diff_blue = { "#253147", 17 },
-    deepred = { "#cc241d", 203 },     -- gruv   original
+    deepred = { "#8b2d3c", 203 },
     olive = { "#708422", 181 },
-    lpurple = { "#d3969b", 176 },     -- gruv   original
+    lpurple = { "#b39df3", 176 },
     brown = { "#905010", 233 },
     styled = {}
   },
@@ -99,43 +133,6 @@ local colorvariants = {
   }
 }
 
-local styles = {
-  identifier = "fg_dim",
-  comment = "grey",
-  keyword = "deepred",
-  kwspec = "deepred",
-  kwconditional = "darkpurple",
-  kwrepeat = "darkpurple",
-  kwexception = "darkpurple",
-  kwreturn = "deepred",
-  kwfunc = "deepred",
-  member = "orange",
-  staticmember = "orange",
-  method = "brightteal",
-  func = "teal",
-  operator = "brown",
-  builtin = "darkyellow",
-  braces = "altyellow",
-  delim = "red",
-  number = "green",
-  class = "maroon",
-  interface = "lila",
-  storage = "blue",
-  constant = "darkyellow",
-  module = "olive",
-  namespace = "olive",
-  type = "darkpurple",
-  struct = "darkpurple",
-  bool = "lpurple",
-  constructor = "altyellow",
-  macro = "lpurple",
-  defaultlib = "palegreen",
-  staticmethod = "palegreen",
-  attribute = "olive",
-  strings   = "altgreen",
-  parameter = "altblue",
-}
-
 local M = {}
 
 function M.rainbowpalette()
@@ -159,16 +156,16 @@ function M.rainbowpalette()
   }
 end
 
+function M.styles()
+  return styles
+end
+
 function M.basepalette(colorvariant)
   if colorvariants[colorvariant] ~= nil then
     return colorvariants[colorvariant]
   else
-    return colorvariants[_p_fallback]
+    return colorvariants['vivid']
   end
-end
-
-function M.styles()
-  return styles
 end
 
 function M.variants(variant)
@@ -235,15 +232,19 @@ function M.attributes()
   }
 end
 
-function M.theme()
+function M.bgtheme()
   return {
     -- accent color is used for important highlights like the currently selected tab (buffer)
     -- and more.
+    --accent_color = '#cbaf00',
     accent_color = "#204050",
+    --accent_color = "#305030",
+    --alt_accent_color = '#bd2f4f',
     alt_accent_color = "#501010",
+    --accent_fg = "#cccc80",
     accent_fg = "#aaaa60",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
-    selbg = "#3c3836",
+    selbg = "#202070",
     cold = {
       statuslinebg = "#262630",
       bg = "#141414",
@@ -251,18 +252,18 @@ function M.theme()
       floatbg = "#22221f",
       gutterbg = "#101013",
       kittybg = "#18181c",
-      fg = "#ebdbb2",
-      fg_dim = "#bbab82"
+      fg = "#a2a0ac",
+      fg_dim = "#909096"
     },
     warm = {
       statuslinebg = "#2a2626",
-      bg = "#141212",
-      treebg = "#181515",
+      bg = "#161414",
+      treebg = "#1b1818",
       floatbg = "#1f2222",
       gutterbg = "#131010",
-      kittybg = "#181515",
-      fg = "#ebdbb2",
-      fg_dim = "#bbab82"
+      kittybg = "#1b1818",
+      fg = "#aaa0a5",
+      fg_dim = "#969090"
     },
     deepblack = {
       statuslinebg = "#222228",
@@ -271,8 +272,8 @@ function M.theme()
       floatbg = "#191919",
       gutterbg = "#0f0f0f",
       kittybg = "#121212",
-      fg = "#ebdbb2",
-      fg_dim = "#bbab82"
+      fg = "#b0b0b5",
+      fg_dim = "#95959c"
     },
     pitchblack = {
       statuslinebg = "#222228",
@@ -281,9 +282,20 @@ function M.theme()
       floatbg = "#101010",
       gutterbg = "#020202",
       kittybg = "#0d0d0d",
-      fg = "#ebdbb2",
-      fg_dim = "#bbab82"
+      fg = "#b0b0b5",
+      fg_dim = "#95959c"
     }
   }
 end
+
+function M.config()
+  return {
+    palettes = {
+      { cmd = "vivid", text = "Vivid (rich colors, high contrast)", p = 1 },
+      { cmd = "medium", text = "Medium (somewhat desaturated colors)", p = 2 },
+      { cmd = "pastel", text = "Pastel (low intensity colors)", p = 3 }
+    }
+  }
+end
+
 return M
