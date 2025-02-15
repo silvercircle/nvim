@@ -173,7 +173,8 @@ Tweaks.blink = {
   use_cmp_hl = false,
   winblend = {
     doc = 0,
-    menu = 0
+    menu = 0,
+    signature = 0
   },
   --- show the effective LSP client name in the last column when available
   --- otherwise show just the source name (LSP, snippets etc.)

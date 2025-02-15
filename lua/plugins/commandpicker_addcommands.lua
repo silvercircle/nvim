@@ -328,7 +328,8 @@ require("commandpicker").add({
   },
   {
     desc = "FZF Jumplist",
-    cmd = function() fzf.jumps({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
+    -- cmd = function() fzf.jumps({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
+    cmd = function() Snacks.picker.jumps({ layout = SPL({width=120, preview=true, psize=12, input="top"}) }) end,
     keys = {
       { "n", "<A-Backspace>", noremap },
       { "i", "<A-Backspace>", noremap },

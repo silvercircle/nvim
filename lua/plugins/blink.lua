@@ -372,7 +372,7 @@ require("blink.cmp").setup({
           },
           label_description = {
             text = function(ctx)
-              return ctx.label_description or (ctx.item.detail or "")
+              return ctx.label_description or ""
             end,
             ellipsis = true,
             width = { fill = true, max = T.desc_max_width },
@@ -423,7 +423,8 @@ require("blink.cmp").setup({
     },
     window = {
       show_documentation = true,
-      border = Borderfactory(border)
+      border = Borderfactory(border),
+      winblend = 30,
     }
   }
 })
