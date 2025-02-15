@@ -528,60 +528,62 @@ function M.restore_config()
   -- configure the theme
   --local cmp_kind_attr = M.perm_config.cmp_layout == "experimental" and { bold=true, reverse=true } or {}
   local cmp_kind_attr = { bold=true, reverse=true }
-  Config.theme.setup({
-    scheme = vim.g.tweaks.theme.scheme,
-    variant = M.perm_config.theme_variant,
-    colorpalette = M.perm_config.theme_palette,
-    theme_strings = M.perm_config.theme_strings,
-    is_trans = M.perm_config.transbg,
-    sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
-    kittysocket = vim.g.tweaks.theme.kittysocket,
-    kittenexec = vim.g.tweaks.theme.kittenexec,
-    callback = M.theme_callback,
-    indentguide_colors = {
-      dark = vim.g.tweaks.indent.color.dark,
-      light = vim.g.tweaks.indent.color.light
-    },
-    rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast,
-    custom_colors = {
-      c1 = "#5a8aba"
-    },
-    usercolors = {
-      user1 = "#ffffff",
-      user2 = "#4a7099",
-      user3 = "#708070"
-    },
-    --colorstyles_ovr = {
-    --  defaultlib = "user2",
-    --  staticmethod = "user2",
-    --  attribute = "user3"
-    --},
-    plugins = {
-      hl = (vim.g.tweaks.completion.version == "blink") and { "markdown", "syntax", "common", "blink", "snacks" } or { "markdown", "syntax", "common", "snacks" },
-    },
-    attrib = {
-      dark = {
-        cmpkind = cmp_kind_attr,
-        tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {},
-        types = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-        class = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-        interface = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-        struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-        defaultlib = { italic = false },
-        attribute = { italic = false, bold = true },
+  if Tweaks.theme.disable == false then
+    Config.theme.setup({
+      scheme = vim.g.tweaks.theme.scheme,
+      variant = M.perm_config.theme_variant,
+      colorpalette = M.perm_config.theme_palette,
+      theme_strings = M.perm_config.theme_strings,
+      is_trans = M.perm_config.transbg,
+      sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
+      kittysocket = vim.g.tweaks.theme.kittysocket,
+      kittenexec = vim.g.tweaks.theme.kittenexec,
+      callback = M.theme_callback,
+      indentguide_colors = {
+        dark = vim.g.tweaks.indent.color.dark,
+        light = vim.g.tweaks.indent.color.light
       },
-      gruv = {
-        cmpkind = cmp_kind_attr,
-        tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {},
-        types = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-        class = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-        interface = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-        struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-        defaultlib = { italic = false },
-        attribute = { italic = false, bold = true },
-      }
-    },
-  })
+      rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast,
+      custom_colors = {
+        c1 = "#5a8aba"
+      },
+      usercolors = {
+        user1 = "#ffffff",
+        user2 = "#4a7099",
+        user3 = "#708070"
+      },
+      --colorstyles_ovr = {
+      --  defaultlib = "user2",
+      --  staticmethod = "user2",
+      --  attribute = "user3"
+      --},
+      plugins = {
+        hl = (vim.g.tweaks.completion.version == "blink") and { "markdown", "syntax", "common", "blink", "snacks" } or { "markdown", "syntax", "common", "snacks" },
+      },
+      attrib = {
+        dark = {
+          cmpkind = cmp_kind_attr,
+          tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {},
+          types = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+          class = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+          interface = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+          struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+          defaultlib = { italic = false },
+          attribute = { italic = false, bold = true },
+        },
+        gruv = {
+          cmpkind = cmp_kind_attr,
+          tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {},
+          types = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+          class = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+          interface = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+          struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+          defaultlib = { italic = false },
+          attribute = { italic = false, bold = true },
+        }
+      },
+    })
+  end
 end
 
 --- the callback is called from internal theme functions that change its
