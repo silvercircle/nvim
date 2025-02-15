@@ -640,7 +640,7 @@ local function set_all()
   -- Treesitter stuff
   M.hl_with_defaults("TreesitterContext", M.NONE, M.P.bg)
   --M.hl("TreesitterContextBottom", M.NONE, M.localtheme.bg, { underline=true, sp=M.localtheme.lpurple[1] })
-  M.link("TreesitterContextSeparator", "Type")
+  M.link("TreesitterContextSeparator", "Comment")
   M.link("OutlineGuides", "SymbolsOutlineConnector")
   M.link("OutlineFoldMarker", "SymbolsOutlineConnector")
   M.link("NeoTreeCursorLine", "TreeCursorLine")
