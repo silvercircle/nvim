@@ -212,6 +212,32 @@ require("blink.cmp").setup({
     ["<f13>"] = { 'show_signature', 'hide_signature', 'fallback' },
     ["<C-k>"] = { }
   },
+  cmdline = {
+    enabled = true,
+    keymap = {
+      preset = T.keymap_preset
+    }, -- Inherits from top level `keymap` config when not set
+    sources = function()
+      local type = vim.fn.getcmdtype()
+      -- Search forward and backward
+      if type == "/" or type == "?" then return { "buffer" } end
+      -- Commands
+      if type == ":" or type == "@" then return { "cmdline" } end
+      return {}
+    end,
+    completion = {
+      trigger = {
+        show_on_blocked_trigger_characters = {},
+        show_on_x_blocked_trigger_characters = nil, -- Inherits from top level `completion.trigger.show_on_blocked_trigger_characters` config when not set
+      },
+      menu = {
+        auto_show = false, -- Inherits from top level `completion.menu.auto_show` config when not set
+        draw = {
+          columns = { { "kind_icon", "label", "label_description", gap = 1 } },
+        },
+      }
+    }
+  },
   sources = {
     -- default = { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'lua', 'dictionary', 'buffer' },
     default = function(_)
@@ -390,7 +416,15 @@ require("blink.cmp").setup({
             end
           }
         }
-      }
+      },
+      cmdline_position = function()
+        if vim.g.ui_cmdline_pos ~= nil then
+          local pos = vim.g.ui_cmdline_pos   -- (1, 0)-indexed
+          return { pos[1] - 1, pos[2] }
+        end
+        local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
+        return { vim.o.lines - height, 0 }
+      end
     },
     documentation = {
       auto_show = T.auto_doc,
