@@ -47,6 +47,11 @@ local function get_permissions_color()
   end
 end
 
+local function status()
+  return (__Globals.get_buffer_var(0, "tsc") == true and "C" or "c") ..
+         (__Globals.get_buffer_var(0, "inlayhints") == true and "I" or "i")
+end
+
 local function status_indicators()
   return (__Globals.perm_config.treesitter_context == true and "C" or "c") ..
          (__Globals.perm_config.debug == true and "D" or "d") ..
@@ -192,7 +197,7 @@ require("lualine").setup({
     },
     }, -- display textwidth after formattingoptions
     lualine_b = { "branch", "diff", "diagnostics"  },
-    lualine_c = {"filename", "searchcount", { get_permissions_color } },
+    lualine_c = {"filename", "searchcount"--[[, { get_permissions_color }]] },
     lualine_x = {
       { indentstats },
       {
@@ -205,6 +210,7 @@ require("lualine").setup({
       },
       "filetype",
       "fileformat",
+      { status },
       { "encoding", draw_empty=false, cond = function() return __Globals.perm_config.statusline_declutter < 3 and true or false end }
     },
     lualine_y = { { "progress", cond = function() return __Globals.perm_config.statusline_declutter < 2 and true or false end, draw_empty=false} },
