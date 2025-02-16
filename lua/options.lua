@@ -101,4 +101,6 @@ o.undodir = vim.fn.stdpath("data") .. "/undo/"
 o.undofile=false
 o.exrc=true
 o.cmdheight=vim.g.tweaks.cmdheight
+o.cinoptions=":N,=4"
+
 -- o.secure=true

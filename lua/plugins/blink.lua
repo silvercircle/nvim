@@ -230,7 +230,7 @@ require("blink.cmp").setup({
         name = "wordlist",
         opts = {
           wordfiles = { "wordlist.txt", "personal.txt", "/home/alex/foolist" },
-          debug = true,
+          debug = false,
           read_on_setup = false,
           watch_files = true
         }
@@ -424,7 +424,6 @@ require("blink.cmp").setup({
     window = {
       show_documentation = true,
       border = Borderfactory(border),
-      winblend = 30,
     }
   }
 })

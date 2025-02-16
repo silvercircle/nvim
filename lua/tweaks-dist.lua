@@ -275,7 +275,7 @@ Tweaks.cmdheight = 0
 -- width of line number (absolute numbers)
 Tweaks.numberwidth = 5
 -- for relative numbers, 2 should normally be sufficient
-Tweaks.numberwidth_rel = 2
+Tweaks.numberwidth_rel = 5
 -- 3 signs should be sufficient in most cases. If you don't mind a "jumping"
 -- signcolumn, you can use something like auto:3-5. see :h signcolumn
 Tweaks.signcolumn = "yes:3"
