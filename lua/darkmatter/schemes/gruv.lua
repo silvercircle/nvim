@@ -40,19 +40,19 @@ local colorvariants = {
     styled = {}
   },
   medium = {
-    orange = { "#bfaa60", 215 },
+    orange = { "#af8a60", 215 },
     blue = { "#458588", 239 },
     altblue = { "#83a598", 239 },
-    altyellow = { "#fabd2d", 231 },
-    altgreen = { "#98971a", 232 },
+    altyellow = { "#da9d0d", 231 },
+    altgreen = { "#88872a", 232 },
     lila = { "#7030e0", 241 },
     palegreen = { "#a8ab76", 242 },
     maroon = { "#903060", 243 },
     purple = { "#705050", 241 },
-    teal = { "#689d7a", 238 },
-    brightteal = { "#8ec08c", 238 },
+    teal = { "#588d6a", 238 },
+    brightteal = { "#7eb07c", 238 },
     darkpurple = { "#b16286", 240 },
-    red = { "#fb4934", 203 },
+    red = { "#ab2914", 203 },
     yellow = { "#d79921", 231 },
     green = { "#40804f", 232 },
     darkyellow = { "#a78624", 180 },
@@ -61,26 +61,26 @@ local colorvariants = {
     diff_red = { "#45292d", 52 },
     diff_green = { "#10320a", 22 },
     diff_blue = { "#253147", 17 },
-    deepred = { "#cc241d", 203 },
+    deepred = { "#990403", 203 },
     olive = { "#708422", 181 },
     lpurple = { "#d3969b", 176 },
     brown = { "#905010", 233 },
     styled = {}
   },
   pastel = {
-    orange = { "#bfaa60", 215 },
+    orange = { "#9f7a50", 215 },
     blue = { "#458588", 239 },
     altblue = { "#83a598", 239 },
-    altyellow = { "#fabd2d", 231 },
-    altgreen = { "#98971a", 232 },
+    altyellow = { "#ba8d00", 231 },
+    altgreen = { "#78772a", 232 },
     lila = { "#7030e0", 241 },
     palegreen = { "#a8ab76", 242 },
     maroon = { "#903060", 243 },
     purple = { "#705050", 241 },
-    teal = { "#689d7a", 238 },
-    brightteal = { "#8ec08c", 238 },
+    teal = { "#487d5a", 238 },
+    brightteal = { "#6ea06c", 238 },
     darkpurple = { "#b16286", 240 },
-    red = { "#fb4934", 203 },
+    red = { "#9b1924", 203 },
     yellow = { "#d79921", 231 },
     green = { "#40804f", 232 },
     darkyellow = { "#a78624", 180 },
@@ -89,7 +89,7 @@ local colorvariants = {
     diff_red = { "#45292d", 52 },
     diff_green = { "#10320a", 22 },
     diff_blue = { "#253147", 17 },
-    deepred = { "#cc241d", 203 },
+    deepred = { "#882220", 203 },
     olive = { "#708422", 181 },
     lpurple = { "#d3969b", 176 },
     brown = { "#905010", 233 },
@@ -117,8 +117,8 @@ local colorstyles = {
   func = "teal",
   operator = "brown",
   builtin = "deepred",
-  braces = "darkyellow",
-  delim = "red",
+  braces = "c4",
+  delim = "c4",
   number = "green",
   class = "blue",
   interface = "lila",
@@ -127,7 +127,7 @@ local colorstyles = {
   module = "olive",
   namespace = "olive",
   type = "altblue",
-  struct = "darkpurple",
+  struct = "altblue",
   bool = "darkyellow",
   constructor = "altyellow",
   macro = "lpurple",
@@ -220,6 +220,20 @@ function M.attributes()
   }
 end
 
+-- we use the same fg colors for all 3 variants, so just define them
+-- once
+local fg_def = {
+  vivid  = "#ebdbb2",
+  medium = "#bbab92",
+  pastel = "#9b8b72"
+}
+
+local fg_dim_def = {
+  vivid  = "#9f9b82",
+  medium = "#8f8b72",
+  pastel = "#7f7b62"
+}
+
 --- this regurns the background theme and some very basic colors. There are different
 --- colors for each of the background variants
 function M.bgtheme()
@@ -246,16 +260,8 @@ function M.bgtheme()
       floatbg = "#18181d",
       gutterbg = "#101013",
       kittybg = "#18181c",
-      fg = {
-        vivid   = "#ebdbb2",
-        medium  = "#ebdbb2",
-        pastel  = "#ebdbb2"
-      },
-      fg_dim = {
-        vivid   = "#afab82",
-        medium  = "#afab82",
-        pastel  = "#afab82"
-      }
+      fg = fg_def,
+      fg_dim = fg_dim_def
     },
     warm = {
       black = { "#121215", 232 },
@@ -270,16 +276,8 @@ function M.bgtheme()
       floatbg = "#191515",
       gutterbg = "#131010",
       kittybg = "#181515",
-      fg = {
-        vivid   = "#ebdbb2",
-        medium  = "#cbbb92",
-        pastel  = "#ab9b72"
-      },
-      fg_dim = {
-        vivid   = "#afab82",
-        medium  = "#9f9b72",
-        pastel  = "#8f8b62"
-      }
+      fg = fg_def,
+      fg_dim = fg_dim_def
     },
     deepblack = {
       black = { "#151212", 232 },
@@ -294,16 +292,8 @@ function M.bgtheme()
       floatbg = "#131212",
       gutterbg = "#0f0f0f",
       kittybg = "#121212",
-      fg = {
-        vivid   = "#ebdbb2",
-        medium  = "#ebdbb2",
-        pastel  = "#ebdbb2"
-      },
-      fg_dim = {
-        vivid   = "#afab82",
-        medium  = "#afab82",
-        pastel  = "#afab82"
-      }
+      fg = fg_def,
+      fg_dim = fg_dim_def
     },
     pitchblack = {
       black = { "#151212", 232 },
@@ -318,17 +308,19 @@ function M.bgtheme()
       floatbg = "#0e0d0d",
       gutterbg = "#020202",
       kittybg = "#0d0d0d",
-      fg = {
-        vivid   = "#ebdbb2",
-        medium  = "#ebdbb2",
-        pastel  = "#ebdbb2"
-      },
-      fg_dim = {
-        vivid   = "#afab82",
-        medium  = "#afab82",
-        pastel  = "#afab82"
-      }
+      fg = fg_def,
+      fg_dim = fg_dim_def
     }
+  }
+end
+
+function M.custom_colors()
+  return {
+    c1 = '#ff0000',
+    c2 = '#00ff00',
+    c3 = '#4c4866',
+    c4 = '#7070c0',
+    c5 = '#ff00ff'
   }
 end
 

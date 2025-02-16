@@ -43,7 +43,7 @@ local colorstyles = {
   staticmethod = "palegreen",
   attribute = "olive",
   strings   = "yellow",
-  parameter = "altblue"
+  parameter = "fg_dim"
 }
 
 local colorvariants = {
@@ -168,28 +168,6 @@ function M.basepalette(colorvariant)
   end
 end
 
-function M.variants(variant)
-  if variant ~= "warm" then
-    return {
-      black = { "#121215", 232 },
-      bg_dim = { "#222327", 232 },
-      bg0 = { "#202026", 235 },
-      bg1 = { "#33353f", 236 },
-      bg2 = { "#363944", 236 },
-      bg4 = { "#414550", 237 }
-    }
-  else
-    return {
-      black = { "#151212", 232 },
-      bg_dim = { "#242020", 232 },
-      bg0 = { "#2c2e34", 235 },
-      bg1 = { "#322a2a", 236 },
-      bg2 = { "#403936", 236 },
-      bg4 = { "#504531", 237 }
-    }
-  end
-end
-
 -- these are the base attributes for a scheme. The setup() function merges them
 -- with user-provided options to build the final conf.attrib table.
 function M.attributes()
@@ -214,7 +192,7 @@ function M.attributes()
     member       = {},                -- class member (field, property...)
     staticmember = { bold = true },
     operator     = { bold = true },   -- operators
-    parameter    = { italic = true }, -- function/method arguments
+    parameter    = { italic = true, bold = true }, -- function/method arguments
     delim        = { bold = true },   -- delimiters
     brace        = { bold = true },   -- braces, brackets, parenthesis
     str          = {},                -- strings
@@ -347,6 +325,16 @@ function M.config()
       { cmd = "medium", text = "Medium (somewhat desaturated colors)", p = 2 },
       { cmd = "pastel", text = "Pastel (low intensity colors)", p = 3 }
     }
+  }
+end
+
+function M.custom_colors()
+  return {
+    c1 = '#ff0000',
+    c2 = '#00ff00',
+    c3 = '#5050a0',
+    c4 = '#ff00ff',
+    c5 = '#ff00ff'
   }
 end
 

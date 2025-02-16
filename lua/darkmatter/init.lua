@@ -15,9 +15,9 @@
 --of color saturation: bright vivid and two desaturated modes
 --it's also extensible via plugins and can support multiple base themes (including
 --light themes). This is not yet implemented.
---
---TODO: * cleanup, organize the highlight groups better
+--TODO: 
 --      * maybe (just maybe) a bright background variant
+--      * add variants of well known themes (gruv <done>, dracula <maybe>)
 
 local M = {}
 
@@ -92,13 +92,6 @@ local conf = {
   -- The callback can use get_conf() to retrieve the current configuration and setup() to
   -- change it.
   callback = nil,
-  custom_colors = {
-    c1 = '#ff0000',
-    c2 = '#00ff00',
-    c3 = '#303080',
-    c4 = '#ff00ff',
-    c5 = '#ff00ff'
-  },
   -- plugins. there are 3 kinds of plugins:
   -- customize: executed after configure() but before colors are set. Allows
   --            you to customize the color tables.
@@ -196,15 +189,16 @@ local function configure()
 
   -- merge custom colors into the palette
   seq = 91
-  for k, v in pairs(conf.custom_colors) do
-    M.P[k] = { v, seq }
-    seq = seq + 1
+  if Scheme.custom_colors ~= nil then
+    for k, v in pairs(Scheme.custom_colors()) do
+      M.P[k] = { v, seq }
+      seq = seq + 1
+    end
   end
 
   -- merge the variant-dependent colors
   local to_merge = { "black", "bg_dim", "bg0", "bg1", "bg2", "bg3", "bg4" }
   for _, v in pairs(to_merge) do
-    vim.notify("merging: " .. v)
     M.P[v] = M.T[conf.variant][v] or { "#ffffff", 256 }
   end
 
@@ -775,13 +769,13 @@ function M.ui_select_variant()
   local utils = require("local_utils")
 
   local variants = {
-    { hl = "Fg", cmd = "warm", text = "Warm (red tint", p = 1 },
-    { hl = "Fg", cmd = "cold", text = "Cold (blue tint", p = 1 },
-    { hl = "Fg", cmd = "deepblack", text = "Deep dark", p = 1 },
+    { hl = "Fg", cmd = "warm", text = "Warm (red tint, low color temp)", p = 1 },
+    { hl = "Fg", cmd = "cold", text = "Cold (blue tint, high color temp)", p = 1 },
+    { hl = "Fg", cmd = "deepblack", text = "Deep dark (very dark background)", p = 1 },
     { hl = "Fg", cmd = "pitchblack", text = "OLED (pitch black", p = 1 },
   }
   variants = vim.iter(variants):filter(function(k)
-    if k.cmd == conf.variant then k.current = true else k.current = false end return k
+    if k.cmd == conf.variant then k.current = true k.hl = "Green" else k.current = false end return k
   end):totable()
 
   local function execute(cmd)
@@ -791,7 +785,7 @@ function M.ui_select_variant()
     conf.callback("variant")
   end
 
-  utils.simplepicker(variants, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select theme variant" })
+  utils.simplepicker(variants, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select theme background variant" })
 end
 
 -- use UI to present a selection of possible color configurations
