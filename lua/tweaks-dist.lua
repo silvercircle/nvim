@@ -325,7 +325,9 @@ Tweaks.theme = {
 Tweaks.statusline = {
   version = "lualine",
   -- specific tweaks for lualine. Currently none.
-  lualine = {}
+  lualine = {
+    theme = "internal"
+  }
 }
 
 -- filetree tweaks

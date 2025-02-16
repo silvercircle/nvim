@@ -44,9 +44,7 @@ require('cokeline').setup({
     components = {
       {
         text = function(tab) return tab.is_first and "" or "" end,
-        highlight = function(tab) return (tab.is_first and tab.is_active) and "CokelineActive" or "CokelineInactive" end,
-        --fg = function(tab) return (tab.is_first and tab.is_active) and colors.cokeline_colors.focus_bg or colors.P.accent[1] end,
-        --bg = colors.cokeline_colors.bg
+        highlight = function(tab) return (tab.is_first and tab.is_active) and "CokelineTabSepActive" or "CokelineTabSepInactive" end,
       },
       {
         text = function(tab) return " " .. tab.number .. " " end,

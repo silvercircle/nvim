@@ -1,7 +1,24 @@
 local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
 local _, navic = pcall(require, "nvim-navic")
-local colors = Config.theme
 
+local  LuaLineColors = {
+    white = "#ffffff",
+    darkestgreen = "#106010", -- M.T.accent_fg,
+    brightgreen = "#106060", -- M.T.accent_color,
+    darkestcyan = "#005f5f",
+    mediumcyan = "#87dfff",
+    darkestblue = "#002f47",
+    darkred = "#870000",
+    brightred = "#802020", -- M.T.alt_accent_color,
+    brightorange = "#2f47df",
+    gray1 = "#262626",
+    gray2 = "#303030",
+    gray4 = "#585858",
+    gray5 = "#404050",
+    gray7 = "#9e9e9e",
+    gray10 = "#f0f0f0",
+    statuslinebg = "#263031", -- M.T[conf.variant].statuslinebg,
+  }
 -- use either cokeline or lualine's internal buffer line, depending on 
 -- configuration choice.
 local function actual_tabline()
@@ -38,6 +55,59 @@ local function status_indicators()
          (__Globals.perm_config.cmp_autocomplete and 'O' or 'o')
 end
 
+--- internal global function to create the lualine color theme
+--- @return table
+local function lualine_internal_theme()
+  return {
+    normal = {
+      a = {
+        fg = LuaLineColors.darkestgreen,
+        bg = LuaLineColors.brightgreen, --[[, gui = 'bold']]
+      },
+      b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
+      c = "StatusLine",
+      x = "StatusLine",
+    },
+    insert = {
+      a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred },
+      b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
+      c = "StatusLine",
+      x = "StatusLine",
+    },
+    visual = {
+      a = {
+        fg = LuaLineColors.white,
+        bg = LuaLineColors.brightorange, --[[, gui = 'bold']]
+      },
+    },
+    replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred } },
+    inactive = {
+      a = "StatusLine",
+      b = "StatusLine",
+      c = "StatusLine"
+    }
+  }
+end
+
+
+local tab_sep_color;
+local function setup_theme()
+  if Tweaks.theme.disable == false then
+    local T = require("darkmatter").T
+    local conf = require("darkmatter").get_conf()
+
+    LuaLineColors.darkestgreen = T.accent_fg
+    LuaLineColors.brightgreen = T.accent_color
+    LuaLineColors.brightred = T.alt_accent_color
+    LuaLineColors.statuslinebg = T[conf.variant].statuslinebg
+    local _bg = vim.api.nvim_get_hl(0, { name="Visual" }).bg
+    vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = T[__Globals.perm_config.theme_variant].bg })
+    vim.api.nvim_set_hl(0, "WinBarUL", { fg = lualine_internal_theme().normal.b.fg, bg = _bg })
+    tab_sep_color = { fg = T.accent_color, bg = T[__Globals.perm_config.theme_variant].bg }
+  end
+end
+setup_theme()
+
 local function getWordsV2()
   if __Globals.cur_bufsize > Config.wordcount_limit * 1024 * 1024 then
     return "NaN"
@@ -72,13 +142,8 @@ end
 
 -- the internal theme is defined in config.lua
 local function theme()
-  return colors.Lualine_internal_theme()
+  return lualine_internal_theme()
 end
-local _bg = vim.api.nvim_get_hl(0, { name="Visual" }).bg
---local _bg = theme().normal.b.bg
-
-vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = colors.T[__Globals.perm_config.theme_variant].bg })
-vim.api.nvim_set_hl(0, "WinBarUL", { fg = theme().normal.b.fg, bg = _bg })
 
 local navic_component = {
   navic_context,
@@ -121,7 +186,7 @@ local aerial_component = {
 require("lualine").setup({
   options = {
     icons_enabled = true,
-    theme = theme(),
+    theme = Tweaks.statusline.lualine.theme == "internal" and theme() or Tweaks.statusline.lualine.theme,
     component_separators = "│", -- {left = "", right = "" },
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
@@ -214,7 +279,7 @@ require("lualine").setup({
         padding = 0,
         separator = { left = "", right = "" },
         draw_empty = true,
-        color = { fg = colors.T.accent_color, bg = colors.T[__Globals.perm_config.theme_variant].bg },
+        color = tab_sep_color, -- { fg = colors.T.accent_color, bg = colors.T[__Globals.perm_config.theme_variant].bg },
         fmt = function()
           return ""
         end,

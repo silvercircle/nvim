@@ -113,7 +113,6 @@ local conf = {
 }
 
 M.cokeline_colors = {}
-local LuaLineColors = {}
 
 local diff = vim.api.nvim_win_get_option(0, "diff")
 
@@ -180,24 +179,6 @@ local function configure()
     conf.style[k] = v
   end
   conf.schemeconfig = Scheme.config()
-  LuaLineColors = {
-    white = "#ffffff",
-    darkestgreen = M.T.accent_fg,
-    brightgreen = M.T.accent_color,
-    darkestcyan = "#005f5f",
-    mediumcyan = "#87dfff",
-    darkestblue = "#002f47",
-    darkred = "#870000",
-    brightred = M.T.alt_accent_color,
-    brightorange = "#2f47df",
-    gray1 = "#262626",
-    gray2 = "#303030",
-    gray4 = "#585858",
-    gray5 = "#404050",
-    gray7 = "#9e9e9e",
-    gray10 = "#f0f0f0",
-    statuslinebg = M.T[conf.variant].statuslinebg,
-  }
   -- setup base palette
   M.P = Scheme.basepalette(conf.colorpalette)
 
@@ -246,8 +227,6 @@ local function configure()
   for k,v in pairs(conf.style) do
     M.P.styled[k] = M.P[v]
   end
-  LuaLineColors.statuslinebg = M.T[conf.variant].statuslinebg
-
 end
 
 -- set all hl groups
@@ -752,40 +731,6 @@ function M.get_conf_value(val)
     return conf[val]
   end
   return nil
-end
-
---- internal global function to create the lualine color theme
---- @return table
-function M.Lualine_internal_theme()
-  return {
-    normal = {
-      a = {
-        fg = LuaLineColors.darkestgreen,
-        bg = LuaLineColors.brightgreen, --[[, gui = 'bold']]
-      },
-      b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
-      c = "StatusLine",
-      x = "StatusLine",
-    },
-    insert = {
-      a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred },
-      b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
-      c = "StatusLine",
-      x = "StatusLine",
-    },
-    visual = {
-      a = {
-        fg = LuaLineColors.white,
-        bg = LuaLineColors.brightorange, --[[, gui = 'bold']]
-      },
-    },
-    replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred } },
-    inactive = {
-      a = "StatusLine",
-      b = "StatusLine",
-      c = "StatusLine"
-    }
-  }
 end
 
 --- set the background transparent or solid
