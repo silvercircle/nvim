@@ -324,8 +324,10 @@ Tweaks.theme = {
 -- future.
 Tweaks.statusline = {
   version = "lualine",
-  -- specific tweaks for lualine. Currently none.
+  -- specific tweaks for lualine.
   lualine = {
+    -- Set this to "internal" to use darkmatter integration or to some available
+    -- lualine theme, eg "dracula"
     theme = "internal"
   }
 }

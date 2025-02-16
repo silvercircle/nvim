@@ -76,7 +76,10 @@ M.perm_config_default = {
   autopair = true,
   cmp_layout = "classic",
   cmp_autocomplete = vim.g.tweaks.cmp.autocomplete,
-  cmp_ghost = false
+  cmp_ghost = false,
+  lsp = {
+    inlay_hints = true
+  }
 }
 
 M.perm_config = {}
@@ -817,6 +820,13 @@ function M.toggle_treesitter_context()
   M.setup_treesitter_context(false)
   wsplit.freeze = false
   vim.schedule(function() wsplit.refresh() end)
+end
+
+function M.toggle_inlayhints()
+  local status = M.get_buffer_var(0, "inlayhints")
+  vim.api.nvim_buf_set_var(0, "inlayhints", not status)
+  vim.lsp.inlay_hint.enable(not status, { bufnr = 0 })
+  M.perm_config.lsp.inlay_hints = not status
 end
 
 --- get a custom buffer variable.

@@ -265,10 +265,9 @@ vim.g.setkey('n', fkeys.s_f11, function() perform_command('Lazy') end, "Open Laz
 
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-l>', function() __Globals.toggle_statuscol() end, "Toggle absolute/relative line numbers")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-p>', function()
-  local status = vim.lsp.inlay_hint.is_enabled({bufnr = 0})
-  vim.notify("Toggle inlay")
-  vim.lsp.inlay_hint.enable(not status, {bufnr = 0})
+  __Globals.toggle_inlayhints()
 end, "Toggle LSP inlay hints")
+
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-k>', function() __Globals.toggle_colorcolumn() end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-o>', function() __Globals.toggle_ibl() end, "Toggle indent-blankline active")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-u>', function() __Globals.toggle_ibl_context() end, "Toggle indent-blankline context")
@@ -496,7 +495,7 @@ vim.g.setkey( { 'n', 'i' }, "<C-x>z", function()
     picker:close()
     __Globals.open_with_fzf(item.file)
   end,
-  layout = SPL({ input = "top", width = 80, height = 0.7, row = 7, preview = false }) })
+  layout = SPL({ input = "top", width = 80, height = 0.7, row = 7, preview = false, title="Zoxide history" }) })
 end, "Pick from Zoxide")
 
 vim.g.setkey( { 'i', 'n' }, "<C-S-P>", function()

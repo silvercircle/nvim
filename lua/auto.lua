@@ -193,6 +193,10 @@ autocmd({ 'BufEnter' }, {
       else
         vim.schedule(function() tsc.disable() end)
       end
+      val = __Globals.get_buffer_var(args.buf, "inlayhints")
+      if val == true or val == false then
+        vim.lsp.inlay_hint.enable(val, { bufnr = args.buf } )
+      end
     end
     __Globals.get_bufsize()
     wsplit.content_set_winid(vim.fn.win_getid())
@@ -211,6 +215,7 @@ autocmd({ 'BufReadPost' }, {
   pattern = "*",
   callback = function(args)
     vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
+    vim.api.nvim_buf_set_var(0, "inlayhints", __Globals.perm_config.lsp.inlay_hints)
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
       if bufread_first == true and Config.nightly == true then
         bufread_first = false
