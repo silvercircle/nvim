@@ -52,7 +52,8 @@ local function status_indicators()
          (__Globals.perm_config.debug == true and "D" or "d") ..
          (__Globals.perm_config.transbg == true and "T" or "t") ..
          (__Globals.perm_config.autopair == true and "A" or "a") ..
-         (__Globals.perm_config.cmp_autocomplete and 'O' or 'o')
+         (__Globals.perm_config.cmp_autocomplete and 'O' or 'o') ..
+         (__Globals.perm_config.lsp.inlay_hints and 'I' or 'i')
 end
 
 --- internal global function to create the lualine color theme
@@ -159,30 +160,6 @@ local navic_component = {
   color = 'WinBarFilename',
 }
 
-local aerial_component = {
-  "aerial",
-  -- The separator to be used to separate symbols in status line.
-  sep = "  ",
-  sep_highlight = "Debug",
-
-  -- The number of symbols to render top-down. In order to render only 'N' last
-  -- symbols, negative numbers may be supplied. For instance, 'depth = -1' can
-  -- be used in order to render only current symbol.
-  depth = nil,
-
-  -- When 'dense' mode is on, icons are not rendered near their symbols. Only
-  -- a single icon that represents the kind of current symbol is rendered at
-  -- the beginning of status line.
-  dense = false,
-
-  -- The separator to be used to separate symbols in dense mode.
-  dense_sep = ".",
-
-  -- Color the symbol icons.
-  colored = true,
---  color = 'WinBarContext'
-}
-
 require("lualine").setup({
   options = {
     icons_enabled = true,
@@ -246,7 +223,7 @@ require("lualine").setup({
   winbar = {
     --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
-      vim.g.tweaks.breadcrumb == 'navic' and navic_component or aerial_component,
+      navic_component
     },
     lualine_c = {
       {
