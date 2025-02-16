@@ -112,8 +112,6 @@ local conf = {
   }
 }
 
-M.cokeline_colors = {}
-
 local diff = vim.api.nvim_win_get_option(0, "diff")
 
 M.set_hl = vim.api.nvim_set_hl
@@ -626,7 +624,7 @@ local function set_all()
   M.hl_with_defaults("WinBarFilename", M.P.fg, M.P.accent)                                   -- Filename (right hand)
   M.hl("WinBarContext", M.P.accent, M.NONE, { underline = true, sp = M.P.accent[1] }) -- LSP context (left hand)
   -- WinBarInvis is for the central padding item. It should be transparent and invisible (fg = bg)
-  -- This is a somewhat hack-ish way to make the lualine-controlle winbar transparent.
+  -- This is a somewhat hack-ish way to make the lualine-controlled winbar transparent.
   M.hl("WinBarInvis", M.P.bg, M.P.bg, { underline = true, sp = M.P.accent[1] })
   M.link("WinBarNC", "StatusLineNC")
   M.link("WinBar", "WinBarContext")

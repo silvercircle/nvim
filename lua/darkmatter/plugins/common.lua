@@ -189,8 +189,8 @@ local function _set()
 
   -- cokeline
   local cokeline_active_bg = c.P.bg4[1]
-  c.set_hl(0, "CokelineInactive", { bg = c.P.statuslinebg[1], fg = c.cokeline_colors.fg })
-  c.set_hl(0, "CokelineInactivePad", { bg = c.P.statuslinebg[1], fg = c.cokeline_colors.fg })
+  c.set_hl(0, "CokelineInactive", { bg = c.P.statuslinebg[1], fg = c.P.bg4[1] })
+  c.set_hl(0, "CokelineInactivePad", { bg = c.P.statuslinebg[1], fg = c.P.bg4[1] })
   c.set_hl(0, "CokelineActive", { bg = cokeline_active_bg, fg = c.T.accent_fg })
   c.set_hl(0, "CokelineActivePad", { bg = cokeline_active_bg, fg = c.P.statuslinebg[1]})
   c.set_hl(0, "CokelineActiveModified", { bg = cokeline_active_bg, fg = c.P.red[1] })
