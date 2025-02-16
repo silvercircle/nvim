@@ -170,6 +170,7 @@ end
 -- themes/scheme.lua
 local function configure()
   local Scheme = require("darkmatter.schemes." .. conf.scheme)
+  local seq = 0
 
   M.T = Scheme.bgtheme()
   rainbowpalette = Scheme.rainbowpalette()
@@ -201,7 +202,6 @@ local function configure()
   M.P = Scheme.basepalette(conf.colorpalette)
 
   -- TODO: allow cokeline colors per theme variant
-  vim.notify(vim.inspect(M.T[conf.variant]))
   M.P.fg = { M.T[conf.variant].fg[conf.colorpalette] or M.T.fg_default, 1 }
   M.P.darkbg = { M.T[conf.variant].gutterbg, 237 }
   M.P.bg = { M.T[conf.variant].bg, 0 }
@@ -214,30 +214,26 @@ local function configure()
   M.P.styled.fg = { M.T[conf.variant].fg , 1 }
   --M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
   M.P.string = M.P[conf.style.strings]
-  M.P.c1 = { conf.custom_colors.c1, 91 }
-  M.P.c2 = { conf.custom_colors.c2, 92 }
-  M.P.c3 = { conf.custom_colors.c3, 93 }
-  M.P.c4 = { conf.custom_colors.c4, 94 }
-  M.P.c5 = { conf.custom_colors.c5, 94 }
+
+  -- merge custom colors into the palette
+  seq = 91
+  for k, v in pairs(conf.custom_colors) do
+    M.P[k] = { v, seq }
+    seq = seq + 1
+  end
 
   -- merge the variant-dependent colors
-  M.P = vim.tbl_deep_extend("force", M.P, Scheme.variants(conf.variant))
-
-  M.cokeline_colors = {
-    bg = M.T[conf.variant].statuslinebg,
-    inact_bg = M.P.statuslinebg[1],
-    focus_bg = M.P.bg4[1],
-    fg = LuaLineColors.gray4,
-    focus_fg = M.T.accent_fg,
-    focus_sp = M.P.altyellow[1],
-    inact_sp = M.P.accent[1]
-  }
+  local to_merge = { "black", "bg_dim", "bg0", "bg1", "bg2", "bg3", "bg4" }
+  for _, v in pairs(to_merge) do
+    vim.notify("merging: " .. v)
+    M.P[v] = M.T[conf.variant][v] or { "#ffffff", 256 }
+  end
 
   M.P.treebg = { M.T[conf.variant].treebg, 232 }
   M.P.floatbg = { M.T[conf.variant].floatbg, 232 }
   M.P.selbg = { M.T["selbg"], 234 }
 
-  local seq = 245
+  seq = 245
   for k,v in pairs(conf.usercolors) do
     M.P[k] = { v, seq }
     seq = seq + 1

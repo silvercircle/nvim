@@ -1,10 +1,15 @@
 -- darkmatter scheme configuration, inspired by the well known Gruvbox theme.
+-- this shall act als refernce for a scheme configuration and contains much of the 
+-- documentation.
 
 -- palette to use when basepalette() is called with an unknown name
 local _p_fallback = 'vivid'
 
 ---@class colorvariant
----this defines a base palette of colors for each color variant the scheme has
+---this defines a base palette of colors for each color variant the scheme has.
+---by default, a scheme has three variants: vivid, medium and pastel and they
+---should provide different color intensities and contrast with vivid being the
+---strongest. More are possible, but must be reflected in bgtheme() and config()
 local colorvariants = {
   vivid = {
     orange = { "#dfaa80", 215 },
@@ -92,6 +97,9 @@ local colorvariants = {
   }
 }
 
+--- colorstyles assign highlight categories to specific colors in the palette
+--- This table defines what colors hould be used for keywords, comments, variables
+--- and other semantic elements like types, classes, interfaces and so on.
 ---@table colorstyles
 local colorstyles = {
   identifier = "fg_dim",
@@ -170,28 +178,6 @@ function M.colorstyles()
   return colorstyles
 end
 
-function M.variants(variant)
-  if variant ~= "warm" then
-    return {
-      black = { "#121215", 232 },
-      bg_dim = { "#222327", 232 },
-      bg0 = { "#202026", 235 },
-      bg1 = { "#33353f", 236 },
-      bg2 = { "#363944", 236 },
-      bg4 = { "#655555", 237 }
-    }
-  else
-    return {
-      black = { "#151212", 232 },
-      bg_dim = { "#242020", 232 },
-      bg0 = { "#2c2e34", 235 },
-      bg1 = { "#322a2a", 236 },
-      bg2 = { "#403936", 236 },
-      bg4 = { "#555565", 237 }
-    }
-  end
-end
-
 --- these are the base attributes for a scheme. The setup() function merges them
 --- with user-provided options to build the final conf.attrib table.
 function M.attributes()
@@ -248,6 +234,12 @@ function M.bgtheme()
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
     selbg = "#4c4866",
     cold = {
+      black = { "#151212", 232 },
+      bg_dim = { "#242020", 232 },
+      bg0 = { "#2c2e34", 235 },
+      bg1 = { "#322a2a", 236 },
+      bg2 = { "#403936", 236 },
+      bg4 = { "#555565", 237 },
       statuslinebg = "#262630",
       bg = "#141414",
       treebg = "#18181c",
@@ -266,6 +258,12 @@ function M.bgtheme()
       }
     },
     warm = {
+      black = { "#121215", 232 },
+      bg_dim = { "#222327", 232 },
+      bg0 = { "#202026", 235 },
+      bg1 = { "#33353f", 236 },
+      bg2 = { "#363944", 236 },
+      bg4 = { "#655555", 237 },
       statuslinebg = "#2a2626",
       bg = "#141212",
       treebg = "#181515",
@@ -274,16 +272,22 @@ function M.bgtheme()
       kittybg = "#181515",
       fg = {
         vivid   = "#ebdbb2",
-        medium  = "#ebdbb2",
-        pastel  = "#ebdbb2"
+        medium  = "#cbbb92",
+        pastel  = "#ab9b72"
       },
       fg_dim = {
         vivid   = "#afab82",
-        medium  = "#afab82",
-        pastel  = "#afab82"
+        medium  = "#9f9b72",
+        pastel  = "#8f8b62"
       }
     },
     deepblack = {
+      black = { "#151212", 232 },
+      bg_dim = { "#242020", 232 },
+      bg0 = { "#2c2e34", 235 },
+      bg1 = { "#322a2a", 236 },
+      bg2 = { "#403936", 236 },
+      bg4 = { "#555565", 237 },
       statuslinebg = "#222228",
       bg = "#080808",
       treebg = "#121212",
@@ -302,6 +306,12 @@ function M.bgtheme()
       }
     },
     pitchblack = {
+      black = { "#151212", 232 },
+      bg_dim = { "#242020", 232 },
+      bg0 = { "#2c2e34", 235 },
+      bg1 = { "#322a2a", 236 },
+      bg2 = { "#403936", 236 },
+      bg4 = { "#555565", 237 },
       statuslinebg = "#222228",
       bg = "#020202",
       treebg = "#0d0d0d",

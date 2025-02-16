@@ -1,4 +1,3 @@
-local colors = Config.theme
 local show_close = vim.g.tweaks.cokeline.closebutton
 local left_pad = vim.g.tweaks.cokeline.styles[vim.g.tweaks.cokeline.active_tab_style].left
 local right_pad = vim.g.tweaks.cokeline.styles[vim.g.tweaks.cokeline.active_tab_style].right
@@ -16,17 +15,9 @@ end
 -- crete the cokeline theme. Global function
 local function Cokeline_theme()
   return {
-    hl = {
-      fg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_fg or colors.cokeline_colors.fg end,
-      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.inact_bg end,
-      -- underline = function(buffer) return buffer.is_focused and true or false end,
-      underline = vim.g.tweaks.cokeline.underline,
-      sp = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_sp or colors.cokeline_colors.inact_sp end
-    },
     group = {
       highlight = function(buffer) return buffer.is_focused and "CokelineActive" or "CokelineInactive" end
-    },
-    unsaved = colors.P.red[1] -- the unsaved indicator on the tab
+    }
   }
 end
 
@@ -44,10 +35,7 @@ require('cokeline').setup({
     components = {
       {
         text = buildinfo,
-        bg = colors.cokeline_colors.bg,
-        style = 'bold',
-        fg = "Yellow",
-        sp = colors.cokeline_colors.inact_sp
+        highlight = "Debug"
       },
     }
   },
@@ -56,8 +44,9 @@ require('cokeline').setup({
     components = {
       {
         text = function(tab) return tab.is_first and "" or "" end,
-        fg = function(tab) return (tab.is_first and tab.is_active) and colors.cokeline_colors.focus_bg or colors.P.accent[1] end,
-        bg = colors.cokeline_colors.bg
+        highlight = function(tab) return (tab.is_first and tab.is_active) and "CokelineActive" or "CokelineInactive" end,
+        --fg = function(tab) return (tab.is_first and tab.is_active) and colors.cokeline_colors.focus_bg or colors.P.accent[1] end,
+        --bg = colors.cokeline_colors.bg
       },
       {
         text = function(tab) return " " .. tab.number .. " " end,
@@ -76,8 +65,11 @@ require('cokeline').setup({
     },
     {
       text = function(buffer) return buffer.devicon.icon end,
-      bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.bg end,
-      fg = function(buffer) return buffer.devicon.color end
+      -- bg = function(buffer) return buffer.is_focused and colors.cokeline_colors.focus_bg or colors.cokeline_colors.bg end,
+      -- fg = function(buffer) return buffer.devicon.color end
+      fg = function(buffer) return buffer.devicon.color end,
+      bg = function(buffer) return vim.api.nvim_get_hl(0,
+        { name = buffer.is_focused and "CokelineActive" or "CokelineInactive"}).bg end
     },
     {
       text = function(buffer) return buffer.filename end,
