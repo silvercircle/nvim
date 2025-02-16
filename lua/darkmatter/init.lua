@@ -201,14 +201,15 @@ local function configure()
   M.P = Scheme.basepalette(conf.colorpalette)
 
   -- TODO: allow cokeline colors per theme variant
-  M.P.fg = { M.T[conf.variant].fg, 1 }
+  vim.notify(vim.inspect(M.T[conf.variant]))
+  M.P.fg = { M.T[conf.variant].fg[conf.colorpalette] or M.T.fg_default, 1 }
   M.P.darkbg = { M.T[conf.variant].gutterbg, 237 }
   M.P.bg = { M.T[conf.variant].bg, 0 }
   M.P.statuslinebg = { M.T[conf.variant].statuslinebg, 208 }
   M.P.accent = { M.T["accent_color"], 209 }
   M.P.accent_fg = { M.T["accent_fg"], 210 }
   M.P.tablinebg = M.P.statuslinebg
-  M.P.fg_dim = { M.T[conf.variant].fg_dim, 2 }
+  M.P.fg_dim = { M.T[conf.variant].fg_dim[conf.colorpalette] or M.T.fg_dim_default, 2 }
 
   M.P.styled.fg = { M.T[conf.variant].fg , 1 }
   --M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green

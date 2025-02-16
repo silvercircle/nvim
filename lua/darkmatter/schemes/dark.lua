@@ -234,14 +234,10 @@ end
 
 function M.bgtheme()
   return {
-    -- accent color is used for important highlights like the currently selected tab (buffer)
-    -- and more.
-    --accent_color = '#cbaf00',
+    fg_default = "#a2a0ac",
+    fg_dim_default = "#909096",
     accent_color = "#204050",
-    --accent_color = "#305030",
-    --alt_accent_color = '#bd2f4f',
     alt_accent_color = "#501010",
-    --accent_fg = "#cccc80",
     accent_fg = "#aaaa60",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
     selbg = "#202070",
@@ -252,8 +248,16 @@ function M.bgtheme()
       floatbg = "#22221f",
       gutterbg = "#101013",
       kittybg = "#18181c",
-      fg = "#a2a0ac",
-      fg_dim = "#909096"
+      fg = {
+        vivid  = "#a2a0ac",
+        pastel = "#a2a0ac",
+        medium = "#a2a0ac"
+      },
+      fg_dim = {
+        vivid  = "#909096",
+        medium = "#909096",
+        pastel = "#909096"
+      }
     },
     warm = {
       statuslinebg = "#2a2626",
@@ -262,8 +266,16 @@ function M.bgtheme()
       floatbg = "#1f2222",
       gutterbg = "#131010",
       kittybg = "#1b1818",
-      fg = "#aaa0a5",
-      fg_dim = "#969090"
+      fg = {
+        vivid  = "#a2a0ac",
+        pastel = "#a2a0ac",
+        medium = "#a2a0ac"
+      },
+      fg_dim = {
+        vivid  = "#909096",
+        medium = "#909096",
+        pastel = "#909096"
+      }
     },
     deepblack = {
       statuslinebg = "#222228",
@@ -272,8 +284,16 @@ function M.bgtheme()
       floatbg = "#191919",
       gutterbg = "#0f0f0f",
       kittybg = "#121212",
-      fg = "#b0b0b5",
-      fg_dim = "#95959c"
+      fg = {
+        vivid  = "#a2a0ac",
+        pastel = "#a2a0ac",
+        medium = "#a2a0ac"
+      },
+      fg_dim = {
+        vivid  = "#909096",
+        medium = "#909096",
+        pastel = "#909096"
+      }
     },
     pitchblack = {
       statuslinebg = "#222228",
@@ -282,8 +302,16 @@ function M.bgtheme()
       floatbg = "#101010",
       gutterbg = "#020202",
       kittybg = "#0d0d0d",
-      fg = "#b0b0b5",
-      fg_dim = "#95959c"
+      fg = {
+        vivid  = "#a2a0ac",
+        pastel = "#a2a0ac",
+        medium = "#a2a0ac"
+      },
+      fg_dim = {
+        vivid  = "#909096",
+        medium = "#909096",
+        pastel = "#909096"
+      }
     }
   }
 end

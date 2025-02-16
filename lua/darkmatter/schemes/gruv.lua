@@ -1,22 +1,13 @@
--- this is a sample scheme definition. It defines all colors in a theme
---
--- it must implement:
--- * basepalette(colorvariant)
--- * rainbowpalette()
--- * attributes()
--- * styles()
--- * variant(variant)
--- * config()
-
--- custom themes must be named as themename.lua and reside in the darkmatter/schemes
--- folder.
+-- darkmatter scheme configuration, inspired by the well known Gruvbox theme.
 
 -- palette to use when basepalette() is called with an unknown name
 local _p_fallback = 'vivid'
 
+---@class colorvariant
+---this defines a base palette of colors for each color variant the scheme has
 local colorvariants = {
   vivid = {
-    orange = { "#bfaa60", 215 },
+    orange = { "#dfaa80", 215 },
     blue = { "#458588", 239 },        -- gruv   original
     altblue = { "#83a598", 239 },     -- gruv   original
     altyellow = { "#fabd2d", 231 },   -- gruv   original
@@ -101,6 +92,7 @@ local colorvariants = {
   }
 }
 
+---@table colorstyles
 local colorstyles = {
   identifier = "fg_dim",
   comment = "grey",
@@ -116,7 +108,7 @@ local colorstyles = {
   method = "brightteal",
   func = "teal",
   operator = "brown",
-  builtin = "darkyellow",
+  builtin = "deepred",
   braces = "darkyellow",
   delim = "red",
   number = "green",
@@ -128,7 +120,7 @@ local colorstyles = {
   namespace = "olive",
   type = "altblue",
   struct = "darkpurple",
-  bool = "deepred",
+  bool = "darkyellow",
   constructor = "altyellow",
   macro = "lpurple",
   defaultlib = "darkyellow",
@@ -140,6 +132,9 @@ local colorstyles = {
 
 local M = {}
 
+--- a special palette used to colorize "rainbow elements". Useful for 
+--- indent guides or rainbow coloring of braces.
+--- @return table
 function M.rainbowpalette()
   return {
     low = {
@@ -161,6 +156,8 @@ function M.rainbowpalette()
   }
 end
 
+---@param colorvariant string
+---@return colorvariant
 function M.basepalette(colorvariant)
   if colorvariants[colorvariant] ~= nil then
     return colorvariants[colorvariant]
@@ -181,7 +178,7 @@ function M.variants(variant)
       bg0 = { "#202026", 235 },
       bg1 = { "#33353f", 236 },
       bg2 = { "#363944", 236 },
-      bg4 = { "#414550", 237 }
+      bg4 = { "#655555", 237 }
     }
   else
     return {
@@ -190,13 +187,13 @@ function M.variants(variant)
       bg0 = { "#2c2e34", 235 },
       bg1 = { "#322a2a", 236 },
       bg2 = { "#403936", 236 },
-      bg4 = { "#504531", 237 }
+      bg4 = { "#555565", 237 }
     }
   end
 end
 
--- these are the base attributes for a scheme. The setup() function merges them
--- with user-provided options to build the final conf.attrib table.
+--- these are the base attributes for a scheme. The setup() function merges them
+--- with user-provided options to build the final conf.attrib table.
 function M.attributes()
   return {
     comment      = {},
@@ -237,10 +234,14 @@ function M.attributes()
   }
 end
 
+--- this regurns the background theme and some very basic colors. There are different
+--- colors for each of the background variants
 function M.bgtheme()
   return {
     -- accent color is used for important highlights like the currently selected tab (buffer)
     -- and more.
+    fg_default = "#ebdbb2",
+    fg_dim_default = "#afab82",
     accent_color = "#204050",
     alt_accent_color = "#501010",
     accent_fg = "#aaaa60",
@@ -253,8 +254,16 @@ function M.bgtheme()
       floatbg = "#18181d",
       gutterbg = "#101013",
       kittybg = "#18181c",
-      fg = "#ebdbb2",
-      fg_dim = "#ab9b72"
+      fg = {
+        vivid   = "#ebdbb2",
+        medium  = "#ebdbb2",
+        pastel  = "#ebdbb2"
+      },
+      fg_dim = {
+        vivid   = "#afab82",
+        medium  = "#afab82",
+        pastel  = "#afab82"
+      }
     },
     warm = {
       statuslinebg = "#2a2626",
@@ -263,8 +272,16 @@ function M.bgtheme()
       floatbg = "#191515",
       gutterbg = "#131010",
       kittybg = "#181515",
-      fg = "#ebdbb2",
-      fg_dim = "#ab9b72"
+      fg = {
+        vivid   = "#ebdbb2",
+        medium  = "#ebdbb2",
+        pastel  = "#ebdbb2"
+      },
+      fg_dim = {
+        vivid   = "#afab82",
+        medium  = "#afab82",
+        pastel  = "#afab82"
+      }
     },
     deepblack = {
       statuslinebg = "#222228",
@@ -273,8 +290,16 @@ function M.bgtheme()
       floatbg = "#131212",
       gutterbg = "#0f0f0f",
       kittybg = "#121212",
-      fg = "#ebdbb2",
-      fg_dim = "#ab9b72"
+      fg = {
+        vivid   = "#ebdbb2",
+        medium  = "#ebdbb2",
+        pastel  = "#ebdbb2"
+      },
+      fg_dim = {
+        vivid   = "#afab82",
+        medium  = "#afab82",
+        pastel  = "#afab82"
+      }
     },
     pitchblack = {
       statuslinebg = "#222228",
@@ -283,12 +308,21 @@ function M.bgtheme()
       floatbg = "#0e0d0d",
       gutterbg = "#020202",
       kittybg = "#0d0d0d",
-      fg = "#ebdbb2",
-      fg_dim = "#ab9b72"
+      fg = {
+        vivid   = "#ebdbb2",
+        medium  = "#ebdbb2",
+        pastel  = "#ebdbb2"
+      },
+      fg_dim = {
+        vivid   = "#afab82",
+        medium  = "#afab82",
+        pastel  = "#afab82"
+      }
     }
   }
 end
 
+---@return table: supported color variants
 function M.config()
   return {
     palettes = {
