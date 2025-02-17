@@ -21,6 +21,11 @@ require("snacks").setup({
   image = {
     formats = { "png", "bmp", "webp", "tiff" },
     enable = true,
+    doc = {
+      enabled = true,
+      inline = false,
+      float = true,
+    }
   },
   picker = {
     formatters = {

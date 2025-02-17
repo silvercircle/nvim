@@ -828,4 +828,17 @@ function M.toggle_transparency()
   conf_callback("trans")
 end
 
+function M.reconfigure_and_set(opts)
+  opts = opts or {}
+
+  local new_variant = opts.variant or conf.variant
+  local new_colorpalette = opts.colorpalette or conf.colorpalette
+
+  if new_variant ~= conf.variant or new_colorpalette ~= conf.colorpalette then
+    conf.variant = new_variant
+    conf.colorpalette = new_colorpalette
+    M.set()
+  end
+end
+
 return M

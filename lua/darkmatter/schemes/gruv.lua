@@ -40,7 +40,7 @@ local colorvariants = {
     styled = {}
   },
   medium = {
-    orange = { "#af8a60", 215 },
+    orange = { "#a58370", 215 },
     blue = { "#458588", 239 },
     altblue = { "#83a598", 239 },
     altyellow = { "#da9d0d", 231 },
@@ -68,7 +68,7 @@ local colorvariants = {
     styled = {}
   },
   pastel = {
-    orange = { "#9f7a50", 215 },
+    orange = { "#957360", 215 },
     blue = { "#458588", 239 },
     altblue = { "#83a598", 239 },
     altyellow = { "#ba8d00", 231 },
