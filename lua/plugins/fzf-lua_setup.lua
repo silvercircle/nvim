@@ -48,11 +48,11 @@ require "fzf-lua".setup({
     preview    = {
       default      = "builtin",         -- override the default previewer?
       -- default uses the 'builtin' previewer
-      border       = "thicc",      -- border|noborder, applies only to
+      border       = Borderfactory("thicc"),      -- border|noborder, applies only to
       -- native fzf previewers (bat/cat/git/etc)
       wrap         = "nowrap",      -- wrap|nowrap
       hidden       = "nohidden",    -- hidden|nohidden
-      vertical     = "down:45%",    -- up|down:size
+      vertical     = "down:30%",    -- up|down:size
       horizontal   = "right:60%",   -- right|left:size
       layout       = "flex",        -- horizontal|vertical|flex
       flip_columns = 120,           -- #cols to switch to horizontal on flex
