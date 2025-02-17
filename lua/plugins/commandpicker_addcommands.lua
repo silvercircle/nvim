@@ -10,15 +10,6 @@ local noremap    = true
 
 require("commandpicker").add({
   {
-    desc = "Show notification history",
-    cmd = function() require("local_utils").notification_history() end,
-    keys = {
-      { "n", vim.g.tweaks.keymap.utility_key .. "<C-n>", noremap },
-      { "i", vim.g.tweaks.keymap.utility_key .. "<C-n>", noremap }
-    },
-    category = "@Notifications"
-  },
-  {
     desc = "Show all bookmarks (Snacks picker)",
     cmd = function()
       local layout = SPL({
