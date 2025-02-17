@@ -27,7 +27,6 @@ require('options')
 require('load_lazy')
 require("auto")
 require('keymap')
-
 EOB
 
 run macros/justify.vim

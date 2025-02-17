@@ -173,8 +173,12 @@ Tweaks.blink = {
   use_cmp_hl = false,
   winblend = {
     doc = 0,
-    menu = 0
+    menu = 0,
+    signature = 0
   },
+  --- show the effective LSP client name in the last column when available
+  --- otherwise show just the source name (LSP, snippets etc.)
+  show_client_name = true,
   -- list of filetypes for which we want to allow the "buffer" source to
   -- collect all the buffer words.
   -- set this to an empty table to allow buffer words for all filetype
@@ -271,7 +275,7 @@ Tweaks.cmdheight = 0
 -- width of line number (absolute numbers)
 Tweaks.numberwidth = 5
 -- for relative numbers, 2 should normally be sufficient
-Tweaks.numberwidth_rel = 2
+Tweaks.numberwidth_rel = 5
 -- 3 signs should be sufficient in most cases. If you don't mind a "jumping"
 -- signcolumn, you can use something like auto:3-5. see :h signcolumn
 Tweaks.signcolumn = "yes:3"
@@ -310,7 +314,7 @@ Tweaks.theme = {
   kittenexec = "kitten",
   kittysocket = "/tmp/mykittysocket",
   rainbow_contrast = "low",
-  scheme = "dark",
+  scheme = "gruv",
   all_types_bold = false,
   disable = false
 }
@@ -320,8 +324,12 @@ Tweaks.theme = {
 -- future.
 Tweaks.statusline = {
   version = "lualine",
-  -- specific tweaks for lualine. Currently none.
-  lualine = {}
+  -- specific tweaks for lualine.
+  lualine = {
+    -- Set this to "internal" to use darkmatter integration or to some available
+    -- lualine theme, eg "dracula"
+    theme = "internal"
+  }
 }
 
 -- filetree tweaks
@@ -400,15 +408,15 @@ Tweaks.fzf = {
   winopts = {
     small_no_preview     =  { row = 0.25, width=0.5, height = 0.4, preview = { hidden="hidden" } },
     mini_list            =  { row = 0.25, width=50, height = 0.6, preview = { hidden="hidden" } },
-    std_preview_top      =  { width = 0.6, height = 0.8, preview = { border = 'border', layout = 'vertical', vertical = "up:30%" } },
+    std_preview_top      =  { width = 0.6, height = 0.8, preview = { border = 'thicc', layout = 'vertical', vertical = "up:30%" } },
     std_preview_none     =  { width = 0.6, height = 0.8, preview = { hidden = 'hidden' } },
-    big_preview_top      =  { width = 0.7, height = 0.9, preview = { border = 'border', layout = 'vertical', vertical = "up:35%" } },
-    big_preview_topbig   =  { width = 0.7, height = 0.9, preview = { border = 'border', layout = 'vertical', vertical = "up:45%" } },
+    big_preview_top      =  { width = 0.7, height = 0.9, preview = { border = 'thicc', layout = 'vertical', vertical = "up:35%" } },
+    big_preview_topbig   =  { width = 0.7, height = 0.9, preview = { border = 'thicc', layout = 'vertical', vertical = "up:45%" } },
     narrow_no_preview    =  { width = 0.5, height = 0.8, preview = { hidden = 'hidden' } },
     very_narrow_no_preview= { width = 70, height = 0.8, preview = { hidden = 'hidden' } },
-    narrow_small_preview =  { width = 0.5, height = 0.8, preview = { border = 'border', layout = 'vertical', vertical = "up:35%" } },
-    narrow_big_preview   =  { width = 0.5, height = 0.9, preview = { border = 'border', layout = 'vertical', vertical = "up:45%" } },
-    mini_with_preview    =  { width = 80, height = 0.8, preview = { border = 'border', layout = 'vertical', vertical = "up:30%" } },
+    narrow_small_preview =  { width = 0.5, height = 0.8, preview = { border = 'thicc', layout = 'vertical', vertical = "up:35%" } },
+    narrow_big_preview   =  { width = 0.5, height = 0.9, preview = { border = 'thicc', layout = 'vertical', vertical = "up:45%" } },
+    mini_with_preview    =  { width = 80, height = 0.8, preview = { border = 'thicc', layout = 'vertical', vertical = "up:30%" } },
   },
   image_preview = {
     png = { "chafa" },

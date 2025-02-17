@@ -163,10 +163,10 @@ outline_window = {
   },
 
   providers = {
-    priority = { 'lsp', 'coc', 'markdown', 'norg' },
+    priority = { 'lsp', 'treesitter', 'markdown', 'norg' },
     lsp = {
       -- Lsp client names to ignore
-      blacklist_clients = {},
+      blacklist_clients = { "texlab", "marksman" },
     },
   },
 
@@ -174,7 +174,7 @@ outline_window = {
     -- filter symbols for certain filtypes. Lua is particularly "spammy" and can create
     -- long symbol trees.
     filter = {
-      lua = { "Array", "Variable", "Boolean", "Constant", "String", exclude = true}
+      lua = { --[["Array",]] "Variable", "Boolean", "Constant", "String", exclude = true}
     },
     icon_fetcher = nil,
     -- 3rd party source for fetching icons. Fallback if icon_fetcher returned

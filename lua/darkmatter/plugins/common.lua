@@ -128,7 +128,8 @@ local function _set()
   c.link("FzfLuaFzfMatch", "TelescopeMatching")
   c.link("FzfLuaPathLineNr", "Orange")
   c.link("FzfLuaBufNr", "Brown")
-
+  c.link("FzfLuaPreviewTitle", "FloatTitle")
+  c.link("FzfLuaTitle", "FloatTitle")
   c.link("GitSignsAdd", "GreenSign")
   c.link("GitSignsStagedAdd", "GreenSign")
   c.link("GitSignsAddNr", "GreenSign")
@@ -188,13 +189,17 @@ local function _set()
 
   -- cokeline
   local cokeline_active_bg = c.P.bg4[1]
-  c.set_hl(0, "CokelineInactive", { bg = c.P.statuslinebg[1], fg = c.cokeline_colors.fg })
-  c.set_hl(0, "CokelineInactivePad", { bg = c.P.statuslinebg[1], fg = c.cokeline_colors.fg })
+  c.set_hl(0, "CokelineInactive", { bg = c.P.statuslinebg[1], fg = c.P.bg4[1] })
+  c.set_hl(0, "CokelineInactivePad", { bg = c.P.statuslinebg[1], fg = c.P.bg4[1] })
   c.set_hl(0, "CokelineActive", { bg = cokeline_active_bg, fg = c.T.accent_fg })
   c.set_hl(0, "CokelineActivePad", { bg = cokeline_active_bg, fg = c.P.statuslinebg[1]})
   c.set_hl(0, "CokelineActiveModified", { bg = cokeline_active_bg, fg = c.P.red[1] })
   c.set_hl(0, "CokelineInactiveModified", { bg = c.P.statuslinebg[1], fg = c.P.red[1] })
+  c.set_hl(0, "CokelineTabSepActive", { fg = c.P.bg4[1], bg = c.P.statuslinebg[1] })
+  c.set_hl(0, "CokelineTabSepInactive", { fg = c.P.accent[1], bg = c.P.statuslinebg[1] })
 
+        --fg = function(tab) return (tab.is_first and tab.is_active) and colors.cokeline_colors.focus_bg or colors.P.accent[1] end,
+        --bg = colors.cokeline_colors.bg
   -- brenton-leighton multiple-cursors
   c.link("MultipleCursorsCursor", "Search")
   c.link("MultipleCursorsVisual", "CurSearch")

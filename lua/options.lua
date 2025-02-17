@@ -60,11 +60,11 @@ o.foldcolumn = "1"
 -- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 
 -- indentation-based folding.
 if Config.treesitter == true then
-  o.foldmethod = "expr"
-  vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+  vim.wo.foldmethod = "expr"
+  vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 else
-  o.foldmethod = "indent"
-  o.foldexpr = ""
+  vim.wo.foldmethod = "indent"
+  vim.wo.foldexpr = ""
 end
 
 o.foldlevelstart = 99
@@ -101,4 +101,6 @@ o.undodir = vim.fn.stdpath("data") .. "/undo/"
 o.undofile=false
 o.exrc=true
 o.cmdheight=vim.g.tweaks.cmdheight
+o.cinoptions=":N,=4"
+
 -- o.secure=true

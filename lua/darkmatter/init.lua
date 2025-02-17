@@ -15,60 +15,23 @@
 --of color saturation: bright vivid and two desaturated modes
 --it's also extensible via plugins and can support multiple base themes (including
 --light themes). This is not yet implemented.
---
---TODO: * cleanup, organize the highlight groups better
+--TODO: 
 --      * maybe (just maybe) a bright background variant
+--      * add variants of well known themes (gruv <done>, dracula <maybe>)
 
 local M = {}
 
 -- the "no color"
 M.NONE = { "NONE", "NONE" }
 
-local rainbowpalette = {
-  dark = {
-    low = {
-     "#401C15",
-     "#15401B",
-     "#583329",
-     "#163642",
-     "#112F6F",
-     "#56186D"
-   },
-   high = {
-     "#701C15",
-     "#15701B",
-     "#783329",
-     "#2646a2",
-     "#707010",
-     "#86188D"
-   }
-  },
-  light = {
-    low = {
-     "#ddbbbb",
-     "#bbddbb",
-     "#ddddbb",
-     "#bbdddd",
-     "#bbbbdd",
-     "#ddbbdd"
-    },
-    high = {
-     "#ddbbbb",
-     "#bbddbb",
-     "#ddddbb",
-     "#bbdddd",
-     "#bbbbdd",
-     "#ddbbdd"
-    }
-  }
-}
+local rainbowpalette = {}
 
 M.keys_set = false
 -- the color palette. Dynamically created in the configure() function
 M.P = nil
 -- the theme. Contains the variants and basic colors for backgrounds etc.
 M.T = nil
-M.attr_override = {}
+M.attributes_ovr = {}
 
 -- the theme configuration. This can be changed by calling setup({...})
 -- after changing the configuration configure() must be called before the theme
@@ -77,14 +40,15 @@ local conf = {
   disabled = false,
   -- the scheme name. Configuration is loaded from themes/conf.scheme.lua
   scheme = "dark",
+  -- holds information about the current scheme, including the palettes
+  schemeconfig = {},
   -- color variant. as of now, 3 types are supported:
   -- a) "warm" - the default, a medium-dark grey background with a slightly red-ish tint.
   -- b) "cold" - about the same, but with a blue-ish flavor
   -- c) "deepblack" - very dark, almost black background. neutral grey tone.
   variant = "warm",
   -- color brightness. Set to false to get very vivid and strong colors.
-  desaturate = true,
-  dlevel = 1, -- desaturation level (1 = mild, 2 = strong, pastel-like")
+  colorpalette = "vivid",
   -- The color of strings. Some prefer yellow, others not so.
   -- Supported are "yellow" and "green".
   theme_strings = "yellow",
@@ -105,40 +69,9 @@ local conf = {
 
   -- the style table controls the special color table that is mostly for syntax
   -- highlight. It defines semantic colors using the basic color names.
-  style = {
-    identifier = "fg_dim",
-    comment = "grey",
-    keyword = "blue",
-    kwspec = "deepred",
-    kwconditional = "blue",
-    kwrepeat = "blue",
-    kwexception = "blue",
-    kwreturn = "blue",
-    kwfunc = "deepred",
-    member = "orange",
-    staticmember = "orange",
-    method = "brightteal",
-    func = "teal",
-    operator = "brown",
-    builtin = "darkyellow",
-    braces = "altblue",
-    delim = "red",
-    number = "altgreen",
-    class = "maroon",
-    interface = "lila",
-    storage = "palegreen",
-    constant = "lpurple",
-    module = "olive",
-    namespace = "olive",
-    type = "darkpurple",
-    struct = "darkpurple",
-    bool = "deepred",
-    constructor = "altyellow",
-    macro = "lpurple",
-    defaultlib = "palegreen",
-    staticmethod = "palegreen",
-    attribute = "olive"
-  },
+  style = {},
+  -- colorstyles overrides from setup()
+  colorstyles_ovr = {},
   --- these colors will be added to the standard palette. They can be used for
   --- styled colors.
   usercolors = {
@@ -159,13 +92,6 @@ local conf = {
   -- The callback can use get_conf() to retrieve the current configuration and setup() to
   -- change it.
   callback = nil,
-  custom_colors = {
-    c1 = '#ff0000',
-    c2 = '#00ff00',
-    c3 = '#303080',
-    c4 = '#ff00ff',
-    c5 = '#ff00ff'
-  },
   -- plugins. there are 3 kinds of plugins:
   -- customize: executed after configure() but before colors are set. Allows
   --            you to customize the color tables.
@@ -178,9 +104,6 @@ local conf = {
     post = {}
   }
 }
-
-M.cokeline_colors = {}
-local LuaLineColors = {}
 
 local diff = vim.api.nvim_win_get_option(0, "diff")
 
@@ -236,66 +159,54 @@ end
 -- it uses the configured scheme (conf.scheme) to load basic color tables from 
 -- themes/scheme.lua
 local function configure()
-  local theme = require("darkmatter.themes." .. conf.scheme)
-  M.T = theme.theme()
-  conf.attrib = vim.tbl_deep_extend("force", theme.attributes(), M.attr_override[conf.scheme])
-  LuaLineColors = {
-    white = "#ffffff",
-    darkestgreen = M.T.accent_fg,
-    brightgreen = M.T.accent_color,
-    darkestcyan = "#005f5f",
-    mediumcyan = "#87dfff",
-    darkestblue = "#002f47",
-    darkred = "#870000",
-    brightred = M.T.alt_accent_color,
-    brightorange = "#2f47df",
-    gray1 = "#262626",
-    gray2 = "#303030",
-    gray4 = "#585858",
-    gray5 = "#404050",
-    gray7 = "#9e9e9e",
-    gray10 = "#f0f0f0",
-    statuslinebg = M.T[conf.variant].statuslinebg,
-  }
+  local Scheme = require("darkmatter.schemes." .. conf.scheme)
+  local seq = 0
+
+  M.T = Scheme.bgtheme()
+  rainbowpalette = Scheme.rainbowpalette()
+  conf.attrib = vim.tbl_deep_extend("force", Scheme.attributes(), M.attributes_ovr[conf.scheme])
+  conf.style = Scheme.colorstyles()
+  for k,v in pairs(conf.colorstyles_ovr) do
+    conf.style[k] = v
+  end
+  conf.schemeconfig = Scheme.config()
   -- setup base palette
-  M.P = theme.basepalette(conf.desaturate, conf.dlevel)
+  M.P = Scheme.basepalette(conf.colorpalette)
 
   -- TODO: allow cokeline colors per theme variant
-  M.P.fg = { M.T[conf.variant].fg, 1 }
+  M.P.fg = { M.T[conf.variant].fg[conf.colorpalette] or M.T.fg_default, 1 }
   M.P.darkbg = { M.T[conf.variant].gutterbg, 237 }
   M.P.bg = { M.T[conf.variant].bg, 0 }
   M.P.statuslinebg = { M.T[conf.variant].statuslinebg, 208 }
   M.P.accent = { M.T["accent_color"], 209 }
   M.P.accent_fg = { M.T["accent_fg"], 210 }
   M.P.tablinebg = M.P.statuslinebg
-  M.P.fg_dim = { M.T[conf.variant].fg_dim, 2 }
+  M.P.fg_dim = { M.T[conf.variant].fg_dim[conf.colorpalette] or M.T.fg_dim_default, 2 }
 
   M.P.styled.fg = { M.T[conf.variant].fg , 1 }
-  M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
-  M.P.c1 = { conf.custom_colors.c1, 91 }
-  M.P.c2 = { conf.custom_colors.c2, 92 }
-  M.P.c3 = { conf.custom_colors.c3, 93 }
-  M.P.c4 = { conf.custom_colors.c4, 94 }
-  M.P.c5 = { conf.custom_colors.c5, 94 }
+  --M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
+  M.P.string = M.P[conf.style.strings]
+
+  -- merge custom colors into the palette
+  seq = 91
+  if Scheme.custom_colors ~= nil then
+    for k, v in pairs(Scheme.custom_colors()) do
+      M.P[k] = { v, seq }
+      seq = seq + 1
+    end
+  end
 
   -- merge the variant-dependent colors
-  M.P = vim.tbl_deep_extend("force", M.P, theme.variants(conf.variant))
-
-  M.cokeline_colors = {
-    bg = M.T[conf.variant].statuslinebg,
-    inact_bg = M.P.statuslinebg[1],
-    focus_bg = M.P.bg4[1],
-    fg = LuaLineColors.gray4,
-    focus_fg = M.T.accent_fg,
-    focus_sp = M.P.altyellow[1],
-    inact_sp = M.P.accent[1]
-  }
+  local to_merge = { "black", "bg_dim", "bg0", "bg1", "bg2", "bg3", "bg4" }
+  for _, v in pairs(to_merge) do
+    M.P[v] = M.T[conf.variant][v] or { "#ffffff", 256 }
+  end
 
   M.P.treebg = { M.T[conf.variant].treebg, 232 }
   M.P.floatbg = { M.T[conf.variant].floatbg, 232 }
   M.P.selbg = { M.T["selbg"], 234 }
 
-  local seq = 245
+  seq = 245
   for k,v in pairs(conf.usercolors) do
     M.P[k] = { v, seq }
     seq = seq + 1
@@ -308,8 +219,6 @@ local function configure()
   for k,v in pairs(conf.style) do
     M.P.styled[k] = M.P[v]
   end
-  LuaLineColors.statuslinebg = M.T[conf.variant].statuslinebg
-
 end
 
 -- set all hl groups
@@ -442,7 +351,7 @@ local function set_all()
   M.hl_with_defaults("Todo", M.P.blue, M.NONE)
   M.hl_with_defaults("Ignore", M.P.grey, M.NONE)
   M.hl("Underlined", M.NONE, M.NONE, { underline = true })
-  M.hl("Parameter", M.P.fg_dim, M.NONE, conf.attrib.parameter)
+  M.hl("Parameter", M.P.styled.parameter, M.NONE, conf.attrib.parameter)
 
   M.hl("Attribute", M.P.styled.attribute, M.NONE, conf.attrib.attribute)
   M.hl("Annotation", M.P.styled.attribute, M.NONE, conf.attrib.attribute)
@@ -585,7 +494,9 @@ local function set_all()
   M.link("@keyword.exception", "KWException")
   M.link("@keyword.return", "KWReturn")
   M.link("@keyword.storage", "StorageClass")
-  M.link("@keyword.import", "KWSpecial")
+  M.link("@keyword.import", "@module")
+  M.link("@keyword.directive", "Macro")
+  M.link("@keyword.modifier", "StorageClass")
   M.link("@label", "Red")
   M.link("@method", "Method")
   M.link("@namespace", "@module")
@@ -628,6 +539,7 @@ local function set_all()
   M.link("@lsp.type.parameter", "@parameter")
   M.link("@lsp.type.variable", "@variable")
   M.link("@lsp.type.selfKeyword", "Builtin")
+  M.link("@lsp.type.bracket", "Braces")
   M.link("@lsp.type.method", "Method")
   M.link("@lsp.type.class", "Class")
   M.link("@lsp.type.class_name", "Class")
@@ -667,21 +579,21 @@ local function set_all()
   M.link("IndentBlanklineSpaceChar", "IndentBlanklineChar")
   M.link("IndentBlanklineSpaceCharBlankline", "IndentBlanklineChar")
   -- rainbow colors
-  M.set_hl(0, "IndentBlanklineIndent1", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][1], nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent2", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][2], nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent3", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][4], nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent4", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][5], nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent5", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][6], nocombine = true })
-  M.set_hl(0, "IndentBlanklineIndent6", { fg = rainbowpalette[conf.scheme][conf.rainbow_contrast][3], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent1", { fg = rainbowpalette[conf.rainbow_contrast][1], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent2", { fg = rainbowpalette[conf.rainbow_contrast][2], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent3", { fg = rainbowpalette[conf.rainbow_contrast][4], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent4", { fg = rainbowpalette[conf.rainbow_contrast][5], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent5", { fg = rainbowpalette[conf.rainbow_contrast][6], nocombine = true })
+  M.set_hl(0, "IndentBlanklineIndent6", { fg = rainbowpalette[conf.rainbow_contrast][3], nocombine = true })
 
   M.link("diffAdded", "Green")
   M.link("diffRemoved", "Red")
   M.link("diffChanged", "Blue")
   M.link("diffOldFile", "Yellow")
   M.link("diffNewFile", "Orange")
-  M.link("diffFile", "Purple")
+  M.link("diffFile", "DarkPurple")
   M.link("diffLine", "Grey")
-  M.link("diffIndexLine", "Purple")
+  M.link("diffIndexLine", "DarkPurple")
 
   -- allow neotree and other addon panels have different backgrounds
   M.hl_with_defaults("NeoTreeNormalNC", M.P.fg_dim, M.P.treebg)
@@ -696,7 +608,7 @@ local function set_all()
   -- Treesitter stuff
   M.hl_with_defaults("TreesitterContext", M.NONE, M.P.bg)
   --M.hl("TreesitterContextBottom", M.NONE, M.localtheme.bg, { underline=true, sp=M.localtheme.lpurple[1] })
-  M.link("TreesitterContextSeparator", "Type")
+  M.link("TreesitterContextSeparator", "Comment")
   M.link("OutlineGuides", "SymbolsOutlineConnector")
   M.link("OutlineFoldMarker", "SymbolsOutlineConnector")
   M.link("NeoTreeCursorLine", "TreeCursorLine")
@@ -706,7 +618,7 @@ local function set_all()
   M.hl_with_defaults("WinBarFilename", M.P.fg, M.P.accent)                                   -- Filename (right hand)
   M.hl("WinBarContext", M.P.accent, M.NONE, { underline = true, sp = M.P.accent[1] }) -- LSP context (left hand)
   -- WinBarInvis is for the central padding item. It should be transparent and invisible (fg = bg)
-  -- This is a somewhat hack-ish way to make the lualine-controlle winbar transparent.
+  -- This is a somewhat hack-ish way to make the lualine-controlled winbar transparent.
   M.hl("WinBarInvis", M.P.bg, M.P.bg, { underline = true, sp = M.P.accent[1] })
   M.link("WinBarNC", "StatusLineNC")
   M.link("WinBar", "WinBarContext")
@@ -764,13 +676,13 @@ function M.setup(opt)
   conf = vim.tbl_deep_extend("force", conf, opt)
 
   if opt.attrib ~= nil then
-    M.attr_override = opt.attrib
+    M.attributes_ovr = opt.attrib
   else
-    M.attr_override = {}
+    M.attributes_ovr = {}
   end
 
   -- both themes and palette modules must be present for a scheme to work
-  local status, _ = pcall(require, "darkmatter.themes." .. conf.scheme)
+  local status, _ = pcall(require, "darkmatter.schemes." .. conf.scheme)
   if status == false then
     vim.notify("The color scheme " .. conf.scheme .. " does not exist. Setting default")
     conf.scheme = "dark"
@@ -811,40 +723,6 @@ function M.get_conf_value(val)
     return conf[val]
   end
   return nil
-end
-
---- internal global function to create the lualine color theme
---- @return table
-function M.Lualine_internal_theme()
-  return {
-    normal = {
-      a = {
-        fg = LuaLineColors.darkestgreen,
-        bg = LuaLineColors.brightgreen, --[[, gui = 'bold']]
-      },
-      b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
-      c = "StatusLine",
-      x = "StatusLine",
-    },
-    insert = {
-      a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred },
-      b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
-      c = "StatusLine",
-      x = "StatusLine",
-    },
-    visual = {
-      a = {
-        fg = LuaLineColors.white,
-        bg = LuaLineColors.brightorange, --[[, gui = 'bold']]
-      },
-    },
-    replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred } },
-    inactive = {
-      a = "StatusLine",
-      b = "StatusLine",
-      c = "StatusLine"
-    }
-  }
 end
 
 --- set the background transparent or solid
@@ -891,22 +769,23 @@ function M.ui_select_variant()
   local utils = require("local_utils")
 
   local variants = {
-    { hl = "Fg", cmd = "warm", text = "Warm (red tint", p = 1 },
-    { hl = "Fg", cmd = "cold", text = "Cold (blue tint", p = 1 },
-    { hl = "Fg", cmd = "deepblack", text = "Deep dark", p = 1 },
+    { hl = "Fg", cmd = "warm", text = "Warm (red tint, low color temp)", p = 1 },
+    { hl = "Fg", cmd = "cold", text = "Cold (blue tint, high color temp)", p = 1 },
+    { hl = "Fg", cmd = "deepblack", text = "Deep dark (very dark background)", p = 1 },
     { hl = "Fg", cmd = "pitchblack", text = "OLED (pitch black", p = 1 },
   }
   variants = vim.iter(variants):filter(function(k)
-    if k.cmd == conf.variant then k.current = true else k.current = false end return k
+    if k.cmd == conf.variant then k.current = true k.hl = "Green" else k.current = false end return k
   end):totable()
 
   local function execute(cmd)
     conf.variant = cmd
     configure()
     M.set()
+    conf.callback("variant")
   end
 
-  utils.simplepicker(variants, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select theme variant" })
+  utils.simplepicker(variants, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select theme background variant" })
 end
 
 -- use UI to present a selection of possible color configurations
@@ -914,30 +793,17 @@ end
 -- mini.picker that can enhance ui.select
 function M.ui_select_colorweight()
   local utils = require("local_utils")
-  local items = {
-    { cmd = "rich", text = "Vivid (rich colors, high contrast)", p = 1, d = false, level = 1 },
-    { cmd = "medium", text = "Medium (somewhat desaturated colors)", p = 2, d = true, level = 1, current = true },
-    { cmd = "pastel", text = "Pastel (low intensity colors)", p = 3, d = true, level = 2 }
-  }
+  local items = conf.schemeconfig.palettes
 
   vim.iter(items):map(function(k)
-    if conf.desaturate == k.d and conf.dlevel == k.level then k.current = true else k.current = false end
+    if conf.colorpalette == k.cmd then k.current = true k.hl = "Green" else k.current = false end
     return k
   end):totable()
 
   local function execute(cmd)
-    if cmd== "rich" then
-      conf.desaturate = false
-      conf.dlevel = 1
-    elseif cmd == "medium" then
-      conf.desaturate = true
-      conf.dlevel = 1
-    elseif cmd == "pastel" then
-      conf.desaturate = true
-      conf.dlevel = 2
-    end
+    conf.colorpalette = cmd
     M.set()
-    conf_callback("desaturate")
+    conf_callback("palette")
   end
 
   utils.simplepicker(items, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select Color variant" })

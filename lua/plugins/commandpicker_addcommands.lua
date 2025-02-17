@@ -1,21 +1,14 @@
 local fkeys      = vim.g.fkeys
 local fzf_tweaks = vim.g.tweaks.fzf
 local fzf        = require("fzf-lua")
+local Snacks     = require("snacks")
 local lutils     = require("local_utils")
 local lsputil    = require("lspconfig.util")
 local Terminal   = require("toggleterm.terminal").Terminal
 -- require("telescope")
 local noremap    = true
+
 require("commandpicker").add({
-  {
-    desc = "Show notification history",
-    cmd = function() require("local_utils").notification_history() end,
-    keys = {
-      { "n", vim.g.tweaks.keymap.utility_key .. "<C-n>", noremap },
-      { "i", vim.g.tweaks.keymap.utility_key .. "<C-n>", noremap }
-    },
-    category = "@Notifications"
-  },
   {
     desc = "Show all bookmarks (Snacks picker)",
     cmd = function()
@@ -300,34 +293,18 @@ require("commandpicker").add({
     category = "@Setup"
   },
   {
-    desc = "ZK tags",
-    cmd = function()
-      require("telescope").extensions.zk.tags(__Telescope_vertical_dropdown_theme({ layout_config = { preview_height = 0.7, width = 0.5, height = 0.9 } }))
-    end,
-    keys = {
-      { "n", "zkt", noremap },
-    },
-    category = "@ZK"
-  },
-  {
-    desc = "ZK notes",
-    cmd = function()
-      require("telescope").extensions.zk.notes(__Telescope_vertical_dropdown_theme({ layout_config = { preview_height = 15, width = 0.5, height = 0.9 } }))
-    end,
-    keys = {
-      { "n", "zkn", noremap },
-    },
-    category = "@ZK"
-  },
-  {
     desc = "Command history (FZF)",
-    cmd = function() require("snacks").picker.command_history({ layout = SPL({ input = "top", width = 140, height = 0.7, row = 7, preview = false }) }) end,
+    cmd = function() require("snacks").picker.command_history({
+      layout = SPL({ input = "top", width = 140, height = 0.7, row = 7, preview = false }) })
+    end,
     keys = { "n", "<A-C>", noremap },
     category = "@FZF"
   },
   {
     desc = "Command list (FZF)",
-    cmd = function() require("snacks").picker.commands({ layout = SPL({ input = "top", width = 80, height = 0.8, row = 7, preview = false }) }) end,
+    cmd = function() require("snacks").picker.commands({
+      layout = SPL({ input = "top", width = 80, height = 0.8, row = 7, preview = false }) })
+    end,
     keys = { "n", "<A-c>", noremap },
     category = "@FZF"
   },
@@ -339,7 +316,17 @@ require("commandpicker").add({
       { "i", vim.g.tweaks.keymap.utility_key .. "<C-n>" }
     },
     category = "@Notifications"
-  }
+  },
+  {
+    desc = "FZF Jumplist",
+    -- cmd = function() fzf.jumps({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
+    cmd = function() Snacks.picker.jumps({ layout = SPL({width=120, preview=true, psize=12, input="top"}) }) end,
+    keys = {
+      { "n", "<A-Backspace>", noremap },
+      { "i", "<A-Backspace>", noremap },
+    },
+    category = "@FZF"
+  },
 })
 
 require("commandpicker").add({
@@ -411,15 +398,6 @@ require("commandpicker").add({
     keys = {
       { "n", "<A-s>", noremap },
       { "i", "<A-s>", noremap }
-    },
-    category = "@FZF"
-  },
-  {
-    desc = "FZF Jumplist",
-    cmd = function() fzf.jumps({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
-    keys = {
-      { "n", "<A-Backspace>", noremap },
-      { "i", "<A-Backspace>", noremap },
     },
     category = "@FZF"
   },

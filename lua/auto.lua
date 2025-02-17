@@ -5,9 +5,9 @@ local autocmd = vim.api.nvim_create_autocmd
 local agroup_views = vim.api.nvim_create_augroup("views", {})
 local agroup_hl = vim.api.nvim_create_augroup("hl", {})
 local wsplit = require("local_utils.wsplit")
+wsplit.freeze = true
 local usplit = require("local_utils.usplit")
 local tsc = require("treesitter-context")
-local utils = require("local_utils")
 local marks = require("local_utils.marks")
 local treeft = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
 
@@ -121,6 +121,7 @@ local function main_layout()
     })
     vim.api.nvim_command("wincmd p")
     if __Globals.perm_config.weather.active == true then
+      wsplit.freeze = true
       wsplit.content = __Globals.perm_config.weather.content
       wsplit.content_set_winid(__Globals.main_winid)
     end
@@ -192,6 +193,10 @@ autocmd({ 'BufEnter' }, {
       else
         vim.schedule(function() tsc.disable() end)
       end
+      val = __Globals.get_buffer_var(args.buf, "inlayhints")
+      if val == true or val == false then
+        vim.lsp.inlay_hint.enable(val, { bufnr = args.buf } )
+      end
     end
     __Globals.get_bufsize()
     wsplit.content_set_winid(vim.fn.win_getid())
@@ -204,32 +209,24 @@ autocmd({ 'BufEnter' }, {
   group = agroup_views
 })
 
+local bufread_first = true
 -- restore view when reading a file
-if Config.nightly then
-  autocmd({ 'BufReadPost' }, {
-    pattern = "*",
-    callback = function(args)
-      vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
-      if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
-        -- this is ugly, but it apparently works with the async parser for now.
-        vim.treesitter.get_parser():parse(true, function() vim.cmd("silent! loadview") end)
-        --vim.cmd("silent! loadview")
-      end
-    end,
-    group = agroup_views
-  })
-else
-  autocmd({ 'BufReadPost' }, {
-    pattern = "*",
-    callback = function(args)
-      vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
-      if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
+autocmd({ 'BufReadPost' }, {
+  pattern = "*",
+  callback = function(args)
+    vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
+    vim.api.nvim_buf_set_var(0, "inlayhints", __Globals.perm_config.lsp.inlay_hints)
+    if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
+      if bufread_first == true and Config.nightly == true then
+        bufread_first = false
+        vim.schedule(function() vim.cmd("silent! loadview") end)
+      else
         vim.cmd("silent! loadview")
       end
-    end,
-    group = agroup_views
-  })
-end
+    end
+  end,
+  group = agroup_views
+})
 
 -- for these file types we want spellcheck
 autocmd({ 'FileType' }, {
@@ -390,17 +387,23 @@ local function _delcmd()
   end
 end
 
-delcmd = autocmd( { 'BufWinEnter' }, {
+delcmd = autocmd( { 'BufReadPost' }, {
   callback = function()
     if _delayloaded == true then
       return
     end
     _delayloaded = true
-    local timer = vim.uv.new_timer()
-    timer:start(1000, 0, vim.schedule_wrap(function()
-      require("plugins.commandpicker_addcommands")
-      vim.schedule(function() _delcmd() end)
-    end))
+    vim.defer_fn(function() require("plugins.commandpicker_addcommands") end, 200)
+    vim.schedule(function() _delcmd() end)
   end
 })
 
+autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank()
+    local copy_to_unnamedplus = require("vim.ui.clipboard.osc52").copy("+")
+    copy_to_unnamedplus(vim.v.event.regcontents)
+    local copy_to_unnamed = require("vim.ui.clipboard.osc52").copy("*")
+    copy_to_unnamed(vim.v.event.regcontents)
+  end,
+})

@@ -37,7 +37,7 @@ Config = {
   treesitter = true,
   plain = (env_plain ~= nil or vim.g.want_plain == true) and true or false,
   statuscol_normal = '%s%=%l %C ',
-  statuscol_rel = '%s%=%r %C ',
+  statuscol_rel = nvim_11 == 1 and '%s%=%l %C ' or "%s%=%r %C ",
   nvim_tree = true,
   fortunecookie = false,                      --"fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
                                               -- needs fortune and cowsay installed.
@@ -187,7 +187,7 @@ function SPL(params)
   local input_pos = opts.input or "bottom"
   return (input_pos == "bottom" or input_pos == "off") and {
     preview = opts.preview or false,
-    preset = opts.preset or nil,
+    preset = opts.preset or "vertical",
     layout = {
       backdrop = opts.backdrop or false,
       box = opts.box or "vertical",
@@ -200,14 +200,14 @@ function SPL(params)
       height = opts.height or 0.9,
       title = opts.title or nil,
       border = opts.border and Borderfactory(opts.border) or Borderfactory("thicc"),
-      { win = "preview", title = "{preview}", height = opts.psize or 10, border = "bottom" },
+      { win = "preview", title = "{preview}", height = opts.psize or 10, border = "bottom", wo = { winbar = "" } },
       { win = "list",  border = "none" },
       input_pos ~= "off" and { win = "input", height = 1,
         border = opts.iborder and Borderfactory(opts.iborder) or "top" } or nil,
     }
   } or {
     preview = opts.preview or false,
-    preset = opts.preset or nil,
+    preset = opts.preset or "vertical",
     layout = {
       backdrop = opts.backdrop or false,
       box = opts.box or "vertical",
@@ -220,9 +220,9 @@ function SPL(params)
       height = opts.height or 0.9,
       title = opts.title or nil,
       border = opts.border and Borderfactory(opts.border) or Borderfactory("thicc"),
-      input_pos ~= "off" and { win = "input", height = 1, border = "single" } or nil,
+      input_pos ~= "off" and { win = "input", height = 1, border = "bottom" } or nil,
       { win = "list",  border = "none" },
-      { win = "preview", title = "{preview}", height = opts.psize or 10, border = "top" },
+      { win = "preview", title = "{preview}", height = opts.psize or 10, border = "top", wo = { winbar = "" } },
     }
   }
 end

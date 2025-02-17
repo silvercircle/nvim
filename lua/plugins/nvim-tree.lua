@@ -76,7 +76,7 @@ end
 
 require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   auto_reload_on_write = true,
-  disable_netrw = false,
+  disable_netrw = true,
   hijack_cursor = false,
   hijack_netrw = false,
   on_attach = on_tree_attach,

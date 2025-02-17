@@ -185,7 +185,8 @@ function Utils.getroot(fname)
     if conf.ignore_git == false then
       Utils.debug("No git root found for " .. fname .. " trying root patterns")
     end
-    path = lsputil.root_pattern(conf.root_patterns)(fname)
+    -- path = lsputil.root_pattern(conf.root_patterns)(fname)
+    path = vim.fs.root(fname, conf.root_patterns)
   end
   if path == nil then
     Utils.debug("No root found for " .. fname .. " giving up")
@@ -273,7 +274,7 @@ function Utils.StopLsp()
         }
       }
     },
-    confirm = function(picker, item)
+    confirm = function(picker, _)
       do_terminate(picker:current().id, picker)
     end,
     actions = {
@@ -315,7 +316,7 @@ function Utils.BufClose()
     local items = {
       { p = 1, cmd = "save", text = "Save and Close", hl = "Number" },
       { p = 1, cmd = "discard", text = "Close and discard", hl = "DeepRedBold" },
-      { p = 1, cmd = "cancel", text = "Cancel operation", hl = "Keyword" },
+      { p = 1, cmd = "cancel", text = "Cancel operation", hl = "BlueBold" },
     }
 
     if vim.g.confirm_actions["close_buffer"] == true then
@@ -369,7 +370,6 @@ function Utils.Quitapp()
   local have_modified_buf = false
   local menuitems = {}
   local prompt = ""
-  local Snacks = require("snacks")
 
   for _, bufnr in ipairs(bufs) do
     have_modified_buf = vim.api.nvim_buf_get_option(bufnr, "modified") == true and true or have_modified_buf
@@ -378,7 +378,7 @@ function Utils.Quitapp()
   if have_modified_buf == false then
     menuitems = {
       { cmd = "hardexit", text = "Really exit?", hl = "DeepRedBold", p = 1 },
-      { cmd = "cancel", text = "Cancel operation", hl = "Keyword", p = 1 }
+      { cmd = "cancel", text = "Cancel operation", hl = "BlueBold", p = 1 }
     }
     prompt = "Exit (no modified buffers)"
   else
@@ -407,6 +407,7 @@ end
 --- @param maxlen integer: the desired length
 --- @return string: the truncated path
 function Utils.path_truncate(path, maxlen)
+  path = path or ""
   local len = string.len(path)
   if len <= maxlen then
     return path

@@ -1,7 +1,24 @@
 local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
 local _, navic = pcall(require, "nvim-navic")
-local colors = Config.theme
 
+local  LuaLineColors = {
+    white = "#ffffff",
+    darkestgreen = "#106010", -- M.T.accent_fg,
+    brightgreen = "#106060", -- M.T.accent_color,
+    darkestcyan = "#005f5f",
+    mediumcyan = "#87dfff",
+    darkestblue = "#002f47",
+    darkred = "#870000",
+    brightred = "#802020", -- M.T.alt_accent_color,
+    brightorange = "#2f47df",
+    gray1 = "#262626",
+    gray2 = "#303030",
+    gray4 = "#585858",
+    gray5 = "#404050",
+    gray7 = "#9e9e9e",
+    gray10 = "#f0f0f0",
+    statuslinebg = "#263031", -- M.T[conf.variant].statuslinebg,
+  }
 -- use either cokeline or lualine's internal buffer line, depending on 
 -- configuration choice.
 local function actual_tabline()
@@ -30,13 +47,72 @@ local function get_permissions_color()
   end
 end
 
+local function status()
+  return (__Globals.get_buffer_var(0, "tsc") == true and "C" or "c") ..
+         (__Globals.get_buffer_var(0, "inlayhints") == true and "I" or "i")
+end
+
 local function status_indicators()
   return (__Globals.perm_config.treesitter_context == true and "C" or "c") ..
          (__Globals.perm_config.debug == true and "D" or "d") ..
          (__Globals.perm_config.transbg == true and "T" or "t") ..
          (__Globals.perm_config.autopair == true and "A" or "a") ..
-         (__Globals.perm_config.cmp_autocomplete and 'O' or 'o')
+         (__Globals.perm_config.cmp_autocomplete and 'O' or 'o') ..
+         (__Globals.perm_config.lsp.inlay_hints and 'I' or 'i')
 end
+
+--- internal global function to create the lualine color theme
+--- @return table
+local function lualine_internal_theme()
+  return {
+    normal = {
+      a = {
+        fg = LuaLineColors.darkestgreen,
+        bg = LuaLineColors.brightgreen, --[[, gui = 'bold']]
+      },
+      b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
+      c = "StatusLine",
+      x = "StatusLine",
+    },
+    insert = {
+      a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred },
+      b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
+      c = "StatusLine",
+      x = "StatusLine",
+    },
+    visual = {
+      a = {
+        fg = LuaLineColors.white,
+        bg = LuaLineColors.brightorange, --[[, gui = 'bold']]
+      },
+    },
+    replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred } },
+    inactive = {
+      a = "StatusLine",
+      b = "StatusLine",
+      c = "StatusLine"
+    }
+  }
+end
+
+
+local tab_sep_color;
+local function setup_theme()
+  if Tweaks.theme.disable == false then
+    local T = require("darkmatter").T
+    local conf = require("darkmatter").get_conf()
+
+    LuaLineColors.darkestgreen = T.accent_fg
+    LuaLineColors.brightgreen = T.accent_color
+    LuaLineColors.brightred = T.alt_accent_color
+    LuaLineColors.statuslinebg = T[conf.variant].statuslinebg
+    local _bg = vim.api.nvim_get_hl(0, { name="Visual" }).bg
+    vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = T[__Globals.perm_config.theme_variant].bg })
+    vim.api.nvim_set_hl(0, "WinBarUL", { fg = lualine_internal_theme().normal.b.fg, bg = _bg })
+    tab_sep_color = { fg = T.accent_color, bg = T[__Globals.perm_config.theme_variant].bg }
+  end
+end
+setup_theme()
 
 local function getWordsV2()
   if __Globals.cur_bufsize > Config.wordcount_limit * 1024 * 1024 then
@@ -72,13 +148,8 @@ end
 
 -- the internal theme is defined in config.lua
 local function theme()
-  return colors.Lualine_internal_theme()
+  return lualine_internal_theme()
 end
-local _bg = vim.api.nvim_get_hl(0, { name="Visual" }).bg
---local _bg = theme().normal.b.bg
-
-vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = colors.T[__Globals.perm_config.theme_variant].bg })
-vim.api.nvim_set_hl(0, "WinBarUL", { fg = theme().normal.b.fg, bg = _bg })
 
 local navic_component = {
   navic_context,
@@ -94,41 +165,17 @@ local navic_component = {
   color = 'WinBarFilename',
 }
 
-local aerial_component = {
-  "aerial",
-  -- The separator to be used to separate symbols in status line.
-  sep = "  ",
-  sep_highlight = "Debug",
-
-  -- The number of symbols to render top-down. In order to render only 'N' last
-  -- symbols, negative numbers may be supplied. For instance, 'depth = -1' can
-  -- be used in order to render only current symbol.
-  depth = nil,
-
-  -- When 'dense' mode is on, icons are not rendered near their symbols. Only
-  -- a single icon that represents the kind of current symbol is rendered at
-  -- the beginning of status line.
-  dense = false,
-
-  -- The separator to be used to separate symbols in dense mode.
-  dense_sep = ".",
-
-  -- Color the symbol icons.
-  colored = true,
---  color = 'WinBarContext'
-}
-
 require("lualine").setup({
   options = {
     icons_enabled = true,
-    theme = theme(),
+    theme = Tweaks.statusline.lualine.theme == "internal" and theme() or Tweaks.statusline.lualine.theme,
     component_separators = "│", -- {left = "", right = "" },
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
       disabled_filetypes = {
-      statusline = { "Outline", 'terminal', 'query', 'qf', 'BufList', 'sysmon', 'weather', "NvimTree", "neo-tree", "aerial", "Trouble" },
-      winbar = { 'Outline', 'terminal', 'query', 'qf', 'NvimTree', 'neo-tree', 'alpha', 'BufList', 'sysmon', 'weather', 'aerial', 'Trouble',
-                 'dap-repl', 'dapui_console', 'dapui_watches', 'dapui_stacks', 'dapui_scopes', 'dapui_breakpoints' },
+      statusline = { "Outline", 'terminal', 'query', 'qf', 'sysmon', 'weather', "NvimTree", "neo-tree", "Trouble" },
+      winbar = { 'Outline', 'terminal', 'query', 'qf', 'NvimTree', 'neo-tree', 'alpha', 'sysmon', 'weather', 'Trouble',
+                 'dap-repl', 'dapui_console', 'dapui_watches', 'dapui_stacks', 'dapui_scopes', 'dapui_breakpoints', "snacks_picker_preview" },
       tabline = {},
     },
     -- ignore_focus = {'NvimTree', 'neo-tree'},
@@ -150,7 +197,7 @@ require("lualine").setup({
     },
     }, -- display textwidth after formattingoptions
     lualine_b = { "branch", "diff", "diagnostics"  },
-    lualine_c = {"filename", "searchcount", { get_permissions_color } },
+    lualine_c = {"filename", "searchcount"--[[, { get_permissions_color }]] },
     lualine_x = {
       { indentstats },
       {
@@ -163,6 +210,7 @@ require("lualine").setup({
       },
       "filetype",
       "fileformat",
+      { status },
       { "encoding", draw_empty=false, cond = function() return __Globals.perm_config.statusline_declutter < 3 and true or false end }
     },
     lualine_y = { { "progress", cond = function() return __Globals.perm_config.statusline_declutter < 2 and true or false end, draw_empty=false} },
@@ -181,7 +229,7 @@ require("lualine").setup({
   winbar = {
     --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
-      vim.g.tweaks.breadcrumb == 'navic' and navic_component or aerial_component,
+      navic_component
     },
     lualine_c = {
       {
@@ -214,7 +262,7 @@ require("lualine").setup({
         padding = 0,
         separator = { left = "", right = "" },
         draw_empty = true,
-        color = { fg = colors.T.accent_color, bg = colors.T[__Globals.perm_config.theme_variant].bg },
+        color = tab_sep_color, -- { fg = colors.T.accent_color, bg = colors.T[__Globals.perm_config.theme_variant].bg },
         fmt = function()
           return ""
         end,

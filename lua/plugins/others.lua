@@ -76,9 +76,10 @@ M.setup = {
   treesitter_context = function()
     require("treesitter-context").setup {
       enable = true,                  -- Enable this plugin (Can be enabled/disabled later via commands)
+      multiwindow = false,
       max_lines = 12,                 -- How many lines the window should span. Values <= 0 mean no limit.
       min_window_height = 0,          -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-      line_numbers = true,
+      line_numbers = false,
       multiline_threshold = 20,       -- Maximum number of lines to show for a single context
       trim_scope = "outer",           -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
       mode = "cursor",                -- Line used to calculate context. Choices: 'cursor', 'topline'
@@ -319,14 +320,16 @@ M.setup = {
     })
 
     -- Add cursors above/below the main cursor.
-    vim.keymap.set({ "n", "v" }, "<C-up>", function() mc.addCursor("k") end)
-    vim.keymap.set({ "n", "v" }, "<C-down>", function() mc.addCursor("j") end)
+    vim.keymap.set({ "n", "v" }, "<C-up>", function() mc.lineAddCursor(-1) end)
+    vim.keymap.set({ "n", "v" }, "<C-down>", function() mc.lineAddCursor(1) end)
+    vim.keymap.set({ "n", "v" }, "<M-up>", function() mc.lineSkipCursor(-1) end)
+    vim.keymap.set({ "n", "v" }, "<M-down>", function() mc.lineSkipCursor(1) end)
 
     -- Add a cursor and jump to the next word under cursor.
-    vim.keymap.set({ "n", "v" }, "<c-n>", function() mc.addCursor("*") end)
+    vim.keymap.set({ "n", "v" }, "<c-n>", function() mc.matchAddCursor(1) end)
 
     -- Jump to the next word under cursor but do not add a cursor.
-    vim.keymap.set({ "n", "v" }, "<c-m>", function() mc.skipCursor("*") end)
+    vim.keymap.set({ "n", "v" }, "<M-n>", function() mc.matchSkipCursor(1) end)
 
     -- Rotate the main cursor.
     vim.keymap.set({ "n", "v" }, "<C-left>", mc.nextCursor)

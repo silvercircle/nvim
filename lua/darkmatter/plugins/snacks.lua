@@ -22,7 +22,7 @@ local function _set()
   c.link("SnacksPickerIconStruct", "Struct")
   c.link("SnacksPickerIconOperator", "@operator")
   c.link("SnacksPickerMatch", "Error")
-  c.link("SnacksPickerDir", "Member")
+  c.link("SnacksPickerDir", "Comment")
   c.link("SnacksPickerFile", "DefaultLib")
 
   c.hl_with_defaults("SnacksInputBorder", c.P.brown, c.NONE)

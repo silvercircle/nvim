@@ -3,7 +3,7 @@
 -- this is useless without.
 -- requires a NERDFont
 
-local plenary = require("plenary.path")
+--local plenary = require("plenary.path")
 local utils = require("local_utils")
 
 local Wsplit = {}
@@ -437,6 +437,7 @@ end
 ---   b) The current window or buffer changes (WinEnter, BufWinEnter events)
 function Wsplit.refresh()
   local results = {}
+  local relpath = Config.nightly == true and vim.fs.relpath or require("local_utils.fs").relpath
 
   if Wsplit.bufid == nil or Wsplit.winid == nil then
     return
@@ -458,11 +459,16 @@ function Wsplit.refresh()
     vim.api.nvim_buf_clear_namespace(Wsplit.bufid, -1, 0, -1)
     if Wsplit.content_winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.content_winid) then
       local curbuf = vim.api.nvim_win_get_buf(Wsplit.content_winid)
+      local name = nil
 
       vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", true)
       local lines = {}
-      local name = utils.path_truncate(plenary:new(vim.api.nvim_buf_get_name(curbuf)):make_relative(), Wsplit.win_width - 3)
-
+      local buf_filename = vim.api.nvim_buf_get_name(curbuf)
+      if buf_filename ~= nil and vim.bo[curbuf].bt == "" and vim.fn.filereadable(buf_filename) then
+        name = utils.path_truncate(relpath(utils.getroot(buf_filename), buf_filename), Wsplit.win_width - 3)
+      else
+        return
+      end
       local fn_symbol, fn_symbol_hl = utils.getFileSymbol(vim.api.nvim_buf_get_name(curbuf))
       local ft = vim.api.nvim_get_option_value("filetype", { buf = curbuf })
 

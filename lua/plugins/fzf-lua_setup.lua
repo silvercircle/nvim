@@ -8,7 +8,7 @@ require "fzf-lua".setup({
   },
   hls = {
     file_part = "DefaultLib",
-    dir_part = "Member",
+    dir_part = "Comment",
     path_linenr = "Number",
     fzf = {
       match = "Error",
@@ -48,11 +48,11 @@ require "fzf-lua".setup({
     preview    = {
       default      = "builtin",         -- override the default previewer?
       -- default uses the 'builtin' previewer
-      border       = "border",      -- border|noborder, applies only to
+      border       = Borderfactory("thicc"),      -- border|noborder, applies only to
       -- native fzf previewers (bat/cat/git/etc)
       wrap         = "nowrap",      -- wrap|nowrap
       hidden       = "nohidden",    -- hidden|nohidden
-      vertical     = "down:45%",    -- up|down:size
+      vertical     = "down:30%",    -- up|down:size
       horizontal   = "right:60%",   -- right|left:size
       layout       = "flex",        -- horizontal|vertical|flex
       flip_columns = 120,           -- #cols to switch to horizontal on flex
@@ -224,7 +224,7 @@ require "fzf-lua".setup({
     git_icons    = true,      -- show git icons?
     file_icons   = true,      -- show file icons?
     color_icons  = true,      -- colorize file|git icons
-    cwd_prompt_shorten_len = 32,        -- shorten prompt beyond this length
+    cwd_prompt_shorten_len = 60,        -- shorten prompt beyond this length
     cwd_prompt_shorten_val = 2,
     -- path_shorten   = 5,              -- 'true' or number, shorten path?
     -- executed command priority is 'cmd' (if exists)
@@ -239,8 +239,8 @@ require "fzf-lua".setup({
     -- parameter to a different folder than the current working directory
     -- uncomment if you wish to force display of the cwd as part of the
     -- query prompt string (fzf.vim style), header line or both
-    -- show_cwd_prompt = true,
-    -- show_cwd_header = true,
+    cwd_prompt = true,
+    cwd_header = true,
     actions      = {
       -- inherits from 'actions.files', here we can override
       -- or set bind to 'false' to disable a default action

@@ -10,8 +10,8 @@ On_attach = function(client, buf)
     navic.attach(client, buf)
     vim.g.inlay_hints_visible = true
     if client.server_capabilities.inlayHintProvider then
- 		  vim.g.inlay_hints_visible = true
-			vim.lsp.inlay_hint.enable(false)
+ 		  vim.g.inlay_hints_visible = __Globals.perm_config.lsp.inlay_hints
+			vim.lsp.inlay_hint.enable(__Globals.perm_config.lsp.inlay_hints)
     end
     if client.name == "rzls" then
       vim.cmd("hi! link @lsp.type.field Member")

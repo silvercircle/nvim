@@ -212,6 +212,32 @@ require("blink.cmp").setup({
     ["<f13>"] = { 'show_signature', 'hide_signature', 'fallback' },
     ["<C-k>"] = { }
   },
+  cmdline = {
+    enabled = true,
+    keymap = {
+      preset = T.keymap_preset
+    }, -- Inherits from top level `keymap` config when not set
+    sources = function()
+      local type = vim.fn.getcmdtype()
+      -- Search forward and backward
+      if type == "/" or type == "?" then return { "buffer" } end
+      -- Commands
+      if type == ":" or type == "@" then return { "cmdline" } end
+      return {}
+    end,
+    completion = {
+      trigger = {
+        show_on_blocked_trigger_characters = {},
+        show_on_x_blocked_trigger_characters = nil, -- Inherits from top level `completion.trigger.show_on_blocked_trigger_characters` config when not set
+      },
+      menu = {
+        auto_show = false, -- Inherits from top level `completion.menu.auto_show` config when not set
+        draw = {
+          columns = { { "kind_icon", "label", "label_description", gap = 1 } },
+        },
+      }
+    }
+  },
   sources = {
     -- default = { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'lua', 'dictionary', 'buffer' },
     default = function(_)
@@ -229,7 +255,7 @@ require("blink.cmp").setup({
         module = "blink-cmp-wordlist",
         name = "wordlist",
         opts = {
-          wordfiles = { "wordlist.txt", "personal.txt" },
+          wordfiles = { "wordlist.txt", "personal.txt", "/home/alex/foolist" },
           debug = false,
           read_on_setup = false,
           watch_files = true
@@ -308,7 +334,8 @@ require("blink.cmp").setup({
   },
   completion = {
     accept = {
-      create_undo_point = false,
+      -- dot_repeatable = true,
+      create_undo_point = true,
       resolve_timeout_ms = 50,
       auto_brackets = {
         enabled = true,
@@ -349,9 +376,6 @@ require("blink.cmp").setup({
             end,
             highlight = function(ctx) return "BlinkCmpKind" .. ctx.kind .. "Rev" end
           },
-          kind = {
-            highlight = function(ctx) return "BlinkCmpKind" .. ctx.kind end
-          },
           label = {
             ellipsis = true,
             width = { fill = true, max = T.label_max_width },
@@ -373,31 +397,34 @@ require("blink.cmp").setup({
             end,
           },
           label_description = {
+            text = function(ctx)
+              return ctx.label_description or ""
+            end,
             ellipsis = true,
             width = { fill = true, max = T.desc_max_width },
             highlight = "Comment"
           },
           source_name = {
             text = function(ctx)
-              if ctx.item.detail ~= nil and #ctx.item.detail > 1 then
-                return ctx.item.detail
-              end
-              return ctx.source_name
+              return Tweaks.blink.show_client_name == true and (ctx.item.client_name or ctx.source_name) or ctx.source_name
             end,
             highlight = function(ctx)
-              if ctx.item.detail ~= nil and #ctx.item.detail > 1 then
-                return "CmpItemMenuDetail"
-              else
-                if blink_menu_hl_group[ctx.source_id] ~= nil then
-                  return blink_menu_hl_group[ctx.source_id]
-                else
-                  return "CmpItemMenuDefault"
-                end
-              end
+              --if ctx.item.detail ~= nil and #ctx.item.detail > 1 then
+              --  return "CmpItemMenuDetail"
+              --else
+              return blink_menu_hl_group[ctx.source_id] or "CmpItemMenuDefault"
             end
           }
         }
-      }
+      },
+      cmdline_position = function()
+        if vim.g.ui_cmdline_pos ~= nil then
+          local pos = vim.g.ui_cmdline_pos   -- (1, 0)-indexed
+          return { pos[1] - 1, pos[2] }
+        end
+        local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
+        return { vim.o.lines - height, 0 }
+      end
     },
     documentation = {
       auto_show = T.auto_doc,
@@ -430,7 +457,7 @@ require("blink.cmp").setup({
     },
     window = {
       show_documentation = true,
-      border = Borderfactory(border)
+      border = Borderfactory(border),
     }
   }
 })

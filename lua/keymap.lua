@@ -146,8 +146,10 @@ vim.g.setkey({'n', 'i'}, '<C-a><C-e>', function()
 end, "Open Mini File Browser at project root")
 
 vim.g.setkey({'n', 'i'}, '<A-E>', function()
-  require("snacks").picker.explorer({cwd = utils.getroot_current(), layout = SPL( { width = 70, psize = 12, input = "top" }) })
-end, "Open Snacks Explorer")
+  local cwd = utils.getroot_current()
+  require("snacks").picker.explorer({cwd = cwd,
+    layout = SPL( { width = 70, psize = 12, input = "top", title = cwd }) })
+end, "Open Snacks Explorer at project root")
 -- this is a bit hacky. it tries to find the root directory of the sources
 -- in the current project. it assumes that sources are located in one of the
 -- subfolders listed in Tweaks.srclocations. You can customize this if you want
@@ -265,10 +267,9 @@ vim.g.setkey('n', fkeys.s_f11, function() perform_command('Lazy') end, "Open Laz
 
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-l>', function() __Globals.toggle_statuscol() end, "Toggle absolute/relative line numbers")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-p>', function()
-  local status = vim.lsp.inlay_hint.is_enabled({bufnr = 0})
-  vim.notify("Toggle inlay")
-  vim.lsp.inlay_hint.enable(not status, {bufnr = 0})
+  __Globals.toggle_inlayhints()
 end, "Toggle LSP inlay hints")
+
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-k>', function() __Globals.toggle_colorcolumn() end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-o>', function() __Globals.toggle_ibl() end, "Toggle indent-blankline active")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-u>', function() __Globals.toggle_ibl_context() end, "Toggle indent-blankline context")
@@ -472,24 +473,36 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
   __Globals.toggle_outline_type()        -- toggle the outline plugin (aerial <> symbols-outline)
 end, "Toggle Outline plugin type")
 
-vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-n>', function()
-  if vim.g.tweaks.breadcrumb == "navic" then
-    require("nvim-navbuddy").open()
-  else
-    require("aerial").nav_open()
-  end
-end, "Open Navbuddy window")
-
 require("local_utils.marks").set_keymaps()
-vim.cmd("nunmap <cr>")
+--vim.cmd("nunmap <cr>")
 
 local status, snacks = pcall(require, "snacks")
 if status == true then
-  vim.g.setkey( 'n', '<C-S-P>', function()
-    snacks.picker.projects({ layout = SPL( {width = 50, height = 20, row = 5, title = "Projects" } ) })
-  end, "Open snacks projects picker")
   vim.g.setkey( {'n', 'i'}, '<C-S-E>', function()
     snacks.picker.smart({ layout = SPL( {width = 70, height = 20, row = 5, title = "Buffers", input = "top" } ) })
   end, "Snacks buffer list")
-
 end
+
+vim.g.setkey( { 'n', 'i' }, "<C-x>z", function()
+  require("snacks").picker.zoxide({
+  confirm = function(picker, item)
+    picker:close()
+    __Globals.open_with_fzf(item.file)
+  end,
+  layout = SPL({ input = "top", width = 80, height = 0.7, row = 7, preview = false, title="Zoxide history" }) })
+end, "Pick from Zoxide")
+
+vim.g.setkey( { 'i', 'n' }, "<C-S-P>", function()
+  require("snacks").picker.projects({
+  confirm = function(picker, item)
+    picker:close()
+    __Globals.open_with_fzf(item.file)
+  end,
+  layout = SPL( {width = 50, height = 20, row = 5, title = "Projects" } ) })
+end, "Pick recent project")
+
+-- allow to move the cursor during multicursor-editing, prevent <Left>, <Right> from
+-- creating undo points..
+vim.keymap.set('i', "<Left>",  "<C-g>U<Left>", { silent = true, noremap = true } )
+vim.keymap.set('i', "<Right>",  "<C-g>U<Right>", { silent = true, noremap = true } )
+
