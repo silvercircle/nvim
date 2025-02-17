@@ -16,6 +16,7 @@ local treeft = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
 --- on leave, write the permanent settings file
 autocmd({ 'VimLeave' }, {
   callback = function()
+    vim.system({ 'tmux', 'set', '-qg', 'allow-passthrough', 'off' }, { text = true })
     if Config.plain == false then
       __Globals.write_config()
     end
@@ -394,6 +395,7 @@ delcmd = autocmd( { 'BufReadPost' }, {
     end
     _delayloaded = true
     vim.defer_fn(function() require("plugins.commandpicker_addcommands") end, 200)
+    vim.system({ 'tmux', 'set', '-qg', 'allow-passthrough', 'all' }, { text = true })
     vim.schedule(function() _delcmd() end)
   end
 })

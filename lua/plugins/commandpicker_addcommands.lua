@@ -4,7 +4,7 @@ local fzf        = require("fzf-lua")
 local Snacks     = require("snacks")
 local lutils     = require("local_utils")
 local lsputil    = require("lspconfig.util")
-local Terminal   = require("toggleterm.terminal").Terminal
+-- local Terminal   = require("toggleterm.terminal").Terminal
 -- require("telescope")
 local noremap    = true
 
@@ -114,24 +114,9 @@ require("commandpicker").add({
   {
     -- open a float term with lazygit.
     -- use the path of the current buffer to find the .git root. The LSP utils are useful here
-    desc = "FloatTerm lazygit",
+    desc = "Snacks LazyGit",
     cmd = function()
-      local path = lsputil.root_pattern(".git")(vim.fn.expand("%:p"))
-      path = path or "."
-      local lazygit = Terminal:new({
-        cmd = "lazygit",
-        direction = "float",
-        dir = path,
-        -- refresh neo-tree display to reflect changes in git status
-        -- TODO: implement for nvim-tree?
-        on_close = function()
-          if vim.g.tweaks.tree.version == "Neo" then
-            vim.schedule(function() require("neo-tree.command").execute({ action = "show" }) end)
-          end
-        end,
-        hidden = false
-      })
-      lazygit:toggle()
+      require("snacks").lazygit()
     end,
     keys = {
       { "n", "<f6>", noremap },
@@ -140,29 +125,6 @@ require("commandpicker").add({
     category = "@GIT"
   },
   {
-    -- open a markdown preview using IMD
-    desc = "Floatterm IMD",
-    cmd = function()
-      local path = vim.fn.expand("%:p")
-      local cmd = "imd '" .. path .. "'"
-      local imd = Terminal:new({
-        cmd = cmd,
-        direction = "float",
-        float_opts = {
-          width = 150
-        },
-        hidden = false
-      })
-      imd:toggle()
-    end,
-    keys = {   -- Shift-F6
-      { "n", fkeys.s_f6, noremap },
-      { "i", fkeys.s_f6, noremap },
-    },
-    category = "@Markdown"
-  },
-  {
-    -- open a markdown preview using lightmdview
     desc = "View Markdown in GUI viewer (" .. vim.g.tweaks.mdguiviewer .. ")",
     cmd = function()
       local path = vim.fn.expand("%:p")

@@ -467,13 +467,13 @@ lazy.setup({
       }
     }
   },
-  {
-    'akinsho/toggleterm.nvim',
-    lazy = true,
-    config = function()
-      require("plugins.others").setup.toggleterm()
-    end
-  },
+  --{
+  --  'akinsho/toggleterm.nvim',
+  --  lazy = true,
+  --  config = function()
+  --    require("plugins.others").setup.toggleterm()
+  --  end
+  --},
   {
     "norcalli/nvim-colorizer.lua",
     lazy = true,

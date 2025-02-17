@@ -12,6 +12,16 @@ require("snacks").setup({
     dev = { "/data/mnt/shared/data/", "/Media/NVIM/", "~/Downloads/Projects/" },
     patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "pom.xml", "settings.gradle", "*.sln", "build.zig", "go.mod", "*.gpr" }
   },
+  lazygit = {
+    enable = true,
+    win = {
+      border = Borderfactory("thicc")
+    }
+  },
+  image = {
+    formats = { "png", "bmp", "webp", "tiff" },
+    enable = true,
+  },
   picker = {
     formatters = {
       file = {
