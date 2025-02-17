@@ -146,8 +146,10 @@ vim.g.setkey({'n', 'i'}, '<C-a><C-e>', function()
 end, "Open Mini File Browser at project root")
 
 vim.g.setkey({'n', 'i'}, '<A-E>', function()
-  require("snacks").picker.explorer({cwd = utils.getroot_current(), layout = SPL( { width = 70, psize = 12, input = "top" }) })
-end, "Open Snacks Explorer")
+  local cwd = utils.getroot_current()
+  require("snacks").picker.explorer({cwd = cwd,
+    layout = SPL( { width = 70, psize = 12, input = "top", title = cwd }) })
+end, "Open Snacks Explorer at project root")
 -- this is a bit hacky. it tries to find the root directory of the sources
 -- in the current project. it assumes that sources are located in one of the
 -- subfolders listed in Tweaks.srclocations. You can customize this if you want
