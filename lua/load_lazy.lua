@@ -263,8 +263,7 @@ lazy.setup({
         end
       },
       {
-        -- 'https://gitlab.com/silvercircle74/blink-cmp-wordlist'
-        dir = "/data/mnt/shared/data/code/neovim_plugins/blink-cmp-wordlist.nvim/"
+        'https://gitlab.com/silvercircle74/blink-cmp-wordlist'
       },
       {
         'https://gitlab.com/silvercircle74/blink-cmp-lua'
