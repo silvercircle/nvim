@@ -473,14 +473,6 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
   __Globals.toggle_outline_type()        -- toggle the outline plugin (aerial <> symbols-outline)
 end, "Toggle Outline plugin type")
 
-vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-n>', function()
-  if vim.g.tweaks.breadcrumb == "navic" then
-    require("nvim-navbuddy").open()
-  else
-    require("aerial").nav_open()
-  end
-end, "Open Navbuddy window")
-
 require("local_utils.marks").set_keymaps()
 --vim.cmd("nunmap <cr>")
 
