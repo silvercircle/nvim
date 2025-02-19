@@ -147,11 +147,6 @@ local function indentstats()
   return string.format("%d:%d:%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n')
 end
 
--- the internal theme is defined in config.lua
-local function theme()
-  return lualine_internal_theme()
-end
-
 local navic_component = {
   navic_context,
   fmt = function(string)
@@ -169,7 +164,7 @@ local navic_component = {
 require("lualine").setup({
   options = {
     icons_enabled = true,
-    theme = Tweaks.statusline.lualine.theme == "internal" and theme() or Tweaks.statusline.lualine.theme,
+    theme = Tweaks.statusline.lualine.theme == "internal" and lualine_internal_theme() or Tweaks.statusline.lualine.theme,
     component_separators = "│", -- {left = "", right = "" },
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
@@ -236,7 +231,7 @@ require("lualine").setup({
         path = 4,
         shorting_target = 60,
         --separator = "",
-        --separator = { left = "", right = "" },
+        separator = { left = "", right = "" },
         color = 'WinBarFilename'
       },
       navic_component
@@ -286,4 +281,18 @@ require("lualine").setup({
   } or {},
   extensions = {my_extension},
 })
+
+local M = {}
+
+function M.update_internal_theme()
+  vim.notify("update internal lualine theme")
+  setup_theme()
+  require("lualine").setup({
+    options = {
+      theme = Tweaks.statusline.lualine.theme == "internal" and lualine_internal_theme() or Tweaks.statusline.lualine.theme
+    }
+  })
+end
+
+return M
 

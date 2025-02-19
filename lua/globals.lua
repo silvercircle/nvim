@@ -606,6 +606,9 @@ function M.theme_callback(what)
   elseif what == "trans" then
     M.perm_config.transbg = conf.is_trans
     M.notify("Theme transparency is now " .. (conf.is_trans == true and "On" or "Off"), vim.log.levels.INFO, "Theme")
+  elseif what == "scheme" then
+    M.notify("Selected scheme: " .. conf.scheme, vim.log.levels.INFO, "Theme")
+    require("plugins.lualine_setup").update_internal_theme()
   end
   if vim.g.tweaks.completion.version == "blink" then
     require("plugins.blink").update_hl()
