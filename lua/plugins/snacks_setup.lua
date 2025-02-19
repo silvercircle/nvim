@@ -20,7 +20,7 @@ require("snacks").setup({
   },
   image = {
     formats = { "png", "bmp", "webp", "tiff" },
-    enable = true,
+    enable = false,
     doc = {
       enabled = true,
       inline = false,

@@ -116,7 +116,7 @@ require("commandpicker").add({
     -- use the path of the current buffer to find the .git root. The LSP utils are useful here
     desc = "Snacks LazyGit",
     cmd = function()
-      require("snacks").lazygit()
+      require("snacks").lazygit({ cwd=lutils.getroot_current() })
     end,
     keys = {
       { "n", "<f6>", noremap },
@@ -243,14 +243,6 @@ require("commandpicker").add({
     cmd = function() require("plugins.cmp_setup").select_layout() end,
     keys = {
       { "n", "<leader>cc", noremap },
-    },
-    category = "@Setup"
-  },
-  {
-    desc = "Toggle CMP autocomplete",
-    cmd = function() __Globals.toggle_autocomplete() end,
-    keys = {
-      { "n", "<leader>ca", noremap },
     },
     category = "@Setup"
   },
