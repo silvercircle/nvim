@@ -270,6 +270,12 @@ vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-p>', function()
   __Globals.toggle_inlayhints()
 end, "Toggle LSP inlay hints")
 
+vim.g.setkey({ 'n', 'i' }, utility_key .. 'ca', function()
+  __Globals.perm_config.cmp_autocomplete = not __Globals.perm_config.cmp_autocomplete
+end, "Toggle color column display")
+vim.g.setkey({ 'n', 'i' }, utility_key .. 'cg', function()
+  __Globals.perm_config.cmp_ghost = not __Globals.perm_config.cmp_ghost
+end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-k>', function() __Globals.toggle_colorcolumn() end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-o>', function() __Globals.toggle_ibl() end, "Toggle indent-blankline active")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-u>', function() __Globals.toggle_ibl_context() end, "Toggle indent-blankline context")

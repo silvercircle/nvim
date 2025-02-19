@@ -102,5 +102,5 @@ o.undofile=false
 o.exrc=true
 o.cmdheight=vim.g.tweaks.cmdheight
 o.cinoptions=":N,=4"
-
+o.splitbelow = true
 -- o.secure=true

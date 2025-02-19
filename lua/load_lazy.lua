@@ -98,7 +98,8 @@ lazy.setup({
         order = { 'desc', 'cmd', 'mappings', 'category' },
         custom_layout = SPL( { width=120, height=20, row=5, input="bottom", preview = false } ),
         width = 120,
-        height = 20
+        height = 20,
+        preserve_mode = true,
       })
     end
   },
@@ -236,9 +237,10 @@ lazy.setup({
   },
   -- blink.cmp (alternative to nvim-cmp)
   {
-    -- 'silvercircle/blink.cmp',
-    'Saghen/blink.cmp',
-    branch = "main",
+    dir = "/data/mnt/shared/data/code/neovim_plugins/blink.cmp/",
+    branch = "mine",
+    -- 'Saghen/blink.cmp',
+    -- branch = "main",
     build = "cargo build --release",
     lazy = true,
     event = "ModeChanged",
@@ -467,13 +469,6 @@ lazy.setup({
       }
     }
   },
-  --{
-  --  'akinsho/toggleterm.nvim',
-  --  lazy = true,
-  --  config = function()
-  --    require("plugins.others").setup.toggleterm()
-  --  end
-  --},
   {
     "norcalli/nvim-colorizer.lua",
     lazy = true,
