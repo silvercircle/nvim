@@ -695,6 +695,9 @@ function M.setup(opt)
   -- bind keys, but do this only once
   if M.keys_set == false then
     M.keys_set = true
+    vim.keymap.set({ "n" }, conf.keyprefix .. "tc", function()
+      M.ui_select_scheme()
+    end, { silent = true, noremap = true, desc = "Select theme variant" })
     vim.keymap.set({ "n" }, conf.keyprefix .. "tv", function()
       M.ui_select_variant()
     end, { silent = true, noremap = true, desc = "Select theme variant" })
@@ -774,9 +777,9 @@ function M.ui_select_variant()
     { hl = "Fg", cmd = "deepblack", text = "Deep dark (very dark background)", p = 1 },
     { hl = "Fg", cmd = "pitchblack", text = "OLED (pitch black", p = 1 },
   }
-  variants = vim.iter(variants):filter(function(k)
-    if k.cmd == conf.variant then k.current = true k.hl = "Green" else k.current = false end return k
-  end):totable()
+  vim.iter(variants):filter(function(k)
+    if k.cmd == conf.variant then k.current = true k.hl = "Green" else k.current = false k.hl = "Fg" end
+  end)
 
   local function execute(cmd)
     conf.variant = cmd
@@ -796,9 +799,8 @@ function M.ui_select_colorweight()
   local items = conf.schemeconfig.palettes
 
   vim.iter(items):map(function(k)
-    if conf.colorpalette == k.cmd then k.current = true k.hl = "Green" else k.current = false end
-    return k
-  end):totable()
+    if conf.colorpalette == k.cmd then k.current = true k.hl = "Green" else k.current = false k.hl = "Fg" end
+  end)
 
   local function execute(cmd)
     conf.colorpalette = cmd
@@ -841,4 +843,26 @@ function M.reconfigure_and_set(opts)
   end
 end
 
+-- provide a simple ui selector to select and activate one of the available
+-- color schemes.
+function M.ui_select_scheme()
+  local utils = require("local_utils")
+  local schemes = {
+    { cmd = "dark", text = "Sonokai-inspired dark" },
+    { cmd = "gruv", text = "Frankengruv, A Gruvbox inspired scheme" },
+    { cmd = "transylvania", text = "Transylvania - A Dracula inspired scheme" }
+  }
+
+  vim.iter(schemes):filter(function(k)
+    if k.cmd == conf.scheme then k.current = true k.hl = "Green" else k.current = nil k.hl = "Fg" end
+  end)
+
+  local function execute(cmd)
+    conf.scheme = cmd
+    CFG().theme_scheme = cmd
+    M.set()
+  end
+
+  utils.simplepicker(schemes, execute, { pre = "current", sortby = { "text:desc" }, prompt = "Select theme scheme" })
+end
 return M
