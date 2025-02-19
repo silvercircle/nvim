@@ -58,6 +58,7 @@ local function status_indicators()
          (__Globals.perm_config.transbg == true and "T" or "t") ..
          (__Globals.perm_config.autopair == true and "A" or "a") ..
          (__Globals.perm_config.cmp_autocomplete and 'O' or 'o') ..
+         (__Globals.perm_config.cmp_ghost and 'G' or 'g') ..
          (__Globals.perm_config.lsp.inlay_hints and 'I' or 'i')
 end
 
@@ -158,7 +159,7 @@ local navic_component = {
       return ""
     else
      --return string.format("%s: %s", vim.lsp.get_active_clients( {bufnr=0} )[1].name, string)
-     return string.format("%s", string)
+     return string.format("> %s", string)
    end
   end,
   separator = "",
@@ -229,6 +230,15 @@ require("lualine").setup({
   winbar = {
     --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
+      {
+        'filename',
+        padding = { left = 1, right = 0 },
+        path = 4,
+        shorting_target = 60,
+        --separator = "",
+        --separator = { left = "", right = "" },
+        color = 'WinBarFilename'
+      },
       navic_component
     },
     lualine_c = {
@@ -267,15 +277,6 @@ require("lualine").setup({
           return ""
         end,
         cond = function() return not __Globals.perm_config.show_indicators end
-      },
-      {
-        'filename',
-        padding = 0,
-        path = 4,
-        shorting_target = 60,
-        --separator = "",
-        --separator = { left = "", right = "" },
-        color = 'WinBarFilename'
       }
     }
   },
