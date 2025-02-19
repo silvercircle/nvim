@@ -14,6 +14,8 @@ end
 vim.g.tweaks = tweaks
 Tweaks = tweaks
 Borderfactory = vim.g.tweaks.borderfactory
+CFG = function() return __Globals.perm_config end
+
 -- FIXME: silence deprecation warnings in dev builds. currently 0.11
 -- adjust this for future dev builds
 local nvim_11 = vim.fn.has("nvim-0.11")
