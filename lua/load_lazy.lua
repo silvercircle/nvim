@@ -284,8 +284,9 @@ lazy.setup({
           require("plugins.others").setup.navic()
         end
       },
-      { 'Hoffs/omnisharp-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "omnisharp") },         -- omnisharp decompilation support
-      { 'Decodetalkers/csharpls-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "csharp_ls") },  -- this is for csharp_ls decompilation support
+      -- no longer needed, because roslyn has that integrated
+      -- { 'Hoffs/omnisharp-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "omnisharp") },         -- omnisharp decompilation support
+      -- { 'Decodetalkers/csharpls-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "csharp_ls") },  -- this is for csharp_ls decompilation support
       'onsails/lspkind-nvim',
       {
         'https://gitlab.com/silvercircle74/lsp_lines.nvim',
@@ -439,13 +440,6 @@ lazy.setup({
       },
     },
   },
-  --{
-  --  'lukas-reineke/indent-blankline.nvim',
-  --  event = "BufReadPost",
-  --  config = function()
-  --    require("plugins.iblsetup")
-  --  end
-  --},
   {
     'petertriho/nvim-scrollbar',
     event = "BufReadPre",
@@ -614,12 +608,6 @@ lazy.setup({
       require("plugins.others").setup.trouble()
     end
   },
-  --{
-  --  "MaximilianLloyd/ascii.nvim",
-  --  dependencies = {
-  --    "MunifTanjim/nui.nvim"
-  --  }
-  --},
   {
     'seblyng/roslyn.nvim',
     cond = (vim.g.tweaks.lsp.csharp == "roslyn"),
