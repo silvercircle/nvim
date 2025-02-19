@@ -861,6 +861,7 @@ function M.ui_select_scheme()
     conf.scheme = cmd
     CFG().theme_scheme = cmd
     M.set()
+    conf_callback("scheme")
   end
 
   utils.simplepicker(schemes, execute, { pre = "current", sortby = { "text:desc" }, prompt = "Select theme scheme" })

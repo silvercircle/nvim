@@ -242,7 +242,8 @@ function M.bgtheme()
     -- and more.
     fg_default = "#ebdbb2",
     fg_dim_default = "#afab82",
-    accent_color = "#204050",
+    --accent_color = "#204050",
+    accent_color = "#403010",
     alt_accent_color = "#501010",
     accent_fg = "#aaaa60",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
