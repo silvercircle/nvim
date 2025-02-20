@@ -87,16 +87,17 @@ local tab_sep_color;
 local function setup_theme()
   if Tweaks.theme.disable == false then
     local T = require("darkmatter").T
-    local conf = require("darkmatter").get_conf()
 
     LuaLineColors.darkestgreen = T.accent_fg
     LuaLineColors.brightgreen = T.accent_color
     LuaLineColors.brightred = T.alt_accent_color
-    LuaLineColors.statuslinebg = T[conf.variant].statuslinebg
+    LuaLineColors.statuslinebg = vim.api.nvim_get_hl(0, { name = "StatusLine" }).bg
     local _bg = vim.api.nvim_get_hl(0, { name="Visual" }).bg
-    vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = T[__Globals.perm_config.theme_variant].bg })
-    vim.api.nvim_set_hl(0, "WinBarUL", { fg = lualine_internal_theme().normal.b.fg, bg = _bg, sp = _bg, underline = true })
-    tab_sep_color = { fg = T.accent_color, bg = T[__Globals.perm_config.theme_variant].bg }
+    local _fg = vim.api.nvim_get_hl(0, { name="Fg" }).fg
+    local _normal_bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
+    vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = _normal_bg })
+    vim.api.nvim_set_hl(0, "WinBarUL", { fg = _fg, bg = _bg, sp = _bg, underline = true })
+    tab_sep_color = { fg = T.accent_color, bg = string.format("#%x", _normal_bg ) }
   end
 end
 setup_theme()
@@ -151,10 +152,11 @@ require("lualine").setup({
   options = {
     icons_enabled = true,
     theme = Tweaks.statusline.lualine.theme == "internal" and lualine_internal_theme() or Tweaks.statusline.lualine.theme,
-    component_separators = "│", -- {left = "", right = "" },
+    --component_separators = "│",
+    component_separators = {left = "", right = "" },
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
-      disabled_filetypes = {
+    disabled_filetypes = {
       statusline = { "Outline", 'terminal', 'query', 'qf', 'sysmon', 'weather', "NvimTree", "neo-tree", "Trouble" },
       winbar = { 'Outline', 'terminal', 'query', 'qf', 'NvimTree', 'neo-tree', 'alpha', 'sysmon', 'weather', 'Trouble',
                  'dap-repl', 'dapui_console', 'dapui_watches', 'dapui_stacks', 'dapui_scopes', 'dapui_breakpoints', "snacks_picker_preview" },
@@ -253,7 +255,7 @@ require("lualine").setup({
         padding = 0,
         separator = { left = "", right = "" },
         draw_empty = true,
-        color = tab_sep_color, -- { fg = colors.T.accent_color, bg = colors.T[__Globals.perm_config.theme_variant].bg },
+        -- color = tab_sep_color, -- { fg = colors.T.accent_color, bg = colors.T[__Globals.perm_config.theme_variant].bg },
         fmt = function()
           return ""
         end,
@@ -271,7 +273,6 @@ require("lualine").setup({
 local M = {}
 
 function M.update_internal_theme()
-  vim.notify("update internal lualine theme")
   setup_theme()
   require("lualine").setup({
     options = {

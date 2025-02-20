@@ -104,8 +104,8 @@ lazy.setup({
     end
   },
   {
-    dir = "/mnt/shared/data/code/neovim_plugins/quickfavs.nvim/",
-    -- 'https://gitlab.com/silvercircle74/quickfavs.nvim',
+    -- dir = "/mnt/shared/data/code/neovim_plugins/quickfavs.nvim/",
+    'https://gitlab.com/silvercircle74/quickfavs.nvim',
     lazy = true,
     config = function()
       require("quickfavs").setup({
@@ -237,10 +237,10 @@ lazy.setup({
   },
   -- blink.cmp (alternative to nvim-cmp)
   {
-    dir = "/data/mnt/shared/data/code/neovim_plugins/blink.cmp/",
-    branch = "mine",
-    -- 'Saghen/blink.cmp',
-    -- branch = "main",
+    --dir = "/data/mnt/shared/data/code/neovim_plugins/blink.cmp/",
+    --branch = "main",
+    'Saghen/blink.cmp',
+    branch = "main",
     build = "cargo build --release",
     lazy = true,
     event = "ModeChanged",
@@ -388,59 +388,6 @@ lazy.setup({
     end
   },
   {
-    "saghen/blink.nvim",
-    -- all modules handle lazy loading internally
-    lazy = false,
-    cond = vim.g.tweaks.indent.version == "blink",
-    opts = {
-      indent = {
-        enabled = true,
-        -- start with indent guides visible
-        visible = true,
-        blocked = {
-          buftypes = {'nofile', 'prompt', 'terminal'},
-          filetypes = {'alpha', 'help', 'sysmon'},
-        },
-        static = {
-          enabled = true,
-          char = "│",
-          priority = 1,
-          --highlights = { 'BlinkIndentRed', 'BlinkIndentOrange', 'BlinkIndentYellow', 'BlinkIndentGreen', 'BlinkIndentViolet', 'BlinkIndentCyan' },         -- specify multiple highlights here for rainbow-style indent guides
-          highlights = { "IndentBlankLineChar" },
-        },
-        scope = {
-          enabled = true,
-          char = "┃",
-          priority = 1024,
-          -- set this to a single highlight, such as 'BlinkIndent' to disable rainbow-style indent guides
-          -- highlights = { 'BlinkIndent' },
-          highlights = {
-            "IndentBlanklineIndent1",
-            "IndentBlanklineIndent2",
-            "IndentBlanklineIndent3",
-            "IndentBlanklineIndent4",
-            "IndentBlanklineIndent5",
-            "IndentBlanklineIndent6",
-            "IndentBlanklineIndent6",
-          },
-          underline = {
-            -- enable to show underlines on the line above the current scope
-            enabled = false,
-            highlights = {
-              "BlinkIndentRedUnderline",
-              "BlinkIndentYellowUnderline",
-              "BlinkIndentBlueUnderline",
-              "BlinkIndentOrangeUnderline",
-              "BlinkIndentGreenUnderline",
-              "BlinkIndentVioletUnderline",
-              "BlinkIndentCyanUnderline",
-            },
-          },
-        },
-      },
-    },
-  },
-  {
     'petertriho/nvim-scrollbar',
     event = "BufReadPre",
     config = function()
@@ -493,25 +440,6 @@ lazy.setup({
       require("plugins.nvim-tree")
     end
   },
-  --{
-  --  'nvim-neo-tree/neo-tree.nvim',
-  --  cond = vim.g.tweaks.tree.version == "Neo",
-  --  config = function()
-  --    require("plugins.neotree")
-  --  end,
-  --  event = "VeryLazy",
-  --  dependencies = {
-  --    'MunifTanjim/nui.nvim',
-  --    {
-  --      's1n7ax/nvim-window-picker',
-  --      config = function()
-  --        require("window-picker").setup({
-  --          hint = 'floating-big-letter'
-  --        })
-  --      end
-  --    }
-  --  }
-  --},
   {
     "zk-org/zk-nvim",
     lazy = true,
@@ -535,22 +463,23 @@ lazy.setup({
       require("plugins.alpha")
     end
   },
-  --{
-  --  'mfussenegger/nvim-dap',
-  --  lazy = true,
-  --  dependencies = {
-  --    'nvim-neotest/nvim-nio',
-  --    {
-  --      'rcarriga/nvim-dap-ui',
-  --      config = function()
-  --        require("dap.nvim_dap_ui")
-  --      end
-  --    }
-  --  },
-  --  config = function()
-  --    require("dap.nvim_dap")
-  --  end
-  --},
+  {
+    'mfussenegger/nvim-dap',
+    cond = Tweaks.dap.enabled,
+    lazy = true,
+    dependencies = {
+      'nvim-neotest/nvim-nio',
+      {
+        'rcarriga/nvim-dap-ui',
+        config = function()
+          require("dap.nvim_dap_ui")
+        end
+      }
+    },
+    config = function()
+      require("dap.nvim_dap")
+    end
+  },
   {
     "smjonas/inc-rename.nvim",
     cmd = "IncRename",
@@ -651,6 +580,12 @@ lazy.setup({
   {
     'sindrets/diffview.nvim',
     lazy = true,
+  },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    cond = Tweaks.theme.disable == true,
+    priority = 1000
   }
 },
 {

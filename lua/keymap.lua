@@ -70,8 +70,6 @@ kms({ "n", "i" }, "<C-l>", "<NOP>", opts)
 map("i", "<ins>", "<nop>", opts)
 -- map("i", "<C-v>", "<c-r><c-p>+", opts)
 
-map('n', '<leader><tab>', '<CMD>tabnext<CR>', opts)
-
 vim.g.setkey({ 'i', 'n' }, '<C-f><C-a>', function() __Globals.toggle_fo('a') end, "Toggle 'a' format option")
 vim.g.setkey({ 'i', 'n' }, '<C-f><C-c>', function() __Globals.toggle_fo('c') end, "Toggle 'c' format option")
 vim.g.setkey({ 'i', 'n' }, '<C-f><C-w>', function() __Globals.toggle_fo('w') end, "Toggle 'w' format option")
@@ -272,9 +270,11 @@ end, "Toggle LSP inlay hints")
 
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'ca', function()
   __Globals.perm_config.cmp_autocomplete = not __Globals.perm_config.cmp_autocomplete
+  STATMSG("Blink.cmp autocomplete is now", __Globals.perm_config.cmp_autocomplete)
 end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'cg', function()
   __Globals.perm_config.cmp_ghost = not __Globals.perm_config.cmp_ghost
+  STATMSG("Blink.cmp Ghost Text is now", __Globals.perm_config.cmp_ghost)
 end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-k>', function() __Globals.toggle_colorcolumn() end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-o>', function() __Globals.toggle_ibl() end, "Toggle indent-blankline active")

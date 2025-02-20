@@ -191,6 +191,11 @@ function FWO(class, title)
   return Tweaks.fzf.winopts[class]
 end
 
+function STATMSG(msg, state)
+  local _msg = msg or ""
+  local _state = state or false
+  vim.notify(_msg .. (_state and " Enabled" or " Disabled"))
+end
 -- generate a snacks picker layout
 function SPL(params)
   -- local opts = params or { preview = false, width = 80, height = 0.8 }

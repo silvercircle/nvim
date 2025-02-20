@@ -27,7 +27,7 @@ Tweaks.lsp = {}
 -- plugin choices.
 -- notification system
 -- either "mini", "fidget" or "snacks".
-Tweaks.notifier = "fidget"
+Tweaks.notifier = "snacks"
 
 -- set this to "Outline" to use the symbols-outline plugin.
 -- set it to "aerial" to use the Aerial plugin.
@@ -89,6 +89,9 @@ Tweaks.indent = {
 
 Tweaks.cokeline_filename_width = 25
 
+Tweaks.dap = {
+  enabled = false
+}
 -- edit this to reflect your installation directories for lsp servers. Most will
 -- be in masonbinpath. Also supported are $HOME/.local/.bin and $HOME itself
 -- for everything else, you can use full paths in the server_bin table.
@@ -424,5 +427,9 @@ Tweaks.fzf = {
     svg = { "chafa" },
     jpeg = { "chafa" }
   }
+}
+
+Tweaks.snacks = {
+  enabled_modules = { "picker", "image", "indent", "lazygit" }
 }
 return Tweaks
