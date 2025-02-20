@@ -109,7 +109,7 @@ local function setup_theme()
     LuaLineColors.statuslinebg = T[conf.variant].statuslinebg
     local _bg = vim.api.nvim_get_hl(0, { name="Visual" }).bg
     vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = T[__Globals.perm_config.theme_variant].bg })
-    vim.api.nvim_set_hl(0, "WinBarUL", { fg = lualine_internal_theme().normal.b.fg, bg = _bg })
+    vim.api.nvim_set_hl(0, "WinBarUL", { fg = lualine_internal_theme().normal.b.fg, bg = _bg, sp = _bg, underline = true })
     tab_sep_color = { fg = T.accent_color, bg = T[__Globals.perm_config.theme_variant].bg }
   end
 end
