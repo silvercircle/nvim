@@ -5,6 +5,26 @@
 -- palette to use when basepalette() is called with an unknown name
 local _p_fallback = 'vivid'
 
+local schemeconfig = {
+  -- name and desc are currently not used anywhere, but might be in the future
+  name = "Frankengruv",
+  desc = "Gruvbox - inspired color theme for Neovim",
+  -- palettes must be represented in colorvariant
+  -- each palette must be fully defined.
+  palettes = {
+    { cmd = "vivid", text = "Vivid (original gruvbox colors, high contrast)", p = 1 },
+    { cmd = "medium", text = "Slightly reduced contrast and color intensity", p = 2 },
+    { cmd = "pastel", text = "Low contrast, desaturated and darker colors", p = 3 }
+  },
+  -- the variants must be defined in bgtheme() (see below)
+  variants = {
+    { hl = "Fg", cmd = "warm", text = "Warm (red tint, low color temp)", p = 1 },
+    { hl = "Fg", cmd = "cold", text = "Cold (blue tint, high color temp)", p = 1 },
+    { hl = "Fg", cmd = "deepblack", text = "Deep dark (very dark background)", p = 1 },
+    { hl = "Fg", cmd = "pitchblack", text = "OLED (pitch black background)", p = 1 },
+  }
+}
+
 ---@class colorvariant
 ---this defines a base palette of colors for each color variant the scheme has.
 ---by default, a scheme has three variants: vivid, medium and pastel and they
@@ -40,13 +60,13 @@ local colorvariants = {
     styled = {}
   },
   medium = {
-    orange = { "#af8a60", 215 },
+    orange = { "#a58370", 215 },
     blue = { "#458588", 239 },
     altblue = { "#83a598", 239 },
     altyellow = { "#da9d0d", 231 },
     altgreen = { "#88872a", 232 },
     lila = { "#7030e0", 241 },
-    palegreen = { "#a8ab76", 242 },
+    palegreen = { "#989b66", 242 },
     maroon = { "#903060", 243 },
     purple = { "#705050", 241 },
     teal = { "#588d6a", 238 },
@@ -68,13 +88,13 @@ local colorvariants = {
     styled = {}
   },
   pastel = {
-    orange = { "#9f7a50", 215 },
+    orange = { "#957360", 215 },
     blue = { "#458588", 239 },
     altblue = { "#83a598", 239 },
     altyellow = { "#ba8d00", 231 },
     altgreen = { "#78772a", 232 },
     lila = { "#7030e0", 241 },
-    palegreen = { "#a8ab76", 242 },
+    palegreen = { "#888b56", 242 },
     maroon = { "#903060", 243 },
     purple = { "#705050", 241 },
     teal = { "#487d5a", 238 },
@@ -242,7 +262,7 @@ function M.bgtheme()
     -- and more.
     fg_default = "#ebdbb2",
     fg_dim_default = "#afab82",
-    accent_color = "#204050",
+    accent_color = "#502a50",
     alt_accent_color = "#501010",
     accent_fg = "#aaaa60",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
@@ -325,14 +345,8 @@ function M.custom_colors()
 end
 
 ---@return table: supported color variants
-function M.config()
-  return {
-    palettes = {
-      { cmd = "vivid", text = "Vivid (original gruvbox colors, high contrast)", p = 1 },
-      { cmd = "medium", text = "Slightly reduced contrast and color intensity", p = 2 },
-      { cmd = "pastel", text = "Very low contrast, colors desaturated", p = 3 }
-    }
-  }
+function M.schemeconfig()
+  return schemeconfig
 end
 
 return M

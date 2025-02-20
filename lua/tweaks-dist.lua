@@ -89,6 +89,9 @@ Tweaks.indent = {
 
 Tweaks.cokeline_filename_width = 25
 
+Tweaks.dap = {
+  enabled = false
+}
 -- edit this to reflect your installation directories for lsp servers. Most will
 -- be in masonbinpath. Also supported are $HOME/.local/.bin and $HOME itself
 -- for everything else, you can use full paths in the server_bin table.
@@ -158,7 +161,7 @@ Tweaks.blink = {
   -- keymap preset to use. Read the blink docs. Note that some
   -- keys are overriden or customized from the preset. See lua/plugins/blink.lua
   keymap_preset = "enter",
-  ghost_text = false,  -- this might still be a bit buggy in blink.cmp.
+  ghost_text = true,  -- this might still be a bit buggy in blink.cmp.
   -- maximum height of the popup window
   window_height = 15,
   -- maximum width of the completion label
@@ -328,7 +331,9 @@ Tweaks.statusline = {
   lualine = {
     -- Set this to "internal" to use darkmatter integration or to some available
     -- lualine theme, eg "dracula"
-    theme = "internal"
+    theme = "internal",
+    -- redraw debounce (in milliseconds)
+    refresh = 2000
   }
 }
 
@@ -356,7 +361,6 @@ Tweaks.jdtls = {
 Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "settings.gradle", "pom.xml", "*.sln", "build.zig", "go.mod", "go.sum" }
 Tweaks.srclocations = { "src", "source", "sources", "SRC", "Src", "SOURCE", "Source", "Sources", "lua" }
 Tweaks.cokeline = {
-  enabled = true,
   closebutton = false,
   underline = false,
   active_tab_style = "full_padded",

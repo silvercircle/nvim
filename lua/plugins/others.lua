@@ -184,7 +184,7 @@ M.setup = {
       signs_staged_enable = true,
       _refresh_staged_on_update = false,
       signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-      numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
+      numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
       linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
       word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
       watch_gitdir = {
@@ -200,7 +200,7 @@ M.setup = {
         ignore_whitespace = false,
       },
       current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
-      sign_priority = 1, --65535,
+      sign_priority = 65535,
       update_debounce = 1000,
       status_formatter = nil, -- Use default
       max_file_length = 40000, -- Disable if file is longer than this (in lines)

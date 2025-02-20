@@ -4,7 +4,8 @@ local fzf_tweaks = vim.g.tweaks.fzf
 
 require "fzf-lua".setup({
   defaults = {
-   formatter  = "path.dirname_first"
+   formatter  = "path.dirname_first",
+   copen = "horizontal copen 8"
   },
   hls = {
     file_part = "DefaultLib",

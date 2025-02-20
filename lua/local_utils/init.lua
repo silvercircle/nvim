@@ -298,7 +298,8 @@ function Utils.BufClose()
     return
   end
 
-  local function execute(cmd)
+  local function execute(item)
+    local cmd = item.cmd or ""
     if cmd == "cancel" then
       return
     elseif cmd == "save" then
@@ -349,7 +350,8 @@ function Utils.PickFoldingMode(currentmode)
     return k
   end):totable()
 
-  local function execute(cmd)
+  local function execute(item)
+    local cmd = item.cmd or ""
     if cmd ~= "none" then
       __Globals.debugmsg("Selected folding method: " .. cmd)
       vim.schedule(function()
@@ -389,7 +391,8 @@ function Utils.Quitapp()
       { cmd = "cancel", text = "Cancel operation", hl = "Keyword", p = 1 }
     }
   end
-  local function execute(result)
+  local function execute(item)
+    local result = item.cmd or ""
     if result == "hardexit" or result == "discard" then
       vim.cmd("qa!")
     elseif result == "cancel" then
@@ -503,7 +506,7 @@ function Utils.simplepicker(entries, fn, opts)
     end,
     confirm = function(picker, item)
       picker:close()
-      fn(item.cmd)
+      fn(item)
     end,
     layout = layout,
     --- NOTE: how to preselect a picker item. if the field given in @param pre

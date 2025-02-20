@@ -14,6 +14,8 @@ end
 vim.g.tweaks = tweaks
 Tweaks = tweaks
 Borderfactory = vim.g.tweaks.borderfactory
+CFG = function() return __Globals.perm_config end
+
 -- FIXME: silence deprecation warnings in dev builds. currently 0.11
 -- adjust this for future dev builds
 local nvim_11 = vim.fn.has("nvim-0.11")
@@ -179,6 +181,15 @@ vim.g.lspkind_symbols = {
 }
 
 vim.g.is_tmux = vim.fn.exists("$TMUX")
+
+function FWO(class, title)
+  if title ~= nil and #title > 2 then
+    Tweaks.fzf.winopts[class].title = " " .. title .. " "
+  else
+    Tweaks.fzf.winopts[class].title = nil
+  end
+  return Tweaks.fzf.winopts[class]
+end
 
 -- generate a snacks picker layout
 function SPL(params)

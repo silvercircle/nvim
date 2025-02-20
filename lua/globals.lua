@@ -61,6 +61,7 @@ M.perm_config_default = {
   transbg = false,
   theme_palette = "vivid",
   theme_strings = "yellow",
+  theme_scheme = "gruv",
   debug = false,
   ibl_rainbow = true,
   ibl_enabled = true,
@@ -486,8 +487,7 @@ function M.write_config()
         active = #M.findwinbyBufType(vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
       },
       theme_variant = theme_conf.variant,
-      theme_desaturate = theme_conf.desaturate,
-      theme_dlevel = theme_conf.dlevel,
+      theme_palette = theme_conf.colorpalette,
       transbg = theme_conf.is_trans,
       theme_strings = theme_conf.theme_strings,
       theme_scheme = theme_conf.scheme
@@ -533,7 +533,7 @@ function M.restore_config()
   local cmp_kind_attr = { bold=true, reverse=true }
   if Tweaks.theme.disable == false then
     Config.theme.setup({
-      scheme = vim.g.tweaks.theme.scheme,
+      scheme = M.perm_config.theme_scheme,
       variant = M.perm_config.theme_variant,
       colorpalette = M.perm_config.theme_palette,
       theme_strings = M.perm_config.theme_strings,
@@ -606,6 +606,9 @@ function M.theme_callback(what)
   elseif what == "trans" then
     M.perm_config.transbg = conf.is_trans
     M.notify("Theme transparency is now " .. (conf.is_trans == true and "On" or "Off"), vim.log.levels.INFO, "Theme")
+  elseif what == "scheme" then
+    M.notify("Selected scheme: " .. conf.scheme, vim.log.levels.INFO, "Theme")
+    require("plugins.lualine_setup").update_internal_theme()
   end
   if vim.g.tweaks.completion.version == "blink" then
     require("plugins.blink").update_hl()

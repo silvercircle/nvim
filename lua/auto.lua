@@ -17,6 +17,7 @@ local treeft = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
 autocmd({ 'VimLeave' }, {
   callback = function()
     if Config.plain == false then
+      -- vim.system({ 'tmux', 'set', '-qg', 'allow-passthrough', 'off' }, { text = true })
       __Globals.write_config()
     end
   end,
@@ -257,11 +258,11 @@ local conceal_pattern = { "markdown", "telekasten", "liquid" }
 
 -- generic FileType handler adressing common actions
 autocmd({ 'FileType' }, {
-  pattern = { "aerial", "Outline", "DressingSelect", "DressingInput", "query", "mail", "qf", "replacer", "Trouble",
+  pattern = { "Outline", "query", "mail", "qf", "replacer", "Trouble",
     'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go',
     "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
-    if args.match == "aerial" or args.match == "Outline" then
+    if args.match == "Outline" then
       vim.cmd(
       "silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=\\ \\ Outline" ..
       "\\ (" ..
@@ -272,10 +273,6 @@ autocmd({ 'FileType' }, {
         vim.cmd("silent! setlocal statuscolumn=")
       end
       vim.api.nvim_win_set_width(0, __Globals.perm_config.outline.width)
-    elseif args.match == "DressingSelect" then
-      vim.cmd("setlocal winhl=CursorLine:TreeCursorLine | hi nCursor blend=100 | set statuscolumn=")
-    elseif args.match == "DressingInput" then
-      vim.cmd("hi nCursor blend=0")
     elseif args.match == "mail" then
       vim.cmd("setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
     elseif args.match == "query" then
@@ -283,13 +280,13 @@ autocmd({ 'FileType' }, {
     elseif args.match == "Glance" then
       vim.defer_fn(function() vim.cmd("setlocal cursorline") end, 400)
     elseif args.match == "qf" or args.match == "replacer" then
-    --  if #__Globals.findwinbyBufType("sysmon") > 0 or #__Globals.findwinbyBufType("weather") > 0 then
-    --    vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber | wincmd J")
-    --  else
-    --    vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber")
-    --  end
+      --if #__Globals.findwinbyBufType("sysmon") > 0 or #__Globals.findwinbyBufType("weather") > 0 then
+      --  vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber | wincmd J")
+      --else
+      --  vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber")
+      --end
       vim.cmd("setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual")
-    --  vim.api.nvim_win_set_height(__Globals.term.winid, __Globals.perm_config.terminal.height)
+      -- vim.api.nvim_win_set_height(__Globals.term.winid, __Globals.perm_config.terminal.height)
     elseif args.match == "Trouble" then
       if __Globals.term.winid ~= nil then
         vim.api.nvim_win_set_var(0, "termheight", __Globals.perm_config.terminal.height)
@@ -322,7 +319,7 @@ autocmd({ 'CmdLineEnter' }, {
 
 -- filetypes for left, right and bottom splits. They are meant to have a different background
 -- color and no cursor
-local enter_leave_filetypes = { "DressingSelect", "aerial", "Outline", "NvimTree", "neo-tree", 'snacks_picker_list'  }
+local enter_leave_filetypes = { "Outline", "NvimTree", "neo-tree", 'snacks_picker_list'  }
 local old_mode
 
 autocmd({ 'WinEnter' }, {
@@ -394,6 +391,9 @@ delcmd = autocmd( { 'BufReadPost' }, {
     end
     _delayloaded = true
     vim.defer_fn(function() require("plugins.commandpicker_addcommands") end, 200)
+    if Config.plain == false then
+      --vim.system({ 'tmux', 'set', '-qg', 'allow-passthrough', 'all' }, { text = true })
+    end
     vim.schedule(function() _delcmd() end)
   end
 })

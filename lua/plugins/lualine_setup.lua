@@ -19,20 +19,6 @@ local  LuaLineColors = {
     gray10 = "#f0f0f0",
     statuslinebg = "#263031", -- M.T[conf.variant].statuslinebg,
   }
--- use either cokeline or lualine's internal buffer line, depending on 
--- configuration choice.
-local function actual_tabline()
-  if vim.g.tweaks.cokeline.enabled == true then
-    return {}
-  else return {
-    lualine_a = { { "buffers", mode = 2 } },
-    lualine_b = {},
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = { "tabs" } }
-  end
-end
 
 local function get_permissions_color()
   local file = vim.fn.expand("%:p")
@@ -58,6 +44,7 @@ local function status_indicators()
          (__Globals.perm_config.transbg == true and "T" or "t") ..
          (__Globals.perm_config.autopair == true and "A" or "a") ..
          (__Globals.perm_config.cmp_autocomplete and 'O' or 'o') ..
+         (__Globals.perm_config.cmp_ghost and 'G' or 'g') ..
          (__Globals.perm_config.lsp.inlay_hints and 'I' or 'i')
 end
 
@@ -108,7 +95,7 @@ local function setup_theme()
     LuaLineColors.statuslinebg = T[conf.variant].statuslinebg
     local _bg = vim.api.nvim_get_hl(0, { name="Visual" }).bg
     vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = T[__Globals.perm_config.theme_variant].bg })
-    vim.api.nvim_set_hl(0, "WinBarUL", { fg = lualine_internal_theme().normal.b.fg, bg = _bg })
+    vim.api.nvim_set_hl(0, "WinBarUL", { fg = lualine_internal_theme().normal.b.fg, bg = _bg, sp = _bg, underline = true })
     tab_sep_color = { fg = T.accent_color, bg = T[__Globals.perm_config.theme_variant].bg }
   end
 end
@@ -146,11 +133,6 @@ local function indentstats()
   return string.format("%d:%d:%s", vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab == true and 'y' or 'n')
 end
 
--- the internal theme is defined in config.lua
-local function theme()
-  return lualine_internal_theme()
-end
-
 local navic_component = {
   navic_context,
   fmt = function(string)
@@ -158,7 +140,7 @@ local navic_component = {
       return ""
     else
      --return string.format("%s: %s", vim.lsp.get_active_clients( {bufnr=0} )[1].name, string)
-     return string.format("%s", string)
+     return string.format("> %s", string)
    end
   end,
   separator = "",
@@ -168,7 +150,7 @@ local navic_component = {
 require("lualine").setup({
   options = {
     icons_enabled = true,
-    theme = Tweaks.statusline.lualine.theme == "internal" and theme() or Tweaks.statusline.lualine.theme,
+    theme = Tweaks.statusline.lualine.theme == "internal" and lualine_internal_theme() or Tweaks.statusline.lualine.theme,
     component_separators = "│", -- {left = "", right = "" },
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
@@ -182,9 +164,9 @@ require("lualine").setup({
     always_divide_middle = true,
     globalstatus = false,
     refresh = {
-      statusline = 2000,
-      tabline = 2000,
-      winbar = 2000,
+      statusline = Tweaks.statusline.lualine.refresh,
+      tabline = 10000, -- note that we do not use it in favor of cokeline
+      winbar = Tweaks.statusline.lualine.refresh,
     },
   },
   sections = {
@@ -225,10 +207,19 @@ require("lualine").setup({
     lualine_y = {},
     lualine_z = {},
   },
-  tabline = actual_tabline(),
+  tabline = {},
   winbar = {
     --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
+      {
+        'filename',
+        padding = { left = 1, right = 0 },
+        path = 4,
+        shorting_target = 60,
+        --separator = "",
+        separator = { left = "", right = "" },
+        color = 'WinBarFilename'
+      },
       navic_component
     },
     lualine_c = {
@@ -267,15 +258,6 @@ require("lualine").setup({
           return ""
         end,
         cond = function() return not __Globals.perm_config.show_indicators end
-      },
-      {
-        'filename',
-        padding = 0,
-        path = 4,
-        shorting_target = 60,
-        --separator = "",
-        --separator = { left = "", right = "" },
-        color = 'WinBarFilename'
       }
     }
   },
@@ -285,4 +267,18 @@ require("lualine").setup({
   } or {},
   extensions = {my_extension},
 })
+
+local M = {}
+
+function M.update_internal_theme()
+  vim.notify("update internal lualine theme")
+  setup_theme()
+  require("lualine").setup({
+    options = {
+      theme = Tweaks.statusline.lualine.theme == "internal" and lualine_internal_theme() or Tweaks.statusline.lualine.theme
+    }
+  })
+end
+
+return M
 

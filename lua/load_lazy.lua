@@ -419,6 +419,11 @@ lazy.setup({
     branch = 'mine',
     cmd = { "Outline", "OutlineOpen", "OutlineClose" },
     lazy = true,
+    dependencies = {
+      {
+        'epheien/outline-treesitter-provider.nvim'
+      }
+    },
     config = function()
       require("plugins.outline_setup")
     end

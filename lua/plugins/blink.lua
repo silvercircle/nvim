@@ -441,9 +441,11 @@ require("blink.cmp").setup({
       }
     },
     ghost_text = {
-      enabled = T.ghost_text,
+      enabled = function() return __Globals.perm_config.cmp_ghost end,
       show_with_selection = true,
-      show_without_selection = false
+      show_without_selection = false,
+      show_with_menu = true,
+      show_without_menu = true
     }
   },
   signature = {
