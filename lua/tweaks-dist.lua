@@ -328,7 +328,9 @@ Tweaks.statusline = {
   lualine = {
     -- Set this to "internal" to use darkmatter integration or to some available
     -- lualine theme, eg "dracula"
-    theme = "internal"
+    theme = "internal",
+    -- redraw debounce (in milliseconds)
+    refresh = 2000
   }
 }
 
@@ -356,7 +358,6 @@ Tweaks.jdtls = {
 Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "settings.gradle", "pom.xml", "*.sln", "build.zig", "go.mod", "go.sum" }
 Tweaks.srclocations = { "src", "source", "sources", "SRC", "Src", "SOURCE", "Source", "Sources", "lua" }
 Tweaks.cokeline = {
-  enabled = true,
   closebutton = false,
   underline = false,
   active_tab_style = "full_padded",

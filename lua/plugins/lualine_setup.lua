@@ -19,20 +19,6 @@ local  LuaLineColors = {
     gray10 = "#f0f0f0",
     statuslinebg = "#263031", -- M.T[conf.variant].statuslinebg,
   }
--- use either cokeline or lualine's internal buffer line, depending on 
--- configuration choice.
-local function actual_tabline()
-  if vim.g.tweaks.cokeline.enabled == true then
-    return {}
-  else return {
-    lualine_a = { { "buffers", mode = 2 } },
-    lualine_b = {},
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = { "tabs" } }
-  end
-end
 
 local function get_permissions_color()
   local file = vim.fn.expand("%:p")
@@ -178,9 +164,9 @@ require("lualine").setup({
     always_divide_middle = true,
     globalstatus = false,
     refresh = {
-      statusline = 2000,
-      tabline = 2000,
-      winbar = 2000,
+      statusline = Tweaks.statusline.lualine.refresh,
+      tabline = 10000, -- note that we do not use it in favor of cokeline
+      winbar = Tweaks.statusline.lualine.refresh,
     },
   },
   sections = {
@@ -221,7 +207,7 @@ require("lualine").setup({
     lualine_y = {},
     lualine_z = {},
   },
-  tabline = actual_tabline(),
+  tabline = {},
   winbar = {
     --- winbar top/left shows either the lsp context, or the lsp progress message
     lualine_a = {
