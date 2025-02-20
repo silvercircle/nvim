@@ -2,6 +2,9 @@
 
 local function _set()
   local c = require("darkmatter")
+  c.link("SnacksInputTitle", "FloatTitle")
+  c.hl_with_defaults("SnacksInputBorder", c.P.brown, c.NONE)
+
   c.link("SnacksPickerIconModule", "@module")
   c.link("SnacksPickerIconNamespace", "@module")
   c.link("SnacksPickerIconPackage", "@module")
@@ -42,7 +45,6 @@ local function _set()
   c.link("SnacksNotifierDebug", "NormalFloat")
   c.link("SnacksNotifierError", "NormalFloat")
   c.link("SnacksNotifierTrace", "NormalFloat")
-  c.hl_with_defaults("SnacksInputBorder", c.P.brown, c.NONE)
 end
 
 local M = {}

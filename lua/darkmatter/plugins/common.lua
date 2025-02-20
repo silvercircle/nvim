@@ -9,7 +9,6 @@
 -- * Navbuddy
 -- * Cokeline
 -- * Glance
--- * snacks
 
 local function _set()
   local c = require("darkmatter")
@@ -215,8 +214,6 @@ local function _set()
   c.link("qfFileName", "String")
 
   -- snacks
-  c.link("SnacksInputTitle", "FloatTitle")
-
   c.hl("htmlH1", c.P.styled.keyword, c.NONE, conf.attrib.bold)
   c.hl("htmlH2", c.P.green, c.NONE, conf.attrib.bold)
   c.hl("htmlH3", c.P.yellow, c.NONE, conf.attrib.bold)

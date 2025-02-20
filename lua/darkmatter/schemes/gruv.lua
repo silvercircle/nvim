@@ -238,7 +238,7 @@ function M.attributes()
     constant     = {},
     macro        = { bold = true },
     defaultlib   = { bold = true, italic = true },
-    url          = { bold = true }
+    url          = { bold = true, underline = true }
   }
 end
 
