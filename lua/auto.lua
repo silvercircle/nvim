@@ -423,7 +423,7 @@ if Tweaks.notifier == "snacks" then
         if i == #p + 1 or p[i].token == ev.data.params.token then
           p[i] = {
             token = ev.data.params.token,
-            msg = ("[%3d%%] %s%s"):format(
+            msg = ("`%3d%%` %s%s"):format(
               value.kind == "end" and 100 or value.percentage or 100,
               value.title or "",
               value.message and (" **%s**"):format(value.message) or ""
