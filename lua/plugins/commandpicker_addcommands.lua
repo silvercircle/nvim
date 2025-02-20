@@ -367,7 +367,7 @@ require("commandpicker").add({
   {
     desc = "Fuzzy search in current buffer",
     cmd = function()
-      fzf.blines({ winopts = fzf_tweaks.winopts.std_preview_top })
+      fzf.blines({ winopts = FWO("std_preview_top", "Fuzzy search in current buffer") })
     end,
     keys = {
       { "n", "<C-x><C-f>", noremap },
@@ -378,7 +378,7 @@ require("commandpicker").add({
   {
     desc = "Fuzzy search in all open buffers",
     cmd = function()
-      fzf.lines({ winopts = fzf_tweaks.winopts.std_preview_top })
+      fzf.lines({ winopts = FWO("std_preview_top", "Fuzzy search in all open buffers") })
     end,
     keys = {
       { "n", "<C-x>f", noremap },
@@ -404,7 +404,7 @@ require("commandpicker").add({
     cmd = function()
       local dir = vim.fn.expand("%:p:h")
       require("todo-comments.fzf").todo({
-        cwd = dir, winopts = fzf_tweaks.winopts.std_preview_top })
+        cwd = dir, winopts = FWO("std_preview_top", "TODO list (current directory)") })
     end,
     keys = {
       { "n", "tdo",                                 noremap },
@@ -416,7 +416,7 @@ require("commandpicker").add({
     desc = "Todo list (project root)",
     cmd = function()
       require("todo-comments.fzf").todo({
-        cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.std_preview_top })
+        cwd = lutils.getroot_current(), winopts = FWO("std_preview_top", "TODO list (project root)") })
     end,
     keys = {
       { "n", "tdp",                                     noremap },
@@ -428,36 +428,17 @@ require("commandpicker").add({
     desc = "List all highlight groups (FZF)",
     cmd = function()
       fzf.highlights({
-        winopts = fzf_tweaks.winopts.narrow_small_preview
+        winopts = FWO("narrow_small_preview", "Highlight Groups")
       })
     end,
     keys = { "n", "thl", noremap },
     category = "@Neovim"
   },
   {
-    desc = "FZF grep cword (current directory)",
-    cmd = function() fzf.grep_cword({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top }) end,
-    keys = {
-      { "n", "<C-x><CR>", noremap },
-      { "i", "<C-x><CR>", noremap }
-    },
-    category = "@FZF"
-  },
-  {
-    desc = "FZF grep cword (project root)",
-    cmd = function()
-      fzf.grep_cword({ cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.std_preview_top })
-    end,
-    keys = {
-      { "n", "<C-x><Backspace>", noremap },
-      { "i", "<C-x><Backspace>", noremap }
-    },
-    category = "@FZF"
-  },
-  {
     desc = "FZF live grep (current directory)",
     cmd = function()
-      fzf.live_grep({ query = lutils.get_selection(), cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.std_preview_top })
+      fzf.live_grep({ query = lutils.get_selection(), cwd = vim.fn.expand("%:p:h"),
+        winopts = FWO("std_preview_top", "Live Grep (current directory)") })
     end,
     keys = {
       { "n", "<C-x>g", noremap },
@@ -469,7 +450,8 @@ require("commandpicker").add({
   {
     desc = "FZF live grep (project root)",
     cmd = function()
-      fzf.live_grep({ query = lutils.get_selection(), cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.std_preview_top })
+      fzf.live_grep({ query = lutils.get_selection(), cwd = lutils.getroot_current(),
+        winopts = FWO("std_preview_top", "Live Grep (project root)") })
     end,
     keys = {
       { "n", "<C-x><C-g>", noremap },
