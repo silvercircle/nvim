@@ -40,7 +40,7 @@ local conf = {
   disabled = false,
   -- the scheme name. Configuration is loaded from themes/conf.scheme.lua
   scheme = "dark",
-  -- holds information about the current scheme, including the palettes
+  -- the scheme configuration
   schemeconfig = {},
   -- color variant. as of now, 3 types are supported:
   -- a) "warm" - the default, a medium-dark grey background with a slightly red-ish tint.
@@ -165,11 +165,11 @@ local function configure()
   M.T = Scheme.bgtheme()
   rainbowpalette = Scheme.rainbowpalette()
   conf.attrib = vim.tbl_deep_extend("force", Scheme.attributes(), M.attributes_ovr[conf.scheme])
+  conf.schemeconfig = Scheme.schemeconfig()
   conf.style = Scheme.colorstyles()
   for k,v in pairs(conf.colorstyles_ovr) do
     conf.style[k] = v
   end
-  conf.schemeconfig = Scheme.config()
   -- setup base palette
   M.P = Scheme.basepalette(conf.colorpalette)
 
@@ -770,19 +770,14 @@ end
 -- use vim.ui.select to choose from a list of themes
 function M.ui_select_variant()
   local utils = require("local_utils")
+  local variants = conf.schemeconfig.variants
 
-  local variants = {
-    { hl = "Fg", cmd = "warm", text = "Warm (red tint, low color temp)", p = 1 },
-    { hl = "Fg", cmd = "cold", text = "Cold (blue tint, high color temp)", p = 1 },
-    { hl = "Fg", cmd = "deepblack", text = "Deep dark (very dark background)", p = 1 },
-    { hl = "Fg", cmd = "pitchblack", text = "OLED (pitch black", p = 1 },
-  }
   vim.iter(variants):filter(function(k)
     if k.cmd == conf.variant then k.current = true k.hl = "Green" else k.current = false k.hl = "Fg" end
   end)
 
-  local function execute(cmd)
-    conf.variant = cmd
+  local function execute(item)
+    conf.variant = item.cmd
     configure()
     M.set()
     conf.callback("variant")
@@ -802,8 +797,8 @@ function M.ui_select_colorweight()
     if conf.colorpalette == k.cmd then k.current = true k.hl = "Green" else k.current = false k.hl = "Fg" end
   end)
 
-  local function execute(cmd)
-    conf.colorpalette = cmd
+  local function execute(item)
+    conf.colorpalette = item.cmd
     M.set()
     conf_callback("palette")
   end
@@ -857,9 +852,9 @@ function M.ui_select_scheme()
     if k.cmd == conf.scheme then k.current = true k.hl = "Green" else k.current = nil k.hl = "Fg" end
   end)
 
-  local function execute(cmd)
-    conf.scheme = cmd
-    CFG().theme_scheme = cmd
+  local function execute(item)
+    conf.scheme = item.cmd
+    CFG().theme_scheme = item.cmd
     M.set()
     conf_callback("scheme")
   end

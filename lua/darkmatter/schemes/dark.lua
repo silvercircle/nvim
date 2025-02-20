@@ -9,6 +9,25 @@
 -- custom themes must be named as themename.lua and reside in the darkmatter/themes
 -- folder.
 
+local schemeconfig = {
+  name = "Sonokai - dark",
+  desc = "Sonokai - inspired color theme for Neovim",
+  -- palettes must be represented in colorvariant
+  -- each palette must be fully defined.
+  palettes = {
+    { cmd = "vivid", text = "Vivid (original gruvbox colors, high contrast)", p = 1 },
+    { cmd = "medium", text = "Slightly reduced contrast and color intensity", p = 2 },
+    { cmd = "pastel", text = "Very low contrast, colors desaturated", p = 3 }
+  },
+  -- the variants must be defined in bgtheme() (see below)
+  variants = {
+    { hl = "Fg", cmd = "warm", text = "Warm (red tint, low color temp)", p = 1 },
+    { hl = "Fg", cmd = "cold", text = "Cold (blue tint, high color temp)", p = 1 },
+    { hl = "Fg", cmd = "deepblack", text = "Deep dark (very dark background)", p = 1 },
+    { hl = "Fg", cmd = "pitchblack", text = "OLED (pitch black", p = 1 },
+  }
+}
+
 local colorstyles = {
   identifier = "fg_dim",
   comment = "grey",
@@ -318,14 +337,8 @@ function M.bgtheme()
   }
 end
 
-function M.config()
-  return {
-    palettes = {
-      { cmd = "vivid", text = "Vivid (rich colors, high contrast)", p = 1 },
-      { cmd = "medium", text = "Medium (somewhat desaturated colors)", p = 2 },
-      { cmd = "pastel", text = "Pastel (low intensity colors)", p = 3 }
-    }
-  }
+function M.schemeconfig()
+  return schemeconfig
 end
 
 function M.custom_colors()

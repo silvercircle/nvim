@@ -5,6 +5,24 @@
 -- palette to use when basepalette() is called with an unknown name
 local _p_fallback = 'vivid'
 
+local schemeconfig = {
+  name = "Frankengruv",
+  desc = "Gruvbox - inspired color theme for Neovim",
+  -- palettes must be represented in colorvariant
+  -- each palette must be fully defined.
+  palettes = {
+    { cmd = "vivid", text = "Vivid (original gruvbox colors, high contrast)", p = 1 },
+    { cmd = "medium", text = "Slightly reduced contrast and color intensity", p = 2 },
+    { cmd = "pastel", text = "Very low contrast, colors desaturated", p = 3 }
+  },
+  variants = {
+    { hl = "Fg", cmd = "warm", text = "Warm (red tint, low color temp)", p = 1 },
+    { hl = "Fg", cmd = "cold", text = "Cold (blue tint, high color temp)", p = 1 },
+    { hl = "Fg", cmd = "deepblack", text = "Deep dark (very dark background)", p = 1 },
+    { hl = "Fg", cmd = "pitchblack", text = "OLED (pitch black", p = 1 },
+  }
+}
+
 ---@class colorvariant
 ---this defines a base palette of colors for each color variant the scheme has.
 ---by default, a scheme has three variants: vivid, medium and pastel and they
@@ -243,7 +261,7 @@ function M.bgtheme()
     fg_default = "#ebdbb2",
     fg_dim_default = "#afab82",
     --accent_color = "#204050",
-    accent_color = "#403010",
+    accent_color = "#401040",
     alt_accent_color = "#501010",
     accent_fg = "#aaaa60",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
@@ -326,14 +344,8 @@ function M.custom_colors()
 end
 
 ---@return table: supported color variants
-function M.config()
-  return {
-    palettes = {
-      { cmd = "vivid", text = "Vivid (original gruvbox colors, high contrast)", p = 1 },
-      { cmd = "medium", text = "Slightly reduced contrast and color intensity", p = 2 },
-      { cmd = "pastel", text = "Very low contrast, colors desaturated", p = 3 }
-    }
-  }
+function M.schemeconfig()
+  return schemeconfig
 end
 
 return M
