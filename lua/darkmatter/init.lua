@@ -11,13 +11,19 @@
 --rewritten to lua and heavily modified for my personal Neovim config at:
 --https://gitlab.com/silvercircle74/nvim
 --License:      MIT
---it features multiple background modes (cold, warm and deepdark) and three levels
---of color saturation: bright vivid and two desaturated modes
---it's also extensible via plugins and can support multiple base themes (including
---light themes). This is not yet implemented.
 --TODO: 
 --      * maybe (just maybe) a bright background variant
---      * add variants of well known themes (gruv <done>, dracula <maybe>)
+--      * add variants of well known themes (gruv <done>, dracula <wip>)
+--      * outsource into a real plugin that can be loaded as a colorscheme.
+
+-- while this was originally written as a single theme, it evolved into a theme
+-- engine that can handle multiple schemes, each with an arbitrary number of color
+-- palettes and background themes. This is still ongoing work and the code needs
+-- a lot of polishing and maybe some cleanup. Some things are overly complex and
+-- could be simplified.
+--
+-- Customization is possible, but lacks certain features. Right now, new highlight
+-- groups require plugins while it should be possible to add them during theme setup
 
 local M = {}
 
@@ -308,7 +314,7 @@ local function set_all()
   M.hl_with_defaults("debugPC", M.P.bg0, M.P.green)
   M.hl_with_defaults("debugBreakpoint", M.P.bg0, M.P.red)
   M.hl_with_defaults("Substitute", M.P.bg0, M.P.yellow)
-
+  M.hl("URL", M.P.styled.url, M.NONE, conf.attrib.url)
   M.hl("Type", M.P.styled.type, M.NONE, conf.attrib.types)
   M.hl("TypeDefinition", M.P.styled.type, M.NONE, { bold = true })
   M.hl("Structure", M.P.styled.struct, M.NONE, conf.attrib.struct)

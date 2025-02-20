@@ -24,7 +24,7 @@ local schemeconfig = {
     { hl = "Fg", cmd = "warm", text = "Warm (red tint, low color temp)", p = 1 },
     { hl = "Fg", cmd = "cold", text = "Cold (blue tint, high color temp)", p = 1 },
     { hl = "Fg", cmd = "deepblack", text = "Deep dark (very dark background)", p = 1 },
-    { hl = "Fg", cmd = "pitchblack", text = "OLED (pitch black", p = 1 },
+    { hl = "Fg", cmd = "pitchblack", text = "OLED (pitch black background)", p = 1 },
   }
 }
 
@@ -62,7 +62,8 @@ local colorstyles = {
   staticmethod = "palegreen",
   attribute = "olive",
   strings   = "yellow",
-  parameter = "fg_dim"
+  parameter = "fg_dim",
+  url       = "blue"
 }
 
 local colorvariants = {
@@ -225,7 +226,8 @@ function M.attributes()
     module       = { bold = true },
     constant     = {},
     macro        = { bold = true },
-    defaultlib   = { bold = true, italic = true }
+    defaultlib   = { bold = true, italic = true },
+    url          = { bold = true }
   }
 end
 
