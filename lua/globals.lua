@@ -471,7 +471,6 @@ function M.write_config()
     local wsplit_id = require("local_utils.wsplit").winid
     local usplit_id = require("local_utils.usplit").winid
     local blist_id = require("local_utils.blist").main_win
-    local theme_conf = Config.theme.get_conf()
     local state = {
       terminal = {
         active = M.term.winid ~= nil and true or false,
@@ -485,13 +484,16 @@ function M.write_config()
       blist = blist_id ~= nil and true or false,
       tree = {
         active = #M.findwinbyBufType(vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
-      },
-      theme_variant = theme_conf.variant,
-      theme_palette = theme_conf.colorpalette,
-      transbg = theme_conf.is_trans,
-      theme_strings = theme_conf.theme_strings,
-      theme_scheme = theme_conf.scheme
+      }
     }
+    if Tweaks.theme.disable == false then
+      local theme_conf = Config.theme.get_conf()
+      state['theme_variant'] = theme_conf.variant
+      state['theme_palette'] = theme_conf.colorpalette
+      state['transbg'] = theme_conf.is_trans
+      state['theme_strings'] = theme_conf.theme_strings
+      state['theme_scheme'] = theme_conf.scheme
+    end
     if wsplit_id ~= nil then
       state.weather.width = vim.api.nvim_win_get_width(wsplit_id)
     end
