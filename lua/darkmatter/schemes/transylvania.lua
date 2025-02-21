@@ -1,4 +1,7 @@
 -- darkmatter scheme configuration, inspired by the well known Dracula theme.
+-- it is not a 1:1 port of Dracula, hence the different name. The vivid color
+-- palette uses authentic Dracula colors, the medium and pastel palettes are 
+-- desaturated and darkened for lower contrast.
 
 -- palette to use when basepalette() is called with an unknown name
 local _p_fallback = 'vivid'
@@ -24,57 +27,56 @@ local schemeconfig = {
 }
 
 ---@class colorvariant
----this defines a base palette of colors for each color variant the scheme has.
----by default, a scheme has three variants: vivid, medium and pastel and they
----should provide different color intensities and contrast with vivid being the
----strongest. More are possible, but must be reflected in bgtheme() and config()
 local colorvariants = {
   vivid = {
+    -- these are mostly 1:1 from Dracula specs. They are not desaturated or 
+    -- otherwise modified.
     orange = { "#FFB86C", 215 },
-    blue = { "#BD93F9", 239 },        -- gruv   original
-    altblue = { "#83a598", 239 },     -- gruv   original
-    altyellow = { "#fabd2d", 231 },   -- gruv   original
-    altgreen = { "#98971a", 232 },    -- gruv   original
+    blue = { "#8D93F9", 239 },
+    altblue = { "#83a598", 239 },
+    altyellow = { "#fabd2d", 231 },
+    altgreen = { "#98971a", 232 },
     lila = { "#7030e0", 241 },
-    palegreen = { "#a8ab76", 242 },   -- gruv   original
+    palegreen = { "#a8ab76", 242 },
     maroon = { "#dF59a6", 243 },
-    purple = { "#BD93F9", 241 },
-    teal = { "#50FA7B", 238 },        -- gruv   original
-    brightteal = { "#70fa9b", 238 },  -- gruv   original
-    darkpurple = { "#FF79C6", 240 },  -- gruv   original
-    red = { "#FF5555", 203 },         -- gruv   original
-    yellow = { "#F1FA8C", 231 },      -- gruv   original
-    green = { "#40804f", 232 },       -- gruv   original
-    darkyellow = { "#a78624", 180 },  -- gruv   original
+    purple = { "#9c6ddf", 241 },
+    teal = { "#58d377", 238 },
+    brightteal = { "#8BE9FD", 238 },
+    darkpurple = { "#FF79C6", 240 },
+    red = { "#FF5555", 203 },
+    yellow = { "#F1FA8C", 231 },
+    green = { "#50fa7b", 232 },
+    darkyellow = { "#a78624", 180 },
     grey = { "#6272A4", 2 },
     grey_dim = { "#595f6f", 240 },
     diff_red = { "#45292d", 52 },
     diff_green = { "#10320a", 22 },
     diff_blue = { "#253147", 17 },
-    deepred = { "#cc241d", 203 },     -- gruv   original
+    deepred = { "#cc241d", 203 },
     olive = { "#708422", 181 },
-    lpurple = { "#d3969b", 176 },     -- gruv   original
+    lpurple = { "#d3969b", 176 },
     brown = { "#905010", 233 },
+    pink =  { "#BD93F9", 234 },
     styled = {}
   },
   medium = {
-    orange = { "#a58370", 215 },
+    orange = { "#a58d80", 215 },
     blue = { "#458588", 239 },
     altblue = { "#83a598", 239 },
     altyellow = { "#da9d0d", 231 },
     altgreen = { "#88872a", 232 },
     lila = { "#7030e0", 241 },
     palegreen = { "#989b66", 242 },
-    maroon = { "#903060", 243 },
-    purple = { "#705050", 241 },
+    maroon = { "#904c6e", 243 },
+    purple = { "#9c6ddf", 241 },
     teal = { "#588d6a", 238 },
     brightteal = { "#7eb07c", 238 },
     darkpurple = { "#b16286", 240 },
     red = { "#ab2914", 203 },
-    yellow = { "#d79921", 231 },
+    yellow = { "#bfc66f", 231 },
     green = { "#40804f", 232 },
     darkyellow = { "#a78624", 180 },
-    grey = { "#707069", 2 },
+    grey = { "#6272A4", 2 },
     grey_dim = { "#595f6f", 240 },
     diff_red = { "#45292d", 52 },
     diff_green = { "#10320a", 22 },
@@ -83,26 +85,27 @@ local colorvariants = {
     olive = { "#708422", 181 },
     lpurple = { "#d3969b", 176 },
     brown = { "#905010", 233 },
+    pink =  { "#a187c5", 234 },
     styled = {}
   },
   pastel = {
-    orange = { "#957360", 215 },
+    orange = { "#957c6e", 215 },
     blue = { "#458588", 239 },
     altblue = { "#83a598", 239 },
     altyellow = { "#ba8d00", 231 },
     altgreen = { "#78772a", 232 },
     lila = { "#7030e0", 241 },
     palegreen = { "#888b56", 242 },
-    maroon = { "#903060", 243 },
-    purple = { "#705050", 241 },
+    maroon = { "#904c6e", 243 },
+    purple = { "#9c6ddf", 241 },
     teal = { "#487d5a", 238 },
     brightteal = { "#6ea06c", 238 },
     darkpurple = { "#b16286", 240 },
     red = { "#9b1924", 203 },
-    yellow = { "#d79921", 231 },
+    yellow = { "#8e9352", 231 },      -- gruv   original
     green = { "#40804f", 232 },
     darkyellow = { "#a78624", 180 },
-    grey = { "#707069", 2 },
+    grey = { "#6272A4", 2 },
     grey_dim = { "#595f6f", 240 },
     diff_red = { "#45292d", 52 },
     diff_green = { "#10320a", 22 },
@@ -111,6 +114,7 @@ local colorvariants = {
     olive = { "#708422", 181 },
     lpurple = { "#d3969b", 176 },
     brown = { "#905010", 233 },
+    pink =  { "#8c76ac", 234 },
     styled = {}
   }
 }
@@ -122,26 +126,26 @@ local colorvariants = {
 local colorstyles = {
   identifier = "fg_dim",
   comment = "grey",
-  keyword = "darkpurple",
-  kwspec = "deepred",
+  keyword = "pink",
+  kwspec = "maroon",
   kwconditional = "maroon",
   kwrepeat = "maroon",
   kwexception = "maroon",
-  kwreturn = "darkpurple",
+  kwreturn = "pink",
   kwfunc = "maroon",
   member = "orange",
   staticmember = "orange",
-  method = "brightteal",
-  func = "teal",
+  method = "teal",
+  func = "green",
   operator = "brown",
-  builtin = "deepred",
+  builtin = "brightteal",
   braces = "c4",
   delim = "c4",
   number = "green",
   class = "blue",
   interface = "lila",
   storage = "purple",
-  constant = "darkyellow",
+  constant = "darkpurple",
   module = "olive",
   namespace = "olive",
   type = "altblue",
@@ -244,14 +248,14 @@ end
 -- once
 local fg_def = {
   vivid  = "#F8F8F2",
-  medium = "#bbab92",
-  pastel = "#9b8b72"
+  medium = "#ababa7",
+  pastel = "#92928e"
 }
 
 local fg_dim_def = {
   vivid  = "#c8c8c2",
-  medium = "#8f8b72",
-  pastel = "#7f7b62"
+  medium = "#949490",
+  pastel = "#7b7b77"
 }
 
 --- this regurns the background theme and some very basic colors. There are different
@@ -274,7 +278,7 @@ function M.bgtheme()
       bg1 = { "#322a2a", 236 },
       bg2 = { "#403936", 236 },
       bg4 = { "#555565", 237 },
-      statuslinebg = "#262630",
+      statuslinebg = "#242436",
       bg = "#282A36",
       treebg = "#2b2d39",
       floatbg = "#2b2d39",
@@ -339,7 +343,7 @@ function M.custom_colors()
     c1 = '#ff0000',
     c2 = '#00ff00',
     c3 = '#4c4866',
-    c4 = '#7070c0',
+    c4 = '#8383c0',
     c5 = '#ff00ff'
   }
 end
