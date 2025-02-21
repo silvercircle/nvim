@@ -170,7 +170,7 @@ local function configure()
 
   M.T = Scheme.bgtheme()
   rainbowpalette = Scheme.rainbowpalette()
-  conf.attrib = vim.tbl_deep_extend("force", Scheme.attributes(), M.attributes_ovr[conf.scheme])
+  conf.attrib = vim.tbl_deep_extend("force", Scheme.attributes(), M.attributes_ovr[conf.scheme] or {} )
   conf.schemeconfig = Scheme.schemeconfig()
   conf.style = Scheme.colorstyles()
   for k,v in pairs(conf.colorstyles_ovr) do
