@@ -1,14 +1,10 @@
--- implements a simple telescope picker for the notification history kept
--- by the fidget plugin
--- based on the Telescope extension in the nvim-notify plugin by rcarriga
--- https://github.com/rcarriga/nvim-notify
---
--- written by Alex Vie in 2024, part of my Neovim configuation at
+-- implements a simple snacks picker for the notification history kept
+-- by the snacks.notifier plugin
+
+-- written by as@subspace.cc in 2025, part of my Neovim configuation at
 -- https://gitlab.com/silvercircle74/nvim
 --
--- this requires nui libary and (obviously) the telescope plugin
--- https://github.com/MunifTanjim/nui.nvim
--- TODO: make a fzf-lua version. OR a snacks.picker version
+-- LICENSE: MIT
 
 local M = {}
 
@@ -90,7 +86,6 @@ local show_history = function(layout)
         ft = "markdown"
       }
       Snacks.picker.preview.preview(ctx)
-      -- return ctx.item.msg
     end,
     sort = {
       fields = { 'added:desc'  }
@@ -99,6 +94,7 @@ local show_history = function(layout)
       sort_empty = true
     },
     confirm = function(_, item)
+      vim.notify(item.msg, vim.log.levels[string.upper(item.level)], { title = item.title or ""})
     end,
   })
 end
