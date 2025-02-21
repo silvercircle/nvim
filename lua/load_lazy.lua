@@ -586,6 +586,13 @@ lazy.setup({
     name = "catppuccin",
     cond = Tweaks.theme.disable == true,
     priority = 1000
+  },
+  {
+    "max397574/colortils.nvim",
+    cmd = "Colortils",
+    config = function()
+      require("plugins.others").setup.colortils()
+    end
   }
 },
 {

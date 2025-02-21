@@ -39,6 +39,14 @@ local conf = {
   }
 }
 
+local level_to_hl = {
+  error = "DiagnosticError",
+  debug = "Debug",
+  warn = "DiagnosticWarn",
+  info = "DiagnosticInfo",
+  trace = "DiagnosticHint"
+}
+
 local show_history = function(layout)
   local Snacks = require("snacks")
   local utils = require("local_utils")
@@ -47,7 +55,7 @@ local show_history = function(layout)
 
   local notifs = Snacks.notifier.get_history()
   layout.layout.title = "Notification history (snacks notifier)"
-  local message_width = layout.layout.width - cols.timestamp.width - cols.group.width - cols.title.width - 5
+  local message_width = layout.layout.width - cols.timestamp.width - cols.group.width - 5
   return Snacks.picker({
     finder = function()
       for _, item in ipairs(notifs) do
@@ -59,16 +67,20 @@ local show_history = function(layout)
     focus = "input",
     auto_close = false,
     layout = layout,
+    win = {
+      preview = {
+        wo = { conceallevel = 2 }
+      }
+    },
     format = function(item, _)
       local entry = {}
       local pos = #entry
       entry[pos + 1] = { align(vim.fn.strftime(conf.dateformat.short, math.floor(item.added)), cols.timestamp.width), cols.timestamp.hl }
       entry[pos + 2] = { align(utils.truncate(item.title, cols.group.width - 1),
                          cols.group.width ), cols.group.hl}
-      entry[pos + 3] = { align(item.icon or " ", 3), item.style or "DeepRedBold" }
-      --entry[pos + 4] = { align(utils.truncate(item.id or "<none>",
-      --                   cols.title.width - 1), cols.title.width), cols.title.hl }
-      entry[pos + 4] = { align(utils.truncate(item.msg, message_width - 1), message_width, { align = "right" }), item.style or "DeepRedBold" }
+      entry[pos + 3] = { align(item.icon or " ", 3), level_to_hl[item.level] or "Fg" }
+      entry[pos + 4] = { align(utils.truncate(item.msg, message_width - 1), message_width, { align = "right" }),
+        level_to_hl[item.level] or "Fg" }
 
       return entry
     end,
@@ -81,7 +93,7 @@ local show_history = function(layout)
       -- return ctx.item.msg
     end,
     sort = {
-      fields = { 'last_updated:desc'  }
+      fields = { 'added:desc'  }
     },
     matcher = {
       sort_empty = true

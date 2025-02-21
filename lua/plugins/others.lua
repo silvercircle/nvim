@@ -414,7 +414,9 @@ M.setup = {
       }
     })
   end,
-
+  colortils = function()
+    require("colortils").setup({})
+  end,
   glance = function()
     local glance = require("glance")
     local actions = glance.actions

@@ -191,10 +191,14 @@ function FWO(class, title)
   return Tweaks.fzf.winopts[class]
 end
 
-function STATMSG(msg, state)
+--- output a notification, supports markdown format
+--- level and title are optional
+function STATMSG(msg, state, level, title)
+  level = level or 0
+  title = title or ""
   local _msg = msg or ""
   local _state = state or false
-  vim.notify(_msg .. (_state and " Enabled" or " Disabled"))
+  vim.notify(_msg .. (_state and " `Enabled`" or " `Disabled`"), 0, { title = title } )
 end
 -- generate a snacks picker layout
 function SPL(params)

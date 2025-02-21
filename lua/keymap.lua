@@ -270,11 +270,11 @@ end, "Toggle LSP inlay hints")
 
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'ca', function()
   __Globals.perm_config.cmp_autocomplete = not __Globals.perm_config.cmp_autocomplete
-  STATMSG("Blink.cmp autocomplete is now", __Globals.perm_config.cmp_autocomplete)
+  STATMSG("**Blink.cmp** Menu auto_show is now", __Globals.perm_config.cmp_autocomplete, 0, "Config")
 end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'cg', function()
   __Globals.perm_config.cmp_ghost = not __Globals.perm_config.cmp_ghost
-  STATMSG("Blink.cmp Ghost Text is now", __Globals.perm_config.cmp_ghost)
+  STATMSG("**Blink.cmp**: Ghost Text is now", __Globals.perm_config.cmp_ghost, 0, "Config")
 end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-k>', function() __Globals.toggle_colorcolumn() end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-o>', function() __Globals.toggle_ibl() end, "Toggle indent-blankline active")
@@ -512,3 +512,4 @@ end, "Pick recent project")
 vim.keymap.set('i', "<Left>",  "<C-g>U<Left>", { silent = true, noremap = true } )
 vim.keymap.set('i', "<Right>",  "<C-g>U<Right>", { silent = true, noremap = true } )
 
+vim.g.setkey("n", utility_key .. "ll", function() require("darkmatter.colortools").saturatehex(-0.05) end )
