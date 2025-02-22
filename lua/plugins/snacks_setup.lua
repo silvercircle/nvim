@@ -6,7 +6,7 @@ require("snacks").setup({
     enabled = vim.g.tweaks.notifier == "snacks" and true or false,
     style = "fancy",
     top_down = false,
-    refresh = 200
+    refresh = 400
   },
   explorer = {
     replace_netrw = false,

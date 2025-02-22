@@ -71,7 +71,8 @@ local show_history = function(layout)
     format = function(item, _)
       local entry = {}
       local pos = #entry
-      entry[pos + 1] = { align(vim.fn.strftime(conf.dateformat.short, math.floor(item.added)), cols.timestamp.width), cols.timestamp.hl }
+      entry[pos + 1] = { align(vim.fn.strftime(conf.dateformat.short,
+        math.floor(item.added)), cols.timestamp.width), cols.timestamp.hl }
       entry[pos + 2] = { align(utils.truncate(item.title, cols.group.width - 1),
                          cols.group.width ), cols.group.hl}
       entry[pos + 3] = { align(item.icon or " ", 3), level_to_hl[item.level] or "Fg" }

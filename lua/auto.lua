@@ -210,7 +210,7 @@ autocmd({ 'BufEnter' }, {
   group = agroup_views
 })
 
-local bufread_first = true
+-- local bufread_first = true
 -- restore view when reading a file
 autocmd({ 'BufReadPost' }, {
   pattern = "*",
@@ -218,12 +218,17 @@ autocmd({ 'BufReadPost' }, {
     vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
     vim.api.nvim_buf_set_var(0, "inlayhints", __Globals.perm_config.lsp.inlay_hints)
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
-      if bufread_first == true and Config.nightly == true then
-        bufread_first = false
-        vim.schedule(function() vim.cmd("silent! loadview") end)
-      else
-        vim.cmd("silent! loadview")
-      end
+      vim.cmd("silent! loadview")
+      -- this (UGLY) hack was needed for a while during 0.11 development to fix some issues
+      -- with folds not being restored from loaded view.
+
+      --if bufread_first == true and Config.nightly == true then
+      --  bufread_first = false
+      --  --vim.schedule(function() vim.cmd("silent! loadview") end)
+      --  vim.cmd("silent! loadview")
+      --else
+      --  vim.cmd("silent! loadview")
+      --end
     end
   end,
   group = agroup_views

@@ -68,7 +68,7 @@ else
 end
 
 o.foldlevelstart = 99
-o.foldnestmax = 5
+o.foldnestmax = 10
 -- mkview will only save current cursor position and folding state
 -- this keeps views small
 o.viewoptions = "folds,cursor"

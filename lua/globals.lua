@@ -894,42 +894,6 @@ function M.TestDetour()
   vim.cmd("setlocal winhl=NormalFloat:Normal,FloatBorder:TelescopeBorder")
 end
 
--- toggles nvim-cmp or blink (depending on which plugin is active) autoshow
--- setting.
-function M.toggle_autocomplete()
-  local mode = vim.g.tweaks.completion == "nvim-cmp" and "cmp" or "blink"
-  if mode == "cmp" and M.cmp_setup_done == false then
-    return
-  end
-  __Globals.perm_config.cmp_autocomplete = not __Globals.perm_config.cmp_autocomplete
-  if mode == "nvim-cmp" then
-    require("cmp").setup({
-      completion = {
-        autocomplete = __Globals.perm_config.cmp_autocomplete == true and { require("cmp.types.cmp").TriggerEvent.TextChanged } or {},
-        completeopt = "menu,menuone",
-      }
-    })
-  end
-  vim.notify("CMP/Blink autocomplete is now " .. (__Globals.perm_config.cmp_autocomplete == true and "Enabled" or "Disabled"))
-end
--- toggles nvim-cmp or blink (depending on which plugin is active) autoshow
--- ghost text setting.
-function M.toggle_ghost()
-  local mode = vim.g.tweaks.completion == "nvim-cmp" and "cmp" or "blink"
-  if mode == "cmp" and M.cmp_setup_done == false then
-    return
-  end
-  __Globals.perm_config.cmp_ghost = not __Globals.perm_config.cmp_ghost
-  if mode == "nvim-cmp" then
-    require("cmp").setup({
-      experimental = {
-        ghost_text = __Globals.perm_config.cmp_ghost
-      }
-    })
-  end
-  vim.notify("CMP/Blink ghost text is now " .. (__Globals.perm_config.cmp_ghost == true and "Enabled" or "Disabled"))
-end
-
 function M.custom_lsp()
   local Snacks = require("snacks")
   local Align = Snacks.picker.util.align
@@ -974,4 +938,5 @@ function M.custom_lsp()
     }
   })
 end
+
 return M
