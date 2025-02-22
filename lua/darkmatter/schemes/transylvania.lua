@@ -1,6 +1,6 @@
 -- darkmatter scheme configuration, inspired by the well known Dracula theme.
 -- it is not a 1:1 port of Dracula, hence the different name. The vivid color
--- palette uses authentic Dracula colors, the medium and pastel palettes are 
+-- palette uses authentic Dracula colors, the medium and pastel palettes are
 -- desaturated and darkened for lower contrast.
 
 -- palette to use when basepalette() is called with an unknown name
@@ -73,7 +73,7 @@ local colorvariants = {
     brightteal = { "#7eb07c", 238 },
     darkpurple = { "#b16286", 240 },
     red = { "#ab2914", 203 },
-    yellow = { "#bfc66f", 231 },
+    yellow = { "#d8df93", 231 },
     green = { "#40804f", 232 },
     darkyellow = { "#a78624", 180 },
     grey = { "#6272A4", 2 },
@@ -102,8 +102,8 @@ local colorvariants = {
     brightteal = { "#6ea06c", 238 },
     darkpurple = { "#b16286", 240 },
     red = { "#9b1924", 203 },
-    yellow = { "#8e9352", 231 },      -- gruv   original
-    green = { "#40804f", 232 },
+    yellow = { "#9d9f86", 231 },      -- gruv   original
+    green = { "#4c8058", 232 },
     darkyellow = { "#a78624", 180 },
     grey = { "#6272A4", 2 },
     grey_dim = { "#595f6f", 240 },
@@ -112,9 +112,9 @@ local colorvariants = {
     diff_blue = { "#253147", 17 },
     deepred = { "#882220", 203 },
     olive = { "#708422", 181 },
-    lpurple = { "#d3969b", 176 },
+    lpurple = { "#9f7081", 176 },
     brown = { "#905010", 233 },
-    pink =  { "#8c76ac", 234 },
+    pink =  { "#766391", 234 },
     styled = {}
   }
 }
@@ -138,10 +138,10 @@ local colorstyles = {
   method = "teal",
   func = "green",
   operator = "brown",
-  builtin = "brightteal",
+  builtin = "lpurple",
   braces = "c4",
   delim = "c4",
-  number = "green",
+  number = "lila",
   class = "blue",
   interface = "lila",
   storage = "purple",
