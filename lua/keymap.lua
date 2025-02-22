@@ -269,26 +269,26 @@ vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-p>', function()
 end, "Toggle LSP inlay hints")
 
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'ca', function()
-  __Globals.perm_config.cmp_autocomplete = not __Globals.perm_config.cmp_autocomplete
-  STATMSG("**Blink.cmp** Menu auto_show is now", __Globals.perm_config.cmp_autocomplete, 0, "Config")
+  PCFG.cmp_autocomplete = not PCFG.cmp_autocomplete
+  STATMSG("**Blink.cmp** Menu auto_show is now", PCFG.cmp_autocomplete, 0, "Config")
 end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'cg', function()
-  __Globals.perm_config.cmp_ghost = not __Globals.perm_config.cmp_ghost
-  STATMSG("**Blink.cmp**: Ghost Text is now", __Globals.perm_config.cmp_ghost, 0, "Config")
+  PCFG.cmp_ghost = not PCFG.cmp_ghost
+  STATMSG("**Blink.cmp**: Ghost Text is now", PCFG.cmp_ghost, 0, "Config")
 end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-k>', function() __Globals.toggle_colorcolumn() end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-o>', function() __Globals.toggle_ibl() end, "Toggle indent-blankline active")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-u>', function() __Globals.toggle_ibl_context() end, "Toggle indent-blankline context")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-z>', function()
-  __Globals.perm_config.scrollbar = not __Globals.perm_config.scrollbar
+  PCFG.scrollbar = not PCFG.scrollbar
   __Globals.set_scrollbar()             -- toggle scrollbar visibility
 end, "Toggle scrollbar")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-g>', function()
   -- declutter status line. There are 4 levels. 0 displays all components, 1-3 disables some
   -- lesser needed
-  __Globals.perm_config.statusline_declutter = __Globals.perm_config.statusline_declutter + 1
-  if __Globals.perm_config.statusline_declutter == 4 then
-    __Globals.perm_config.statusline_declutter = 0
+  PCFG.statusline_declutter = PCFG.statusline_declutter + 1
+  if PCFG.statusline_declutter == 4 then
+    PCFG.statusline_declutter = 0
   end
 end, "Declutter status line")
 
@@ -321,12 +321,12 @@ end, "Focus Main Window") -- main window
 -- focus or toggle the outline window
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   -- if the outline window is focused, close it.
-  if vim.api.nvim_buf_get_option(0, "filetype") == __Globals.perm_config.outline_filetype then
+  if vim.api.nvim_buf_get_option(0, "filetype") == PCFG.outline_filetype then
     __Globals.close_outline()
     return
   end
   -- otherwise search it and if none is found, open it.
-  if __Globals.findbufbyType(__Globals.perm_config.outline_filetype) == false then
+  if __Globals.findbufbyType(PCFG.outline_filetype) == false then
     __Globals.open_outline()
     local status = __Globals.is_outline_open()
     if status.aerial ~= 0 then
@@ -443,8 +443,8 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'sr', function()
 end, "Fortune refresh cookie")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, "<C-x>a", function()
-  __Globals.perm_config.autopair = not __Globals.perm_config.autopair
-  if __Globals.perm_config.autopair == true then
+  PCFG.autopair = not PCFG.autopair
+  if PCFG.autopair == true then
     require("nvim-autopairs").enable()
   else
     require("nvim-autopairs").disable()
@@ -453,8 +453,8 @@ end, "Toggle autopairing")
 
 -- toggle the display of single-letter status indicators in the winbar.
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'wb', function()
-  __Globals.perm_config.show_indicators = not __Globals.perm_config.show_indicators
-  __Globals.notify("WinBar status indicators are now: " .. (__Globals.perm_config.show_indicators == true and "On" or "Off"),
+  PCFG.show_indicators = not PCFG.show_indicators
+  __Globals.notify("WinBar status indicators are now: " .. (PCFG.show_indicators == true and "On" or "Off"),
     vim.log.levels.INFO)
 end, "Toggle WinBar status indicators")
 

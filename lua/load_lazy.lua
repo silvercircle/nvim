@@ -223,7 +223,7 @@ lazy.setup({
       { 'windwp/nvim-autopairs',
         config = function()
           require("nvim-autopairs").setup({})
-          if __Globals.perm_config.autopair then
+          if PCFG.autopair then
             require("nvim-autopairs").enable()
           else
             require("nvim-autopairs").disable()
@@ -257,7 +257,7 @@ lazy.setup({
       { 'windwp/nvim-autopairs',
         config = function()
           require("nvim-autopairs").setup({})
-          if __Globals.perm_config.autopair then
+          if PCFG.autopair then
             require("nvim-autopairs").enable()
           else
             require("nvim-autopairs").disable()
@@ -342,7 +342,7 @@ lazy.setup({
     config = function()
       require("mason").setup({
         ui = {
-          border = __Globals.perm_config.float_borders
+          border = PCFG.float_borders
         }
       })
     end
@@ -435,7 +435,7 @@ lazy.setup({
   {
     'nvim-tree/nvim-tree.lua',
     -- cond = vim.g.tweaks.tree.version == "Nvim",
-    lazy = true,
+    -- LAZY = true,
     config = function()
       require("plugins.nvim-tree")
     end

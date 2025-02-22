@@ -39,13 +39,13 @@ local function status()
 end
 
 local function status_indicators()
-  return (__Globals.perm_config.treesitter_context == true and "C" or "c") ..
-         (__Globals.perm_config.debug == true and "D" or "d") ..
-         (__Globals.perm_config.transbg == true and "T" or "t") ..
-         (__Globals.perm_config.autopair == true and "A" or "a") ..
-         (__Globals.perm_config.cmp_autocomplete and 'O' or 'o') ..
-         (__Globals.perm_config.cmp_ghost and 'G' or 'g') ..
-         (__Globals.perm_config.lsp.inlay_hints and 'I' or 'i')
+  return (PCFG.treesitter_context == true and "C" or "c") ..
+         (PCFG.debug == true and "D" or "d") ..
+         (PCFG.transbg == true and "T" or "t") ..
+         (PCFG.autopair == true and "A" or "a") ..
+         (PCFG.cmp_autocomplete and 'O' or 'o') ..
+         (PCFG.cmp_ghost and 'G' or 'g') ..
+         (PCFG.lsp.inlay_hints and 'I' or 'i')
 end
 
 --- internal global function to create the lualine color theme
@@ -195,9 +195,9 @@ require("lualine").setup({
       "filetype",
       "fileformat",
       { status },
-      { "encoding", draw_empty=false, cond = function() return __Globals.perm_config.statusline_declutter < 3 and true or false end }
+      { "encoding", draw_empty=false, cond = function() return PCFG.statusline_declutter < 3 and true or false end }
     },
-    lualine_y = { { "progress", cond = function() return __Globals.perm_config.statusline_declutter < 2 and true or false end, draw_empty=false} },
+    lualine_y = { { "progress", cond = function() return PCFG.statusline_declutter < 2 and true or false end, draw_empty=false} },
     -- word counter via custom function
     lualine_z = { { getWordsV2 }, "location" },
   },
@@ -240,13 +240,13 @@ require("lualine").setup({
         fmt = function()
           return ""
         end,
-        cond = function() return __Globals.perm_config.show_indicators end
+        cond = function() return PCFG.show_indicators end
       },
       {
         status_indicators,
         color = "WinBarUL",
         padding = 0,
-        cond = function() return __Globals.perm_config.show_indicators end
+        cond = function() return PCFG.show_indicators end
       },
     },
     lualine_z = {
@@ -255,11 +255,11 @@ require("lualine").setup({
         padding = 0,
         separator = { left = "", right = "" },
         draw_empty = true,
-        -- color = tab_sep_color, -- { fg = colors.T.accent_color, bg = colors.T[__Globals.perm_config.theme_variant].bg },
+        -- color = tab_sep_color, -- { fg = colors.T.accent_color, bg = colors.T[PCFG.theme_variant].bg },
         fmt = function()
           return ""
         end,
-        cond = function() return not __Globals.perm_config.show_indicators end
+        cond = function() return not PCFG.show_indicators end
       }
     }
   },

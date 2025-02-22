@@ -223,12 +223,12 @@ cmp.setup({
   preselect = cmp.PreselectMode.Item,
   enabled = true,
   completion = {
-    autocomplete = __Globals.perm_config.cmp_autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or {},
+    autocomplete = PCFG.cmp_autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or {},
     completeopt = "menu,menuone",
   },
   view = {
     docs = {
-      auto_open = __Globals.perm_config.cmp_show_docs
+      auto_open = PCFG.cmp_show_docs
     }
   },
   performance = {
@@ -278,15 +278,15 @@ cmp.setup({
         if cmp.visible() then
           if cmp.visible_docs() then
             cmp.close_docs()
-            __Globals.perm_config.cmp_show_docs = false
+            PCFG.cmp_show_docs = false
           else
             cmp.open_docs()
-            __Globals.perm_config.cmp_show_docs = true
+            PCFG.cmp_show_docs = true
           end
           cmp.setup({
             view = {
               docs = {
-                auto_open = __Globals.perm_config.cmp_show_docs
+                auto_open = PCFG.cmp_show_docs
               }
             }
           })
@@ -299,8 +299,8 @@ cmp.setup({
     ["<C-Down>"] = cmp.mapping.scroll_docs(4),
   },
   formatting = {
-    fields = cmp_layouts[__Globals.perm_config.cmp_layout].fields,
-    format = cmp_layouts[__Globals.perm_config.cmp_layout].fn
+    fields = cmp_layouts[PCFG.cmp_layout].fields,
+    format = cmp_layouts[PCFG.cmp_layout].fn
   },
   sources = {
     { name = "nvim_lsp", priority = 110, group_index = 1, max_item_count = 50, trigger_characters = {".", ":", "->", "::" }, keyword_length = 1 },
@@ -413,11 +413,11 @@ function M.configure_layout(layout)
     vim.notify(layout .. " is not a supported cmp content layout")
     return
   end
-  __Globals.perm_config.cmp_layout = layout
+  PCFG.cmp_layout = layout
   cmp.setup({
     formatting = {
-      fields = cmp_layouts[__Globals.perm_config.cmp_layout].fields,
-      format = cmp_layouts[__Globals.perm_config.cmp_layout].fn
+      fields = cmp_layouts[PCFG.cmp_layout].fields,
+      format = cmp_layouts[PCFG.cmp_layout].fn
     }
   })
 end

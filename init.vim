@@ -11,6 +11,7 @@ vim.g._ts_force_sync_parsing = true
 require('config')
 __Globals.restore_config()
 __Globals.set_statuscol(__Globals.perm_config.statuscol_current)
+PCFG = __Globals.perm_config
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",

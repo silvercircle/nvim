@@ -7,7 +7,7 @@ outline_window = {
     position = 'right',
     split_command = 'rightbelow vs',
     -- Percentage or integer of columns
-    width = __Globals.perm_config.outline.width,
+    width = PCFG.outline.width,
     -- Whether width is relative to the total width of nvim
     -- When relative_width = true, this means take 25% of the total
     -- screen width for outline window.

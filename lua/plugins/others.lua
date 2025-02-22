@@ -134,7 +134,7 @@ M.setup = {
         win_config = {
           max_height = 30,
           winhighlight = "Normal:NeoTreeNormalNC",
-          border = Borderfactory("thicc") -- __Globals.perm_config.telescope_borders
+          border = Borderfactory("thicc")
         }
       }
 
@@ -206,7 +206,7 @@ M.setup = {
       max_file_length = 40000, -- Disable if file is longer than this (in lines)
       preview_config = {
         -- Options passed to nvim_open_win
-        border = "single", -- __Globals.perm_config.telescope_borders,
+        border = "single",
 
         style = "minimal",
         relative = "cursor",

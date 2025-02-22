@@ -607,7 +607,7 @@ end
 -- Floating buffer list
 function M.open(_mode, _width, _height)
   local mode = _mode or false
-  local width = _width or __Globals.perm_config.tree.width
+  local width = _width or PCFG.tree.width
 
   local ls_result = api.nvim_exec(M.sort_mru and ":ls t" or ":ls", true)
   M.bopen = iter2array(string.gmatch(ls_result, "([^\n]+)"))
@@ -657,7 +657,7 @@ function M.autorefresh()
   end
   local ls_result = api.nvim_exec(M.sort_mru and ":ls t" or ":ls", true)
   M.bopen = iter2array(string.gmatch(ls_result, "([^\n]+)"))
-  __Globals.perm_config.blist_height = vim.api.nvim_win_get_height(M.main_win)
+  PCFG.blist_height = vim.api.nvim_win_get_height(M.main_win)
   M.refresh(M.main_buf)
 end
 return M

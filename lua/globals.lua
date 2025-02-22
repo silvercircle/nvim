@@ -102,6 +102,7 @@ function M.open_with_fzf(cwd)
   end
 end
 
+
 --- open the outline window
 function M.open_outline()
   local buftype = vim.api.nvim_buf_get_option(0, "buftype")
@@ -187,10 +188,10 @@ function M.tree_open_handler()
   local w = vim.fn.win_getid()
   vim.api.nvim_win_set_option(w, 'statusline', '   ' .. (vim.g.tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"))
   vim.cmd('setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
-  vim.api.nvim_win_set_width(w, __Globals.perm_config.tree.width)
+  vim.api.nvim_win_set_width(w, PCFG.tree.width)
   __Globals.adjust_layout()
-  if __Globals.perm_config.weather.active == true then
-    wsplit.content = __Globals.perm_config.weather.content
+  if PCFG.weather.active == true then
+    wsplit.content = PCFG.weather.content
     if wsplit.winid == nil then
       wsplit.openleftsplit(Config.weather.file)
       --vim.schedule(function() wsplit.openleftsplit(Config.weather.file) end)
@@ -530,6 +531,7 @@ function M.restore_config()
   else
     M.perm_config = M.perm_config_default
   end
+  PCFG = M.perm_config
   -- configure the theme
   --local cmp_kind_attr = M.perm_config.cmp_layout == "experimental" and { bold=true, reverse=true } or {}
   local cmp_kind_attr = { bold=true, reverse=true }

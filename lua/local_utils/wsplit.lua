@@ -120,7 +120,7 @@ end
 
 -- reconfigure the rendering
 function Wsplit.on_content_change()
-  __Globals.perm_config.weather.content = Wsplit.content
+  PCFG.weather.content = Wsplit.content
   Wsplit.content_winid = vim.fn.win_getid()
   if Wsplit.content ~= "weather" then
     if timer ~= nil then
@@ -284,7 +284,7 @@ function Wsplit.open(_weatherfile)
     vim.fn.win_gotoid(wid[1])
     vim.cmd(
       (Config.weather.splitright == true and "setlocal splitright | " or "")
-      .. __Globals.perm_config.weather.width
+      .. PCFG.weather.width
       .. " vsp new"
     )
     Wsplit.winid = vim.fn.win_getid()
@@ -300,7 +300,7 @@ function Wsplit.open(_weatherfile)
   end
   Wsplit.refresh()
   Wsplit.installwatch()
-  __Globals.perm_config.weather.active = true
+  PCFG.weather.active = true
 end
 
 --- open the weather split in a split of the nvim-tree
@@ -327,7 +327,7 @@ function Wsplit.openleftsplit(_weatherfile)
   vim.fn.win_gotoid(curwin)
   Wsplit.refresh()
   Wsplit.installwatch()
-  __Globals.perm_config.weather.active = true
+  PCFG.weather.active = true
 end
 
 --- prepare a line with two elements

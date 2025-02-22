@@ -14,7 +14,6 @@ end
 vim.g.tweaks = tweaks
 Tweaks = tweaks
 Borderfactory = vim.g.tweaks.borderfactory
-CFG = function() return __Globals.perm_config end
 
 -- FIXME: silence deprecation warnings in dev builds. currently 0.11
 -- adjust this for future dev builds
@@ -126,6 +125,7 @@ function vim.g.setkey(modes, lhs, rhs, _desc)
   vim.keymap.set(modes, lhs, rhs, { noremap = true, silent = true, desc = _desc })
 end
 __Globals=require("globals")
+PCFG = __Globals.perm_config
 
 vim.filetype.add({
   extension = {

@@ -61,13 +61,13 @@ local function main_layout()
   did_UIEnter = true
   __Globals.main_winid = vim.fn.win_getid()
   if Config.plain == false then
-    if __Globals.perm_config.tree.active == true then
+    if PCFG.tree.active == true then
       --local timer = vim.uv.new_timer()
       --timer:start(500, 0, vim.schedule_wrap(function() __Globals.open_tree() vim.fn.win_gotoid(__Globals.main_winid) end))
       __Globals.open_tree()
     end
-    if __Globals.perm_config.terminal.active == true then
-      vim.schedule(function() __Globals.termToggle(__Globals.perm_config.terminal.height) vim.fn.win_gotoid(__Globals.main_winid) end)
+    if PCFG.terminal.active == true then
+      vim.schedule(function() __Globals.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(__Globals.main_winid) end)
     end
     -- create the WinResized watcher to keep track of the terminal split height.
     -- also call the resize handlers for the usplit/wsplit frames.
@@ -95,25 +95,25 @@ local function main_layout()
         end
         if sizeevent.event == "WinResized" then
           if __Globals.term.winid ~= nil then
-            __Globals.perm_config.terminal.height = vim.api.nvim_win_get_height(__Globals.term.winid)
+            PCFG.terminal.height = vim.api.nvim_win_get_height(__Globals.term.winid)
           end
           wsplit.set_minheight()
           wsplit.refresh()
           local status = __Globals.is_outline_open()
           local tree = __Globals.findwinbyBufType(treeft)
           if status.outline ~= 0 then
-            __Globals.perm_config.outline.width = vim.api.nvim_win_get_width(status.outline)
+            PCFG.outline.width = vim.api.nvim_win_get_width(status.outline)
           end
           if status.aerial ~= 0 then
-            __Globals.perm_config.outline.width = vim.api.nvim_win_get_width(status.aerial)
+            PCFG.outline.width = vim.api.nvim_win_get_width(status.aerial)
           end
-          if __Globals.perm_config.outline.width < Config.outline_width then
-            __Globals.perm_config.outline.width = Config.outline_width
+          if PCFG.outline.width < Config.outline_width then
+            PCFG.outline.width = Config.outline_width
           end
           if #tree > 0 and tree[1] ~= nil then
-            __Globals.perm_config.tree.width = vim.api.nvim_win_get_width(tree[1])
-            if __Globals.perm_config.tree.width < Config.filetree_width then
-              __Globals.perm_config.tree.width = Config.filetree_width
+            PCFG.tree.width = vim.api.nvim_win_get_width(tree[1])
+            if PCFG.tree.width < Config.filetree_width then
+              PCFG.tree.width = Config.filetree_width
             end
           end
         end
@@ -121,15 +121,15 @@ local function main_layout()
       group = agroup_views
     })
     vim.api.nvim_command("wincmd p")
-    if __Globals.perm_config.weather.active == true then
+    if PCFG.weather.active == true then
       wsplit.freeze = true
-      wsplit.content = __Globals.perm_config.weather.content
+      wsplit.content = PCFG.weather.content
       wsplit.content_set_winid(__Globals.main_winid)
     end
-    if __Globals.perm_config.sysmon.active then
-      usplit.content = __Globals.perm_config.sysmon.content
+    if PCFG.sysmon.active then
+      usplit.content = PCFG.sysmon.content
     end
-    if __Globals.perm_config.transbg == true then
+    if PCFG.transbg == true then
       Config.theme.set_bg()
     end
   end
@@ -215,8 +215,8 @@ autocmd({ 'BufEnter' }, {
 autocmd({ 'BufReadPost' }, {
   pattern = "*",
   callback = function(args)
-    vim.api.nvim_buf_set_var(0, "tsc", __Globals.perm_config.treesitter_context)
-    vim.api.nvim_buf_set_var(0, "inlayhints", __Globals.perm_config.lsp.inlay_hints)
+    vim.api.nvim_buf_set_var(0, "tsc", PCFG.treesitter_context)
+    vim.api.nvim_buf_set_var(0, "inlayhints", PCFG.lsp.inlay_hints)
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
       vim.cmd("silent! loadview")
       -- this (UGLY) hack was needed for a while during 0.11 development to fix some issues
@@ -271,13 +271,13 @@ autocmd({ 'FileType' }, {
       vim.cmd(
       "silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=\\ \\ Outline" ..
       "\\ (" ..
-      __Globals.perm_config.outline_filetype ..
+      PCFG.outline_filetype ..
       ") | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:TreeCursorLine | hi nCursor blend=0")
       -- aerial can set its own statuscolumn
       if args.match == 'Outline' then
         vim.cmd("silent! setlocal statuscolumn=")
       end
-      vim.api.nvim_win_set_width(0, __Globals.perm_config.outline.width)
+      vim.api.nvim_win_set_width(0, PCFG.outline.width)
     elseif args.match == "mail" then
       vim.cmd("setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
     elseif args.match == "Glance" then
@@ -289,10 +289,10 @@ autocmd({ 'FileType' }, {
       --  vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber")
       --end
       vim.cmd("setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual")
-      -- vim.api.nvim_win_set_height(__Globals.term.winid, __Globals.perm_config.terminal.height)
+      -- vim.api.nvim_win_set_height(__Globals.term.winid, PCFG.terminal.height)
     elseif args.match == "Trouble" then
       if __Globals.term.winid ~= nil then
-        vim.api.nvim_win_set_var(0, "termheight", __Globals.perm_config.terminal.height)
+        vim.api.nvim_win_set_var(0, "termheight", PCFG.terminal.height)
       end
     elseif vim.tbl_contains(tabstop_pattern, args.match) then
       vim.cmd(

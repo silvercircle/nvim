@@ -356,7 +356,7 @@ require("blink.cmp").setup({
     },
     menu = {
       enabled = true,
-      auto_show = function() return __Globals.perm_config.cmp_autocomplete end,
+      auto_show = function() return PCFG.cmp_autocomplete end,
       border = Borderfactory(border),
       winblend = T.winblend.menu,
       max_height = T.window_height,
@@ -441,7 +441,7 @@ require("blink.cmp").setup({
       }
     },
     ghost_text = {
-      enabled = function() return __Globals.perm_config.cmp_ghost end,
+      enabled = function() return PCFG.cmp_ghost end,
       show_with_selection = true,
       show_without_selection = false,
       show_with_menu = true,

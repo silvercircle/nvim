@@ -10,8 +10,8 @@ On_attach = function(client, buf)
     navic.attach(client, buf)
     vim.g.inlay_hints_visible = true
     if client.server_capabilities.inlayHintProvider then
- 		  vim.g.inlay_hints_visible = __Globals.perm_config.lsp.inlay_hints
-			vim.lsp.inlay_hint.enable(__Globals.perm_config.lsp.inlay_hints)
+ 		  vim.g.inlay_hints_visible = PCFG.lsp.inlay_hints
+			vim.lsp.inlay_hint.enable(PCFG.lsp.inlay_hints)
     end
     if client.name == "rzls" then
       vim.cmd("hi! link @lsp.type.field Member")
@@ -567,7 +567,7 @@ require("lsp.basedpyright")
 do
   local on_references = vim.lsp.handlers["textDocument/references"]
   local lsp_handlers_hover = vim.lsp.with(vim.lsp.handlers.hover, {
-    border = __Globals.perm_config.float_borders
+    border = PCFG.float_borders
   })
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -594,7 +594,7 @@ do
   -- Bound to C-p in insert mode
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
     vim.lsp.handlers.signature_help, {
-      border = __Globals.perm_config.float_borders,
+      border = PCFG.float_borders,
       focusable = false
     })
 end
@@ -629,7 +629,7 @@ if vim.diagnostic then
       source = "always",
       focusable = true,
       focus = false,
-      border = __Globals.perm_config.float_borders,
+      border = PCFG.float_borders,
       -- Customize how diagnostic message will be shown: show error code.
       format = function(diagnostic)
         local user_data
@@ -658,7 +658,7 @@ do
   vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "GreenSign" })
 end
 -- set a border for the default hover and diagnostics windows
-require('lspconfig.ui.windows').default_options.border = __Globals.perm_config.float_borders
+require('lspconfig.ui.windows').default_options.border = PCFG.float_borders
 
 if vim.g.tweaks.notifier == "nvim-notify" then
   local client_notifs = {}
