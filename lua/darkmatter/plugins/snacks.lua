@@ -2,6 +2,9 @@
 
 local function _set()
   local c = require("darkmatter")
+  c.link("SnacksInputTitle", "FloatTitle")
+  c.hl_with_defaults("SnacksInputBorder", c.P.brown, c.NONE)
+
   c.link("SnacksPickerIconModule", "@module")
   c.link("SnacksPickerIconNamespace", "@module")
   c.link("SnacksPickerIconPackage", "@module")
@@ -25,7 +28,23 @@ local function _set()
   c.link("SnacksPickerDir", "Comment")
   c.link("SnacksPickerFile", "DefaultLib")
 
-  c.hl_with_defaults("SnacksInputBorder", c.P.brown, c.NONE)
+  c.link("SnacksNotifierBorderInfo", "FloatBorder")
+  c.link("SnacksNotifierBorderWarn", "FloatBorder")
+  c.link("SnacksNotifierBorderDebug", "FloatBorder")
+  c.link("SnacksNotifierBorderError", "FloatBorder")
+  c.link("SnacksNotifierBorderTrace", "FloatBorder")
+
+  c.link("SnacksNotifierTitleInfo", "NormalFloat")
+  c.link("SnacksNotifierTitleWarn", "NormalFloat")
+  c.link("SnacksNotifierTitleDebug", "NormalFloat")
+  c.link("SnacksNotifierTitleError", "NormalFloat")
+  c.link("SnacksNotifierTitleTrace", "NormalFloat")
+
+  c.link("SnacksNotifierInfo", "NormalFloat")
+  c.link("SnacksNotifierWarn", "NormalFloat")
+  c.link("SnacksNotifierDebug", "NormalFloat")
+  c.link("SnacksNotifierError", "NormalFloat")
+  c.link("SnacksNotifierTrace", "NormalFloat")
 end
 
 local M = {}

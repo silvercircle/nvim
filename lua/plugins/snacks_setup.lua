@@ -1,8 +1,12 @@
 local chunklines = Borderfactory(vim.g.tweaks.indent.chunk.lines)
+local old_mode
 
 require("snacks").setup({
   notifier = {
     enabled = vim.g.tweaks.notifier == "snacks" and true or false,
+    style = "fancy",
+    top_down = false,
+    refresh = 400
   },
   explorer = {
     replace_netrw = false,
@@ -13,14 +17,14 @@ require("snacks").setup({
     patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "pom.xml", "settings.gradle", "*.sln", "build.zig", "go.mod", "*.gpr" }
   },
   lazygit = {
-    enable = true,
+    enable = vim.tbl_contains(Tweaks.snacks.enabled_modules, "lazygit"),
     win = {
       border = Borderfactory("thicc")
     }
   },
   image = {
     formats = { "png", "bmp", "webp", "tiff" },
-    enable = false,
+    enable = vim.tbl_contains(Tweaks.snacks.enabled_modules, "image"),
     doc = {
       enabled = true,
       inline = false,
@@ -28,6 +32,14 @@ require("snacks").setup({
     }
   },
   picker = {
+    on_show = function()
+      old_mode = vim.api.nvim_get_mode().mode
+    end,
+    on_close = function()
+      if old_mode == "i" then
+        vim.schedule(function() vim.api.nvim_input("i") end)
+      end
+    end,
     formatters = {
       file = {
         filename_first = true,
@@ -84,7 +96,7 @@ require("snacks").setup({
         wo = {
           concealcursor = "nvc", signcolumn = "no", foldcolumn = "0"
         }
-      },
+},
       preview = {
         wo = {
           signcolumn = "no", foldcolumn = "0"
@@ -103,12 +115,40 @@ require("snacks").setup({
     }
   },
   dashboard = {
+    formats = {
+      key = function(item)
+        return { { "[", hl = "special" }, { item.key, hl = "key" }, { "]", hl = "special" } }
+      end,
+    },
+    sections = {
+      { title = "MRU", padding = 1 },
+      { section = "recent_files", limit = 8, padding = 1 },
+      { title = "MRU ", file = vim.fn.fnamemodify(".", ":~"), padding = 1 },
+      { section = "recent_files", cwd = true, limit = 8, padding = 1 },
+    },
     enabled = false
   },
+  styles = {
+    notification = {
+      border = Borderfactory("thicc"),
+      zindex = 100,
+      ft = "markdown",
+      title = " Notification ",
+      title_pos = "center",
+      wo = {
+        winblend = 0,
+        wrap = false,
+        conceallevel = 2,
+        colorcolumn = "",
+      },
+      bo = { filetype = "snacks_notif" }
+    }
+  },
   indent = {
+    enabled = vim.tbl_contains(Tweaks.snacks.enabled_modules, "indent"),
     indent = {
       priority = 100,
-      enabled = vim.g.tweaks.indent.version == "snacks" and true or false,   -- enable indent guides
+      enabled = true,
       char = "│",
       only_scope = false,         -- only show indent guides of the scope
       only_current = false,       -- only show indent guides in the current window

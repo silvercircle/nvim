@@ -2,7 +2,7 @@ local map = vim.api.nvim_set_keymap
 local kms = vim.keymap.set
 
 local opts = { noremap = true, silent = true }
-local utils = require('local_utils')
+local Utils = require('subspace.lib')
 local utility_key = vim.g.tweaks.keymap.utility_key
 local treename = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
 
@@ -70,8 +70,6 @@ kms({ "n", "i" }, "<C-l>", "<NOP>", opts)
 map("i", "<ins>", "<nop>", opts)
 -- map("i", "<C-v>", "<c-r><c-p>+", opts)
 
-map('n', '<leader><tab>', '<CMD>tabnext<CR>', opts)
-
 vim.g.setkey({ 'i', 'n' }, '<C-f><C-a>', function() __Globals.toggle_fo('a') end, "Toggle 'a' format option")
 vim.g.setkey({ 'i', 'n' }, '<C-f><C-c>', function() __Globals.toggle_fo('c') end, "Toggle 'c' format option")
 vim.g.setkey({ 'i', 'n' }, '<C-f><C-w>', function() __Globals.toggle_fo('w') end, "Toggle 'w' format option")
@@ -115,7 +113,7 @@ vim.g.setkey({'i', 'n', 'v'}, '<C-s><C-s>', function() perform_command("update!"
 
 vim.g.setkey({'n', 'i', 'v'}, '<C-s><C-c>', function()
   vim.cmd.stopinsert()
-  vim.schedule(function() require("local_utils").BufClose() end)
+  vim.schedule(function() Utils.BufClose() end)
 end, "Close Buffer")
 vim.g.setkey({'n', 'i', 'v'}, '<f5>', function() perform_command('nohl') end, "Clear highlighted search results")
 
@@ -146,7 +144,7 @@ vim.g.setkey({'n', 'i'}, '<C-a><C-e>', function()
 end, "Open Mini File Browser at project root")
 
 vim.g.setkey({'n', 'i'}, '<A-E>', function()
-  local cwd = utils.getroot_current()
+  local cwd = Utils.getroot_current()
   require("snacks").picker.explorer({cwd = cwd,
     layout = SPL( { width = 70, psize = 12, input = "top", title = cwd }) })
 end, "Open Snacks Explorer at project root")
@@ -271,30 +269,32 @@ vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-p>', function()
 end, "Toggle LSP inlay hints")
 
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'ca', function()
-  __Globals.perm_config.cmp_autocomplete = not __Globals.perm_config.cmp_autocomplete
+  PCFG.cmp_autocomplete = not PCFG.cmp_autocomplete
+  STATMSG("**Blink.cmp** Menu auto_show is now", PCFG.cmp_autocomplete, 0, "Config")
 end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'cg', function()
-  __Globals.perm_config.cmp_ghost = not __Globals.perm_config.cmp_ghost
+  PCFG.cmp_ghost = not PCFG.cmp_ghost
+  STATMSG("**Blink.cmp**: Ghost Text is now", PCFG.cmp_ghost, 0, "Config")
 end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-k>', function() __Globals.toggle_colorcolumn() end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-o>', function() __Globals.toggle_ibl() end, "Toggle indent-blankline active")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-u>', function() __Globals.toggle_ibl_context() end, "Toggle indent-blankline context")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-z>', function()
-  __Globals.perm_config.scrollbar = not __Globals.perm_config.scrollbar
+  PCFG.scrollbar = not PCFG.scrollbar
   __Globals.set_scrollbar()             -- toggle scrollbar visibility
 end, "Toggle scrollbar")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-g>', function()
   -- declutter status line. There are 4 levels. 0 displays all components, 1-3 disables some
   -- lesser needed
-  __Globals.perm_config.statusline_declutter = __Globals.perm_config.statusline_declutter + 1
-  if __Globals.perm_config.statusline_declutter == 4 then
-    __Globals.perm_config.statusline_declutter = 0
+  PCFG.statusline_declutter = PCFG.statusline_declutter + 1
+  if PCFG.statusline_declutter == 4 then
+    PCFG.statusline_declutter = 0
   end
 end, "Declutter status line")
 
 vim.g.setkey({'n', 'i'}, '<A-q>', function()
   vim.cmd.stopinsert()
-  vim.schedule(function() utils.Quitapp() end)
+  vim.schedule(function() Utils.Quitapp() end)
 end, "Quit Neovim")
 
 vim.g.setkey({'n', 'i'}, '<C-p>', function()
@@ -321,12 +321,12 @@ end, "Focus Main Window") -- main window
 -- focus or toggle the outline window
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   -- if the outline window is focused, close it.
-  if vim.api.nvim_buf_get_option(0, "filetype") == __Globals.perm_config.outline_filetype then
+  if vim.api.nvim_buf_get_option(0, "filetype") == PCFG.outline_filetype then
     __Globals.close_outline()
     return
   end
   -- otherwise search it and if none is found, open it.
-  if __Globals.findbufbyType(__Globals.perm_config.outline_filetype) == false then
+  if __Globals.findbufbyType(PCFG.outline_filetype) == false then
     __Globals.open_outline()
     local status = __Globals.is_outline_open()
     if status.aerial ~= 0 then
@@ -358,7 +358,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-5>', function()
 end, "Focus Terminal split and change to current dir")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-6>', function()
-  local dir = utils.getroot_current()
+  local dir = Utils.getroot_current()
   focus_term_split(dir)
 end, "Focus Terminal split and change to project root")
 
@@ -369,7 +369,7 @@ kms({ 'n', 'i', 't', 'v' }, '<A-0>', function()
 end, opts) -- save current winid as main window id
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
-  local uspl = require('local_utils.usplit')
+  local uspl = require('subspace.content.usplit')
   if uspl.winid == nil then
     uspl.open()
   else
@@ -383,7 +383,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
 end, "Open the sysmon/fortune window")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-8>', function()
-  local wspl = require('local_utils.wsplit')
+  local wspl = require('subspace.content.wsplit')
   if wspl.winid == nil then
     wspl.openleftsplit(Config.weather.file)
   else
@@ -433,18 +433,18 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'zt', function()
 end, "Add current word with translation to wordlist")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'wt', function()
-  require("local_utils.wsplit").toggle_content()
+  require("subspace.content.wsplit").toggle_content()
 end, "Toggle weather/info content")
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'st', function()
-  require("local_utils.usplit").toggle_content()
+  require("subspace.content.usplit").toggle_content()
 end, "Toggle sysmon/fortune content")
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'sr', function()
-  require("local_utils.usplit").refresh_cookie()
+  require("subspace.content.usplit").refresh_cookie()
 end, "Fortune refresh cookie")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, "<C-x>a", function()
-  __Globals.perm_config.autopair = not __Globals.perm_config.autopair
-  if __Globals.perm_config.autopair == true then
+  PCFG.autopair = not PCFG.autopair
+  if PCFG.autopair == true then
     require("nvim-autopairs").enable()
   else
     require("nvim-autopairs").disable()
@@ -453,18 +453,18 @@ end, "Toggle autopairing")
 
 -- toggle the display of single-letter status indicators in the winbar.
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'wb', function()
-  __Globals.perm_config.show_indicators = not __Globals.perm_config.show_indicators
-  __Globals.notify("WinBar status indicators are now: " .. (__Globals.perm_config.show_indicators == true and "On" or "Off"),
+  PCFG.show_indicators = not PCFG.show_indicators
+  __Globals.notify("WinBar status indicators are now: " .. (PCFG.show_indicators == true and "On" or "Off"),
     vim.log.levels.INFO)
 end, "Toggle WinBar status indicators")
 
 -- debug keymap, print the filetype of the current buffer
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<C-x>ft', function()
-  __Globals.notify("Filetype is: " .. vim.api.nvim_get_option_value("filetype", { buf = 0 }), 2, " ")
+  vim.notify("Filetype is: " .. vim.api.nvim_get_option_value("filetype", { buf = 0 }), 2, { title = "Buftype" })
 end, "Show filetype of current buffer")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<C-x>bt', function()
-  __Globals.notify("Buftype is: " .. vim.api.nvim_get_option_value("buftype", { buf = 0 }), 2, " ")
+  vim.notify("Buftype is: " .. vim.api.nvim_get_option_value("buftype", { buf = 0 }), 2, { title = "Buftype" })
 end, "Show buftype of current buffer")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
@@ -479,7 +479,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
   __Globals.toggle_outline_type()        -- toggle the outline plugin (aerial <> symbols-outline)
 end, "Toggle Outline plugin type")
 
-require("local_utils.marks").set_keymaps()
+require("subspace.lib.marks").set_keymaps()
 --vim.cmd("nunmap <cr>")
 
 local status, snacks = pcall(require, "snacks")
@@ -512,3 +512,4 @@ end, "Pick recent project")
 vim.keymap.set('i', "<Left>",  "<C-g>U<Left>", { silent = true, noremap = true } )
 vim.keymap.set('i', "<Right>",  "<C-g>U<Right>", { silent = true, noremap = true } )
 
+vim.g.setkey("n", utility_key .. "ll", function() require("darkmatter.colortools").saturatehex(-0.05) end )

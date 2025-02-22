@@ -93,7 +93,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   view = {
     adaptive_size = false,
     centralize_selection = false,
-    width = __Globals.perm_config.tree.width,
+    width = PCFG.tree.width,
     -- hide_root_folder = false,
     side = 'left',
     preserve_window_proportions = true,

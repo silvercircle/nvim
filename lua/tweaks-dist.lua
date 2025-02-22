@@ -27,7 +27,7 @@ Tweaks.lsp = {}
 -- plugin choices.
 -- notification system
 -- either "mini", "fidget" or "snacks".
-Tweaks.notifier = "fidget"
+Tweaks.notifier = "snacks"
 
 -- set this to "Outline" to use the symbols-outline plugin.
 -- set it to "aerial" to use the Aerial plugin.
@@ -427,5 +427,9 @@ Tweaks.fzf = {
     svg = { "chafa" },
     jpeg = { "chafa" }
   }
+}
+
+Tweaks.snacks = {
+  enabled_modules = { "picker", "image", "indent", "lazygit" }
 }
 return Tweaks

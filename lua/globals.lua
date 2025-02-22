@@ -102,6 +102,7 @@ function M.open_with_fzf(cwd)
   end
 end
 
+
 --- open the outline window
 function M.open_outline()
   local buftype = vim.api.nvim_buf_get_option(0, "buftype")
@@ -169,7 +170,7 @@ end
 -- works with NeoTree and NvimTree
 -- This tries to find the root folder of the current project.
 function M.sync_tree()
-  local root = require("local_utils").getroot_current()
+  local root = require("subspace.lib").getroot_current()
   if vim.g.tweaks.tree.version == "Neo" then
     local nc = require("neo-tree.command")
     nc.execute( {action="show", dir=root, source="filesystem" } )
@@ -182,15 +183,15 @@ end
 --- called by the event handler in NvimTree or NeoTree to inidicate that
 --- the file tree has been opened.
 function M.tree_open_handler()
-  local wsplit = require("local_utils.wsplit")
+  local wsplit = require("subspace.content.wsplit")
   vim.opt.statuscolumn = ''
   local w = vim.fn.win_getid()
   vim.api.nvim_win_set_option(w, 'statusline', '   ' .. (vim.g.tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"))
   vim.cmd('setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
-  vim.api.nvim_win_set_width(w, __Globals.perm_config.tree.width)
+  vim.api.nvim_win_set_width(w, PCFG.tree.width)
   __Globals.adjust_layout()
-  if __Globals.perm_config.weather.active == true then
-    wsplit.content = __Globals.perm_config.weather.content
+  if PCFG.weather.active == true then
+    wsplit.content = PCFG.weather.content
     if wsplit.winid == nil then
       wsplit.openleftsplit(Config.weather.file)
       --vim.schedule(function() wsplit.openleftsplit(Config.weather.file) end)
@@ -201,7 +202,7 @@ end
 --- called by the event handler in NvimTree or NeoTree to inidicate that
 --- the file tree was opened.
 function M.tree_close_handler()
-  local wsplit = require("local_utils.wsplit")
+  local wsplit = require("subspace.content.wsplit")
   wsplit.close()
   wsplit.winid = nil
   __Globals.adjust_layout()
@@ -411,8 +412,7 @@ function M.termToggle(_height)
   -- if it is visible, then close it an all sub frames
   -- but leave the buffer open
   if M.term.visible == true then
-    require("local_utils.usplit").close()
-    -- require("local_utils.wsplit").close()
+    require("subspace.content.usplit").close()
     vim.api.nvim_win_hide(M.term.winid)
     M.term.visible = false
     M.term.winid = nil
@@ -446,8 +446,8 @@ function M.termToggle(_height)
 
   -- finally, open the sub frames if they were previously open
   if M.perm_config.sysmon.active == true then
-    require("local_utils.usplit").content = M.perm_config.sysmon.content
-    require("local_utils.usplit").open()
+    require("subspace.content.usplit").content = M.perm_config.sysmon.content
+    require("subspace.content.usplit").open()
   end
 
   if reopen_outline == true then
@@ -468,10 +468,9 @@ function M.write_config()
   local file = get_permconfig_filename()
   local f = io.open(file, "w+")
   if f ~= nil then
-    local wsplit_id = require("local_utils.wsplit").winid
-    local usplit_id = require("local_utils.usplit").winid
-    local blist_id = require("local_utils.blist").main_win
-    local theme_conf = Config.theme.get_conf()
+    local wsplit_id = require("subspace.content.wsplit").winid
+    local usplit_id = require("subspace.content.usplit").winid
+    local blist_id = require("subspace.content.blist").main_win
     local state = {
       terminal = {
         active = M.term.winid ~= nil and true or false,
@@ -485,13 +484,16 @@ function M.write_config()
       blist = blist_id ~= nil and true or false,
       tree = {
         active = #M.findwinbyBufType(vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
-      },
-      theme_variant = theme_conf.variant,
-      theme_palette = theme_conf.colorpalette,
-      transbg = theme_conf.is_trans,
-      theme_strings = theme_conf.theme_strings,
-      theme_scheme = theme_conf.scheme
+      }
     }
+    if Tweaks.theme.disable == false then
+      local theme_conf = Config.theme.get_conf()
+      state['theme_variant'] = theme_conf.variant
+      state['theme_palette'] = theme_conf.colorpalette
+      state['transbg'] = theme_conf.is_trans
+      state['theme_strings'] = theme_conf.theme_strings
+      state['theme_scheme'] = theme_conf.scheme
+    end
     if wsplit_id ~= nil then
       state.weather.width = vim.api.nvim_win_get_width(wsplit_id)
     end
@@ -528,6 +530,7 @@ function M.restore_config()
   else
     M.perm_config = M.perm_config_default
   end
+  PCFG = M.perm_config
   -- configure the theme
   --local cmp_kind_attr = M.perm_config.cmp_layout == "experimental" and { bold=true, reverse=true } or {}
   local cmp_kind_attr = { bold=true, reverse=true }
@@ -561,7 +564,7 @@ function M.restore_config()
       --  attribute = "user3"
       --},
       plugins = {
-        hl = (vim.g.tweaks.completion.version == "blink") and { "markdown", "syntax", "common", "blink", "snacks" } or { "markdown", "syntax", "common", "snacks" },
+        hl = (vim.g.tweaks.completion.version == "blink") and { "markdown", "common", "blink", "snacks" } or { "markdown", "common", "snacks" },
       },
       attrib = {
         dark = {
@@ -619,8 +622,7 @@ end
 
 --- adjust the optional frames so they will keep their width when the side tree opens or closes
 function M.adjust_layout()
-  local usplit = require("local_utils.usplit").winid
-  --local wsplit = require("local_utils.wsplit").winid
+  local usplit = require("subspace.content.usplit").winid
   vim.o.cmdheight = vim.g.tweaks.cmdheight
   if usplit ~= nil then
     vim.api.nvim_win_set_width(usplit, M.perm_config.sysmon.width)
@@ -817,7 +819,7 @@ function M.setup_treesitter_context(silent)
 end
 
 function M.toggle_treesitter_context()
-  local wsplit = require("local_utils.wsplit")
+  local wsplit = require("subspace.content.wsplit")
   vim.api.nvim_buf_set_var(0, "tsc", not vim.api.nvim_buf_get_var(0, "tsc"))
   M.perm_config.treesitter_context = M.get_buffer_var(0, "tsc")
   M.setup_treesitter_context(false)
@@ -892,46 +894,10 @@ function M.TestDetour()
   vim.cmd("setlocal winhl=NormalFloat:Normal,FloatBorder:TelescopeBorder")
 end
 
--- toggles nvim-cmp or blink (depending on which plugin is active) autoshow
--- setting.
-function M.toggle_autocomplete()
-  local mode = vim.g.tweaks.completion == "nvim-cmp" and "cmp" or "blink"
-  if mode == "cmp" and M.cmp_setup_done == false then
-    return
-  end
-  __Globals.perm_config.cmp_autocomplete = not __Globals.perm_config.cmp_autocomplete
-  if mode == "nvim-cmp" then
-    require("cmp").setup({
-      completion = {
-        autocomplete = __Globals.perm_config.cmp_autocomplete == true and { require("cmp.types.cmp").TriggerEvent.TextChanged } or {},
-        completeopt = "menu,menuone",
-      }
-    })
-  end
-  vim.notify("CMP/Blink autocomplete is now " .. (__Globals.perm_config.cmp_autocomplete == true and "Enabled" or "Disabled"))
-end
--- toggles nvim-cmp or blink (depending on which plugin is active) autoshow
--- ghost text setting.
-function M.toggle_ghost()
-  local mode = vim.g.tweaks.completion == "nvim-cmp" and "cmp" or "blink"
-  if mode == "cmp" and M.cmp_setup_done == false then
-    return
-  end
-  __Globals.perm_config.cmp_ghost = not __Globals.perm_config.cmp_ghost
-  if mode == "nvim-cmp" then
-    require("cmp").setup({
-      experimental = {
-        ghost_text = __Globals.perm_config.cmp_ghost
-      }
-    })
-  end
-  vim.notify("CMP/Blink ghost text is now " .. (__Globals.perm_config.cmp_ghost == true and "Enabled" or "Disabled"))
-end
-
 function M.custom_lsp()
   local Snacks = require("snacks")
   local Align = Snacks.picker.util.align
-  local lutils = require("local_utils")
+  local lutils = require("subspace.lib")
 
   Snacks.picker.lsp_symbols({
     format = function(item, picker)
@@ -972,4 +938,5 @@ function M.custom_lsp()
     }
   })
 end
+
 return M

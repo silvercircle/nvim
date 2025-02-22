@@ -156,6 +156,7 @@ local colorstyles = {
   attribute = "olive",
   strings   = "altgreen",
   parameter = "fg_dim",
+  url       = "altblue"
 }
 
 local M = {}
@@ -236,7 +237,8 @@ function M.attributes()
     module       = { bold = true },
     constant     = {},
     macro        = { bold = true },
-    defaultlib   = { bold = true, italic = true }
+    defaultlib   = { bold = true, italic = true },
+    url          = { bold = true, underline = true }
   }
 end
 

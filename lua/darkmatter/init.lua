@@ -11,13 +11,21 @@
 --rewritten to lua and heavily modified for my personal Neovim config at:
 --https://gitlab.com/silvercircle74/nvim
 --License:      MIT
---it features multiple background modes (cold, warm and deepdark) and three levels
---of color saturation: bright vivid and two desaturated modes
---it's also extensible via plugins and can support multiple base themes (including
---light themes). This is not yet implemented.
 --TODO: 
 --      * maybe (just maybe) a bright background variant
---      * add variants of well known themes (gruv <done>, dracula <maybe>)
+--      * add variants of well known themes (gruv <done>, dracula <wip>)
+--      * outsource into a real plugin that can be loaded as a colorscheme.
+
+-- while this was originally written as a single theme, it evolved into a theme
+-- engine that can handle multiple schemes, each with an arbitrary number of color
+-- palettes and background themes. This is still ongoing work and the code needs
+-- a lot of polishing and maybe some cleanup. Some things are overly complex and
+-- could be simplified.
+--
+-- Customization is possible, but lacks certain features. Right now, new highlight
+-- groups require plugins while it should be possible to add them during theme setup
+
+local Utils = require("subspace.lib")
 
 local M = {}
 
@@ -164,7 +172,7 @@ local function configure()
 
   M.T = Scheme.bgtheme()
   rainbowpalette = Scheme.rainbowpalette()
-  conf.attrib = vim.tbl_deep_extend("force", Scheme.attributes(), M.attributes_ovr[conf.scheme])
+  conf.attrib = vim.tbl_deep_extend("force", Scheme.attributes(), M.attributes_ovr[conf.scheme] or {} )
   conf.schemeconfig = Scheme.schemeconfig()
   conf.style = Scheme.colorstyles()
   for k,v in pairs(conf.colorstyles_ovr) do
@@ -308,7 +316,7 @@ local function set_all()
   M.hl_with_defaults("debugPC", M.P.bg0, M.P.green)
   M.hl_with_defaults("debugBreakpoint", M.P.bg0, M.P.red)
   M.hl_with_defaults("Substitute", M.P.bg0, M.P.yellow)
-
+  M.hl("URL", M.P.styled.url, M.NONE, conf.attrib.url)
   M.hl("Type", M.P.styled.type, M.NONE, conf.attrib.types)
   M.hl("TypeDefinition", M.P.styled.type, M.NONE, { bold = true })
   M.hl("Structure", M.P.styled.struct, M.NONE, conf.attrib.struct)
@@ -327,8 +335,8 @@ local function set_all()
   M.hl("KWException", M.P.styled.kwexception, M.NONE, conf.attrib.kwexception)
   M.hl("KWReturn", M.P.styled.kwreturn, M.NONE, conf.attrib.kwreturn)
   M.hl_with_defaults("Define", M.P.red, M.NONE)
-  M.hl("Typedef", M.P.red, M.NONE, conf.attrib.types)
-  M.hl("Statement", M.P.blue, M.NONE, conf.attrib.keyword)
+  M.hl("Typedef", M.P.styled.type, M.NONE, conf.attrib.types)
+  M.hl("Statement", M.P.styled.keyword, M.NONE, conf.attrib.keyword)
   M.hl_with_defaults("Macro", M.P.styled.macro, conf.attrib.macro)
   M.hl_with_defaults("Error", M.P.red, M.NONE)
   M.hl_with_defaults("Label", M.P.lpurple, M.NONE)
@@ -337,8 +345,8 @@ local function set_all()
   M.hl("String", M.P.string, M.NONE, conf.attrib.str)
   M.hl_with_defaults("Character", M.P.yellow, M.NONE)
   M.hl("Number", M.P.styled.number, M.NONE, conf.attrib.number)
-  M.hl_with_defaults("Float", M.P.lpurple, M.NONE)
-  M.hl("Function", M.P.teal, M.NONE, conf.attrib.func)
+  M.link("Float", "Number")
+  M.hl("Function", M.P.styled.func, M.NONE, conf.attrib.func)
   M.hl("Method", M.P.styled.method, M.NONE, conf.attrib.method)
   M.hl("StaticMethod", M.P.styled.staticmethod, M.NONE, conf.attrib.staticmethod)
   M.hl("Member", M.P.styled.member, M.NONE, conf.attrib.member)
@@ -356,11 +364,7 @@ local function set_all()
   M.hl("Attribute", M.P.styled.attribute, M.NONE, conf.attrib.attribute)
   M.hl("Annotation", M.P.styled.attribute, M.NONE, conf.attrib.attribute)
   M.hl_with_defaults("Fg", M.P.fg, M.NONE)
-  M.hl("FgBold", M.P.fg, M.NONE, conf.attrib.bold)
-  M.hl("FgItalic", M.P.fg, M.NONE, conf.attrib.italic)
   M.hl_with_defaults("FgDim", M.P.fg_dim, M.NONE)
-  M.hl("FgDimBold", M.P.fg_dim, M.NONE, conf.attrib.bold)
-  M.hl("FgDimBoldItalic", M.P.fg_dim, M.NONE, conf.attrib.bolditalic)
   M.hl_with_defaults("Grey", M.P.grey, M.NONE)
   M.hl_with_defaults("Red", M.P.red, M.NONE)
   M.hl("RedBold", M.P.red, M.NONE, conf.attrib.bold)
@@ -480,7 +484,7 @@ local function set_all()
   M.hl("@constructor", M.P.styled.constructor, M.NONE, {} )
   M.link("@field", "Member")
   M.link("@float", "Number")
-  M.link("@function", "Teal")
+  M.link("@function", "Function")
   M.link("@function.builtin", "Builtin")
   M.link("@function.macro", "TealBold")
   M.link("@include", "Include")
@@ -541,6 +545,7 @@ local function set_all()
   M.link("@lsp.type.selfKeyword", "Builtin")
   M.link("@lsp.type.bracket", "Braces")
   M.link("@lsp.type.method", "Method")
+  M.link("@lsp.type.function", "Function")
   M.link("@lsp.type.class", "Class")
   M.link("@lsp.type.class_name", "Class")
   M.link("@lsp.type.structure", "Structure")
@@ -769,7 +774,6 @@ end
 
 -- use vim.ui.select to choose from a list of themes
 function M.ui_select_variant()
-  local utils = require("local_utils")
   local variants = conf.schemeconfig.variants
 
   vim.iter(variants):filter(function(k)
@@ -783,14 +787,11 @@ function M.ui_select_variant()
     conf.callback("variant")
   end
 
-  utils.simplepicker(variants, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select theme background variant" })
+  Utils.simplepicker(variants, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select theme background variant" })
 end
 
 -- use UI to present a selection of possible color configurations
--- this uses vim.ui.select and works best with plugins like dressing or
--- mini.picker that can enhance ui.select
 function M.ui_select_colorweight()
-  local utils = require("local_utils")
   local items = conf.schemeconfig.palettes
 
   vim.iter(items):map(function(k)
@@ -803,7 +804,7 @@ function M.ui_select_colorweight()
     conf_callback("palette")
   end
 
-  utils.simplepicker(items, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select Color variant" })
+  Utils.simplepicker(items, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select Color variant" })
 end
 
 -- toggle strings color. Allowed values are either "yellow" or "green"
@@ -841,7 +842,6 @@ end
 -- provide a simple ui selector to select and activate one of the available
 -- color schemes.
 function M.ui_select_scheme()
-  local utils = require("local_utils")
   local schemes = {
     { cmd = "dark", text = "Sonokai-inspired dark" },
     { cmd = "gruv", text = "Frankengruv, A Gruvbox inspired scheme" },
@@ -854,11 +854,11 @@ function M.ui_select_scheme()
 
   local function execute(item)
     conf.scheme = item.cmd
-    CFG().theme_scheme = item.cmd
+    PCFG.theme_scheme = item.cmd
     M.set()
     conf_callback("scheme")
   end
 
-  utils.simplepicker(schemes, execute, { pre = "current", sortby = { "text:desc" }, prompt = "Select theme scheme" })
+  Utils.simplepicker(schemes, execute, { pre = "current", sortby = { "text:desc" }, prompt = "Select theme scheme" })
 end
 return M

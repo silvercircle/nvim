@@ -121,6 +121,8 @@ require "fzf-lua".setup({
       ["ctrl-a"]     = "beginning-of-line",
       ["ctrl-e"]     = "end-of-line",
       ["alt-a"]      = "toggle-all",
+      ["home"]       = "first",
+      ["end"]        = "last",
       -- Only valid with fzf previewers (bat/cat/git/etc)
       ["f3"]         = "toggle-preview-wrap",
       ["f4"]         = "toggle-preview",
