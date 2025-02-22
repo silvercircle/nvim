@@ -263,7 +263,7 @@ local conceal_pattern = { "markdown", "telekasten", "liquid" }
 
 -- generic FileType handler adressing common actions
 autocmd({ 'FileType' }, {
-  pattern = { "Outline", "query", "mail", "qf", "replacer", "Trouble",
+  pattern = { "Outline", "mail", "qf", "replacer", "Trouble",
     'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go',
     "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
@@ -280,8 +280,6 @@ autocmd({ 'FileType' }, {
       vim.api.nvim_win_set_width(0, __Globals.perm_config.outline.width)
     elseif args.match == "mail" then
       vim.cmd("setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
-    elseif args.match == "query" then
-      vim.cmd("silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal norelativenumber | silent! setlocal nonumber | setlocal statusline=Treesitter | setlocal winhl=Normal:NeoTreeNormalNC")
     elseif args.match == "Glance" then
       vim.defer_fn(function() vim.cmd("setlocal cursorline") end, 400)
     elseif args.match == "qf" or args.match == "replacer" then
@@ -413,6 +411,7 @@ autocmd("TextYankPost", {
   end,
 })
 
+--- LSP progress handler for snacks.notifier
 if Tweaks.notifier == "snacks" then
   local progress = vim.defaulttable()
   vim.api.nvim_create_autocmd("LspProgress", {

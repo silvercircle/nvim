@@ -157,8 +157,8 @@ require("lualine").setup({
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", 'terminal', 'query', 'qf', 'sysmon', 'weather', "NvimTree", "neo-tree", "Trouble" },
-      winbar = { 'Outline', 'terminal', 'query', 'qf', 'NvimTree', 'neo-tree', 'alpha', 'sysmon', 'weather', 'Trouble',
+      statusline = { "Outline", 'terminal', 'qf', 'query_rt', 'sysmon', 'weather', "NvimTree", "neo-tree", "Trouble" },
+      winbar = { 'Outline', 'terminal', 'query_rt', 'qf', 'NvimTree', 'neo-tree', 'alpha', 'sysmon', 'weather', 'Trouble',
                  'dap-repl', 'dapui_console', 'dapui_watches', 'dapui_stacks', 'dapui_scopes', 'dapui_breakpoints', "snacks_picker_preview" },
       tabline = {},
     },
