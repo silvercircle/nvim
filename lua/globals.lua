@@ -170,7 +170,7 @@ end
 -- works with NeoTree and NvimTree
 -- This tries to find the root folder of the current project.
 function M.sync_tree()
-  local root = require("local_utils").getroot_current()
+  local root = require("subspace.lib").getroot_current()
   if vim.g.tweaks.tree.version == "Neo" then
     local nc = require("neo-tree.command")
     nc.execute( {action="show", dir=root, source="filesystem" } )
@@ -183,7 +183,7 @@ end
 --- called by the event handler in NvimTree or NeoTree to inidicate that
 --- the file tree has been opened.
 function M.tree_open_handler()
-  local wsplit = require("local_utils.wsplit")
+  local wsplit = require("subspace.content.wsplit")
   vim.opt.statuscolumn = ''
   local w = vim.fn.win_getid()
   vim.api.nvim_win_set_option(w, 'statusline', '   ' .. (vim.g.tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"))
@@ -202,7 +202,7 @@ end
 --- called by the event handler in NvimTree or NeoTree to inidicate that
 --- the file tree was opened.
 function M.tree_close_handler()
-  local wsplit = require("local_utils.wsplit")
+  local wsplit = require("subspace.content.wsplit")
   wsplit.close()
   wsplit.winid = nil
   __Globals.adjust_layout()
@@ -412,8 +412,7 @@ function M.termToggle(_height)
   -- if it is visible, then close it an all sub frames
   -- but leave the buffer open
   if M.term.visible == true then
-    require("local_utils.usplit").close()
-    -- require("local_utils.wsplit").close()
+    require("subspace.content.usplit").close()
     vim.api.nvim_win_hide(M.term.winid)
     M.term.visible = false
     M.term.winid = nil
@@ -447,8 +446,8 @@ function M.termToggle(_height)
 
   -- finally, open the sub frames if they were previously open
   if M.perm_config.sysmon.active == true then
-    require("local_utils.usplit").content = M.perm_config.sysmon.content
-    require("local_utils.usplit").open()
+    require("subspace.content.usplit").content = M.perm_config.sysmon.content
+    require("subspace.content.usplit").open()
   end
 
   if reopen_outline == true then
@@ -469,9 +468,9 @@ function M.write_config()
   local file = get_permconfig_filename()
   local f = io.open(file, "w+")
   if f ~= nil then
-    local wsplit_id = require("local_utils.wsplit").winid
-    local usplit_id = require("local_utils.usplit").winid
-    local blist_id = require("local_utils.blist").main_win
+    local wsplit_id = require("subspace.content.wsplit").winid
+    local usplit_id = require("subspace.content.usplit").winid
+    local blist_id = require("subspace.content.blist").main_win
     local state = {
       terminal = {
         active = M.term.winid ~= nil and true or false,
@@ -623,8 +622,7 @@ end
 
 --- adjust the optional frames so they will keep their width when the side tree opens or closes
 function M.adjust_layout()
-  local usplit = require("local_utils.usplit").winid
-  --local wsplit = require("local_utils.wsplit").winid
+  local usplit = require("subspace.content.usplit").winid
   vim.o.cmdheight = vim.g.tweaks.cmdheight
   if usplit ~= nil then
     vim.api.nvim_win_set_width(usplit, M.perm_config.sysmon.width)
@@ -821,7 +819,7 @@ function M.setup_treesitter_context(silent)
 end
 
 function M.toggle_treesitter_context()
-  local wsplit = require("local_utils.wsplit")
+  local wsplit = require("subspace.content.wsplit")
   vim.api.nvim_buf_set_var(0, "tsc", not vim.api.nvim_buf_get_var(0, "tsc"))
   M.perm_config.treesitter_context = M.get_buffer_var(0, "tsc")
   M.setup_treesitter_context(false)
@@ -899,7 +897,7 @@ end
 function M.custom_lsp()
   local Snacks = require("snacks")
   local Align = Snacks.picker.util.align
-  local lutils = require("local_utils")
+  local lutils = require("subspace.lib")
 
   Snacks.picker.lsp_symbols({
     format = function(item, picker)

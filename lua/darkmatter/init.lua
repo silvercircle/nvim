@@ -25,6 +25,8 @@
 -- Customization is possible, but lacks certain features. Right now, new highlight
 -- groups require plugins while it should be possible to add them during theme setup
 
+local Utils = require("subspace.lib")
+
 local M = {}
 
 -- the "no color"
@@ -772,7 +774,6 @@ end
 
 -- use vim.ui.select to choose from a list of themes
 function M.ui_select_variant()
-  local utils = require("local_utils")
   local variants = conf.schemeconfig.variants
 
   vim.iter(variants):filter(function(k)
@@ -786,12 +787,11 @@ function M.ui_select_variant()
     conf.callback("variant")
   end
 
-  utils.simplepicker(variants, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select theme background variant" })
+  Utils.simplepicker(variants, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select theme background variant" })
 end
 
 -- use UI to present a selection of possible color configurations
 function M.ui_select_colorweight()
-  local utils = require("local_utils")
   local items = conf.schemeconfig.palettes
 
   vim.iter(items):map(function(k)
@@ -804,7 +804,7 @@ function M.ui_select_colorweight()
     conf_callback("palette")
   end
 
-  utils.simplepicker(items, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select Color variant" })
+  Utils.simplepicker(items, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select Color variant" })
 end
 
 -- toggle strings color. Allowed values are either "yellow" or "green"
@@ -842,7 +842,6 @@ end
 -- provide a simple ui selector to select and activate one of the available
 -- color schemes.
 function M.ui_select_scheme()
-  local utils = require("local_utils")
   local schemes = {
     { cmd = "dark", text = "Sonokai-inspired dark" },
     { cmd = "gruv", text = "Frankengruv, A Gruvbox inspired scheme" },
@@ -860,6 +859,6 @@ function M.ui_select_scheme()
     conf_callback("scheme")
   end
 
-  utils.simplepicker(schemes, execute, { pre = "current", sortby = { "text:desc" }, prompt = "Select theme scheme" })
+  Utils.simplepicker(schemes, execute, { pre = "current", sortby = { "text:desc" }, prompt = "Select theme scheme" })
 end
 return M

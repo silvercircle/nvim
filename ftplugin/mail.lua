@@ -2,7 +2,7 @@
 -- a From: header (if present)
 -- useful for composing mails
 
-local Utils = require("local_utils")
+local Utils = require("subspace.lib")
 -- configure your mail addresses here. As many as you want.
 local adresses = {
   --{

@@ -485,7 +485,7 @@ end
 function Utils.simplepicker(entries, fn, opts)
   opts = opts or {}
   local prompt = opts.prompt or ""
-  local utils = require("local_utils")
+  local utils = require("subspace.lib")
   local Snacks = require("snacks")
   local Align = Snacks.picker.util.align
   local maxlength = utils.getLongestString(entries, "text")

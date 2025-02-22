@@ -1,7 +1,7 @@
 local use_lombok = true
 
 local lsputil = require("lspconfig.util")
-local md5 = require("local_utils.md5")
+local md5 = require("subspace.lib.md5")
 local hash
 local project_name = "tmp"
 local debug = true

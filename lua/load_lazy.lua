@@ -110,7 +110,7 @@ lazy.setup({
     config = function()
       require("quickfavs").setup({
         filename = vim.fs.joinpath(vim.fn.stdpath("config"), "favs"),
-        telescope_theme = require("local_utils").Telescope_dropdown_theme,
+        telescope_theme = require("subspace.lib").Telescope_dropdown_theme,
         picker = "snacks",
         snacks_layout = SPL( { width = 120, height = 20, row = 5, input = "top" }),
         fzf_winopts = vim.g.tweaks.fzf.winopts.narrow_small_preview,

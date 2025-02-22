@@ -1,5 +1,5 @@
 -- nvim-cmp: completion support
-local utils = require("local_utils")
+local utils = require("subspace.lib")
 local cmp_helper = {}
 
 local T = vim.g.tweaks.cmp

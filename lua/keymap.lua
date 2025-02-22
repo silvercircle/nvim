@@ -2,7 +2,7 @@ local map = vim.api.nvim_set_keymap
 local kms = vim.keymap.set
 
 local opts = { noremap = true, silent = true }
-local utils = require('local_utils')
+local Utils = require('subspace.lib')
 local utility_key = vim.g.tweaks.keymap.utility_key
 local treename = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
 
@@ -113,7 +113,7 @@ vim.g.setkey({'i', 'n', 'v'}, '<C-s><C-s>', function() perform_command("update!"
 
 vim.g.setkey({'n', 'i', 'v'}, '<C-s><C-c>', function()
   vim.cmd.stopinsert()
-  vim.schedule(function() require("local_utils").BufClose() end)
+  vim.schedule(function() Utils.BufClose() end)
 end, "Close Buffer")
 vim.g.setkey({'n', 'i', 'v'}, '<f5>', function() perform_command('nohl') end, "Clear highlighted search results")
 
@@ -294,7 +294,7 @@ end, "Declutter status line")
 
 vim.g.setkey({'n', 'i'}, '<A-q>', function()
   vim.cmd.stopinsert()
-  vim.schedule(function() utils.Quitapp() end)
+  vim.schedule(function() Utils.Quitapp() end)
 end, "Quit Neovim")
 
 vim.g.setkey({'n', 'i'}, '<C-p>', function()
@@ -358,7 +358,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-5>', function()
 end, "Focus Terminal split and change to current dir")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-6>', function()
-  local dir = utils.getroot_current()
+  local dir = Utils.getroot_current()
   focus_term_split(dir)
 end, "Focus Terminal split and change to project root")
 
@@ -369,7 +369,7 @@ kms({ 'n', 'i', 't', 'v' }, '<A-0>', function()
 end, opts) -- save current winid as main window id
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
-  local uspl = require('local_utils.usplit')
+  local uspl = require('subspace.content.usplit')
   if uspl.winid == nil then
     uspl.open()
   else
@@ -383,7 +383,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
 end, "Open the sysmon/fortune window")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-8>', function()
-  local wspl = require('local_utils.wsplit')
+  local wspl = require('subspace.content.wsplit')
   if wspl.winid == nil then
     wspl.openleftsplit(Config.weather.file)
   else
@@ -433,13 +433,13 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'zt', function()
 end, "Add current word with translation to wordlist")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'wt', function()
-  require("local_utils.wsplit").toggle_content()
+  require("subspace.content.wsplit").toggle_content()
 end, "Toggle weather/info content")
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'st', function()
-  require("local_utils.usplit").toggle_content()
+  require("subspace.content.usplit").toggle_content()
 end, "Toggle sysmon/fortune content")
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'sr', function()
-  require("local_utils.usplit").refresh_cookie()
+  require("subspace.content.usplit").refresh_cookie()
 end, "Fortune refresh cookie")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, "<C-x>a", function()
@@ -479,7 +479,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
   __Globals.toggle_outline_type()        -- toggle the outline plugin (aerial <> symbols-outline)
 end, "Toggle Outline plugin type")
 
-require("local_utils.marks").set_keymaps()
+require("subspace.lib.marks").set_keymaps()
 --vim.cmd("nunmap <cr>")
 
 local status, snacks = pcall(require, "snacks")

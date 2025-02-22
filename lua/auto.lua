@@ -4,11 +4,11 @@
 local autocmd = vim.api.nvim_create_autocmd
 local agroup_views = vim.api.nvim_create_augroup("views", {})
 local agroup_hl = vim.api.nvim_create_augroup("hl", {})
-local wsplit = require("local_utils.wsplit")
-wsplit.freeze = true
-local usplit = require("local_utils.usplit")
+local Wsplit = require("subspace.content.wsplit")
+Wsplit.freeze = true
+local Usplit = require("subspace.content.usplit")
 local tsc = require("treesitter-context")
-local marks = require("local_utils.marks")
+local marks = require("subspace.lib.marks")
 local treeft = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
 
 -- local ibl = require('indent_blankline')
@@ -72,18 +72,17 @@ local function main_layout()
     -- keep track of tree/outline window widths
     autocmd({ "WinClosed", "WinResized" }, {
       callback = function(sizeevent)
-        require("local_utils.usplit").resize_or_closed(sizeevent)
-        -- require("local_utils.wsplit").resize_or_closed()
+        require("subspace.content.usplit").resize_or_closed(sizeevent)
         if sizeevent.event == "WinClosed" then
           if __Globals.term.winid ~= nil and vim.api.nvim_win_is_valid(__Globals.term.winid) == false then
             __Globals.term.winid = nil
             __Globals.term.visible = false
           end
-          if wsplit.winid ~= nil and vim.api.nvim_win_is_valid(wsplit.winid) == false then
-            wsplit.winid = nil
+          if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) == false then
+            Wsplit.winid = nil
           end
-          if usplit.winid ~= nil and vim.api.nvim_win_is_valid(usplit.winid) == false then
-            usplit.winid = nil
+          if Usplit.winid ~= nil and vim.api.nvim_win_is_valid(Usplit.winid) == false then
+            Usplit.winid = nil
           end
           local id = sizeevent.match
           local status, target = pcall(vim.api.nvim_win_get_var, tonumber(id), "termheight")
@@ -95,8 +94,8 @@ local function main_layout()
           if __Globals.term.winid ~= nil then
             PCFG.terminal.height = vim.api.nvim_win_get_height(__Globals.term.winid)
           end
-          wsplit.set_minheight()
-          wsplit.refresh()
+          Wsplit.set_minheight()
+          Wsplit.refresh()
           local status = __Globals.is_outline_open()
           local tree = __Globals.findwinbyBufType(treeft)
           if status.outline ~= 0 then
@@ -120,12 +119,12 @@ local function main_layout()
     })
     vim.api.nvim_command("wincmd p")
     if PCFG.weather.active == true then
-      wsplit.freeze = true
-      wsplit.content = PCFG.weather.content
-      wsplit.content_set_winid(__Globals.main_winid)
+      Wsplit.freeze = true
+      Wsplit.content = PCFG.weather.content
+      Wsplit.content_set_winid(__Globals.main_winid)
     end
     if PCFG.sysmon.active then
-      usplit.content = PCFG.sysmon.content
+      Usplit.content = PCFG.sysmon.content
     end
     if PCFG.transbg == true then
       Config.theme.set_bg()
@@ -198,9 +197,9 @@ autocmd({ 'BufEnter' }, {
       end
     end
     __Globals.get_bufsize()
-    wsplit.content_set_winid(vim.fn.win_getid())
-    if wsplit.content == 'info' then
-      vim.schedule(function() wsplit.refresh() end)
+    Wsplit.content_set_winid(vim.fn.win_getid())
+    if Wsplit.content == 'info' then
+      vim.schedule(function() Wsplit.refresh() end)
     end
     marks.BufWinEnterHandler(args) -- update marks in sign column
     vim.schedule(function() require("lualine").refresh() end)
@@ -326,10 +325,10 @@ local old_mode
 autocmd({ 'WinEnter' }, {
   pattern = '*',
   callback = function()
-    wsplit.content_set_winid(vim.fn.win_getid())
-    if wsplit.content == 'info' then
+    Wsplit.content_set_winid(vim.fn.win_getid())
+    if Wsplit.content == 'info' then
       __Globals.get_bufsize()
-      vim.schedule(function() wsplit.refresh() end)
+      vim.schedule(function() Wsplit.refresh() end)
     end
 
     local filetype = vim.bo.filetype

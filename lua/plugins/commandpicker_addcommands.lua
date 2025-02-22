@@ -2,7 +2,7 @@ local fkeys      = vim.g.fkeys
 local fzf_tweaks = vim.g.tweaks.fzf
 local fzf        = require("fzf-lua")
 local Snacks     = require("snacks")
-local lutils     = require("local_utils")
+local lutils     = require("subspace.lib")
 local lsputil    = require("lspconfig.util")
 -- local Terminal   = require("toggleterm.terminal").Terminal
 -- require("telescope")
@@ -265,7 +265,7 @@ require("commandpicker").add({
   },
   {
     desc = "Show notification history",
-    cmd = function() require("local_utils").notification_history() end,
+    cmd = function() lutils.notification_history() end,
     keys = {
       { "n", vim.g.tweaks.keymap.utility_key .. "<C-n>" },
       { "i", vim.g.tweaks.keymap.utility_key .. "<C-n>" }

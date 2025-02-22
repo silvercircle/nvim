@@ -4,7 +4,7 @@
 -- requires a NERDFont
 
 --local plenary = require("plenary.path")
-local utils = require("local_utils")
+local Utils = require("subspace.lib")
 
 local Wsplit = {}
 Wsplit.winid = nil     -- window id
@@ -437,7 +437,7 @@ end
 ---   b) The current window or buffer changes (WinEnter, BufWinEnter events)
 function Wsplit.refresh()
   local results = {}
-  local relpath = Config.nightly == true and vim.fs.relpath or require("local_utils.fs").relpath
+  local relpath = Config.nightly == true and vim.fs.relpath or require("subspace.lib.fs").relpath
 
   if Wsplit.bufid == nil or Wsplit.winid == nil then
     return
@@ -465,15 +465,15 @@ function Wsplit.refresh()
       local lines = {}
       local buf_filename = vim.api.nvim_buf_get_name(curbuf)
       if buf_filename ~= nil and vim.bo[curbuf].bt == "" and vim.fn.filereadable(buf_filename) then
-        name = utils.path_truncate(relpath(utils.getroot(buf_filename), buf_filename), Wsplit.win_width - 3)
+        name = Utils.path_truncate(relpath(Utils.getroot(buf_filename), buf_filename), Wsplit.win_width - 3)
       else
         return
       end
-      local fn_symbol, fn_symbol_hl = utils.getFileSymbol(vim.api.nvim_buf_get_name(curbuf))
+      local fn_symbol, fn_symbol_hl = Utils.getFileSymbol(vim.api.nvim_buf_get_name(curbuf))
       local ft = vim.api.nvim_get_option_value("filetype", { buf = curbuf })
 
-      table.insert(lines, utils.pad("Buffer Info", Wsplit.win_width + 1, " "))
-      table.insert(lines, " " .. utils.pad(name, Wsplit.win_width, " ") .. "  ")
+      table.insert(lines, Utils.pad("Buffer Info", Wsplit.win_width + 1, " "))
+      table.insert(lines, " " .. Utils.pad(name, Wsplit.win_width, " ") .. "  ")
       table.insert(lines, " ")
       -- size of buffer. Bytes, KB or MB
       if __Globals.cur_bufsize > 1 then
