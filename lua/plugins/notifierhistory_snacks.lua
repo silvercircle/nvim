@@ -45,7 +45,7 @@ local level_to_hl = {
 
 local show_history = function(layout)
   local Snacks = require("snacks")
-  local utils = require("local_utils")
+  local Utils = require("subspace.lib")
   local cols = conf.snacks_picker_cols
   local align = Snacks.picker.util.align
 
@@ -73,10 +73,10 @@ local show_history = function(layout)
       local pos = #entry
       entry[pos + 1] = { align(vim.fn.strftime(conf.dateformat.short,
         math.floor(item.added)), cols.timestamp.width), cols.timestamp.hl }
-      entry[pos + 2] = { align(utils.truncate(item.title, cols.group.width - 1),
+      entry[pos + 2] = { align(Utils.truncate(item.title, cols.group.width - 1),
                          cols.group.width ), cols.group.hl}
       entry[pos + 3] = { align(item.icon or " ", 3), level_to_hl[item.level] or "Fg" }
-      entry[pos + 4] = { align(utils.truncate(item.msg, message_width - 1), message_width, { align = "right" }),
+      entry[pos + 4] = { align(Utils.truncate(item.msg, message_width - 1), message_width, { align = "right" }),
         level_to_hl[item.level] or "Fg" }
 
       return entry
