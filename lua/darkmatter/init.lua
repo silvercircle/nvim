@@ -790,8 +790,6 @@ function M.ui_select_variant()
 end
 
 -- use UI to present a selection of possible color configurations
--- this uses vim.ui.select and works best with plugins like dressing or
--- mini.picker that can enhance ui.select
 function M.ui_select_colorweight()
   local utils = require("local_utils")
   local items = conf.schemeconfig.palettes
@@ -857,7 +855,7 @@ function M.ui_select_scheme()
 
   local function execute(item)
     conf.scheme = item.cmd
-    CFG().theme_scheme = item.cmd
+    PCFG.theme_scheme = item.cmd
     M.set()
     conf_callback("scheme")
   end

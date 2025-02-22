@@ -62,8 +62,6 @@ local function main_layout()
   __Globals.main_winid = vim.fn.win_getid()
   if Config.plain == false then
     if PCFG.tree.active == true then
-      --local timer = vim.uv.new_timer()
-      --timer:start(500, 0, vim.schedule_wrap(function() __Globals.open_tree() vim.fn.win_gotoid(__Globals.main_winid) end))
       __Globals.open_tree()
     end
     if PCFG.terminal.active == true then

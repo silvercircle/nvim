@@ -645,7 +645,7 @@ require("commandpicker").add({
   },
   {
     desc = "Document symbols (FZF)",
-    cmd = function() fzf.lsp_document_symbols({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
+    cmd = function() require("snacks").picker.lsp_symbols({ layout = SPL( {width = 80, input="top", height=.8, preview=true, psize=10 } ) }) end,
     keys = {
       { "n", "<A-a>", noremap },
       { "i", "<A-a>", noremap }
