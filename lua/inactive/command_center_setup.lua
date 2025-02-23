@@ -4,8 +4,7 @@
 local command_center = require("command_center")
 local noremap = { noremap = true }
 local lsputil = require("lspconfig.util")
-local lutils = require("local_utils")
-local _t = require("telescope")
+local Utils = require("subspace.lib")
 local _tb = require("telescope.builtin")
 local Terminal  = require('toggleterm.terminal').Terminal
 
@@ -16,7 +15,7 @@ command_center.add({
   {
     desc = "Show notification history",
     --cmd = function() bm.bookmark_clean() end,
-    cmd = function() require("local_utils").notification_history() end,
+    cmd = function() Utils.notification_history() end,
     keys = {
       { "n", vim.g.tweaks.keymap.utility_key .. "<C-n>", noremap },
       { "i", vim.g.tweaks.keymap.utility_key .. "<C-n>", noremap }
@@ -93,7 +92,7 @@ command_center.add({
     desc = "Mini document treesitter view",
     cmd = function()
       _tb.treesitter(__Telescope_vertical_dropdown_theme({
-        prompt_prefix = lutils.getTelescopePromptPrefix(),
+        prompt_prefix = Utils.getTelescopePromptPrefix(),
         layout_config = Config.minipicker_layout
       }))
     end,
@@ -111,7 +110,7 @@ command_center.add({
   },
   {
     desc = "Shutdown LSP server",
-    cmd = function() lutils.StopLsp() end,
+    cmd = function() Utils.StopLsp() end,
     keys = { "n", "lss", noremap },
     category = "@LSP"
   },
@@ -210,7 +209,7 @@ command_center.add({
   {
     -- open a document viewer zathura view and view the tex document as PDF
     desc = "View LaTeX result (" .. vim.g.tweaks.texviewer .. ")",
-    cmd = lutils.view_latex(),
+    cmd = Utils.view_latex(),
     keys = { -- shift-f9
       { "n", fkeys.s_f9, noremap },
       { "i", fkeys.s_f9, noremap },
@@ -220,7 +219,7 @@ command_center.add({
   {
     -- recompile the .tex document using lualatex
     desc = "Recompile LaTeX document",
-    cmd = lutils.compile_latex(),
+    cmd = Utils.compile_latex(),
     keys = {
       { "n", "<f9>", noremap },
       { "i", "<f9>", noremap },
@@ -253,7 +252,7 @@ command_center.add({
   },
   {
     desc = "Tags list (Telescope)",
-    cmd = function() _tb.tags(__Telescope_vertical_dropdown_theme({ prompt_title = "Tags list", cwd = lutils.getroot_current() })) end,
+    cmd = function() _tb.tags(__Telescope_vertical_dropdown_theme({ prompt_title = "Tags list", cwd = Utils.getroot_current() })) end,
     keys = { "n", "<leader>t", },
     category = "@Telescope"
   },

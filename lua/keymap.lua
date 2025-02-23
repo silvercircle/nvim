@@ -132,7 +132,7 @@ end, "Close quickfix/loclist window")
 
 --- mini picker shortcuts, all start with <C-a>
 vim.g.setkey({ 'n', 'i' }, '<C-a>f', function()
-  utils.PickFoldingMode(vim.o.foldmethod)
+  Utils.PickFoldingMode(vim.o.foldmethod)
 end, "Pick folding mode")
 
 vim.g.setkey({'n', 'i'}, '<C-a>e', function()
@@ -140,11 +140,11 @@ vim.g.setkey({'n', 'i'}, '<C-a>e', function()
 end, "Open Mini File Browser at current directory")
 
 vim.g.setkey({'n', 'i'}, '<C-a><C-e>', function()
-  require("fzf-lua").files({ formatter = "path.filename_first", cwd = utils.getroot_current(), winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+  require("fzf-lua").files({ formatter = "path.filename_first", cwd = Utils.getroot_current(), winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
 end, "Open Mini File Browser at project root")
 
 vim.g.setkey({'n', 'i'}, '<A-E>', function()
-  local cwd = utils.getroot_current()
+  local cwd = Utils.getroot_current()
   require("snacks").picker.explorer({cwd = cwd,
     layout = SPL( { width = 70, psize = 12, input = "top", title = cwd }) })
 end, "Open Snacks Explorer at project root")
@@ -153,7 +153,7 @@ end, "Open Snacks Explorer at project root")
 -- subfolders listed in Tweaks.srclocations. You can customize this if you want
 vim.g.setkey({'n', 'i'}, '<A-e>', function()
   local found = false
-  local path = utils.getroot_current()
+  local path = Utils.getroot_current()
   for _, v in ipairs(vim.g.tweaks.srclocations) do
     local res = vim.fs.joinpath(path, v)
     if vim.fn.isdirectory(res) == 1 then
@@ -172,7 +172,7 @@ vim.g.setkey('n', '<C-a>w', function()
 end, "Open Mini.Files at current directory")
 
 vim.g.setkey('n', '<C-a><C-w>', function()
-  require("mini.files").open(utils.getroot_current())
+  require("mini.files").open(Utils.getroot_current())
 end, "Open Mini.Files at project root")
 
 vim.g.setkey({'n', 'i', 'v'}, '<C-S-Down>', function() perform_command('silent! cnext') end, "Quickfix next entry")
@@ -454,8 +454,8 @@ end, "Toggle autopairing")
 -- toggle the display of single-letter status indicators in the winbar.
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'wb', function()
   PCFG.show_indicators = not PCFG.show_indicators
-  __Globals.notify("WinBar status indicators are now: " .. (PCFG.show_indicators == true and "On" or "Off"),
-    vim.log.levels.INFO)
+  STATMSG("WinBar status indicators are now: " .. (PCFG.show_indicators == true and "On" or "Off"),
+    vim.log.levels.INFO, "Config")
 end, "Toggle WinBar status indicators")
 
 -- debug keymap, print the filetype of the current buffer

@@ -179,7 +179,7 @@ require("telescope").setup({
       -- Default title to Telescope prompt
       prompt_title = "Command Palette",
         -- can be any builtin or custom telescope theme
-      theme = require("local_utils").command_center_theme
+      theme = require("subspace.lib").command_center_theme
     },
     fzf = {
       fuzzy = true, -- false will only do exact matching
@@ -212,7 +212,7 @@ require("telescope").setup({
 
 local noremap  = { noremap = true }
 local lsputil  = require("lspconfig.util")
-local lutils   = require("local_utils")
+local lutils   = require("subspace.lib")
 local _t       = require("telescope")
 local _tb      = require("telescope.builtin")
 local fkeys    = vim.g.fkeys

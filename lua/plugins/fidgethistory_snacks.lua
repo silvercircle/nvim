@@ -43,7 +43,7 @@ local conf = {
 
 local snacks_fidgethistory = function(layout)
   local Snacks = require("snacks")
-  local utils = require("local_utils")
+  local utils = require("subspace.lib")
   local cols = conf.snacks_picker_cols
   local align = Snacks.picker.util.align
 

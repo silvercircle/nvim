@@ -75,7 +75,7 @@ local user_opts = {
   auto_replace_desc_with_cmd = true,
   prompt_title = "Command Center",
   -- theme = themes.command_center,
-  theme = require("local_utils").command_center_theme
+  theme = require("subspace.lib").command_center_theme
 }
 
 local function run(filter)
