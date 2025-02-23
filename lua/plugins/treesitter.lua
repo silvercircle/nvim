@@ -1,42 +1,27 @@
 require("nvim-treesitter.configs").setup({
   auto_install = true,
-  ensure_installed = Config.treesitter_types,
-  textobjects = {
-    enable = true
-  },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = '<Space>',
-      scope_incremental = '<Space>',
-      node_incremental = '<C-Space>',
-      node_decremental = '<A-Space>',
-    },
-  },
+  ensure_installed = { "c", "cpp", "lua", "vimdoc" },
   highlight = {
     enable = true,
-    disable = { "latex", "tex" }, --, "markdown" },      -- FIXME: JavaScript parser is painfully slow. Help can be
-                              -- slow with large pages. This is caused by injections, so disabling them
-                              -- does help.
-    additional_vim_regex_highlighting = { 'org' }
+    additional_vim_regex_highlighting = false
   },
-  indent = {
-    -- FIXME: Setting this to true will cause a huge memory leak when inserting lines
-    -- probably related to: https://github.com/nvim-treesitter/nvim-treesitter/issues/2918
-    enable = false
-  },
-  autotag = {
-    enable = false,
-    filetypes = {
-      "html",
-      "javascript",
-      "javascriptreact",
-      "svelte",
-      "typescript",
-      "typescriptreact",
-      "vue",
-      "xml",
-    }
-  }
 })
-__Globals.configure_treesitter()
+
+-- treesitter is first started (in auto.lua)
+local function configure_treesitter()
+  vim.treesitter.language.register("markdown", { "telekasten", "liquid" } )
+  vim.treesitter.language.register("css", "scss")
+  vim.treesitter.language.register("html", "jsp")
+  vim.treesitter.language.register("ini", "editorconfig")
+  -- disable injections for these languages, because they can be slow
+  -- can be tweaked
+  vim.treesitter.query.set("javascript", "injections", "")
+  vim.treesitter.query.set("typescript", "injections", "")
+  vim.treesitter.query.set("vimdoc", "injections", "")
+  -- enable/disable treesitter-context plugin
+  -- jump to current context start
+end
+
+configure_treesitter()
+vim.treesitter.start()
+

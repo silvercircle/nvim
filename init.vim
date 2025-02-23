@@ -7,11 +7,7 @@ vim.g.loaded_netrwPlugin = 1
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 -- bootstrap lazy
-vim.g._ts_force_sync_parsing = true
-require('config')
-__Globals.restore_config()
-__Globals.set_statuscol(__Globals.perm_config.statuscol_current)
-PCFG = __Globals.perm_config
+-- vim.g._ts_force_sync_parsing = true
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -23,10 +19,7 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-require('options')
-require('load_lazy')
-require("auto")
-require('keymap')
+require("load_lazy")
 EOB
 
 run macros/justify.vim
@@ -34,6 +27,7 @@ filetype on
 syntax on
 filetype plugin indent on
 set noshowmode
+colorscheme unokai
 
 command C Kwbd
 
