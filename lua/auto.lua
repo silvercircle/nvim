@@ -7,7 +7,7 @@ local agroup_hl = vim.api.nvim_create_augroup("hl", {})
 local Wsplit = require("subspace.content.wsplit")
 Wsplit.freeze = true
 local Usplit = require("subspace.content.usplit")
-local tsc = require("treesitter-context")
+local Tsc = require("treesitter-context")
 local marks = require("subspace.lib.marks")
 local treeft = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
 
@@ -187,9 +187,9 @@ autocmd({ 'BufEnter' }, {
     if vim.api.nvim_buf_get_option(args.buf, "buftype") == '' then
       local val = __Globals.get_buffer_var(args.buf, "tsc")
       if val == true then
-        vim.schedule(function() tsc.enable() end)
+        vim.schedule(function() Tsc.enable() end)
       else
-        vim.schedule(function() tsc.disable() end)
+        vim.schedule(function() Tsc.disable() end)
       end
       val = __Globals.get_buffer_var(args.buf, "inlayhints")
       if val == true or val == false then
@@ -207,7 +207,7 @@ autocmd({ 'BufEnter' }, {
   group = agroup_views
 })
 
--- local bufread_first = true
+local bufread_first = true
 -- restore view when reading a file
 autocmd({ 'BufReadPost' }, {
   pattern = "*",
@@ -215,17 +215,17 @@ autocmd({ 'BufReadPost' }, {
     vim.api.nvim_buf_set_var(0, "tsc", PCFG.treesitter_context)
     vim.api.nvim_buf_set_var(0, "inlayhints", PCFG.lsp.inlay_hints)
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
-      vim.cmd("silent! loadview")
+      -- vim.cmd("silent! loadview")
       -- this (UGLY) hack was needed for a while during 0.11 development to fix some issues
       -- with folds not being restored from loaded view.
 
-      --if bufread_first == true and Config.nightly == true then
-      --  bufread_first = false
-      --  --vim.schedule(function() vim.cmd("silent! loadview") end)
-      --  vim.cmd("silent! loadview")
-      --else
-      --  vim.cmd("silent! loadview")
-      --end
+      if bufread_first == true and Config.nightly == true then
+        bufread_first = false
+        --vim.schedule(function() vim.cmd("silent! loadview") end)
+        vim.cmd("silent! loadview")
+      else
+        vim.cmd("silent! loadview")
+      end
     end
   end,
   group = agroup_views

@@ -700,7 +700,7 @@ function M.toggle_ibl()
       require("snacks").indent.disable()
     end
   else
-    vim.notify("function not supported with current plugin configuration")
+    vim.notify("function not supported with current plugin configuration", 0, { title = "Indent guides" })
   end
 end
 
