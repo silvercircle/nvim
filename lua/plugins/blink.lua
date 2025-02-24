@@ -74,18 +74,18 @@ end
 -- column.
 local function reverse_hl_groups()
   local groups = {
-  "BlinkCmpKindDefault", "BlinkCmpKind", "BlinkCmpMenuPath",
-  "BlinkCmpKindStruct", "BlinkCmpKindConstructor", "BlinkCmpKindMethod",
-  "BlinkCmpKindModule", "BlinkCmpKindClass", "BlinkCmpKindVariable",
-  "BlinkCmpKindProperty", "BlinkCmpKindField", "BlinkCmpKindFunction",
-  "BlinkCmpKindKeyword", "BlinkCmpKindText", "BlinkCmpKindUnit",
-  "BlinkCmpKindConstant", "BlinkCmpKindEnum", "BlinkCmpKindEnumMember",
-  "BlinkCmpKindSnippet", "BlinkCmpKindOperator", "BlinkCmpKindInterface",
-  "BlinkCmpKindValue", "BlinkCmpKindTypeParameter", "BlinkCmpKindFile",
-  "BlinkCmpKindFolder", "BlinkCmpKindEvent", "BlinkCmpKindReference",
-  "BlinkCmpKindDict"}
+    "BlinkCmpKindDefault", "BlinkCmpKind", "BlinkCmpMenuPath",
+    "BlinkCmpKindStruct", "BlinkCmpKindConstructor", "BlinkCmpKindMethod",
+    "BlinkCmpKindModule", "BlinkCmpKindClass", "BlinkCmpKindVariable",
+    "BlinkCmpKindProperty", "BlinkCmpKindField", "BlinkCmpKindFunction",
+    "BlinkCmpKindKeyword", "BlinkCmpKindText", "BlinkCmpKindUnit",
+    "BlinkCmpKindConstant", "BlinkCmpKindEnum", "BlinkCmpKindEnumMember",
+    "BlinkCmpKindSnippet", "BlinkCmpKindOperator", "BlinkCmpKindInterface",
+    "BlinkCmpKindValue", "BlinkCmpKindTypeParameter", "BlinkCmpKindFile",
+    "BlinkCmpKindFolder", "BlinkCmpKindEvent", "BlinkCmpKindReference",
+    "BlinkCmpKindDict" }
 
-  for _,v in ipairs(groups) do
+  for _, v in ipairs(groups) do
     local hl = vim.api.nvim_get_hl(0, { name = v })
     if hl.link ~= nil then
       local fg = vim.api.nvim_get_hl(0, { name = hl.link }).fg
@@ -99,7 +99,7 @@ local function italizemenugroups()
     "CmpItemMenu", "CmpItemMenuPath", "CmpItemMenuDetail",
     "CmpItemMenuBuffer", "CmpItemMenuSnippet", "CmpItemMenuLSP" }
 
-  for _,v in ipairs(groups) do
+  for _, v in ipairs(groups) do
     local fg, bg, name
     local hl = vim.api.nvim_get_hl(0, { name = v })
     if hl.link ~= nil then
@@ -131,9 +131,9 @@ local blink_menu_hl_group = {
 }
 
 local context_sources = {
-  default = { 'lsp', 'path', 'snippets', 'buffer' },
-  lua =     { 'lsp', 'path', 'snippets', 'lua', 'buffer' },
-  text =    { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'dictionary', 'buffer' },
+  default = { "lsp", "path", "snippets", "buffer" },
+  lua = { "lsp", "path", "snippets", "lua", "buffer" },
+  text = { "lsp", "path", "snippets", "emoji", "wordlist", "dictionary", "buffer" },
 }
 require("blink.cmp").setup({
   appearance = {
@@ -143,9 +143,9 @@ require("blink.cmp").setup({
     kind_icons = vim.g.lspkind_symbols
   },
   keymap = {
-    preset = T.keymap_preset,
-    ['<Esc>']      = { 'cancel', 'fallback' },     -- make <Esc> behave like <C-e>
-    ['<C-Up>']     = { 'scroll_documentation_up', 'fallback' },
+    preset         = T.keymap_preset,
+    ["<Esc>"]      = { "cancel", "fallback" }, -- make <Esc> behave like <C-e>
+    ["<C-Up>"]     = { "scroll_documentation_up", "fallback" },
     ["<C-Down>"]   = { "scroll_documentation_down", "fallback" },
     ["<Tab>"]      = {
       function(cmp)
@@ -161,7 +161,7 @@ require("blink.cmp").setup({
     ["<S-Tab>"]    = { "snippet_backward", "fallback" },
     -- PageUp/PageDown scroll the menu per page
     -- this uses a simple workaround
-    ["<PageDown>"]  = {
+    ["<PageDown>"] = {
       function(cmp)
         if not cmp.is_visible() then
           return
@@ -173,7 +173,7 @@ require("blink.cmp").setup({
       end,
       "fallback"
     },
-    ["<PageUp>"]    = {
+    ["<PageUp>"]   = {
       function(cmp)
         if not cmp.is_visible() then
           return
@@ -183,9 +183,9 @@ require("blink.cmp").setup({
         end)
         return true
       end,
-      'fallback'
+      "fallback"
     },
-    ["<Home>"] = {
+    ["<Home>"]     = {
       function(cmp)
         if not cmp.is_visible() then
           return
@@ -195,9 +195,9 @@ require("blink.cmp").setup({
         end)
         return true
       end,
-      'fallback'
+      "fallback"
     },
-    ["<End>"] = {
+    ["<End>"]      = {
       function(cmp)
         if not cmp.is_visible() then
           return
@@ -207,10 +207,10 @@ require("blink.cmp").setup({
         end)
         return true
       end,
-      'fallback'
+      "fallback"
     },
-    ["<f13>"] = { 'show_signature', 'hide_signature', 'fallback' },
-    ["<C-k>"] = { }
+    ["<f13>"]      = { "show_signature", "hide_signature", "fallback" },
+    ["<C-k>"]      = {}
   },
   cmdline = {
     enabled = true,
@@ -241,9 +241,9 @@ require("blink.cmp").setup({
   sources = {
     -- default = { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'lua', 'dictionary', 'buffer' },
     default = function(_)
-      if vim.bo.filetype == 'lua' then
+      if vim.bo.filetype == "lua" then
         return context_sources.lua
-      elseif vim.tbl_contains({ 'tex', 'markdown', 'typst', 'html' }, vim.bo.filetype) then
+      elseif vim.tbl_contains({ "tex", "markdown", "typst", "html" }, vim.bo.filetype) then
         return context_sources.text
       else
         return context_sources.default
@@ -269,7 +269,7 @@ require("blink.cmp").setup({
       emoji = {
         score_offset = 0,
         name = "emoji",
-        module = 'blink-emoji'
+        module = "blink-emoji"
       },
       lsp = {
         score_offset = 10
@@ -282,7 +282,7 @@ require("blink.cmp").setup({
       snippets = {
         score_offset = 5,
         min_keyword_length = 2,
-        module = 'blink.cmp.sources.snippets',
+        module = "blink.cmp.sources.snippets",
         name = "Snippets",
         opts = {
           friendly_snippets = true,
@@ -297,11 +297,11 @@ require("blink.cmp").setup({
           -- in tweaks.blink.buffer_source_ft_allowed
           get_bufnrs = function()
             return vim.iter(vim.api.nvim_list_wins())
-              :map(function(win) return vim.api.nvim_win_get_buf(win) end)
-              :filter(function(buf)
-                return (vim.bo[buf].buftype ~= "nofile") and ((#T.buffer_source_ft_allowed == 0) or
-                  (vim.tbl_contains(T.buffer_source_ft_allowed, vim.bo[buf].filetype) == true))
-              end):totable()
+                :map(function(win) return vim.api.nvim_win_get_buf(win) end)
+                :filter(function(buf)
+                  return (vim.bo[buf].buftype ~= "nofile") and ((#T.buffer_source_ft_allowed == 0) or
+                    (vim.tbl_contains(T.buffer_source_ft_allowed, vim.bo[buf].filetype) == true))
+                end):totable()
           end,
         }
       },
@@ -309,16 +309,16 @@ require("blink.cmp").setup({
         min_keyword_length = 3,
         max_items = 8,
         async = true,
-        module = 'blink-cmp-dictionary',
-        name = 'Dict',
+        module = "blink-cmp-dictionary",
+        name = "Dict",
         opts = {
           kind_icons = {
             Dict = " "
           },
-          dictionary_directories = { vim.fn.expand('~/.config/nvim/dict') },
+          dictionary_directories = { vim.fn.expand("~/.config/nvim/dict") },
           get_command = "rg",
           get_command_args = function(prefix)
-            return {             -- make sure this command is available in your system
+            return { -- make sure this command is available in your system
               "--color=never",
               "--no-line-number",
               "--no-messages",
@@ -334,8 +334,7 @@ require("blink.cmp").setup({
   },
   completion = {
     accept = {
-      -- dot_repeatable = true,
-      create_undo_point = true,
+      --create_undo_point = true,
       resolve_timeout_ms = 50,
       auto_brackets = {
         enabled = true,
@@ -343,7 +342,7 @@ require("blink.cmp").setup({
           enabled = true
         },
         semantic_token_resolution = {
-          enabled = false
+          enabled = true
         }
       }
     },
@@ -352,7 +351,7 @@ require("blink.cmp").setup({
       show_on_trigger_character = true
     },
     list = {
-      selection = {preselect = true, auto_insert = false }
+      selection = { preselect = true, auto_insert = false }
     },
     menu = {
       enabled = true,
@@ -361,12 +360,12 @@ require("blink.cmp").setup({
       winblend = T.winblend.menu,
       max_height = T.window_height,
       draw = {
-        align_to = 'kind_icon',
+        align_to = "kind_icon",
         treesitter = {},
         padding = { 0, 1 },
         columns = {
-          { "kind_icon", "label", "label_description", gap = 1 },
-          { "kind", "source_name", gap = 1 }
+          { "kind_icon", "label",       "label_description", gap = 1 },
+          { "kind",      "source_name", gap = 1 }
         },
         components = {
           kind_icon = {
@@ -419,7 +418,7 @@ require("blink.cmp").setup({
       },
       cmdline_position = function()
         if vim.g.ui_cmdline_pos ~= nil then
-          local pos = vim.g.ui_cmdline_pos   -- (1, 0)-indexed
+          local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
           return { pos[1] - 1, pos[2] }
         end
         local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
@@ -465,4 +464,3 @@ require("blink.cmp").setup({
 })
 
 return M
-

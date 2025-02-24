@@ -295,6 +295,7 @@ vim.g.setkey({ 'n', 'i' }, utility_key .. 'g', function()
   if PCFG.statusline_declutter == 4 then
     PCFG.statusline_declutter = 0
   end
+  vim.notify("Lualine declutter level: " .. PCFG.statusline_declutter, 0, { title = "Lualine" })
 end, "Declutter status line")
 
 vim.g.setkey({'n', 'i'}, '<A-q>', function()

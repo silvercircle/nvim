@@ -187,7 +187,7 @@ require("lualine").setup({
     lualine_b = { "branch", "diff", "diagnostics"  },
     lualine_c = {"filename", "searchcount"--[[, { get_permissions_color }]] },
     lualine_x = {
-      { indentstats },
+      { indentstats, cond = function() return PCFG.statusline_declutter < 3 and true or false end },
       {
         -- show unicode for character under cursor in hex and decimal
         -- "%05B - %06b",
@@ -197,11 +197,11 @@ require("lualine").setup({
         end
       },
       "filetype",
-      "fileformat",
+      { "fileformat", cond = function() return PCFG.statusline_declutter < 2 and true or false end },
       { status },
-      { "encoding", draw_empty=false, cond = function() return PCFG.statusline_declutter < 3 and true or false end }
+      { "encoding", draw_empty=false, cond = function() return PCFG.statusline_declutter < 2 and true or false end }
     },
-    lualine_y = { { "progress", cond = function() return PCFG.statusline_declutter < 2 and true or false end, draw_empty=false} },
+    lualine_y = { { "progress", cond = function() return PCFG.statusline_declutter < 1 and true or false end, draw_empty=false} },
     -- word counter via custom function
     lualine_z = { { getWordsV2 }, "location" },
   },

@@ -49,6 +49,7 @@ local function _set()
   c.link("BlinkCmpKindValue", "StorageClass")
   c.link("BlinkCmpKindTypeParameter", "Type")
   c.link("BlinkCmpKindReference", "Interface")
+  c.link("BlinkCmpGhostText", "Comment");
 end
 
 local M = {}
