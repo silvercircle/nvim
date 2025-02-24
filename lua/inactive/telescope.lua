@@ -217,7 +217,7 @@ local _t       = require("telescope")
 local _tb      = require("telescope.builtin")
 local fkeys    = vim.g.fkeys
 
-if vim.g.tweaks.fzf.enable_keys == false then
+if Tweaks.fzf.enable_keys == false then
   -- Telescope pickers
   command_center.add({
   {
@@ -226,7 +226,7 @@ if vim.g.tweaks.fzf.enable_keys == false then
       _tb.live_grep(__Telescope_vertical_dropdown_theme({
         layout_config = { width = 130 },
         prompt_title = "Live grep zettelkasten",
-        search_dirs = { vim.fn.expand(vim.g.tweaks.zk.root_dir) }
+        search_dirs = { vim.fn.expand(Tweaks.zk.root_dir) }
       }))
     end,
     keys = { "n", "zkg", noremap },
@@ -392,7 +392,7 @@ if vim.g.tweaks.fzf.enable_keys == false then
   }})
 end
 -- GIT
-if vim.g.tweaks.fzf.prefer_for.git == false then
+if Tweaks.fzf.prefer_for.git == false then
   command_center.add({
     {
       desc = "GIT status (Telescope)",
@@ -418,7 +418,7 @@ if vim.g.tweaks.fzf.prefer_for.git == false then
     }
   })
 end
-if vim.g.tweaks.fzf.prefer_for.lsp == false then
+if Tweaks.fzf.prefer_for.lsp == false then
   command_center.add({
     {
       desc = "Aerial document symbols",
@@ -514,7 +514,7 @@ if vim.g.tweaks.fzf.prefer_for.lsp == false then
     }
   })
 end
-if vim.g.tweaks.notifier == 'fidget' then
+if Tweaks.notifier == 'fidget' then
   require("plugins.fidgethistory").setup({
     telescope = {
       theme = __Telescope_vertical_dropdown_theme,

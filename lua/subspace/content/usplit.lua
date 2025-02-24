@@ -6,11 +6,11 @@ Usplit.cookie = {}
 Usplit.width = 0
 
 local timer = nil
-local num_cookies = vim.g.tweaks.fortune.numcookies or 1
-local cookie_command = vim.g.tweaks.fortune.command
+local num_cookies = Tweaks.fortune.numcookies or 1
+local cookie_command = Tweaks.fortune.command
 
 -- timer interval is in minutes. We accept nothing lower than one minute
-local timer_interval = vim.g.tweaks.fortune.refresh * 60 * 1000
+local timer_interval = Tweaks.fortune.refresh * 60 * 1000
 if timer_interval < 60000 then
   timer_interval = 60000
 end

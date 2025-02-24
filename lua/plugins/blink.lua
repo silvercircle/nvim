@@ -2,7 +2,7 @@
 -- supports some nvim-cmp sources: nvim_lua and my wordlist plugin
 -- requires blink.compat
 
-local T = vim.g.tweaks.blink
+local T = Tweaks.blink
 local border = T.border
 local itemlist = nil
 local M = {}

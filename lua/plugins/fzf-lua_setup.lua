@@ -1,6 +1,6 @@
 local actions = require "fzf-lua.actions"
 local old_mode = nil
-local fzf_tweaks = vim.g.tweaks.fzf
+local fzf_tweaks = Tweaks.fzf
 
 require "fzf-lua".setup({
   defaults = {

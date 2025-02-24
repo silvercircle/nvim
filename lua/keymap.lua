@@ -3,7 +3,7 @@ local kms = vim.keymap.set
 
 local opts = { noremap = true, silent = true }
 local Utils = require('subspace.lib')
-local utility_key = vim.g.tweaks.keymap.utility_key
+local utility_key = Tweaks.keymap.utility_key
 local treename = Tweaks.tree.filetype
 local Snacks = require("snacks")
 
@@ -133,11 +133,11 @@ vim.g.setkey({ 'n', 'i' }, '<C-a>f', function()
 end, "Pick folding mode")
 
 vim.g.setkey({'n', 'i'}, '<C-a>e', function()
-  require("fzf-lua").files({ formatter = "path.filename_first", cwd = vim.fn.expand("%:p:h"), winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+  require("fzf-lua").files({ formatter = "path.filename_first", cwd = vim.fn.expand("%:p:h"), winopts = Tweaks.fzf.winopts.very_narrow_no_preview })
 end, "Open Mini File Browser at current directory")
 
 vim.g.setkey({'n', 'i'}, '<C-a><C-e>', function()
-  require("fzf-lua").files({ formatter = "path.filename_first", cwd = Utils.getroot_current(), winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+  require("fzf-lua").files({ formatter = "path.filename_first", cwd = Utils.getroot_current(), winopts = Tweaks.fzf.winopts.very_narrow_no_preview })
 end, "Open Mini File Browser at project root")
 
 vim.g.setkey({'n', 'i'}, '<A-E>', function()
@@ -151,16 +151,16 @@ end, "Open Snacks Explorer at project root")
 vim.g.setkey({'n', 'i'}, '<A-e>', function()
   local found = false
   local path = Utils.getroot_current()
-  for _, v in ipairs(vim.g.tweaks.srclocations) do
+  for _, v in ipairs(Tweaks.srclocations) do
     local res = vim.fs.joinpath(path, v)
     if vim.fn.isdirectory(res) == 1 then
       found = true
-      require("fzf-lua").files({ formatter = "path.filename_first", cwd = res, winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+      require("fzf-lua").files({ formatter = "path.filename_first", cwd = res, winopts = Tweaks.fzf.winopts.very_narrow_no_preview })
     end
   end
   -- if we cannot find a source root, use the project root instead
   if found == false and path ~= nil and vim.fn.isdirectory(path) then
-    require("fzf-lua").files({ cwd = path, winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+    require("fzf-lua").files({ cwd = path, winopts = Tweaks.fzf.winopts.very_narrow_no_preview })
   end
 end, "Open Mini File Browser and guess sources root")
 
@@ -207,7 +207,7 @@ end, { expr = true, desc = "Export HlsLens results to Quickfix list" })
 
 map('n', 'hl', "<CMD>Inspect<CR>", opts)
 
-if vim.g.tweaks.completion.version ~= "blink" then
+if Tweaks.completion.version ~= "blink" then
   vim.g.setkey({ 'i', 'n' }, fkeys.s_f1, function() vim.lsp.buf.signature_help() end, "Show signature help")
 end
 
@@ -303,11 +303,11 @@ vim.g.setkey({'n', 'i'}, '<A-q>', function()
 end, "Quit Neovim")
 
 vim.g.setkey({'n', 'i'}, '<C-p>', function()
-  require('fzf-lua').oldfiles( { formatter = "path.filename_first", winopts = vim.g.tweaks.fzf.winopts.small_no_preview })
+  require('fzf-lua').oldfiles( { formatter = "path.filename_first", winopts = Tweaks.fzf.winopts.small_no_preview })
 end, "FZF-LUA old files")
 
 vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
-  require("fzf-lua").buffers({ formatter = "path.filename_first", mru = true, no_action_zz = true, no_action_set_cursor = true, winopts = vim.g.tweaks.fzf.winopts.small_no_preview })
+  require("fzf-lua").buffers({ formatter = "path.filename_first", mru = true, no_action_zz = true, no_action_set_cursor = true, winopts = Tweaks.fzf.winopts.small_no_preview })
 end, "FZF buffer list")
 vim.g.setkey({'n', 'i', 'v' }, '<A-p>', function()
   require("commandpicker").open()
@@ -426,7 +426,7 @@ vim.keymap.set('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cw
 -- Alt-d: Detach all TUI sessions from the (headless) master
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-d>', function() CGLOBALS.detach_all_tui() end, "Detach all TUI")
 
-local wordlist_module = vim.g.tweaks.completion == "nvim-cmp" and "cmp_wordlist" or "blink-cmp-wordlist"
+local wordlist_module = Tweaks.completion == "nvim-cmp" and "cmp_wordlist" or "blink-cmp-wordlist"
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'za', function()
   require(wordlist_module).add_cword()
@@ -479,6 +479,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
     require("outline").refresh_outline()
   end
 end, "Refresh aerial outline symbols")
+
 
 require("subspace.lib.marks").set_keymaps()
 --vim.cmd("nunmap <cr>")

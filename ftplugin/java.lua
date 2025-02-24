@@ -41,7 +41,7 @@ elseif project_root ~= nil and #project_root > 1 then
   project_name = md5.tohex(hash:finish())
 end
 
-local workspace_dir = vim.fn.expand(vim.g.tweaks.jdtls.workspace_base) .. project_name
+local workspace_dir = vim.fn.expand(Tweaks.jdtls.workspace_base) .. project_name
 
 if debug then vim.notify("Project name is: " .. project_name, 1) end
 
@@ -56,7 +56,7 @@ local config = {
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
   cmd = {
 
-    vim.g.tweaks.jdtls.java_executable, -- or '/:path/to/java17_or_newer/bin/java'
+    Tweaks.jdtls.java_executable, -- or '/:path/to/java17_or_newer/bin/java'
     -- depends on if `java` is in your $PATH env variable and if it points to the right version.
 
     "-Declipse.application=org.eclipse.jdt.ls.core.id1",
@@ -74,13 +74,13 @@ local config = {
     "-XX:MaxHeapFreeRatio=85",
     "-XX:ConcGCThreads=2",
     "-XX:ParallelGCThreads=2",
-    use_lombok and "-javaagent:" .. vim.fn.expand(vim.g.tweaks.jdtls.jdtls_install_dir) .. "lombok.jar" or "",
-    use_lombok and "-Xbootclasspath/a:" .. vim.fn.expand(vim.g.tweaks.jdtls.jdtls_install_dir) .. "lombok.jar" or "",
+    use_lombok and "-javaagent:" .. vim.fn.expand(Tweaks.jdtls.jdtls_install_dir) .. "lombok.jar" or "",
+    use_lombok and "-Xbootclasspath/a:" .. vim.fn.expand(Tweaks.jdtls.jdtls_install_dir) .. "lombok.jar" or "",
     "--add-modules=ALL-SYSTEM",
     "--add-opens", "java.base/java.util=ALL-UNNAMED",
     "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-    "-jar", vim.fn.expand(vim.g.tweaks.jdtls.jdtls_install_dir) .. "plugins/org.eclipse.equinox.launcher_" .. vim.g.tweaks.jdtls.equinox_version .. ".jar",
-    "-configuration", vim.fn.expand(vim.g.tweaks.jdtls.jdtls_install_dir) .. vim.g.tweaks.jdtls.config,
+    "-jar", vim.fn.expand(Tweaks.jdtls.jdtls_install_dir) .. "plugins/org.eclipse.equinox.launcher_" .. Tweaks.jdtls.equinox_version .. ".jar",
+    "-configuration", vim.fn.expand(Tweaks.jdtls.jdtls_install_dir) .. Tweaks.jdtls.config,
     "-data", workspace_dir
   },
 

@@ -1,6 +1,6 @@
 -- indent blankline setup
 -- note: ibl requires version 3
-local _char = vim.g.tweaks.indent.scope.char
+local _char = Tweaks.indent.scope.char
 
   vim.notify("indentblankline setup")
 require("ibl").setup({

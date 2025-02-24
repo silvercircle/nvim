@@ -35,7 +35,7 @@ autocmd({ 'VimEnter' }, {
     end
     -- internal theme can be disabled via tweaks. This allows 
     -- to use an external theme
-    if vim.g.tweaks.theme.disable == false then
+    if Tweaks.theme.disable == false then
       CFG.theme.set()
     end
     -- support textwidth and formatoptions roperties via editorconfig files
@@ -146,7 +146,7 @@ autocmd({ "UIEnter" }, {
 -- force refresh lualine on ModeChanged event. This allows for higher debounce timers
 -- (= better performance) and still get instant response for mode changes (which I feel
 -- is important)
-if vim.g.tweaks.statusline.version == "lualine" then
+if Tweaks.statusline.version == "lualine" then
   autocmd( { "ModeChanged" }, {
     pattern = "*",
     callback = function()
@@ -160,7 +160,7 @@ end
 autocmd({ 'bufwritepost' }, {
   pattern = "*",
   callback = function()
-    if vim.g.tweaks.mkview_on_save == true then
+    if Tweaks.mkview_on_save == true then
       CGLOBALS.mkview()
     end
   end,
@@ -171,7 +171,7 @@ autocmd({ 'bufwritepost' }, {
 autocmd({ 'bufwinleave' }, {
   pattern = "*",
   callback = function()
-    if vim.g.tweaks.mkview_on_leave == true then
+    if Tweaks.mkview_on_leave == true then
       CGLOBALS.mkview()
     end
   end,

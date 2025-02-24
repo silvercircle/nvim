@@ -3,17 +3,16 @@
 -- when NVIM_PLAIN is set (to whatever value), the editor will start plain without a neotree and
 -- terminal split.
 local env_plain = os.getenv("NVIM_PLAIN")
-local status, tw = pcall(require, "mytweaks")
+local status, mtw = pcall(require, "mytweaks")
 local tweaks = require("tweaks-dist")
 
 -- merge mytweaks into the default tweaks file to allow for user-customizable 
 -- settings that won't be overwritten when updating the config.
 if status == true then
-  tweaks = vim.tbl_deep_extend("force", tweaks, tw)
+  tweaks = vim.tbl_deep_extend("force", tweaks, mtw)
 end
-vim.g.tweaks = tweaks
 Tweaks = tweaks
-Borderfactory = vim.g.tweaks.borderfactory
+Borderfactory = Tweaks.borderfactory
 
 local tree_fts = {
   ['Neo']       = "neo-tree",
@@ -47,7 +46,7 @@ CFG = {
   statuscol_normal = '%s%=%l %C ',
   statuscol_rel = nvim_11 == 1 and '%s%=%l %C ' or "%s%=%r %C ",
   nvim_tree = true,
-  fortunecookie = false,                      --"fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
+  fortunecookie = "fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
                                               -- needs fortune and cowsay installed.
                                               -- set to false or an empty string to disable
                                               -- set this to "" or false if your start screen throws errors.
@@ -126,7 +125,7 @@ local g = vim.g
 -- disable some standard plugins
 
 -- global variables for plugins
-g.mapleader = vim.g.tweaks.keymap.mapleader
+g.mapleader = Tweaks.keymap.mapleader
 
 function vim.g.setkey(modes, lhs, rhs, _desc)
   vim.keymap.set(modes, lhs, rhs, { noremap = true, silent = true, desc = _desc })

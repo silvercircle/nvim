@@ -229,7 +229,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
     ignore_dirs = {},
   },
   git = {
-    enable = vim.g.tweaks.tree.use_git,
+    enable = Tweaks.tree.use_git,
     ignore = true,
     show_on_dirs = true,
     show_on_open_dirs = true,

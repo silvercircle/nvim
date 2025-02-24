@@ -4,7 +4,7 @@
 local Utils = {}
 
 local conf = {
-  root_patterns = vim.g.tweaks.default_root_patterns,
+  root_patterns = Tweaks.default_root_patterns,
   debugmode = false,
   -- experimental, try root patterns ONLY. not recommended, git_ancestor() is more relieable
   ignore_git = false,
@@ -58,7 +58,7 @@ end
 
 function Utils.setup(opts)
   opts = opts or {}
-  conf.root_patterns = opts.root_patterns or vim.g.tweaks.default_root_patterns
+  conf.root_patterns = opts.root_patterns or Tweaks.default_root_patterns
   conf.debugmode = opts.debug or false
   conf.ignore_git = opts.ignore_git or false
   if conf.debugmode then
@@ -139,7 +139,7 @@ function Utils.view_latex()
   return function()
     local result, path = Utils.getLatexPreviewPath(vim.fn.expand("%"), true)
     if result == true then
-      local cmd = "silent !" .. vim.g.tweaks.texviewer .. " '" .. path .. "' &"
+      local cmd = "silent !" .. Tweaks.texviewer .. " '" .. path .. "' &"
       vim.cmd.stopinsert()
       vim.schedule(function()
         vim.cmd(cmd)
@@ -433,13 +433,13 @@ end
 
 --- show notification history, depending on which plugin we use for notifications
 function Utils.notification_history()
-  if vim.g.tweaks.notifier == "mini" then
+  if Tweaks.notifier == "mini" then
     require("detour").DetourCurrentWindow()
     require("mini.notify").show_history()
-  elseif vim.g.tweaks.notifier == "snacks" then
+  elseif Tweaks.notifier == "snacks" then
     require("subspace.content.notifierhistory").open( {
             layout = SPL( { preview = true, width=120, height = 40, input = "top", psize = 20, row = 8 } ) } )
-  elseif vim.g.tweaks.notifier == "fidget" then
+  elseif Tweaks.notifier == "fidget" then
     require("subspace.content.fidgethistory").open( {
             layout = SPL( { preview = true, width=120, height = 40, input = "top", psize = 20, row = 8 } ) } )
   end

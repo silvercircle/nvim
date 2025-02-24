@@ -2,7 +2,7 @@
 local utils = require("subspace.lib")
 local cmp_helper = {}
 
-local T = vim.g.tweaks.cmp
+local T = Tweaks.cmp
 
 local function reverse_hl_groups()
   local groups = {
@@ -446,7 +446,7 @@ function M.setup_theme(theme, decoration, decoration_doc)
   cmp.setup({
     window = {
       documentation = {
-        -- border = vim.g.tweaks.borderfactory(T.decorations[decoration_doc].border),
+        -- border = Tweaks.borderfactory(T.decorations[decoration_doc].border),
         border = Borderfactory("thicc"),
         winhighlight = T.decorations[decoration_doc].whl_doc
       },

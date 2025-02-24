@@ -34,7 +34,7 @@ local function get_permissions_color()
 end
 
 local function status()
-  local s, val = pcall(vim.api.nvim_buf_get_var, 0, "completion")
+  local s, val = pcall(vim.api.nvim_buf_get_var, -1, "completion")
   local mode = not (s == true and val == false )
   return (CGLOBALS.get_buffer_var(0, "tsc") == true and "C" or "c") ..
          (CGLOBALS.get_buffer_var(0, "inlayhints") == true and "I" or "i") ..
@@ -267,10 +267,9 @@ require("lualine").setup({
       }
     }
   },
-  inactive_winbar = vim.g.tweaks.breadcrumb ~= 'dropbar' and {
-    -- lualine_x = { { win_pad, color = 'Normal' } },
+  inactive_winbar = {
     lualine_z = { { full_filename, color = 'WinBarNC' }, 'tabs' }
-  } or {},
+  },
   extensions = {my_extension},
 })
 

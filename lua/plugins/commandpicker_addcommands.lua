@@ -1,5 +1,5 @@
 local fkeys      = vim.g.fkeys
-local fzf_tweaks = vim.g.tweaks.fzf
+local fzf_tweaks = Tweaks.fzf
 local fzf        = require("fzf-lua")
 local Snacks     = require("snacks")
 local lutils     = require("subspace.lib")
@@ -125,10 +125,10 @@ require("commandpicker").add({
     category = "@GIT"
   },
   {
-    desc = "View Markdown in GUI viewer (" .. vim.g.tweaks.mdguiviewer .. ")",
+    desc = "View Markdown in GUI viewer (" .. Tweaks.mdguiviewer .. ")",
     cmd = function()
       local path = vim.fn.expand("%:p")
-      local cmd = "silent !" .. vim.g.tweaks.mdguiviewer .. " '" .. path .. "' &"
+      local cmd = "silent !" .. Tweaks.mdguiviewer .. " '" .. path .. "' &"
       vim.cmd.stopinsert()
       vim.schedule(function() vim.cmd(cmd) end)
     end,
@@ -140,7 +140,7 @@ require("commandpicker").add({
   },
   {
     -- open a document viewer zathura view and view the tex document as PDF
-    desc = "View LaTeX result (" .. vim.g.tweaks.texviewer .. ")",
+    desc = "View LaTeX result (" .. Tweaks.texviewer .. ")",
     cmd = lutils.view_latex(),
     keys = {   -- shift-f9
       { "n", fkeys.s_f9, noremap },
@@ -172,7 +172,7 @@ require("commandpicker").add({
   },
   {
     desc = "Inspect auto word list (wordlist plugin)",
-    cmd = function() require(vim.g.tweaks.completion.version == "nvim-cmp" and "cmp_wordlist" or "blink-cmp-wordlist").autolist() end,
+    cmd = function() require(Tweaks.completion.version == "nvim-cmp" and "cmp_wordlist" or "blink-cmp-wordlist").autolist() end,
     keys = { "n", "<leader>zw", noremap },
     category = "@Neovim"
   },
@@ -291,8 +291,8 @@ require("commandpicker").add({
       fzf.resume({ winopts = fzf_tweaks.winopts.std_preview_top })
     end,
     keys = {
-      { "i", vim.g.tweaks.keymap.fzf_prefix .. "r", noremap },
-      { "n", vim.g.tweaks.keymap.fzf_prefix .. "r", noremap }
+      { "i", Tweaks.keymap.fzf_prefix .. "r", noremap },
+      { "n", Tweaks.keymap.fzf_prefix .. "r", noremap }
     },
     category = "@FZF"
   },
@@ -302,8 +302,8 @@ require("commandpicker").add({
       fzf.quickfix({ winopts = fzf_tweaks.winopts.std_preview_top })
     end,
     keys = {
-      { "i", vim.g.tweaks.keymap.fzf_prefix .. "q", noremap },
-      { "n", vim.g.tweaks.keymap.fzf_prefix .. "q", noremap }
+      { "i", Tweaks.keymap.fzf_prefix .. "q", noremap },
+      { "n", Tweaks.keymap.fzf_prefix .. "q", noremap }
     },
     category = "@FZF"
   },
@@ -313,8 +313,8 @@ require("commandpicker").add({
       fzf.builtin({ prompt = "Commands: ", winopts = fzf_tweaks.winopts.mini_list })
     end,
     keys = {
-      { "i", vim.g.tweaks.keymap.fzf_prefix .. "<space>", noremap },
-      { "n", vim.g.tweaks.keymap.fzf_prefix .. "<space>", noremap }
+      { "i", Tweaks.keymap.fzf_prefix .. "<space>", noremap },
+      { "n", Tweaks.keymap.fzf_prefix .. "<space>", noremap }
     },
     category = "@FZF"
   },
@@ -323,15 +323,15 @@ require("commandpicker").add({
     cmd = function()
       fzf.files({
         prompt = "Zettelkasten files: ",
-        cwd = vim.fn.expand(vim.g.tweaks.zk.root_dir),
+        cwd = vim.fn.expand(Tweaks.zk.root_dir),
         fd_opts =
         "--type f --hidden --follow --exclude .obsidian --exclude .git --exclude .zk",
         winopts = fzf_tweaks.winopts.std_preview_top
       })
     end,
     keys = {
-      { "i", vim.g.tweaks.keymap.fzf_prefix .. "<C-z>", noremap },
-      { "n", vim.g.tweaks.keymap.fzf_prefix .. "<C-z>", noremap }
+      { "i", Tweaks.keymap.fzf_prefix .. "<C-z>", noremap },
+      { "n", Tweaks.keymap.fzf_prefix .. "<C-z>", noremap }
     },
     category = "@ZK"
   },
@@ -339,11 +339,11 @@ require("commandpicker").add({
     desc = "Zettelkasten live grep",
     cmd = function()
       local wo = fzf_tweaks.winopts.std_preview_top
-      fzf.live_grep({ prompt = "Zettelkasten live grep: ", cwd = vim.fn.expand(vim.g.tweaks.zk.root_dir), winopts = wo })
+      fzf.live_grep({ prompt = "Zettelkasten live grep: ", cwd = vim.fn.expand(Tweaks.zk.root_dir), winopts = wo })
     end,
     keys = {
-      { "i", vim.g.tweaks.keymap.fzf_prefix .. "z", noremap },
-      { "n", vim.g.tweaks.keymap.fzf_prefix .. "z", noremap }
+      { "i", Tweaks.keymap.fzf_prefix .. "z", noremap },
+      { "n", Tweaks.keymap.fzf_prefix .. "z", noremap }
     },
     category = "@ZK"
   },
@@ -396,7 +396,7 @@ require("commandpicker").add({
     end,
     keys = {
       { "n", "tdf",                                 noremap },
-      { "i", vim.g.tweaks.keymap.fzf_prefix .. "f", noremap }
+      { "i", Tweaks.keymap.fzf_prefix .. "f", noremap }
     },
     category = "@Neovim"
   },
@@ -409,7 +409,7 @@ require("commandpicker").add({
     end,
     keys = {
       { "n", "tdo",                                 noremap },
-      { "i", vim.g.tweaks.keymap.fzf_prefix .. "t", noremap }
+      { "i", Tweaks.keymap.fzf_prefix .. "t", noremap }
     },
     category = "@Neovim"
   },
@@ -421,7 +421,7 @@ require("commandpicker").add({
     end,
     keys = {
       { "n", "tdp",                                     noremap },
-      { "i", vim.g.tweaks.keymap.fzf_prefix .. "<C-t>", noremap }
+      { "i", Tweaks.keymap.fzf_prefix .. "<C-t>", noremap }
     },
     category = "@Neovim"
   },
@@ -597,8 +597,8 @@ require("commandpicker").add({
       fzf.diagnostics_workspace({ cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.big_preview_top })
     end,
     keys = {
-      { "i", vim.g.tweaks.keymap.fzf_prefix .. "<C-d>", noremap },
-      { "n", vim.g.tweaks.keymap.fzf_prefix .. "<C-d>", noremap }
+      { "i", Tweaks.keymap.fzf_prefix .. "<C-d>", noremap },
+      { "n", Tweaks.keymap.fzf_prefix .. "<C-d>", noremap }
     },
     category = "@LSP FZF"
   },
@@ -608,8 +608,8 @@ require("commandpicker").add({
       fzf.diagnostics_document({ winopts = fzf_tweaks.winopts.big_preview_top })
     end,
     keys = {
-      { "i", vim.g.tweaks.keymap.fzf_prefix .. "d", noremap },
-      { "n", vim.g.tweaks.keymap.fzf_prefix .. "d", noremap }
+      { "i", Tweaks.keymap.fzf_prefix .. "d", noremap },
+      { "n", Tweaks.keymap.fzf_prefix .. "d", noremap }
     },
     category = "@LSP FZF"
   },

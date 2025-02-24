@@ -176,7 +176,7 @@ local clangd_root_files = {
   'compile_flags.txt',
   'configure.ac', -- AutoTools
 }
-if vim.g.tweaks.lsp.cpp == "clangd" then
+if Tweaks.lsp.cpp == "clangd" then
   lspconfig.clangd.setup({
     cmd = { "clangd", "--background-index", "--malloc-trim",
       "--pch-storage=memory", "--log=error", "--header-insertion=never",
@@ -205,7 +205,7 @@ if vim.g.tweaks.lsp.cpp == "clangd" then
   })
 end
 
-if vim.g.tweaks.lsp.cpp == "ccls" then
+if Tweaks.lsp.cpp == "ccls" then
   lspconfig.ccls.setup({
     default_config = {
       cmd = { "ccls" },
@@ -546,12 +546,12 @@ lspconfig.neocmake.setup {
   capabilities = CGLOBALS.lsp_capabilities
 }
 -- outsourced because it's too big
-if vim.g.tweaks.lsp.csharp == "omnisharp" then
+if Tweaks.lsp.csharp == "omnisharp" then
   require("lsp.omnisharp")
-elseif vim.g.tweaks.lsp.csharp == "roslyn" then
+elseif Tweaks.lsp.csharp == "roslyn" then
   -- roslyn is now handled by a separate plugin. See plugins/roslyn.lua
   --require("lsp.nvim-roslyn")
-elseif vim.g.tweaks.lsp.csharp == "csharp_ls" then
+elseif Tweaks.lsp.csharp == "csharp_ls" then
   require("lsp.csharp_ls")
 end
 
@@ -605,8 +605,8 @@ end
 if vim.diagnostic then
   vim.diagnostic.config({
     update_in_insert = false,
-    virtual_text = not vim.g.tweaks.lsp.virtual_lines,
-    virtual_lines = (vim.g.tweaks.lsp.virtual_lines == true) and { only_current_line = true, highlight_whole_line = false } or false,
+    virtual_text = not Tweaks.lsp.virtual_lines,
+    virtual_lines = (Tweaks.lsp.virtual_lines == true) and { only_current_line = true, highlight_whole_line = false } or false,
     underline = {
       -- Do not underline text when severity is low (INFO or HINT).
       severity = { min = vim.diagnostic.severity.WARN },
@@ -660,7 +660,7 @@ end
 -- set a border for the default hover and diagnostics windows
 require('lspconfig.ui.windows').default_options.border = PCFG.float_borders
 
-if vim.g.tweaks.notifier == "nvim-notify" then
+if Tweaks.notifier == "nvim-notify" then
   local client_notifs = {}
 
   local function get_notif_data(client_id, token)

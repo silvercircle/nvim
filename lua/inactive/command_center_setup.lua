@@ -17,8 +17,8 @@ command_center.add({
     --cmd = function() bm.bookmark_clean() end,
     cmd = function() Utils.notification_history() end,
     keys = {
-      { "n", vim.g.tweaks.keymap.utility_key .. "<C-n>", noremap },
-      { "i", vim.g.tweaks.keymap.utility_key .. "<C-n>", noremap }
+      { "n", Tweaks.keymap.utility_key .. "<C-n>", noremap },
+      { "i", Tweaks.keymap.utility_key .. "<C-n>", noremap }
     },
     category = "@Notifications"
   },
@@ -158,7 +158,7 @@ command_center.add({
         -- refresh neo-tree display to reflect changes in git status
         -- TODO: implement for nvim-tree?
         on_close = function()
-          if vim.g.tweaks.tree.version == "Neo" then
+          if Tweaks.tree.version == "Neo" then
             vim.schedule(function() require("neo-tree.command").execute({ action="show" }) end)
           end
         end,
@@ -193,10 +193,10 @@ command_center.add({
   },
   {
     -- open a markdown preview using lightmdview
-    desc = "View Markdown in GUI viewer (" .. vim.g.tweaks.mdguiviewer .. ")",
+    desc = "View Markdown in GUI viewer (" .. Tweaks.mdguiviewer .. ")",
     cmd = function()
       local path = vim.fn.expand("%:p")
-      local cmd = "silent !" .. vim.g.tweaks.mdguiviewer ..  " '" .. path .. "' &"
+      local cmd = "silent !" .. Tweaks.mdguiviewer ..  " '" .. path .. "' &"
       vim.cmd.stopinsert()
       vim.schedule(function() vim.cmd(cmd) end)
     end,
@@ -208,7 +208,7 @@ command_center.add({
   },
   {
     -- open a document viewer zathura view and view the tex document as PDF
-    desc = "View LaTeX result (" .. vim.g.tweaks.texviewer .. ")",
+    desc = "View LaTeX result (" .. Tweaks.texviewer .. ")",
     cmd = Utils.view_latex(),
     keys = { -- shift-f9
       { "n", fkeys.s_f9, noremap },
@@ -258,7 +258,7 @@ command_center.add({
   },
   {
     desc = "Inspect auto word list (wordlist plugin)",
-    cmd = function() require(vim.g.tweaks.completion.version == "nvim-cmp" and "cmp_wordlist" or "blink-cmp-wordlist").autolist() end,
+    cmd = function() require(Tweaks.completion.version == "nvim-cmp" and "cmp_wordlist" or "blink-cmp-wordlist").autolist() end,
     keys = { "n", "<leader>zw", noremap },
     category = "@Neovim"
   },

@@ -90,9 +90,6 @@ require("scrollbar").setup({
   },
   excluded_filetypes = {
     "prompt",
-    "TelescopePrompt",
-    "DressingSelect",
-    "DressingInput",
     "mason",
     "lazy",
     "alpha",

@@ -44,7 +44,7 @@ end
 lspconfig.basedpyright.setup({
   capabilities = CGLOBALS.get_lsp_capabilities(),
   on_attach = On_attach,
-  cmd = { vim.g.tweaks.lsp.server_bin.basedpyright, '--stdio' },
+  cmd = { Tweaks.lsp.server_bin.basedpyright, '--stdio' },
   filetypes = { 'python' },
   root_dir = function(fname)
     return util.root_pattern(unpack(root_files))(fname)
@@ -63,7 +63,7 @@ lspconfig.basedpyright.setup({
 
 return {
   default_config = {
-    cmd = { vim.g.tweaks.lsp.server_bin.basedpyright, '--stdio' },
+    cmd = { Tweaks.lsp.server_bin.basedpyright, '--stdio' },
     filetypes = { 'python' },
     root_dir = function(fname)
       return util.root_pattern(unpack(root_files))(fname)

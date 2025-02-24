@@ -76,7 +76,7 @@ M.perm_config_default = {
   cmp_show_docs = true,
   autopair = true,
   cmp_layout = "classic",
-  cmp_autocomplete = vim.g.tweaks.cmp.autocomplete,
+  cmp_autocomplete = Tweaks.cmp.autocomplete,
   cmp_ghost = false,
   lsp = {
     inlay_hints = true
@@ -97,7 +97,7 @@ end
 function M.open_with_fzf(cwd)
   if vim.fn.isdirectory(cwd) then
     vim.schedule(function() require("fzf-lua").files({ formatter = "path.filename_first", cwd = cwd,
-      winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+      winopts = Tweaks.fzf.winopts.very_narrow_no_preview })
      end)
   end
 end
@@ -175,11 +175,11 @@ end
 -- This tries to find the root folder of the current project.
 function M.sync_tree()
   local root = require("subspace.lib").getroot_current()
-  if vim.g.tweaks.tree.version == "Neo" then
+  if Tweaks.tree.version == "Neo" then
     local nc = require("neo-tree.command")
     nc.execute( {action="show", dir=root, source="filesystem" } )
     nc.execute( {action="show", reveal=true, reveal_force_cwd=true, source="filesystem" } )
-  elseif vim.g.tweaks.tree.version == "Nvim" then
+  elseif Tweaks.tree.version == "Nvim" then
     require('nvim-tree.api').tree.change_root(root)
     vim.cmd("NvimTreeFindFile")
   -- TODO: Make this work with a docked "snacks explorer" as filetree
@@ -192,7 +192,7 @@ function M.tree_open_handler()
   local wsplit = require("subspace.content.wsplit")
   vim.opt.statuscolumn = ''
   local w = vim.fn.win_getid()
-  vim.api.nvim_win_set_option(w, 'statusline', '   ' .. (vim.g.tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"))
+  vim.api.nvim_win_set_option(w, 'statusline', '   ' .. (Tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"))
   vim.cmd('setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
   vim.api.nvim_win_set_width(w, PCFG.tree.width)
   CGLOBALS.adjust_layout()
@@ -224,7 +224,7 @@ function M.set_statuscol(mode)
     return
   end
   M.perm_config.statuscol_current = mode
-  if vim.g.tweaks.use_foldlevel_patch == true then
+  if Tweaks.use_foldlevel_patch == true then
     vim.o.statuscolumn = CFG["statuscol_" .. mode]
   end
   if mode == "normal" then
@@ -316,7 +316,7 @@ function M.findbufbyType(type)
 end
 
 -- list of filetypes we never want to create views for.'
-local _mkview_exclude = vim.g.tweaks.mkview_exclude
+local _mkview_exclude = Tweaks.mkview_exclude
 
 --- this creates a view using mkview unless the buffer has no file name or is not a file at all.
 --- it also respects the filetype exclusion list to avoid unwanted clutter in the views folder
@@ -495,7 +495,7 @@ function M.write_config()
         active = usplit_id ~= nil and true or false,
       },
       tree = {
-        active = #M.findWinByFiletype(vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
+        active = #M.findWinByFiletype(Tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
       }
     }
     if Tweaks.theme.disable == false then
@@ -550,15 +550,15 @@ function M.restore_config()
       colorpalette = M.perm_config.theme_palette,
       theme_strings = M.perm_config.theme_strings,
       is_trans = M.perm_config.transbg,
-      sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
-      kittysocket = vim.g.tweaks.theme.kittysocket,
-      kittenexec = vim.g.tweaks.theme.kittenexec,
+      sync_kittybg = Tweaks.theme.sync_kittybg,
+      kittysocket = Tweaks.theme.kittysocket,
+      kittenexec = Tweaks.theme.kittenexec,
       callback = require("subspace.lib.darkmatter").theme_callback,
       indentguide_colors = {
-        dark = vim.g.tweaks.indent.color.dark,
-        light = vim.g.tweaks.indent.color.light
+        dark = Tweaks.indent.color.dark,
+        light = Tweaks.indent.color.light
       },
-      rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast,
+      rainbow_contrast = Tweaks.theme.rainbow_contrast,
       custom_colors = {
         c1 = "#5a8aba"
       },
@@ -573,26 +573,26 @@ function M.restore_config()
       --  attribute = "user3"
       --},
       plugins = {
-        hl = (vim.g.tweaks.completion.version == "blink") and { "markdown", "common", "blink", "snacks" } or { "markdown", "common", "snacks" },
+        hl = (Tweaks.completion.version == "blink") and { "markdown", "common", "blink", "snacks" } or { "markdown", "common", "snacks" },
       },
       attrib = {
         dark = {
           cmpkind = cmp_kind_attr,
-          tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {},
-          types = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-          class = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-          interface = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-          struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+          tabline = Tweaks.cokeline.underline == true and { underline = true } or {},
+          types = Tweaks.theme.all_types_bold == true and { bold = true } or {},
+          class = Tweaks.theme.all_types_bold == true and { bold = true } or {},
+          interface = Tweaks.theme.all_types_bold == true and { bold = true } or {},
+          struct = Tweaks.theme.all_types_bold == true and { bold = true } or {},
           defaultlib = { italic = false },
           attribute = { italic = false, bold = true },
         },
         gruv = {
           cmpkind = cmp_kind_attr,
-          tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {},
-          types = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-          class = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-          interface = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-          struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+          tabline = Tweaks.cokeline.underline == true and { underline = true } or {},
+          types = Tweaks.theme.all_types_bold == true and { bold = true } or {},
+          class = Tweaks.theme.all_types_bold == true and { bold = true } or {},
+          interface = Tweaks.theme.all_types_bold == true and { bold = true } or {},
+          struct = Tweaks.theme.all_types_bold == true and { bold = true } or {},
           defaultlib = { italic = false },
           attribute = { italic = false, bold = true },
         }
@@ -604,7 +604,7 @@ end
 --- adjust the optional frames so they will keep their width when the side tree opens or closes
 function M.adjust_layout()
   local usplit = require("subspace.content.usplit").winid
-  vim.o.cmdheight = vim.g.tweaks.cmdheight
+  vim.o.cmdheight = Tweaks.cmdheight
   if usplit ~= nil then
     vim.api.nvim_win_set_width(usplit, M.perm_config.sysmon.width)
   end
@@ -679,7 +679,7 @@ end
 -- enable/disable ibl
 function M.toggle_ibl()
   M.perm_config.ibl_enabled = not M.perm_config.ibl_enabled
-  if vim.g.tweaks.indent.version == "snacks" then
+  if Tweaks.indent.version == "snacks" then
     if M.perm_config.ibl_enabled then
       require("snacks").indent.enable()
     else
@@ -763,7 +763,7 @@ function M.configure_treesitter()
   vim.treesitter.language.register("ini", "editorconfig")
   -- disable injections for these languages, because they can be slow
   -- can be tweaked
-  if vim.g.tweaks.treesitter.perf_tweaks == true then
+  if Tweaks.treesitter.perf_tweaks == true then
     vim.treesitter.query.set("javascript", "injections", "")
     vim.treesitter.query.set("typescript", "injections", "")
     vim.treesitter.query.set("vimdoc", "injections", "")

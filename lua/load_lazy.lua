@@ -33,7 +33,7 @@ lazy.setup({
   },
   {
     "brenton-leighton/multiple-cursors.nvim",
-    cond = vim.g.tweaks.multicursor == "brenton-leighton",
+    cond = Tweaks.multicursor == "brenton-leighton",
     version = "*", -- Use the latest tagged version
     keys = {
       { "<C-Down>",      "<Cmd>MultipleCursorsAddDown<CR>",          mode = { "n", "i" } },
@@ -50,16 +50,16 @@ lazy.setup({
   },
   {
     "jake-stewart/multicursor.nvim",
-    cond = vim.g.tweaks.multicursor == "jake-stewart",
+    cond = Tweaks.multicursor == "jake-stewart",
     branch = "1.0",
     config = function()
       require("plugins.others").setup.multicursor_stewart()
     end
   },
   {
-    --(vim.g.tweaks.use_foldlevel_patch == true) and "silvercircle/fidget.nvim" or "j-hui/fidget.nvim",
+    --(Tweaks.use_foldlevel_patch == true) and "silvercircle/fidget.nvim" or "j-hui/fidget.nvim",
     "silvercircle/fidget.nvim",
-    cond = vim.g.tweaks.notifier == "fidget",
+    cond = Tweaks.notifier == "fidget",
     branch = "mine",
     lazy = true,
     event = "BufReadPre",
@@ -113,7 +113,7 @@ lazy.setup({
         telescope_theme = require("subspace.lib").Telescope_dropdown_theme,
         picker = "snacks",
         snacks_layout = SPL( { width = 120, height = 20, row = 5, input = "top" }),
-        fzf_winopts = vim.g.tweaks.fzf.winopts.narrow_small_preview,
+        fzf_winopts = Tweaks.fzf.winopts.narrow_small_preview,
         explorer_layout = SPL( { width = 70 })
       })
     end
@@ -143,7 +143,7 @@ lazy.setup({
     "iguanacucumber/magazine.nvim",
     name = 'nvim-cmp',
     lazy = true,
-    cond = vim.g.tweaks.completion.version == "nvim-cmp",
+    cond = Tweaks.completion.version == "nvim-cmp",
     event = { "InsertEnter", "CmdLineEnter" },
     dependencies = {
       { "iguanacucumber/mag-cmdline", name = "cmp-cmdline" },
@@ -244,7 +244,7 @@ lazy.setup({
     build = "cargo build --release",
     lazy = true,
     event = "ModeChanged",
-    cond = vim.g.tweaks.completion.version == "blink",
+    cond = Tweaks.completion.version == "blink",
     config = function()
       require("plugins.blink")
     end,
@@ -285,12 +285,12 @@ lazy.setup({
         end
       },
       -- no longer needed, because roslyn has that integrated
-      -- { 'Hoffs/omnisharp-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "omnisharp") },         -- omnisharp decompilation support
-      -- { 'Decodetalkers/csharpls-extended-lsp.nvim', cond = (vim.g.tweaks.lsp.csharp == "csharp_ls") },  -- this is for csharp_ls decompilation support
+      -- { 'Hoffs/omnisharp-extended-lsp.nvim', cond = (Tweaks.lsp.csharp == "omnisharp") },         -- omnisharp decompilation support
+      -- { 'Decodetalkers/csharpls-extended-lsp.nvim', cond = (Tweaks.lsp.csharp == "csharp_ls") },  -- this is for csharp_ls decompilation support
       'onsails/lspkind-nvim',
       {
         'https://gitlab.com/silvercircle74/lsp_lines.nvim',
-        cond = vim.g.tweaks.lsp.virtual_lines == true,
+        cond = Tweaks.lsp.virtual_lines == true,
         config = function()
           require("lsp_lines").setup()
         end
@@ -434,7 +434,7 @@ lazy.setup({
   },
   {
     'nvim-tree/nvim-tree.lua',
-    -- cond = vim.g.tweaks.tree.version == "Nvim",
+    -- cond = Tweaks.tree.version == "Nvim",
     -- LAZY = true,
     config = function()
       require("plugins.nvim-tree")
@@ -539,7 +539,7 @@ lazy.setup({
   },
   {
     'seblyng/roslyn.nvim',
-    cond = (vim.g.tweaks.lsp.csharp == "roslyn"),
+    cond = (Tweaks.lsp.csharp == "roslyn"),
     ft = { "cs", "razor" },
     config = function()
       require("plugins.roslyn")
