@@ -4,7 +4,7 @@ local kms = vim.keymap.set
 local opts = { noremap = true, silent = true }
 local Utils = require('subspace.lib')
 local utility_key = vim.g.tweaks.keymap.utility_key
-local treename = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
+local treename = Tweaks.tree.filetype
 
 local function fkey_mappings()
   if vim.g.is_tmux == 1 then
@@ -396,7 +396,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-7>', function()
   if __Globals.findbufbyType('qf') == false then
     vim.cmd('below 10 copen')
   else
-    local winid = __Globals.findwinbyBufType('qf')[1]
+    local winid = __Globals.findWinByFiletype('qf')[1]
     if curwin == winid then
       vim.cmd('ccl')
     else
@@ -409,7 +409,7 @@ vim.g.setkey({ 'n', 'i', 't' }, '<f11>', function() __Globals.termToggle(12) end
 map('t', '<Esc>', '<C-\\><C-n>', opts)
 
 vim.g.setkey('n', fkeys.c_f8, '<CMD>RnvimrToggle<CR>', "Ranger in Floaterm")
-vim.g.setkey('n', '<leader>wr', function() __Globals.toggle_wrap() end, "Toggle word wrap")
+vim.g.setkey({'n', 'i'}, utility_key .. 'w', function() __Globals.toggle_wrap() end, "Toggle word wrap")
 vim.keymap.set('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cword>') end,
   { expr = true, desc = "Inc Rename", noremap = true, silent = true })
 

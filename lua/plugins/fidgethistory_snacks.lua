@@ -8,7 +8,6 @@
 --
 -- this requires nui libary and (obviously) the telescope plugin
 -- https://github.com/MunifTanjim/nui.nvim
--- TODO: make a fzf-lua version. OR a snacks.picker version
 
 local notify = require("fidget.notification")
 

@@ -21,7 +21,7 @@ local function Cokeline_theme()
   }
 end
 
-local treename = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or 'NvimTree'
+local treename = Tweaks.tree.filetype
 require('cokeline').setup({
   -- Cokeline_theme() is defined in config.lua
   buffers = {

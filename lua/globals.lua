@@ -130,11 +130,11 @@ function M.is_outline_open()
     outline = 0,
     aerial = 0,
   }
-  local _o = M.findwinbyBufType("Outline")
+  local _o = M.findWinByFiletype("Outline")
   if #_o > 0 and _o[1] ~= nil then
     status.outline = _o[1]
   end
-  local _a = M.findwinbyBufType("aerial")
+  local _a = M.findWinByFiletype("aerial")
   if #_a > 0 and _a[1] ~= nil then
     status.aerial = _a[1]
   end
@@ -155,14 +155,18 @@ end
 --- open the tree (file manager tree on the left). It can be either NvimTree
 --- or NeoTree
 function M.open_tree()
-  if vim.g.tweaks.tree.version == "Nvim" then
+  if Tweaks.tree.version == "Nvim" then
     require('nvim-tree.api').tree.toggle({ focus = false })
-  else
+  elseif Tweaks.tree.version == "Neo" then
     require("neo-tree.command").execute({
       action = "show",
       source = "filesystem",
       position = "left"
     })
+  -- TODO: make it work with snacks explorer
+  elseif Tweaks.tree.version == "Explorer" then
+    require("snacks").picker.explorer( { jump = {close=false},
+      auto_close = false, layout={position="left", layout={ border="none", width=40, min_width=40}} } )
   end
 end
 
@@ -178,6 +182,8 @@ function M.sync_tree()
   elseif vim.g.tweaks.tree.version == "Nvim" then
     require('nvim-tree.api').tree.change_root(root)
     vim.cmd("NvimTreeFindFile")
+  -- TODO: Make this work with a docked "snacks explorer" as filetree
+  elseif Tweaks.tree.version == "Explorer" then
   end
 end
 --- called by the event handler in NvimTree or NeoTree to inidicate that
@@ -267,7 +273,7 @@ end
 --- find the first window for a given filetype.
 --- @param filetypes string|table: the filetype(s)
 --- @return table: a list of windows displaying the buffer or an empty list if none has been found
-function M.findwinbyBufType(filetypes)
+function M.findWinByFiletype(filetypes)
 
   local function finder(ft, where)
     if type(where) == "string" then
@@ -298,10 +304,10 @@ function M.findwinbyBufType(filetypes)
 end
 
 --- find a buffer with type and focus its primary window split
---- @param type string: buffer type (e.g. "NvimTree"
+--- @param type string: filetype (e.g. "NvimTree"
 --- @return boolean: true if a window was found, false otherwise
 function M.findbufbyType(type)
-  local winid = M.findwinbyBufType(type)
+  local winid = M.findWinByFiletype(type)
   if #winid > 0 then
     vim.fn.win_gotoid(winid[1])
     return true
@@ -328,9 +334,7 @@ end
 --- set one formatoptions
 --- @param fo string a valid format option see :help fo-table
 function M.set_fo(fo)
-  for i = 1, #fo do
-    vim.opt_local.formatoptions:append(string.sub(fo, i, i))
-  end
+  vim.opt_local.formatoptions:append(fo)
   require("lualine").refresh()
 end
 
@@ -367,6 +371,7 @@ function M.toggle_wrap()
     vim.opt_local.wrap = true
     vim.opt_local.linebreak = true
   end
+  require("lualine").refresh()
 end
 
 -- split the file tree horizontally
@@ -375,7 +380,7 @@ end
 --- @return number: the window id, 0 if the process failed
 function M.splittree(_factor)
   local factor = math.abs((_factor ~= nil and _factor > 0) and _factor or 0.33)
-  local winid = M.findwinbyBufType(vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree")
+  local winid = M.findWinByFiletype(Tweaks.tree.filetype)
   if #winid > 0 then
     local splitheight
     if factor < 1 then
@@ -397,9 +402,9 @@ end
 
 --- close all quickfix windows
 function M.close_qf_or_loc()
-  local winid = M.findwinbyBufType("qf")
+  local winid = M.findWinByFiletype("qf")
   if #winid == 0 then
-    winid = M.findwinbyBufType("replacer")
+    winid = M.findWinByFiletype("replacer")
   end
   if #winid > 0 then
     for i, _ in pairs(winid) do
@@ -427,7 +432,7 @@ function M.termToggle(_height)
     M.term.winid = nil
     return
   end
-  local outline_win = M.findwinbyBufType(M.perm_config.outline_filetype)
+  local outline_win = M.findWinByFiletype(M.perm_config.outline_filetype)
 
   if outline_win[1] ~= nil and vim.api.nvim_win_is_valid(outline_win[1]) then
     M.close_outline()
@@ -490,7 +495,7 @@ function M.write_config()
         active = usplit_id ~= nil and true or false,
       },
       tree = {
-        active = #M.findwinbyBufType(vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
+        active = #M.findWinByFiletype(vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
       }
     }
     if Tweaks.theme.disable == false then
@@ -638,7 +643,7 @@ function M.adjust_layout()
     vim.api.nvim_win_set_width(M.term.winid, width - 1)
     vim.api.nvim_win_set_width(M.term.winid, width)
   end
-  local outline = M.findwinbyBufType("Outline")
+  local outline = M.findWinByFiletype("Outline")
   if #outline > 0 then
     vim.api.nvim_win_set_width(outline[1], M.perm_config.outline.width)
   end

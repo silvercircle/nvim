@@ -271,7 +271,7 @@ function Wsplit.installwatch()
 end
 
 function Wsplit.open(_weatherfile)
-  local wid = __Globals.findwinbyBufType("terminal")
+  local wid = __Globals.findWinByFiletype("terminal")
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   Wsplit.weatherfile = vim.fn.expand(_weatherfile)
 

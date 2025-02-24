@@ -9,7 +9,7 @@ Wsplit.freeze = true
 local Usplit = require("subspace.content.usplit")
 local Tsc = require("treesitter-context")
 local marks = require("subspace.lib.marks")
-local treeft = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
+local treeft = Tweaks.tree.filetype
 
 -- local ibl = require('indent_blankline')
 
@@ -97,7 +97,7 @@ local function main_layout()
           Wsplit.set_minheight()
           Wsplit.refresh()
           local status = __Globals.is_outline_open()
-          local tree = __Globals.findwinbyBufType(treeft)
+          local tree = __Globals.findWinByFiletype(treeft)
           if status.outline ~= 0 then
             PCFG.outline.width = vim.api.nvim_win_get_width(status.outline)
           end

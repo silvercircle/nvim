@@ -116,7 +116,7 @@ end
 --- system monitor in it. See: https://nicolargo.github.io/glances/
 function Usplit.open()
   local width = PCFG.sysmon.width
-  local wid = __Globals.findwinbyBufType("terminal")
+  local wid = __Globals.findWinByFiletype("terminal")
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   -- glances must be executable otherwise do nothing
   -- also, a terminal split must be present.
