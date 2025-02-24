@@ -29,7 +29,7 @@ if nvim_11 == 1 then
   vim.deprecate = function() end
 end
 
-Config = {
+CFG = {
   nightly = (nvim_11 ~= 0) and true or false,
   cmp = {
     -- the following lists file types that are allowed to use the cmp_buffer source

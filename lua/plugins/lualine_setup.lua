@@ -103,7 +103,7 @@ end
 setup_theme()
 
 local function getWordsV2()
-  if CGLOBALS.cur_bufsize > Config.wordcount_limit * 1024 * 1024 then
+  if CGLOBALS.cur_bufsize > CFG.wordcount_limit * 1024 * 1024 then
     return "NaN"
   end
   local wc = vim.fn.wordcount()

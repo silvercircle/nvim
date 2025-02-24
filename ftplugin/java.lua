@@ -49,7 +49,7 @@ if debug then vim.notify("Project name is: " .. project_name, 1) end
 -- classes.
 if vim.startswith(vim.fn.expand("%"), "jdt://") then
   vim.cmd("setlocal number | setlocal signcolumn=yes:3 | setlocal foldcolumn=1 | setlocal nospell | setlocal buftype=nowrite")
-  vim.o.statuscolumn = Config.statuscol_normal
+  vim.o.statuscolumn = CFG.statuscol_normal
 end
 local config = {
   -- The command that starts the language server

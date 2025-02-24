@@ -35,12 +35,12 @@ M.ibl_highlight = {
 M.perm_config_default = {
   sysmon = {
     active = false,
-    width = Config.sysmon.width,
+    width = CFG.sysmon.width,
     content = "sysmon",
   },
   weather = {
     active = false,
-    width = Config.weather.width,
+    width = CFG.weather.width,
     content = "info",
   },
   terminal = {
@@ -48,11 +48,11 @@ M.perm_config_default = {
     height = 12,
   },
   tree = {
-    width = Config.filetree_width,
+    width = CFG.filetree_width,
     active = true,
   },
   outline = {
-    width = Config.outline_width,
+    width = CFG.outline_width,
   },
   statuscol_current = "normal",
   blist = true,
@@ -199,7 +199,7 @@ function M.tree_open_handler()
   if PCFG.weather.active == true then
     wsplit.content = PCFG.weather.content
     if wsplit.winid == nil then
-      wsplit.openleftsplit(Config.weather.file)
+      wsplit.openleftsplit(CFG.weather.file)
       --vim.schedule(function() wsplit.openleftsplit(Config.weather.file) end)
     end
   end
@@ -225,7 +225,7 @@ function M.set_statuscol(mode)
   end
   M.perm_config.statuscol_current = mode
   if vim.g.tweaks.use_foldlevel_patch == true then
-    vim.o.statuscolumn = Config["statuscol_" .. mode]
+    vim.o.statuscolumn = CFG["statuscol_" .. mode]
   end
   if mode == "normal" then
     vim.o.relativenumber = false
@@ -260,13 +260,13 @@ function M.toggle_colorcolumn()
     vim.opt_local.colorcolumn = ""
   else
     local filetype = vim.bo.filetype
-    for _, v in pairs(Config.colorcolumns) do
+    for _, v in pairs(CFG.colorcolumns) do
       if string.find(v.filetype, filetype) then
         vim.opt_local.colorcolumn = v.value
         return
       end
     end
-    vim.opt_local.colorcolumn = Config.colorcolumns.all.value
+    vim.opt_local.colorcolumn = CFG.colorcolumns.all.value
   end
 end
 
@@ -476,7 +476,7 @@ end
 --- write the configuration to the json file
 --- do not write it when running in plain mode (without additional frames and content)
 function M.write_config()
-  if Config.plain == true then
+  if CFG.plain == true then
     return
   end
   local file = get_permconfig_filename()
@@ -499,7 +499,7 @@ function M.write_config()
       }
     }
     if Tweaks.theme.disable == false then
-      local theme_conf = Config.theme.get_conf()
+      local theme_conf = CFG.theme.get_conf()
       state['theme_variant'] = theme_conf.variant
       state['theme_palette'] = theme_conf.colorpalette
       state['transbg'] = theme_conf.is_trans
@@ -544,7 +544,7 @@ function M.restore_config()
   --local cmp_kind_attr = M.perm_config.cmp_layout == "experimental" and { bold=true, reverse=true } or {}
   local cmp_kind_attr = { bold=true, reverse=true }
   if Tweaks.theme.disable == false then
-    Config.theme.setup({
+    CFG.theme.setup({
       scheme = M.perm_config.theme_scheme,
       variant = M.perm_config.theme_variant,
       colorpalette = M.perm_config.theme_palette,
@@ -605,7 +605,7 @@ end
 --- configuration.
 --- @param what string: description what has changed
 function M.theme_callback(what)
-  local conf = Config.theme.get_conf()
+  local conf = CFG.theme.get_conf()
   if what == 'variant' then
     M.perm_config.theme_variant = conf.variant
     M.notify("Theme variant is now: " .. conf.variant, vim.log.levels.INFO, "Theme")

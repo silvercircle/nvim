@@ -318,7 +318,7 @@ cmp.setup({
         get_bufnrs = function()
           local buf = vim.api.nvim_get_current_buf()
           local ft = vim.api.nvim_buf_get_option(buf, "filetype")
-          if Config.cmp.buffer_ft_allowed[ft] == nil then
+          if CFG.cmp.buffer_ft_allowed[ft] == nil then
             return {}
           end
           if CGLOBALS.cur_bufsize > T.buffer_maxsize then -- 300kb
@@ -432,7 +432,7 @@ function M.setup_theme(theme, decoration, decoration_doc)
   --if theme == "experimental" then
   --  kind_attr = { bold=true, reverse=true }
   --end
-  Config.theme.setup({
+  CFG.theme.setup({
     attrib = {
       dark = {
         cmpkind = kind_attr
@@ -442,7 +442,7 @@ function M.setup_theme(theme, decoration, decoration_doc)
       }
     }
   })
-  Config.theme.set()
+  CFG.theme.set()
   cmp.setup({
     window = {
       documentation = {

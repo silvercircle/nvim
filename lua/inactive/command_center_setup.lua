@@ -93,7 +93,7 @@ command_center.add({
     cmd = function()
       _tb.treesitter(__Telescope_vertical_dropdown_theme({
         prompt_prefix = Utils.getTelescopePromptPrefix(),
-        layout_config = Config.minipicker_layout
+        layout_config = CFG.minipicker_layout
       }))
     end,
     keys = {

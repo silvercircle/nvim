@@ -15,7 +15,7 @@ require("aerial").setup({
     -- max_width = {40, 0.2} means "the lesser of 40 columns or 20% of total"
     max_width = { CGLOBALS.perm_config.outline.width },
     width = nil,
-    min_width = Config.outline_width,
+    min_width = CFG.outline_width,
     -- do not enforce width, let control it from outside.
     ignore_width = true,
 

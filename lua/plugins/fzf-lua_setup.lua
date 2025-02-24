@@ -583,7 +583,7 @@ require "fzf-lua".setup({
   },
   -- padding can help kitty term users with
   -- double-width icon rendering
-  file_icon_padding   = Config.iconpad,
+  file_icon_padding   = CFG.iconpad,
   -- uncomment if your terminal/font does not support unicode character
   -- 'EN SPACE' (U+2002), the below sets it to 'NBSP' (U+00A0) instead
   -- nbsp = '\xc2\xa0',

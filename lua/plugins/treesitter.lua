@@ -1,6 +1,6 @@
 require("nvim-treesitter.configs").setup({
   auto_install = true,
-  ensure_installed = Config.treesitter_types,
+  ensure_installed = CFG.treesitter_types,
   textobjects = {
     enable = true
   },

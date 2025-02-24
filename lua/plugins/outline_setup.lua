@@ -1,6 +1,6 @@
 local _s = vim.g.lspkind_symbols
-Config.outline_plugin = require("outline")
-Config.outline_plugin.setup(
+CFG.outline_plugin = require("outline")
+CFG.outline_plugin.setup(
 {
 outline_window = {
     -- Where to open the split window: right/left

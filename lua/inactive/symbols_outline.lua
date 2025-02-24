@@ -1,5 +1,5 @@
-Config.outline_plugin = require("symbols-outline")
-Config.outline_plugin.setup({
+CFG.outline_plugin = require("symbols-outline")
+CFG.outline_plugin.setup({
   highlight_hovered_item = false,
   show_guides = true,
   auto_preview = false,

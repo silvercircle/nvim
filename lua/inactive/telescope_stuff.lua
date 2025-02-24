@@ -1,4 +1,4 @@
-Config = {
+CFG = {
   -- map symbol types to highlight groups for telescope since telescope does not use lspkind
   telescope_symbol_highlights = {
     Package   = "@namespace",
@@ -100,13 +100,13 @@ function Utils.Telescope_dropdown_theme(opts)
   local lopts = opts or {}
   local defaults = require("telescope.themes").get_dropdown({
     -- borderchars = Config.telescope_dropdown == 'bottom' and border_layout_bottom_vertical or border_layout_top_center,
-    borderchars = Config.telescope_dropdown == "bottom" and border_layout_prompt_bottom[CGLOBALS.perm_config.telescope_borders]
+    borderchars = CFG.telescope_dropdown == "bottom" and border_layout_prompt_bottom[CGLOBALS.perm_config.telescope_borders]
       or border_layout_prompt_top[CGLOBALS.perm_config.telescope_borders],
     layout_config = {
       anchor = "N",
       width = lopts.width or 0.5,
       height = lopts.height or 0.5,
-      prompt_position = Config.telescope_dropdown,
+      prompt_position = CFG.telescope_dropdown,
     },
     -- layout_strategy=Config.telescope_dropdown == 'bottom' and 'vertical' or 'center',
     previewer = false,
@@ -150,11 +150,11 @@ function Utils.Telescope_vertical_dropdown_theme(opts)
   local lopts = opts or {}
   local defaults = require("telescope.themes").get_dropdown({
     borderchars = border_layout_vertical_dropdown[CGLOBALS.perm_config.telescope_borders],
-    fname_width = Config["telescope_fname_width"],
+    fname_width = CFG["telescope_fname_width"],
     sorting_strategy = "ascending",
     layout_strategy = "vertical",
     path_display = { shorten = 10 },
-    symbol_width = Config.minipicker_symbolwidth,
+    symbol_width = CFG.minipicker_symbolwidth,
     layout_config = {
       width = lopts.width or 0.8,
       height = lopts.height or 0.9,
@@ -187,7 +187,7 @@ function Utils.command_center_theme(opts)
       anchor = "N",
       width = lopts.width or 120,
       height = lopts.height or 0.4,
-      prompt_position = Config.cpalette_dropdown,
+      prompt_position = CFG.cpalette_dropdown,
     },
     -- layout_strategy=Config.telescope_dropdown == 'bottom' and 'vertical' or 'center',
     previewer = false,

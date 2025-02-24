@@ -26,7 +26,7 @@ local function toggle_telescope(harpoon_files)
 
   require("telescope.pickers").new(__Telescope_vertical_dropdown_theme({
     prompt_prefix = require("subspace.lib").getTelescopePromptPrefix(),
-    layout_config = Config.minipicker_layout
+    layout_config = CFG.minipicker_layout
   }), {
     prompt_title = "Harpoon",
     finder = require("telescope.finders").new_table({

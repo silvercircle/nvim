@@ -59,7 +59,7 @@ end
 o.foldcolumn = "1"
 -- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 
 -- indentation-based folding.
-if Config.treesitter == true then
+if CFG.treesitter == true then
   vim.wo.foldmethod = "expr"
   vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 else

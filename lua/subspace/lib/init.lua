@@ -106,7 +106,7 @@ end
 --- get prompt prefix to determine whether a picker has been called in insert mode
 --- this is hack-ish, but works.
 function Utils.getTelescopePromptPrefix()
-  return vim.api.nvim_get_mode().mode == "i" and Config.minipicker_iprefix or "> "
+  return vim.api.nvim_get_mode().mode == "i" and CFG.minipicker_iprefix or "> "
 end
 
 --- this function determines the path where a latex-generated PDF may reside. It depends on the
@@ -116,7 +116,7 @@ end
 --- @param _useglobal boolean: use the global texoutput directory
 function Utils.getLatexPreviewPath(_filename, _useglobal)
   local useglobal = _useglobal or false
-  local path = vim.fn.expand(Config.texoutput)
+  local path = vim.fn.expand(CFG.texoutput)
   local finalpath
   if vim.bo.filetype == "typst" then
     finalpath = vim.fn.expand("%:p:r") .. ".pdf"
@@ -158,7 +158,7 @@ function Utils.compile_latex()
     local cwd = "cd " .. vim.fn.expand("%:p:h")
     vim.cmd(cwd)
     local cmd = "!lualatex --output-directory="
-      .. vim.fn.expand(Config.texoutput)
+      .. vim.fn.expand(CFG.texoutput)
       .. " '"
       .. vim.fn.expand("%:p")
       .. "'"

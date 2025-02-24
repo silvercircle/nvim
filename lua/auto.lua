@@ -16,7 +16,7 @@ local treeft = Tweaks.tree.filetype
 --- on leave, write the permanent settings file
 autocmd({ 'VimLeave' }, {
   callback = function()
-    if Config.plain == false then
+    if CFG.plain == false then
       -- vim.system({ 'tmux', 'set', '-qg', 'allow-passthrough', 'off' }, { text = true })
       CGLOBALS.write_config()
     end
@@ -36,7 +36,7 @@ autocmd({ 'VimEnter' }, {
     -- internal theme can be disabled via tweaks. This allows 
     -- to use an external theme
     if vim.g.tweaks.theme.disable == false then
-      Config.theme.set()
+      CFG.theme.set()
     end
     -- support textwidth and formatoptions roperties via editorconfig files
     econfig.properties.textwidth = function(bufnr, val, _)
@@ -60,7 +60,7 @@ local function main_layout()
 
   did_UIEnter = true
   CGLOBALS.main_winid = vim.fn.win_getid()
-  if Config.plain == false then
+  if CFG.plain == false then
     if PCFG.tree.active == true then
       CGLOBALS.open_tree()
     end
@@ -104,13 +104,13 @@ local function main_layout()
           if status.aerial ~= 0 then
             PCFG.outline.width = vim.api.nvim_win_get_width(status.aerial)
           end
-          if PCFG.outline.width < Config.outline_width then
-            PCFG.outline.width = Config.outline_width
+          if PCFG.outline.width < CFG.outline_width then
+            PCFG.outline.width = CFG.outline_width
           end
           if #tree > 0 and tree[1] ~= nil then
             PCFG.tree.width = vim.api.nvim_win_get_width(tree[1])
-            if PCFG.tree.width < Config.filetree_width then
-              PCFG.tree.width = Config.filetree_width
+            if PCFG.tree.width < CFG.filetree_width then
+              PCFG.tree.width = CFG.filetree_width
             end
           end
         end
@@ -127,7 +127,7 @@ local function main_layout()
       Usplit.content = PCFG.sysmon.content
     end
     if PCFG.transbg == true then
-      Config.theme.set_bg()
+      CFG.theme.set_bg()
     end
   end
   vim.fn.win_gotoid(CGLOBALS.main_winid)
@@ -391,7 +391,7 @@ delcmd = autocmd( { 'BufReadPost' }, {
     end
     _delayloaded = true
     vim.defer_fn(function() require("plugins.commandpicker_addcommands") end, 200)
-    if Config.plain == false then
+    if CFG.plain == false then
       --vim.system({ 'tmux', 'set', '-qg', 'allow-passthrough', 'all' }, { text = true })
     end
     vim.schedule(function() _delcmd() end)

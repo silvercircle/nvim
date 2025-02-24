@@ -130,7 +130,7 @@ function Usplit.open()
         "rightbelow "
           .. width
           .. " vsplit|terminal glances --disable-plugin all --disable-bg --enable-plugin "
-          .. Config.sysmon.modules
+          .. CFG.sysmon.modules
           .. " --time 3"
       )
       Usplit.winid = vim.fn.win_getid()

@@ -54,7 +54,7 @@ local function stopinsert_ins(callback)
     vim.schedule(function()
       callback(prompt_bufnr)
     end)
-    if current.prompt_prefix == Config.minipicker_iprefix then
+    if current.prompt_prefix == CFG.minipicker_iprefix then
       vim.schedule(function() vim.api.nvim_input("i") end)
     end
     vim.schedule(function() vim.api.nvim_input("<Left>") end)
@@ -64,7 +64,7 @@ end
 local function close_insertmode(prompt_bufnr)
   local current = actionstate.get_current_picker(prompt_bufnr)
   actions.close(prompt_bufnr)
-  if current.prompt_prefix == Config.minipicker_iprefix then
+  if current.prompt_prefix == CFG.minipicker_iprefix then
     vim.api.nvim_input("i")
   end
 end
@@ -249,8 +249,8 @@ if vim.g.tweaks.fzf.enable_keys == false then
     cmd = function()
       _tb.marks(__Telescope_vertical_dropdown_theme({
         prompt_prefix = lutils.getTelescopePromptPrefix(),
-        symbol_highlights = Config.telescope_symbol_highlights,
-        layout_config = Config.minipicker_layout
+        symbol_highlights = CFG.telescope_symbol_highlights,
+        layout_config = CFG.minipicker_layout
       }))
     end,
     keys = {
@@ -332,7 +332,7 @@ if vim.g.tweaks.fzf.enable_keys == false then
     desc = "Fuzzy search in current buffer",
     cmd = function()
       _tb.current_buffer_fuzzy_find(__Telescope_vertical_dropdown_theme({
-        layout_config = Config.telescope_vertical_preview_layout,
+        layout_config = CFG.telescope_vertical_preview_layout,
         prompt_title = "Fuzzy Find in current buffer"
       }))
     end,
@@ -361,7 +361,7 @@ if vim.g.tweaks.fzf.enable_keys == false then
   {
     desc = "List all highlight groups",
     cmd = function() _tb.highlights(__Telescope_vertical_dropdown_theme({
-      layout_config = Config.telescope_vertical_preview_layout
+      layout_config = CFG.telescope_vertical_preview_layout
     }) ) end,
     keys = { "n", "thl", noremap },
     category = "@Neovim"
@@ -381,7 +381,7 @@ if vim.g.tweaks.fzf.enable_keys == false then
       _tb.jumplist(__Telescope_vertical_dropdown_theme({
         show_line = false,
         prompt_prefix = lutils.getTelescopePromptPrefix(),
-        layout_config = Config.telescope_vertical_preview_layout
+        layout_config = CFG.telescope_vertical_preview_layout
       }))
     end,
     keys = {
@@ -426,7 +426,7 @@ if vim.g.tweaks.fzf.prefer_for.lsp == false then
         _t.extensions.aerial.aerial(__Telescope_vertical_dropdown_theme({
           prompt_prefix = lutils.getTelescopePromptPrefix(),
           prompt_title = "Symbols (Aerial)",
-          layout_config = Config.minipicker_layout
+          layout_config = CFG.minipicker_layout
         }))
       end,
       keys = {
@@ -454,8 +454,8 @@ if vim.g.tweaks.fzf.prefer_for.lsp == false then
       cmd = function()
         _tb.lsp_definitions(__Telescope_vertical_dropdown_theme({
           prompt_prefix = lutils.getTelescopePromptPrefix(),
-          symbol_highlights = Config.telescope_symbol_highlights,
-          layout_config = Config.minipicker_layout
+          symbol_highlights = CFG.telescope_symbol_highlights,
+          layout_config = CFG.minipicker_layout
         }))
       end,
       keys = {
@@ -473,9 +473,9 @@ if vim.g.tweaks.fzf.prefer_for.lsp == false then
         end
         _tb.lsp_document_symbols(__Telescope_vertical_dropdown_theme({
           prompt_prefix = lutils.getTelescopePromptPrefix(),
-          symbol_highlights = Config.telescope_symbol_highlights,
+          symbol_highlights = CFG.telescope_symbol_highlights,
           ignore_symbols = ignore_symbols,
-          layout_config = Config.minipicker_layout
+          layout_config = CFG.minipicker_layout
         }))
       end,
       keys = {
@@ -491,7 +491,7 @@ if vim.g.tweaks.fzf.prefer_for.lsp == false then
           prompt_prefix = lutils.getTelescopePromptPrefix(),
           path_display = { truncate = 9 },
           show_line = false,
-          layout_config = Config.minipicker_layout
+          layout_config = CFG.minipicker_layout
         }))
       end,
       keys = {
@@ -518,7 +518,7 @@ if vim.g.tweaks.notifier == 'fidget' then
   require("plugins.fidgethistory").setup({
     telescope = {
       theme = __Telescope_vertical_dropdown_theme,
-      layout_config = Config.telescope_vertical_preview_layout
+      layout_config = CFG.telescope_vertical_preview_layout
     },
     hl = {
       preview_header = "Brown",

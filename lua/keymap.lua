@@ -380,7 +380,7 @@ end, "Open the sysmon/fortune window")
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-8>', function()
   local wspl = require('subspace.content.wsplit')
   if wspl.winid == nil then
-    wspl.openleftsplit(Config.weather.file)
+    wspl.openleftsplit(CFG.weather.file)
   else
     if wspl.winid ~= vim.fn.win_getid() then
       vim.fn.win_gotoid(wspl.winid)
