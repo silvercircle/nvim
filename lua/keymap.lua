@@ -71,15 +71,17 @@ kms({ "n", "i" }, "<C-l>", "<NOP>", opts)
 map("i", "<ins>", "<nop>", opts)
 -- map("i", "<C-v>", "<c-r><c-p>+", opts)
 
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'ft', function() CGLOBALS.toggle_fo('a') end, "Toggle 'a' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'fc', function() CGLOBALS.toggle_fo('c') end, "Toggle 'c' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'fw', function() CGLOBALS.toggle_fo('w') end, "Toggle 'w' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'ft', function() CGLOBALS.toggle_fo('t') end, "Toggle 't' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'fl', function() CGLOBALS.toggle_fo('l') end, "Toggle 'l' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'fr', function() CGLOBALS.toggle_fo('r') end, "Toggle 'r' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'fq', function() CGLOBALS.toggle_fo('q') end, "Toggle 'q' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'fo', function() CGLOBALS.toggle_fo('o') end, "Toggle 'o' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'fj', function() CGLOBALS.toggle_fo('j') end, "Toggle 'j' format option")
+local toggle_fo = CGLOBALS.toggle_fo
+
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'ft', function() toggle_fo('a') end, "Toggle 'a' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'fc', function() toggle_fo('c') end, "Toggle 'c' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'fw', function() toggle_fo('w') end, "Toggle 'w' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'ft', function() toggle_fo('t') end, "Toggle 't' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'fl', function() toggle_fo('l') end, "Toggle 'l' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'fr', function() toggle_fo('r') end, "Toggle 'r' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'fq', function() toggle_fo('q') end, "Toggle 'q' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'fo', function() toggle_fo('o') end, "Toggle 'o' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'fj', function() toggle_fo('j') end, "Toggle 'j' format option")
 
 vim.g.setkey({ 'i', 'n' }, utility_key .. 'f1', function() CGLOBALS.set_fo('wat') end, "Set 'w', 't' and 'a' format options")
 vim.g.setkey({ 'i', 'n' }, utility_key .. 'f2', function() CGLOBALS.clear_fo('wat') end, "Clear 'w', 't' and 'a' format options")
@@ -258,8 +260,8 @@ vim.g.setkey('n', fkeys.s_f11, function() perform_command('Lazy') end, "Open Laz
 -- utility functions
 -- they use a prefix key, by default <C-l>. Can be customized in tweaks.lua
 
-vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-l>', function() CGLOBALS.toggle_statuscol() end, "Toggle absolute/relative line numbers")
-vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-p>', function()
+vim.g.setkey({ 'n', 'i' }, utility_key .. 'l', function() CGLOBALS.toggle_statuscol() end, "Toggle absolute/relative line numbers")
+vim.g.setkey({ 'n', 'i' }, utility_key .. 'p', function()
   CGLOBALS.toggle_inlayhints()
 end, "Toggle LSP inlay hints")
 
@@ -271,14 +273,22 @@ vim.g.setkey({ 'n', 'i' }, utility_key .. 'cg', function()
   PCFG.cmp_ghost = not PCFG.cmp_ghost
   STATMSG("**Blink.cmp**: Ghost Text is now", PCFG.cmp_ghost, 0, "Config")
 end, "Toggle color column display")
-vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-k>', function() CGLOBALS.toggle_colorcolumn() end, "Toggle color column display")
-vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-o>', function() CGLOBALS.toggle_ibl() end, "Toggle indent-blankline active")
-vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-u>', function() CGLOBALS.toggle_ibl_context() end, "Toggle indent-blankline context")
-vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-z>', function()
+vim.g.setkey({ 'n', 'i' }, utility_key .. 'cc', function()
+  local s, val = pcall(vim.api.nvim_buf_get_var, 0, "completion")
+  local mode = not (s == true and val == false )
+  vim.api.nvim_buf_set_var(0, "completion", not mode)
+  STATMSG("**Blink.cmp**: Completion for this buffer is now: ", not mode, 0, "Config")
+end, "Toggle color column display")
+
+vim.g.setkey({ 'n', 'i' }, utility_key .. 'w', function() CGLOBALS.toggle_wrap() end, "Toggle word wrap")
+vim.g.setkey({ 'n', 'i' }, utility_key .. 'k', function() CGLOBALS.toggle_colorcolumn() end, "Toggle color column display")
+vim.g.setkey({ 'n', 'i' }, utility_key .. 'o', function() CGLOBALS.toggle_ibl() end, "Toggle indent-blankline active")
+vim.g.setkey({ 'n', 'i' }, utility_key .. 'u', function() CGLOBALS.toggle_ibl_context() end, "Toggle indent-blankline context")
+vim.g.setkey({ 'n', 'i' }, utility_key .. 'z', function()
   PCFG.scrollbar = not PCFG.scrollbar
   CGLOBALS.set_scrollbar()             -- toggle scrollbar visibility
 end, "Toggle scrollbar")
-vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-g>', function()
+vim.g.setkey({ 'n', 'i' }, utility_key .. 'g', function()
   -- declutter status line. There are 4 levels. 0 displays all components, 1-3 disables some
   -- lesser needed
   PCFG.statusline_declutter = PCFG.statusline_declutter + 1
@@ -410,7 +420,6 @@ vim.g.setkey({ 'n', 'i', 't' }, '<f11>', function() CGLOBALS.termToggle(12) end,
 map('t', '<Esc>', '<C-\\><C-n>', opts)
 
 vim.g.setkey('n', fkeys.c_f8, '<CMD>RnvimrToggle<CR>', "Ranger in Floaterm")
-vim.g.setkey({'n', 'i'}, utility_key .. 'w', function() CGLOBALS.toggle_wrap() end, "Toggle word wrap")
 vim.keymap.set('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cword>') end,
   { expr = true, desc = "Inc Rename", noremap = true, silent = true })
 
@@ -470,9 +479,6 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
     require("outline").refresh_outline()
   end
 end, "Refresh aerial outline symbols")
-vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
-  CGLOBALS.toggle_outline_type()        -- toggle the outline plugin (aerial <> symbols-outline)
-end, "Toggle Outline plugin type")
 
 require("subspace.lib.marks").set_keymaps()
 --vim.cmd("nunmap <cr>")

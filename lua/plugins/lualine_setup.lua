@@ -34,8 +34,11 @@ local function get_permissions_color()
 end
 
 local function status()
+  local s, val = pcall(vim.api.nvim_buf_get_var, 0, "completion")
+  local mode = not (s == true and val == false )
   return (CGLOBALS.get_buffer_var(0, "tsc") == true and "C" or "c") ..
-         (CGLOBALS.get_buffer_var(0, "inlayhints") == true and "I" or "i")
+         (CGLOBALS.get_buffer_var(0, "inlayhints") == true and "I" or "i") ..
+         (mode and "A" or "a")
 end
 
 local function status_indicators()

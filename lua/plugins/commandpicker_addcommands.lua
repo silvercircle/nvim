@@ -267,8 +267,8 @@ require("commandpicker").add({
     desc = "Show notification history",
     cmd = function() lutils.notification_history() end,
     keys = {
-      { "n", vim.g.tweaks.keymap.utility_key .. "<C-n>" },
-      { "i", vim.g.tweaks.keymap.utility_key .. "<C-n>" }
+      { "n", Tweaks.keymap.utility_key .. "n" },
+      { "i", Tweaks.keymap.utility_key .. "n" }
     },
     category = "@Notifications"
   },
