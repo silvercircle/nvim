@@ -87,8 +87,6 @@ Tweaks.indent = {
   }
 }
 
-Tweaks.cokeline_filename_width = 25
-
 Tweaks.dap = {
   enabled = false
 }
@@ -99,10 +97,10 @@ Tweaks.dap = {
 -- This paths should work on most Linux systems, but you have to adjust them for 
 -- Windows or macOS
 
-Tweaks.lsp.masonbasepath = vim.fn.stdpath('data') .. '/mason/'
-Tweaks.lsp.masonbinpath = Tweaks.lsp.masonbasepath .. 'bin/'
-Tweaks.lsp.localbin      = vim.fn.getenv('HOME') .. '/.local/bin/'
+Tweaks.lsp.masonbasepath = vim.fs.joinpath(vim.fn.stdpath('data'), '/mason/')
+Tweaks.lsp.masonbinpath = vim.fs.joinpath(Tweaks.lsp.masonbasepath, 'bin/')
 Tweaks.lsp.homepath      = vim.fn.getenv('HOME')
+Tweaks.lsp.localbin      = vim.fs.joinpath(Tweaks.lsp.homepath, '/.local/bin/')
 
 Tweaks.lsp = {
   server_bin = {
@@ -301,7 +299,7 @@ Tweaks.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and tr
 
 -- the key prefix used for various utility functions. See keymap.lua
 Tweaks.keymap = {
-  utility_key = "<C-l>",
+  utility_key = "<f18>",
   mapleader = ",",
   fzf_prefix = "<C-q>"
 }
@@ -363,7 +361,7 @@ Tweaks.srclocations = { "src", "source", "sources", "SRC", "Src", "SOURCE", "Sou
 Tweaks.cokeline = {
   closebutton = false,
   underline = false,
-  active_tab_style = "full_padded",
+  active_tab_style = "slanted_padded",
   styles = {
     slanted = {
       left = "",

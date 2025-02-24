@@ -328,13 +328,19 @@ end
 --- set one formatoptions
 --- @param fo string a valid format option see :help fo-table
 function M.set_fo(fo)
-  vim.opt_local.formatoptions:append(fo)
+  for i = 1, #fo do
+    vim.opt_local.formatoptions:append(string.sub(fo, i, i))
+  end
+  require("lualine").refresh()
 end
 
 --- clear a format option
 --- @param fo string a valid format option see :help fo-table
 function M.clear_fo(fo)
-  vim.opt_local.formatoptions:remove(fo)
+  for i = 1, #fo do
+    vim.opt_local.formatoptions:remove(string.sub(fo, i, i))
+  end
+  require("lualine").refresh()
 end
 
 --- toggle a format option(s)
@@ -342,11 +348,14 @@ end
 --- e.g. toggle_fo('t')
 --- @param fo string ONE formatoption to toggle
 function M.toggle_fo(fo)
-  if vim.opt_local.formatoptions:get()[fo] == true then
-    M.clear_fo(fo)
-  else
-    M.set_fo(fo)
+  for i = 1, #fo do
+    if vim.opt_local.formatoptions:get()[string.sub(fo, i, i)] == true then
+      M.clear_fo(string.sub(fo, i, i))
+    else
+      M.set_fo(string.sub(fo, i, i))
+    end
   end
+  require("lualine").refresh()
 end
 
 --- toggle the status of wrap between wrap and nowrap
