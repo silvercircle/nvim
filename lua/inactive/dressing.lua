@@ -43,7 +43,7 @@ local dressing_select_default = {
     show_numbers = false,
     -- These are passed to nvim_open_win
     -- anchor = "NW",
-    border = Borderfactory(__Globals.perm_config.float_borders),
+    border = Borderfactory(CGLOBALS.perm_config.float_borders),
     -- 'editor' and 'win' will default to being centered
     relative = "editor",
 
@@ -100,7 +100,7 @@ require('dressing').setup({
 
     -- These are passed to nvim_open_win
     -- anchor = "SW",
-    border = __Globals.perm_config.float_borders,
+    border = CGLOBALS.perm_config.float_borders,
     -- 'editor' and 'win' will default to being centered
     relative = "editor",
 

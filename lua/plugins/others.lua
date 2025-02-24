@@ -123,7 +123,7 @@ M.setup = {
       provider_selector = function()
         return { "treesitter" }
       end,
-      fold_virt_text_handler = __Globals.ufo_virtual_text_handler,
+      fold_virt_text_handler = CGLOBALS.ufo_virtual_text_handler,
       preview = {
         mappings = {
           scrollU = "<Up>",
@@ -283,7 +283,7 @@ M.setup = {
 
   -- https://github.com/j-hui/fidget.nvim
   fidget = function()
-    __Globals.notifier = require("fidget").notify
+    CGLOBALS.notifier = require("fidget").notify
     vim.notify = require("fidget").notify
     require("fidget").setup({
       progress = {

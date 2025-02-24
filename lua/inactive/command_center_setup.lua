@@ -274,7 +274,7 @@ command_center.add({
   {
     desc = "Debug toggle",
     cmd = function()
-      __Globals.toggle_debug()
+      CGLOBALS.toggle_debug()
     end,
     keys = { "n", "dbg", noremap },
     category = "@Neovim"
@@ -334,7 +334,7 @@ command_center.add({
   },
   {
     desc = "Toggle CMP autocomplete",
-    cmd = function() __Globals.toggle_autocomplete() end,
+    cmd = function() CGLOBALS.toggle_autocomplete() end,
     keys = {
       { "n", "<leader>ca", noremap },
     },

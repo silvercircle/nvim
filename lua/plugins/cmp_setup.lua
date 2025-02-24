@@ -321,7 +321,7 @@ cmp.setup({
           if Config.cmp.buffer_ft_allowed[ft] == nil then
             return {}
           end
-          if __Globals.cur_bufsize > T.buffer_maxsize then -- 300kb
+          if CGLOBALS.cur_bufsize > T.buffer_maxsize then -- 300kb
             vim.notify("File " .. vim.api.nvim_buf_get_name(buf) .. " too big, cmp_buffer disabled.", vim.log.levels.INFO)
             return {}
           end
@@ -400,7 +400,7 @@ cmp_helper.compare = {
   end
 }
 
-__Globals.cmp_setup_done = true
+CGLOBALS.cmp_setup_done = true
 
 local M = {}
 

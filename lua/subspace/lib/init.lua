@@ -121,7 +121,7 @@ function Utils.getLatexPreviewPath(_filename, _useglobal)
   if vim.bo.filetype == "typst" then
     finalpath = vim.fn.expand("%:p:r") .. ".pdf"
   else
-    __Globals.debugmsg("The preview path is: " .. path)
+    CGLOBALS.debugmsg("The preview path is: " .. path)
     if useglobal == true and #path > 0 and vim.fn.isdirectory(path) == 1 then
       finalpath = path .. vim.fn.expand(vim.fn.fnamemodify(_filename, ":t:r")) .. ".pdf"
     else
@@ -162,7 +162,7 @@ function Utils.compile_latex()
       .. " '"
       .. vim.fn.expand("%:p")
       .. "'"
-    __Globals.debugmsg(cmd)
+    CGLOBALS.debugmsg(cmd)
     vim.cmd.stopinsert()
     vim.schedule(function()
       vim.cmd(cmd)
@@ -353,7 +353,7 @@ function Utils.PickFoldingMode(currentmode)
   local function execute(item)
     local cmd = item.cmd or ""
     if cmd ~= "none" then
-      __Globals.debugmsg("Selected folding method: " .. cmd)
+      CGLOBALS.debugmsg("Selected folding method: " .. cmd)
       vim.schedule(function()
         vim.o.foldmethod = cmd
       end)

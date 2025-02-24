@@ -12,8 +12,8 @@ local trouble = require("trouble.sources.telescope")
 local command_center = require('command_center')
 
 -- ensure a valid border style and set a default in case none is found
-if vim.tbl_contains( { "single", "rounded", "none", "thicc" }, __Globals.perm_config.telescope_borders) ~= true then
-  __Globals.perm_config.telescope_borders = "single"
+if vim.tbl_contains( { "single", "rounded", "none", "thicc" }, CGLOBALS.perm_config.telescope_borders) ~= true then
+  CGLOBALS.perm_config.telescope_borders = "single"
 end
 
 -- the following two functions are helpers for Telescope to workaround a bug
@@ -94,7 +94,7 @@ require("telescope").setup({
     scroll_strategy = 'limit',
     winblend = vim.g.float_winblend,
     -- square borders (just to be consistend with other UI elements like CMP)
-    borderchars = _borderchars[__Globals.perm_config.telescope_borders],
+    borderchars = _borderchars[CGLOBALS.perm_config.telescope_borders],
     color_devicons = true,
     disable_devicons = false,
     mappings = {
@@ -468,8 +468,8 @@ if vim.g.tweaks.fzf.prefer_for.lsp == false then
       desc = "Mini document symbols",
       cmd = function()
         local ignore_symbols = {}
-        if __Globals.ignore_symbols[vim.bo.filetype] ~= nil then
-          ignore_symbols = __Globals.ignore_symbols[vim.bo.filetype]
+        if CGLOBALS.ignore_symbols[vim.bo.filetype] ~= nil then
+          ignore_symbols = CGLOBALS.ignore_symbols[vim.bo.filetype]
         end
         _tb.lsp_document_symbols(__Telescope_vertical_dropdown_theme({
           prompt_prefix = lutils.getTelescopePromptPrefix(),

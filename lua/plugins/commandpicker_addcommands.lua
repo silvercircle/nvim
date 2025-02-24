@@ -188,7 +188,7 @@ require("commandpicker").add({
   {
     desc = "Debug toggle",
     cmd = function()
-      __Globals.toggle_debug()
+      CGLOBALS.toggle_debug()
     end,
     keys = { "n", "dbg", noremap },
     category = "@Neovim"

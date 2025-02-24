@@ -91,7 +91,7 @@ lspconfig.omnisharp.setup({
       vim.list_extend(new_config.cmd, flatten(new_config.settings))
     end
 
-    local capabilities = __Globals.get_lsp_capabilities()
+    local capabilities = CGLOBALS.get_lsp_capabilities()
     new_config.capabilities = vim.deepcopy(capabilities)
     new_config.capabilities.workspace.workspaceFolders = false
   end,

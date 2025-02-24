@@ -1,6 +1,6 @@
 require("edgy").setup({
   options = {
-    left = { size = __Globals.perm_config.tree.width },
+    left = { size = CGLOBALS.perm_config.tree.width },
   },
   wo = {
     winbar = false

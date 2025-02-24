@@ -195,7 +195,7 @@ function M.tree_open_handler()
   vim.api.nvim_win_set_option(w, 'statusline', '   ' .. (vim.g.tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"))
   vim.cmd('setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
   vim.api.nvim_win_set_width(w, PCFG.tree.width)
-  __Globals.adjust_layout()
+  CGLOBALS.adjust_layout()
   if PCFG.weather.active == true then
     wsplit.content = PCFG.weather.content
     if wsplit.winid == nil then
@@ -211,9 +211,9 @@ function M.tree_close_handler()
   local wsplit = require("subspace.content.wsplit")
   wsplit.close()
   wsplit.winid = nil
-  __Globals.adjust_layout()
-  if __Globals.term.winid ~= nil then
-    vim.api.nvim_win_set_height(__Globals.term.winid, __Globals.term.height)
+  CGLOBALS.adjust_layout()
+  if CGLOBALS.term.winid ~= nil then
+    vim.api.nvim_win_set_height(CGLOBALS.term.winid, CGLOBALS.term.height)
   end
 end
 

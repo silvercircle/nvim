@@ -42,7 +42,7 @@ local function set_python_path(path)
 end
 
 lspconfig.basedpyright.setup({
-  capabilities = __Globals.get_lsp_capabilities(),
+  capabilities = CGLOBALS.get_lsp_capabilities(),
   on_attach = On_attach,
   cmd = { vim.g.tweaks.lsp.server_bin.basedpyright, '--stdio' },
   filetypes = { 'python' },

@@ -70,24 +70,24 @@ kms({ "n", "i" }, "<C-l>", "<NOP>", opts)
 map("i", "<ins>", "<nop>", opts)
 -- map("i", "<C-v>", "<c-r><c-p>+", opts)
 
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'ft', function() __Globals.toggle_fo('a') end, "Toggle 'a' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'fc', function() __Globals.toggle_fo('c') end, "Toggle 'c' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'fw', function() __Globals.toggle_fo('w') end, "Toggle 'w' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'ft', function() __Globals.toggle_fo('t') end, "Toggle 't' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'fl', function() __Globals.toggle_fo('l') end, "Toggle 'l' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'fr', function() __Globals.toggle_fo('r') end, "Toggle 'r' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'fq', function() __Globals.toggle_fo('q') end, "Toggle 'q' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'fo', function() __Globals.toggle_fo('o') end, "Toggle 'o' format option")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'fj', function() __Globals.toggle_fo('j') end, "Toggle 'j' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'ft', function() CGLOBALS.toggle_fo('a') end, "Toggle 'a' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'fc', function() CGLOBALS.toggle_fo('c') end, "Toggle 'c' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'fw', function() CGLOBALS.toggle_fo('w') end, "Toggle 'w' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'ft', function() CGLOBALS.toggle_fo('t') end, "Toggle 't' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'fl', function() CGLOBALS.toggle_fo('l') end, "Toggle 'l' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'fr', function() CGLOBALS.toggle_fo('r') end, "Toggle 'r' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'fq', function() CGLOBALS.toggle_fo('q') end, "Toggle 'q' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'fo', function() CGLOBALS.toggle_fo('o') end, "Toggle 'o' format option")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'fj', function() CGLOBALS.toggle_fo('j') end, "Toggle 'j' format option")
 
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'f1', function() __Globals.set_fo('wat') end, "Set 'w', 't' and 'a' format options")
-vim.g.setkey({ 'i', 'n' }, utility_key .. 'f2', function() __Globals.clear_fo('wat') end, "Clear 'w', 't' and 'a' format options")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'f1', function() CGLOBALS.set_fo('wat') end, "Set 'w', 't' and 'a' format options")
+vim.g.setkey({ 'i', 'n' }, utility_key .. 'f2', function() CGLOBALS.clear_fo('wat') end, "Clear 'w', 't' and 'a' format options")
 
 vim.g.setkey({ 'i', 'n' }, utility_key .. 'aa', function()
-  __Globals.clear_fo('wacqtl')
+  CGLOBALS.clear_fo('wacqtl')
 end, "Clear all formatting options")
 vim.g.setkey({ 'i', 'n' }, utility_key .. 'an', function()
-  __Globals.set_fo('wacqtl')
+  CGLOBALS.set_fo('wacqtl')
 end, "Set all formatting options")
 
 map('v', '<leader>V', ':!fmt -110<CR>', opts)
@@ -117,11 +117,11 @@ vim.g.setkey('i', '<C-z>', function() perform_command("undo") end, "Undo (insert
 map('i', '<C-y>-', '—', opts) -- emdash
 map('i', '<C-y>"', '„”', opts) -- typographic quotes („”)
 vim.g.setkey({ 'n', 'i' }, '<A-w>', function()
-  if vim.fn.win_getid() ~= __Globals.main_winid then vim.cmd('close') end
+  if vim.fn.win_getid() ~= CGLOBALS.main_winid then vim.cmd('close') end
 end, "Close Window")
 
 vim.g.setkey({'n', 'i'}, '<C-f>c', function()
-  __Globals.close_qf_or_loc()
+  CGLOBALS.close_qf_or_loc()
 end, "Close quickfix/loclist window")
 
 --- mini picker shortcuts, all start with <C-a>
@@ -257,9 +257,9 @@ vim.g.setkey('n', fkeys.s_f11, function() perform_command('Lazy') end, "Open Laz
 -- utility functions
 -- they use a prefix key, by default <C-l>. Can be customized in tweaks.lua
 
-vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-l>', function() __Globals.toggle_statuscol() end, "Toggle absolute/relative line numbers")
+vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-l>', function() CGLOBALS.toggle_statuscol() end, "Toggle absolute/relative line numbers")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-p>', function()
-  __Globals.toggle_inlayhints()
+  CGLOBALS.toggle_inlayhints()
 end, "Toggle LSP inlay hints")
 
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'ca', function()
@@ -270,12 +270,12 @@ vim.g.setkey({ 'n', 'i' }, utility_key .. 'cg', function()
   PCFG.cmp_ghost = not PCFG.cmp_ghost
   STATMSG("**Blink.cmp**: Ghost Text is now", PCFG.cmp_ghost, 0, "Config")
 end, "Toggle color column display")
-vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-k>', function() __Globals.toggle_colorcolumn() end, "Toggle color column display")
-vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-o>', function() __Globals.toggle_ibl() end, "Toggle indent-blankline active")
-vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-u>', function() __Globals.toggle_ibl_context() end, "Toggle indent-blankline context")
+vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-k>', function() CGLOBALS.toggle_colorcolumn() end, "Toggle color column display")
+vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-o>', function() CGLOBALS.toggle_ibl() end, "Toggle indent-blankline active")
+vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-u>', function() CGLOBALS.toggle_ibl_context() end, "Toggle indent-blankline context")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-z>', function()
   PCFG.scrollbar = not PCFG.scrollbar
-  __Globals.set_scrollbar()             -- toggle scrollbar visibility
+  CGLOBALS.set_scrollbar()             -- toggle scrollbar visibility
 end, "Toggle scrollbar")
 vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-g>', function()
   -- declutter status line. There are 4 levels. 0 displays all components, 1-3 disables some
@@ -304,11 +304,11 @@ end, "Telescope command palette")
 
 -- quick-focus the four main areas
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-1>', function()
-  __Globals.findbufbyType(treename)
+  CGLOBALS.findbufbyType(treename)
 end, "Focus NvimTree") -- Nvim-tree
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-2>', function()
-  vim.fn.win_gotoid(__Globals.main_winid)
+  vim.fn.win_gotoid(CGLOBALS.main_winid)
   vim.cmd("hi nCursor blend=0")
 end, "Focus Main Window") -- main window
 
@@ -316,13 +316,13 @@ end, "Focus Main Window") -- main window
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   -- if the outline window is focused, close it.
   if vim.api.nvim_buf_get_option(0, "filetype") == PCFG.outline_filetype then
-    __Globals.close_outline()
+    CGLOBALS.close_outline()
     return
   end
   -- otherwise search it and if none is found, open it.
-  if __Globals.findbufbyType(PCFG.outline_filetype) == false then
-    __Globals.open_outline()
-    local status = __Globals.is_outline_open()
+  if CGLOBALS.findbufbyType(PCFG.outline_filetype) == false then
+    CGLOBALS.open_outline()
+    local status = CGLOBALS.is_outline_open()
     if status.aerial ~= 0 then
       require("aerial").refetch_symbols(0) -- aerial plugin, refresh symbols
     end
@@ -333,7 +333,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
 end, "Focus Outline window") -- Outline
 
 local function focus_term_split(dir)
-  if __Globals.findbufbyType('terminal') == false then
+  if CGLOBALS.findbufbyType('terminal') == false then
     vim.api.nvim_input('<f11>')
   end
   vim.cmd.startinsert()
@@ -359,7 +359,7 @@ end, "Focus Terminal split and change to project root")
 kms({ 'n', 'i', 't', 'v' }, '<A-0>', function()
   local wid = vim.fn.win_getid()
   vim.api.nvim_win_set_option(wid, "winfixwidth", false)
-  __Globals.main_winid = wid
+  CGLOBALS.main_winid = wid
 end, opts) -- save current winid as main window id
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
@@ -371,7 +371,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
       vim.fn.win_gotoid(uspl.winid)
     else
       uspl.close()
-      vim.fn.win_gotoid(__Globals.main_winid)
+      vim.fn.win_gotoid(CGLOBALS.main_winid)
     end
   end
 end, "Open the sysmon/fortune window")
@@ -385,7 +385,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-8>', function()
       vim.fn.win_gotoid(wspl.winid)
     else
       wspl.close()
-      vim.fn.win_gotoid(__Globals.main_winid)
+      vim.fn.win_gotoid(CGLOBALS.main_winid)
     end
   end
 end, "Open the info/weather window")
@@ -393,10 +393,10 @@ end, "Open the info/weather window")
 -- focus quickfix list (when open)
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-7>', function()
   local curwin = vim.fn.win_getid()
-  if __Globals.findbufbyType('qf') == false then
+  if CGLOBALS.findbufbyType('qf') == false then
     vim.cmd('below 10 copen')
   else
-    local winid = __Globals.findWinByFiletype('qf')[1]
+    local winid = CGLOBALS.findWinByFiletype('qf')[1]
     if curwin == winid then
       vim.cmd('ccl')
     else
@@ -405,16 +405,16 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-7>', function()
   end
 end, "Focus the quickfix list")
 
-vim.g.setkey({ 'n', 'i', 't' }, '<f11>', function() __Globals.termToggle(12) end, "Toggle Terminal split at bottom")
+vim.g.setkey({ 'n', 'i', 't' }, '<f11>', function() CGLOBALS.termToggle(12) end, "Toggle Terminal split at bottom")
 map('t', '<Esc>', '<C-\\><C-n>', opts)
 
 vim.g.setkey('n', fkeys.c_f8, '<CMD>RnvimrToggle<CR>', "Ranger in Floaterm")
-vim.g.setkey({'n', 'i'}, utility_key .. 'w', function() __Globals.toggle_wrap() end, "Toggle word wrap")
+vim.g.setkey({'n', 'i'}, utility_key .. 'w', function() CGLOBALS.toggle_wrap() end, "Toggle word wrap")
 vim.keymap.set('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cword>') end,
   { expr = true, desc = "Inc Rename", noremap = true, silent = true })
 
 -- Alt-d: Detach all TUI sessions from the (headless) master
-vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-d>', function() __Globals.detach_all_tui() end, "Detach all TUI")
+vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-d>', function() CGLOBALS.detach_all_tui() end, "Detach all TUI")
 
 local wordlist_module = vim.g.tweaks.completion == "nvim-cmp" and "cmp_wordlist" or "blink-cmp-wordlist"
 
@@ -462,7 +462,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<C-x>bt', function()
 end, "Show buftype of current buffer")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
-  local status = __Globals.is_outline_open()
+  local status = CGLOBALS.is_outline_open()
   if status.aerial ~= 0 then
     require("aerial").refetch_symbols(0) -- aerial plugin, refresh symbols
   elseif status.outline ~= 0 then
@@ -470,7 +470,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
   end
 end, "Refresh aerial outline symbols")
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '+', function()
-  __Globals.toggle_outline_type()        -- toggle the outline plugin (aerial <> symbols-outline)
+  CGLOBALS.toggle_outline_type()        -- toggle the outline plugin (aerial <> symbols-outline)
 end, "Toggle Outline plugin type")
 
 require("subspace.lib.marks").set_keymaps()
@@ -487,7 +487,7 @@ vim.g.setkey( { 'n', 'i' }, "<C-x>z", function()
   require("snacks").picker.zoxide({
   confirm = function(picker, item)
     picker:close()
-    __Globals.open_with_fzf(item.file)
+    CGLOBALS.open_with_fzf(item.file)
   end,
   layout = SPL({ input = "top", width = 80, height = 0.7, row = 7, preview = false, title="Zoxide history" }) })
 end, "Pick from Zoxide")
@@ -496,7 +496,7 @@ vim.g.setkey( { 'i', 'n' }, "<C-S-P>", function()
   require("snacks").picker.projects({
   confirm = function(picker, item)
     picker:close()
-    __Globals.open_with_fzf(item.file)
+    CGLOBALS.open_with_fzf(item.file)
   end,
   layout = SPL( {width = 50, height = 20, row = 5, title = "Projects" } ) })
 end, "Pick recent project")

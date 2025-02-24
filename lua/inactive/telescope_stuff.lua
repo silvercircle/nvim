@@ -100,8 +100,8 @@ function Utils.Telescope_dropdown_theme(opts)
   local lopts = opts or {}
   local defaults = require("telescope.themes").get_dropdown({
     -- borderchars = Config.telescope_dropdown == 'bottom' and border_layout_bottom_vertical or border_layout_top_center,
-    borderchars = Config.telescope_dropdown == "bottom" and border_layout_prompt_bottom[__Globals.perm_config.telescope_borders]
-      or border_layout_prompt_top[__Globals.perm_config.telescope_borders],
+    borderchars = Config.telescope_dropdown == "bottom" and border_layout_prompt_bottom[CGLOBALS.perm_config.telescope_borders]
+      or border_layout_prompt_top[CGLOBALS.perm_config.telescope_borders],
     layout_config = {
       anchor = "N",
       width = lopts.width or 0.5,
@@ -149,7 +149,7 @@ local border_layout_vertical_dropdown = {
 function Utils.Telescope_vertical_dropdown_theme(opts)
   local lopts = opts or {}
   local defaults = require("telescope.themes").get_dropdown({
-    borderchars = border_layout_vertical_dropdown[__Globals.perm_config.telescope_borders],
+    borderchars = border_layout_vertical_dropdown[CGLOBALS.perm_config.telescope_borders],
     fname_width = Config["telescope_fname_width"],
     sorting_strategy = "ascending",
     layout_strategy = "vertical",
@@ -182,7 +182,7 @@ function Utils.command_center_theme(opts)
   local lopts = opts or {}
   local defaults = require("telescope.themes").get_dropdown({
 
-    borderchars = border_layout_prompt_top[__Globals.perm_config.telescope_borders],
+    borderchars = border_layout_prompt_top[CGLOBALS.perm_config.telescope_borders],
     layout_config = {
       anchor = "N",
       width = lopts.width or 120,

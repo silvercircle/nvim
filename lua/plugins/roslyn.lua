@@ -92,7 +92,7 @@ end
 require("roslyn").setup({
   config = {
     filetypes = { "cs", "razor" },
-    capabilities = __Globals.get_lsp_capabilities(),
+    capabilities = CGLOBALS.get_lsp_capabilities(),
     handlers = require "rzls.roslyn_handlers",
     --the project root needs a .sln file (mandatory)
     root_dir = function(fname)

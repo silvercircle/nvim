@@ -34,8 +34,8 @@ local function get_permissions_color()
 end
 
 local function status()
-  return (__Globals.get_buffer_var(0, "tsc") == true and "C" or "c") ..
-         (__Globals.get_buffer_var(0, "inlayhints") == true and "I" or "i")
+  return (CGLOBALS.get_buffer_var(0, "tsc") == true and "C" or "c") ..
+         (CGLOBALS.get_buffer_var(0, "inlayhints") == true and "I" or "i")
 end
 
 local function status_indicators()
@@ -103,7 +103,7 @@ end
 setup_theme()
 
 local function getWordsV2()
-  if __Globals.cur_bufsize > Config.wordcount_limit * 1024 * 1024 then
+  if CGLOBALS.cur_bufsize > Config.wordcount_limit * 1024 * 1024 then
     return "NaN"
   end
   local wc = vim.fn.wordcount()

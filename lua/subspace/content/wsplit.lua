@@ -271,7 +271,7 @@ function Wsplit.installwatch()
 end
 
 function Wsplit.open(_weatherfile)
-  local wid = __Globals.findWinByFiletype("terminal")
+  local wid = CGLOBALS.findWinByFiletype("terminal")
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   Wsplit.weatherfile = vim.fn.expand(_weatherfile)
 
@@ -307,7 +307,7 @@ end
 function Wsplit.openleftsplit(_weatherfile)
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   Wsplit.weatherfile = vim.fn.expand(_weatherfile)
-  Wsplit.winid = __Globals.splittree(Config.weather.required_height)
+  Wsplit.winid = CGLOBALS.splittree(Config.weather.required_height)
   if Wsplit.winid == 0 then
     Wsplit.close()
     return
@@ -476,8 +476,8 @@ function Wsplit.refresh()
       table.insert(lines, " " .. Utils.pad(name, Wsplit.win_width, " ") .. "  ")
       table.insert(lines, " ")
       -- size of buffer. Bytes, KB or MB
-      if __Globals.cur_bufsize > 1 then
-        local size = __Globals.cur_bufsize
+      if CGLOBALS.cur_bufsize > 1 then
+        local size = CGLOBALS.cur_bufsize
         if size < 1024 then
           table.insert(
             lines,
@@ -541,7 +541,7 @@ function Wsplit.refresh()
         if vim.tbl_contains(Config.treesitter_types, ft) then
           treesitter = "On"
         end
-        local val = __Globals.get_buffer_var(curbuf, "tsc")
+        local val = CGLOBALS.get_buffer_var(curbuf, "tsc")
         table.insert(lines, Wsplit.prepare_line(" Treesitter: " .. treesitter,
           "Context: " .. ((val == true) and "On" or "Off"), 4))
         table.insert(lines, " ")

@@ -12,6 +12,6 @@ lspconfig.phpactor.setup({
     -- prefer cwd if root is a descendant
     return util.path.is_descendant(cwd, root) and cwd or root
   end,
-  capabilities = __Globals.get_lsp_capabilities()
+  capabilities = CGLOBALS.get_lsp_capabilities()
 })
 

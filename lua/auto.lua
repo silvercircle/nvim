@@ -18,7 +18,7 @@ autocmd({ 'VimLeave' }, {
   callback = function()
     if Config.plain == false then
       -- vim.system({ 'tmux', 'set', '-qg', 'allow-passthrough', 'off' }, { text = true })
-      __Globals.write_config()
+      CGLOBALS.write_config()
     end
   end,
   group = agroup_views
@@ -59,13 +59,13 @@ local function main_layout()
   end
 
   did_UIEnter = true
-  __Globals.main_winid = vim.fn.win_getid()
+  CGLOBALS.main_winid = vim.fn.win_getid()
   if Config.plain == false then
     if PCFG.tree.active == true then
-      __Globals.open_tree()
+      CGLOBALS.open_tree()
     end
     if PCFG.terminal.active == true then
-      vim.schedule(function() __Globals.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(__Globals.main_winid) end)
+      vim.schedule(function() CGLOBALS.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(CGLOBALS.main_winid) end)
     end
     -- create the WinResized watcher to keep track of the terminal split height.
     -- also call the resize handlers for the usplit/wsplit frames.
@@ -74,9 +74,9 @@ local function main_layout()
       callback = function(sizeevent)
         require("subspace.content.usplit").resize_or_closed(sizeevent)
         if sizeevent.event == "WinClosed" then
-          if __Globals.term.winid ~= nil and vim.api.nvim_win_is_valid(__Globals.term.winid) == false then
-            __Globals.term.winid = nil
-            __Globals.term.visible = false
+          if CGLOBALS.term.winid ~= nil and vim.api.nvim_win_is_valid(CGLOBALS.term.winid) == false then
+            CGLOBALS.term.winid = nil
+            CGLOBALS.term.visible = false
           end
           if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) == false then
             Wsplit.winid = nil
@@ -86,18 +86,18 @@ local function main_layout()
           end
           local id = sizeevent.match
           local status, target = pcall(vim.api.nvim_win_get_var, tonumber(id), "termheight")
-          if status and __Globals.term.winid ~= nil then
-            vim.schedule(function() vim.api.nvim_win_set_height(__Globals.term.winid, tonumber(target)) end)
+          if status and CGLOBALS.term.winid ~= nil then
+            vim.schedule(function() vim.api.nvim_win_set_height(CGLOBALS.term.winid, tonumber(target)) end)
           end
         end
         if sizeevent.event == "WinResized" then
-          if __Globals.term.winid ~= nil then
-            PCFG.terminal.height = vim.api.nvim_win_get_height(__Globals.term.winid)
+          if CGLOBALS.term.winid ~= nil then
+            PCFG.terminal.height = vim.api.nvim_win_get_height(CGLOBALS.term.winid)
           end
           Wsplit.set_minheight()
           Wsplit.refresh()
-          local status = __Globals.is_outline_open()
-          local tree = __Globals.findWinByFiletype(treeft)
+          local status = CGLOBALS.is_outline_open()
+          local tree = CGLOBALS.findWinByFiletype(treeft)
           if status.outline ~= 0 then
             PCFG.outline.width = vim.api.nvim_win_get_width(status.outline)
           end
@@ -121,7 +121,7 @@ local function main_layout()
     if PCFG.weather.active == true then
       Wsplit.freeze = true
       Wsplit.content = PCFG.weather.content
-      Wsplit.content_set_winid(__Globals.main_winid)
+      Wsplit.content_set_winid(CGLOBALS.main_winid)
     end
     if PCFG.sysmon.active then
       Usplit.content = PCFG.sysmon.content
@@ -130,7 +130,7 @@ local function main_layout()
       Config.theme.set_bg()
     end
   end
-  vim.fn.win_gotoid(__Globals.main_winid)
+  vim.fn.win_gotoid(CGLOBALS.main_winid)
 end
 
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
@@ -161,7 +161,7 @@ autocmd({ 'bufwritepost' }, {
   pattern = "*",
   callback = function()
     if vim.g.tweaks.mkview_on_save == true then
-      __Globals.mkview()
+      CGLOBALS.mkview()
     end
   end,
   group = agroup_views
@@ -172,7 +172,7 @@ autocmd({ 'bufwinleave' }, {
   pattern = "*",
   callback = function()
     if vim.g.tweaks.mkview_on_leave == true then
-      __Globals.mkview()
+      CGLOBALS.mkview()
     end
   end,
   group = agroup_views
@@ -185,18 +185,18 @@ autocmd({ 'BufEnter' }, {
   pattern = "*",
   callback = function(args)
     if vim.api.nvim_buf_get_option(args.buf, "buftype") == '' then
-      local val = __Globals.get_buffer_var(args.buf, "tsc")
+      local val = CGLOBALS.get_buffer_var(args.buf, "tsc")
       if val == true then
         vim.schedule(function() Tsc.enable() end)
       else
         vim.schedule(function() Tsc.disable() end)
       end
-      val = __Globals.get_buffer_var(args.buf, "inlayhints")
+      val = CGLOBALS.get_buffer_var(args.buf, "inlayhints")
       if val == true or val == false then
         vim.lsp.inlay_hint.enable(val, { bufnr = args.buf } )
       end
     end
-    __Globals.get_bufsize()
+    CGLOBALS.get_bufsize()
     Wsplit.content_set_winid(vim.fn.win_getid())
     if Wsplit.content == 'info' then
       vim.schedule(function() Wsplit.refresh() end)
@@ -288,7 +288,7 @@ autocmd({ 'FileType' }, {
       vim.cmd("setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual")
       -- vim.api.nvim_win_set_height(__Globals.term.winid, PCFG.terminal.height)
     elseif args.match == "Trouble" then
-      if __Globals.term.winid ~= nil then
+      if CGLOBALS.term.winid ~= nil then
         vim.api.nvim_win_set_var(0, "termheight", PCFG.terminal.height)
       end
     elseif vim.tbl_contains(tabstop_pattern, args.match) then
@@ -299,7 +299,7 @@ autocmd({ 'FileType' }, {
     -- metals, attach on filetype
     elseif args.match == "scala" or args.match == "sbt" then
       require("metals").initialize_or_attach({
-        capabilities = __Globals.get_lsp_capabilities(),
+        capabilities = CGLOBALS.get_lsp_capabilities(),
         settings = {
           metalsBinaryPath = vim.g.lsp_server_bin["metals"]
         }
@@ -327,7 +327,7 @@ autocmd({ 'WinEnter' }, {
   callback = function()
     Wsplit.content_set_winid(vim.fn.win_getid())
     if Wsplit.content == 'info' then
-      __Globals.get_bufsize()
+      CGLOBALS.get_bufsize()
       vim.schedule(function() Wsplit.refresh() end)
     end
 

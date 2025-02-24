@@ -392,7 +392,7 @@ lazy.setup({
     event = "BufReadPre",
     config = function()
       require("plugins.nvim-scrollbar")
-      __Globals.set_scrollbar()
+      CGLOBALS.set_scrollbar()
     end,
     dependencies = {
       {

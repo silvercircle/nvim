@@ -131,8 +131,8 @@ g.mapleader = vim.g.tweaks.keymap.mapleader
 function vim.g.setkey(modes, lhs, rhs, _desc)
   vim.keymap.set(modes, lhs, rhs, { noremap = true, silent = true, desc = _desc })
 end
-__Globals=require("globals")
-PCFG = __Globals.perm_config
+CGLOBALS=require("globals")
+PCFG = CGLOBALS.perm_config
 
 vim.filetype.add({
   extension = {
