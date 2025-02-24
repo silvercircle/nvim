@@ -5,6 +5,7 @@ local opts = { noremap = true, silent = true }
 local Utils = require('subspace.lib')
 local utility_key = vim.g.tweaks.keymap.utility_key
 local treename = Tweaks.tree.filetype
+local Snacks = require("snacks")
 
 local function fkey_mappings()
   if vim.g.is_tmux == 1 then
@@ -139,7 +140,7 @@ end, "Open Mini File Browser at project root")
 
 vim.g.setkey({'n', 'i'}, '<A-E>', function()
   local cwd = Utils.getroot_current()
-  require("snacks").picker.explorer({cwd = cwd,
+  Snacks.picker.explorer({cwd = cwd,
     layout = SPL( { width = 70, psize = 12, input = "top", title = cwd }) })
 end, "Open Snacks Explorer at project root")
 -- this is a bit hacky. it tries to find the root directory of the sources
@@ -476,15 +477,12 @@ end, "Toggle Outline plugin type")
 require("subspace.lib.marks").set_keymaps()
 --vim.cmd("nunmap <cr>")
 
-local status, snacks = pcall(require, "snacks")
-if status == true then
-  vim.g.setkey( {'n', 'i'}, '<C-S-E>', function()
-    snacks.picker.smart({ layout = SPL( {width = 70, height = 20, row = 5, title = "Buffers", input = "top" } ) })
-  end, "Snacks buffer list")
-end
+vim.g.setkey( {'n', 'i'}, '<C-S-E>', function()
+  Snacks.picker.smart({ layout = SPL( {width = 70, height = 20, row = 5, title = "Buffers", input = "top" } ) })
+end, "Snacks buffer list")
 
 vim.g.setkey( { 'n', 'i' }, "<C-x>z", function()
-  require("snacks").picker.zoxide({
+  Snacks.picker.zoxide({
   confirm = function(picker, item)
     picker:close()
     CGLOBALS.open_with_fzf(item.file)
@@ -493,7 +491,7 @@ vim.g.setkey( { 'n', 'i' }, "<C-x>z", function()
 end, "Pick from Zoxide")
 
 vim.g.setkey( { 'i', 'n' }, "<C-S-P>", function()
-  require("snacks").picker.projects({
+  Snacks.picker.projects({
   confirm = function(picker, item)
     picker:close()
     CGLOBALS.open_with_fzf(item.file)
