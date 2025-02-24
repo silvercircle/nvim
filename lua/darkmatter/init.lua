@@ -15,6 +15,7 @@
 --      * maybe (just maybe) a bright background variant
 --      * add variants of well known themes (gruv <done>, dracula <wip>)
 --      * outsource into a real plugin that can be loaded as a colorscheme.
+--      * extract the UI parts, replace them with an API
 
 -- while this was originally written as a single theme, it evolved into a theme
 -- engine that can handle multiple schemes, each with an arbitrary number of color
@@ -24,8 +25,6 @@
 --
 -- Customization is possible, but lacks certain features. Right now, new highlight
 -- groups require plugins while it should be possible to add them during theme setup
-
-local Utils = require("subspace.lib")
 
 local M = {}
 
@@ -635,6 +634,7 @@ local function set_all()
 end
 
 -- this activates the theme.
+-- it always calls configure(), no need to call this explicitely
 function M.set()
   if conf.disabled == true then
     return
@@ -672,6 +672,14 @@ function M.disable()
   vim.cmd("hi! link NeoTreeNormalNC NeoTreeNormal")
 end
 
+--- call the configured (if any) callback function to indicate what
+--- has changed in the theme's configuration
+--- @param what string: what was changed. can be "variant", "strings"
+--- "desaturate" or "trans"
+local function default_conf_callback(what)
+  vim.notify("Darkmatter: default configuration callback in use.")
+end
+
 local supported_variants = { "warm", "cold", "deepblack", "pitchblack" }
 --- setup the theme
 --- @param opt table - the options to set. will be merged with local
@@ -696,25 +704,8 @@ function M.setup(opt)
   if vim.tbl_contains(supported_variants, conf.variant) == false then
     conf.variant = "cold"
   end
-
-  -- bind keys, but do this only once
-  if M.keys_set == false then
-    M.keys_set = true
-    vim.keymap.set({ "n" }, conf.keyprefix .. "tc", function()
-      M.ui_select_scheme()
-    end, { silent = true, noremap = true, desc = "Select theme variant" })
-    vim.keymap.set({ "n" }, conf.keyprefix .. "tv", function()
-      M.ui_select_variant()
-    end, { silent = true, noremap = true, desc = "Select theme variant" })
-    vim.keymap.set({ "n" }, conf.keyprefix .. "td", function()
-      M.ui_select_colorweight()
-    end, { silent = true, noremap = true, desc = "Select theme color weight" })
-    vim.keymap.set({ "n" }, conf.keyprefix .. "ts", function()
-      M.toggle_strings_color()
-    end, { silent = true, noremap = true, desc = "Toggle theme strings color" })
-    vim.keymap.set({ "n" }, conf.keyprefix .. "tt", function()
-      M.toggle_transparency()
-    end, { silent = true, noremap = true, desc = "Toggle theme transparency" })
+  if conf.callback == nil then
+    conf.callback = default_conf_callback
   end
 end
 
@@ -762,70 +753,6 @@ function M.set_bg()
   end
 end
 
---- call the configured (if any) callback function to indicate what
---- has changed in the theme's configuration
---- @param what string: what was changed. can be "variant", "strings"
---- "desaturate" or "trans"
-local function conf_callback(what)
-  if conf.callback ~= nil and type(conf.callback) == "function" then
-    conf.callback(what)
-  end
-end
-
--- use vim.ui.select to choose from a list of themes
-function M.ui_select_variant()
-  local variants = conf.schemeconfig.variants
-
-  vim.iter(variants):filter(function(k)
-    if k.cmd == conf.variant then k.current = true k.hl = "Green" else k.current = false k.hl = "Fg" end
-  end)
-
-  local function execute(item)
-    conf.variant = item.cmd
-    configure()
-    M.set()
-    conf.callback("variant")
-  end
-
-  Utils.simplepicker(variants, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select theme background variant" })
-end
-
--- use UI to present a selection of possible color configurations
-function M.ui_select_colorweight()
-  local items = conf.schemeconfig.palettes
-
-  vim.iter(items):map(function(k)
-    if conf.colorpalette == k.cmd then k.current = true k.hl = "Green" else k.current = false k.hl = "Fg" end
-  end)
-
-  local function execute(item)
-    conf.colorpalette = item.cmd
-    M.set()
-    conf_callback("palette")
-  end
-
-  Utils.simplepicker(items, execute, { pre = "current", sortby = { "p:desc" }, prompt = "Select Color variant" })
-end
-
--- toggle strings color. Allowed values are either "yellow" or "green"
-function M.toggle_strings_color()
-  if conf.theme_strings ~= "yellow" then
-    conf.theme_strings = "yellow"
-  else
-    conf.theme_strings = "green"
-  end
-  M.set()
-  conf_callback("strings")
-end
-
--- toggle background transparency and notify the registered callback
--- subscriber.
-function M.toggle_transparency()
-  conf.is_trans = not conf.is_trans
-  M.set_bg()
-  conf_callback("trans")
-end
-
 function M.reconfigure_and_set(opts)
   opts = opts or {}
 
@@ -839,26 +766,4 @@ function M.reconfigure_and_set(opts)
   end
 end
 
--- provide a simple ui selector to select and activate one of the available
--- color schemes.
-function M.ui_select_scheme()
-  local schemes = {
-    { cmd = "dark", text = "Sonokai-inspired dark" },
-    { cmd = "gruv", text = "Frankengruv, A Gruvbox inspired scheme" },
-    { cmd = "transylvania", text = "Transylvania - A Dracula inspired scheme" }
-  }
-
-  vim.iter(schemes):filter(function(k)
-    if k.cmd == conf.scheme then k.current = true k.hl = "Green" else k.current = nil k.hl = "Fg" end
-  end)
-
-  local function execute(item)
-    conf.scheme = item.cmd
-    PCFG.theme_scheme = item.cmd
-    M.set()
-    conf_callback("scheme")
-  end
-
-  Utils.simplepicker(schemes, execute, { pre = "current", sortby = { "text:desc" }, prompt = "Select theme scheme" })
-end
 return M
