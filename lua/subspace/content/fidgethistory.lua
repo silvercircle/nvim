@@ -83,46 +83,15 @@ local snacks_fidgethistory = function(layout)
     matcher = {
       sort_empty = true
     },
+    preview = function(ctx)
+      ctx.item.preview = {
+        text = ctx.item.message,
+        ft = "markdown"
+      }
+      Snacks.picker.preview.preview(ctx)
+    end,
     confirm = function(_, item)
-      local event = require("nui.utils.autocmd").event
-      local status, popup = pcall(require, "nui.popup")
-      if status == true then
-        local lines = {}
-        local p = popup({
-          position = {
-            col = "50%",
-            row = "50%"
-          },
-          relative = "editor",
-          enter = true,
-          focusable = true,
-          zindex = 1000,
-          border = {
-            style = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
-            padding = { 1, 1 },
-            text = {
-              top = " Message text:",
-              top_align = "left"
-            }
-          },
-          size = {
-            width = 100,
-            height = 15,
-          },
-        })
-        p:mount()
-        p:on(event.BufLeave, function() p:unmount() end)
-
-        for s in item.message:gmatch("[^\r\n]+") do
-          table.insert(lines, s)
-        end
-
-        vim.api.nvim_buf_clear_namespace(p.bufnr, -1, 0, -1)
-        vim.api.nvim_buf_set_lines(p.bufnr, 0, 1, false, lines)
-        for i = 0, #lines, 1 do
-          vim.api.nvim_buf_add_highlight(p.bufnr, -1, item.style, i, 0, -1)
-        end
-      end
+      vim.notify(item.msg, vim.log.levels.INFO, { title = item.title or ""})
     end,
   })
 end

@@ -553,7 +553,7 @@ function M.restore_config()
       sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
       kittysocket = vim.g.tweaks.theme.kittysocket,
       kittenexec = vim.g.tweaks.theme.kittenexec,
-      callback = M.theme_callback,
+      callback = require("subspace.lib.darkmatter").theme_callback,
       indentguide_colors = {
         dark = vim.g.tweaks.indent.color.dark,
         light = vim.g.tweaks.indent.color.light
@@ -598,34 +598,6 @@ function M.restore_config()
         }
       },
     })
-  end
-end
-
---- the callback is called from internal theme functions that change its
---- configuration.
---- @param what string: description what has changed
-function M.theme_callback(what)
-  local conf = CFG.theme.get_conf()
-  if what == 'variant' then
-    M.perm_config.theme_variant = conf.variant
-    M.notify("Theme variant is now: " .. conf.variant, vim.log.levels.INFO, "Theme")
-  elseif what == 'palette' then
-    M.perm_config.theme_palette = conf.colorpalette
-    M.notify("Selected color palette: " .. conf.colorpalette, vim.log.levels.INFO, "Theme")
-  elseif what == 'strings' then
-    M.notify("Theme strings set to: " .. conf.theme_strings, vim.log.levels.INFO, "Theme")
-    M.perm_config.theme_strings = conf.theme_strings
-  elseif what == "trans" then
-    M.perm_config.transbg = conf.is_trans
-    M.notify("Theme transparency is now " .. (conf.is_trans == true and "On" or "Off"), vim.log.levels.INFO, "Theme")
-  elseif what == "scheme" then
-    M.notify("Selected scheme: " .. conf.scheme, vim.log.levels.INFO, "Theme")
-    require("plugins.lualine_setup").update_internal_theme()
-  end
-  if vim.g.tweaks.completion.version == "blink" then
-    require("plugins.blink").update_hl()
-  else
-    require("plugins.cmp_setup").update_hl()
   end
 end
 

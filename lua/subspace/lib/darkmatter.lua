@@ -104,4 +104,29 @@ function M.map_keys()
   end
 end
 
+--- the callback is called from internal theme functions that change its
+--- configuration.
+--- @param what string: description what has changed
+function M.theme_callback(what)
+  local conf = CFG.theme.get_conf()
+  if what == 'variant' then
+    PCFG.theme_variant = conf.variant
+    vim.notify("Theme variant is now: " .. conf.variant, vim.log.levels.INFO, { title="Theme" } )
+  elseif what == 'palette' then
+    PCFG.theme_palette = conf.colorpalette
+    vim.notify("Selected color palette: " .. conf.colorpalette, vim.log.levels.INFO, { title="Theme" } )
+  elseif what == "trans" then
+    PCFG.transbg = conf.is_trans
+    vim.notify("Theme transparency is now " .. (conf.is_trans == true and "On" or "Off"), vim.log.levels.INFO, { title="Theme" } )
+  elseif what == "scheme" then
+    vim.notify("Selected scheme: " .. conf.scheme, vim.log.levels.INFO, { title="Theme" } )
+    require("plugins.lualine_setup").update_internal_theme()
+  end
+  if vim.g.tweaks.completion.version == "blink" then
+    require("plugins.blink").update_hl()
+  else
+    require("plugins.cmp_setup").update_hl()
+  end
+end
+
 return M

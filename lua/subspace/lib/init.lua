@@ -437,10 +437,10 @@ function Utils.notification_history()
     require("detour").DetourCurrentWindow()
     require("mini.notify").show_history()
   elseif vim.g.tweaks.notifier == "snacks" then
-    require("plugins.notifierhistory_snacks").open( {
+    require("subspace.content.notifierhistory").open( {
             layout = SPL( { preview = true, width=120, height = 40, input = "top", psize = 20, row = 8 } ) } )
   elseif vim.g.tweaks.notifier == "fidget" then
-    require("plugins.fidgethistory_snacks").open( {
+    require("subspace.content.fidgethistory").open( {
             layout = SPL( { preview = true, width=120, height = 40, input = "top", psize = 20, row = 8 } ) } )
   end
 end
