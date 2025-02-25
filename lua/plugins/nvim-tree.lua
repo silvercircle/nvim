@@ -229,7 +229,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
     ignore_dirs = {},
   },
   git = {
-    enable = vim.g.tweaks.tree.use_git,
+    enable = Tweaks.tree.use_git,
     ignore = true,
     show_on_dirs = true,
     show_on_open_dirs = true,
@@ -314,18 +314,18 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
 -- react on open and close events to adjust the remaining window layout
 local Event = api.events.Event
 api.events.subscribe(Event.TreeOpen, function(_)
-  __Globals.tree_open_handler()
+  CGLOBALS.tree_open_handler()
 end)
 
 api.events.subscribe(Event.TreeClose, function(_)
-  __Globals.tree_close_handler()
+  CGLOBALS.tree_close_handler()
 end)
 
 vim.g.setkey({'n', 'v'}, '<leader>r', function() vim.cmd('NvimTreeFindFile!|wincmd p') end, "Sync NvimTree with current Buffer")
 vim.g.setkey('n', '<leader>,', function() require('nvim-tree.api').tree.toggle() end, "Toggle NvimTree")
 
 vim.g.setkey('n', '<leader>R', function()
-  __Globals.sync_tree()
+  CGLOBALS.sync_tree()
 end, "Change NvimTree cwd to current project root")
 
 vim.g.setkey('n', '<leader>nr', function() require('nvim-tree.api').tree.change_root(vim.fn.expand('%:p:h')) end, "Change NvimTree cwd to current Buffer's dir")

@@ -1,7 +1,7 @@
-local show_close = vim.g.tweaks.cokeline.closebutton
-local left_pad = vim.g.tweaks.cokeline.styles[vim.g.tweaks.cokeline.active_tab_style].left
-local right_pad = vim.g.tweaks.cokeline.styles[vim.g.tweaks.cokeline.active_tab_style].right
-local inactive_pad = vim.g.tweaks.cokeline.styles[vim.g.tweaks.cokeline.active_tab_style].inactive
+local show_close = Tweaks.cokeline.closebutton
+local left_pad = Tweaks.cokeline.styles[Tweaks.cokeline.active_tab_style].left
+local right_pad = Tweaks.cokeline.styles[Tweaks.cokeline.active_tab_style].right
+local inactive_pad = Tweaks.cokeline.styles[Tweaks.cokeline.active_tab_style].inactive
 
 local version = vim.version()
 local buildinfo = '    Neovim ' .. version.major .. "." .. version.minor .. "." .. version.patch
@@ -21,7 +21,7 @@ local function Cokeline_theme()
   }
 end
 
-local treename = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or 'NvimTree'
+local treename = Tweaks.tree.filetype
 require('cokeline').setup({
   -- Cokeline_theme() is defined in config.lua
   buffers = {

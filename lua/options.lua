@@ -47,10 +47,10 @@ o.wildmenu = true
 o.ruler = true
 o.wrap = false
 -- gutter config. set numbers (5 digits max)
-o.numberwidth =  vim.g.tweaks.numberwidth
+o.numberwidth =  Tweaks.numberwidth
 vim.opt.listchars = {tab = '  ', trail = '▪', extends = '>', precedes = '<', eol = '↴' }
 vim.opt.list = true
-if vim.g.tweaks.use_foldlevel_patch == true then
+if Tweaks.use_foldlevel_patch == true then
   o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]
 --  --o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
 else
@@ -59,7 +59,7 @@ end
 o.foldcolumn = "1"
 -- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 
 -- indentation-based folding.
-if Config.treesitter == true then
+if CFG.treesitter == true then
   vim.wo.foldmethod = "expr"
   vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 else
@@ -68,7 +68,7 @@ else
 end
 
 o.foldlevelstart = 99
-o.foldnestmax = 5
+o.foldnestmax = 10
 -- mkview will only save current cursor position and folding state
 -- this keeps views small
 o.viewoptions = "folds,cursor"
@@ -77,7 +77,7 @@ o.completeopt = "menu,menuone,noinsert"
 o.complete=""
 -- coc and also CMP respect this settings for the maximum autocomplete-popup height
 o.pumheight = 15
-o.signcolumn = vim.g.tweaks.signcolumn
+o.signcolumn = Tweaks.signcolumn
 -- set &dictionary to allow auto-complete with coc-dictionary
 vim.opt.dictionary:append(vim.fn.stdpath("data") .. "/dict")
 -- do not use swap files.
@@ -100,7 +100,7 @@ o.undodir = vim.fn.stdpath("data") .. "/undo/"
 -- set this to true if you want to have persistent undo
 o.undofile=false
 o.exrc=true
-o.cmdheight=vim.g.tweaks.cmdheight
+o.cmdheight=Tweaks.cmdheight
 o.cinoptions=":N,=4"
 o.splitbelow = true
 -- o.secure=true

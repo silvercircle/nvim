@@ -35,12 +35,12 @@ M.ibl_highlight = {
 M.perm_config_default = {
   sysmon = {
     active = false,
-    width = Config.sysmon.width,
+    width = CFG.sysmon.width,
     content = "sysmon",
   },
   weather = {
     active = false,
-    width = Config.weather.width,
+    width = CFG.weather.width,
     content = "info",
   },
   terminal = {
@@ -48,11 +48,11 @@ M.perm_config_default = {
     height = 12,
   },
   tree = {
-    width = Config.filetree_width,
+    width = CFG.filetree_width,
     active = true,
   },
   outline = {
-    width = Config.outline_width,
+    width = CFG.outline_width,
   },
   statuscol_current = "normal",
   blist = true,
@@ -76,7 +76,7 @@ M.perm_config_default = {
   cmp_show_docs = true,
   autopair = true,
   cmp_layout = "classic",
-  cmp_autocomplete = vim.g.tweaks.cmp.autocomplete,
+  cmp_autocomplete = Tweaks.cmp.autocomplete,
   cmp_ghost = false,
   lsp = {
     inlay_hints = true
@@ -97,7 +97,7 @@ end
 function M.open_with_fzf(cwd)
   if vim.fn.isdirectory(cwd) then
     vim.schedule(function() require("fzf-lua").files({ formatter = "path.filename_first", cwd = cwd,
-      winopts = vim.g.tweaks.fzf.winopts.very_narrow_no_preview })
+      winopts = Tweaks.fzf.winopts.very_narrow_no_preview })
      end)
   end
 end
@@ -130,11 +130,11 @@ function M.is_outline_open()
     outline = 0,
     aerial = 0,
   }
-  local _o = M.findwinbyBufType("Outline")
+  local _o = M.findWinByFiletype("Outline")
   if #_o > 0 and _o[1] ~= nil then
     status.outline = _o[1]
   end
-  local _a = M.findwinbyBufType("aerial")
+  local _a = M.findWinByFiletype("aerial")
   if #_a > 0 and _a[1] ~= nil then
     status.aerial = _a[1]
   end
@@ -155,14 +155,18 @@ end
 --- open the tree (file manager tree on the left). It can be either NvimTree
 --- or NeoTree
 function M.open_tree()
-  if vim.g.tweaks.tree.version == "Nvim" then
+  if Tweaks.tree.version == "Nvim" then
     require('nvim-tree.api').tree.toggle({ focus = false })
-  else
+  elseif Tweaks.tree.version == "Neo" then
     require("neo-tree.command").execute({
       action = "show",
       source = "filesystem",
       position = "left"
     })
+  -- TODO: make it work with snacks explorer
+  elseif Tweaks.tree.version == "Explorer" then
+    require("snacks").picker.explorer( { jump = {close=false},
+      auto_close = false, layout={position="left", layout={ border="none", width=40, min_width=40}} } )
   end
 end
 
@@ -171,13 +175,15 @@ end
 -- This tries to find the root folder of the current project.
 function M.sync_tree()
   local root = require("subspace.lib").getroot_current()
-  if vim.g.tweaks.tree.version == "Neo" then
+  if Tweaks.tree.version == "Neo" then
     local nc = require("neo-tree.command")
     nc.execute( {action="show", dir=root, source="filesystem" } )
     nc.execute( {action="show", reveal=true, reveal_force_cwd=true, source="filesystem" } )
-  elseif vim.g.tweaks.tree.version == "Nvim" then
+  elseif Tweaks.tree.version == "Nvim" then
     require('nvim-tree.api').tree.change_root(root)
     vim.cmd("NvimTreeFindFile")
+  -- TODO: Make this work with a docked "snacks explorer" as filetree
+  elseif Tweaks.tree.version == "Explorer" then
   end
 end
 --- called by the event handler in NvimTree or NeoTree to inidicate that
@@ -186,14 +192,14 @@ function M.tree_open_handler()
   local wsplit = require("subspace.content.wsplit")
   vim.opt.statuscolumn = ''
   local w = vim.fn.win_getid()
-  vim.api.nvim_win_set_option(w, 'statusline', '   ' .. (vim.g.tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"))
-  vim.cmd('setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
+  vim.api.nvim_win_set_option(w, 'statusline', '   ' .. (Tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"))
+  vim.cmd('setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
   vim.api.nvim_win_set_width(w, PCFG.tree.width)
-  __Globals.adjust_layout()
+  CGLOBALS.adjust_layout()
   if PCFG.weather.active == true then
     wsplit.content = PCFG.weather.content
     if wsplit.winid == nil then
-      wsplit.openleftsplit(Config.weather.file)
+      wsplit.openleftsplit(CFG.weather.file)
       --vim.schedule(function() wsplit.openleftsplit(Config.weather.file) end)
     end
   end
@@ -205,9 +211,9 @@ function M.tree_close_handler()
   local wsplit = require("subspace.content.wsplit")
   wsplit.close()
   wsplit.winid = nil
-  __Globals.adjust_layout()
-  if __Globals.term.winid ~= nil then
-    vim.api.nvim_win_set_height(__Globals.term.winid, __Globals.term.height)
+  CGLOBALS.adjust_layout()
+  if CGLOBALS.term.winid ~= nil then
+    vim.api.nvim_win_set_height(CGLOBALS.term.winid, CGLOBALS.term.height)
   end
 end
 
@@ -218,8 +224,8 @@ function M.set_statuscol(mode)
     return
   end
   M.perm_config.statuscol_current = mode
-  if vim.g.tweaks.use_foldlevel_patch == true then
-    vim.o.statuscolumn = Config["statuscol_" .. mode]
+  if Tweaks.use_foldlevel_patch == true then
+    vim.o.statuscolumn = CFG["statuscol_" .. mode]
   end
   if mode == "normal" then
     vim.o.relativenumber = false
@@ -254,20 +260,20 @@ function M.toggle_colorcolumn()
     vim.opt_local.colorcolumn = ""
   else
     local filetype = vim.bo.filetype
-    for _, v in pairs(Config.colorcolumns) do
+    for _, v in pairs(CFG.colorcolumns) do
       if string.find(v.filetype, filetype) then
         vim.opt_local.colorcolumn = v.value
         return
       end
     end
-    vim.opt_local.colorcolumn = Config.colorcolumns.all.value
+    vim.opt_local.colorcolumn = CFG.colorcolumns.all.value
   end
 end
 
 --- find the first window for a given filetype.
 --- @param filetypes string|table: the filetype(s)
 --- @return table: a list of windows displaying the buffer or an empty list if none has been found
-function M.findwinbyBufType(filetypes)
+function M.findWinByFiletype(filetypes)
 
   local function finder(ft, where)
     if type(where) == "string" then
@@ -298,10 +304,10 @@ function M.findwinbyBufType(filetypes)
 end
 
 --- find a buffer with type and focus its primary window split
---- @param type string: buffer type (e.g. "NvimTree"
+--- @param type string: filetype (e.g. "NvimTree"
 --- @return boolean: true if a window was found, false otherwise
 function M.findbufbyType(type)
-  local winid = M.findwinbyBufType(type)
+  local winid = M.findWinByFiletype(type)
   if #winid > 0 then
     vim.fn.win_gotoid(winid[1])
     return true
@@ -310,7 +316,7 @@ function M.findbufbyType(type)
 end
 
 -- list of filetypes we never want to create views for.'
-local _mkview_exclude = vim.g.tweaks.mkview_exclude
+local _mkview_exclude = Tweaks.mkview_exclude
 
 --- this creates a view using mkview unless the buffer has no file name or is not a file at all.
 --- it also respects the filetype exclusion list to avoid unwanted clutter in the views folder
@@ -329,12 +335,16 @@ end
 --- @param fo string a valid format option see :help fo-table
 function M.set_fo(fo)
   vim.opt_local.formatoptions:append(fo)
+  require("lualine").refresh()
 end
 
 --- clear a format option
 --- @param fo string a valid format option see :help fo-table
 function M.clear_fo(fo)
-  vim.opt_local.formatoptions:remove(fo)
+  for i = 1, #fo do
+    vim.opt_local.formatoptions:remove(string.sub(fo, i, i))
+  end
+  require("lualine").refresh()
 end
 
 --- toggle a format option(s)
@@ -342,11 +352,14 @@ end
 --- e.g. toggle_fo('t')
 --- @param fo string ONE formatoption to toggle
 function M.toggle_fo(fo)
-  if vim.opt_local.formatoptions:get()[fo] == true then
-    M.clear_fo(fo)
-  else
-    M.set_fo(fo)
+  for i = 1, #fo do
+    if vim.opt_local.formatoptions:get()[string.sub(fo, i, i)] == true then
+      M.clear_fo(string.sub(fo, i, i))
+    else
+      M.set_fo(string.sub(fo, i, i))
+    end
   end
+  require("lualine").refresh()
 end
 
 --- toggle the status of wrap between wrap and nowrap
@@ -358,6 +371,7 @@ function M.toggle_wrap()
     vim.opt_local.wrap = true
     vim.opt_local.linebreak = true
   end
+  require("lualine").refresh()
 end
 
 -- split the file tree horizontally
@@ -366,7 +380,7 @@ end
 --- @return number: the window id, 0 if the process failed
 function M.splittree(_factor)
   local factor = math.abs((_factor ~= nil and _factor > 0) and _factor or 0.33)
-  local winid = M.findwinbyBufType(vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree")
+  local winid = M.findWinByFiletype(Tweaks.tree.filetype)
   if #winid > 0 then
     local splitheight
     if factor < 1 then
@@ -379,7 +393,7 @@ function M.splittree(_factor)
     M.winid_bufferlist = vim.fn.win_getid()
     vim.api.nvim_win_set_option(M.winid_bufferlist, "list", false)
     vim.api.nvim_win_set_option(M.winid_bufferlist, "statusline", "Buffer List")
-    vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0")
+    vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:TreeNormalNC | set foldcolumn=0")
     vim.fn.win_gotoid(M.main_winid)
     return M.winid_bufferlist
   end
@@ -388,9 +402,9 @@ end
 
 --- close all quickfix windows
 function M.close_qf_or_loc()
-  local winid = M.findwinbyBufType("qf")
+  local winid = M.findWinByFiletype("qf")
   if #winid == 0 then
-    winid = M.findwinbyBufType("replacer")
+    winid = M.findWinByFiletype("replacer")
   end
   if #winid > 0 then
     for i, _ in pairs(winid) do
@@ -418,7 +432,7 @@ function M.termToggle(_height)
     M.term.winid = nil
     return
   end
-  local outline_win = M.findwinbyBufType(M.perm_config.outline_filetype)
+  local outline_win = M.findWinByFiletype(M.perm_config.outline_filetype)
 
   if outline_win[1] ~= nil and vim.api.nvim_win_is_valid(outline_win[1]) then
     M.close_outline()
@@ -436,7 +450,7 @@ function M.termToggle(_height)
   end
   -- configure the terminal window
   vim.cmd(
-    "setlocal statuscolumn=%#NeoTreeNormalNC#\\  | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=no | set winfixheight | set nocursorline | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC"
+    "setlocal statuscolumn=%#TreeNormalNC#\\  | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=no | set winfixheight | set nocursorline | set winhl=SignColumn:TreeNormalNC,Normal:TreeNormalNC"
   )
   M.term.winid = vim.fn.win_getid()
   vim.api.nvim_win_set_option(M.term.winid, "statusline", "  Terminal")
@@ -462,7 +476,7 @@ end
 --- write the configuration to the json file
 --- do not write it when running in plain mode (without additional frames and content)
 function M.write_config()
-  if Config.plain == true then
+  if CFG.plain == true then
     return
   end
   local file = get_permconfig_filename()
@@ -470,7 +484,6 @@ function M.write_config()
   if f ~= nil then
     local wsplit_id = require("subspace.content.wsplit").winid
     local usplit_id = require("subspace.content.usplit").winid
-    local blist_id = require("subspace.content.blist").main_win
     local state = {
       terminal = {
         active = M.term.winid ~= nil and true or false,
@@ -481,13 +494,12 @@ function M.write_config()
       sysmon = {
         active = usplit_id ~= nil and true or false,
       },
-      blist = blist_id ~= nil and true or false,
       tree = {
-        active = #M.findwinbyBufType(vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
+        active = #M.findWinByFiletype(Tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
       }
     }
     if Tweaks.theme.disable == false then
-      local theme_conf = Config.theme.get_conf()
+      local theme_conf = CFG.theme.get_conf()
       state['theme_variant'] = theme_conf.variant
       state['theme_palette'] = theme_conf.colorpalette
       state['transbg'] = theme_conf.is_trans
@@ -499,9 +511,6 @@ function M.write_config()
     end
     if usplit_id ~= nil then
       state.sysmon.width = vim.api.nvim_win_get_width(usplit_id)
-    end
-    if blist_id ~= nil then
-      state.blist_height = vim.api.nvim_win_get_height(blist_id)
     end
     local string = vim.fn.json_encode(vim.tbl_deep_extend("force", M.perm_config, state))
     f:write(string)
@@ -535,21 +544,21 @@ function M.restore_config()
   --local cmp_kind_attr = M.perm_config.cmp_layout == "experimental" and { bold=true, reverse=true } or {}
   local cmp_kind_attr = { bold=true, reverse=true }
   if Tweaks.theme.disable == false then
-    Config.theme.setup({
+    CFG.theme.setup({
       scheme = M.perm_config.theme_scheme,
       variant = M.perm_config.theme_variant,
       colorpalette = M.perm_config.theme_palette,
       theme_strings = M.perm_config.theme_strings,
       is_trans = M.perm_config.transbg,
-      sync_kittybg = vim.g.tweaks.theme.sync_kittybg,
-      kittysocket = vim.g.tweaks.theme.kittysocket,
-      kittenexec = vim.g.tweaks.theme.kittenexec,
-      callback = M.theme_callback,
+      sync_kittybg = Tweaks.theme.sync_kittybg,
+      kittysocket = Tweaks.theme.kittysocket,
+      kittenexec = Tweaks.theme.kittenexec,
+      callback = require("subspace.lib.darkmatter").theme_callback,
       indentguide_colors = {
-        dark = vim.g.tweaks.indent.color.dark,
-        light = vim.g.tweaks.indent.color.light
+        dark = Tweaks.indent.color.dark,
+        light = Tweaks.indent.color.light
       },
-      rainbow_contrast = vim.g.tweaks.theme.rainbow_contrast,
+      rainbow_contrast = Tweaks.theme.rainbow_contrast,
       custom_colors = {
         c1 = "#5a8aba"
       },
@@ -564,26 +573,26 @@ function M.restore_config()
       --  attribute = "user3"
       --},
       plugins = {
-        hl = (vim.g.tweaks.completion.version == "blink") and { "markdown", "common", "blink", "snacks" } or { "markdown", "common", "snacks" },
+        hl = (Tweaks.completion.version == "blink") and { "markdown", "common", "blink", "snacks" } or { "markdown", "common", "snacks" },
       },
       attrib = {
         dark = {
           cmpkind = cmp_kind_attr,
-          tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {},
-          types = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-          class = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-          interface = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-          struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+          tabline = Tweaks.cokeline.underline == true and { underline = true } or {},
+          types = Tweaks.theme.all_types_bold == true and { bold = true } or {},
+          class = Tweaks.theme.all_types_bold == true and { bold = true } or {},
+          interface = Tweaks.theme.all_types_bold == true and { bold = true } or {},
+          struct = Tweaks.theme.all_types_bold == true and { bold = true } or {},
           defaultlib = { italic = false },
           attribute = { italic = false, bold = true },
         },
         gruv = {
           cmpkind = cmp_kind_attr,
-          tabline = vim.g.tweaks.cokeline.underline == true and { underline = true } or {},
-          types = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-          class = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-          interface = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
-          struct = vim.g.tweaks.theme.all_types_bold == true and { bold = true } or {},
+          tabline = Tweaks.cokeline.underline == true and { underline = true } or {},
+          types = Tweaks.theme.all_types_bold == true and { bold = true } or {},
+          class = Tweaks.theme.all_types_bold == true and { bold = true } or {},
+          interface = Tweaks.theme.all_types_bold == true and { bold = true } or {},
+          struct = Tweaks.theme.all_types_bold == true and { bold = true } or {},
           defaultlib = { italic = false },
           attribute = { italic = false, bold = true },
         }
@@ -592,38 +601,10 @@ function M.restore_config()
   end
 end
 
---- the callback is called from internal theme functions that change its
---- configuration.
---- @param what string: description what has changed
-function M.theme_callback(what)
-  local conf = Config.theme.get_conf()
-  if what == 'variant' then
-    M.perm_config.theme_variant = conf.variant
-    M.notify("Theme variant is now: " .. conf.variant, vim.log.levels.INFO, "Theme")
-  elseif what == 'palette' then
-    M.perm_config.theme_palette = conf.colorpalette
-    M.notify("Selected color palette: " .. conf.colorpalette, vim.log.levels.INFO, "Theme")
-  elseif what == 'strings' then
-    M.notify("Theme strings set to: " .. conf.theme_strings, vim.log.levels.INFO, "Theme")
-    M.perm_config.theme_strings = conf.theme_strings
-  elseif what == "trans" then
-    M.perm_config.transbg = conf.is_trans
-    M.notify("Theme transparency is now " .. (conf.is_trans == true and "On" or "Off"), vim.log.levels.INFO, "Theme")
-  elseif what == "scheme" then
-    M.notify("Selected scheme: " .. conf.scheme, vim.log.levels.INFO, "Theme")
-    require("plugins.lualine_setup").update_internal_theme()
-  end
-  if vim.g.tweaks.completion.version == "blink" then
-    require("plugins.blink").update_hl()
-  else
-    require("plugins.cmp_setup").update_hl()
-  end
-end
-
 --- adjust the optional frames so they will keep their width when the side tree opens or closes
 function M.adjust_layout()
   local usplit = require("subspace.content.usplit").winid
-  vim.o.cmdheight = vim.g.tweaks.cmdheight
+  vim.o.cmdheight = Tweaks.cmdheight
   if usplit ~= nil then
     vim.api.nvim_win_set_width(usplit, M.perm_config.sysmon.width)
   end
@@ -634,7 +615,7 @@ function M.adjust_layout()
     vim.api.nvim_win_set_width(M.term.winid, width - 1)
     vim.api.nvim_win_set_width(M.term.winid, width)
   end
-  local outline = M.findwinbyBufType("Outline")
+  local outline = M.findWinByFiletype("Outline")
   if #outline > 0 then
     vim.api.nvim_win_set_width(outline[1], M.perm_config.outline.width)
   end
@@ -698,14 +679,14 @@ end
 -- enable/disable ibl
 function M.toggle_ibl()
   M.perm_config.ibl_enabled = not M.perm_config.ibl_enabled
-  if vim.g.tweaks.indent.version == "snacks" then
+  if Tweaks.indent.version == "snacks" then
     if M.perm_config.ibl_enabled then
       require("snacks").indent.enable()
     else
       require("snacks").indent.disable()
     end
   else
-    vim.notify("function not supported with current plugin configuration")
+    vim.notify("function not supported with current plugin configuration", 0, { title = "Indent guides" })
   end
 end
 
@@ -782,7 +763,7 @@ function M.configure_treesitter()
   vim.treesitter.language.register("ini", "editorconfig")
   -- disable injections for these languages, because they can be slow
   -- can be tweaked
-  if vim.g.tweaks.treesitter.perf_tweaks == true then
+  if Tweaks.treesitter.perf_tweaks == true then
     vim.treesitter.query.set("javascript", "injections", "")
     vim.treesitter.query.set("typescript", "injections", "")
     vim.treesitter.query.set("vimdoc", "injections", "")
@@ -886,12 +867,6 @@ function M.get_lsp_capabilities()
     M.lsp_capabilities.textDocument.completion.editsNearCursor = true
   end
   return M.lsp_capabilities
-end
-
-function M.TestDetour()
-  require("detour").DetourCurrentWindow()
-  vim.api.nvim_win_set_option(0, "winbar", "")
-  vim.cmd("setlocal winhl=NormalFloat:Normal,FloatBorder:TelescopeBorder")
 end
 
 function M.custom_lsp()

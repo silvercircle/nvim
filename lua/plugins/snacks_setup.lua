@@ -1,16 +1,16 @@
-local chunklines = Borderfactory(vim.g.tweaks.indent.chunk.lines)
+local chunklines = Borderfactory(Tweaks.indent.chunk.lines)
 local old_mode
 
 require("snacks").setup({
   notifier = {
-    enabled = vim.g.tweaks.notifier == "snacks" and true or false,
+    enabled = Tweaks.notifier == "snacks" and true or false,
     style = "fancy",
     top_down = false,
     refresh = 400
   },
   explorer = {
     replace_netrw = false,
-    layout = SPL( { input = "top", width = 80, psize = 12 } )
+    layout = SPL({ input = "top", width = 80, psize = 12 })
   },
   projects = {
     dev = { "/data/mnt/shared/data/", "/Media/NVIM/", "~/Downloads/Projects/" },
@@ -46,12 +46,10 @@ require("snacks").setup({
         truncate = 80
       }
     },
-    layout = { preset = "vertical", layout = {backdrop = false, width=120, border = Borderfactory("thicc")} },
+    layout = { preset = "vertical", layout = { backdrop = false, width = 120, border = Borderfactory("thicc") } },
     icons = {
       kind = vim.g.lspkind_symbols
     },
-    -- on_show = function() vim.notify("on show") end,
-    -- on_close = function() vim.notify("on close") end,
     sources = {
       explorer = {
         auto_close = true,
@@ -74,13 +72,13 @@ require("snacks").setup({
     win = {
       input = {
         keys = {
-          ["<PageDown>"] = { "list_scroll_down", mode = { 'i', 'n' } },
-          ["<PageUp>"] = { "list_scroll_up", mode = { 'i', 'n' } },
-          ["<Home>"] =  { "list_top", mode = { 'i', 'n' } },
-          ["<End>"] = { "list_bottom", mode = { 'i', 'n' } },
-          ["<A-q>"] = { "qflist", mode = { 'i', 'n' } },
-          ["<C-Up>"] = { "preview_scroll_up", mode = { 'i', 'n' } },
-          ["<C-Down>"] = { "preview_scroll_down", mode = { 'i', 'n' } }
+          ["<PageDown>"] = { "list_scroll_down", mode = { "i", "n" } },
+          ["<PageUp>"] = { "list_scroll_up", mode = { "i", "n" } },
+          ["<Home>"] = { "list_top", mode = { "i", "n" } },
+          ["<End>"] = { "list_bottom", mode = { "i", "n" } },
+          ["<A-q>"] = { "qflist", mode = { "i", "n" } },
+          ["<C-Up>"] = { "preview_scroll_up", mode = { "i", "n" } },
+          ["<C-Down>"] = { "preview_scroll_down", mode = { "i", "n" } }
         }
       },
       list = {
@@ -89,14 +87,14 @@ require("snacks").setup({
           ["<PageUp>"] = "list_scroll_up",
           ["<Home>"] = "list_top",
           ["<End>"] = "list_bottom",
-          ["<A-q>"] = { "qflist", mode = { 'i', 'n' } },
-          ["<C-Up>"] = { "preview_scroll_up", mode = { 'i', 'n' } },
-          ["<C-Down>"] = { "preview_scroll_down", mode = { 'i', 'n' } }
+          ["<A-q>"] = { "qflist", mode = { "i", "n" } },
+          ["<C-Up>"] = { "preview_scroll_up", mode = { "i", "n" } },
+          ["<C-Down>"] = { "preview_scroll_down", mode = { "i", "n" } }
         },
         wo = {
           concealcursor = "nvc", signcolumn = "no", foldcolumn = "0"
         }
-},
+      },
       preview = {
         wo = {
           signcolumn = "no", foldcolumn = "0"
@@ -121,10 +119,10 @@ require("snacks").setup({
       end,
     },
     sections = {
-      { title = "MRU", padding = 1 },
-      { section = "recent_files", limit = 8, padding = 1 },
-      { title = "MRU ", file = vim.fn.fnamemodify(".", ":~"), padding = 1 },
-      { section = "recent_files", cwd = true, limit = 8, padding = 1 },
+      { title = "MRU",            padding = 1 },
+      { section = "recent_files", limit = 8,                            padding = 1 },
+      { title = "MRU ",           file = vim.fn.fnamemodify(".", ":~"), padding = 1 },
+      { section = "recent_files", cwd = true,                           limit = 8,  padding = 1 },
     },
     enabled = false
   },
@@ -150,39 +148,39 @@ require("snacks").setup({
       priority = 100,
       enabled = true,
       char = "│",
-      only_scope = false,         -- only show indent guides of the scope
-      only_current = false,       -- only show indent guides in the current window
+      only_scope = false,   -- only show indent guides of the scope
+      only_current = false, -- only show indent guides in the current window
       --hl = "IndentBlankLineChar", ---@type string|string[] hl groups for indent guides
-      hl = vim.g.tweaks.indent.rainbow_guides == true and {
+      hl = Tweaks.indent.rainbow_guides == true and {
         "IndentBlanklineIndent1", "IndentBlanklineIndent2", "IndentBlanklineIndent3", "IndentBlanklineIndent4",
         "IndentBlanklineIndent5", "IndentBlanklineIndent6", "IndentBlanklineIndent1", "IndentBlanklineIndent2"
       } or "IndentBlankLineChar",
     },
     animate = {
-      enabled = vim.g.tweaks.indent.animate,
+      enabled = Tweaks.indent.animate,
       style = "out",
       easing = "linear",
       duration = {
-        step = 10,         -- ms per step
-        total = 100,       -- maximum duration
+        step = 10,   -- ms per step
+        total = 100, -- maximum duration
       },
     },
     scope = {
-      enabled = vim.g.tweaks.indent.scope.enabled,       -- enable highlighting the current scope
+      enabled = Tweaks.indent.scope.enabled, -- enable highlighting the current scope
       priority = 200,
-      char = vim.g.tweaks.indent.scope.char,
-      underline = false,          -- underline the start of the scope
-      only_current = false,       -- only show scope in the current window
-      hl = vim.g.tweaks.indent.scope.hl ---@type string|string[] hl group for scopes
+      char = Tweaks.indent.scope.char,
+      underline = false,    -- underline the start of the scope
+      only_current = false, -- only show scope in the current window
+      hl = Tweaks.indent.scope.hl ---@type string|string[] hl group for scopes
     },
     chunk = {
       -- when enabled, scopes will be rendered as chunks, except for the
       -- top-level scope which will be rendered as a scope.
-      enabled = vim.g.tweaks.indent.chunk.enabled,
+      enabled = Tweaks.indent.chunk.enabled,
       -- only show chunk scopes in the current window
       only_current = true,
       priority = 200,
-      hl = vim.g.tweaks.indent.scope.hl, ---@type string|string[] hl group for scopes
+      hl = Tweaks.indent.scope.hl, ---@type string|string[] hl group for scopes
       char = {
         corner_top = chunklines[1],
         corner_bottom = chunklines[7],

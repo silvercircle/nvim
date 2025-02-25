@@ -17,7 +17,7 @@ Wsplit.content_winid = nil -- window of interest.
 Wsplit.freeze = false      -- do not refresh when set
 Wsplit.cookie = {}
 
-Wsplit.cookie_source = vim.g.tweaks.cookie_source
+Wsplit.cookie_source = Tweaks.cookie_source
 
 local watch = nil            -- file watcher (for weather content)
 local timer = nil            -- timer (for info content)
@@ -113,7 +113,7 @@ function Wsplit.set_minheight()
   if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) then
     vim.api.nvim_win_set_height(
       Wsplit.winid,
-      (Wsplit.content == "info") and Config.weather.required_height or Config.weather.required_height - 1
+      (Wsplit.content == "info") and CFG.weather.required_height or CFG.weather.required_height - 1
     )
   end
 end
@@ -271,7 +271,7 @@ function Wsplit.installwatch()
 end
 
 function Wsplit.open(_weatherfile)
-  local wid = __Globals.findwinbyBufType("terminal")
+  local wid = CGLOBALS.findWinByFiletype("terminal")
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   Wsplit.weatherfile = vim.fn.expand(_weatherfile)
 
@@ -283,7 +283,7 @@ function Wsplit.open(_weatherfile)
   if #wid > 0 and vim.fn.filereadable(Wsplit.weatherfile) then
     vim.fn.win_gotoid(wid[1])
     vim.cmd(
-      (Config.weather.splitright == true and "setlocal splitright | " or "")
+      (CFG.weather.splitright == true and "setlocal splitright | " or "")
       .. PCFG.weather.width
       .. " vsp new"
     )
@@ -294,7 +294,7 @@ function Wsplit.open(_weatherfile)
     vim.api.nvim_win_set_option(Wsplit.winid, "list", false)
     vim.api.nvim_win_set_option(Wsplit.winid, "statusline", "Weather")
     vim.cmd(
-      "set winfixheight | set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | set statuscolumn=%#NeoTreeNormalNC#\\  | setlocal nocursorline"
+      "set winfixheight | set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:TreeNormalNC | set foldcolumn=0 | set statuscolumn=%#TreeNormalNC#\\  | setlocal nocursorline"
     )
     vim.fn.win_gotoid(curwin)
   end
@@ -307,7 +307,7 @@ end
 function Wsplit.openleftsplit(_weatherfile)
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   Wsplit.weatherfile = vim.fn.expand(_weatherfile)
-  Wsplit.winid = __Globals.splittree(Config.weather.required_height)
+  Wsplit.winid = CGLOBALS.splittree(CFG.weather.required_height)
   if Wsplit.winid == 0 then
     Wsplit.close()
     return
@@ -322,7 +322,7 @@ function Wsplit.openleftsplit(_weatherfile)
   vim.api.nvim_buf_set_option(Wsplit.bufid, "buftype", "nofile")
   vim.api.nvim_win_set_option(Wsplit.winid, "list", false)
   vim.cmd(
-    "set winfixheight | setlocal statuscolumn=| set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0 | setlocal nocursorline"
+    "set winfixheight | setlocal statuscolumn=| set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:TreeNormalNC | set foldcolumn=0 | setlocal nocursorline"
   )
   vim.fn.win_gotoid(curwin)
   Wsplit.refresh()
@@ -437,7 +437,7 @@ end
 ---   b) The current window or buffer changes (WinEnter, BufWinEnter events)
 function Wsplit.refresh()
   local results = {}
-  local relpath = Config.nightly == true and vim.fs.relpath or require("subspace.lib.fs").relpath
+  local relpath = CFG.nightly == true and vim.fs.relpath or require("subspace.lib.fs").relpath
 
   if Wsplit.bufid == nil or Wsplit.winid == nil then
     return
@@ -476,8 +476,8 @@ function Wsplit.refresh()
       table.insert(lines, " " .. Utils.pad(name, Wsplit.win_width, " ") .. "  ")
       table.insert(lines, " ")
       -- size of buffer. Bytes, KB or MB
-      if __Globals.cur_bufsize > 1 then
-        local size = __Globals.cur_bufsize
+      if CGLOBALS.cur_bufsize > 1 then
+        local size = CGLOBALS.cur_bufsize
         if size < 1024 then
           table.insert(
             lines,
@@ -538,10 +538,10 @@ function Wsplit.refresh()
           table.insert(lines, " ")
         end
         local treesitter = "Off"
-        if vim.tbl_contains(Config.treesitter_types, ft) then
+        if vim.tbl_contains(CFG.treesitter_types, ft) then
           treesitter = "On"
         end
-        local val = __Globals.get_buffer_var(curbuf, "tsc")
+        local val = CGLOBALS.get_buffer_var(curbuf, "tsc")
         table.insert(lines, Wsplit.prepare_line(" Treesitter: " .. treesitter,
           "Context: " .. ((val == true) and "On" or "Off"), 4))
         table.insert(lines, " ")

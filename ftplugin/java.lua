@@ -1,7 +1,7 @@
 local use_lombok = true
 
 local lsputil = require("lspconfig.util")
-local md5 = require("local_utils.md5")
+local md5 = require("subspace.lib.md5")
 local hash
 local project_name = "tmp"
 local debug = true
@@ -41,22 +41,22 @@ elseif project_root ~= nil and #project_root > 1 then
   project_name = md5.tohex(hash:finish())
 end
 
-local workspace_dir = vim.g.tweaks.jdtls.workspace_base .. project_name
+local workspace_dir = vim.fn.expand(Tweaks.jdtls.workspace_base) .. project_name
 
-if debug then vim.notify("Project name is: " .. project_name) end
+if debug then vim.notify("Project name is: " .. project_name, 1) end
 
 -- configure special buffers. These are opened when using a jdt:// link to decompile
 -- classes.
 if vim.startswith(vim.fn.expand("%"), "jdt://") then
   vim.cmd("setlocal number | setlocal signcolumn=yes:3 | setlocal foldcolumn=1 | setlocal nospell | setlocal buftype=nowrite")
-  vim.o.statuscolumn = Config.statuscol_normal
+  vim.o.statuscolumn = CFG.statuscol_normal
 end
 local config = {
   -- The command that starts the language server
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
   cmd = {
 
-    vim.g.tweaks.jdtls.java_executable, -- or '/:path/to/java17_or_newer/bin/java'
+    Tweaks.jdtls.java_executable, -- or '/:path/to/java17_or_newer/bin/java'
     -- depends on if `java` is in your $PATH env variable and if it points to the right version.
 
     "-Declipse.application=org.eclipse.jdt.ls.core.id1",
@@ -74,13 +74,13 @@ local config = {
     "-XX:MaxHeapFreeRatio=85",
     "-XX:ConcGCThreads=2",
     "-XX:ParallelGCThreads=2",
-    use_lombok and "-javaagent:" .. vim.g.tweaks.jdtls.jdtls_install_dir .. "lombok.jar" or "",
-    use_lombok and "-Xbootclasspath/a:" .. vim.g.tweaks.jdtls.jdtls_install_dir .. "lombok.jar" or "",
+    use_lombok and "-javaagent:" .. vim.fn.expand(Tweaks.jdtls.jdtls_install_dir) .. "lombok.jar" or "",
+    use_lombok and "-Xbootclasspath/a:" .. vim.fn.expand(Tweaks.jdtls.jdtls_install_dir) .. "lombok.jar" or "",
     "--add-modules=ALL-SYSTEM",
     "--add-opens", "java.base/java.util=ALL-UNNAMED",
     "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-    "-jar", vim.g.tweaks.jdtls.jdtls_install_dir .. "plugins/org.eclipse.equinox.launcher_" .. vim.g.tweaks.jdtls.equinox_version .. ".jar",
-    "-configuration", vim.g.tweaks.jdtls.jdtls_install_dir .. vim.g.tweaks.jdtls.config,
+    "-jar", vim.fn.expand(Tweaks.jdtls.jdtls_install_dir) .. "plugins/org.eclipse.equinox.launcher_" .. Tweaks.jdtls.equinox_version .. ".jar",
+    "-configuration", vim.fn.expand(Tweaks.jdtls.jdtls_install_dir) .. Tweaks.jdtls.config,
     "-data", workspace_dir
   },
 
@@ -119,7 +119,10 @@ local config = {
   init_options = {
     bundles = {}
   },
-  on_attach = function() vim.lsp.codelens.refresh() end
+  on_attach = function(client, buf)
+    vim.lsp.codelens.refresh()
+    On_attach(client, buf)
+  end
 }
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.

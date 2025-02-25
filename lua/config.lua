@@ -3,18 +3,23 @@
 -- when NVIM_PLAIN is set (to whatever value), the editor will start plain without a neotree and
 -- terminal split.
 local env_plain = os.getenv("NVIM_PLAIN")
-local status, tw = pcall(require, "mytweaks")
+local status, mtw = pcall(require, "mytweaks")
 local tweaks = require("tweaks-dist")
 
 -- merge mytweaks into the default tweaks file to allow for user-customizable 
 -- settings that won't be overwritten when updating the config.
 if status == true then
-  tweaks = vim.tbl_deep_extend("force", tweaks, tw)
+  tweaks = vim.tbl_deep_extend("force", tweaks, mtw)
 end
-vim.g.tweaks = tweaks
 Tweaks = tweaks
-Borderfactory = vim.g.tweaks.borderfactory
-CFG = function() return __Globals.perm_config end
+Borderfactory = Tweaks.borderfactory
+
+local tree_fts = {
+  ['Neo']       = "neo-tree",
+  ['Nvim']      = "NvimTree",
+  ['Explorer']  = "snacks_picker_list"
+}
+Tweaks.tree.filetype = tree_fts[Tweaks.tree.version]
 
 -- FIXME: silence deprecation warnings in dev builds. currently 0.11
 -- adjust this for future dev builds
@@ -23,7 +28,7 @@ if nvim_11 == 1 then
   vim.deprecate = function() end
 end
 
-Config = {
+CFG = {
   nightly = (nvim_11 ~= 0) and true or false,
   cmp = {
     -- the following lists file types that are allowed to use the cmp_buffer source
@@ -41,7 +46,7 @@ Config = {
   statuscol_normal = '%s%=%l %C ',
   statuscol_rel = nvim_11 == 1 and '%s%=%l %C ' or "%s%=%r %C ",
   nvim_tree = true,
-  fortunecookie = false,                      --"fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
+  fortunecookie = false, -- "fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
                                               -- needs fortune and cowsay installed.
                                               -- set to false or an empty string to disable
                                               -- set this to "" or false if your start screen throws errors.
@@ -120,12 +125,13 @@ local g = vim.g
 -- disable some standard plugins
 
 -- global variables for plugins
-g.mapleader = vim.g.tweaks.keymap.mapleader
+g.mapleader = Tweaks.keymap.mapleader
 
 function vim.g.setkey(modes, lhs, rhs, _desc)
   vim.keymap.set(modes, lhs, rhs, { noremap = true, silent = true, desc = _desc })
 end
-__Globals=require("globals")
+CGLOBALS=require("globals")
+PCFG = CGLOBALS.perm_config
 
 vim.filetype.add({
   extension = {
@@ -191,6 +197,15 @@ function FWO(class, title)
   return Tweaks.fzf.winopts[class]
 end
 
+--- output a notification, supports markdown format
+--- level and title are optional
+function STATMSG(msg, state, level, title)
+  level = level or 0
+  title = title or ""
+  local _msg = msg or ""
+  local _state = state or false
+  vim.notify(_msg .. (_state and " `Enabled`" or " `Disabled`"), 0, { title = title } )
+end
 -- generate a snacks picker layout
 function SPL(params)
   -- local opts = params or { preview = false, width = 80, height = 0.8 }

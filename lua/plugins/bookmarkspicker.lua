@@ -19,7 +19,7 @@ end
 local keys = { ['<CR>'] = { { 'jump', 'close' }, mode = {'n', 'i'}} }
 
 function M.open(opts)
-  local lutils = require("local_utils")
+  local lutils = require("subspace.lib")
   opts = opts or {}
   local allmarks = config.cache.data
   local marklist = {}

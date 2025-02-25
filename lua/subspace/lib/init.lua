@@ -4,7 +4,7 @@
 local Utils = {}
 
 local conf = {
-  root_patterns = vim.g.tweaks.default_root_patterns,
+  root_patterns = Tweaks.default_root_patterns,
   debugmode = false,
   -- experimental, try root patterns ONLY. not recommended, git_ancestor() is more relieable
   ignore_git = false,
@@ -58,7 +58,7 @@ end
 
 function Utils.setup(opts)
   opts = opts or {}
-  conf.root_patterns = opts.root_patterns or vim.g.tweaks.default_root_patterns
+  conf.root_patterns = opts.root_patterns or Tweaks.default_root_patterns
   conf.debugmode = opts.debug or false
   conf.ignore_git = opts.ignore_git or false
   if conf.debugmode then
@@ -106,7 +106,7 @@ end
 --- get prompt prefix to determine whether a picker has been called in insert mode
 --- this is hack-ish, but works.
 function Utils.getTelescopePromptPrefix()
-  return vim.api.nvim_get_mode().mode == "i" and Config.minipicker_iprefix or "> "
+  return vim.api.nvim_get_mode().mode == "i" and CFG.minipicker_iprefix or "> "
 end
 
 --- this function determines the path where a latex-generated PDF may reside. It depends on the
@@ -116,12 +116,12 @@ end
 --- @param _useglobal boolean: use the global texoutput directory
 function Utils.getLatexPreviewPath(_filename, _useglobal)
   local useglobal = _useglobal or false
-  local path = vim.fn.expand(Config.texoutput)
+  local path = vim.fn.expand(CFG.texoutput)
   local finalpath
   if vim.bo.filetype == "typst" then
     finalpath = vim.fn.expand("%:p:r") .. ".pdf"
   else
-    __Globals.debugmsg("The preview path is: " .. path)
+    CGLOBALS.debugmsg("The preview path is: " .. path)
     if useglobal == true and #path > 0 and vim.fn.isdirectory(path) == 1 then
       finalpath = path .. vim.fn.expand(vim.fn.fnamemodify(_filename, ":t:r")) .. ".pdf"
     else
@@ -139,7 +139,7 @@ function Utils.view_latex()
   return function()
     local result, path = Utils.getLatexPreviewPath(vim.fn.expand("%"), true)
     if result == true then
-      local cmd = "silent !" .. vim.g.tweaks.texviewer .. " '" .. path .. "' &"
+      local cmd = "silent !" .. Tweaks.texviewer .. " '" .. path .. "' &"
       vim.cmd.stopinsert()
       vim.schedule(function()
         vim.cmd(cmd)
@@ -158,11 +158,11 @@ function Utils.compile_latex()
     local cwd = "cd " .. vim.fn.expand("%:p:h")
     vim.cmd(cwd)
     local cmd = "!lualatex --output-directory="
-      .. vim.fn.expand(Config.texoutput)
+      .. vim.fn.expand(CFG.texoutput)
       .. " '"
       .. vim.fn.expand("%:p")
       .. "'"
-    __Globals.debugmsg(cmd)
+    CGLOBALS.debugmsg(cmd)
     vim.cmd.stopinsert()
     vim.schedule(function()
       vim.cmd(cmd)
@@ -253,12 +253,12 @@ function Utils.StopLsp()
     format = function(item)
       local entry = {}
       local pos = #entry
-      local hl = item.buffers > 0 and "DeepRedBold" or "Number"
+      local hl = item.buffers > 0 and "Red" or "Green"
 
-      entry[pos + 1] = { Align("ID:" .. tostring(item.id), 6, { align="right" }), hl }
-      entry[pos + 2] = { Align(" " .. item.name, 25, { align="left" }), hl }
-      entry[pos + 3] = { Align(tostring(item.buffers) .. (item.buffers == 1 and " Buffer" or " Buffers"), 20, { align="right" }), hl }
-      entry[pos + 4] = { Align(item.type, 40, { align="right" }), hl }
+      entry[pos + 1] = { Align("ID:" .. tostring(item.id), 6, { align="right" }), "Fg" }
+      entry[pos + 2] = { Align(" " .. item.name, 25, { align="left" }), "Fg" }
+      entry[pos + 3] = { Align(string.format("%3d", item.buffers) .. (item.buffers == 1 and " Buffer " or " Buffers"), 20, { align="right" }), hl }
+      entry[pos + 4] = { Align(item.type, 45, { align="right" }), "String" }
 
       return entry
     end,
@@ -353,7 +353,7 @@ function Utils.PickFoldingMode(currentmode)
   local function execute(item)
     local cmd = item.cmd or ""
     if cmd ~= "none" then
-      __Globals.debugmsg("Selected folding method: " .. cmd)
+      CGLOBALS.debugmsg("Selected folding method: " .. cmd)
       vim.schedule(function()
         vim.o.foldmethod = cmd
       end)
@@ -433,14 +433,14 @@ end
 
 --- show notification history, depending on which plugin we use for notifications
 function Utils.notification_history()
-  if vim.g.tweaks.notifier == "mini" then
+  if Tweaks.notifier == "mini" then
     require("detour").DetourCurrentWindow()
     require("mini.notify").show_history()
-  elseif vim.g.tweaks.notifier == "snacks" then
-    require("plugins.notifierhistory_snacks").open( {
+  elseif Tweaks.notifier == "snacks" then
+    require("subspace.content.notifierhistory").open( {
             layout = SPL( { preview = true, width=120, height = 40, input = "top", psize = 20, row = 8 } ) } )
-  elseif vim.g.tweaks.notifier == "fidget" then
-    require("plugins.fidgethistory_snacks").open( {
+  elseif Tweaks.notifier == "fidget" then
+    require("subspace.content.fidgethistory").open( {
             layout = SPL( { preview = true, width=120, height = 40, input = "top", psize = 20, row = 8 } ) } )
   end
 end
@@ -485,10 +485,9 @@ end
 function Utils.simplepicker(entries, fn, opts)
   opts = opts or {}
   local prompt = opts.prompt or ""
-  local utils = require("subspace.lib")
   local Snacks = require("snacks")
   local Align = Snacks.picker.util.align
-  local maxlength = utils.getLongestString(entries, "text")
+  local maxlength = Utils.getLongestString(entries, "text")
 
   maxlength = vim.fn.strwidth(prompt) <= maxlength and maxlength or vim.fn.strwidth(prompt)
 

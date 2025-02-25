@@ -87,8 +87,6 @@ Tweaks.indent = {
   }
 }
 
-Tweaks.cokeline_filename_width = 25
-
 Tweaks.dap = {
   enabled = false
 }
@@ -99,43 +97,43 @@ Tweaks.dap = {
 -- This paths should work on most Linux systems, but you have to adjust them for 
 -- Windows or macOS
 
-Tweaks.lsp.masonbasepath = vim.fn.stdpath('data') .. '/mason/'
-Tweaks.lsp.masonbinpath = Tweaks.lsp.masonbasepath .. 'bin/'
-Tweaks.lsp.localbin      = vim.fn.getenv('HOME') .. '/.local/bin/'
+local jp = vim.fs.joinpath
+
+Tweaks.lsp.masonbasepath = jp(vim.fn.stdpath('data'), '/mason/')
+Tweaks.lsp.masonbinpath = jp(Tweaks.lsp.masonbasepath, 'bin/')
 Tweaks.lsp.homepath      = vim.fn.getenv('HOME')
+Tweaks.lsp.localbin      = jp(Tweaks.lsp.homepath, '/.local/bin/')
 
 Tweaks.lsp = {
   server_bin = {
     -- phpactor      =   '/usr/local/bin/phpactor',
-    rust_analyzer =   Tweaks.lsp.masonbinpath .. 'rust-analyzer',
-    gopls         =   Tweaks.lsp.masonbinpath .. 'gopls',
-    nimls         =   Tweaks.lsp.homepath .. '/.nimble/bin/nimlangserver',
-    texlab        =   Tweaks.lsp.localbin .. 'texlab',
+    rust_analyzer =   jp(Tweaks.lsp.masonbinpath, 'rust-analyzer'),
+    gopls         =   jp(Tweaks.lsp.masonbinpath, 'gopls'),
+    nimls         =   jp(Tweaks.lsp.homepath, '/.nimble/bin/nimlangserver'),
+    texlab        =   jp(Tweaks.lsp.localbin, 'texlab'),
     clangd        =   '/usr/bin/clangd',
-    -- dartls        =   '/opt/flutter/bin/dart',
-    vimlsp        =   Tweaks.lsp.masonbinpath .. 'vim-language-server',
-    omnisharp     =   vim.fn.stdpath("data") .. "/omnisharp/OmniSharp",
+    vimlsp        =   jp(Tweaks.lsp.masonbinpath, 'vim-language-server'),
+    omnisharp     =   jp(vim.fn.stdpath("data"), "/omnisharp/OmniSharp"),
     metals        =   '/home/alex/.local/share/coursier/bin/metals',
-    basedpyright  =   Tweaks.lsp.masonbinpath .. 'basedpyright-langserver',
-    lua_ls        =   Tweaks.lsp.masonbinpath .. 'lua-language-server',
-    serve_d       =   Tweaks.lsp.localbin .. 'serve-d',
-    cssls         =   Tweaks.lsp.masonbinpath .. 'vscode-css-language-server',
-    tsserver      =   Tweaks.lsp.masonbinpath .. 'typescript-language-server',
-    html          =   Tweaks.lsp.masonbinpath .. 'vscode-html-language-server',
-    yamlls        =   Tweaks.lsp.masonbinpath .. 'yaml-language-server',
-    als           =   Tweaks.lsp.masonbinpath .. 'ada_language_server',
-    csharp_ls     =   Tweaks.lsp.masonbasepath .. "packages/csharpls/CSharpLanguageServer",
-    marksman      =   Tweaks.lsp.masonbinpath .. 'marksman',
-    lemminx       =   Tweaks.lsp.masonbinpath .. 'lemminx',
-    -- haskell       =   Tweaks.lsp.homepath .. '/.ghcup/hls/1.9.0.0/bin/haskell-language-server-9.4.4',
-    bashls        =   Tweaks.lsp.masonbinpath .. 'bash-language-server',
-    taplo         =   Tweaks.lsp.masonbinpath .. 'taplo',
-    emmet         =   Tweaks.lsp.masonbinpath .. 'emmet-language-server',
-    groovy        =   Tweaks.lsp.masonbinpath .. 'groovy-language-server',
-    roslyn        =   vim.fn.stdpath("data") .. "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll",
-    jsonls        =   Tweaks.lsp.masonbinpath .. "vscode-json-language-server",
-    zls           =   Tweaks.lsp.localbin .. "zls",
-    ccls          =   Tweaks.lsp.localbin .. "ccls"
+    basedpyright  =   jp(Tweaks.lsp.masonbinpath, 'basedpyright-langserver'),
+    lua_ls        =   jp(Tweaks.lsp.masonbinpath, 'lua-language-server'),
+    serve_d       =   jp(Tweaks.lsp.localbin .. 'serve-d'),
+    cssls         =   jp(Tweaks.lsp.masonbinpath, 'vscode-css-language-server'),
+    tsserver      =   jp(Tweaks.lsp.masonbinpath, 'typescript-language-server'),
+    html          =   jp(Tweaks.lsp.masonbinpath, 'vscode-html-language-server'),
+    yamlls        =   jp(Tweaks.lsp.masonbinpath, 'yaml-language-server'),
+    als           =   jp(Tweaks.lsp.masonbinpath, 'ada_language_server'),
+    csharp_ls     =   jp(Tweaks.lsp.masonbasepath, "packages/csharpls/CSharpLanguageServer"),
+    marksman      =   jp(Tweaks.lsp.masonbinpath, 'marksman'),
+    lemminx       =   jp(Tweaks.lsp.masonbinpath, 'lemminx'),
+    bashls        =   jp(Tweaks.lsp.masonbinpath, 'bash-language-server'),
+    taplo         =   jp(Tweaks.lsp.masonbinpath, 'taplo'),
+    emmet         =   jp(Tweaks.lsp.masonbinpath, 'emmet-language-server'),
+    groovy        =   jp(Tweaks.lsp.masonbinpath, 'groovy-language-server'),
+    roslyn        =   jp(vim.fn.stdpath("data"), "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll"),
+    jsonls        =   jp(Tweaks.lsp.masonbinpath, "vscode-json-language-server"),
+    zls           =   jp(Tweaks.lsp.localbin, "zls"),
+    ccls          =   jp(Tweaks.lsp.localbin, "ccls")
   },
   -- the roslyn language server is now sufficiently stable for development and supported by
   -- a stable plugin. Alternatives are still "omnisharp" and "csharp_ls", but both are not
@@ -284,7 +282,6 @@ Tweaks.numberwidth_rel = 5
 Tweaks.signcolumn = "yes:3"
 
 Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
---Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
 
 -- settings for the fortune cookie split
 Tweaks.fortune = {
@@ -301,7 +298,7 @@ Tweaks.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and tr
 
 -- the key prefix used for various utility functions. See keymap.lua
 Tweaks.keymap = {
-  utility_key = "<C-l>",
+  utility_key = "<f18>",
   mapleader = ",",
   fzf_prefix = "<C-q>"
 }
@@ -363,7 +360,7 @@ Tweaks.srclocations = { "src", "source", "sources", "SRC", "Src", "SOURCE", "Sou
 Tweaks.cokeline = {
   closebutton = false,
   underline = false,
-  active_tab_style = "full_padded",
+  active_tab_style = "half_padded",
   styles = {
     slanted = {
       left = "",

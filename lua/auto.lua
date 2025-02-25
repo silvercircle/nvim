@@ -7,18 +7,18 @@ local agroup_hl = vim.api.nvim_create_augroup("hl", {})
 local Wsplit = require("subspace.content.wsplit")
 Wsplit.freeze = true
 local Usplit = require("subspace.content.usplit")
-local tsc = require("treesitter-context")
+local Tsc = require("treesitter-context")
 local marks = require("subspace.lib.marks")
-local treeft = vim.g.tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree"
+local treeft = Tweaks.tree.filetype
 
 -- local ibl = require('indent_blankline')
 
 --- on leave, write the permanent settings file
 autocmd({ 'VimLeave' }, {
   callback = function()
-    if Config.plain == false then
+    if CFG.plain == false then
       -- vim.system({ 'tmux', 'set', '-qg', 'allow-passthrough', 'off' }, { text = true })
-      __Globals.write_config()
+      CGLOBALS.write_config()
     end
   end,
   group = agroup_views
@@ -35,8 +35,8 @@ autocmd({ 'VimEnter' }, {
     end
     -- internal theme can be disabled via tweaks. This allows 
     -- to use an external theme
-    if vim.g.tweaks.theme.disable == false then
-      Config.theme.set()
+    if Tweaks.theme.disable == false then
+      CFG.theme.set()
     end
     -- support textwidth and formatoptions roperties via editorconfig files
     econfig.properties.textwidth = function(bufnr, val, _)
@@ -59,13 +59,13 @@ local function main_layout()
   end
 
   did_UIEnter = true
-  __Globals.main_winid = vim.fn.win_getid()
-  if Config.plain == false then
+  CGLOBALS.main_winid = vim.fn.win_getid()
+  if CFG.plain == false then
     if PCFG.tree.active == true then
-      __Globals.open_tree()
+      CGLOBALS.open_tree()
     end
     if PCFG.terminal.active == true then
-      vim.schedule(function() __Globals.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(__Globals.main_winid) end)
+      vim.schedule(function() CGLOBALS.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(CGLOBALS.main_winid) end)
     end
     -- create the WinResized watcher to keep track of the terminal split height.
     -- also call the resize handlers for the usplit/wsplit frames.
@@ -74,9 +74,9 @@ local function main_layout()
       callback = function(sizeevent)
         require("subspace.content.usplit").resize_or_closed(sizeevent)
         if sizeevent.event == "WinClosed" then
-          if __Globals.term.winid ~= nil and vim.api.nvim_win_is_valid(__Globals.term.winid) == false then
-            __Globals.term.winid = nil
-            __Globals.term.visible = false
+          if CGLOBALS.term.winid ~= nil and vim.api.nvim_win_is_valid(CGLOBALS.term.winid) == false then
+            CGLOBALS.term.winid = nil
+            CGLOBALS.term.visible = false
           end
           if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) == false then
             Wsplit.winid = nil
@@ -86,31 +86,31 @@ local function main_layout()
           end
           local id = sizeevent.match
           local status, target = pcall(vim.api.nvim_win_get_var, tonumber(id), "termheight")
-          if status and __Globals.term.winid ~= nil then
-            vim.schedule(function() vim.api.nvim_win_set_height(__Globals.term.winid, tonumber(target)) end)
+          if status and CGLOBALS.term.winid ~= nil then
+            vim.schedule(function() vim.api.nvim_win_set_height(CGLOBALS.term.winid, tonumber(target)) end)
           end
         end
         if sizeevent.event == "WinResized" then
-          if __Globals.term.winid ~= nil then
-            PCFG.terminal.height = vim.api.nvim_win_get_height(__Globals.term.winid)
+          if CGLOBALS.term.winid ~= nil then
+            PCFG.terminal.height = vim.api.nvim_win_get_height(CGLOBALS.term.winid)
           end
           Wsplit.set_minheight()
           Wsplit.refresh()
-          local status = __Globals.is_outline_open()
-          local tree = __Globals.findwinbyBufType(treeft)
+          local status = CGLOBALS.is_outline_open()
+          local tree = CGLOBALS.findWinByFiletype(treeft)
           if status.outline ~= 0 then
             PCFG.outline.width = vim.api.nvim_win_get_width(status.outline)
           end
           if status.aerial ~= 0 then
             PCFG.outline.width = vim.api.nvim_win_get_width(status.aerial)
           end
-          if PCFG.outline.width < Config.outline_width then
-            PCFG.outline.width = Config.outline_width
+          if PCFG.outline.width < CFG.outline_width then
+            PCFG.outline.width = CFG.outline_width
           end
           if #tree > 0 and tree[1] ~= nil then
             PCFG.tree.width = vim.api.nvim_win_get_width(tree[1])
-            if PCFG.tree.width < Config.filetree_width then
-              PCFG.tree.width = Config.filetree_width
+            if PCFG.tree.width < CFG.filetree_width then
+              PCFG.tree.width = CFG.filetree_width
             end
           end
         end
@@ -121,16 +121,16 @@ local function main_layout()
     if PCFG.weather.active == true then
       Wsplit.freeze = true
       Wsplit.content = PCFG.weather.content
-      Wsplit.content_set_winid(__Globals.main_winid)
+      Wsplit.content_set_winid(CGLOBALS.main_winid)
     end
     if PCFG.sysmon.active then
       Usplit.content = PCFG.sysmon.content
     end
     if PCFG.transbg == true then
-      Config.theme.set_bg()
+      CFG.theme.set_bg()
     end
   end
-  vim.fn.win_gotoid(__Globals.main_winid)
+  vim.fn.win_gotoid(CGLOBALS.main_winid)
 end
 
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
@@ -146,7 +146,7 @@ autocmd({ "UIEnter" }, {
 -- force refresh lualine on ModeChanged event. This allows for higher debounce timers
 -- (= better performance) and still get instant response for mode changes (which I feel
 -- is important)
-if vim.g.tweaks.statusline.version == "lualine" then
+if Tweaks.statusline.version == "lualine" then
   autocmd( { "ModeChanged" }, {
     pattern = "*",
     callback = function()
@@ -160,8 +160,8 @@ end
 autocmd({ 'bufwritepost' }, {
   pattern = "*",
   callback = function()
-    if vim.g.tweaks.mkview_on_save == true then
-      __Globals.mkview()
+    if Tweaks.mkview_on_save == true then
+      CGLOBALS.mkview()
     end
   end,
   group = agroup_views
@@ -171,8 +171,8 @@ autocmd({ 'bufwritepost' }, {
 autocmd({ 'bufwinleave' }, {
   pattern = "*",
   callback = function()
-    if vim.g.tweaks.mkview_on_leave == true then
-      __Globals.mkview()
+    if Tweaks.mkview_on_leave == true then
+      CGLOBALS.mkview()
     end
   end,
   group = agroup_views
@@ -185,18 +185,18 @@ autocmd({ 'BufEnter' }, {
   pattern = "*",
   callback = function(args)
     if vim.api.nvim_buf_get_option(args.buf, "buftype") == '' then
-      local val = __Globals.get_buffer_var(args.buf, "tsc")
+      local val = CGLOBALS.get_buffer_var(args.buf, "tsc")
       if val == true then
-        vim.schedule(function() tsc.enable() end)
+        vim.schedule(function() Tsc.enable() end)
       else
-        vim.schedule(function() tsc.disable() end)
+        vim.schedule(function() Tsc.disable() end)
       end
-      val = __Globals.get_buffer_var(args.buf, "inlayhints")
+      val = CGLOBALS.get_buffer_var(args.buf, "inlayhints")
       if val == true or val == false then
         vim.lsp.inlay_hint.enable(val, { bufnr = args.buf } )
       end
     end
-    __Globals.get_bufsize()
+    CGLOBALS.get_bufsize()
     Wsplit.content_set_winid(vim.fn.win_getid())
     if Wsplit.content == 'info' then
       vim.schedule(function() Wsplit.refresh() end)
@@ -207,7 +207,7 @@ autocmd({ 'BufEnter' }, {
   group = agroup_views
 })
 
--- local bufread_first = true
+local bufread_first = true
 -- restore view when reading a file
 autocmd({ 'BufReadPost' }, {
   pattern = "*",
@@ -218,11 +218,11 @@ autocmd({ 'BufReadPost' }, {
       vim.cmd("silent! loadview")
       -- this (UGLY) hack was needed for a while during 0.11 development to fix some issues
       -- with folds not being restored from loaded view.
-
+      --
       --if bufread_first == true and Config.nightly == true then
       --  bufread_first = false
-      --  --vim.schedule(function() vim.cmd("silent! loadview") end)
-      --  vim.cmd("silent! loadview")
+      --  vim.schedule(function() vim.cmd("silent! loadview") end)
+      --  -- vim.cmd("silent! loadview")
       --else
       --  vim.cmd("silent! loadview")
       --end
@@ -269,7 +269,7 @@ autocmd({ 'FileType' }, {
       "silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=\\ \\ Outline" ..
       "\\ (" ..
       PCFG.outline_filetype ..
-      ") | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:TreeCursorLine | hi nCursor blend=0")
+      ") | setlocal winhl=Normal:TreeNormalNC,CursorLine:TreeCursorLine | hi nCursor blend=0")
       -- aerial can set its own statuscolumn
       if args.match == 'Outline' then
         vim.cmd("silent! setlocal statuscolumn=")
@@ -281,14 +281,14 @@ autocmd({ 'FileType' }, {
       vim.defer_fn(function() vim.cmd("setlocal cursorline") end, 400)
     elseif args.match == "qf" or args.match == "replacer" then
       --if #__Globals.findwinbyBufType("sysmon") > 0 or #__Globals.findwinbyBufType("weather") > 0 then
-      --  vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber | wincmd J")
+      --  vim.cmd("setlocal statuscolumn=%#TreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber | wincmd J")
       --else
-      --  vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber")
+      --  vim.cmd("setlocal statuscolumn=%#TreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber")
       --end
-      vim.cmd("setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual")
+      vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual")
       -- vim.api.nvim_win_set_height(__Globals.term.winid, PCFG.terminal.height)
     elseif args.match == "Trouble" then
-      if __Globals.term.winid ~= nil then
+      if CGLOBALS.term.winid ~= nil then
         vim.api.nvim_win_set_var(0, "termheight", PCFG.terminal.height)
       end
     elseif vim.tbl_contains(tabstop_pattern, args.match) then
@@ -299,7 +299,7 @@ autocmd({ 'FileType' }, {
     -- metals, attach on filetype
     elseif args.match == "scala" or args.match == "sbt" then
       require("metals").initialize_or_attach({
-        capabilities = __Globals.get_lsp_capabilities(),
+        capabilities = CGLOBALS.get_lsp_capabilities(),
         settings = {
           metalsBinaryPath = vim.g.lsp_server_bin["metals"]
         }
@@ -327,13 +327,13 @@ autocmd({ 'WinEnter' }, {
   callback = function()
     Wsplit.content_set_winid(vim.fn.win_getid())
     if Wsplit.content == 'info' then
-      __Globals.get_bufsize()
+      CGLOBALS.get_bufsize()
       vim.schedule(function() Wsplit.refresh() end)
     end
 
     local filetype = vim.bo.filetype
     if vim.tbl_contains(enter_leave_filetypes, filetype) then
-      vim.cmd("setlocal winhl=CursorLine:TreeCursorLine,Normal:NeoTreeNormalNC | hi nCursor blend=100")
+      vim.cmd("setlocal winhl=CursorLine:TreeCursorLine,Normal:TreeNormalNC | hi nCursor blend=100")
     end
     -- HACK: NvimTree and outline windows will complain about the buffer being not modifiable
     -- when insert mode is active. So stop it and remember its state
@@ -391,7 +391,7 @@ delcmd = autocmd( { 'BufReadPost' }, {
     end
     _delayloaded = true
     vim.defer_fn(function() require("plugins.commandpicker_addcommands") end, 200)
-    if Config.plain == false then
+    if CFG.plain == false then
       --vim.system({ 'tmux', 'set', '-qg', 'allow-passthrough', 'all' }, { text = true })
     end
     vim.schedule(function() _delcmd() end)

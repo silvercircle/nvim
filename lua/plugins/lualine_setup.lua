@@ -34,8 +34,11 @@ local function get_permissions_color()
 end
 
 local function status()
-  return (__Globals.get_buffer_var(0, "tsc") == true and "C" or "c") ..
-         (__Globals.get_buffer_var(0, "inlayhints") == true and "I" or "i")
+  local s, val = pcall(vim.api.nvim_buf_get_var, -1, "completion")
+  local mode = not (s == true and val == false )
+  return (CGLOBALS.get_buffer_var(0, "tsc") == true and "C" or "c") ..
+         (CGLOBALS.get_buffer_var(0, "inlayhints") == true and "I" or "i") ..
+         (mode and "A" or "a")
 end
 
 local function status_indicators()
@@ -103,7 +106,7 @@ end
 setup_theme()
 
 local function getWordsV2()
-  if __Globals.cur_bufsize > Config.wordcount_limit * 1024 * 1024 then
+  if CGLOBALS.cur_bufsize > CFG.wordcount_limit * 1024 * 1024 then
     return "NaN"
   end
   local wc = vim.fn.wordcount()
@@ -184,7 +187,7 @@ require("lualine").setup({
     lualine_b = { "branch", "diff", "diagnostics"  },
     lualine_c = {"filename", "searchcount"--[[, { get_permissions_color }]] },
     lualine_x = {
-      { indentstats },
+      { indentstats, cond = function() return PCFG.statusline_declutter < 3 and true or false end },
       {
         -- show unicode for character under cursor in hex and decimal
         -- "%05B - %06b",
@@ -194,11 +197,11 @@ require("lualine").setup({
         end
       },
       "filetype",
-      "fileformat",
+      { "fileformat", cond = function() return PCFG.statusline_declutter < 2 and true or false end },
       { status },
-      { "encoding", draw_empty=false, cond = function() return PCFG.statusline_declutter < 3 and true or false end }
+      { "encoding", draw_empty=false, cond = function() return PCFG.statusline_declutter < 2 and true or false end }
     },
-    lualine_y = { { "progress", cond = function() return PCFG.statusline_declutter < 2 and true or false end, draw_empty=false} },
+    lualine_y = { { "progress", cond = function() return PCFG.statusline_declutter < 1 and true or false end, draw_empty=false} },
     -- word counter via custom function
     lualine_z = { { getWordsV2 }, "location" },
   },
@@ -264,10 +267,9 @@ require("lualine").setup({
       }
     }
   },
-  inactive_winbar = vim.g.tweaks.breadcrumb ~= 'dropbar' and {
-    -- lualine_x = { { win_pad, color = 'Normal' } },
-    lualine_z = { { full_filename, color = 'WinBarNC' }, 'tabs' }
-  } or {},
+  inactive_winbar = {
+    lualine_a = { { full_filename, color = 'WinBarNC' } }
+  },
   extensions = {my_extension},
 })
 

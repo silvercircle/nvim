@@ -2,7 +2,7 @@
 local utils = require("subspace.lib")
 local cmp_helper = {}
 
-local T = vim.g.tweaks.cmp
+local T = Tweaks.cmp
 
 local function reverse_hl_groups()
   local groups = {
@@ -318,10 +318,10 @@ cmp.setup({
         get_bufnrs = function()
           local buf = vim.api.nvim_get_current_buf()
           local ft = vim.api.nvim_buf_get_option(buf, "filetype")
-          if Config.cmp.buffer_ft_allowed[ft] == nil then
+          if CFG.cmp.buffer_ft_allowed[ft] == nil then
             return {}
           end
-          if __Globals.cur_bufsize > T.buffer_maxsize then -- 300kb
+          if CGLOBALS.cur_bufsize > T.buffer_maxsize then -- 300kb
             vim.notify("File " .. vim.api.nvim_buf_get_name(buf) .. " too big, cmp_buffer disabled.", vim.log.levels.INFO)
             return {}
           end
@@ -400,7 +400,7 @@ cmp_helper.compare = {
   end
 }
 
-__Globals.cmp_setup_done = true
+CGLOBALS.cmp_setup_done = true
 
 local M = {}
 
@@ -432,7 +432,7 @@ function M.setup_theme(theme, decoration, decoration_doc)
   --if theme == "experimental" then
   --  kind_attr = { bold=true, reverse=true }
   --end
-  Config.theme.setup({
+  CFG.theme.setup({
     attrib = {
       dark = {
         cmpkind = kind_attr
@@ -442,11 +442,11 @@ function M.setup_theme(theme, decoration, decoration_doc)
       }
     }
   })
-  Config.theme.set()
+  CFG.theme.set()
   cmp.setup({
     window = {
       documentation = {
-        -- border = vim.g.tweaks.borderfactory(T.decorations[decoration_doc].border),
+        -- border = Tweaks.borderfactory(T.decorations[decoration_doc].border),
         border = Borderfactory("thicc"),
         winhighlight = T.decorations[decoration_doc].whl_doc
       },

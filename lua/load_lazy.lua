@@ -37,7 +37,7 @@ lazy.setup({
   },
   {
     "brenton-leighton/multiple-cursors.nvim",
-    cond = vim.g.tweaks.multicursor == "brenton-leighton",
+    cond = Tweaks.multicursor == "brenton-leighton",
     version = "*", -- Use the latest tagged version
     keys = {
       { "<C-Down>",      "<Cmd>MultipleCursorsAddDown<CR>",          mode = { "n", "i" } },
@@ -54,24 +54,10 @@ lazy.setup({
   },
   {
     "jake-stewart/multicursor.nvim",
-    cond = vim.g.tweaks.multicursor == "jake-stewart",
+    cond = Tweaks.multicursor == "jake-stewart",
     branch = "1.0",
     config = function()
       require("plugins.others").setup.multicursor_stewart()
-    end
-  },
-  {
-    --(vim.g.tweaks.use_foldlevel_patch == true) and "silvercircle/fidget.nvim" or "j-hui/fidget.nvim",
-    "silvercircle/fidget.nvim",
-    cond = vim.g.tweaks.notifier == "fidget",
-    branch = "mine",
-    lazy = true,
-    event = "BufReadPre",
-    dependencies = {
-      'MunifTanjim/nui.nvim',
-    },
-    config = function()
-      require("plugins.others").setup.fidget()
     end
   },
   'nvim-lua/plenary.nvim',
@@ -112,7 +98,7 @@ lazy.setup({
         telescope_theme = require("subspace.lib").Telescope_dropdown_theme,
         picker = "snacks",
         snacks_layout = SPL( { width = 120, height = 20, row = 5, input = "top" }),
-        fzf_winopts = vim.g.tweaks.fzf.winopts.narrow_small_preview,
+        fzf_winopts = Tweaks.fzf.winopts.narrow_small_preview,
         explorer_layout = SPL( { width = 70 })
       })
     end
@@ -145,7 +131,7 @@ lazy.setup({
     build = "cargo build --release",
     lazy = true,
     event = "ModeChanged",
-    cond = vim.g.tweaks.completion.version == "blink",
+    cond = Tweaks.completion.version == "blink",
     config = function()
       require("plugins.blink")
     end,
@@ -158,7 +144,7 @@ lazy.setup({
       { 'windwp/nvim-autopairs',
         config = function()
           require("nvim-autopairs").setup({})
-          if __Globals.perm_config.autopair then
+          if CGLOBALS.perm_config.autopair then
             require("nvim-autopairs").enable()
           else
             require("nvim-autopairs").disable()
@@ -213,59 +199,6 @@ lazy.setup({
       require("plugins.snacks_setup")
     end
   },
-  {
-    "saghen/blink.nvim",
-    -- all modules handle lazy loading internally
-    lazy = false,
-    cond = vim.g.tweaks.indent.version == "blink",
-    opts = {
-      indent = {
-        enabled = true,
-        -- start with indent guides visible
-        visible = true,
-        blocked = {
-          buftypes = {'nofile', 'prompt', 'terminal'},
-          filetypes = {'alpha', 'help', 'sysmon'},
-        },
-        static = {
-          enabled = true,
-          char = "│",
-          priority = 1,
-          --highlights = { 'BlinkIndentRed', 'BlinkIndentOrange', 'BlinkIndentYellow', 'BlinkIndentGreen', 'BlinkIndentViolet', 'BlinkIndentCyan' },         -- specify multiple highlights here for rainbow-style indent guides
-          highlights = { "IndentBlankLineChar" },
-        },
-        scope = {
-          enabled = true,
-          char = "┃",
-          priority = 1024,
-          -- set this to a single highlight, such as 'BlinkIndent' to disable rainbow-style indent guides
-          -- highlights = { 'BlinkIndent' },
-          highlights = {
-            "IndentBlanklineIndent1",
-            "IndentBlanklineIndent2",
-            "IndentBlanklineIndent3",
-            "IndentBlanklineIndent4",
-            "IndentBlanklineIndent5",
-            "IndentBlanklineIndent6",
-            "IndentBlanklineIndent6",
-          },
-          underline = {
-            -- enable to show underlines on the line above the current scope
-            enabled = false,
-            highlights = {
-              "BlinkIndentRedUnderline",
-              "BlinkIndentYellowUnderline",
-              "BlinkIndentBlueUnderline",
-              "BlinkIndentOrangeUnderline",
-              "BlinkIndentGreenUnderline",
-              "BlinkIndentVioletUnderline",
-              "BlinkIndentCyanUnderline",
-            },
-          },
-        },
-      },
-    },
-  },
   --{
   --  'lukas-reineke/indent-blankline.nvim',
   --  event = "BufReadPost",
@@ -278,7 +211,7 @@ lazy.setup({
     event = "BufReadPre",
     config = function()
       require("plugins.nvim-scrollbar")
-      __Globals.set_scrollbar()
+      CGLOBALS.set_scrollbar()
     end,
     dependencies = {
       {
@@ -334,31 +267,12 @@ lazy.setup({
   },
   {
     'nvim-tree/nvim-tree.lua',
-    cond = vim.g.tweaks.tree.version == "Nvim",
+    cond = Tweaks.tree.version == "Nvim",
     lazy = true,
     config = function()
       require("plugins.nvim-tree")
     end
   },
-  --{
-  --  'nvim-neo-tree/neo-tree.nvim',
-  --  cond = vim.g.tweaks.tree.version == "Neo",
-  --  config = function()
-  --    require("plugins.neotree")
-  --  end,
-  --  event = "VeryLazy",
-  --  dependencies = {
-  --    'MunifTanjim/nui.nvim',
-  --    {
-  --      's1n7ax/nvim-window-picker',
-  --      config = function()
-  --        require("window-picker").setup({
-  --          hint = 'floating-big-letter'
-  --        })
-  --      end
-  --    }
-  --  }
-  --},
   {
     "zk-org/zk-nvim",
     lazy = true,
@@ -372,13 +286,6 @@ lazy.setup({
     event = "BufReadPre",
     config = function()
       require("plugins.todo")
-    end
-  },
-  {
-    'goolord/alpha-nvim',
-    branch = "main",
-    config = function()
-      require("plugins.alpha")
     end
   },
   --{
@@ -461,7 +368,7 @@ lazy.setup({
   --},
   {
     'seblyng/roslyn.nvim',
-    cond = (vim.g.tweaks.lsp.csharp == "roslyn"),
+    cond = (Tweaks.lsp.csharp == "roslyn"),
     ft = { "cs", "razor" },
     config = function()
       require("plugins.roslyn")

@@ -6,11 +6,11 @@ Usplit.cookie = {}
 Usplit.width = 0
 
 local timer = nil
-local num_cookies = vim.g.tweaks.fortune.numcookies or 1
-local cookie_command = vim.g.tweaks.fortune.command
+local num_cookies = Tweaks.fortune.numcookies or 1
+local cookie_command = Tweaks.fortune.command
 
 -- timer interval is in minutes. We accept nothing lower than one minute
-local timer_interval = vim.g.tweaks.fortune.refresh * 60 * 1000
+local timer_interval = Tweaks.fortune.refresh * 60 * 1000
 if timer_interval < 60000 then
   timer_interval = 60000
 end
@@ -116,7 +116,7 @@ end
 --- system monitor in it. See: https://nicolargo.github.io/glances/
 function Usplit.open()
   local width = PCFG.sysmon.width
-  local wid = __Globals.findwinbyBufType("terminal")
+  local wid = CGLOBALS.findWinByFiletype("terminal")
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   -- glances must be executable otherwise do nothing
   -- also, a terminal split must be present.
@@ -130,7 +130,7 @@ function Usplit.open()
         "rightbelow "
           .. width
           .. " vsplit|terminal glances --disable-plugin all --disable-bg --enable-plugin "
-          .. Config.sysmon.modules
+          .. CFG.sysmon.modules
           .. " --time 3"
       )
       Usplit.winid = vim.fn.win_getid()
@@ -154,7 +154,7 @@ function Usplit.open()
     vim.api.nvim_buf_set_option(Usplit.bufid, "buflisted", false)
     vim.api.nvim_win_set_option(Usplit.winid, "list", false)
     vim.cmd(
-      "setlocal statuscolumn=%#NeoTreeNormalNC#\\ |set winfixheight | setlocal winbar= |set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC | set foldcolumn=0 | setlocal nocursorline"
+      "setlocal statuscolumn=%#TreeNormalNC#\\ |set winfixheight | setlocal winbar= |set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=SignColumn:TreeNormalNC,Normal:TreeNormalNC | set foldcolumn=0 | setlocal nocursorline"
     )
     vim.fn.win_gotoid(curwin)
   end
