@@ -253,12 +253,12 @@ function Utils.StopLsp()
     format = function(item)
       local entry = {}
       local pos = #entry
-      local hl = item.buffers > 0 and "DeepRedBold" or "Number"
+      local hl = item.buffers > 0 and "Red" or "Green"
 
-      entry[pos + 1] = { Align("ID:" .. tostring(item.id), 6, { align="right" }), hl }
-      entry[pos + 2] = { Align(" " .. item.name, 25, { align="left" }), hl }
-      entry[pos + 3] = { Align(tostring(item.buffers) .. (item.buffers == 1 and " Buffer" or " Buffers"), 20, { align="right" }), hl }
-      entry[pos + 4] = { Align(item.type, 40, { align="right" }), hl }
+      entry[pos + 1] = { Align("ID:" .. tostring(item.id), 6, { align="right" }), "Fg" }
+      entry[pos + 2] = { Align(" " .. item.name, 25, { align="left" }), "Fg" }
+      entry[pos + 3] = { Align(string.format("%3d", item.buffers) .. (item.buffers == 1 and " Buffer " or " Buffers"), 20, { align="right" }), hl }
+      entry[pos + 4] = { Align(item.type, 45, { align="right" }), "String" }
 
       return entry
     end,
@@ -485,10 +485,9 @@ end
 function Utils.simplepicker(entries, fn, opts)
   opts = opts or {}
   local prompt = opts.prompt or ""
-  local utils = require("subspace.lib")
   local Snacks = require("snacks")
   local Align = Snacks.picker.util.align
-  local maxlength = utils.getLongestString(entries, "text")
+  local maxlength = Utils.getLongestString(entries, "text")
 
   maxlength = vim.fn.strwidth(prompt) <= maxlength and maxlength or vim.fn.strwidth(prompt)
 
