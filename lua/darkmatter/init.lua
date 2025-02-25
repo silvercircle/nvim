@@ -600,14 +600,13 @@ local function set_all()
   M.link("diffIndexLine", "DarkPurple")
 
   -- allow neotree and other addon panels have different backgrounds
-  M.hl_with_defaults("NeoTreeNormalNC", M.P.fg_dim, M.P.treebg)
-  M.hl_with_defaults("NeoTreeNormal", M.P.fg, M.P.treebg)
-  M.hl_with_defaults("NeoTreeFloatBorder", M.P.grey_dim, M.P.treebg)
+  M.hl_with_defaults("TreeNormalNC", M.P.fg_dim, M.P.treebg)
+  M.hl_with_defaults("TreeNormal", M.P.fg, M.P.treebg)
   M.hl("NeoTreeFileNameOpened", M.P.blue, M.P.treebg, conf.attrib.italic)
   M.hl_with_defaults("SymbolsOutlineConnector", M.P.grey_dim, M.NONE)
   M.hl_with_defaults("TreeCursorLine", M.NONE, M.P.c3)
   M.hl_with_defaults("NotifierTitle", M.P.yellow, M.NONE)
-  M.link("NotifierContent", "NeoTreeNormalNC")
+  M.link("NotifierContent", "TreeNormalNC")
 
   -- Treesitter stuff
   M.hl_with_defaults("TreesitterContext", M.NONE, M.P.bg)
@@ -616,7 +615,6 @@ local function set_all()
   M.link("OutlineGuides", "SymbolsOutlineConnector")
   M.link("OutlineFoldMarker", "SymbolsOutlineConnector")
   M.link("NeoTreeCursorLine", "TreeCursorLine")
-  M.link("AerialGuide", "SymbolsOutlineConnector")
 
   -- WinBar
   M.hl_with_defaults("WinBarFilename", M.P.fg, M.P.accent)                                   -- Filename (right hand)
@@ -669,7 +667,7 @@ end
 
 function M.disable()
   conf.disabled = true
-  vim.cmd("hi! link NeoTreeNormalNC NeoTreeNormal")
+  vim.cmd("hi! link TreeNormalNC TreeNormal")
 end
 
 --- call the configured (if any) callback function to indicate what
@@ -731,8 +729,8 @@ function M.set_bg()
   if conf.is_trans == true then
     -- remove background colors from all relevant areas
     vim.api.nvim_set_hl(0, "Normal", { bg = "none", fg = "fg" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
+    vim.api.nvim_set_hl(0, "TreeNormal", { bg = "none" })
+    vim.api.nvim_set_hl(0, "TreeNormalNC", { bg = "none" })
     vim.cmd("hi VertSplit guibg=none")
     vim.cmd("hi LineNr guibg=none")
     vim.cmd("hi FoldColumn guibg=none")
@@ -741,8 +739,8 @@ function M.set_bg()
   else
     local variant = conf.variant
     vim.api.nvim_set_hl(0, "Normal", { bg = M.T[variant].bg, fg = "fg" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = M.T[variant].treebg, fg = "fg" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = M.T[variant].treebg, fg = "fg" })
+    vim.api.nvim_set_hl(0, "TreeNormal", { bg = M.T[variant].treebg, fg = "fg" })
+    vim.api.nvim_set_hl(0, "TreeNormalNC", { bg = M.T[variant].treebg, fg = "fg" })
     vim.cmd("hi VertSplit guibg=" .. M.T[variant].treebg)
     vim.cmd("hi LineNr guibg=" .. M.T[variant].gutterbg)
     vim.cmd("hi FoldColumn guibg=" .. M.T[variant].gutterbg)
