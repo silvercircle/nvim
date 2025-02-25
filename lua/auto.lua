@@ -269,7 +269,7 @@ autocmd({ 'FileType' }, {
       "silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=\\ \\ Outline" ..
       "\\ (" ..
       PCFG.outline_filetype ..
-      ") | setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:TreeCursorLine | hi nCursor blend=0")
+      ") | setlocal winhl=Normal:TreeNormalNC,CursorLine:TreeCursorLine | hi nCursor blend=0")
       -- aerial can set its own statuscolumn
       if args.match == 'Outline' then
         vim.cmd("silent! setlocal statuscolumn=")
@@ -281,11 +281,11 @@ autocmd({ 'FileType' }, {
       vim.defer_fn(function() vim.cmd("setlocal cursorline") end, 400)
     elseif args.match == "qf" or args.match == "replacer" then
       --if #__Globals.findwinbyBufType("sysmon") > 0 or #__Globals.findwinbyBufType("weather") > 0 then
-      --  vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber | wincmd J")
+      --  vim.cmd("setlocal statuscolumn=%#TreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber | wincmd J")
       --else
-      --  vim.cmd("setlocal statuscolumn=%#NeoTreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber")
+      --  vim.cmd("setlocal statuscolumn=%#TreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber")
       --end
-      vim.cmd("setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual")
+      vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual")
       -- vim.api.nvim_win_set_height(__Globals.term.winid, PCFG.terminal.height)
     elseif args.match == "Trouble" then
       if CGLOBALS.term.winid ~= nil then
@@ -333,7 +333,7 @@ autocmd({ 'WinEnter' }, {
 
     local filetype = vim.bo.filetype
     if vim.tbl_contains(enter_leave_filetypes, filetype) then
-      vim.cmd("setlocal winhl=CursorLine:TreeCursorLine,Normal:NeoTreeNormalNC | hi nCursor blend=100")
+      vim.cmd("setlocal winhl=CursorLine:TreeCursorLine,Normal:TreeNormalNC | hi nCursor blend=100")
     end
     -- HACK: NvimTree and outline windows will complain about the buffer being not modifiable
     -- when insert mode is active. So stop it and remember its state

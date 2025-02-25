@@ -282,7 +282,6 @@ Tweaks.numberwidth_rel = 5
 Tweaks.signcolumn = "yes:3"
 
 Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
---Tweaks.cookie_source = 'curl -s -m 5 --connect-timeout 10 https://vtip.43z.one'
 
 -- settings for the fortune cookie split
 Tweaks.fortune = {

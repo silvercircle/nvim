@@ -22,7 +22,7 @@ require("aerial").setup({
     -- key-value pairs of window-local options for aerial window (e.g. winhl)
     win_opts = {
       winhl = "CursorLine:TreeCursorLine",
-      statuscolumn = "%#NeoTreeNormalNC#",
+      statuscolumn = "%#TreeNormalNC#",
     },
 
     -- Determines the default direction to open the aerial window. The 'prefer'
@@ -284,7 +284,7 @@ require("aerial").setup({
       ["<Esc>"] = "actions.close",
     },
     win_opts = {
-      winhl = "Normal:NeoTreeNormalNC,CursorLine:TreeCursorLine,FloatBorder:TelescopeBorder,nCursor:NoCursor"
+      winhl = "Normal:TreeNormalNC,CursorLine:TreeCursorLine,FloatBorder:TelescopeBorder,nCursor:NoCursor"
     }
   },
   treesitter = {

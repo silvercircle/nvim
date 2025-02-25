@@ -46,7 +46,7 @@ CFG = {
   statuscol_normal = '%s%=%l %C ',
   statuscol_rel = nvim_11 == 1 and '%s%=%l %C ' or "%s%=%r %C ",
   nvim_tree = true,
-  fortunecookie = "fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
+  fortunecookie = false, -- "fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
                                               -- needs fortune and cowsay installed.
                                               -- set to false or an empty string to disable
                                               -- set this to "" or false if your start screen throws errors.

@@ -154,7 +154,7 @@ function Usplit.open()
     vim.api.nvim_buf_set_option(Usplit.bufid, "buflisted", false)
     vim.api.nvim_win_set_option(Usplit.winid, "list", false)
     vim.cmd(
-      "setlocal statuscolumn=%#NeoTreeNormalNC#\\ |set winfixheight | setlocal winbar= |set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC | set foldcolumn=0 | setlocal nocursorline"
+      "setlocal statuscolumn=%#TreeNormalNC#\\ |set winfixheight | setlocal winbar= |set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=SignColumn:TreeNormalNC,Normal:TreeNormalNC | set foldcolumn=0 | setlocal nocursorline"
     )
     vim.fn.win_gotoid(curwin)
   end

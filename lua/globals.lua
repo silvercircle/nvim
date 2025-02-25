@@ -193,7 +193,7 @@ function M.tree_open_handler()
   vim.opt.statuscolumn = ''
   local w = vim.fn.win_getid()
   vim.api.nvim_win_set_option(w, 'statusline', '   ' .. (Tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"))
-  vim.cmd('setlocal winhl=Normal:NeoTreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
+  vim.cmd('setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
   vim.api.nvim_win_set_width(w, PCFG.tree.width)
   CGLOBALS.adjust_layout()
   if PCFG.weather.active == true then
@@ -393,7 +393,7 @@ function M.splittree(_factor)
     M.winid_bufferlist = vim.fn.win_getid()
     vim.api.nvim_win_set_option(M.winid_bufferlist, "list", false)
     vim.api.nvim_win_set_option(M.winid_bufferlist, "statusline", "Buffer List")
-    vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:NeoTreeNormalNC | set foldcolumn=0")
+    vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:TreeNormalNC | set foldcolumn=0")
     vim.fn.win_gotoid(M.main_winid)
     return M.winid_bufferlist
   end
@@ -450,7 +450,7 @@ function M.termToggle(_height)
   end
   -- configure the terminal window
   vim.cmd(
-    "setlocal statuscolumn=%#NeoTreeNormalNC#\\  | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=no | set winfixheight | set nocursorline | set winhl=SignColumn:NeoTreeNormalNC,Normal:NeoTreeNormalNC"
+    "setlocal statuscolumn=%#TreeNormalNC#\\  | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=no | set winfixheight | set nocursorline | set winhl=SignColumn:TreeNormalNC,Normal:TreeNormalNC"
   )
   M.term.winid = vim.fn.win_getid()
   vim.api.nvim_win_set_option(M.term.winid, "statusline", "  Terminal")

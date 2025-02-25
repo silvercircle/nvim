@@ -133,7 +133,7 @@ M.setup = {
         },
         win_config = {
           max_height = 30,
-          winhighlight = "Normal:NeoTreeNormalNC",
+          winhighlight = "Normal:TreeNormalNC",
           border = Borderfactory("thicc")
         }
       }
@@ -223,7 +223,7 @@ M.setup = {
     require("toggleterm").setup({
       highlights = {
         NormalFloat = {
-          link = "NeoTreeNormalNC"
+          link = "TreeNormalNC"
         },
         FloatBorder = {
           link = "TelescopeBorder"
