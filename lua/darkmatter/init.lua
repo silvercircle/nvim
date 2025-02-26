@@ -107,7 +107,7 @@ local conf = {
   -- post:      called after theme has been set
   plugins = {
     customize =  {},
-    hl = { "markdown", "syntax", "common" },
+    hl = { "markdown", "common", "blink", "snacks" },
     post = {}
   }
 }
