@@ -268,7 +268,7 @@ require("lualine").setup({
     }
   },
   inactive_winbar = {
-    lualine_z = { { full_filename, color = 'WinBarNC' }, 'tabs' }
+    lualine_a = { { full_filename, color = 'WinBarNC' } }
   },
   extensions = {my_extension},
 })

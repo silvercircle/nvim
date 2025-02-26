@@ -99,18 +99,22 @@ local function italizemenugroups()
     "CmpItemMenu", "CmpItemMenuPath", "CmpItemMenuDetail",
     "CmpItemMenuBuffer", "CmpItemMenuSnippet", "CmpItemMenuLSP" }
 
-  for _, v in ipairs(groups) do
-    local fg, bg, name
-    local hl = vim.api.nvim_get_hl(0, { name = v })
-    if hl.link ~= nil then
-      name = hl.link
-    else
-      name = v
-    end
-    fg = vim.api.nvim_get_hl(0, { name = name }).fg
-    bg = vim.api.nvim_get_hl(0, { name = name }).bg
-    vim.api.nvim_set_hl(0, v, { fg = fg, bg = bg, italic = true })
+  vim.iter(groups):map(function(k)
+    local hl = vim.api.nvim_get_hl(0, { name = k })
+    local name = hl.link or k
+    local fg = vim.api.nvim_get_hl(0, { name = name }).fg
+    local bg = vim.api.nvim_get_hl(0, { name = name }).bg
+    vim.api.nvim_set_hl(0, k, { fg = fg, bg = bg, italic = true })
   end
+  )
+  --for _, v in ipairs(groups) do
+  --  local fg, bg
+  --  local hl = vim.api.nvim_get_hl(0, { name = v })
+  --  local name = hl.link or v
+  --  fg = vim.api.nvim_get_hl(0, { name = name }).fg
+  --  bg = vim.api.nvim_get_hl(0, { name = name }).bg
+  --  vim.api.nvim_set_hl(0, v, { fg = fg, bg = bg, italic = true })
+  --end
 end
 
 function M.update_hl()
