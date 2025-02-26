@@ -131,7 +131,7 @@ function vim.g.setkey(modes, lhs, rhs, _desc)
   vim.keymap.set(modes, lhs, rhs, { noremap = true, silent = true, desc = _desc })
 end
 CGLOBALS=require("globals")
-PCFG = CGLOBALS.perm_config
+PCFG = require("subspace.lib.permconfig").perm_config
 
 vim.filetype.add({
   extension = {

@@ -30,69 +30,10 @@ M.ibl_highlight = {
   "IndentBlanklineChar",
 }
 
--- these are the defaults for the permanent configuration structure. it will be saved to a JSON
--- file on exit and read on startup.
-M.perm_config_default = {
-  sysmon = {
-    active = false,
-    width = CFG.sysmon.width,
-    content = "sysmon",
-  },
-  weather = {
-    active = false,
-    width = CFG.weather.width,
-    content = "info",
-  },
-  terminal = {
-    active = true,
-    height = 12,
-  },
-  tree = {
-    width = CFG.filetree_width,
-    active = true,
-  },
-  outline = {
-    width = CFG.outline_width,
-  },
-  statuscol_current = "normal",
-  blist = true,
-  blist_height = 0.33,
-  theme_variant = "warm",
-  transbg = false,
-  theme_palette = "vivid",
-  theme_strings = "yellow",
-  theme_scheme = "gruv",
-  debug = false,
-  ibl_rainbow = true,
-  ibl_enabled = true,
-  ibl_context = false,
-  scrollbar = true,
-  statusline_declutter = 0,
-  outline_filetype = "Outline",
-  treesitter_context = true,
-  show_indicators = true,
-  telescope_borders = "single",
-  float_borders = "single",
-  cmp_show_docs = true,
-  autopair = true,
-  cmp_layout = "classic",
-  cmp_autocomplete = Tweaks.cmp.autocomplete,
-  cmp_ghost = false,
-  lsp = {
-    inlay_hints = true
-  }
-}
-
-M.perm_config = {}
-
 -- ignore symbol types for the fast symbol browser (telescope)
 M.ignore_symbols = {
   lua = { "string", "object", "boolean", "number", "array", "variable" },
 }
-
-local function get_permconfig_filename()
-  return vim.fn.stdpath("state") .. "/permconfig.json"
-end
 
 function M.open_with_fzf(cwd)
   if vim.fn.isdirectory(cwd) then
@@ -109,18 +50,18 @@ function M.open_outline()
   if buftype ~= "" then  --current buffer is no ordinary file. Ignore it.
     return
   end
-  if M.perm_config.outline_filetype == "Outline" then
+  if PCFG.outline_filetype == "Outline" then
     vim.cmd("OutlineOpen")
-  elseif M.perm_config.outline_filetype == "aerial" then
+  elseif PCFG.outline_filetype == "aerial" then
     require("aerial").open()
   end
 end
 
 --- close the outline window
 function M.close_outline()
-  if M.perm_config.outline_filetype == "Outline" then
+  if PCFG.outline_filetype == "Outline" then
     vim.cmd("OutlineClose")
-  elseif M.perm_config.outline_filetype == "aerial" then
+  elseif PCFG.outline_filetype == "aerial" then
     require("aerial").close()
   end
 end
@@ -144,12 +85,12 @@ end
 -- toggle the type of outline window to use between outline.nvim and aerial.
 function M.toggle_outline_type()
   M.close_outline()
-  if M.perm_config.outline_filetype == "aerial" then
-    M.perm_config.outline_filetype = "Outline"
-  elseif M.perm_config.outline_filetype == "Outline" then
-    M.perm_config.outline_filetype = "aerial"
+  if PCFG.outline_filetype == "aerial" then
+    PCFG.outline_filetype = "Outline"
+  elseif PCFG.outline_filetype == "Outline" then
+    PCFG.outline_filetype = "aerial"
   end
-  M.notify("Now using " .. M.perm_config.outline_filetype, vim.log.levels.INFO)
+  M.notify("Now using " .. PCFG.outline_filetype, vim.log.levels.INFO)
 end
 
 --- open the tree (file manager tree on the left). It can be either NvimTree
@@ -223,7 +164,7 @@ function M.set_statuscol(mode)
   if mode ~= nil and mode ~= "normal" and mode ~= "rel" then
     return
   end
-  M.perm_config.statuscol_current = mode
+  PCFG.statuscol_current = mode
   if Tweaks.use_foldlevel_patch == true then
     vim.o.statuscolumn = CFG["statuscol_" .. mode]
   end
@@ -242,11 +183,11 @@ end
 -- toggle statuscolum between absolute and relative line numbers
 -- by default, it is mapped to <C-l><C-l>
 function M.toggle_statuscol()
-  if M.perm_config.statuscol_current == "normal" then
+  if PCFG.statuscol_current == "normal" then
     M.set_statuscol("rel")
     return
   end
-  if M.perm_config.statuscol_current == "rel" then
+  if PCFG.statuscol_current == "rel" then
     M.set_statuscol("normal")
     return
   end
@@ -411,7 +352,7 @@ function M.close_qf_or_loc()
       if winid[i] > 0 and vim.api.nvim_win_is_valid(winid[i]) then
         vim.api.nvim_win_close(winid[i], {})
         if M.term.winid ~= nil then
-          vim.api.nvim_win_set_height(M.term.winid, M.perm_config.terminal.height)
+          vim.api.nvim_win_set_height(M.term.winid, PCFG.terminal.height)
         end
       end
     end
@@ -432,7 +373,7 @@ function M.termToggle(_height)
     M.term.winid = nil
     return
   end
-  local outline_win = M.findWinByFiletype(M.perm_config.outline_filetype)
+  local outline_win = M.findWinByFiletype(PCFG.outline_filetype)
 
   if outline_win[1] ~= nil and vim.api.nvim_win_is_valid(outline_win[1]) then
     M.close_outline()
@@ -459,8 +400,8 @@ function M.termToggle(_height)
   M.term.visible = true
 
   -- finally, open the sub frames if they were previously open
-  if M.perm_config.sysmon.active == true then
-    require("subspace.content.usplit").content = M.perm_config.sysmon.content
+  if PCFG.sysmon.active == true then
+    require("subspace.content.usplit").content = PCFG.sysmon.content
     require("subspace.content.usplit").open()
   end
 
@@ -473,140 +414,13 @@ function M.termToggle(_height)
   end
 end
 
---- write the configuration to the json file
---- do not write it when running in plain mode (without additional frames and content)
-function M.write_config()
-  if CFG.plain == true then
-    return
-  end
-  local file = get_permconfig_filename()
-  local f = io.open(file, "w+")
-  if f ~= nil then
-    local wsplit_id = require("subspace.content.wsplit").winid
-    local usplit_id = require("subspace.content.usplit").winid
-    local state = {
-      terminal = {
-        active = M.term.winid ~= nil and true or false,
-      },
-      weather = {
-        active = wsplit_id ~= nil and true or false,
-      },
-      sysmon = {
-        active = usplit_id ~= nil and true or false,
-      },
-      tree = {
-        active = #M.findWinByFiletype(Tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
-      }
-    }
-    if Tweaks.theme.disable == false then
-      local theme_conf = CFG.theme.get_conf()
-      state['theme_variant'] = theme_conf.variant
-      state['theme_palette'] = theme_conf.colorpalette
-      state['transbg'] = theme_conf.is_trans
-      state['theme_strings'] = theme_conf.theme_strings
-      state['theme_scheme'] = theme_conf.scheme
-    end
-    if wsplit_id ~= nil then
-      state.weather.width = vim.api.nvim_win_get_width(wsplit_id)
-    end
-    if usplit_id ~= nil then
-      state.sysmon.width = vim.api.nvim_win_get_width(usplit_id)
-    end
-    local string = vim.fn.json_encode(vim.tbl_deep_extend("force", M.perm_config, state))
-    f:write(string)
-    io.close(f)
-  end
-end
-
---- read the permanent config from the JSON dump.
---- restore the defaults if anything goes wrong
-function M.restore_config()
-  local file = get_permconfig_filename()
-  local f = io.open(file, "r")
-  -- do some checks to avoid invalid data
-  if f ~= nil then
-    local json = f:read()
-    if json == nil or #json <= 1 then
-      M.perm_config = M.perm_config_default
-    else
-      local tmp = vim.fn.json_decode(json)
-      if #tmp ~= nil then
-        M.perm_config = vim.tbl_deep_extend("force", M.perm_config_default, tmp)
-      else
-        M.perm_config = M.perm_config_default
-      end
-    end
-  else
-    M.perm_config = M.perm_config_default
-  end
-  PCFG = M.perm_config
-  -- configure the theme
-  --local cmp_kind_attr = M.perm_config.cmp_layout == "experimental" and { bold=true, reverse=true } or {}
-  local cmp_kind_attr = { bold=true, reverse=true }
-  if Tweaks.theme.disable == false then
-    CFG.theme.setup({
-      scheme = M.perm_config.theme_scheme,
-      variant = M.perm_config.theme_variant,
-      colorpalette = M.perm_config.theme_palette,
-      theme_strings = M.perm_config.theme_strings,
-      is_trans = M.perm_config.transbg,
-      sync_kittybg = Tweaks.theme.sync_kittybg,
-      kittysocket = Tweaks.theme.kittysocket,
-      kittenexec = Tweaks.theme.kittenexec,
-      callback = require("subspace.lib.darkmatter").theme_callback,
-      indentguide_colors = {
-        dark = Tweaks.indent.color.dark,
-        light = Tweaks.indent.color.light
-      },
-      rainbow_contrast = Tweaks.theme.rainbow_contrast,
-      custom_colors = {
-        c1 = "#5a8aba"
-      },
-      usercolors = {
-        user1 = "#ffffff",
-        user2 = "#4a7099",
-        user3 = "#708070"
-      },
-      --colorstyles_ovr = {
-      --  defaultlib = "user2",
-      --  staticmethod = "user2",
-      --  attribute = "user3"
-      --},
-      plugins = {
-        hl = (Tweaks.completion.version == "blink") and { "markdown", "common", "blink", "snacks" } or { "markdown", "common", "snacks" },
-      },
-      attrib = {
-        dark = {
-          cmpkind = cmp_kind_attr,
-          tabline = Tweaks.cokeline.underline == true and { underline = true } or {},
-          types = Tweaks.theme.all_types_bold == true and { bold = true } or {},
-          class = Tweaks.theme.all_types_bold == true and { bold = true } or {},
-          interface = Tweaks.theme.all_types_bold == true and { bold = true } or {},
-          struct = Tweaks.theme.all_types_bold == true and { bold = true } or {},
-          defaultlib = { italic = false },
-          attribute = { italic = false, bold = true },
-        },
-        gruv = {
-          cmpkind = cmp_kind_attr,
-          tabline = Tweaks.cokeline.underline == true and { underline = true } or {},
-          types = Tweaks.theme.all_types_bold == true and { bold = true } or {},
-          class = Tweaks.theme.all_types_bold == true and { bold = true } or {},
-          interface = Tweaks.theme.all_types_bold == true and { bold = true } or {},
-          struct = Tweaks.theme.all_types_bold == true and { bold = true } or {},
-          defaultlib = { italic = false },
-          attribute = { italic = false, bold = true },
-        }
-      },
-    })
-  end
-end
 
 --- adjust the optional frames so they will keep their width when the side tree opens or closes
 function M.adjust_layout()
   local usplit = require("subspace.content.usplit").winid
   vim.o.cmdheight = Tweaks.cmdheight
   if usplit ~= nil then
-    vim.api.nvim_win_set_width(usplit, M.perm_config.sysmon.width)
+    vim.api.nvim_win_set_width(usplit, PCFG.sysmon.width)
   end
   vim.api.nvim_win_set_height(M.main_winid, 200)
   if M.term.winid ~= nil then
@@ -617,7 +431,7 @@ function M.adjust_layout()
   end
   local outline = M.findWinByFiletype("Outline")
   if #outline > 0 then
-    vim.api.nvim_win_set_width(outline[1], M.perm_config.outline.width)
+    vim.api.nvim_win_set_width(outline[1], PCFG.outline.width)
   end
 end
 
@@ -634,7 +448,7 @@ end
 --- @param msg string: The message to show
 --- it uses a log level of DEBUG by default.
 function M.debugmsg(msg)
-  if M.perm_config.debug == true then
+  if PCFG.debug == true then
     M.notify(msg, vim.log.levels.DEBUG, "Debug")
   end
 end
@@ -668,8 +482,8 @@ end
 --- when enabled, additional debug messages will be shown using
 --- the notifier
 function M.toggle_debug()
-  M.perm_config.debug = not M.perm_config.debug
-  if M.perm_config.debug == true then
+  PCFG.debug = not PCFG.debug
+  if PCFG.debug == true then
     M.notify("Debug messages are now ENABLED.", 2)
   else
     M.notify("Debug messages are now DISABLED.", 2)
@@ -678,9 +492,9 @@ end
 
 -- enable/disable ibl
 function M.toggle_ibl()
-  M.perm_config.ibl_enabled = not M.perm_config.ibl_enabled
+  PCFG.ibl_enabled = not PCFG.ibl_enabled
   if Tweaks.indent.version == "snacks" then
-    if M.perm_config.ibl_enabled then
+    if PCFG.ibl_enabled then
       require("snacks").indent.enable()
     else
       require("snacks").indent.disable()
@@ -692,8 +506,8 @@ end
 
 -- enable/disable ibl context display
 function M.toggle_ibl_context()
-  M.perm_config.ibl_context = not M.perm_config.ibl_context
-  require("ibl").update({ scope = { enabled = M.perm_config.ibl_context } })
+  PCFG.ibl_context = not PCFG.ibl_context
+  require("ibl").update({ scope = { enabled = PCFG.ibl_context } })
 end
 
 --- toggle scrollbar visibility
@@ -702,7 +516,7 @@ end
 function M.set_scrollbar()
   local status, _ = pcall(require, "satellite")
 
-  if M.perm_config.scrollbar == true then
+  if PCFG.scrollbar == true then
     if status then
       vim.cmd("SatelliteEnable")
     else
@@ -789,20 +603,20 @@ end
 --- @param silent boolean: supress notification about the status change
 function M.setup_treesitter_context(silent)
   local tsc = require("treesitter-context")
-  if M.perm_config.treesitter_context == true then
+  if PCFG.treesitter_context == true then
     tsc.enable()
   else
     tsc.disable()
   end
   if not silent then
-    M.notify("Treesitter-Context is now " .. (M.perm_config.treesitter_context == true and "enabled" or "disabled"), vim.log.levels.INFO)
+    M.notify("Treesitter-Context is now " .. (PCFG.treesitter_context == true and "enabled" or "disabled"), vim.log.levels.INFO)
   end
 end
 
 function M.toggle_treesitter_context()
   local wsplit = require("subspace.content.wsplit")
   vim.api.nvim_buf_set_var(0, "tsc", not vim.api.nvim_buf_get_var(0, "tsc"))
-  M.perm_config.treesitter_context = M.get_buffer_var(0, "tsc")
+  PCFG.treesitter_context = M.get_buffer_var(0, "tsc")
   M.setup_treesitter_context(false)
   wsplit.freeze = false
   vim.schedule(function() wsplit.refresh() end)
@@ -812,7 +626,7 @@ function M.toggle_inlayhints()
   local status = M.get_buffer_var(0, "inlayhints")
   vim.api.nvim_buf_set_var(0, "inlayhints", not status)
   vim.lsp.inlay_hint.enable(not status, { bufnr = 0 })
-  M.perm_config.lsp.inlay_hints = not status
+  PCFG.lsp.inlay_hints = not status
 end
 
 --- get a custom buffer variable.

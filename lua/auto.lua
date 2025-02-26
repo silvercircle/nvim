@@ -18,7 +18,7 @@ autocmd({ 'VimLeave' }, {
   callback = function()
     if CFG.plain == false then
       -- vim.system({ 'tmux', 'set', '-qg', 'allow-passthrough', 'off' }, { text = true })
-      CGLOBALS.write_config()
+      require("subspace.lib.permconfig").write_config()
     end
   end,
   group = agroup_views

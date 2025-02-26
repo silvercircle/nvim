@@ -9,9 +9,9 @@ local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 -- bootstrap lazy
 vim.g._ts_force_sync_parsing = true
 require('config')
-CGLOBALS.restore_config()
-CGLOBALS.set_statuscol(CGLOBALS.perm_config.statuscol_current)
-PCFG = CGLOBALS.perm_config
+require("subspace.lib.permconfig").restore_config()
+PCFG = require("subspace.lib.permconfig").perm_config
+CGLOBALS.set_statuscol(PCFG.statuscol_current)
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",

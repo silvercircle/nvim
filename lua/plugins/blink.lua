@@ -105,16 +105,7 @@ local function italizemenugroups()
     local fg = vim.api.nvim_get_hl(0, { name = name }).fg
     local bg = vim.api.nvim_get_hl(0, { name = name }).bg
     vim.api.nvim_set_hl(0, k, { fg = fg, bg = bg, italic = true })
-  end
-  )
-  --for _, v in ipairs(groups) do
-  --  local fg, bg
-  --  local hl = vim.api.nvim_get_hl(0, { name = v })
-  --  local name = hl.link or v
-  --  fg = vim.api.nvim_get_hl(0, { name = name }).fg
-  --  bg = vim.api.nvim_get_hl(0, { name = name }).bg
-  --  vim.api.nvim_set_hl(0, v, { fg = fg, bg = bg, italic = true })
-  --end
+  end)
 end
 
 function M.update_hl()

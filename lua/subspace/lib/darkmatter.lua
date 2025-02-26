@@ -13,7 +13,8 @@ function M.ui_select_scheme()
   local schemes = {
     { cmd = "dark", text = "Sonokai-inspired dark" },
     { cmd = "gruv", text = "Frankengruv, A Gruvbox inspired scheme" },
-    { cmd = "transylvania", text = "Transylvania - A Dracula inspired scheme" }
+    { cmd = "transylvania", text = "Transylvania - A Dracula inspired scheme" },
+    { cmd = "onedarker", text = "One Darker - A One Dark inspired scheme" }
   }
   local conf = Dmtheme.get_conf()
   vim.iter(schemes):filter(function(k)
