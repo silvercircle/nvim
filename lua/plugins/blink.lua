@@ -458,4 +458,6 @@ require("blink.cmp").setup({
   }
 })
 
+CGLOBALS.blink_setup_done = true
+
 return M

@@ -123,9 +123,9 @@ function M.theme_callback(what)
     vim.notify("Selected scheme: " .. conf.scheme, vim.log.levels.INFO, { title="Theme" } )
     require("plugins.lualine_setup").update_internal_theme()
   end
-  if Tweaks.completion.version == "blink" then
+  if Tweaks.completion.version == "blink" and CGLOBALS.blink_setup_done == true then
     require("plugins.blink").update_hl()
-  else
+  elseif CGLOBALS.cmp_setup_done == true then
     require("plugins.cmp_setup").update_hl()
   end
 end

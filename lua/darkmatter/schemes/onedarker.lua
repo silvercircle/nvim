@@ -17,7 +17,8 @@ local schemeconfig = {
   -- each palette must be fully defined.
   palettes = {
     { cmd = "vivid", text = "Vivid (original Dracula colors, high contrast)", p = 1 },
-    { cmd = "lowcontrast", text = "Reduced contrast and color intensity", p = 2 },
+    { cmd = "medium", text = "Slightly reduced contrast, brightness and color intensity", p = 1 },
+    { cmd = "pastel", text = "Reduced contrast, brightness and color intensity", p = 2 }
   },
   -- the variants must be defined in bgtheme() (see below)
   variants = {
@@ -33,63 +34,92 @@ local colorvariants = {
   vivid = {
     -- these are mostly 1:1 from Dracula specs. They are not desaturated or 
     -- otherwise modified.
-    orange = { "#FFB86C", 215 },
-    blue = { "#8D93F9", 239 },
-    altblue = { "#83a598", 239 },
+    orange = { "#e5c07b", 215 },
+    blue = { "#61afef", 239 },
+    altblue = { "#6ca5d5", 239 },
     altyellow = { "#fabd2d", 231 },
     altgreen = { "#98971a", 232 },
     lila = { "#7030e0", 241 },
-    palegreen = { "#a8ab76", 242 },
+    dblue = { "#517da1", 242 },
     maroon = { "#dF59a6", 243 },
     purple = { "#9c6ddf", 241 },
-    teal = { "#58d377", 238 },
+    teal = { "#56b6c2", 238 },
     brightteal = { "#8BE9FD", 238 },
-    darkpurple = { "#FF79C6", 240 },
-    red = { "#FF5555", 203 },
-    yellow = { "#F1FA8C", 231 },
-    green = { "#50fa7b", 232 },
-    darkyellow = { "#a78624", 180 },
+    darkpurple = { "#8a60c5", 240 },
+    red = { "#e06c75", 203 },
+    yellow = { "#aaaca2", 231 },
+    green = { "#98c379", 232 },
+    darkyellow = { "#d19a66", 180 },
     grey = { "#6272A4", 2 },
     grey_dim = { "#595f6f", 240 },
     diff_red = { "#45292d", 52 },
     diff_green = { "#10320a", 22 },
     diff_blue = { "#253147", 17 },
-    deepred = { "#cc241d", 203 },
+    deepred = { "#7a3a3f", 203 },
     olive = { "#708422", 181 },
-    lpurple = { "#d3969b", 176 },
+    lpurple = { "#7d79f8", 241 },
     brown = { "#905010", 233 },
     pink =  { "#BD93F9", 234 },
     styled = {}
   },
-  lowcontrast = {
-    orange = { "#a58d80", 215 },
-    blue = { "#458588", 239 },
-    altblue = { "#83a598", 239 },
-    altyellow = { "#c0901e", 231 },
-    altgreen = { "#88872a", 232 },
+  medium = {
+    orange = { "#e5c07b", 215 },
+    blue = { "#61afef", 239 },
+    altblue = { "#6ca5d5", 239 },
+    altyellow = { "#fabd2d", 231 },
+    altgreen = { "#98971a", 232 },
     lila = { "#7030e0", 241 },
-    palegreen = { "#989b66", 242 },
-    maroon = { "#904c6e", 243 },
+    dblue = { "#517da1", 242 },
+    maroon = { "#dF59a6", 243 },
     purple = { "#9c6ddf", 241 },
-    teal = { "#588d6a", 238 },
-    brightteal = { "#7eb07c", 238 },
-    darkpurple = { "#b16286", 240 },
-    red = { "#ab2914", 203 },
-    yellow = { "#d8df93", 231 },
-    green = { "#40804f", 232 },
-    darkyellow = { "#a78a34", 180 },
+    teal = { "#56b6c2", 238 },
+    brightteal = { "#8BE9FD", 238 },
+    darkpurple = { "#8a60c5", 240 },
+    red = { "#e06c75", 203 },
+    yellow = { "#aaaca2", 231 },
+    green = { "#98c379", 232 },
+    darkyellow = { "#d19a66", 180 },
     grey = { "#6272A4", 2 },
     grey_dim = { "#595f6f", 240 },
     diff_red = { "#45292d", 52 },
     diff_green = { "#10320a", 22 },
     diff_blue = { "#253147", 17 },
-    deepred = { "#990403", 203 },
+    deepred = { "#7a3a3f", 203 },
     olive = { "#708422", 181 },
-    lpurple = { "#d3969b", 176 },
+    lpurple = { "#7d79f8", 241 },
     brown = { "#905010", 233 },
-    pink =  { "#a187c5", 234 },
+    pink =  { "#BD93F9", 234 },
     styled = {}
   },
+  pastel = {
+    orange = { "#e5c07b", 215 },
+    blue = { "#61afef", 239 },
+    altblue = { "#6ca5d5", 239 },
+    altyellow = { "#fabd2d", 231 },
+    altgreen = { "#98971a", 232 },
+    lila = { "#7030e0", 241 },
+    dblue = { "#517da1", 242 },
+    maroon = { "#dF59a6", 243 },
+    purple = { "#9c6ddf", 241 },
+    teal = { "#56b6c2", 238 },
+    brightteal = { "#8BE9FD", 238 },
+    darkpurple = { "#8a60c5", 240 },
+    red = { "#e06c75", 203 },
+    yellow = { "#aaaca2", 231 },
+    green = { "#98c379", 232 },
+    darkyellow = { "#d19a66", 180 },
+    grey = { "#6272A4", 2 },
+    grey_dim = { "#595f6f", 240 },
+    diff_red = { "#45292d", 52 },
+    diff_green = { "#10320a", 22 },
+    diff_blue = { "#253147", 17 },
+    deepred = { "#7a3a3f", 203 },
+    olive = { "#708422", 181 },
+    lpurple = { "#7d79f8", 241 },
+    brown = { "#905010", 233 },
+    pink =  { "#BD93F9", 234 },
+    styled = {}
+  }
 }
 
 --- colorstyles assign highlight categories to specific colors in the palette
@@ -99,38 +129,38 @@ local colorvariants = {
 local colorstyles = {
   identifier = "fg_dim",
   comment = "grey",
-  keyword = "pink",
-  kwspec = "maroon",
-  kwconditional = "maroon",
-  kwrepeat = "maroon",
-  kwexception = "maroon",
-  kwreturn = "pink",
-  kwfunc = "maroon",
-  member = "orange",
+  keyword = "purple",
+  kwspec = "purple",
+  kwconditional = "darkpurple",
+  kwrepeat = "darkpurple",
+  kwexception = "purple",
+  kwreturn = "purple",
+  kwfunc = "purple",
+  member = "yellow",
   staticmember = "orange",
-  method = "teal",
-  func = "green",
+  method = "altblue",
+  func = "blue",
   operator = "brown",
-  builtin = "lpurple",
+  builtin = "pink",
   braces = "c4",
   delim = "c4",
-  number = "lila",
-  class = "blue",
+  number = "altyellow",
+  class = "darkyellow",
   interface = "lila",
-  storage = "purple",
-  constant = "darkpurple",
+  storage = "deepred",
+  constant = "lpurple",
   module = "olive",
   namespace = "olive",
-  type = "altblue",
+  type = "teal",
   struct = "altblue",
-  bool = "darkyellow",
-  constructor = "altyellow",
+  bool = "altyellow",
+  constructor = "brightteal",
   macro = "lpurple",
-  defaultlib = "darkyellow",
-  staticmethod = "palegreen",
+  defaultlib = "maroon",
+  staticmethod = "dblue",
   attribute = "olive",
-  strings   = "yellow",
-  parameter = "fg_dim",
+  strings   = "green",
+  parameter = "red",
   url       = "altblue"
 }
 
@@ -198,7 +228,7 @@ function M.attributes()
     member       = {},                -- class member (field, property...)
     staticmember = { bold = true },
     operator     = { bold = true },   -- operators
-    parameter    = { italic = true, bold = true }, -- function/method arguments
+    parameter    = { }, -- function/method arguments
     delim        = { bold = true },   -- delimiters
     brace        = { bold = true },   -- braces, brackets, parenthesis
     str          = {},                -- strings
@@ -212,7 +242,7 @@ function M.attributes()
     module       = { bold = true },
     constant     = {},
     macro        = { bold = true },
-    defaultlib   = { bold = true },
+    defaultlib   = { },
     url          = { bold = true, underline = true }
   }
 end
@@ -220,15 +250,13 @@ end
 -- we use the same fg colors for all 3 variants, so just define them
 -- once
 local fg_def = {
-  vivid  = "#F8F8F2",
-  medium = "#ababa7",
-  pastel = "#92928e"
+  vivid  = "#979eab",
+  pastel = "#808691"
 }
 
 local fg_dim_def = {
-  vivid  = "#c8c8c2",
-  medium = "#949490",
-  pastel = "#7b7b77"
+  vivid  = "#808691",
+  pastel = "#757677"
 }
 
 --- this regurns the background theme and some very basic colors. There are different
@@ -237,13 +265,13 @@ function M.bgtheme()
   return {
     -- accent color is used for important highlights like the currently selected tab (buffer)
     -- and more.
-    fg_default = "#F8F8F2",
-    fg_dim_default = "#c8c8c2",
+    fg_default = fg_def,
+    fg_dim_default = fg_dim_def,
     accent_color = "#502a50",
     alt_accent_color = "#501010",
     accent_fg = "#aaaa60",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
-    selbg = "#44475A",
+    selbg = "#53575e",
     cold = {
       black = { "#151212", 232 },
       bg_dim = { "#242020", 232 },
@@ -252,11 +280,11 @@ function M.bgtheme()
       bg2 = { "#403936", 236 },
       bg4 = { "#555565", 237 },
       statuslinebg = "#242436",
-      bg = "#282A36",
-      treebg = "#2b2d39",
+      bg = "#121214",
+      treebg = "#151518",
       floatbg = "#2b2d39",
       gutterbg = "#282a36",
-      kittybg = "#2b2d39",
+      kittybg = "#151518",
       fg = fg_def,
       fg_dim = fg_dim_def
     },

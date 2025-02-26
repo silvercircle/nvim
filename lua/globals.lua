@@ -8,6 +8,7 @@ M.outline_is_open = false
 M.lsp_capabilities = nil
 M.notifier = nil
 M.cmp_setup_done = false
+M.blink_setup_done = false
 
 M.term = {
   bufid = nil,
