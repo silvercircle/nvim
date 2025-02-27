@@ -14,16 +14,17 @@ PCFG = require("subspace.lib.permconfig").perm_config
 CGLOBALS.set_statuscol(PCFG.statuscol_current)
 
 if vim.g.neovide then
-  vim.o.guifont = "MonoLisa Medium:h10.2:w-.4:#e-subpixelantialias:#h-full"
+  -- vim.o.guifont = "MonoLisa:h10.2:w-.4:#e-subpixelantialias:#h-full"
   vim.opt.linespace = -1
-  vim.g.neovide_text_gamma = 0
-  vim.g.neovide_text_contrast = 0.5
+  vim.g.neovide_text_gamma = .9
+  vim.g.neovide_text_contrast = 0.3
   vim.g.neovide_padding_top = 7
   vim.g.neovide_padding_bottom = 7
   vim.g.neovide_padding_right = 3
   vim.g.neovide_padding_left = 3
   vim.g.neovide_floating_corner_radius = 0.0
   vim.g.neovide_cursor_trail_size = 0.0
+  vim.g.neovide_remember_window_size = true
   vim.g.neovide_underline_stroke_scale = 2.0
 end
 

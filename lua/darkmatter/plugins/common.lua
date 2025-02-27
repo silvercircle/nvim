@@ -164,6 +164,7 @@ local function _set()
   c.link("PickerPromptPrefix", "Blue")
   c.link("PickerSelection", "TreeCursorLine")
 
+  -- fzf-lua
   c.link("FzfLuaNormal", "PickerNormal")
   c.link("FzfLuaBorder", "PickerBorder")
   c.link("FzfLuaSearch", "PickerMatching")
@@ -175,6 +176,8 @@ local function _set()
   c.link("FzfLuaBufNr", "Brown")
   c.link("FzfLuaPreviewTitle", "FloatTitle")
   c.link("FzfLuaTitle", "FloatTitle")
+
+  -- gitsigns
   c.link("GitSignsAdd", "GreenSign")
   c.link("GitSignsStagedAdd", "GreenSign")
   c.link("GitSignsAddNr", "GreenSign")
