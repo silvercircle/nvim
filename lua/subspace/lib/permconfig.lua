@@ -1,6 +1,6 @@
 
 local function get_permconfig_filename()
-  return vim.fn.stdpath("state") .. "/permconfig.json"
+  return vim.fs.joinpath(vim.fn.stdpath("state"), "/permconfig.json")
 end
 
 local M = {}

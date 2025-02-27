@@ -107,7 +107,7 @@ local conf = {
   -- post:      called after theme has been set
   plugins = {
     customize =  {},
-    hl = { "markdown", "common", "blink", "snacks" },
+    hl = { "markdown", "common" },
     post = {}
   }
 }
@@ -663,7 +663,8 @@ function M.set()
   for _, v in ipairs(conf.plugins.post) do
     require("darkmatter.plugins." .. v)
   end
-  if Scheme.custom_hl ~= nil then
+  -- call the override function in the scheme config if it exists.
+  if Scheme.custom_hl ~= nil and type(Scheme.custom_hl) == "function" then
     Scheme.custom_hl(M)
   end
   set_signs_trans()

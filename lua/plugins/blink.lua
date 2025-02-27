@@ -131,6 +131,9 @@ local context_sources = {
   text = { "lsp", "path", "snippets", "emoji", "wordlist", "dictionary", "buffer" },
 }
 require("blink.cmp").setup({
+  fuzzy = {
+    implementation = "rust"
+  },
   appearance = {
     -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
     -- Adjusts spacing to ensure icons are aligned

@@ -284,7 +284,7 @@ function M.bgtheme()
       statuslinebg = "#242436",
       bg = "#121214",
       treebg = "#151518",
-      floatbg = "#2b2d39",
+      floatbg = "#151519",
       gutterbg = "#282a36",
       kittybg = "#151518",
       fg = fg_def,
@@ -356,6 +356,11 @@ function M.schemeconfig()
   return schemeconfig
 end
 
+--- this function is called from the theme engine at the end of set(). It allows
+--- to override highlight groups. It is optional and does not have to exist in a scheme
+--- definition.
+--- @param theme class theme. The theme engine.
+--- You can use theme.P, theme.T and all the methods.
 function M.custom_hl(theme)
   theme.hl_with_defaults("iCursor", theme.NONE, theme.P.altyellow)
 end

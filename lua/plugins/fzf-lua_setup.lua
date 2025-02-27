@@ -5,7 +5,7 @@ local fzf_tweaks = Tweaks.fzf
 require "fzf-lua".setup({
   defaults = {
    formatter  = "path.dirname_first",
-   copen = "horizontal copen 8"
+   copen = "horizontal copen 12"
   },
   hls = {
     file_part = "DefaultLib",

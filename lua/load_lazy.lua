@@ -488,10 +488,6 @@ lazy.setup({
     end
   },
   {
-    'gabrielpoca/replacer.nvim',
-    ft = { "qf" }
-  },
-  {
     'silvercircle/nvim-cokeline', lazy = true, event="UIEnter",
     branch = "mine",
     config = function()
