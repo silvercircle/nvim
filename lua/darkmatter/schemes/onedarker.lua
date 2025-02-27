@@ -357,9 +357,7 @@ function M.schemeconfig()
 end
 
 function M.custom_hl(theme)
-  local conf = theme.get_conf()
-  vim.notify("custom hl for " .. conf.scheme)
-  theme.hl_with_defaults("iCursor", theme.P.altyellow, theme.P.altyellow)
+  theme.hl_with_defaults("iCursor", theme.NONE, theme.P.altyellow)
 end
 
 return M

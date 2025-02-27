@@ -353,4 +353,8 @@ function M.schemeconfig()
   return schemeconfig
 end
 
+function M.custom_hl(theme)
+  theme.hl_with_defaults("iCursor", theme.P.altyellow, theme.P.altyellow)
+end
+
 return M
