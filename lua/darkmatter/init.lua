@@ -636,11 +636,13 @@ function M.set()
     end
   end
   vim.iter(conf.coreplugins):map(function(k)
-    require("darkmatter.plugins." .. k)
+    local p = require("darkmatter.plugins." .. k)
+    if p.set ~= nil and type(p.set) == "function" then p.set() end
   end)
   if conf.userplugins ~= nil then
     vim.iter(conf.userplugins):map(function(k)
-      require("darkmatter.plugins." .. k)
+      local p = require("darkmatter.plugins." .. k)
+      if p.set ~= nil and type(p.set) == "function" then p.set() end
     end)
   end
   -- call the override function in the scheme config if it exists.
