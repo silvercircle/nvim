@@ -64,20 +64,20 @@ local colorvariants = {
   },
   medium = {
     orange = { "#e5c07b", 215 },
-    blue = { "#61afef", 239 },
-    altblue = { "#6ca5d5", 239 },
-    altyellow = { "#fabd2d", 231 },
+    blue = { "#59a1dd", 239 },
+    altblue = { "#6297c3", 239 },
+    altyellow = { "#dbad41", 231 },
     altgreen = { "#98971a", 232 },
     lila = { "#7030e0", 241 },
     dblue = { "#517da1", 242 },
-    maroon = { "#dF59a6", 243 },
-    purple = { "#9c6ddf", 241 },
+    maroon = { "#c5629b", 243 },
+    purple = { "#8a5fc5", 241 },
     teal = { "#56b6c2", 238 },
     brightteal = { "#8BE9FD", 238 },
-    darkpurple = { "#8a60c5", 240 },
-    red = { "#e06c75", 203 },
-    yellow = { "#aaaca2", 231 },
-    green = { "#98c379", 232 },
+    darkpurple = { "#7852ab", 240 },
+    red = { "#c65f67", 203 },
+    yellow = { "#909289", 231 },
+    green = { "#84a969", 232 },
     darkyellow = { "#d19a66", 180 },
     grey = { "#6272A4", 2 },
     grey_dim = { "#595f6f", 240 },
@@ -93,20 +93,20 @@ local colorvariants = {
   },
   pastel = {
     orange = { "#e5c07b", 215 },
-    blue = { "#61afef", 239 },
-    altblue = { "#6ca5d5", 239 },
-    altyellow = { "#fabd2d", 231 },
+    blue = { "#5192c8", 239 },
+    altblue = { "#5887ae", 239 },
+    altyellow = { "#bc9947", 231 },
     altgreen = { "#98971a", 232 },
     lila = { "#7030e0", 241 },
     dblue = { "#517da1", 242 },
-    maroon = { "#dF59a6", 243 },
-    purple = { "#9c6ddf", 241 },
+    maroon = { "#b16691", 243 },
+    purple = { "#8159b8", 241 },
     teal = { "#56b6c2", 238 },
     brightteal = { "#8BE9FD", 238 },
-    darkpurple = { "#8a60c5", 240 },
-    red = { "#e06c75", 203 },
-    yellow = { "#aaaca2", 231 },
-    green = { "#98c379", 232 },
+    darkpurple = { "#6f4c9e", 240 },
+    red = { "#b95860", 203 },
+    yellow = { "#8c927a", 231 },
+    green = { "#708f59", 232 },
     darkyellow = { "#d19a66", 180 },
     grey = { "#6272A4", 2 },
     grey_dim = { "#595f6f", 240 },
@@ -250,13 +250,15 @@ end
 -- we use the same fg colors for all 3 variants, so just define them
 -- once
 local fg_def = {
-  vivid  = "#979eab",
-  pastel = "#808691"
+  vivid   = "#979eab",
+  medium  = "#8b929e",
+  pastel  = "#808691"
 }
 
 local fg_dim_def = {
-  vivid  = "#808691",
-  pastel = "#757677"
+  vivid   = "#808691",
+  medium  = "#747a84",
+  pastel  = "#757677"
 }
 
 --- this regurns the background theme and some very basic colors. There are different
@@ -352,6 +354,12 @@ end
 ---@return table: supported color variants
 function M.schemeconfig()
   return schemeconfig
+end
+
+function M.custom_hl(theme)
+  local conf = theme.get_conf()
+  vim.notify("custom hl for " .. conf.scheme)
+  theme.hl_with_defaults("iCursor", theme.P.altyellow, theme.P.altyellow)
 end
 
 return M

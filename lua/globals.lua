@@ -44,7 +44,6 @@ function M.open_with_fzf(cwd)
   end
 end
 
-
 --- open the outline window
 function M.open_outline()
   local buftype = vim.api.nvim_buf_get_option(0, "buftype")

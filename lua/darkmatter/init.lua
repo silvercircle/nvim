@@ -634,6 +634,7 @@ end
 -- this activates the theme.
 -- it always calls configure(), no need to call this explicitely
 function M.set()
+  Scheme = require("darkmatter.schemes.".. conf.scheme)
   if conf.disabled == true then
     return
   end
@@ -661,6 +662,9 @@ function M.set()
   end
   for _, v in ipairs(conf.plugins.post) do
     require("darkmatter.plugins." .. v)
+  end
+  if Scheme.custom_hl ~= nil then
+    Scheme.custom_hl(M)
   end
   set_signs_trans()
 end
