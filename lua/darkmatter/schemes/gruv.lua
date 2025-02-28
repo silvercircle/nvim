@@ -269,6 +269,7 @@ function M.bgtheme()
     accent_fg = "#aaaa60",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
     selbg = "#4c4866",
+    treeselbg = "#38364c",
     cold = {
       black = { "#151212", 232 },
       bg_dim = { "#242020", 232 },

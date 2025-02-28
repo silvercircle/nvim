@@ -100,7 +100,7 @@ local function _set()
   c.hl_with_defaults("CmpBrightBack", c.P.fg_dim, c.P.statuslinebg)
   c.link("Pmenu", "CmpFloat")
   c.hl_with_defaults("PmenuSbar", c.NONE, c.P.bg2)
-  c.link("PmenuSel", "Visual")
+  c.link("PmenuSel", "TreeCursorLine")
 
   -- blink.cmp
   c.link("BlinkCmpMenu", "CmpFloat")

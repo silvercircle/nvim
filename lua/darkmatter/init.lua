@@ -202,6 +202,7 @@ local function configure()
   M.P.treebg = { M.T[conf.variant].treebg, 232 }
   M.P.floatbg = { M.T[conf.variant].floatbg, 232 }
   M.P.selbg = { M.T["selbg"], 234 }
+  M.P.treeselbg = { M.T["treeselbg"], 234 }
 
   seq = 245
   for k,v in pairs(conf.usercolors) do
@@ -585,7 +586,7 @@ local function set_all()
   M.hl_with_defaults("TreeNormal", M.P.fg, M.P.treebg)
   M.hl("NeoTreeFileNameOpened", M.P.blue, M.P.treebg, conf.attrib.italic)
   M.hl_with_defaults("SymbolsOutlineConnector", M.P.grey_dim, M.NONE)
-  M.hl_with_defaults("TreeCursorLine", M.NONE, M.P.c3)
+  M.hl_with_defaults("TreeCursorLine", M.NONE, M.P.treeselbg)
   M.hl_with_defaults("NotifierTitle", M.P.yellow, M.NONE)
   M.link("NotifierContent", "TreeNormalNC")
 
