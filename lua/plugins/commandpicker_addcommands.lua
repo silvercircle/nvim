@@ -240,8 +240,13 @@ require("commandpicker").add({
     category = "@GIT"
   },
   {
+    -- only use this for nvim-cmp, not yet supported for blink
     desc = "Configure CMP layout",
-    cmd = function() require("plugins.cmp_setup").select_layout() end,
+    cmd = function()
+      if Tweaks.completion.version == "nvim-cmp" then
+        require("plugins.cmp_setup").select_layout()
+      end
+    end,
     keys = {
       { "n", "<leader>cc", noremap },
     },
