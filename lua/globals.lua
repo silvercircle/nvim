@@ -90,7 +90,7 @@ function M.toggle_outline_type()
   elseif PCFG.outline_filetype == "Outline" then
     PCFG.outline_filetype = "aerial"
   end
-  M.notify("Now using " .. PCFG.outline_filetype, vim.log.levels.INFO)
+  vim.notify("Now using " .. PCFG.outline_filetype, vim.log.levels.INFO)
 end
 
 --- open the tree (file manager tree on the left). It can be either NvimTree
@@ -177,7 +177,7 @@ function M.set_statuscol(mode)
     vim.o.numberwidth = Tweaks.numberwidth_rel
     vim.o.number = true
   end
-  M.notify("Line numbers set to: " .. mode, vim.log.levels.INFO)
+  vim.notify("Line numbers set to: " .. mode, vim.log.levels.INFO)
 end
 
 -- toggle statuscolum between absolute and relative line numbers
@@ -449,7 +449,7 @@ end
 --- it uses a log level of DEBUG by default.
 function M.debugmsg(msg)
   if PCFG.debug == true then
-    M.notify(msg, vim.log.levels.DEBUG, "Debug")
+    vim.notify(msg, vim.log.levels.DEBUG, { title = "Debug" })
   end
 end
 
@@ -461,32 +461,15 @@ local notify_classes = {
   { icon = " ", title = "Error" },
 }
 
---- use the notifier to display a message
---- @param msg string: The message to display
---- @param level number: Warning level
---- @optionally a title can be specified
-function M.notify(msg, level, ...)
-  local arg = { ... }
-  local params = {}
-  if M.notifier == nil then
-    return
-  end
-  if level >= 0 and level <= 4 then
-    params.icon = notify_classes[level + 1].icon
-    params.title = (arg[1] == nil) and notify_classes[level + 1].title or arg[1]
-    M.notifier(msg, level, params)
-  end
-end
-
 --- toggle the debug mode and display the new status.
 --- when enabled, additional debug messages will be shown using
 --- the notifier
 function M.toggle_debug()
   PCFG.debug = not PCFG.debug
   if PCFG.debug == true then
-    M.notify("Debug messages are now ENABLED.", 2)
+    vim.notify("Debug messages are now ENABLED.", 2)
   else
-    M.notify("Debug messages are now DISABLED.", 2)
+    vim.notify("Debug messages are now DISABLED.", 2)
   end
 end
 
@@ -590,12 +573,12 @@ function M.configure_treesitter()
   vim.g.setkey({ 'n', 'i', 'v' }, "<C-x>te",
     function()
       vim.treesitter.start()
-      M.notify("Highlights enabled", vim.log.levels.INFO, "Treesitter")
+      vim.notify("Highlights enabled", vim.log.levels.INFO, "Treesitter")
     end, "Enable Treesitter for Buffer")
   vim.g.setkey({ 'n', 'i', 'v' }, "<C-x>td",
     function()
       vim.treesitter.stop()
-      M.notify("Highlight disabled", vim.log.levels.INFO, "Treesitter")
+      vim.notify("Highlight disabled", vim.log.levels.INFO, "Treesitter")
     end, "Disable Treesitter for Buffer")
 end
 
@@ -609,7 +592,7 @@ function M.setup_treesitter_context(silent)
     tsc.disable()
   end
   if not silent then
-    M.notify("Treesitter-Context is now " .. (PCFG.treesitter_context == true and "enabled" or "disabled"), vim.log.levels.INFO)
+    vim.notify("Treesitter-Context is now " .. (PCFG.treesitter_context == true and "enabled" or "disabled"), vim.log.levels.INFO)
   end
 end
 

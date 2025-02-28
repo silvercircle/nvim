@@ -260,7 +260,9 @@ vim.g.setkey('n', fkeys.s_f11, function() perform_command('Lazy') end, "Open Laz
 -- utility functions
 -- they use a prefix key, by default <C-l>. Can be customized in tweaks.lua
 
-vim.g.setkey({ 'n', 'i' }, utility_key .. 'l', function() CGLOBALS.toggle_statuscol() end, "Toggle absolute/relative line numbers")
+vim.g.setkey({ 'n', 'i' }, utility_key .. '<C-l>', function()
+  CGLOBALS.toggle_statuscol()
+end, "Toggle absolute/relative line numbers")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'p', function()
   CGLOBALS.toggle_inlayhints()
 end, "Toggle LSP inlay hints")
