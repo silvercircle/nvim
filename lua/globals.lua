@@ -177,7 +177,6 @@ function M.set_statuscol(mode)
     vim.o.numberwidth = Tweaks.numberwidth_rel
     vim.o.number = true
   end
-  vim.notify("Line numbers set to: " .. mode, vim.log.levels.INFO)
 end
 
 -- toggle statuscolum between absolute and relative line numbers

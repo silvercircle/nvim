@@ -215,6 +215,12 @@ autocmd({ 'BufReadPost' }, {
     vim.api.nvim_buf_set_var(0, "tsc", PCFG.treesitter_context)
     vim.api.nvim_buf_set_var(0, "inlayhints", PCFG.lsp.inlay_hints)
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
+      if vim.g._ts_force_sync_parsing ~= true then
+        local has, p = pcall(vim.treesitter.get_parser)
+        if has == true and p ~= nil then
+          p:parse()
+        end
+      end
       vim.cmd("silent! loadview")
       -- this (UGLY) hack was needed for a while during 0.11 development to fix some issues
       -- with folds not being restored from loaded view.
