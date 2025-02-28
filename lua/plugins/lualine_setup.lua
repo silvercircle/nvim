@@ -37,7 +37,8 @@ local function status()
   local s, val = pcall(vim.api.nvim_buf_get_var, -1, "completion")
   local mode = not (s == true and val == false )
   return (CGLOBALS.get_buffer_var(0, "tsc") == true and "C" or "c") ..
-         (CGLOBALS.get_buffer_var(0, "inlayhints") == true and "I" or "i") ..
+         (CGLOBALS.get_buffer_var(0, "inlayhints") == true and "H" or "h") ..
+         (vim.b[0].snacks_indent == false and "i" or (PCFG.ibl_enabled and "I" or "i")) ..
          (mode and "A" or "a")
 end
 
@@ -48,7 +49,7 @@ local function status_indicators()
          (PCFG.autopair == true and "A" or "a") ..
          (PCFG.cmp_autocomplete and 'O' or 'o') ..
          (PCFG.cmp_ghost and 'G' or 'g') ..
-         (PCFG.lsp.inlay_hints and 'I' or 'i')
+         (PCFG.lsp.inlay_hints and 'H' or 'h')
 end
 
 --- internal global function to create the lualine color theme

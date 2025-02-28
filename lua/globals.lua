@@ -477,14 +477,11 @@ end
 function M.toggle_ibl()
   PCFG.ibl_enabled = not PCFG.ibl_enabled
   if Tweaks.indent.version == "snacks" then
-    if PCFG.ibl_enabled then
-      require("snacks").indent.enable()
-    else
-      require("snacks").indent.disable()
-    end
+    vim.g.snacks_indent = PCFG.ibl_enabled
   else
     vim.notify("function not supported with current plugin configuration", 0, { title = "Indent guides" })
   end
+  vim.schedule(function() vim.cmd.redraw() end)
 end
 
 -- enable/disable ibl context display
@@ -664,51 +661,6 @@ function M.get_lsp_capabilities()
     M.lsp_capabilities.textDocument.completion.editsNearCursor = true
   end
   return M.lsp_capabilities
-end
-
-function M.custom_lsp()
-  local Snacks = require("snacks")
-  local Align = Snacks.picker.util.align
-  local lutils = require("subspace.lib")
-
-  Snacks.picker.lsp_symbols({
-    format = function(item, picker)
-      local opts = picker.opts
-      local ret = {}
-      if item.tree and not opts.workspace then
-        vim.list_extend(ret, Snacks.picker.format.tree(item, picker))
-      end
-      local kind = item.kind or "Unknown"
-      local kind_hl = "SnacksPickerIcon" .. kind
-      ret[#ret + 1] = { picker.opts.icons.kinds[kind], kind_hl }
-      local name = vim.trim(item.name:gsub("\r?\n", " "))
-      name = name == "" and item.detail or name
-      Snacks.picker.highlight.format(item, name, ret)
-      -- vim.notify(vim.inspect(ret[#ret]))
-      ret[#ret] = { Align(ret[#ret][1], 30, {align="left"})}
-      ret[#ret + 1] = { "|", "Number" }
-      if opts.workspace then
-        local offset = Snacks.picker.highlight.offset(ret, { char_idx = true })
-        ret[#ret + 1] = { Align(" ", 40 - offset) }
-        vim.list_extend(ret, M.filename(item, picker))
-      end
-      ret[#ret +1] = { Align(vim.trim(item.detail), 40, {align="right"}), "Comment"}
-      return ret
-    end,
-    layout = {
-      preset = "select",
-      preview = true,
-      layout = {
-        width = 80,
-        height = 0.8
-      }
-    },
-    win = {
-      preview = {
-        wo = { winbar = "" }
-      }
-    }
-  })
 end
 
 return M

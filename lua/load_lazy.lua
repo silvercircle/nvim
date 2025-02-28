@@ -496,6 +496,7 @@ lazy.setup({
   },
   {
     'silvercircle/outline.nvim',
+    -- dir = "/data/mnt/shared/data/code/neovim_plugins/outline.nvim/",
     branch = 'mine',
     cmd = { "Outline", "OutlineOpen", "OutlineClose" },
     lazy = true,

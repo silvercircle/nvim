@@ -305,7 +305,6 @@ local function _set()
   c.link("qfLineNr", "Number")
   c.link("qfFileName", "String")
 
-  -- snacks
   c.hl("htmlH1", c.P.styled.keyword, c.NONE, conf.attrib.bold)
   c.hl("htmlH2", c.P.green, c.NONE, conf.attrib.bold)
   c.hl("htmlH3", c.P.yellow, c.NONE, conf.attrib.bold)
@@ -334,12 +333,6 @@ local function _set()
   c.link("pythonBuiltin", "BlueItalic")
   c.link("pythonExceptions", "KWException")
   c.link("pythonDecoratorName", "OrangeItalic")
-    -- syn_begin: lua
-    -- builtin:
-  c.link("luaFunc", "Green")
-  c.link("luaFunction", "Red")
-  c.link("luaTable", "Fg")
-  c.link("luaIn", "Red")
     -- syn_begin: help
   c.hl("helpNote", c.P.lpurple, c.NONE, conf.attrib.bold)
   c.hl("helpHeadline", c.P.red, c.NONE, conf.attrib.bold)

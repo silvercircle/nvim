@@ -284,8 +284,16 @@ end, "Toggle color column display")
 
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'w', function() CGLOBALS.toggle_wrap() end, "Toggle word wrap")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'k', function() CGLOBALS.toggle_colorcolumn() end, "Toggle color column display")
-vim.g.setkey({ 'n', 'i' }, utility_key .. 'o', function() CGLOBALS.toggle_ibl() end, "Toggle indent-blankline active")
-vim.g.setkey({ 'n', 'i' }, utility_key .. 'u', function() CGLOBALS.toggle_ibl_context() end, "Toggle indent-blankline context")
+vim.g.setkey({ 'n', 'i' }, utility_key .. 'o', function() CGLOBALS.toggle_ibl() end, "Toggle indent guides")
+vim.g.setkey({ 'n', 'i' }, utility_key .. 'u', function()
+  local state = vim.b[0].snacks_indent
+  if state == nil or state == true then
+    vim.b[0].snacks_indent = false
+  else
+    vim.b[0].snacks_indent = true
+  end
+  vim.cmd.redraw()
+end, "Toggle indent guides per buffer buffer")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'z', function()
   PCFG.scrollbar = not PCFG.scrollbar
   CGLOBALS.set_scrollbar()             -- toggle scrollbar visibility
