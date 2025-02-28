@@ -54,6 +54,18 @@ if not configs.ada then
   }
 end
 
+if not configs.ctags_lsp then
+  configs.ctags_lsp = {
+    default_config = {
+      cmd = { "ctags-lsp" },
+      filetypes = nil,
+      root_dir = function()
+        return vim.fn.getcwd()
+      end
+    }
+  }
+end
+
 --- clangd support funcions
 local function clangd_switch_source_header(bufnr)
   local method_name = 'textDocument/switchSourceHeader'
@@ -545,6 +557,15 @@ lspconfig.neocmake.setup {
   single_file_support = true,
   capabilities = CGLOBALS.lsp_capabilities
 }
+
+lspconfig.ctags_lsp.setup {
+  cmd = { "ctags-lsp" },
+  filetypes = { 'none' },
+  root_dir = function()
+    return vim.fn.getcwd()
+  end
+}
+
 -- outsourced because it's too big
 if Tweaks.lsp.csharp == "omnisharp" then
   require("lsp.omnisharp")

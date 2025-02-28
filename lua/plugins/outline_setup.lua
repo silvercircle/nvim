@@ -166,7 +166,7 @@ outline_window = {
     priority = { 'lsp', 'treesitter', 'markdown', 'norg' },
     lsp = {
       -- Lsp client names to ignore
-      blacklist_clients = { "texlab", "marksman" },
+      blacklist_clients = { "texlab", "marksman", "ctags_lsp" },
     },
   },
 
