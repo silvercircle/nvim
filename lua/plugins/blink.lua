@@ -3,7 +3,7 @@
 -- requires blink.compat
 
 local T = Tweaks.blink
-local border = T.border
+local w_border = T.border
 local itemlist = nil
 local M = {}
 
@@ -354,7 +354,7 @@ require("blink.cmp").setup({
     menu = {
       enabled = true,
       auto_show = function() return PCFG.cmp_autocomplete end,
-      border = Borderfactory(border),
+      border = Borderfactory(w_border),
       winblend = T.winblend.menu,
       max_height = T.window_height,
       draw = {
@@ -426,7 +426,7 @@ require("blink.cmp").setup({
     documentation = {
       auto_show = T.auto_doc,
       window = {
-        border = Borderfactory(border),
+        border = Borderfactory(w_border),
         winblend = T.winblend.doc,
         min_width = 30,
         max_width = 95,
@@ -456,7 +456,7 @@ require("blink.cmp").setup({
     },
     window = {
       show_documentation = true,
-      border = Borderfactory(border),
+      border = Borderfactory(w_border),
     }
   }
 })

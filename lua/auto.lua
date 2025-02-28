@@ -192,7 +192,7 @@ autocmd({ 'BufEnter' }, {
         vim.schedule(function() Tsc.disable() end)
       end
       val = CGLOBALS.get_buffer_var(args.buf, "inlayhints")
-      if val == true or val == false then
+      if val ~= nil then
         vim.lsp.inlay_hint.enable(val, { bufnr = args.buf } )
       end
     end
