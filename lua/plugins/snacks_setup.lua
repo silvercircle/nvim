@@ -40,13 +40,19 @@ require("snacks").setup({
         vim.schedule(function() vim.api.nvim_input("i") end)
       end
     end,
+    treesitter = {
+      filter = {
+        markdown = true,
+        help = true
+      }
+    },
     formatters = {
       file = {
         filename_first = true,
         truncate = 80
       }
     },
-    layout = { preset = "vertical", layout = { backdrop = false, width = 120, border = Borderfactory("thicc") } },
+    layout = { preset = "vertical", layout = { backdrop = Tweaks.theme.picker_backdrop, width = 120, border = Borderfactory("thicc") } },
     icons = {
       kind = vim.g.lspkind_symbols
     },

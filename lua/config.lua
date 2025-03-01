@@ -84,7 +84,8 @@ CFG = {
   },
   treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
                        "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid", "typst",
-                       "yaml", "rust", "javascript", "ruby", "objc", "groovy", "org", "markdown", "zig" },
+                       "yaml", "rust", "javascript", "ruby", "objc", "groovy", "org", "markdown",
+                       "markdown_inline", "zig", "latex" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   outline_plugin = nil,
   theme = require("darkmatter")
@@ -215,7 +216,7 @@ function SPL(params)
     preview = opts.preview or false,
     preset = opts.preset or "vertical",
     layout = {
-      backdrop = opts.backdrop or false,
+      backdrop = opts.backdrop or Tweaks.theme.picker_backdrop,
       box = opts.box or "vertical",
       row = opts.row or nil,
       col = opts.col or nil,
@@ -235,7 +236,7 @@ function SPL(params)
     preview = opts.preview or false,
     preset = opts.preset or "vertical",
     layout = {
-      backdrop = opts.backdrop or false,
+      backdrop = opts.backdrop or Tweaks.theme.picker_backdrop,
       box = opts.box or "vertical",
       row = opts.row or nil,
       col = opts.col or nil,

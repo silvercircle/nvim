@@ -373,23 +373,17 @@ require("commandpicker").add({
   {
     desc = "Fuzzy search in current buffer",
     cmd = function()
-      fzf.blines({ winopts = FWO("std_preview_top", "Fuzzy search in current buffer") })
+      fzf.blines({ query = lutils.get_selection(), winopts = FWO("std_preview_top", "Fuzzy search in current buffer") })
     end,
-    keys = {
-      { "n", "<C-x><C-f>", noremap },
-      { "i", "<C-x><C-f>", noremap }
-    },
+    key = { { "n", "i", "v" }, "<C-x><C-f>", noremap },
     category = "@FZF"
   },
   {
     desc = "Fuzzy search in all open buffers",
     cmd = function()
-      fzf.lines({ winopts = FWO("std_preview_top", "Fuzzy search in all open buffers") })
+      fzf.lines({ query = lutils.get_selection(), winopts = FWO("std_preview_top", "Fuzzy search in all open buffers") })
     end,
-    keys = {
-      { "n", "<C-x>f", noremap },
-      { "i", "<C-x>f", noremap }
-    },
+    key = { { "n", "i", "v" }, "<C-x>f", noremap },
     category = "@FZF"
   },
   {
@@ -678,6 +672,17 @@ require("commandpicker").add({
       { "i", "<A-o>", noremap }
     },
     category = "@LSP FZF"
+  },
+  {
+    desc = "Treesitter symbols (FZF)",
+    cmd = function()
+      fzf.treesitter({ winopts = fzf_tweaks.winopts.mini_with_preview })
+    end,
+    keys = {
+      { "n", "<A-t>", noremap },
+      { "i", "<A-t>", noremap }
+    },
+    category = "@FZF"
   },
   {
     desc = "LSP finder (FZF)",

@@ -132,11 +132,11 @@ lspconfig.ts_ls.setup({
   capabilities = CGLOBALS.lsp_capabilities
 })
 
-lspconfig.texlab.setup({
-  cmd = { vim.g.lsp_server_bin['texlab'] },
-  on_attach = On_attach,
-  capabilities = CGLOBALS.lsp_capabilities
-})
+--lspconfig.texlab.setup({
+--  cmd = { vim.g.lsp_server_bin['texlab'] },
+--  on_attach = On_attach,
+--  capabilities = CGLOBALS.lsp_capabilities
+--})
 
 lspconfig.tinymist.setup({
   cmd = { "tinymist" },
@@ -421,17 +421,17 @@ lspconfig.yamlls.setup({
 })
 
 -- markdown
-lspconfig.marksman.setup({
-  on_attach = On_attach,
-  cmd = { vim.g.lsp_server_bin['marksman'] },
-  filetypes = { 'markdown', 'telekasten', 'liquid' },
-  root_dir = function(fname)
-    local root_files = { '.marksman.toml' }
-    return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname)
-  end,
-  single_file_support = true,
-  capabilities = CGLOBALS.lsp_capabilities
-})
+--lspconfig.marksman.setup({
+--  on_attach = On_attach,
+--  cmd = { vim.g.lsp_server_bin['marksman'] },
+--  filetypes = { 'markdown', 'telekasten', 'liquid' },
+--  root_dir = function(fname)
+--    local root_files = { '.marksman.toml' }
+--    return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname)
+--  end,
+--  single_file_support = true,
+--  capabilities = CGLOBALS.lsp_capabilities
+--})
 
 -- xml
 lspconfig.lemminx.setup({

@@ -268,23 +268,30 @@ vim.g.setkey({ 'n', 'i' }, utility_key .. 'p', function()
 end, "Toggle LSP inlay hints")
 
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'ca', function()
-  PCFG.cmp_autocomplete = not PCFG.cmp_autocomplete
-  STATMSG("**Blink.cmp** Menu auto_show is now", PCFG.cmp_autocomplete, 0, "Config")
+  PCFG.cmp_automenu = not PCFG.cmp_automenu
+  STATMSG("**Blink.cmp** Menu auto_showis now: ", PCFG.cmp_automenu, 0, "Config")
 end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'cg', function()
   PCFG.cmp_ghost = not PCFG.cmp_ghost
-  STATMSG("**Blink.cmp**: Ghost Text is now", PCFG.cmp_ghost, 0, "Config")
+  STATMSG("**Blink.cmp**: Ghost Text is now: ", PCFG.cmp_ghost, 0, "Config")
 end, "Toggle color column display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'cc', function()
   local s, val = pcall(vim.api.nvim_buf_get_var, 0, "completion")
-  local mode = not (s == true and val == false )
-  vim.api.nvim_buf_set_var(0, "completion", not mode)
-  STATMSG("**Blink.cmp**: Completion for this buffer is now: ", not mode, 0, "Config")
+  local enabled = ((s == true and val == true ) or (s == false ))
+  vim.api.nvim_buf_set_var(0, "completion", not enabled)
+  STATMSG("**Blink.cmp**: Completion for this buffer is now: ", not enabled, 0, "Config")
 end, "Toggle color column display")
 
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'w', function() CGLOBALS.toggle_wrap() end, "Toggle word wrap")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'k', function() CGLOBALS.toggle_colorcolumn() end, "Toggle color column display")
-vim.g.setkey({ 'n', 'i' }, utility_key .. 'o', function() CGLOBALS.toggle_ibl() end, "Toggle indent guides")
+vim.g.setkey({ 'n', 'i' }, utility_key .. 'o', function()
+  local state = vim.b[0].snacks_indent
+  if state == false then
+    vim.notify("Indent guides disabled for this buffer, use " .. utility_key .. "u to re-enable", vim.log.levels.INFO)
+  else
+    CGLOBALS.toggle_ibl()
+  end
+end, "Toggle indent guides")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'u', function()
   local state = vim.b[0].snacks_indent
   if state == nil or state == true then

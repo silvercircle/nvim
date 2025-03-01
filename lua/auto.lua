@@ -13,6 +13,15 @@ local treeft = Tweaks.tree.filetype
 
 -- local ibl = require('indent_blankline')
 
+local function refresh_outline_providerinfo()
+  local _o = CGLOBALS.findWinByFiletype("Outline")
+  if #_o > 0 and _o[1] ~= nil then
+    local p = require("outline")._get_sidebar().provider
+    local name = (p and p.name) and p.name or "No provider"
+    vim.api.nvim_win_set_option(_o[1], "statusline", "  Outline (" .. name .. ")")
+  end
+end
+
 --- on leave, write the permanent settings file
 autocmd({ 'VimLeave' }, {
   callback = function()
@@ -203,11 +212,11 @@ autocmd({ 'BufEnter' }, {
     end
     marks.BufWinEnterHandler(args) -- update marks in sign column
     vim.schedule(function() require("lualine").refresh() end)
+    vim.schedule(function() refresh_outline_providerinfo() end)
   end,
   group = agroup_views
 })
 
-local bufread_first = true
 -- restore view when reading a file
 autocmd({ 'BufReadPost' }, {
   pattern = "*",
@@ -215,23 +224,13 @@ autocmd({ 'BufReadPost' }, {
     vim.api.nvim_buf_set_var(0, "tsc", PCFG.treesitter_context)
     vim.api.nvim_buf_set_var(0, "inlayhints", PCFG.lsp.inlay_hints)
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
+      -- make sure parsing is complete before loading the view because restoring the folds
+      -- would not work otherwise. This is only needed when using async parsing.
       if vim.g._ts_force_sync_parsing ~= true then
         local has, p = pcall(vim.treesitter.get_parser)
-        if has == true and p ~= nil then
-          p:parse()
-        end
+        if has and p ~= nil then p:parse() end
       end
       vim.cmd("silent! loadview")
-      -- this (UGLY) hack was needed for a while during 0.11 development to fix some issues
-      -- with folds not being restored from loaded view.
-      --
-      --if bufread_first == true and Config.nightly == true then
-      --  bufread_first = false
-      --  vim.schedule(function() vim.cmd("silent! loadview") end)
-      --  -- vim.cmd("silent! loadview")
-      --else
-      --  vim.cmd("silent! loadview")
-      --end
     end
   end,
   group = agroup_views
@@ -277,9 +276,7 @@ autocmd({ 'FileType' }, {
       PCFG.outline_filetype ..
       ") | setlocal winhl=Normal:TreeNormalNC,CursorLine:TreeCursorLine | hi nCursor blend=0")
       -- aerial can set its own statuscolumn
-      if args.match == 'Outline' then
-        vim.cmd("silent! setlocal statuscolumn=")
-      end
+      vim.cmd("silent! setlocal statuscolumn=")
       vim.api.nvim_win_set_width(0, PCFG.outline.width)
     elseif args.match == "mail" then
       vim.cmd("setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
@@ -291,7 +288,7 @@ autocmd({ 'FileType' }, {
       --else
       --  vim.cmd("setlocal statuscolumn=%#TreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber")
       --end
-      vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual")
+      vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal fo-=t")
       -- vim.api.nvim_win_set_height(__Globals.term.winid, PCFG.terminal.height)
     elseif args.match == "Trouble" then
       if CGLOBALS.term.winid ~= nil then
@@ -378,6 +375,7 @@ autocmd({ 'LspAttach' }, {
       vim.cmd("hi! link @lsp.type.field Member")
     end
     require("outline").refresh()
+    vim.schedule(function() refresh_outline_providerinfo() end)
   end
 })
 

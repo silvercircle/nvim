@@ -1,13 +1,13 @@
 local lazy = require("lazy")
 lazy.setup({
   'sharkdp/fd',
-  {
-    "lervag/vimtex",
-    ft = "tex",
-    init = function()
-      -- Use init for configuration, don't use the more common "config".
-    end
-  },
+  --{
+  --  "lervag/vimtex",
+  --  ft = "tex",
+  --  init = function()
+  --    -- Use init for configuration, don't use the more common "config".
+  --  end
+  --},
   'BurntSushi/ripgrep',
   {
     'nvim-tree/nvim-web-devicons',
@@ -560,35 +560,15 @@ lazy.setup({
     }
   },
   {
-    "carbon-steel/detour.nvim",
-    lazy = true,
-    cmd = { "Detour", "DetourCurrentWindow" },
-    config = function()
-      vim.keymap.set("n", "<c-w><enter>", ":DetourCurrentWindow<cr>")
-    end
-  },
-  {
     "stevearc/quicker.nvim",
     event = "FileType qf",
     config = function()
-      require("quicker").setup()
-    end
-  },
-  {
-    'sindrets/diffview.nvim',
-    lazy = true,
-  },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    cond = Tweaks.theme.disable == true,
-    priority = 1000
-  },
-  {
-    "max397574/colortils.nvim",
-    cmd = "Colortils",
-    config = function()
-      require("plugins.others").setup.colortils()
+      require("quicker").setup({
+        opts = {
+          number = true,
+          signcolumn = "yes:3"
+        }
+      })
     end
   }
 },

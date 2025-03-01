@@ -1,3 +1,5 @@
+-- contains functions to save and retrieve a subset of settings to/from a JSON
+-- file in statedir.
 
 local function get_permconfig_filename()
   return vim.fs.joinpath(vim.fn.stdpath("state"), "/permconfig.json")
@@ -51,7 +53,7 @@ M.perm_config_default = {
   cmp_show_docs = true,
   autopair = true,
   cmp_layout = "classic",
-  cmp_autocomplete = Tweaks.cmp.autocomplete,
+  cmp_automenu = Tweaks.cmp.autocomplete,
   cmp_ghost = false,
   lsp = {
     inlay_hints = true
@@ -60,8 +62,9 @@ M.perm_config_default = {
 
 M.perm_config = {}
 
---- write the configuration to the json file
---- do not write it when running in plain mode (without additional frames and content)
+-- write the configuration to the json file
+-- do not write it when running in plain mode (without additional frames and content)
+-- this runs only once on VimLeave event
 function M.write_config()
   if CFG.plain == true then
     return
@@ -107,6 +110,7 @@ end
 
 --- read the permanent config from the JSON dump.
 --- restore the defaults if anything goes wrong
+--- it also configures darkmatter theme unless it is disabled in Tweaks.
 function M.restore_config()
   local file = get_permconfig_filename()
   local f = io.open(file, "r")
@@ -128,7 +132,6 @@ function M.restore_config()
   end
   PCFG = M.perm_config
   -- configure the theme
-  --local cmp_kind_attr = M.perm_config.cmp_layout == "experimental" and { bold=true, reverse=true } or {}
   local cmp_kind_attr = { bold=true, reverse=true }
   if Tweaks.theme.disable == false then
     CFG.theme.setup({

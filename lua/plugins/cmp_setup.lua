@@ -218,7 +218,7 @@ cmp.setup({
   preselect = cmp.PreselectMode.Item,
   enabled = true,
   completion = {
-    autocomplete = PCFG.cmp_autocomplete == true and { cmp_types.TriggerEvent.TextChanged } or {},
+    autocomplete = PCFG.cmp_automenu == true and { cmp_types.TriggerEvent.TextChanged } or {},
     completeopt = "menu,menuone",
   },
   view = {

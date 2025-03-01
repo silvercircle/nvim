@@ -483,12 +483,6 @@ function M.toggle_ibl()
   vim.schedule(function() vim.cmd.redraw() end)
 end
 
--- enable/disable ibl context display
-function M.toggle_ibl_context()
-  PCFG.ibl_context = not PCFG.ibl_context
-  require("ibl").update({ scope = { enabled = PCFG.ibl_context } })
-end
-
 --- toggle scrollbar visibility
 --- this works with both the satellite and nvim-scrollbar plugins whatever one
 --- is active. The current status is saved to the permanent configuration.

@@ -316,7 +316,8 @@ Tweaks.theme = {
   rainbow_contrast = "low",
   scheme = "gruv",
   all_types_bold = false,
-  disable = false
+  disable = false,
+  picker_backdrop = 80
 }
 
 -- which status line plugin to use.

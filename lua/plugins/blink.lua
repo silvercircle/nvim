@@ -353,7 +353,7 @@ require("blink.cmp").setup({
     },
     menu = {
       enabled = true,
-      auto_show = function() return PCFG.cmp_autocomplete end,
+      auto_show = function() return PCFG.cmp_automenu end,
       border = Borderfactory(w_border),
       winblend = T.winblend.menu,
       max_height = T.window_height,
