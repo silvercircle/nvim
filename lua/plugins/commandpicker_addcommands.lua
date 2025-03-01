@@ -240,8 +240,13 @@ require("commandpicker").add({
     category = "@GIT"
   },
   {
+    -- only use this for nvim-cmp, not yet supported for blink
     desc = "Configure CMP layout",
-    cmd = function() require("plugins.cmp_setup").select_layout() end,
+    cmd = function()
+      if Tweaks.completion.version == "nvim-cmp" then
+        require("plugins.cmp_setup").select_layout()
+      end
+    end,
     keys = {
       { "n", "<leader>cc", noremap },
     },
@@ -368,23 +373,17 @@ require("commandpicker").add({
   {
     desc = "Fuzzy search in current buffer",
     cmd = function()
-      fzf.blines({ winopts = FWO("std_preview_top", "Fuzzy search in current buffer") })
+      fzf.blines({ query = lutils.get_selection(), winopts = FWO("std_preview_top", "Fuzzy search in current buffer") })
     end,
-    keys = {
-      { "n", "<C-x><C-f>", noremap },
-      { "i", "<C-x><C-f>", noremap }
-    },
+    key = { { "n", "i", "v" }, "<C-x><C-f>", noremap },
     category = "@FZF"
   },
   {
     desc = "Fuzzy search in all open buffers",
     cmd = function()
-      fzf.lines({ winopts = FWO("std_preview_top", "Fuzzy search in all open buffers") })
+      fzf.lines({ query = lutils.get_selection(), winopts = FWO("std_preview_top", "Fuzzy search in all open buffers") })
     end,
-    keys = {
-      { "n", "<C-x>f", noremap },
-      { "i", "<C-x>f", noremap }
-    },
+    key = { { "n", "i", "v" }, "<C-x>f", noremap },
     category = "@FZF"
   },
   {

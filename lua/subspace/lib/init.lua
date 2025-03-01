@@ -461,6 +461,7 @@ Utils.send_tab_key = function()
 end
 
 --- when visual mode is active, return current selection
+--- @return string selection the selected text or empty string if nothing is selected
 function Utils.get_selection()
   if vim.fn.mode() ~= 'v' then
     return ""
@@ -478,7 +479,7 @@ end
 --- @param entries table: the items
 --- @param fn function: function to execute on confirm
 --- @param opts table: the options
---- opts.sortby list sort by this field, may contain a :desc prefix
+--- opts.sortby list sort by this field, may contain a :desc suffix
 --- opts.pre    string use this item field to determine the current item
 --- opts.prompt string: the prompt for the picker
 ---

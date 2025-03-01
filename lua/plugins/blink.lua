@@ -3,7 +3,7 @@
 -- requires blink.compat
 
 local T = Tweaks.blink
-local border = T.border
+local w_border = T.border
 local itemlist = nil
 local M = {}
 
@@ -99,18 +99,13 @@ local function italizemenugroups()
     "CmpItemMenu", "CmpItemMenuPath", "CmpItemMenuDetail",
     "CmpItemMenuBuffer", "CmpItemMenuSnippet", "CmpItemMenuLSP" }
 
-  for _, v in ipairs(groups) do
-    local fg, bg, name
-    local hl = vim.api.nvim_get_hl(0, { name = v })
-    if hl.link ~= nil then
-      name = hl.link
-    else
-      name = v
-    end
-    fg = vim.api.nvim_get_hl(0, { name = name }).fg
-    bg = vim.api.nvim_get_hl(0, { name = name }).bg
-    vim.api.nvim_set_hl(0, v, { fg = fg, bg = bg, italic = true })
-  end
+  vim.iter(groups):map(function(k)
+    local hl = vim.api.nvim_get_hl(0, { name = k })
+    local name = hl.link or k
+    local fg = vim.api.nvim_get_hl(0, { name = name }).fg
+    local bg = vim.api.nvim_get_hl(0, { name = name }).bg
+    vim.api.nvim_set_hl(0, k, { fg = fg, bg = bg, italic = true })
+  end)
 end
 
 function M.update_hl()
@@ -136,6 +131,9 @@ local context_sources = {
   text = { "lsp", "path", "snippets", "emoji", "wordlist", "dictionary", "buffer" },
 }
 require("blink.cmp").setup({
+  fuzzy = {
+    implementation = "rust"
+  },
   appearance = {
     -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
     -- Adjusts spacing to ensure icons are aligned
@@ -355,8 +353,8 @@ require("blink.cmp").setup({
     },
     menu = {
       enabled = true,
-      auto_show = function() return PCFG.cmp_autocomplete end,
-      border = Borderfactory(border),
+      auto_show = function() return PCFG.cmp_automenu end,
+      border = Borderfactory(w_border),
       winblend = T.winblend.menu,
       max_height = T.window_height,
       draw = {
@@ -428,7 +426,7 @@ require("blink.cmp").setup({
     documentation = {
       auto_show = T.auto_doc,
       window = {
-        border = Borderfactory(border),
+        border = Borderfactory(w_border),
         winblend = T.winblend.doc,
         min_width = 30,
         max_width = 95,
@@ -458,9 +456,11 @@ require("blink.cmp").setup({
     },
     window = {
       show_documentation = true,
-      border = Borderfactory(border),
+      border = Borderfactory(w_border),
     }
   }
 })
+
+CGLOBALS.blink_setup_done = true
 
 return M

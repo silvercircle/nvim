@@ -18,7 +18,7 @@ autocmd({ 'VimLeave' }, {
   callback = function()
     if CFG.plain == false then
       -- vim.system({ 'tmux', 'set', '-qg', 'allow-passthrough', 'off' }, { text = true })
-      CGLOBALS.write_config()
+      require("subspace.lib.permconfig").write_config()
     end
   end,
   group = agroup_views
@@ -192,7 +192,7 @@ autocmd({ 'BufEnter' }, {
         vim.schedule(function() Tsc.disable() end)
       end
       val = CGLOBALS.get_buffer_var(args.buf, "inlayhints")
-      if val == true or val == false then
+      if val ~= nil and type(val) == "boolean" then
         vim.lsp.inlay_hint.enable(val, { bufnr = args.buf } )
       end
     end
@@ -207,7 +207,6 @@ autocmd({ 'BufEnter' }, {
   group = agroup_views
 })
 
-local bufread_first = true
 -- restore view when reading a file
 autocmd({ 'BufReadPost' }, {
   pattern = "*",
@@ -215,17 +214,13 @@ autocmd({ 'BufReadPost' }, {
     vim.api.nvim_buf_set_var(0, "tsc", PCFG.treesitter_context)
     vim.api.nvim_buf_set_var(0, "inlayhints", PCFG.lsp.inlay_hints)
     if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
+      -- make sure parsing is complete before loading the view because restoring the folds
+      -- would not work otherwise. This is only needed when using async parsing.
+      if vim.g._ts_force_sync_parsing ~= true then
+        local has, p = pcall(vim.treesitter.get_parser)
+        if has and p ~= nil then p:parse() end
+      end
       vim.cmd("silent! loadview")
-      -- this (UGLY) hack was needed for a while during 0.11 development to fix some issues
-      -- with folds not being restored from loaded view.
-      --
-      --if bufread_first == true and Config.nightly == true then
-      --  bufread_first = false
-      --  vim.schedule(function() vim.cmd("silent! loadview") end)
-      --  -- vim.cmd("silent! loadview")
-      --else
-      --  vim.cmd("silent! loadview")
-      --end
     end
   end,
   group = agroup_views
@@ -285,7 +280,7 @@ autocmd({ 'FileType' }, {
       --else
       --  vim.cmd("setlocal statuscolumn=%#TreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber")
       --end
-      vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual")
+      vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal fo-=t")
       -- vim.api.nvim_win_set_height(__Globals.term.winid, PCFG.terminal.height)
     elseif args.match == "Trouble" then
       if CGLOBALS.term.winid ~= nil then

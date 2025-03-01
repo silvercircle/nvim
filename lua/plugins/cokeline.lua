@@ -86,7 +86,7 @@ require('cokeline').setup({
       highlight = function(buffer) return buffer.is_focused and "CokelineActivePad" or "CokelineInactivePad" end
     },
     {
-      text = function(buffer) return not buffer.is_last and "|" or "" end,
+      text = function(buffer) return not buffer.is_last and "┃" or "" end,
       highlight = "CokelineInactive"
     }
   }

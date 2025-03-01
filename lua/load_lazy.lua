@@ -312,10 +312,6 @@ lazy.setup({
     end
   },
   {
-    'gabrielpoca/replacer.nvim',
-    ft = { "qf" }
-  },
-  {
     'willothy/nvim-cokeline', lazy = true, event="UIEnter", branch = "main",
     config = function()
       require("plugins.cokeline")
@@ -403,7 +399,9 @@ lazy.setup({
     "stevearc/quicker.nvim",
     event = "FileType qf",
     config = function()
-      require("quicker").setup()
+      require("quicker").setup({
+        use_default_opts = true
+      })
     end
   },
   {
@@ -414,5 +412,5 @@ lazy.setup({
 {
   ui = {
     border = Borderfactory("thicc")
-  },
+  }
 })

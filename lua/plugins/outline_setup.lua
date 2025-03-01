@@ -68,7 +68,7 @@ outline_window = {
     auto_set_cursor = true,
     auto_update_events = {
       follow = { "CursorHold", "CursorHoldI" },
-      items = { 'InsertLeave', --[['WinEnter',]] 'BufEnter', --[['BufWinEnter',]] --[['TabEnter',]] 'BufWritePost' }
+      items = {--[['InsertLeave',]] --[['WinEnter',]] 'BufEnter', --[['BufWinEnter',]] --[['TabEnter',]] 'BufWritePost' }
     }
     -- lock = "window"
   },
@@ -166,7 +166,7 @@ outline_window = {
     priority = { 'lsp', 'treesitter', 'markdown', 'norg' },
     lsp = {
       -- Lsp client names to ignore
-      blacklist_clients = { "texlab", "marksman" },
+      blacklist_clients = { "texlab", "marksman", "ctags_lsp" },
     },
   },
 

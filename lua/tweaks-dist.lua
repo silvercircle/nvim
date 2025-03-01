@@ -298,7 +298,7 @@ Tweaks.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and tr
 
 -- the key prefix used for various utility functions. See keymap.lua
 Tweaks.keymap = {
-  utility_key = "<f18>",
+  utility_key = "<C-l>",
   mapleader = ",",
   fzf_prefix = "<C-q>"
 }
@@ -360,7 +360,7 @@ Tweaks.srclocations = { "src", "source", "sources", "SRC", "Src", "SOURCE", "Sou
 Tweaks.cokeline = {
   closebutton = false,
   underline = false,
-  active_tab_style = "half_padded",
+  active_tab_style = "full_padded",
   styles = {
     slanted = {
       left = "",

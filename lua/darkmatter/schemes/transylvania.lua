@@ -271,6 +271,7 @@ function M.bgtheme()
     accent_fg = "#aaaa60",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
     selbg = "#44475A",
+    treeselbg = "#303240",
     cold = {
       black = { "#151212", 232 },
       bg_dim = { "#242020", 232 },
@@ -351,6 +352,10 @@ end
 ---@return table: supported color variants
 function M.schemeconfig()
   return schemeconfig
+end
+
+function M.custom_hl(theme)
+  theme.hl_with_defaults("iCursor", theme.P.altyellow, theme.P.altyellow)
 end
 
 return M

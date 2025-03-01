@@ -34,11 +34,12 @@ local function get_permissions_color()
 end
 
 local function status()
-  local s, val = pcall(vim.api.nvim_buf_get_var, -1, "completion")
-  local mode = not (s == true and val == false )
+  local s, val = pcall(vim.api.nvim_buf_get_var, 0, "completion")
+  local disabled = (s == true and val == false )
   return (CGLOBALS.get_buffer_var(0, "tsc") == true and "C" or "c") ..
-         (CGLOBALS.get_buffer_var(0, "inlayhints") == true and "I" or "i") ..
-         (mode and "A" or "a")
+         (CGLOBALS.get_buffer_var(0, "inlayhints") == true and "H" or "h") ..
+         (vim.b[0].snacks_indent == false and "i" or (PCFG.ibl_enabled and "I" or "i")) ..
+         (disabled and "a" or "A")
 end
 
 local function status_indicators()
@@ -46,9 +47,9 @@ local function status_indicators()
          (PCFG.debug == true and "D" or "d") ..
          (PCFG.transbg == true and "T" or "t") ..
          (PCFG.autopair == true and "A" or "a") ..
-         (PCFG.cmp_autocomplete and 'O' or 'o') ..
+         (PCFG.cmp_automenu and 'O' or 'o') ..
          (PCFG.cmp_ghost and 'G' or 'g') ..
-         (PCFG.lsp.inlay_hints and 'I' or 'i')
+         (PCFG.lsp.inlay_hints and 'H' or 'h')
 end
 
 --- internal global function to create the lualine color theme
@@ -160,7 +161,7 @@ require("lualine").setup({
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", 'terminal', 'qf', 'query_rt', 'sysmon', 'weather', "NvimTree", "neo-tree", "Trouble" },
+      statusline = { "Outline", 'terminal', 'query_rt', 'sysmon', 'weather', "NvimTree", "neo-tree", "Trouble" },
       winbar = { 'Outline', 'terminal', 'query_rt', 'qf', 'NvimTree', 'neo-tree', 'alpha', 'sysmon', 'weather', 'Trouble',
                  'dap-repl', 'dapui_console', 'dapui_watches', 'dapui_stacks', 'dapui_scopes', 'dapui_breakpoints',
                  'snacks_picker_preview', 'snacks_dashboard' },

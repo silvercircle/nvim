@@ -99,17 +99,7 @@ local conf = {
   -- The callback can use get_conf() to retrieve the current configuration and setup() to
   -- change it.
   callback = nil,
-  -- plugins. there are 3 kinds of plugins:
-  -- customize: executed after configure() but before colors are set. Allows
-  --            you to customize the color tables.
-  -- hl:        list of additional highlighting. This can be used to support plugins
-  --            that are not supported by default.
-  -- post:      called after theme has been set
-  plugins = {
-    customize =  {},
-    hl = { "markdown", "syntax", "common" },
-    post = {}
-  }
+  coreplugins = { "markdown", "common" }
 }
 
 local diff = vim.api.nvim_win_get_option(0, "diff")
@@ -212,6 +202,7 @@ local function configure()
   M.P.treebg = { M.T[conf.variant].treebg, 232 }
   M.P.floatbg = { M.T[conf.variant].floatbg, 232 }
   M.P.selbg = { M.T["selbg"], 234 }
+  M.P.treeselbg = { M.T["treeselbg"], 234 }
 
   seq = 245
   for k,v in pairs(conf.usercolors) do
@@ -231,6 +222,39 @@ end
 -- set all hl groups
 local function set_all()
   -- basic highlights
+
+  M.hl_with_defaults("Fg", M.P.fg, M.NONE)
+  M.hl_with_defaults("FgDim", M.P.fg_dim, M.NONE)
+  M.hl_with_defaults("Grey", M.P.grey, M.NONE)
+  M.hl_with_defaults("Red", M.P.red, M.NONE)
+  M.hl("RedBold", M.P.red, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("DeepRed", M.P.deepred, M.NONE)
+  M.hl("DeepRedBold", M.P.deepred, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Orange", M.P.orange, M.NONE)
+  M.hl("OrangeBold", M.P.orange, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Yellow", M.P.yellow, M.NONE)
+  M.hl("YellowBold", M.P.yellow, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Green", M.P.green, M.NONE)
+  M.hl("GreenBold", M.P.green, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Blue", M.P.blue, M.NONE)
+  M.hl("BlueBold", M.P.blue, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Purple", M.P.purple, M.NONE)
+  M.hl("PurpleBold", M.P.purple, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("DarkPurple", M.P.darkpurple, M.NONE)
+  M.hl("DarkPurpleBold", M.P.darkpurple, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Darkyellow", M.P.darkyellow, M.NONE)
+  M.hl("DarkyellowBold", M.P.darkyellow, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Brown", M.P.brown, M.NONE)
+  M.hl("BrownBold", M.P.brown, M.NONE, conf.attrib.bold)
+  M.hl_with_defaults("Teal", M.P.teal, M.NONE)
+  M.hl("TealBold", M.P.teal, M.NONE, conf.attrib.bold)
+  M.hl("RedItalic", M.P.red, M.NONE, conf.attrib.italic)
+  M.hl("OrangeItalic", M.P.orange, M.NONE, conf.attrib.italic)
+  M.hl("YellowItalic", M.P.yellow, M.NONE, conf.attrib.italic)
+  M.hl("GreenItalic", M.P.green, M.NONE, conf.attrib.italic)
+  M.hl("BlueItalic", M.P.blue, M.NONE, conf.attrib.italic)
+  M.hl("PurpleItalic", M.P.lpurple, M.NONE, conf.attrib.italic)
+
   M.hl("Braces", M.P.styled.braces, M.NONE, conf.attrib.brace)
   M.hl("Operator", M.P.styled.operator, M.NONE, conf.attrib.operator)
   M.hl("PunctDelim", M.P.styled.delim, M.NONE, conf.attrib.delim)
@@ -250,9 +274,9 @@ local function set_all()
   M.hl_with_defaults("ColorColumn", M.NONE, M.P.bg1)
   M.hl_with_defaults("Conceal", M.P.grey_dim, M.NONE)
   M.hl_with_defaults("Cursor", M.P.fg, M.P.fg)
-  M.hl_with_defaults("nCursor", M.P.fg, M.P.fg)
-  M.hl_with_defaults("iCursor", M.P.yellow, M.P.yellow)
-  M.hl_with_defaults("vCursor", M.P.red, M.P.red)
+  M.hl_with_defaults("nCursor", M.NONE, M.P.fg)
+  M.hl_with_defaults("iCursor", M.NONE, M.P.yellow)
+  M.hl_with_defaults("vCursor", M.NONE, M.P.red)
   M.hl_with_defaults("LineNr", M.P.grey_dim, M.NONE)
   M.hl_with_defaults("DiffAdd", M.NONE, M.P.diff_green)
   M.hl_with_defaults("DiffChange", M.NONE, M.P.diff_blue)
@@ -291,20 +315,9 @@ local function set_all()
   M.link("CursorIM", "iCursor")
 
   M.hl("FocusedSymbol", M.P.yellow, M.NONE, conf.attrib.bold)
-
-  if diff then
-    M.hl("CursorLine", M.NONE, M.NONE, { underline = true })
-    M.hl("CursorColumn", M.NONE, M.NONE, conf.attrib.bold)
-  else
-    M.hl_with_defaults("CursorLine", M.NONE, M.P.bg0)
-    M.hl_with_defaults("CursorColumn", M.NONE, M.P.bg1)
-  end
-
-  if diff then
-    M.hl("CursorLineNr", M.P.yellow, M.NONE, { underline = true })
-  else
-    M.hl_with_defaults("CursorLineNr", M.P.olive, M.P.darkbg)
-  end
+  M.hl_with_defaults("CursorLine", M.NONE, M.P.bg0)
+  M.hl_with_defaults("CursorColumn", M.NONE, M.P.bg1)
+  M.hl_with_defaults("CursorLineNr", M.P.olive, M.P.darkbg)
 
   M.link("MsgArea", "StatusLine")
   M.link("WinSeparator", "VertSplit")
@@ -362,38 +375,7 @@ local function set_all()
 
   M.hl("Attribute", M.P.styled.attribute, M.NONE, conf.attrib.attribute)
   M.hl("Annotation", M.P.styled.attribute, M.NONE, conf.attrib.attribute)
-  M.hl_with_defaults("Fg", M.P.fg, M.NONE)
-  M.hl_with_defaults("FgDim", M.P.fg_dim, M.NONE)
-  M.hl_with_defaults("Grey", M.P.grey, M.NONE)
-  M.hl_with_defaults("Red", M.P.red, M.NONE)
-  M.hl("RedBold", M.P.red, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("DeepRed", M.P.deepred, M.NONE)
-  M.hl("DeepRedBold", M.P.deepred, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Orange", M.P.orange, M.NONE)
-  M.hl("OrangeBold", M.P.orange, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Yellow", M.P.yellow, M.NONE)
-  M.hl("YellowBold", M.P.yellow, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Green", M.P.green, M.NONE)
-  M.hl("GreenBold", M.P.green, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Blue", M.P.blue, M.NONE)
-  M.hl("BlueBold", M.P.blue, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Purple", M.P.purple, M.NONE)
-  M.hl("PurpleBold", M.P.purple, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("DarkPurple", M.P.darkpurple, M.NONE)
-  M.hl("DarkPurpleBold", M.P.darkpurple, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Darkyellow", M.P.darkyellow, M.NONE)
-  M.hl("DarkyellowBold", M.P.darkyellow, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Brown", M.P.brown, M.NONE)
-  M.hl("BrownBold", M.P.brown, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("Teal", M.P.teal, M.NONE)
-  M.hl("TealBold", M.P.teal, M.NONE, conf.attrib.bold)
 
-  M.hl("RedItalic", M.P.red, M.NONE, conf.attrib.italic)
-  M.hl("OrangeItalic", M.P.orange, M.NONE, conf.attrib.italic)
-  M.hl("YellowItalic", M.P.yellow, M.NONE, conf.attrib.italic)
-  M.hl("GreenItalic", M.P.green, M.NONE, conf.attrib.italic)
-  M.hl("BlueItalic", M.P.blue, M.NONE, conf.attrib.italic)
-  M.hl("PurpleItalic", M.P.lpurple, M.NONE, conf.attrib.italic)
   M.hl_with_defaults("RedSign", M.P.red, M.P.darkbg)
   M.hl_with_defaults("OrangeSign", M.P.orange, M.P.darkbg)
   M.hl_with_defaults("YellowSign", M.P.yellow, M.P.darkbg)
@@ -604,7 +586,7 @@ local function set_all()
   M.hl_with_defaults("TreeNormal", M.P.fg, M.P.treebg)
   M.hl("NeoTreeFileNameOpened", M.P.blue, M.P.treebg, conf.attrib.italic)
   M.hl_with_defaults("SymbolsOutlineConnector", M.P.grey_dim, M.NONE)
-  M.hl_with_defaults("TreeCursorLine", M.NONE, M.P.c3)
+  M.hl_with_defaults("TreeCursorLine", M.NONE, M.P.treeselbg)
   M.hl_with_defaults("NotifierTitle", M.P.yellow, M.NONE)
   M.link("NotifierContent", "TreeNormalNC")
 
@@ -634,17 +616,12 @@ end
 -- this activates the theme.
 -- it always calls configure(), no need to call this explicitely
 function M.set()
+  Scheme = require("darkmatter.schemes.".. conf.scheme)
   if conf.disabled == true then
     return
   end
   configure()
-  for _, v in ipairs(conf.plugins.customize) do
-    require("darkmatter.plugins." .. v)
-  end
   set_all()
-  for _, v in ipairs(conf.plugins.hl) do
-    require("darkmatter.plugins." .. v).set()
-  end
   if conf.sync_kittybg == true and conf.kittysocket ~= nil and conf.kittenexec ~= nil then
     if vim.fn.filereadable(conf.kittysocket) == 1 and vim.fn.executable(conf.kittenexec) == 1 then
       vim.fn.jobstart(
@@ -659,8 +636,19 @@ function M.set()
       vim.fn.jobstart("alacritty msg config \"colors.primary.background='" .. M.T[conf.variant].kittybg .. "'\"")
     end
   end
-  for _, v in ipairs(conf.plugins.post) do
-    require("darkmatter.plugins." .. v)
+  vim.iter(conf.coreplugins):map(function(k)
+    local p = require("darkmatter.plugins." .. k)
+    if p.set ~= nil and type(p.set) == "function" then p.set() end
+  end)
+  if conf.userplugins ~= nil then
+    vim.iter(conf.userplugins):map(function(k)
+      local p = require("darkmatter.plugins." .. k)
+      if p.set ~= nil and type(p.set) == "function" then p.set() end
+    end)
+  end
+  -- call the override function in the scheme config if it exists.
+  if Scheme.custom_hl ~= nil and type(Scheme.custom_hl) == "function" then
+    Scheme.custom_hl(M)
   end
   set_signs_trans()
 end
