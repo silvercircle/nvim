@@ -174,6 +174,7 @@ local function _set()
   c.link("FzfLuaFzfMatch", "PickerMatching")
   c.link("FzfLuaPathLineNr", "Orange")
   c.link("FzfLuaBufNr", "Brown")
+  c.link("FzfLuaBufLineNr", "Number")
   c.link("FzfLuaPreviewTitle", "FloatTitle")
   c.link("FzfLuaTitle", "FloatTitle")
 
