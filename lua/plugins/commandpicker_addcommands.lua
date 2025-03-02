@@ -36,12 +36,6 @@ require("commandpicker").add({
     category = "@Bookmarks"
   },
   {
-    desc = "Show favorite folders (rescan fav file)",
-    cmd = function() require "quickfavs".Quickfavs(true) end,
-    keys = { "n", fkeys.s_f12, },
-    category = "@Bookmarks"
-  },
-  {
     desc = "LSP server info",
     cmd = "<cmd>LspInfo<cr>",
     keys = { "n", "lsi", noremap },
@@ -644,7 +638,7 @@ require("commandpicker").add({
   },
   {
     desc = "Document symbols (FZF)",
-    cmd = function() require("snacks").picker.lsp_symbols({ layout = SPL( {width = 80, input="top", height=.8, preview=true, psize=10 } ) }) end,
+    cmd = function() require("snacks").picker.lsp_symbols({ layout = SPL( {width = 80, input="bottom", height=.8, preview=true, psize=0.3 } ) }) end,
     keys = {
       { "n", "<A-a>", noremap },
       { "i", "<A-a>", noremap }

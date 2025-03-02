@@ -50,6 +50,7 @@ lazy.setup({
   },
   {
     "jake-stewart/multicursor.nvim",
+    event = "BufReadPost",
     cond = Tweaks.multicursor == "jake-stewart",
     branch = "1.0",
     config = function()
@@ -402,7 +403,7 @@ lazy.setup({
             build_position_cb = function(plist, _, _, _)
               require("scrollbar.handlers.search").handler.show(plist.start_pos)
             end,
-            calm_down = true,    -- set to true to clear all lenses when cursor moves
+            calm_down = false,    -- set to true to clear all lenses when cursor moves
             nearest_float_when = "never",
             nearest_only = true
           })
@@ -413,7 +414,7 @@ lazy.setup({
   {
     "norcalli/nvim-colorizer.lua",
     lazy = true,
-    event = { 'BufReadPre'},
+    keys = "ct",
     config = function()
       require "colorizer".setup {
         "css",
@@ -529,6 +530,7 @@ lazy.setup({
   },
   {
     "folke/trouble.nvim",
+    cond = false,
     event = "LspAttach",
     config = function()
       require("plugins.others").setup.trouble()
@@ -567,6 +569,34 @@ lazy.setup({
         opts = {
           number = true,
           signcolumn = "yes:3"
+        }
+      })
+    end
+  },
+  {
+    --"oskarrrrrrr/symbols.nvim",
+    dir = "/data/mnt/shared/data/code/neovim_plugins/symbols.nvim/",
+    branch = "mine",
+    config = function()
+      local r = require("symbols.recipes")
+      require("symbols").setup(r.DefaultFilters, r.FancySymbols, {
+        sidebar = {
+          auto_resize = {
+            enabled = false,
+            min_width = PCFG.outline.width,
+            max_width = PCFG.outline.width
+          },
+          fixed_width = PCFG.outline.width,
+          show_inline_details = true,
+          open_direction = "right",
+          on_open_make_windows_equal = false,
+          show_guide_lines = true,
+          hide_cursor = false
+        },
+        providers = {
+          lsp = {
+            timeout_ms = 5000
+          }
         }
       })
     end

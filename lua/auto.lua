@@ -22,6 +22,15 @@ local function refresh_outline_providerinfo()
   end
 end
 
+local function configure_outline_sidebar()
+  vim.schedule(function()
+    vim.cmd("silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber")
+    vim.cmd("silent! set statusline=\\ \\ Outline" .. "\\ (" .. PCFG.outline_filetype .. ")")
+    vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:TreeCursorLine | hi nCursor blend=0")
+    vim.cmd("silent! setlocal statuscolumn=")
+  end)
+end
+
 --- on leave, write the permanent settings file
 autocmd({ 'VimLeave' }, {
   callback = function()
@@ -110,8 +119,8 @@ local function main_layout()
           if status.outline ~= 0 then
             PCFG.outline.width = vim.api.nvim_win_get_width(status.outline)
           end
-          if status.aerial ~= 0 then
-            PCFG.outline.width = vim.api.nvim_win_get_width(status.aerial)
+          if status.symbols ~= 0 then
+            PCFG.outline.width = vim.api.nvim_win_get_width(status.symbols)
           end
           if PCFG.outline.width < CFG.outline_width then
             PCFG.outline.width = CFG.outline_width
@@ -265,18 +274,12 @@ local conceal_pattern = { "markdown", "telekasten", "liquid" }
 
 -- generic FileType handler adressing common actions
 autocmd({ 'FileType' }, {
-  pattern = { "Outline", "mail", "qf", "replacer", "Trouble",
+  pattern = { "Outline", "SymbolsSidebar", "mail", "qf", "replacer",
     'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go',
     "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
-    if args.match == "Outline" then
-      vim.cmd(
-      "silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber | silent! setlocal statusline=\\ \\ Outline" ..
-      "\\ (" ..
-      PCFG.outline_filetype ..
-      ") | setlocal winhl=Normal:TreeNormalNC,CursorLine:TreeCursorLine | hi nCursor blend=0")
-      -- aerial can set its own statuscolumn
-      vim.cmd("silent! setlocal statuscolumn=")
+    if args.match == "Outline" or args.match == "SymbolsSidebar" then
+      configure_outline_sidebar()
       vim.api.nvim_win_set_width(0, PCFG.outline.width)
     elseif args.match == "mail" then
       vim.cmd("setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
@@ -290,10 +293,6 @@ autocmd({ 'FileType' }, {
       --end
       vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal fo-=t")
       -- vim.api.nvim_win_set_height(__Globals.term.winid, PCFG.terminal.height)
-    elseif args.match == "Trouble" then
-      if CGLOBALS.term.winid ~= nil then
-        vim.api.nvim_win_set_var(0, "termheight", PCFG.terminal.height)
-      end
     elseif vim.tbl_contains(tabstop_pattern, args.match) then
       vim.cmd(
       "setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal fo-=c")
@@ -322,7 +321,7 @@ autocmd({ 'CmdLineEnter' }, {
 
 -- filetypes for left, right and bottom splits. They are meant to have a different background
 -- color and no cursor
-local enter_leave_filetypes = { "Outline", "NvimTree", "neo-tree", 'snacks_picker_list'  }
+local enter_leave_filetypes = { "Outline", "NvimTree", "neo-tree", 'snacks_picker_list', "SymbolsSidebar" }
 local old_mode
 
 autocmd({ 'WinEnter' }, {
@@ -374,8 +373,10 @@ autocmd({ 'LspAttach' }, {
     if vim.bo[args.buf].ft == "razor" then
       vim.cmd("hi! link @lsp.type.field Member")
     end
-    require("outline").refresh()
-    vim.schedule(function() refresh_outline_providerinfo() end)
+    if PCFG.outline_filetype == "Outline" then
+      require("outline").refresh()
+      vim.schedule(function() refresh_outline_providerinfo() end)
+    end
   end
 })
 

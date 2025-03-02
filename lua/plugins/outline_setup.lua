@@ -174,7 +174,7 @@ outline_window = {
     -- filter symbols for certain filtypes. Lua is particularly "spammy" and can create
     -- long symbol trees.
     filter = {
-      lua = { "Array", "Variable", "Boolean", "Constant", "String", exclude = true}
+      lua = { --[[ "Array", "Variable",]] "Boolean", "Constant", "String", exclude = true}
     },
     icon_fetcher = nil,
     -- 3rd party source for fetching icons. Fallback if icon_fetcher returned

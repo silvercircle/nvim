@@ -356,14 +356,26 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   if CGLOBALS.findbufbyType(PCFG.outline_filetype) == false then
     CGLOBALS.open_outline()
     local status = CGLOBALS.is_outline_open()
-    if status.aerial ~= 0 then
-      require("aerial").refetch_symbols(0) -- aerial plugin, refresh symbols
+    if status.symbols ~= 0 then
+      vim.cmd("Symbols!")
     end
     if status.outline ~= 0 then
       require("outline").refresh_outline()
     end
   end
 end, "Focus Outline window") -- Outline
+
+vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sf', function()
+  if PCFG.outline_filetype == "SymbolsSidebar" then
+    require("symbols").api.action("unfold-all")
+  end
+end, "SymbolsSidebar Unfold all")
+
+vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sg', function()
+  if PCFG.outline_filetype == "SymbolsSidebar" then
+    require("symbols").api.action("fold-all")
+  end
+end, "SymbolsSidebar Fold all")
 
 local function focus_term_split(dir)
   if CGLOBALS.findbufbyType('terminal') == false then
