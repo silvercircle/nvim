@@ -286,7 +286,7 @@ function M.bgtheme()
       bg = "#121214",
       treebg = "#151518",
       floatbg = "#151519",
-      gutterbg = "#282a36",
+      gutterbg = "#121213",
       kittybg = "#151518",
       fg = fg_def,
       fg_dim = fg_dim_def

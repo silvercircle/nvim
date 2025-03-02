@@ -260,6 +260,8 @@ local function _set()
   c.link("SnacksPickerMatch", "Error")
   c.link("SnacksPickerDir", "Comment")
   c.link("SnacksPickerFile", "DefaultLib")
+  c.link("SnacksPickerCursorLine", "TreeCursorLine")
+  c.link("SnacksPickerListCursorLine", "TreeCursorLine")
 
   c.link("SnacksNotifierBorderInfo", "FloatBorder")
   c.link("SnacksNotifierBorderWarn", "FloatBorder")
