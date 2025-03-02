@@ -317,7 +317,7 @@ Tweaks.theme = {
   scheme = "gruv",
   all_types_bold = false,
   disable = false,
-  picker_backdrop = 80
+  picker_backdrop = 100
 }
 
 -- which status line plugin to use.

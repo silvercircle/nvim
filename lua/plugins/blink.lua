@@ -128,7 +128,7 @@ local blink_menu_hl_group = {
 local context_sources = {
   default = { "lsp", "path", "snippets", "buffer" },
   lua = { "lsp", "path", "snippets", "lua", "buffer" },
-  text = { "lsp", "path", "snippets", "emoji", "wordlist", "dictionary", "buffer" },
+  text = { "lsp", "path", "snippets", "emoji", "wordlist", "buffer", "dictionary" }
 }
 require("blink.cmp").setup({
   fuzzy = {
