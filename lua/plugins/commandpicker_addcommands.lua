@@ -696,7 +696,7 @@ require("commandpicker").add({
         enter = function(item)
           local dir = vim.fn.split(item[1] or "", "\t")[2] or ""
           if vim.fn.isdirectory(dir) then
-            fzf.files({ cwd = dir, winopts = fzf_tweaks.winopts.mini_list})
+            fzf.files({ cwd = dir, winopts = fzf_tweaks.winopts.std_preview_nonet})
           end
         end,
         ["ctrl-g"] = function(item)
@@ -704,7 +704,7 @@ require("commandpicker").add({
           if vim.fn.isdirectory(dir) then
             fzf.live_grep({ cwd = dir, winopts = fzf_tweaks.winopts.std_preview_top})
           end
-        end}, winopts = fzf_tweaks.winopts.mini_with_preview })
+        end}, winopts = FWO("mini_with_preview", "Zoxide History, <CR> = browse, <C-g> = Grep" ) })
     end,
     key = { {"n","i"}, "<C-x>z", noremap },
     category = "@LSP FZF"

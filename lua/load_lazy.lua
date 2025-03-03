@@ -1,14 +1,5 @@
 local lazy = require("lazy")
 lazy.setup({
-  'sharkdp/fd',
-  --{
-  --  "lervag/vimtex",
-  --  ft = "tex",
-  --  init = function()
-  --    -- Use init for configuration, don't use the more common "config".
-  --  end
-  --},
-  'BurntSushi/ripgrep',
   {
     'nvim-tree/nvim-web-devicons',
     config = function()
@@ -32,26 +23,8 @@ lazy.setup({
     end
   },
   {
-    "brenton-leighton/multiple-cursors.nvim",
-    cond = Tweaks.multicursor == "brenton-leighton",
-    version = "*", -- Use the latest tagged version
-    keys = {
-      { "<C-Down>",      "<Cmd>MultipleCursorsAddDown<CR>",          mode = { "n", "i" } },
-      { "<C-Up>",        "<Cmd>MultipleCursorsAddUp<CR>",            mode = { "n", "i" } },
-      { "<C-LeftMouse>", "<Cmd>MultipleCursorsMouseAddDelete<CR>",   mode = { "n", "i" } },
-      { "<C-n>",         "<Cmd>MultipleCursorsAddMatches<CR>",       mode = { "n", "x" } },
-      { "<C-n><C-n>",    "<Cmd>MultipleCursorsAddJumpNextMatch<CR>", mode = { "n", "x" } },
-      { "<C-n><C-l>",    "<Cmd>MultipleCursorsLock<CR>",             mode = { "n", "x" } },
-      { "<leader>n",     "<Cmd>MultipleCursorsJumpNextMatch<CR>",    mode = { "n", "x" } }
-    },
-    config = function()
-      require("plugins.others").setup.multicursor_brenton()
-    end
-  },
-  {
     "jake-stewart/multicursor.nvim",
     event = "BufReadPost",
-    cond = Tweaks.multicursor == "jake-stewart",
     branch = "1.0",
     config = function()
       require("plugins.others").setup.multicursor_stewart()
