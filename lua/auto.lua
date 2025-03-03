@@ -23,12 +23,12 @@ local function refresh_outline_providerinfo()
 end
 
 local function configure_outline_sidebar()
-  vim.schedule(function()
-    vim.cmd("silent! setlocal foldcolumn=0 | silent! setlocal signcolumn=no | silent! setlocal nonumber")
+  --vim.schedule(function()
+    vim.cmd("silent! set foldcolumn=0 | silent! set signcolumn=no | silent! set nonumber | setlocal listchars=eol:\\ ")
     vim.cmd("silent! set statusline=\\ \\ Outline" .. "\\ (" .. PCFG.outline_filetype .. ")")
-    vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:TreeCursorLine | hi nCursor blend=0")
-    vim.cmd("silent! setlocal statuscolumn=")
-  end)
+    vim.cmd("set winhl=Normal:TreeNormalNC,CursorLine:TreeCursorLine | hi nCursor blend=0")
+    vim.cmd("silent! set statuscolumn=")
+  --end)
 end
 
 --- on leave, write the permanent settings file
@@ -321,7 +321,7 @@ autocmd({ 'CmdLineEnter' }, {
 
 -- filetypes for left, right and bottom splits. They are meant to have a different background
 -- color and no cursor
-local enter_leave_filetypes = { "Outline", "NvimTree", "neo-tree", 'snacks_picker_list', "SymbolsSidebar" }
+local enter_leave_filetypes = { "Outline", "NvimTree", 'snacks_picker_list', "SymbolsSidebar", "SymbolsSearch" }
 local old_mode
 
 autocmd({ 'WinEnter' }, {

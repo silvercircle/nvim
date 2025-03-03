@@ -53,7 +53,7 @@ function M.open_outline()
   if PCFG.outline_filetype == "Outline" then
     vim.cmd("OutlineOpen")
   elseif PCFG.outline_filetype == "SymbolsSidebar" then
-    vim.cmd("SymbolsOpen!")
+    vim.cmd("Symbols!")
   end
 end
 

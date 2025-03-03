@@ -253,3 +253,62 @@ function SPL(params)
     }
   }
 end
+
+CFG.SIDEBAR_FancySymbols = {
+  providers = {
+    lsp = {
+      kinds = {
+        default = vim.g.lspkind_symbols,
+      }
+    },
+    treesitter = {
+      kinds = {
+        help = {
+          H1 = "",
+          H2 = "",
+          H3 = "",
+          Tag = "",
+        },
+        markdown = {
+          H1 = "",
+          H2 = "",
+          H3 = "",
+          H4 = "",
+          H5 = "",
+          H6 = "",
+        },
+        json = {
+          Array       = " ",
+          Object      = " ",
+          String      = " ",
+          Number      = " ",
+          Boolean     = " ",
+          Null        = "󰟢 ",
+        },
+        jsonl = {
+          Array       = " ",
+          Object      = " ",
+          String      = " ",
+          Number      = " ",
+          Boolean     = " ",
+          Null        = "󰟢 ",
+        },
+        org = {
+          H1 = "",
+          H2 = "",
+          H3 = "",
+          H4 = "",
+          H5 = "",
+          H6 = "",
+          H7 = "",
+          H8 = "",
+          H9 = "",
+          H10 = "",
+        },
+        make = {
+          Target = "",
+        }
+      }
+    },
+  }
+}

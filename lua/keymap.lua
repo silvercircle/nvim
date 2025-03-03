@@ -356,9 +356,6 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   if CGLOBALS.findbufbyType(PCFG.outline_filetype) == false then
     CGLOBALS.open_outline()
     local status = CGLOBALS.is_outline_open()
-    if status.symbols ~= 0 then
-      vim.cmd("Symbols!")
-    end
     if status.outline ~= 0 then
       require("outline").refresh_outline()
     end

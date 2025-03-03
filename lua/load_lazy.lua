@@ -413,8 +413,6 @@ lazy.setup({
   },
   {
     "norcalli/nvim-colorizer.lua",
-    lazy = true,
-    keys = "ct",
     config = function()
       require "colorizer".setup {
         "css",
@@ -576,10 +574,10 @@ lazy.setup({
   {
     --"oskarrrrrrr/symbols.nvim",
     dir = "/data/mnt/shared/data/code/neovim_plugins/symbols.nvim/",
-    branch = "mine",
+    branch = "experiments",
     config = function()
       local r = require("symbols.recipes")
-      require("symbols").setup(r.DefaultFilters, r.FancySymbols, {
+      require("symbols").setup(r.DefaultFilters, CFG.SIDEBAR_FancySymbols, {
         sidebar = {
           auto_resize = {
             enabled = false,
@@ -591,11 +589,23 @@ lazy.setup({
           open_direction = "right",
           on_open_make_windows_equal = false,
           show_guide_lines = true,
-          hide_cursor = false
+          unfold_on_goto = true,
+          hide_cursor = false,
+          show_details_pop_up = false,
+          chars = {
+            hl = "OutlineGuides"
+          },
+          on_symbols_complete = function(ctx)
+            vim.api.nvim_win_set_option(ctx.winid, "statusline", "  Outline (" .. (ctx.pname or "None") .. ")")
+            local unfold_for = { "tex", "markdown", "typst" }
+            if vim.tbl_contains(unfold_for, vim.bo.filetype) then
+              require("symbols").api.action("unfold-all")
+            end
+          end
         },
         providers = {
           lsp = {
-            timeout_ms = 5000
+            timeout_ms = 15000
           }
         }
       })

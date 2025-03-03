@@ -48,7 +48,6 @@ M.perm_config_default = {
   outline_filetype = "Outline",
   treesitter_context = true,
   show_indicators = true,
-  telescope_borders = "single",
   float_borders = "single",
   cmp_show_docs = true,
   autopair = true,
