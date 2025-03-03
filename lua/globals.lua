@@ -52,8 +52,8 @@ function M.open_outline()
   end
   if PCFG.outline_filetype == "Outline" then
     vim.cmd("OutlineOpen")
-  elseif PCFG.outline_filetype == "aerial" then
-    require("aerial").open()
+  elseif PCFG.outline_filetype == "SymbolsSidebar" then
+    vim.cmd("Symbols!")
   end
 end
 
@@ -61,23 +61,23 @@ end
 function M.close_outline()
   if PCFG.outline_filetype == "Outline" then
     vim.cmd("OutlineClose")
-  elseif PCFG.outline_filetype == "aerial" then
-    require("aerial").close()
+  elseif PCFG.outline_filetype == "SymbolsSidebar" then
+    vim.cmd("SymbolsClose")
   end
 end
 
 function M.is_outline_open()
   local status = {
     outline = 0,
-    aerial = 0,
+    symbols = 0,
   }
   local _o = M.findWinByFiletype("Outline")
   if #_o > 0 and _o[1] ~= nil then
     status.outline = _o[1]
   end
-  local _a = M.findWinByFiletype("aerial")
+  local _a = M.findWinByFiletype("SymbolsSidebar")
   if #_a > 0 and _a[1] ~= nil then
-    status.aerial = _a[1]
+    status.symbols = _a[1]
   end
   return status
 end
@@ -85,10 +85,10 @@ end
 -- toggle the type of outline window to use between outline.nvim and aerial.
 function M.toggle_outline_type()
   M.close_outline()
-  if PCFG.outline_filetype == "aerial" then
+  if PCFG.outline_filetype == "SymbolsSidebar" then
     PCFG.outline_filetype = "Outline"
   elseif PCFG.outline_filetype == "Outline" then
-    PCFG.outline_filetype = "aerial"
+    PCFG.outline_filetype = "SymbolsSidebar"
   end
   vim.notify("Now using " .. PCFG.outline_filetype, vim.log.levels.INFO)
 end

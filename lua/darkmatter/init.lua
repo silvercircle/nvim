@@ -613,14 +613,17 @@ local function set_all()
   M.set_hl(0, "@ibl.scope.char.1", { bg = "none" })
 end
 
--- this activates the theme.
--- it always calls configure(), no need to call this explicitely
-function M.set()
+--- this activates the theme.
+--- it always calls configure(), no need to call this explicitely
+--- @param _c? boolean when true (default), call configure()
+function M.set(_c)
+  local need_conf = _c or true
+
   Scheme = require("darkmatter.schemes.".. conf.scheme)
   if conf.disabled == true then
     return
   end
-  configure()
+  if need_conf then configure() end
   set_all()
   if conf.sync_kittybg == true and conf.kittysocket ~= nil and conf.kittenexec ~= nil then
     if vim.fn.filereadable(conf.kittysocket) == 1 and vim.fn.executable(conf.kittenexec) == 1 then
@@ -725,17 +728,7 @@ function M.set_bg()
     vim.cmd("hi SignColumn guibg=none")
     set_signs_trans()
   else
-    local variant = conf.variant
-    vim.api.nvim_set_hl(0, "Normal", { bg = M.T[variant].bg, fg = "fg" })
-    vim.api.nvim_set_hl(0, "TreeNormal", { bg = M.T[variant].treebg, fg = "fg" })
-    vim.api.nvim_set_hl(0, "TreeNormalNC", { bg = M.T[variant].treebg, fg = "fg" })
-    vim.cmd("hi VertSplit guibg=" .. M.T[variant].treebg)
-    vim.cmd("hi LineNr guibg=" .. M.T[variant].gutterbg)
-    vim.cmd("hi FoldColumn guibg=" .. M.T[variant].gutterbg)
-    vim.cmd("hi SignColumn guibg=" .. M.T[variant].gutterbg)
-    --for _, v in ipairs(signgroups) do
-    --  vim.cmd("hi " .. v .. " guibg=" .. M.theme[variant].gutterbg)
-    --end
+    M.set(false)
   end
 end
 

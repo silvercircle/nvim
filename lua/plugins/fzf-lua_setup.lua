@@ -14,7 +14,8 @@ require "fzf-lua".setup({
     fzf = {
       match = "Error",
       separator = "Operator",
-      gutter = "StatusLine"
+      gutter = "StatusLine",
+      info = "Number"
     }
   },
   -- fzf_bin         = 'sk',            -- use skim instead of fzf?
@@ -45,7 +46,7 @@ require "fzf-lua".setup({
     border     = "thicc",
     --border           = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
     fullscreen = false,       -- start fullscreen?
-    backdrop   = 100,
+    backdrop   = Tweaks.theme.picker_backdrop,
     preview    = {
       default      = "builtin",         -- override the default previewer?
       -- default uses the 'builtin' previewer
@@ -159,7 +160,7 @@ require "fzf-lua".setup({
     -- for raw args use `fzf_args` instead
     ["--scrollbar"]      = "██",
     ["--ansi"]           = "",
-    ["--info"]           = "inline",
+    ["--info"]           = "inline-right",
     ["--height"]         = "100%",
     ["--layout"]         = "reverse",
     ["--border"]         = "none",
@@ -377,6 +378,7 @@ require "fzf-lua".setup({
       -- this action toggles between 'grep' and 'live_grep'
       ["ctrl-g"] = { actions.grep_lgrep }
     },
+    multiline = 1,
     no_header      = false,        -- hide grep|cwd header?
     no_header_i    = false,        -- hide interactive header?
   },

@@ -417,6 +417,44 @@ M.setup = {
   colortils = function()
     require("colortils").setup({})
   end,
+  symbols = function()
+    local r = require("symbols.recipes")
+    require("symbols").setup(r.DefaultFilters, CFG.SIDEBAR_FancySymbols, {
+      sidebar = {
+        auto_resize = {
+          enabled = false,
+          min_width = PCFG.outline.width,
+          max_width = PCFG.outline.width
+        },
+        fixed_width = PCFG.outline.width,
+        show_inline_details = true,
+        open_direction = "right",
+        on_open_make_windows_equal = false,
+        show_guide_lines = true,
+        unfold_on_goto = true,
+        hide_cursor = false,
+        show_details_pop_up = false,
+        chars = {
+          hl = "OutlineGuides",
+          hl_toplevel = "Number"
+        },
+        on_symbols_complete = function(ctx)
+          vim.api.nvim_win_set_option(ctx.winid, "statusline", "  Outline (" .. (ctx.pname or "None") .. ")")
+          -- unfold for some filetypes. Not a good idea for others (like lua) because
+          -- they have excessiv symbol spam
+          local unfold_for = { "tex", "markdown", "typst", "zig", "cpp", "cs" }
+          if vim.tbl_contains(unfold_for, vim.bo.filetype) then
+            require("symbols").api.action("unfold-all")
+          end
+        end
+      },
+      providers = {
+        lsp = {
+          timeout_ms = 15000
+        }
+      }
+    })
+  end,
   glance = function()
     local glance = require("glance")
     local actions = glance.actions

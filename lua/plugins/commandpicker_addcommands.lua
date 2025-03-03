@@ -36,12 +36,6 @@ require("commandpicker").add({
     category = "@Bookmarks"
   },
   {
-    desc = "Show favorite folders (rescan fav file)",
-    cmd = function() require "quickfavs".Quickfavs(true) end,
-    keys = { "n", fkeys.s_f12, },
-    category = "@Bookmarks"
-  },
-  {
     desc = "LSP server info",
     cmd = "<cmd>LspInfo<cr>",
     keys = { "n", "lsi", noremap },
@@ -644,7 +638,7 @@ require("commandpicker").add({
   },
   {
     desc = "Document symbols (FZF)",
-    cmd = function() require("snacks").picker.lsp_symbols({ layout = SPL( {width = 80, input="top", height=.8, preview=true, psize=10 } ) }) end,
+    cmd = function() require("snacks").picker.lsp_symbols({ layout = SPL( {width = 80, input="bottom", height=.8, preview=true, psize=0.3 } ) }) end,
     keys = {
       { "n", "<A-a>", noremap },
       { "i", "<A-a>", noremap }
@@ -674,6 +668,17 @@ require("commandpicker").add({
     category = "@LSP FZF"
   },
   {
+    desc = "Treesitter symbols (FZF)",
+    cmd = function()
+      fzf.treesitter({ winopts = fzf_tweaks.winopts.mini_with_preview })
+    end,
+    keys = {
+      { "n", "<A-t>", noremap },
+      { "i", "<A-t>", noremap }
+    },
+    category = "@FZF"
+  },
+  {
     desc = "LSP finder (FZF)",
     cmd = function()
       fzf.lsp_finder({ winopts = fzf_tweaks.winopts.std_preview_top })
@@ -682,6 +687,26 @@ require("commandpicker").add({
       { "n", "<A-f>", noremap },
       { "i", "<A-f>", noremap }
     },
+    category = "@LSP FZF"
+  },
+  {
+    desc = "Zoxide history (FZF)",
+    cmd = function()
+      fzf.zoxide({ actions = {
+        enter = function(item)
+          local dir = vim.fn.split(item[1] or "", "\t")[2] or ""
+          if vim.fn.isdirectory(dir) then
+            fzf.files({ cwd = dir, winopts = fzf_tweaks.winopts.std_preview_nonet})
+          end
+        end,
+        ["ctrl-g"] = function(item)
+          local dir = vim.fn.split(item[1] or "", "\t")[2] or ""
+          if vim.fn.isdirectory(dir) then
+            fzf.live_grep({ cwd = dir, winopts = fzf_tweaks.winopts.std_preview_top})
+          end
+        end}, winopts = FWO("mini_with_preview", "Zoxide History, <CR> = browse, <C-g> = Grep" ) })
+    end,
+    key = { {"n","i"}, "<C-x>z", noremap },
     category = "@LSP FZF"
   }
 })

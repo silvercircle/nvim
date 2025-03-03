@@ -29,11 +29,11 @@ Tweaks.lsp = {}
 -- either "mini", "fidget" or "snacks".
 Tweaks.notifier = "snacks"
 
--- set this to "Outline" to use the symbols-outline plugin.
--- set it to "aerial" to use the Aerial plugin.
+-- set this to "outline" to use the symbols-outline plugin.
+-- set it to "symbols" to use the symbols plugin.
 -- this is a ONLY A DEFAULT, it can be switched at runtime and the setting
 -- will be remembered
-Tweaks.outline_plugin = "outline"
+Tweaks.outline_plugin = "symbols"
 
 -- what plugin to use for breadcrumbs in the winbar
 -- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
@@ -316,7 +316,8 @@ Tweaks.theme = {
   rainbow_contrast = "low",
   scheme = "gruv",
   all_types_bold = false,
-  disable = false
+  disable = false,
+  picker_backdrop = 100
 }
 
 -- which status line plugin to use.

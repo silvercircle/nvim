@@ -1,14 +1,5 @@
 local lazy = require("lazy")
 lazy.setup({
-  'sharkdp/fd',
-  {
-    "lervag/vimtex",
-    ft = "tex",
-    init = function()
-      -- Use init for configuration, don't use the more common "config".
-    end
-  },
-  'BurntSushi/ripgrep',
   {
     'nvim-tree/nvim-web-devicons',
     config = function()
@@ -65,7 +56,7 @@ lazy.setup({
     'nvim-lualine/lualine.nvim',
     event = "UIEnter",
     config = function()
-      require("plugins.lualine_setup")
+      require("plugins.lualine_lite_setup")
     end
   },
   {
@@ -126,8 +117,8 @@ lazy.setup({
   -- using the magazine nvim-cmp fork.
   -- blink.cmp (alternative to nvim-cmp)
   {
-    'silvercircle/blink.cmp',
-    branch = "mine",
+    'Saghen/blink.cmp',
+    branch = "main",
     build = "cargo build --release",
     lazy = true,
     event = "ModeChanged",
@@ -288,33 +279,11 @@ lazy.setup({
       require("plugins.todo")
     end
   },
-  --{
-  --  'mfussenegger/nvim-dap',
-  --  lazy = true,
-  --  dependencies = {
-  --    'nvim-neotest/nvim-nio',
-  --    {
-  --      'rcarriga/nvim-dap-ui',
-  --      config = function()
-  --        require("dap.nvim_dap_ui")
-  --      end
-  --    }
-  --  },
-  --  config = function()
-  --    require("dap.nvim_dap")
-  --  end
-  --},
   {
     "smjonas/inc-rename.nvim",
     cmd = "IncRename",
     config = function()
       require("inc_rename").setup()
-    end
-  },
-  {
-    'willothy/nvim-cokeline', lazy = true, event="UIEnter", branch = "main",
-    config = function()
-      require("plugins.cokeline")
     end
   },
   {
