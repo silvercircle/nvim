@@ -688,5 +688,25 @@ require("commandpicker").add({
       { "i", "<A-f>", noremap }
     },
     category = "@LSP FZF"
+  },
+  {
+    desc = "Zoxide history (FZF)",
+    cmd = function()
+      fzf.zoxide({ actions = {
+        enter = function(item)
+          local dir = vim.fn.split(item[1] or "", "\t")[2] or ""
+          if vim.fn.isdirectory(dir) then
+            fzf.files({ cwd = dir, winopts = fzf_tweaks.winopts.mini_list})
+          end
+        end,
+        ["ctrl-g"] = function(item)
+          local dir = vim.fn.split(item[1] or "", "\t")[2] or ""
+          if vim.fn.isdirectory(dir) then
+            fzf.live_grep({ cwd = dir, winopts = fzf_tweaks.winopts.std_preview_top})
+          end
+        end}, winopts = fzf_tweaks.winopts.mini_with_preview })
+    end,
+    key = { {"n","i"}, "<C-x>z", noremap },
+    category = "@LSP FZF"
   }
 })

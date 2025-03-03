@@ -374,6 +374,12 @@ vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sg', function()
   end
 end, "SymbolsSidebar Fold all")
 
+vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'ss', function()
+  if PCFG.outline_filetype == "SymbolsSidebar" then
+    require("symbols").api.action("search")
+  end
+end, "SymbolsSidebar Search")
+
 local function focus_term_split(dir)
   if CGLOBALS.findbufbyType('terminal') == false then
     vim.api.nvim_input('<f11>')
@@ -518,15 +524,6 @@ require("subspace.lib.marks").set_keymaps()
 vim.g.setkey( {'n', 'i'}, '<C-S-E>', function()
   Snacks.picker.smart({ layout = SPL( {width = 70, height = 20, row = 5, title = "Buffers", input = "top" } ) })
 end, "Snacks buffer list")
-
-vim.g.setkey( { 'n', 'i' }, "<C-x>z", function()
-  Snacks.picker.zoxide({
-  confirm = function(picker, item)
-    picker:close()
-    CGLOBALS.open_with_fzf(item.file)
-  end,
-  layout = SPL({ input = "top", width = 80, height = 0.7, row = 7, preview = false, title="Zoxide history" }) })
-end, "Pick from Zoxide")
 
 vim.g.setkey( { 'i', 'n' }, "<C-S-P>", function()
   Snacks.picker.projects({
