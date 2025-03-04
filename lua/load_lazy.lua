@@ -32,19 +32,13 @@ lazy.setup({
   },
   {
     --(Tweaks.use_foldlevel_patch == true) and "silvercircle/fidget.nvim" or "j-hui/fidget.nvim",
-    "silvercircle/fidget.nvim",
+    "j-hui/fidget.nvim",
     cond = Tweaks.notifier == "fidget",
-    branch = "mine",
-    lazy = true,
-    event = "BufReadPre",
-    dependencies = {
-      'MunifTanjim/nui.nvim',
-    },
     config = function()
       require("plugins.others").setup.fidget()
     end
   },
-  'nvim-lua/plenary.nvim',
+  -- 'nvim-lua/plenary.nvim',
   {
     'nvim-lualine/lualine.nvim',
     event = "UIEnter",
@@ -95,7 +89,7 @@ lazy.setup({
   -- treesitter + friends
   {
     'nvim-treesitter/nvim-treesitter',
-    event = "VeryLazy",
+    event = "BufReadPre",
     branch = "master",
     config = function()
       require("plugins.treesitter")
@@ -225,7 +219,7 @@ lazy.setup({
     dependencies = {
       { "rafamadriz/friendly-snippets" },
       {
-        'Kaiser-Yang/blink-cmp-dictionary',
+        -- 'Kaiser-Yang/blink-cmp-dictionary',
       },
       { "moyiz/blink-emoji.nvim" },
       { 'windwp/nvim-autopairs',
@@ -386,6 +380,7 @@ lazy.setup({
   },
   {
     "norcalli/nvim-colorizer.lua",
+    event = "BufReadPost",
     config = function()
       require "colorizer".setup {
         "css",
