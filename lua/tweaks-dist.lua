@@ -27,7 +27,7 @@ Tweaks.lsp = {}
 -- plugin choices.
 -- notification system
 -- either "mini", "fidget" or "snacks".
-Tweaks.notifier = "snacks"
+Tweaks.notifier = "fidget"
 
 -- set this to "outline" to use the symbols-outline plugin.
 -- set it to "symbols" to use the symbols plugin.
@@ -38,14 +38,6 @@ Tweaks.outline_plugin = "symbols"
 -- what plugin to use for breadcrumbs in the winbar
 -- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
 Tweaks.breadcrumb = 'navic'
-
--- which multicursor plugin to use: either "brenton-leighton" or "jake-stewart"
--- see:
--- https://github.com/jake-stewart/multicursor.nvim
--- https://github.com/brenton-leighton/multiple-cursors.nvim
--- for more information about these plugins. They are quite similar in functionality, so
--- choose whatever looks better to you.
-Tweaks.multicursor = "jake-stewart"
 
 -- completion framework to use. Can be "blink" or "nvim-cmp"
 -- if you set this to any other value, completion will be UNAVAILABLE
@@ -250,11 +242,8 @@ Tweaks.cmp = {
 -- internal function to create the border characters. You can expand it with more styles
 -- and use them in the "decoration" option above.
 Tweaks.borderfactory = function(style)
-  if borderstyles[style] ~= nil then
-    return borderstyles[style]
-  else
-    return borderstyles.single
-  end
+  style = (style and borderstyles[style] ~= nil) and style or "single"
+  return borderstyles[style]
 end
 
 -- don't touch this unless you know what you're doing

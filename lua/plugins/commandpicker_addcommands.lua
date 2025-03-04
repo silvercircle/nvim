@@ -4,9 +4,22 @@ local fzf        = require("fzf-lua")
 local Snacks     = require("snacks")
 local lutils     = require("subspace.lib")
 local lsputil    = require("lspconfig.util")
--- local Terminal   = require("toggleterm.terminal").Terminal
--- require("telescope")
 local noremap    = true
+
+local fzf_dir_actions = {
+  enter = function(item)
+    local dir = vim.fn.split(item[1] or "", "\t")[2] or ""
+    if vim.fn.isdirectory(dir) then
+      require("fzf-lua").files({ cwd = dir, winopts = Tweaks.fzf.winopts.mini_with_preview })
+    end
+  end,
+  ["ctrl-g"] = function(item)
+    local dir = vim.fn.split(item[1] or "", "\t")[2] or ""
+    if vim.fn.isdirectory(dir) then
+      require("fzf-lua").live_grep({ cwd = dir, winopts = Tweaks.fzf.winopts.std_preview_top })
+    end
+  end
+}
 
 require("commandpicker").add({
   {
@@ -578,10 +591,7 @@ require("commandpicker").add({
   {
     desc = "Jump to definition (FZF)",
     cmd = function() fzf.lsp_definitions({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
-    keys = {
-      { "n", "<C-x>d", noremap },
-      { "i", "<C-x>d", noremap }
-    },
+    key = { { "n", "i"}, "<C-x>D", noremap },
     category = "@LSP FZF"
   },
   {
@@ -692,21 +702,9 @@ require("commandpicker").add({
   {
     desc = "Zoxide history (FZF)",
     cmd = function()
-      fzf.zoxide({ actions = {
-        enter = function(item)
-          local dir = vim.fn.split(item[1] or "", "\t")[2] or ""
-          if vim.fn.isdirectory(dir) then
-            fzf.files({ cwd = dir, winopts = fzf_tweaks.winopts.std_preview_nonet})
-          end
-        end,
-        ["ctrl-g"] = function(item)
-          local dir = vim.fn.split(item[1] or "", "\t")[2] or ""
-          if vim.fn.isdirectory(dir) then
-            fzf.live_grep({ cwd = dir, winopts = fzf_tweaks.winopts.std_preview_top})
-          end
-        end}, winopts = FWO("mini_with_preview", "Zoxide History, <CR> = browse, <C-g> = Grep" ) })
+      fzf.zoxide({ actions = fzf_dir_actions, winopts = FWO("mini_with_preview", "Zoxide History, <CR> = browse, <C-g> = Grep" ) })
     end,
     key = { {"n","i"}, "<C-x>z", noremap },
-    category = "@LSP FZF"
+    category = "@FZF"
   }
 })

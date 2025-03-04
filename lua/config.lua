@@ -37,7 +37,7 @@ CFG = {
   minipicker_iprefix = "#>",
   -- these are minimal values
   filetree_width = 42,                          -- width nvim-tree plugin (file tree)
-  outline_width = 36,                           -- split width for symbols-outline window (right sidebar)
+  outline_width = 28,                           -- split width for symbols-outline window (right sidebar)
   -- some optional plugins
   mason = true,                                 -- on demand, setup in setup_lsp.lua
   null_ls = false,                              -- setup by lazy loader
@@ -144,10 +144,11 @@ vim.filetype.add({
 --
 -- These symbols are used by:
 -- Cmp plugin
--- aerial plugin
+-- symbols sidebar plugin
+-- blink.cmp
 -- outline plugin
 -- lspkind plugin
--- navic & navbuddy plugins
+-- navic plugin
 vim.g.lspkind_symbols = {
   Text        = "󰊄 ",
   Method      = " ",
@@ -190,12 +191,13 @@ vim.g.lspkind_symbols = {
 vim.g.is_tmux = vim.fn.exists("$TMUX")
 
 function FWO(class, title)
+  local wo = vim.deepcopy(Tweaks.fzf.winopts[class])
   if title ~= nil and #title > 2 then
-    Tweaks.fzf.winopts[class].title = " " .. title .. " "
+    wo.title = " " .. title .. " "
   else
-    Tweaks.fzf.winopts[class].title = nil
+    wo.title = nil
   end
-  return Tweaks.fzf.winopts[class]
+  return wo
 end
 
 --- output a notification, supports markdown format
@@ -254,6 +256,8 @@ function SPL(params)
   }
 end
 
+-- recipe for the symbols sidebar plugin. Shows kind icons using my
+-- defaults.
 CFG.SIDEBAR_FancySymbols = {
   providers = {
     lsp = {

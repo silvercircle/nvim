@@ -27,23 +27,6 @@ lazy.setup({
     lazy = true,
   },
   {
-    "brenton-leighton/multiple-cursors.nvim",
-    cond = Tweaks.multicursor == "brenton-leighton",
-    version = "*", -- Use the latest tagged version
-    keys = {
-      { "<C-Down>",      "<Cmd>MultipleCursorsAddDown<CR>",          mode = { "n", "i" } },
-      { "<C-Up>",        "<Cmd>MultipleCursorsAddUp<CR>",            mode = { "n", "i" } },
-      { "<C-LeftMouse>", "<Cmd>MultipleCursorsMouseAddDelete<CR>",   mode = { "n", "i" } },
-      { "<C-n>",         "<Cmd>MultipleCursorsAddMatches<CR>",       mode = { "n", "x" } },
-      { "<C-n><C-n>",    "<Cmd>MultipleCursorsAddJumpNextMatch<CR>", mode = { "n", "x" } },
-      { "<C-n><C-l>",    "<Cmd>MultipleCursorsLock<CR>",             mode = { "n", "x" } },
-      { "<leader>n",     "<Cmd>MultipleCursorsJumpNextMatch<CR>",    mode = { "n", "x" } }
-    },
-    config = function()
-      require("plugins.others").setup.multicursor_brenton()
-    end
-  },
-  {
     "jake-stewart/multicursor.nvim",
     cond = Tweaks.multicursor == "jake-stewart",
     branch = "1.0",
@@ -135,7 +118,7 @@ lazy.setup({
       { 'windwp/nvim-autopairs',
         config = function()
           require("nvim-autopairs").setup({})
-          if CGLOBALS.perm_config.autopair then
+          if PCFG.autopair then
             require("nvim-autopairs").enable()
           else
             require("nvim-autopairs").disable()
@@ -190,13 +173,6 @@ lazy.setup({
       require("plugins.snacks_setup")
     end
   },
-  --{
-  --  'lukas-reineke/indent-blankline.nvim',
-  --  event = "BufReadPost",
-  --  config = function()
-  --    require("plugins.iblsetup")
-  --  end
-  --},
   {
     'petertriho/nvim-scrollbar',
     event = "BufReadPre",
@@ -220,13 +196,6 @@ lazy.setup({
       }
     }
   },
-  --{
-  --  'stevearc/dressing.nvim',
-  --  event = { "UIEnter" },
-  --  config = function()
-  --    require("plugins.dressing")
-  --  end
-  --},
   {
     'akinsho/toggleterm.nvim',
     lazy = true,
@@ -287,30 +256,6 @@ lazy.setup({
     end
   },
   {
-    'silvercircle/outline.nvim',
-    branch = 'mine',
-    cmd = { "Outline", "OutlineOpen", "OutlineClose" },
-    lazy = true,
-    dependencies = {
-      {
-        'epheien/outline-treesitter-provider.nvim'
-      }
-    },
-    config = function()
-      require("plugins.outline_setup")
-    end
-  },
-  {
-    'kevinhwang91/nvim-ufo',
-    cond = false,
-    config = function()
-      require("plugins.others").setup.ufo()
-    end,
-    dependencies = {
-      'kevinhwang91/promise-async'
-    }
-  },
-  {
     'mfussenegger/nvim-jdtls',
     lazy = true
   },
@@ -318,19 +263,6 @@ lazy.setup({
     "scalameta/nvim-metals",
     ft = { "scala", "sbt" },
   },
-  {
-    "folke/trouble.nvim",
-    event = "LspAttach",
-    config = function()
-      require("plugins.others").setup.trouble()
-    end
-  },
-  --{
-  --  "MaximilianLloyd/ascii.nvim",
-  --  dependencies = {
-  --    "MunifTanjim/nui.nvim"
-  --  }
-  --},
   {
     'seblyng/roslyn.nvim',
     cond = (Tweaks.lsp.csharp == "roslyn"),
@@ -357,14 +289,6 @@ lazy.setup({
     }
   },
   {
-    "carbon-steel/detour.nvim",
-    lazy = true,
-    cmd = { "Detour", "DetourCurrentWindow" },
-    config = function()
-      vim.keymap.set("n", "<c-w><enter>", ":DetourCurrentWindow<cr>")
-    end
-  },
-  {
     "stevearc/quicker.nvim",
     event = "FileType qf",
     config = function()
@@ -374,8 +298,14 @@ lazy.setup({
     end
   },
   {
-    'sindrets/diffview.nvim',
+    "oskarrrrrrr/symbols.nvim",
+    branch = "main",
+    cmd = { "Symbols", "SymbolsOpen" },
     lazy = true,
+    cond = Tweaks.outline_plugin == "symbols",
+    config = function()
+      require("plugins.others").setup.symbols()
+    end
   }
 },
 {

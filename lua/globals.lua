@@ -55,6 +55,10 @@ function M.open_outline()
   elseif PCFG.outline_filetype == "SymbolsSidebar" then
     vim.cmd("Symbols!")
   end
+  local id_win = CGLOBALS.is_outline_open()
+  if id_win and vim.api.nvim_win_is_valid(id_win) then
+    vim.api.nvim_win_set_width(id_win, PCFG.outline.width)
+  end
 end
 
 --- close the outline window
@@ -67,19 +71,11 @@ function M.close_outline()
 end
 
 function M.is_outline_open()
-  local status = {
-    outline = 0,
-    symbols = 0,
-  }
-  local _o = M.findWinByFiletype("Outline")
+  local _o = M.findWinByFiletype(PCFG.outline_filetype)
   if #_o > 0 and _o[1] ~= nil then
-    status.outline = _o[1]
+    return _o[1]
   end
-  local _a = M.findWinByFiletype("SymbolsSidebar")
-  if #_a > 0 and _a[1] ~= nil then
-    status.symbols = _a[1]
-  end
-  return status
+  return false
 end
 
 -- toggle the type of outline window to use between outline.nvim and aerial.

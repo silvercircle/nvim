@@ -228,7 +228,7 @@ vim.keymap.set({ "n", "i" }, '<f1>', function()
   end
 end, { desc = "LSP hover window" })
 
-vim.g.setkey({ 'i', 'n' }, '<C-x>D', function()
+vim.g.setkey({ 'i', 'n' }, '<C-x>d', function()
   vim.lsp.buf.definition()
 end, "LSP Goto definition")
 
@@ -355,30 +355,8 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   -- otherwise search it and if none is found, open it.
   if CGLOBALS.findbufbyType(PCFG.outline_filetype) == false then
     CGLOBALS.open_outline()
-    local status = CGLOBALS.is_outline_open()
-    if status.outline ~= 0 then
-      require("outline").refresh_outline()
-    end
   end
 end, "Focus Outline window") -- Outline
-
-vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sf', function()
-  if PCFG.outline_filetype == "SymbolsSidebar" then
-    require("symbols").api.action("unfold-all")
-  end
-end, "SymbolsSidebar Unfold all")
-
-vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sg', function()
-  if PCFG.outline_filetype == "SymbolsSidebar" then
-    require("symbols").api.action("fold-all")
-  end
-end, "SymbolsSidebar Fold all")
-
-vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'ss', function()
-  if PCFG.outline_filetype == "SymbolsSidebar" then
-    require("symbols").api.action("search")
-  end
-end, "SymbolsSidebar Search")
 
 local function focus_term_split(dir)
   if CGLOBALS.findbufbyType('terminal') == false then
@@ -510,12 +488,10 @@ end, "Show buftype of current buffer")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
   local status = CGLOBALS.is_outline_open()
-  if status.aerial ~= 0 then
-    require("aerial").refetch_symbols(0) -- aerial plugin, refresh symbols
-  elseif status.outline ~= 0 then
-    require("outline").refresh_outline()
+  if status ~= false then
+    if PCFG.outline_filetype == "Outline" then require("outline").refresh_outline() else require("symbols").api.refresh_symbols() end
   end
-end, "Refresh aerial outline symbols")
+end, "Refresh outline symbols")
 
 
 require("subspace.lib.marks").set_keymaps()
