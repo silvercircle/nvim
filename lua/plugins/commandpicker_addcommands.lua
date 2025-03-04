@@ -591,10 +591,7 @@ require("commandpicker").add({
   {
     desc = "Jump to definition (FZF)",
     cmd = function() fzf.lsp_definitions({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
-    keys = {
-      { "n", "<C-x>d", noremap },
-      { "i", "<C-x>d", noremap }
-    },
+    key = { { "n", "i"}, "<C-x>D", noremap },
     category = "@LSP FZF"
   },
   {

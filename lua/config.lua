@@ -255,6 +255,8 @@ function SPL(params)
   }
 end
 
+-- recipe for the symbols sidebar plugin. Shows kind icons using my
+-- defaults.
 CFG.SIDEBAR_FancySymbols = {
   providers = {
     lsp = {

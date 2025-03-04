@@ -116,11 +116,8 @@ local function main_layout()
           Wsplit.refresh()
           local status = CGLOBALS.is_outline_open()
           local tree = CGLOBALS.findWinByFiletype(treeft)
-          if status.outline ~= 0 then
-            PCFG.outline.width = vim.api.nvim_win_get_width(status.outline)
-          end
-          if status.symbols ~= 0 then
-            PCFG.outline.width = vim.api.nvim_win_get_width(status.symbols)
+          if status ~= false then
+            PCFG.outline.width = vim.api.nvim_win_get_width(status)
           end
           if PCFG.outline.width < CFG.outline_width then
             PCFG.outline.width = CFG.outline_width

@@ -434,6 +434,7 @@ M.setup = {
         show_guide_lines = true,
         unfold_on_goto = true,
         hide_cursor = false,
+        cursor_follow = false,
         show_details_pop_up = false,
         chars = {
           hl = "OutlineGuides",
@@ -441,7 +442,8 @@ M.setup = {
         },
         hl_details = "String",
         on_symbols_complete = function(ctx)
-          vim.api.nvim_win_set_option(ctx.id_win, "statusline", "  Outline (" .. (ctx.pname or "None") .. ")")
+          vim.api.nvim_win_set_option(ctx.id_win, "statusline", "  Outline (" .. (ctx.pname or "None") ..
+            (ctx.followmode and ", follow" or "") .. ")")
           -- unfold for some filetypes. Not a good idea for others (like lua) because
           -- they have excessiv symbol spam so keep the list collapsed.
           local unfold_for = { "tex", "markdown", "typst", "zig", "cpp", "cs" }

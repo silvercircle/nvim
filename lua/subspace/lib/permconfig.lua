@@ -130,6 +130,8 @@ function M.restore_config()
     M.perm_config = M.perm_config_default
   end
   PCFG = M.perm_config
+
+  PCFG.outline_filetype = (Tweaks.outline_plugin == "symbols") and "SymbolsSidebar" or "Outline"
   -- configure the theme
   local cmp_kind_attr = { bold=true, reverse=true }
   if Tweaks.theme.disable == false then
