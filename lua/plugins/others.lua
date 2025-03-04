@@ -418,8 +418,9 @@ M.setup = {
     require("colortils").setup({})
   end,
   symbols = function()
+    local Symbols = require("symbols")
     local r = require("symbols.recipes")
-    require("symbols").setup(r.DefaultFilters, CFG.SIDEBAR_FancySymbols, {
+    Symbols.setup(r.DefaultFilters, CFG.SIDEBAR_FancySymbols, {
       sidebar = {
         auto_resize = {
           enabled = false,
@@ -438,13 +439,14 @@ M.setup = {
           hl = "OutlineGuides",
           hl_toplevel = "Number"
         },
+        hl_details = "String",
         on_symbols_complete = function(ctx)
-          vim.api.nvim_win_set_option(ctx.winid, "statusline", "  Outline (" .. (ctx.pname or "None") .. ")")
+          vim.api.nvim_win_set_option(ctx.id_win, "statusline", "  Outline (" .. (ctx.pname or "None") .. ")")
           -- unfold for some filetypes. Not a good idea for others (like lua) because
-          -- they have excessiv symbol spam
+          -- they have excessiv symbol spam so keep the list collapsed.
           local unfold_for = { "tex", "markdown", "typst", "zig", "cpp", "cs" }
           if vim.tbl_contains(unfold_for, vim.bo.filetype) then
-            require("symbols").api.action("unfold-all")
+            Symbols.api.action("unfold-all")
           end
         end
       },

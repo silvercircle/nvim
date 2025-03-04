@@ -190,12 +190,13 @@ vim.g.lspkind_symbols = {
 vim.g.is_tmux = vim.fn.exists("$TMUX")
 
 function FWO(class, title)
+  local wo = vim.deepcopy(Tweaks.fzf.winopts[class])
   if title ~= nil and #title > 2 then
-    Tweaks.fzf.winopts[class].title = " " .. title .. " "
+    wo.title = " " .. title .. " "
   else
-    Tweaks.fzf.winopts[class].title = nil
+    wo.title = nil
   end
-  return Tweaks.fzf.winopts[class]
+  return wo
 end
 
 --- output a notification, supports markdown format
