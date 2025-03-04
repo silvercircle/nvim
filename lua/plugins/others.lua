@@ -297,7 +297,7 @@ M.setup = {
       },
       notification = {
         override_vim_notify = true,
-        history_size = 50,
+        history_size = 80,
         filter = vim.log.levels.TRACE,
         configs = {
           --default = require("fidget.notification").default_config
@@ -424,8 +424,8 @@ M.setup = {
       sidebar = {
         auto_resize = {
           enabled = false,
-          min_width = PCFG.outline.width,
-          max_width = PCFG.outline.width
+          min_width = 10,
+          max_width = 80
         },
         fixed_width = PCFG.outline.width,
         show_inline_details = true,
@@ -434,13 +434,13 @@ M.setup = {
         show_guide_lines = true,
         unfold_on_goto = true,
         hide_cursor = false,
-        cursor_follow = false,
+        cursor_follow = true,
         show_details_pop_up = false,
         chars = {
           hl = "OutlineGuides",
           hl_toplevel = "Number"
         },
-        hl_details = "String",
+        hl_details = "Function",
         on_symbols_complete = function(ctx)
           vim.api.nvim_win_set_option(ctx.id_win, "statusline", "  Outline (" .. (ctx.pname or "None") ..
             (ctx.followmode and ", follow" or "") .. ")")
@@ -458,6 +458,26 @@ M.setup = {
         }
       }
     })
+    local utility_key = Tweaks.keymap.utility_key
+    vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sf', function()
+      Symbols.api.action("unfold-all")
+    end, "SymbolsSidebar Unfold all")
+
+    vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sg', function()
+      Symbols.api.action("fold-all")
+    end, "SymbolsSidebar Fold all")
+
+    vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'ss', function()
+      Symbols.api.action("search")
+    end, "SymbolsSidebar Search")
+
+    vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sc', function()
+      Symbols.api.action("toggle-cursor-follow")
+    end, "SymbolsSidebar Toggle follow")
+
+    vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sd', function()
+      Symbols.api.action("show-symbol-under-cursor")
+    end, "SymbolsSidebar show symbol under cursor")
   end,
   glance = function()
     local glance = require("glance")

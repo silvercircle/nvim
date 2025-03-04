@@ -358,36 +358,6 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   end
 end, "Focus Outline window") -- Outline
 
-vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sf', function()
-  if PCFG.outline_filetype == "SymbolsSidebar" then
-    require("symbols").api.action("unfold-all")
-  end
-end, "SymbolsSidebar Unfold all")
-
-vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sg', function()
-  if PCFG.outline_filetype == "SymbolsSidebar" then
-    require("symbols").api.action("fold-all")
-  end
-end, "SymbolsSidebar Fold all")
-
-vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'ss', function()
-  if PCFG.outline_filetype == "SymbolsSidebar" then
-    require("symbols").api.action("search")
-  end
-end, "SymbolsSidebar Search")
-
-vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sc', function()
-  if PCFG.outline_filetype == "SymbolsSidebar" then
-    require("symbols").api.action("toggle-cursor-follow")
-  end
-end, "SymbolsSidebar Toggle follow")
-
-vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sd', function()
-  if PCFG.outline_filetype == "SymbolsSidebar" then
-    require("symbols").api.action("toggle-cursor-follow")
-  end
-end, "SymbolsSidebar show symbol under cursor")
-
 local function focus_term_split(dir)
   if CGLOBALS.findbufbyType('terminal') == false then
     vim.api.nvim_input('<f11>')
