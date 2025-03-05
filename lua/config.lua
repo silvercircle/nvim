@@ -146,7 +146,7 @@ vim.filetype.add({
 -- outline plugin
 -- lspkind plugin
 -- navic plugin
-vim.g.lspkind_symbols = {
+CFG.lspkind_symbols = {
   Text        = "󰊄 ",
   Method      = " ",
   Function    = "󰡱 ",
@@ -259,7 +259,7 @@ CFG.SIDEBAR_FancySymbols = {
   providers = {
     lsp = {
       kinds = {
-        default = vim.g.lspkind_symbols,
+        default = CFG.lspkind_symbols,
       }
     },
     treesitter = {

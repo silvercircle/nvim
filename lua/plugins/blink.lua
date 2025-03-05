@@ -138,7 +138,7 @@ require("blink.cmp").setup({
     -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
     -- Adjusts spacing to ensure icons are aligned
     nerd_font_variant = "normal",
-    kind_icons = vim.g.lspkind_symbols
+    kind_icons = CFG.lspkind_symbols
   },
   keymap = {
     preset         = T.keymap_preset,
@@ -207,7 +207,6 @@ require("blink.cmp").setup({
       end,
       "fallback"
     },
-    ["<f13>"]      = { "show_signature", "hide_signature", "fallback" },
     ["<C-k>"]      = {}
   },
   cmdline = {
@@ -448,7 +447,7 @@ require("blink.cmp").setup({
   signature = {
     enabled = true,
     trigger = {
-      enabled = false,
+      enabled = true,
       show_on_trigger_character = false,
       show_on_keyword = false,
       show_on_insert = false,
@@ -462,5 +461,9 @@ require("blink.cmp").setup({
 })
 
 CGLOBALS.blink_setup_done = true
-
+vim.g.setkey({ "n", "i" }, "<f13>", function()
+  local cmp = require("blink.cmp")
+  local status = cmp.is_signature_visible()
+  if status then cmp.hide_signature() else cmp.show_signature() end
+end, "Toggle signature")
 return M

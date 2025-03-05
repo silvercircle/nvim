@@ -43,7 +43,7 @@ M.setup = {
   navbuddy = function()
     local actions = require("nvim-navbuddy.actions")
     require("nvim-navbuddy").setup({
-      icons = vim.g.lspkind_symbols,
+      icons = CFG.lspkind_symbols,
       mappings = {
         ["<Left>"] = actions.parent(),   -- Move to left panel
         ["<Right>"] = actions.children()
@@ -69,7 +69,7 @@ M.setup = {
     require("nvim-navic").setup({
       highlight = true,
       lazy_update_context = true,
-      icons = vim.g.lspkind_symbols,
+      icons = CFG.lspkind_symbols,
     })
   end,
 
@@ -438,7 +438,7 @@ M.setup = {
         show_details_pop_up = false,
         chars = {
           hl = "OutlineGuides",
-          hl_toplevel = "Number"
+          hl_toplevel = "Operator"
         },
         hl_details = "Function",
         on_symbols_complete = function(ctx)

@@ -52,9 +52,12 @@ require("snacks").setup({
         truncate = 80
       }
     },
+    matcher = {
+      ignorecase = true
+    },
     layout = { preset = "vertical", layout = { backdrop = Tweaks.theme.picker_backdrop, width = 120, border = Borderfactory("thicc") } },
     icons = {
-      kind = vim.g.lspkind_symbols
+      kind = CFG.lspkind_symbols
     },
     sources = {
       explorer = {
