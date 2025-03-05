@@ -59,6 +59,7 @@ filetype plugin indent on
 set noshowmode
 
 command C Kwbd
+cabbrev botright below
 
 " This is for adding fortune cookies. User will be prompted for a section
 " (multiple sections can be entered separated with spaces) and the fortune
