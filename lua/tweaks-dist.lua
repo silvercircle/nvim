@@ -242,11 +242,8 @@ Tweaks.cmp = {
 -- internal function to create the border characters. You can expand it with more styles
 -- and use them in the "decoration" option above.
 Tweaks.borderfactory = function(style)
-  if borderstyles[style] ~= nil then
-    return borderstyles[style]
-  else
-    return borderstyles.single
-  end
+  style = (style and borderstyles[style] ~= nil) and style or "single"
+  return borderstyles[style]
 end
 
 -- don't touch this unless you know what you're doing
