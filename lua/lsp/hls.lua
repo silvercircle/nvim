@@ -2,7 +2,7 @@ local lspconfig = require("lspconfig")
 local util = require 'lspconfig.util'
 
 lspconfig.hls.setup({
-  cmd = { vim.g.lsp_server_bin['haskell'], '--lsp' },
+  cmd = { Tweaks.lsp.server_bin['haskell'], '--lsp' },
   filetypes = { 'haskell', 'lhaskell' },
   root_dir = function(filepath)
     return (

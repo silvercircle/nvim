@@ -4,14 +4,13 @@
 -- terminal split.
 local env_plain = os.getenv("NVIM_PLAIN")
 local status, mtw = pcall(require, "mytweaks")
-local tweaks = require("tweaks-dist")
+Tweaks = require("tweaks-dist")
 
 -- merge mytweaks into the default tweaks file to allow for user-customizable 
 -- settings that won't be overwritten when updating the config.
 if status == true then
-  tweaks = vim.tbl_deep_extend("force", tweaks, mtw)
+  Tweaks = vim.tbl_deep_extend("force", Tweaks, mtw)
 end
-Tweaks = tweaks
 Borderfactory = Tweaks.borderfactory
 
 local tree_fts = {
@@ -114,8 +113,6 @@ vim.g.startify_top = {
 -- manually. plugins/lsp.lua does all the real work. Mason and mason-lspconfig are optional.
 -- They allow easy installation and upgrading of your lsp servers, but if you do this manually,
 -- nvim-lspconfig alone is enough for a working LSP setup.
-
-vim.g.lsp_server_bin = tweaks.lsp.server_bin
 
 vim.g.confirm_actions = {
   exit = true,            -- ALWAYS confirm force-close (Alt-q), even when no buffers are modified

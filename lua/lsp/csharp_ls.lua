@@ -7,7 +7,7 @@ lspconfig.csharp_ls.setup({
   handlers = {
     ["textDocument/definition"] = require('csharpls_extended').handler
   },
-  cmd = { vim.g.lsp_server_bin['csharp_ls'] },
+  cmd = { Tweaks.lsp.server_bin['csharp_ls'] },
   root_dir = util.root_pattern('*.sln', '*.csproj', '*.fsproj', '.git'),
   filetypes = { 'cs' },
   init_options = {

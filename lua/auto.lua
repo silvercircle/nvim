@@ -300,7 +300,7 @@ autocmd({ 'FileType' }, {
       require("metals").initialize_or_attach({
         capabilities = CGLOBALS.get_lsp_capabilities(),
         settings = {
-          metalsBinaryPath = vim.g.lsp_server_bin["metals"]
+          metalsBinaryPath = Tweaks.lsp.server_bin["metals"]
         }
       })
     end

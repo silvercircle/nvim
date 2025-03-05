@@ -91,7 +91,7 @@ local root_files = {
 
 lspconfig.jdtls.setup({
   cmd = {
-    vim.g.lsp_server_bin['jdtls'],
+    Tweaks.lsp.server_bin['jdtls'],
     '-configuration',
     get_jdtls_config_dir(),
     '-data',

@@ -3,7 +3,7 @@ local util = require 'lspconfig.util'
 
 lspconfig.dartls.setup({
   capabilities = CGLOBALS.get_lsp_capabilities(),
-  cmd = { vim.g.lsp_server_bin['dartls'], 'language-server', '--protocol=lsp' },
+  cmd = { Tweaks.lsp.server_bin['dartls'], 'language-server', '--protocol=lsp' },
   filetypes = { 'dart' },
   root_dir = util.root_pattern 'pubspec.yaml',
   init_options = {

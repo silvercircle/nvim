@@ -51,7 +51,7 @@ lspconfig.omnisharp.setup({
   filetypes = { "cs", "vb" },
   root_dir = util.root_pattern('*.sln', '*.csproj', 'omnisharp.json', 'function.json'),
   on_new_config = function(new_config, new_root_dir)
-    new_config.cmd = { vim.g.lsp_server_bin["omnisharp"] }
+    new_config.cmd = { Tweaks.lsp.server_bin["omnisharp"] }
     table.insert(new_config.cmd, "-z") -- https://github.com/OmniSharp/omnisharp-vscode/pull/4300
     vim.list_extend(new_config.cmd, { "-s", new_root_dir })
     vim.list_extend(new_config.cmd, { "--hostPID", tostring(vim.fn.getpid()) })

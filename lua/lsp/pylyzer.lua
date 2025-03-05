@@ -4,7 +4,7 @@ local util = require 'lspconfig.util'
 print("load pylyzer")
 
 lspconfig.pylyzer.setup({
-  cmd = { vim.g.lsp_server_bin['pylyzer'], '--server' },
+  cmd = { Tweaks.lsp.server_bin['pylyzer'], '--server' },
   filetypes = { 'python' },
   root_dir = function(fname)
     local root_files = {
