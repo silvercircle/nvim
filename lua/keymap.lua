@@ -518,3 +518,5 @@ vim.keymap.set('i', "<Right>",  "<C-g>U<Right>", { silent = true, noremap = true
 vim.g.setkey("n", utility_key .. "ll", function() require("darkmatter.colortools").saturatehex(-0.05) end )
 require("subspace.lib.darkmatter").map_keys()
 
+vim.g.setkey( {"v", "n" }, utility_key .. "<tab>", ":tabnext<cr>", "Select next tab")
+
