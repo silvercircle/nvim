@@ -80,7 +80,7 @@ Tweaks.indent = {
 }
 
 Tweaks.dap = {
-  enabled = false
+  enabled = true
 }
 -- edit this to reflect your installation directories for lsp servers. Most will
 -- be in masonbinpath. Also supported are $HOME/.local/.bin and $HOME itself

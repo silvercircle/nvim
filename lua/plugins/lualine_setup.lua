@@ -161,13 +161,13 @@ require("lualine").setup({
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", 'SymbolsSidebar', 'SymbolsHelp', 'SymbolsSearch', 'terminal', 'query_rt', 'sysmon', 'weather', "NvimTree" },
-      winbar = { 'Outline', 'terminal', 'query_rt', 'qf', 'NvimTree', 'alpha', 'sysmon', 'weather',
-                 'dap-repl', 'dapui_console', 'dapui_watches', 'dapui_stacks', 'dapui_scopes', 'dapui_breakpoints',
-                 'snacks_picker_preview', 'snacks_dashboard', 'SymbolsSidebar', 'SymbolsHelp', 'SymbolsSearch' },
+      statusline = { "Outline", "SymbolsSidebar", "SymbolsHelp", "SymbolsSearch", "terminal", "query_rt", "sysmon", "weather", "NvimTree" },
+      winbar = { "Outline", "terminal", "query_rt", "qf", "NvimTree", "alpha", "sysmon", "weather",
+        "dap-repl", "dapui_console", "dapui_watches", "dapui_stacks", "dapui_scopes", "dapui_breakpoints",
+        "snacks_picker_preview", "snacks_dashboard", "SymbolsSidebar", "SymbolsHelp", "SymbolsSearch" },
       tabline = {},
     },
-    -- ignore_focus = {'NvimTree', 'neo-tree'},
+    -- ignore_focus = {"dap-repl", "dapui_console", "dapui_watches", "dapui_stacks", "dapui_scopes", "dapui_breakpoints"},
     always_divide_middle = true,
     globalstatus = false,
     refresh = {
@@ -271,7 +271,7 @@ require("lualine").setup({
   inactive_winbar = {
     lualine_a = { { full_filename, color = 'WinBarNC' } }
   },
-  extensions = {my_extension},
+  extensions = {my_extension, 'nvim-dap-ui', 'quickfix'},
 })
 
 local M = {}

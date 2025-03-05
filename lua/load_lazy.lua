@@ -54,7 +54,8 @@ lazy.setup({
     end
   },
   {
-    dir = "/mnt/shared/data/code/neovim_plugins/commandpicker.nvim/",
+    'https://gitlab.com/silvercircle74/commandpicker.nvim',
+    --dir = "/mnt/shared/data/code/neovim_plugins/commandpicker.nvim/",
     branch = "v1",
     lazy = true,
     event = "BufReadPost",
@@ -89,8 +90,8 @@ lazy.setup({
   -- treesitter + friends
   {
     'nvim-treesitter/nvim-treesitter',
-    event = "BufReadPre",
     branch = "master",
+    event = "BufReadPre",
     config = function()
       require("plugins.treesitter")
     end,
@@ -431,21 +432,17 @@ lazy.setup({
     end
   },
   {
-    'mfussenegger/nvim-dap',
-    cond = Tweaks.dap.enabled,
+    "rcarriga/nvim-dap-ui",
+    cond = Tweaks.dap.enabled == true,
     lazy = true,
     dependencies = {
-      'nvim-neotest/nvim-nio',
       {
-        'rcarriga/nvim-dap-ui',
-        config = function()
-          require("dap.nvim_dap_ui")
-        end
-      }
+        "mfussenegger/nvim-dap",
+        config = function() require("dap.nvim_dap") end
+      },
+      "nvim-neotest/nvim-nio"
     },
-    config = function()
-      require("dap.nvim_dap")
-    end
+    config = function() require("dap.nvim_dap_ui") end
   },
   {
     "smjonas/inc-rename.nvim",
