@@ -1,5 +1,5 @@
 local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
-local _, navic = pcall(require, "nvim-navic")
+local navic = nil
 
 local  LuaLineColors = {
     white = "#ffffff",
@@ -131,6 +131,9 @@ local function full_filename()
 end
 
 local function navic_context()
+  if navic == nil then
+    navic = require("nvim-navic")
+  end
   return navic.get_location()
 end
 
@@ -161,8 +164,8 @@ require("lualine").setup({
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", "SymbolsSidebar", "SymbolsHelp", "SymbolsSearch", "terminal", "query_rt", "sysmon", "weather", "NvimTree" },
-      winbar = { "Outline", "terminal", "query_rt", "qf", "NvimTree", "alpha", "sysmon", "weather",
+      statusline = { "Outline", "SymbolsSidebar", "SymbolsHelp", "SymbolsSearch", "terminal", "sysmon", "weather", "NvimTree", "query_rt" },
+      winbar = { "Outline", "terminal", "qf", "NvimTree", "alpha", "sysmon", "weather", "query_rt",
         "dap-repl", "dapui_console", "dapui_watches", "dapui_stacks", "dapui_scopes", "dapui_breakpoints",
         "snacks_picker_preview", "snacks_dashboard", "SymbolsSidebar", "SymbolsHelp", "SymbolsSearch" },
       tabline = {},

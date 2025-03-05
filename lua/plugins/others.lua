@@ -391,6 +391,8 @@ M.setup = {
     -- vim.api.nvim_set_hl(0, "MultiCursorVisual", { link = "Visual" })
     -- vim.api.nvim_set_hl(0, "MultiCursorDisabledCursor", { link = "Visual" })
     -- vim.api.nvim_set_hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
+    local hl = vim.api.nvim_set_hl
+    hl(0, "MultiCursorSign", { link = "SignColumn"})
   end,
 
   -- https://github.com/brenton-leighton/multiple-cursors.nvim

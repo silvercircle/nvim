@@ -321,19 +321,19 @@ vim.g.setkey({'n', 'i'}, '<A-q>', function()
 end, "Quit Neovim")
 
 vim.g.setkey({'n', 'i'}, '<C-p>', function()
-  if vim.fn.win_getid() == CGLOBALS.main_winid then
+  if vim.fn.win_getid() == CGLOBALS.main_winid or vim.bo.buftype == "" then
     require('fzf-lua').oldfiles( { formatter = "path.filename_first", winopts = Tweaks.fzf.winopts.small_no_preview })
   end
 end, "FZF-LUA old files")
 
 vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
-  if vim.fn.win_getid() == CGLOBALS.main_winid then
+  if vim.fn.win_getid() == CGLOBALS.main_winid or vim.bo.buftype == "" then
     require("fzf-lua").buffers({ formatter = "path.filename_first", mru = true, no_action_zz = true, no_action_set_cursor = true, winopts = Tweaks.fzf.winopts.small_no_preview })
   end
 end, "FZF buffer list")
 vim.g.setkey({'n', 'i', 'v' }, '<A-p>', function()
   require("commandpicker").open()
-end, "Telescope command palette")
+end, "Command palette")
 
 -- quick-focus the four main areas
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-1>', function()
