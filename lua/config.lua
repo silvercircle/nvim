@@ -84,7 +84,7 @@ CFG = {
   },
   treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
                        "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid", "typst",
-                       "yaml", "rust", "javascript", "ruby", "objc", "groovy", "org", "markdown",
+                       "yaml", "rust", "javascript", "ruby", "objc", "markdown",
                        "markdown_inline", "zig", "latex" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   outline_plugin = nil,
@@ -144,10 +144,11 @@ vim.filetype.add({
 --
 -- These symbols are used by:
 -- Cmp plugin
--- aerial plugin
+-- symbols sidebar plugin
+-- blink.cmp
 -- outline plugin
 -- lspkind plugin
--- navic & navbuddy plugins
+-- navic plugin
 vim.g.lspkind_symbols = {
   Text        = "󰊄 ",
   Method      = " ",

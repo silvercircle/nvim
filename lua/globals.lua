@@ -559,12 +559,12 @@ function M.configure_treesitter()
   vim.g.setkey({ 'n', 'i', 'v' }, "<C-x>te",
     function()
       vim.treesitter.start()
-      vim.notify("Highlights enabled", vim.log.levels.INFO, "Treesitter")
+      vim.notify("Highlights enabled", vim.log.levels.INFO)
     end, "Enable Treesitter for Buffer")
   vim.g.setkey({ 'n', 'i', 'v' }, "<C-x>td",
     function()
       vim.treesitter.stop()
-      vim.notify("Highlight disabled", vim.log.levels.INFO, "Treesitter")
+      vim.notify("Highlight disabled", vim.log.levels.INFO)
     end, "Disable Treesitter for Buffer")
 end
 
