@@ -83,8 +83,8 @@ require("snacks").setup({
         keys = {
           ["<PageDown>"] = { "list_scroll_down", mode = { "i", "n" } },
           ["<PageUp>"] = { "list_scroll_up", mode = { "i", "n" } },
-          ["<Home>"] = { "list_top", mode = { "i", "n" } },
-          ["<End>"] = { "list_bottom", mode = { "i", "n" } },
+          ["<A-Up>"] = { "list_top", mode = { "i", "n" } },
+          ["<S-Down>"] = { "list_bottom", mode = { "i", "n" } },
           ["<A-q>"] = { "qflist", mode = { "i", "n" } },
           ["<C-Up>"] = { "preview_scroll_up", mode = { "i", "n" } },
           ["<C-Down>"] = { "preview_scroll_down", mode = { "i", "n" } }
@@ -94,8 +94,8 @@ require("snacks").setup({
         keys = {
           ["<PageDown>"] = "list_scroll_down",
           ["<PageUp>"] = "list_scroll_up",
-          ["<Home>"] = "list_top",
-          ["<End>"] = "list_bottom",
+          ["<A-Up>"] = "list_top",
+          ["<A-Down>"] = "list_bottom",
           ["<A-q>"] = { "qflist", mode = { "i", "n" } },
           ["<C-Up>"] = { "preview_scroll_up", mode = { "i", "n" } },
           ["<C-Down>"] = { "preview_scroll_down", mode = { "i", "n" } }

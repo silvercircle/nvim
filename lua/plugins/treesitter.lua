@@ -16,7 +16,7 @@ require("nvim-treesitter.configs").setup({
   highlight = {
     additional_vim_regex_highlighting = false,
     enable = true,
-    disable = { "markdown" }
+    disable = { "markdown", "tex", "latex" }
   },
   indent = {
     -- FIXME: Setting this to true will cause a huge memory leak when inserting lines
