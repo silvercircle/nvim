@@ -1,0 +1,13 @@
+site_name: My Neovim Config
+theme:
+  color_mode: dark
+  user_color_mode_toggle: true
+  name: mkdocs
+  nav_style: dark
+  locale: en
+  static_templates:
+    - sitemap.html
+  include_sidebar: true
+  palette:
+    - scheme: slate
+
