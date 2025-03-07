@@ -8,6 +8,9 @@ require("snacks").setup({
     top_down = false,
     refresh = 400
   },
+  words = {
+    enabled = false,
+  },
   explorer = {
     replace_netrw = false,
     layout = SPL({ input = "top", width = 80, psize = 12 })
@@ -17,14 +20,14 @@ require("snacks").setup({
     patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "pom.xml", "settings.gradle", "*.sln", "build.zig", "go.mod", "*.gpr" }
   },
   lazygit = {
-    enable = vim.tbl_contains(Tweaks.snacks.enabled_modules, "lazygit"),
+    enabled = vim.tbl_contains(Tweaks.snacks.enabled_modules, "lazygit"),
     win = {
       border = Borderfactory("thicc")
     }
   },
   image = {
     formats = { "png", "bmp", "webp", "tiff" },
-    enable = vim.tbl_contains(Tweaks.snacks.enabled_modules, "image"),
+    enabled = vim.tbl_contains(Tweaks.snacks.enabled_modules, "image"),
     doc = {
       enabled = true,
       inline = false,
