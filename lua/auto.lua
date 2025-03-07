@@ -268,11 +268,12 @@ autocmd({ 'FileType' }, {
 local tabstop_pattern = { 'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go' }
 -- filetypes for which we want conceal enabled
 local conceal_pattern = { "markdown", "telekasten", "liquid" }
+local indk_pattern = { "c", "cpp", "python" }
 
 -- generic FileType handler adressing common actions
-autocmd({ 'FileType' }, {
+autocmd({ "FileType" }, {
   pattern = { "Outline", "SymbolsSidebar", "mail", "qf", "replacer",
-    'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go',
+    "vim", "nim", "python", "c", "cpp", "lua", "json", "html", "css", "dart", "go",
     "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
     if args.match == "Outline" or args.match == "SymbolsSidebar" then
@@ -296,6 +297,8 @@ autocmd({ 'FileType' }, {
     elseif vim.tbl_contains(conceal_pattern, args.match) then
       vim.cmd("setlocal conceallevel=2 | setlocal concealcursor=nc | setlocal formatexpr=")
     -- metals, attach on filetype
+    elseif vim.tbl_contains(indk_pattern, args.match) then
+      vim.cmd("setlocal indentkeys-=: | setlocal cinkeys-=:")
     elseif args.match == "scala" or args.match == "sbt" then
       require("metals").initialize_or_attach({
         capabilities = CGLOBALS.get_lsp_capabilities(),
