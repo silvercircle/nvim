@@ -434,7 +434,7 @@ end, "Focus the quickfix list")
 vim.g.setkey({ 'n', 'i', 't' }, '<f11>', function() CGLOBALS.termToggle(12) end, "Toggle Terminal split at bottom")
 map('t', '<Esc>', '<C-\\><C-n>', opts)
 
-vim.g.setkey('n', fkeys.c_f8, '<CMD>RnvimrToggle<CR>', "Ranger in Floaterm")
+vim.g.setkey('n', fkeys.c_f8, function() require("oil").open() end, "Ranger in Floaterm")
 vim.keymap.set('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cword>') end,
   { expr = true, desc = "Inc Rename", noremap = true, silent = true })
 

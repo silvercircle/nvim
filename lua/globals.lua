@@ -424,7 +424,7 @@ function M.adjust_layout()
     vim.api.nvim_win_set_width(M.term.winid, width - 1)
     vim.api.nvim_win_set_width(M.term.winid, width)
   end
-  local outline = M.findWinByFiletype("Outline")
+  local outline = M.findWinByFiletype(PCFG.outline_filetype)
   if #outline > 0 then
     vim.api.nvim_win_set_width(outline[1], PCFG.outline.width)
   end
