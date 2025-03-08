@@ -56,7 +56,8 @@ M.perm_config_default = {
   cmp_ghost = false,
   lsp = {
     inlay_hints = true
-  }
+  },
+  is_dev = false
 }
 
 M.perm_config = {}

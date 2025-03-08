@@ -62,8 +62,8 @@ lazy.setup({
     end
   },
   {
-    'https://gitlab.com/silvercircle74/commandpicker.nvim',
-    --dir = "/mnt/shared/data/code/neovim_plugins/commandpicker.nvim/",
+    dir = PCFG.is_dev and "/mnt/shared/data/code/neovim_plugins/commandpicker.nvim/" or nil,
+    url = PCFG.is_dev and nil or 'https://gitlab.com/silvercircle74/commandpicker.nvim',
     branch = "v1",
     lazy = true,
     event = "BufReadPost",
@@ -214,8 +214,6 @@ lazy.setup({
   },
   -- blink.cmp (alternative to nvim-cmp)
   {
-    --dir = "/data/mnt/shared/data/code/neovim_plugins/blink.cmp/",
-    --branch = "main",
     'Saghen/blink.cmp',
     branch = "main",
     build = "cargo build --release",
@@ -546,12 +544,12 @@ lazy.setup({
     end
   },
   {
-    --"oskarrrrrrr/symbols.nvim",
-    dir = "/data/mnt/shared/data/code/neovim_plugins/symbols.nvim/",
+    url = PCFG.is_dev and nil or "https://github.com/oskarrrrrrr/symbols.nvim",
+    dir = PCFG.is_dev and "/data/mnt/shared/data/code/neovim_plugins/symbols.nvim/" or nil,
     cmd = { "Symbols", "SymbolsOpen" },
     lazy = true,
     cond = Tweaks.outline_plugin == "symbols",
-    branch = "experiments",
+    branch = PCFG.is_dev and "experiments" or "main",
     config = function()
       require("plugins.others").setup.symbols()
     end
