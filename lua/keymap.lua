@@ -321,13 +321,13 @@ vim.g.setkey({'n', 'i'}, '<A-q>', function()
 end, "Quit Neovim")
 
 vim.g.setkey({'n', 'i'}, '<C-p>', function()
-  if vim.fn.win_getid() == CGLOBALS.main_winid or vim.bo.buftype == "" then
+  if vim.fn.win_getid() == CGLOBALS.main_winid or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
     require('fzf-lua').oldfiles( { formatter = "path.filename_first", winopts = Tweaks.fzf.winopts.small_no_preview })
   end
 end, "FZF-LUA old files")
 
 vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
-  if vim.fn.win_getid() == CGLOBALS.main_winid or vim.bo.buftype == "" then
+  if vim.fn.win_getid() == CGLOBALS.main_winid or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
     require("fzf-lua").buffers({ formatter = "path.filename_first", mru = true, no_action_zz = true, no_action_set_cursor = true, winopts = Tweaks.fzf.winopts.small_no_preview })
   end
 end, "FZF buffer list")

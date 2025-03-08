@@ -466,6 +466,7 @@ function M.toggle_debug()
   else
     vim.notify("Debug messages are now DISABLED.", 2)
   end
+  PCFG.is_dev = PCFG.debug
 end
 
 -- enable/disable ibl

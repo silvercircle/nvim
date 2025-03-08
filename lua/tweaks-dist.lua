@@ -419,4 +419,10 @@ Tweaks.fzf = {
 Tweaks.snacks = {
   enabled_modules = { "picker", "image", "indent", "lazygit" }
 }
+
+Tweaks.smartpicker = {
+  project_types = {
+    lua = { names = {"stylua.toml", "init.vim"} }
+  }
+}
 return Tweaks
