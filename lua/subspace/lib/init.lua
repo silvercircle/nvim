@@ -374,7 +374,9 @@ function Utils.Quitapp()
   local prompt = ""
 
   for _, bufnr in ipairs(bufs) do
-    have_modified_buf = vim.api.nvim_buf_get_option(bufnr, "modified") == true and true or have_modified_buf
+    if vim.api.nvim_buf_get_option(bufnr, "buflisted") then
+      have_modified_buf = vim.api.nvim_buf_get_option(bufnr, "modified") == true and true or have_modified_buf
+    end
   end
 
   if have_modified_buf == false then
