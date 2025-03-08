@@ -60,12 +60,12 @@ require("oil").setup({
   keymaps = {
     ["g?"] = { "actions.show_help", mode = "n" },
     ["<CR>"] = "actions.select",
-    ["<C-s>"] = { "actions.select", opts = { vertical = true } },
-    ["<C-h>"] = { "actions.select", opts = { horizontal = true } },
+    ["<C-o>s"] = { "actions.select", opts = { vertical = true } },
+    ["<C-o>r"] = { "actions.select", opts = { horizontal = true } },
     ["<C-t>"] = { "actions.select", opts = { tab = true } },
-    ["<C-p>"] = "actions.preview",
-    ["<C-c>"] = { "actions.close", mode = "n" },
-    ["<C-l>"] = "actions.refresh",
+    ["<C-o>p"] = "actions.preview",
+    ["<C-o>c"] = { "actions.close", mode = "n" },
+    ["<C-o>l"] = "actions.refresh",
     ["-"] = { "actions.parent", mode = "n" },
     ["_"] = { "actions.open_cwd", mode = "n" },
     ["`"] = { "actions.cd", mode = "n" },
@@ -79,7 +79,7 @@ require("oil").setup({
   use_default_keymaps = true,
   view_options = {
     -- Show files and directories that start with "."
-    show_hidden = false,
+    show_hidden = true,
     -- This function defines what is considered a "hidden" file
     is_hidden_file = function(name, bufnr)
       local m = name:match("^%.")
@@ -102,7 +102,9 @@ require("oil").setup({
     },
     -- Customize the highlight group for the file name
     highlight_filename = function(entry, is_hidden, is_link_target, is_link_orphan)
-      return nil
+      if is_link_target then return "String" end
+      if is_link_orphan then return "Error" end
+      return is_hidden and "Comment" or (entry.type == "file" and "Keyword" or "Number")
     end,
   },
   -- Extra arguments to pass to SCP when moving/copying files over SSH
