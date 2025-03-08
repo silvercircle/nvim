@@ -477,8 +477,10 @@ require("commandpicker").add({
     category = "@FZF"
   },
   {
-    desc = "FZF find files (current directory)",
-    cmd = function() fzf.files({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.big_preview_top }) end,
+    desc = "FZF smart find files (project root)",
+    cmd = function()
+      require("subspace.lib.smartpickers").smartfiles_or_grep({useroot = true, op="files"})
+    end,
     keys = {
       { "i", fkeys.s_f8, noremap },
       { "n", fkeys.s_f8, noremap }
@@ -486,12 +488,9 @@ require("commandpicker").add({
     category = "@FZF"
   },
   {
-    desc = "FZF files (project root)",
+    desc = "FZF smart live grep (project root)",
     cmd = function()
-      fzf.files({
-        cwd = lutils.getroot_current(),
-        winopts = fzf_tweaks.winopts.big_preview_top
-      })
+      require("subspace.lib.smartpickers").smartfiles_or_grep({useroot = true, op="grep"})
     end,
     keys = {
       { "n", "<f8>", noremap },
