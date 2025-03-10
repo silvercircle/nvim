@@ -212,7 +212,7 @@ require("blink.cmp").setup({
   cmdline = {
     enabled = true,
     keymap = {
-      preset = "inherit",
+      preset = T.keymap_preset,
     },
     sources = function()
       local type = vim.fn.getcmdtype()
