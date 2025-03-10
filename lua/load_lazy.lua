@@ -546,7 +546,7 @@ lazy.setup({
   },
   {
     url = PCFG.is_dev and nil or "https://github.com/oskarrrrrrr/symbols.nvim",
-    dir = PCFG.is_dev and "/data/mnt/shared/data/code/neovim_plugins/symbols.nvim/" or nil,
+    dir = PCFG.is_dev and "/mnt/shared/data/code/neovim_plugins/symbols.nvim/" or nil,
     cmd = { "Symbols", "SymbolsOpen" },
     lazy = true,
     cond = Tweaks.outline_plugin == "symbols",
