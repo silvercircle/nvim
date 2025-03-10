@@ -82,6 +82,10 @@ Tweaks.indent = {
 Tweaks.dap = {
   enabled = true
 }
+-- a list of keyboard mappings to load. lua/keymaps/default.lua will always be loaded
+-- and you can add your own. Put them in lua/keymaps/
+Tweaks.keymaps = { 'default' }
+
 -- edit this to reflect your installation directories for lsp servers. Most will
 -- be in masonbinpath. Also supported are $HOME/.local/.bin and $HOME itself
 -- for everything else, you can use full paths in the server_bin table.

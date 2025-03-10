@@ -49,7 +49,9 @@ vim.opt.rtp:prepend(lazypath)
 require('options')
 require('load_lazy')
 require("auto")
-require('keymap')
+for _,v in pairs(Tweaks.keymaps) do
+  require("keymaps." .. v)
+end
 EOB
 
 run macros/justify.vim
