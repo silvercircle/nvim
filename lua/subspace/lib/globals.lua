@@ -547,11 +547,11 @@ function M.configure_treesitter()
   vim.treesitter.language.register("ini", "editorconfig")
   -- disable injections for these languages, because they can be slow
   -- can be tweaked
-  if Tweaks.treesitter.perf_tweaks == true then
-    vim.treesitter.query.set("javascript", "injections", "")
-    vim.treesitter.query.set("typescript", "injections", "")
-    vim.treesitter.query.set("vimdoc", "injections", "")
-  end
+  --if Tweaks.treesitter.perf_tweaks == true then
+  --  vim.treesitter.query.set("javascript", "injections", "")
+  --  vim.treesitter.query.set("typescript", "injections", "")
+  --  vim.treesitter.query.set("vimdoc", "injections", "")
+  --end
   -- enable/disable treesitter-context plugin
   vim.g.setkey({ 'n', 'i', 'v' }, "<C-x><C-c>", function() M.toggle_treesitter_context() end, "Toggle Treesitter Context")
   -- jump to current context start

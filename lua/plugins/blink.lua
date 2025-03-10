@@ -339,7 +339,7 @@ require("blink.cmp").setup({
           enabled = true
         },
         semantic_token_resolution = {
-          enabled = true
+          enabled = false
         }
       }
     },

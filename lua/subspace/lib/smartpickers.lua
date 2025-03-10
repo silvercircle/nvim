@@ -12,7 +12,7 @@ Fzf = require("fzf-lua")
 ---@field ext table a list of filename extensions
 ---@field names? table an (optional) list of full filenames
 local project_types = {
-  lua = { ext = { "lua", "md" }, names = {"init.vim"} },
+  lua = { ext = { "lua", "md", "vim" }, names = {"init.vim"} },
   c = { ext = { "c", "cpp", "cxx", "h", "hxx", "hpp", "cc" }, names = {"CMakeLists.txt", "Makefile", "CMakePresets.json"} },
   tex = { ext = { "tex", "sty" } }
 }

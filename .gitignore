@@ -83,4 +83,5 @@ cmp_wordlist_auto.txt
 lazy-lock.json
 lua/_deprecated/nvim-cmp
 doc/site
+mytweaks.lua
 

@@ -4,6 +4,7 @@ lazy.setup({
     'stevearc/oil.nvim',
     dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
     -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+    lazy = true,
     config = function()
       require("plugins.oil")
     end
@@ -549,7 +550,7 @@ lazy.setup({
     cmd = { "Symbols", "SymbolsOpen" },
     lazy = true,
     cond = Tweaks.outline_plugin == "symbols",
-    branch = PCFG.is_dev and "experiments" or "main",
+    branch = PCFG.is_dev and "mine" or "main",
     config = function()
       require("plugins.others").setup.symbols()
     end

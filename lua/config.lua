@@ -6,7 +6,7 @@ local env_plain = os.getenv("NVIM_PLAIN")
 local status, mtw = pcall(require, "mytweaks")
 Tweaks = require("tweaks-dist")
 
--- merge mytweaks into the default tweaks file to allow for user-customizable 
+-- merge mytweaks into the default tweaks file to allow for user-customizable
 -- settings that won't be overwritten when updating the config.
 if status == true then
   Tweaks = vim.tbl_deep_extend("force", Tweaks, mtw)
@@ -20,6 +20,9 @@ local tree_fts = {
 }
 Tweaks.tree.filetype = tree_fts[Tweaks.tree.version]
 
+if (Tweaks.DEV and Tweaks.DEV ~= false) or os.getenv("NVIM_DEV_PRIVATE") then
+  assert = function(...) return ... end
+end
 -- FIXME: silence deprecation warnings in dev builds. currently 0.11
 -- adjust this for future dev builds
 local nvim_11 = vim.fn.has("nvim-0.11")
@@ -128,7 +131,7 @@ g.mapleader = Tweaks.keymap.mapleader
 function vim.g.setkey(modes, lhs, rhs, _desc)
   vim.keymap.set(modes, lhs, rhs, { noremap = true, silent = true, desc = _desc })
 end
-CGLOBALS=require("globals")
+CGLOBALS=require("subspace.lib.globals")
 PCFG = require("subspace.lib.permconfig").perm_config
 
 vim.filetype.add({
