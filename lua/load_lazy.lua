@@ -550,7 +550,7 @@ lazy.setup({
     cmd = { "Symbols", "SymbolsOpen" },
     lazy = true,
     cond = Tweaks.outline_plugin == "symbols",
-    branch = PCFG.is_dev and "mine" or "main",
+    branch = PCFG.is_dev and "experiments" or "main",
     config = function()
       require("plugins.others").setup.symbols()
     end

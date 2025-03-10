@@ -79,7 +79,7 @@ local function lualine_internal_theme()
     },
     replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred } },
     inactive = {
-      a = "StatusLine",
+      a = "CursorLine",
       b = "StatusLine",
       c = "StatusLine"
     }
@@ -210,7 +210,13 @@ require("lualine").setup({
     lualine_z = { { getWordsV2 }, "location" },
   },
   inactive_sections = {
-    lualine_a = {},
+    lualine_a = { "mode", "o:formatoptions", " : ",
+    {
+      "o:textwidth",
+      fmt = function(str)
+        return string.format("%s:%s:%s", str, vim.api.nvim_win_get_option(0, "wrap") == true and "wr" or "no", vim.o.foldmethod)
+      end
+    }},
     lualine_b = {},
     lualine_c = { "filename" },
     lualine_x = { "location" },
