@@ -1,8 +1,9 @@
 site_name: My Neovim Config
+site_dir: /data/mnt/shared/data/silvercircle2.gitlab.io/_site/neovimdocs
 theme:
   color_mode: dark
   user_color_mode_toggle: true
-  name: mkdocs
+  name: material
   nav_style: dark
   locale: en
   static_templates:
@@ -10,4 +11,29 @@ theme:
   include_sidebar: true
   palette:
     - scheme: slate
+  features:
+    - content.code.select
+    - content.code.annotate
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+plugins:
+  - glightbox
+  - search
+markdown_extensions:
+  - md_in_html
+  - attr_list
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+      auto_title: false
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
 
