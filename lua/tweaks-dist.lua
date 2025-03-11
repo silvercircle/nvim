@@ -83,7 +83,8 @@ Tweaks.dap = {
   enabled = true
 }
 -- a list of keyboard mappings to load. lua/keymaps/default.lua will always be loaded
--- and you can add your own. Put them in lua/keymaps/
+-- and you can add your own. Put them in lua/keymaps/mapname.lua and add the mapname
+-- to this list.
 Tweaks.keymaps = { 'default' }
 
 -- edit this to reflect your installation directories for lsp servers. Most will
@@ -421,7 +422,7 @@ Tweaks.fzf = {
 }
 
 Tweaks.snacks = {
-  enabled_modules = { "picker", "image", "indent", "lazygit" }
+  enabled_modules = { "picker", --[["image",]] "indent", "lazygit" }
 }
 
 Tweaks.smartpicker = {

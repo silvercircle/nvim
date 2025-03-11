@@ -6,33 +6,6 @@ local lutils     = require("subspace.lib")
 local lsputil    = require("lspconfig.util")
 local noremap    = true
 
-local extract_dir = function(item)
-  local dir = vim.fn.split(item[1] or "", "\t")[2] or ""
-  return vim.fn.isdirectory(dir) and dir or nil
-end
-
-local fzf_dir_actions = {
-  enter = function(item)
-    local dir = extract_dir(item)
-    if dir then
-      require("fzf-lua").files({ cwd = dir, winopts = Tweaks.fzf.winopts.mini_with_preview })
-    end
-  end,
-  ["ctrl-g"] = function(item)
-    local dir = extract_dir(item)
-    if dir then
-      require("fzf-lua").live_grep({ cwd = dir, winopts = Tweaks.fzf.winopts.std_preview_top })
-    end
-  end,
-  ["ctrl-d"] = {
-    function(item)
-      local dir = extract_dir(item)
-      if dir then vim.fn.chdir(dir) end
-    end,
-    require("fzf-lua.actions").resume
-  }
-}
-
 require("commandpicker").add({
   {
     desc = "Show all bookmarks (Snacks picker)",
@@ -713,7 +686,7 @@ require("commandpicker").add({
   {
     desc = "Zoxide history (FZF)",
     cmd = function()
-      fzf.zoxide({ actions = fzf_dir_actions, winopts = FWO("mini_with_preview", "Zoxide History, <CR>:browse, <C-g>:Grep, <C-d>:Set CWD" ) })
+      fzf.zoxide({ actions = require("subspace.lib.actions").fzf_dir_actions, winopts = FWO("mini_with_preview", "Zoxide History, <CR>:browse, <C-g>:Grep, <C-d>:Set CWD" ) })
     end,
     key = { {"n","i"}, "<C-x>z", noremap },
     category = "@FZF"
