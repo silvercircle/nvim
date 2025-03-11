@@ -9,8 +9,7 @@ Each command has a description, belongs to a category and has one or more keyboa
   <figcaption><center>The command palette</center></figcaption>
 </figure>
 
-The command palette is always available via the keyboard shortcut ++alt+p++. It is provided by the 
-command picker plugin.
+The command palette is always available via the keyboard shortcut ++alt+p++.
 
 {==
 
