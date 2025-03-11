@@ -49,8 +49,11 @@ vim.opt.rtp:prepend(lazypath)
 require('options')
 require('load_lazy')
 require("auto")
-for _,v in pairs(Tweaks.keymaps) do
-  require("keymaps." .. v)
+require("keymaps.default")
+for _, v in ipairs(Tweaks.keymap.maps) do
+  if v ~= "default" then
+    _, _ = pcall(require, "keymaps." .. v)
+  end
 end
 EOB
 

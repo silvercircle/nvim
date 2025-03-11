@@ -103,7 +103,6 @@ Tweaks.dap = {
 -- a list of keyboard mappings to load. lua/keymaps/default.lua will always be loaded
 -- and you can add your own. Put them in lua/keymaps/mapname.lua and add the mapname
 -- to this list.
-Tweaks.keymaps = { 'default' }
 
 -- edit this to reflect your installation directories for lsp servers. Most will
 -- be in masonbinpath. Also supported are $HOME/.local/.bin and $HOME itself
@@ -312,7 +311,8 @@ Tweaks.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and tr
 Tweaks.keymap = {
   utility_key = "<C-l>",
   mapleader = ",",
-  fzf_prefix = "<C-q>"
+  fzf_prefix = "<C-q>",
+  maps = { "default", "mine" }
 }
 
 Tweaks.treesitter = {
