@@ -1,5 +1,6 @@
-site_name: My Neovim Config
-site_dir: /data/mnt/shared/data/silvercircle2.gitlab.io/_site/neovimdocs
+site_name: Subspace Neovim Config
+site_dir: /data/mnt/shared/data/silvercircle2.gitlab.io/_site/nvim
+site_url: https://subspace.cc/nvim
 theme:
   color_mode: dark
   user_color_mode_toggle: true
@@ -17,10 +18,19 @@ theme:
     - content.code.copy
     - search.suggest
     - search.highlight
+    - navigation.instant
+    - navigation.tabs
+    - navigation.tracking
 plugins:
   - glightbox
   - search
+  - tags
 markdown_extensions:
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
   - md_in_html
   - attr_list
   - footnotes
@@ -31,9 +41,15 @@ markdown_extensions:
       line_spans: __span
       pygments_lang_class: true
       auto_title: false
+      linenums: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+extra_javascript:
+  - scripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
 

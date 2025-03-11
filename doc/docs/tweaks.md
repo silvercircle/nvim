@@ -21,15 +21,28 @@ local Tweaks = {}
 
 Tweaks.DEV = true
 Tweaks.completion = {
-  version = "nvim-cmp"
+  version = "nvim-cmp" -- # (1)
 }
 
 return Tweaks
 
 ```
+{ .annotate }
+
+{==
+
+Test and more
+
+==}
+
 The **most important** setting to edit in the tweaks is the `lsp` table, because this contains all the 
 paths for the supported LSP server binaries. If you install them with Mason, you should not need to edit 
 most of them, but remember, the config is only supported on Linux and if you are on Windows (native, not 
 WSL) or macOS, you'll likely have to fix a lot.
+{ .annotate }
 
+$$
+\cos x=\sum_{k=0}^{\infty}\frac{(-1)^k}{(2k)!}x^{2k}
+$$
 
+T~end~
