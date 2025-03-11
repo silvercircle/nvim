@@ -38,7 +38,7 @@ local function status()
   local disabled = (s == true and val == false )
   return (CGLOBALS.get_buffer_var(0, "tsc") == true and "C" or "c") ..
          (CGLOBALS.get_buffer_var(0, "inlayhints") == true and "H" or "h") ..
-         (vim.b[0].snacks_indent == false and "i" or (PCFG.ibl_enabled and "I" or "i")) ..
+         (vim.b[0].snacks_indent == false and "i" or (PCFG.indent_guides and "I" or "i")) ..
          (disabled and "a" or "A")
 end
 

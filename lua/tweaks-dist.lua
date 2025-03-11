@@ -53,7 +53,7 @@ Tweaks.completion = {
 -- which indent guides plugin to use. Options are "blink" or "snacks"
 -- This plugin is responsible for drawing the indent guides.
 Tweaks.indent = {
-  version = "snacks",
+  enabled = true,
   rainbow_guides = true,
   -- colors for the non-rainbow lines
   color = {
@@ -61,22 +61,40 @@ Tweaks.indent = {
     light = "#808080",
     dark = "#404040"
   },
-  -- this works only with the snacks version
-  animate = false,
+  -- see snacks.indent documentation for available styles and options
+  animate = {
+    enabled = false,
+    style = "out",
+    easing = "linear",
+    duration = {
+      step = 10,   -- ms per step
+      total = 100, -- maximum duration
+    }
+  },
   -- mark the current scope
+  -- again, see snacks.indent docs.
   scope = {
     enabled = true,
+    priority = 200,
     char = "┃",
-    hl = "Brown"
+    hl = "Brown",
+    underline = false,      -- underline the start of the scope
+    only_current = false,   -- only show scope in the current window
   },
-  -- chunk only works with the snacks version
   chunk = {
+    -- when enabled, scopes will be rendered as chunks, except for the
+    -- top-level scope which will be rendered as a scope.
     enabled = true,
-    -- line variant, allowed are: "normal", "thicc" and "rounded"
-    -- the actual characters are produced by the borderfactory()
-    -- function (see below)
-    lines = "normal",
-  }
+    -- only show chunk scopes in the current window
+    only_current = true,
+    priority = 200,
+    hl = "Brown",
+  },
+  blank = {
+    char = " ",
+    -- char = "·",
+    hl = "SnacksIndentBlank", ---@type string|string[] hl group for blank spaces
+  },
 }
 
 Tweaks.dap = {
@@ -430,4 +448,15 @@ Tweaks.smartpicker = {
     lua = { names = {"stylua.toml", "init.vim"} }
   }
 }
+
+local chunklines = Tweaks.borderfactory(Tweaks.indent.chunk.lines)
+
+Tweaks["indent"]["chunk"]["char"] = {
+  corner_top = chunklines[1],
+  corner_bottom = chunklines[7],
+  horizontal = chunklines[2],
+  vertical = chunklines[4],
+  arrow = ">",
+}
+
 return Tweaks

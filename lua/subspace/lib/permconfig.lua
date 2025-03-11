@@ -40,9 +40,7 @@ M.perm_config_default = {
   theme_strings = "yellow",
   theme_scheme = "gruv",
   debug = false,
-  ibl_rainbow = true,
-  ibl_enabled = true,
-  ibl_context = false,
+  indent_guides = true,
   scrollbar = true,
   statusline_declutter = 0,
   outline_filetype = "Outline",
@@ -133,6 +131,7 @@ function M.restore_config()
   PCFG = M.perm_config
 
   PCFG.outline_filetype = (Tweaks.outline_plugin == "symbols") and "SymbolsSidebar" or "Outline"
+  PCFG.indent_guides = Tweaks.indent.enabled
   -- configure the theme
   local cmp_kind_attr = { bold=true, reverse=true }
   if Tweaks.theme.disable == false then

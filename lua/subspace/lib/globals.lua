@@ -471,12 +471,8 @@ end
 
 -- enable/disable ibl
 function M.toggle_ibl()
-  PCFG.ibl_enabled = not PCFG.ibl_enabled
-  if Tweaks.indent.version == "snacks" then
-    vim.g.snacks_indent = PCFG.ibl_enabled
-  else
-    vim.notify("function not supported with current plugin configuration", 0, { title = "Indent guides" })
-  end
+  PCFG.indent_guides = not PCFG.indent_guides
+  vim.g.snacks_indent = PCFG.indent_guides
   vim.schedule(function() vim.cmd.redraw() end)
 end
 
