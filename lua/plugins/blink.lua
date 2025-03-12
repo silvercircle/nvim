@@ -83,7 +83,7 @@ local function reverse_hl_groups()
     "BlinkCmpKindSnippet", "BlinkCmpKindOperator", "BlinkCmpKindInterface",
     "BlinkCmpKindValue", "BlinkCmpKindTypeParameter", "BlinkCmpKindFile",
     "BlinkCmpKindFolder", "BlinkCmpKindEvent", "BlinkCmpKindReference",
-    "BlinkCmpKindDict" }
+    "BlinkCmpKindDict", "BlinkCmpKindColor" }
 
   for _, v in ipairs(groups) do
     local hl = vim.api.nvim_get_hl(0, { name = v })
