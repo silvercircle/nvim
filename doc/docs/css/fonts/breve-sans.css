@@ -69,10 +69,14 @@
 }
 
 article.md-typeset {
-  font-size: 13pt !important;
-  font-family: "Breve Sans"
+  font-size: 1.8em !important;
+  font-family: "Breve Sans";
+  line-height: 1.2em;
+  font-weight: 300;
 }
 
-div.admonition > p {
+div.admonition > p:last-child {
   font-size: 13pt !important;
+  line-height: 1.2em;
+  font-weight: 400;
 }

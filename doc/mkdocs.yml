@@ -1,6 +1,7 @@
 site_name: Subspace Neovim Config
-site_dir: /data/mnt/shared/data/silvercircle2.gitlab.io/_site/nvim
-site_url: https://subspace.cc/nvim
+site_dir: /data/mnt/shared/data/ghpage/site
+site_url: https://silvercircle.github.io
+repo_url: https://github.com/silvercircle/nvim
 extra_css:
   - css/fonts/breve-sans.css
   - css/style.css
@@ -24,6 +25,7 @@ theme:
     - search.share
     - content.tabs.link
     - navigation.instant
+    - navigation.instant.progress
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.sections
@@ -32,7 +34,6 @@ theme:
     - navigation.tracking
     - navigation.top
     - navigation.path
-    - toc.integrate
     - toc.follow
 plugins:
   - glightbox

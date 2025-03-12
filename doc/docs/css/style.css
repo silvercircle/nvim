@@ -1,4 +1,10 @@
 header.md-header, nav.md-tabs {
-  background-color: #222233 !important;
+  background-color: #222233;
+}
+.md-typeset h1 {
+  margin-bottom: 0;
 }
 
+.md-grid {
+  max-width: 1440px;
+}

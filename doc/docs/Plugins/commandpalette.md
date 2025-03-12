@@ -5,7 +5,7 @@ Each command has a description, belongs to a category and has one or more keyboa
 
 ## Here is how it looks
 <figure markdown="span">
-  ![Command palette](images/cpalette.png)
+  ![Command palette](../images/cpalette.png)
   <figcaption><center>The command palette</center></figcaption>
 </figure>
 
