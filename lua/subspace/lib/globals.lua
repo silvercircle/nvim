@@ -358,6 +358,7 @@ end
 --- @param _height number: height of the terminal split to open.
 function M.termToggle(_height)
   local height = _height or M.term.height
+  height = height <= vim.o.lines/2 and height or vim.o.lines/2
   local reopen_outline = false
   -- if it is visible, then close it an all sub frames
   -- but leave the buffer open
