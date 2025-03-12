@@ -16,3 +16,21 @@ will likely still have to configure quite a few things.
      directories *The Vim Way*.
    - [Snacks](plugins/snacks.md) - This is a collection of plugins covering a vast area of features and 
      areas. Only a few of them are currently in use by this config.
+
+
+
+=== "Unordered List"
+
+      This is probably the most important and most complex setup task. While a lot has been pre-configured 
+      you will likely still have to configure quite a few things
+
+=== "Ordered List"
+
+      This documentation is WIP. It has only recently been started, so there is not much yet, but it's 
+      growing almost every day.
+
+!!! Test
+
+      This is probably the most important and most complex setup task. While a lot has been pre-configured 
+      you will likely still have to configure quite a few things
+

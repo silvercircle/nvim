@@ -29,13 +29,11 @@ return Tweaks
 ```
 { .annotate }
 
-{==
+!!!Note
 
-Please note line 1 and 8. Do not change them. When changing values, always use `tweaks-dist.lua` as a 
-reference. Do not change to many values at once, it will make it more difficult to find settings 
-responsible for problems.
-
-==}
+    Please note line 1 and 8. Do not change them. When changing values, always use `tweaks-dist.lua` as a 
+    reference. Do not change to many values at once, it will make it more difficult to find settings 
+    responsible for problems.
 
 The **most important** setting to edit in the tweaks is the `lsp` table, because this contains all the 
 paths for the supported LSP server binaries. If you install them with Mason, you should not need to edit 
