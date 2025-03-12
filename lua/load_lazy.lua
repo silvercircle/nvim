@@ -554,6 +554,39 @@ lazy.setup({
     config = function()
       require("plugins.others").setup.symbols()
     end
+  },
+  {
+    "Isrothy/neominimap.nvim",
+    version = "v3.*.*",
+    event = "BufReadPost",
+    cond = false,
+    init = function()
+      -- The following options are recommended when layout == "float"
+      vim.opt.wrap = false
+      vim.opt.sidescrolloff = 36 -- Set a large value
+
+      vim.g.neominimap = {
+        auto_enable = true,
+        layout = "split",
+        split = {
+          minimap_width = 15,
+          fix_width = true,
+          direction = "right",
+          close_if_last_window = false
+        },
+        winopt = function(opt, id)
+          opt.statuscolumn = ""
+          opt.winbar = ""
+          opt.signcolumn = "no"
+          opt.statusline = "Minimap"
+        end
+      }
+    end
+  },
+  {
+    "sindrets/diffview.nvim",
+    lazy = true,
+    cmd = { "DiffviewOpen" }
   }
 },
 {

@@ -21,7 +21,7 @@ local function Cokeline_theme()
   }
 end
 
-local treename = Tweaks.tree.filetype
+local treename = { Tweaks.tree.filetype, "DiffviewFiles" }
 require('cokeline').setup({
   -- Cokeline_theme() is defined in config.lua
   buffers = {
