@@ -1,5 +1,4 @@
-
-# Configuring and options
+# Installing and initial configuration
 
 These `dotfiles` are targeted at software development, mainly with LSP and CMP as a completion engine. 
 Many Plugins are optional and not loaded on startup for quick startup time. This happens all under 
@@ -16,8 +15,10 @@ This will start Neovim without an UI (`--headless`) install all the plugins usin
 then quit. Usually, this should complete without errors unless your system lacks prerequisites like a 
 working GIT installation.
 
-Note that this is **ONLY** required for a fresh install. Once all plugins are installed, you can launch 
-Neovim normally without parameters.
+!!! Note
+
+    Note that this is **ONLY** required for a fresh install. Once all plugins are installed, you can launch 
+    Neovim normally without parameters.
 
 ## Review settings
 

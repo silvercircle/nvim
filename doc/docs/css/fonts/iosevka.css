@@ -1,0 +1,40 @@
+@font-face {
+	font-family: 'Iosevka Term Web';
+	font-display: swap;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	src: url('https://subspace.cc/assets/fonts/Iosevka/iosevka-term-regular.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Term Web';
+	font-display: swap;
+	font-weight: 800;
+	font-stretch: normal;
+	font-style: italic;
+	src: url('https://subspace.cc/assets/fonts/Iosevka/iosevka-term-italic.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Term Web';
+	font-display: swap;
+	font-weight: 800;
+	font-stretch: normal;
+	font-style: normal;
+	src: url('https://subspace.cc/assets/fonts/Iosevka/iosevka-term-extrabold.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Term Web';
+	font-display: swap;
+	font-weight: 800;
+	font-stretch: normal;
+	font-style: italic;
+	src: url('https://subspace.cc/assets/fonts/Iosevka/iosevka-term-extrabolditalic.woff2') format('woff2');
+}
+
+code {
+  font-family: "Iosevka Term Web" !important;
+  font-weight: 400 !important;
+}

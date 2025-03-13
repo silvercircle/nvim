@@ -4,6 +4,7 @@ site_url: https://silvercircle.github.io
 repo_url: https://github.com/silvercircle/nvim
 extra_css:
   - css/fonts/breve-sans.css
+  - css/fonts/iosevka.css
   - css/style.css
 theme:
   color_mode: dark
@@ -45,20 +46,25 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.mark
   - pymdownx.tilde
+  - pymdownx.smartsymbols
   - md_in_html
   - attr_list
   - footnotes
   - toc:
       permalink: true
   - pymdownx.highlight:
+      use_pygments: true
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
       auto_title: false
       linenums: true
+      linenums_style: pymdownx-inline
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - pymdownx.betterem
+  - pymdownx.blocks.caption
   - admonition
   - pymdownx.details
   - pymdownx.tabbed:

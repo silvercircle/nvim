@@ -8,3 +8,7 @@ header.md-header, nav.md-tabs {
 .md-grid {
   max-width: 1440px;
 }
+
+mark.critic {
+  padding: 2px 5px !important;
+}

@@ -1,4 +1,10 @@
-# How the Tweaks file works:
+# Tweaking
+Like any Neovim configuration, you can modify this to match your own needs. You can basically edit all 
+files below the `lua` directory. The problem with this approach is that you would run into problems when 
+updating the configuration by pulling changes from the repository. This would either merge them with 
+changes you have made, overwrite your changes or result in merge conflicts. This is sub-optimal and 
+
+## How the tweaks-dist.lua mechanism works
 
 The `lua/tweaks-dist.lua` contains a lot of user-tweakable settings. Most of which are somewhat explained 
 and commented. However, this file would be overwritten when updating the repo via `git pull`, so there is 
@@ -41,3 +47,23 @@ most of them, but remember, the config is only supported on Linux and if you are
 WSL) or macOS, you'll likely have to fix a lot.
 { .annotate }
 
+## How do I override keymaps or define my own?
+
+The default key mappings are defined in two places:
+
+- `lua/keymaps/default.lua`
+
+- `lua/plugins/commandpicker_addcommands`. This configures the [command palette](../Plugins/commandpalette.md)
+  which also supports keyboard mapping.
+
+- you can always put additional lua files in `lua/keymaps` and they will be executed after 
+  `defaults.lua`, so you can override any default mapping.
+
+```lua
+local Utils = require('subspace.lib')
+
+vim.g.setkey('n', '<f5>', function() require("oil").open(Utils.getroot_current()) end, "Open Oil file manager")
+```
+This would redefine the mapping that opens the [Oil](../Plugins/oil.md) file manager. `vim.g.setkey` is 
+just a shortcut for `vim.keymap.set` and `Utils.getroot_current()` attempts to find the root directory 
+for the current project.
