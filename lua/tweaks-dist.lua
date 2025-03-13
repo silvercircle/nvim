@@ -97,6 +97,7 @@ Tweaks.indent = {
   },
 }
 
+-- this enabled DAP and dap-ui
 Tweaks.dap = {
   enabled = true
 }

@@ -205,7 +205,8 @@ vim.keymap.set({ 'n', 'x' }, '<Leader>#', function()
   return ':noh<CR>'
 end, { expr = true, desc = "Export HlsLens results to Quickfix list" })
 
-map('n', 'hl', "<CMD>Inspect<CR>", opts)
+map('n', utility_key .. '<C-h>', "<CMD>Inspect<CR>", opts)
+map('i', utility_key .. '<C-h>', "<c-o><CMD>Inspect<CR>", opts)
 
 if Tweaks.completion.version ~= "blink" then
   vim.g.setkey({ 'i', 'n' }, fkeys.s_f1, function() vim.lsp.buf.signature_help() end, "Show signature help")
@@ -434,7 +435,7 @@ end, "Focus the quickfix list")
 vim.g.setkey({ 'n', 'i', 't' }, '<f11>', function() CGLOBALS.termToggle(12) end, "Toggle Terminal split at bottom")
 map('t', '<Esc>', '<C-\\><C-n>', opts)
 
-vim.g.setkey('n', fkeys.c_f8, function() require("oil").open() end, "Ranger in Floaterm")
+vim.g.setkey('n', fkeys.c_f8, function() require("oil").open() end, "Open Oil file manager")
 vim.keymap.set('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cword>') end,
   { expr = true, desc = "Inc Rename", noremap = true, silent = true })
 
