@@ -148,7 +148,8 @@ Tweaks.lsp = {
     roslyn        =   jp(vim.fn.stdpath("data"), "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll"),
     jsonls        =   jp(Tweaks.lsp.masonbinpath, "vscode-json-language-server"),
     zls           =   jp(Tweaks.lsp.localbin, "zls"),
-    ccls          =   jp(Tweaks.lsp.localbin, "ccls")
+    ccls          =   jp(Tweaks.lsp.localbin, "ccls"),
+    haskell       =   "/usr/bin/hls"
   },
   -- the roslyn language server is now sufficiently stable for development and supported by
   -- a stable plugin. Alternatives are still "omnisharp" and "csharp_ls", but both are not

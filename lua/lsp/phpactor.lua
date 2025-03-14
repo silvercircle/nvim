@@ -3,7 +3,7 @@ local util = require 'lspconfig.util'
 
 lspconfig.phpactor.setup({
   cmd = { Tweaks.lsp.server_bin['phpactor'], 'language-server' },
-  on_attach = On_attach(),
+  on_attach = On_attach,
   filetypes = { 'php' },
   root_dir = function(pattern)
     local cwd = vim.loop.cwd()
