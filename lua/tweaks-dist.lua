@@ -53,7 +53,7 @@ Tweaks.completion = {
 -- which indent guides plugin to use. Options are "blink" or "snacks"
 -- This plugin is responsible for drawing the indent guides.
 Tweaks.indent = {
-  version = "snacks",
+  enabled = true,
   rainbow_guides = true,
   -- colors for the non-rainbow lines
   color = {
@@ -61,27 +61,50 @@ Tweaks.indent = {
     light = "#808080",
     dark = "#404040"
   },
-  -- this works only with the snacks version
-  animate = false,
+  -- see snacks.indent documentation for available styles and options
+  animate = {
+    enabled = false,
+    style = "out",
+    easing = "linear",
+    duration = {
+      step = 10,   -- ms per step
+      total = 100, -- maximum duration
+    }
+  },
   -- mark the current scope
+  -- again, see snacks.indent docs.
   scope = {
     enabled = true,
+    priority = 200,
     char = "┃",
-    hl = "Brown"
+    hl = "Brown",
+    underline = false,      -- underline the start of the scope
+    only_current = false,   -- only show scope in the current window
   },
-  -- chunk only works with the snacks version
   chunk = {
+    -- when enabled, scopes will be rendered as chunks, except for the
+    -- top-level scope which will be rendered as a scope.
     enabled = true,
-    -- line variant, allowed are: "normal", "thicc" and "rounded"
-    -- the actual characters are produced by the borderfactory()
-    -- function (see below)
-    lines = "normal",
-  }
+    -- only show chunk scopes in the current window
+    only_current = true,
+    priority = 200,
+    hl = "Brown",
+  },
+  blank = {
+    char = " ",
+    -- char = "·",
+    hl = "SnacksIndentBlank", ---@type string|string[] hl group for blank spaces
+  },
 }
 
+-- this enabled DAP and dap-ui
 Tweaks.dap = {
-  enabled = false
+  enabled = true
 }
+-- a list of keyboard mappings to load. lua/keymaps/default.lua will always be loaded
+-- and you can add your own. Put them in lua/keymaps/mapname.lua and add the mapname
+-- to this list.
+
 -- edit this to reflect your installation directories for lsp servers. Most will
 -- be in masonbinpath. Also supported are $HOME/.local/.bin and $HOME itself
 -- for everything else, you can use full paths in the server_bin table.
@@ -117,7 +140,7 @@ Tweaks.lsp = {
     als           =   jp(Tweaks.lsp.masonbinpath, 'ada_language_server'),
     csharp_ls     =   jp(Tweaks.lsp.masonbasepath, "packages/csharpls/CSharpLanguageServer"),
     marksman      =   jp(Tweaks.lsp.masonbinpath, 'marksman'),
-    lemminx       =   jp(Tweaks.lsp.masonbinpath, 'lemminx'),
+    lemminx       =   jp(Tweaks.lsp.localbin,     'lemminx'),
     bashls        =   jp(Tweaks.lsp.masonbinpath, 'bash-language-server'),
     taplo         =   jp(Tweaks.lsp.masonbinpath, 'taplo'),
     emmet         =   jp(Tweaks.lsp.masonbinpath, 'emmet-language-server'),
@@ -289,7 +312,8 @@ Tweaks.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and tr
 Tweaks.keymap = {
   utility_key = "<C-l>",
   mapleader = ",",
-  fzf_prefix = "<C-q>"
+  fzf_prefix = "<C-q>",
+  maps = { "default", "mine" }
 }
 
 Tweaks.treesitter = {
@@ -417,6 +441,27 @@ Tweaks.fzf = {
 }
 
 Tweaks.snacks = {
-  enabled_modules = { "picker", "image", "indent", "lazygit" }
+  enabled_modules = { "picker", --[["image",]] "indent", "lazygit" }
 }
+
+Tweaks.minimap = {
+  features = { treesitter = true, git = false, search = false, diagnostic = true },
+  debounce = 800
+}
+Tweaks.smartpicker = {
+  project_types = {
+    lua = { names = {"stylua.toml", "init.vim"} }
+  }
+}
+
+local chunklines = Tweaks.borderfactory(Tweaks.indent.chunk.lines)
+
+Tweaks["indent"]["chunk"]["char"] = {
+  corner_top = chunklines[1],
+  corner_bottom = chunklines[7],
+  horizontal = chunklines[2],
+  vertical = chunklines[4],
+  arrow = ">",
+}
+
 return Tweaks

@@ -141,7 +141,7 @@ function Usplit.open()
       vim.cmd("setlocal buftype=nofile")
       Usplit.winid = vim.fn.win_getid()
       --vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(wid[1]), "buftype", "nofile")
-      vim.api.nvim_win_set_option(Usplit.winid, "statusline", "󰈙 Fortune cookie")
+      vim.api.nvim_win_set_option(Usplit.winid, "statusline", "󰈙  Fortune cookie")
       vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(wid[1]), "modifiable", false)
     end
     vim.schedule(function()

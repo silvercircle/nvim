@@ -103,4 +103,5 @@ o.exrc=true
 o.cmdheight=Tweaks.cmdheight
 o.cinoptions=":N,=4"
 o.splitbelow = true
+vim.opt.matchpairs:append("<:>")
 -- o.secure=true

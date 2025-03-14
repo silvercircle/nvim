@@ -4,14 +4,13 @@
 -- terminal split.
 local env_plain = os.getenv("NVIM_PLAIN")
 local status, mtw = pcall(require, "mytweaks")
-local tweaks = require("tweaks-dist")
+Tweaks = require("tweaks-dist")
 
--- merge mytweaks into the default tweaks file to allow for user-customizable 
+-- merge mytweaks into the default tweaks file to allow for user-customizable
 -- settings that won't be overwritten when updating the config.
 if status == true then
-  tweaks = vim.tbl_deep_extend("force", tweaks, mtw)
+  Tweaks = vim.tbl_deep_extend("force", Tweaks, mtw)
 end
-Tweaks = tweaks
 Borderfactory = Tweaks.borderfactory
 
 local tree_fts = {
@@ -21,6 +20,9 @@ local tree_fts = {
 }
 Tweaks.tree.filetype = tree_fts[Tweaks.tree.version]
 
+if (Tweaks.DEV and Tweaks.DEV ~= false) or os.getenv("NVIM_DEV_PRIVATE") then
+  assert = function(...) return ... end
+end
 -- FIXME: silence deprecation warnings in dev builds. currently 0.11
 -- adjust this for future dev builds
 local nvim_11 = vim.fn.has("nvim-0.11")
@@ -84,7 +86,7 @@ CFG = {
   },
   treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
                        "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid", "typst",
-                       "yaml", "rust", "javascript", "ruby", "objc", "groovy", "org", "markdown",
+                       "yaml", "rust", "javascript", "ruby", "objc", "markdown",
                        "markdown_inline", "zig", "latex" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   outline_plugin = nil,
@@ -115,8 +117,6 @@ vim.g.startify_top = {
 -- They allow easy installation and upgrading of your lsp servers, but if you do this manually,
 -- nvim-lspconfig alone is enough for a working LSP setup.
 
-vim.g.lsp_server_bin = tweaks.lsp.server_bin
-
 vim.g.confirm_actions = {
   exit = true,            -- ALWAYS confirm force-close (Alt-q), even when no buffers are modified
   close_buffer = true,    -- <C-x><C-c>: only confirm when buffer modified
@@ -131,7 +131,7 @@ g.mapleader = Tweaks.keymap.mapleader
 function vim.g.setkey(modes, lhs, rhs, _desc)
   vim.keymap.set(modes, lhs, rhs, { noremap = true, silent = true, desc = _desc })
 end
-CGLOBALS=require("globals")
+CGLOBALS=require("subspace.lib.globals")
 PCFG = require("subspace.lib.permconfig").perm_config
 
 vim.filetype.add({
@@ -149,7 +149,7 @@ vim.filetype.add({
 -- outline plugin
 -- lspkind plugin
 -- navic plugin
-vim.g.lspkind_symbols = {
+CFG.lspkind_symbols = {
   Text        = "󰊄 ",
   Method      = " ",
   Function    = "󰡱 ",
@@ -190,13 +190,16 @@ vim.g.lspkind_symbols = {
 
 vim.g.is_tmux = vim.fn.exists("$TMUX")
 
-function FWO(class, title)
+function FWO(class, title, opts)
+  opts = opts or {}
   local wo = vim.deepcopy(Tweaks.fzf.winopts[class])
   if title ~= nil and #title > 2 then
     wo.title = " " .. title .. " "
   else
     wo.title = nil
   end
+  wo.width = opts.width or wo.width
+  wo.height = opts.height or wo.height
   return wo
 end
 
@@ -262,7 +265,7 @@ CFG.SIDEBAR_FancySymbols = {
   providers = {
     lsp = {
       kinds = {
-        default = vim.g.lspkind_symbols,
+        default = CFG.lspkind_symbols,
       }
     },
     treesitter = {

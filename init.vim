@@ -1,17 +1,40 @@
 " Set configuration variables
 lua << EOB
+local disabled_plugins = {
+  "gzip", "zip", "zipPlugin", "tar", "tarPlugin", "netrw", "netrwPlugin", "netrwSettings", "netrwFileHandlers",
+  "tutor_mode_plugin", "tohtml"
+}
+
+vim.iter(disabled_plugins):map(function(k)
+  vim.g['loaded_' .. k] = 1
+end)
+
 vim.loader.enable()
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 -- bootstrap lazy
--- vim.g._ts_force_sync_parsing = true
+vim.g._ts_force_sync_parsing = true
 require('config')
 require("subspace.lib.permconfig").restore_config()
 PCFG = require("subspace.lib.permconfig").perm_config
 CGLOBALS.set_statuscol(PCFG.statuscol_current)
+
+if vim.g.neovide then
+  -- vim.o.guifont = "MonoLisa:h10.2:w-.4:#e-subpixelantialias:#h-full"
+  vim.opt.linespace = -1
+  vim.g.neovide_text_gamma = 1.0
+  vim.g.neovide_text_contrast = .4
+  vim.g.neovide_padding_top = 7
+  vim.g.neovide_padding_bottom = 7
+  vim.g.neovide_padding_right = 3
+  vim.g.neovide_padding_left = 3
+  vim.g.neovide_floating_corner_radius = 0.0
+  vim.g.neovide_cursor_trail_size = 0.0
+  vim.g.neovide_remember_window_size = true
+  vim.g.neovide_underline_stroke_scale = 2.0
+end
+
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -26,7 +49,12 @@ vim.opt.rtp:prepend(lazypath)
 require('options')
 require('load_lazy')
 require("auto")
-require('keymap')
+require("keymaps.default")
+for _, v in ipairs(Tweaks.keymap.maps) do
+  if v ~= "default" then
+    _, _ = pcall(require, "keymaps." .. v)
+  end
+end
 EOB
 
 run macros/justify.vim
@@ -36,6 +64,7 @@ filetype plugin indent on
 set noshowmode
 
 command C Kwbd
+cabbrev botright below
 
 " This is for adding fortune cookies. User will be prompted for a section
 " (multiple sections can be entered separated with spaces) and the fortune

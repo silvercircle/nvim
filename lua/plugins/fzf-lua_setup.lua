@@ -122,8 +122,8 @@ require "fzf-lua".setup({
       ["ctrl-a"]     = "beginning-of-line",
       ["ctrl-e"]     = "end-of-line",
       ["alt-a"]      = "toggle-all",
-      ["home"]       = "first",
-      ["end"]        = "last",
+      ["alt-up"]       = "first",
+      ["alt-down"]        = "last",
       -- Only valid with fzf previewers (bat/cat/git/etc)
       ["f3"]         = "toggle-preview-wrap",
       ["f4"]         = "toggle-preview",
@@ -362,7 +362,7 @@ require "fzf-lua".setup({
     -- search strings will be split using the 'glob_separator' and translated
     -- to '--iglob=' arguments, requires 'rg'
     -- can still be used when 'false' by calling 'live_grep_glob' directly
-    rg_glob        = false,        -- default to glob parsing?
+    rg_glob        = true,        -- default to glob parsing?
     glob_flag      = "--iglob",    -- for case sensitive globs use '--glob'
     glob_separator = "%s%-%-",     -- query separator pattern (lua): ' --'
     -- advanced usage: for custom argument parsing define

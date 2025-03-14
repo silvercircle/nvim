@@ -6,21 +6,6 @@ local lutils     = require("subspace.lib")
 local lsputil    = require("lspconfig.util")
 local noremap    = true
 
-local fzf_dir_actions = {
-  enter = function(item)
-    local dir = vim.fn.split(item[1] or "", "\t")[2] or ""
-    if vim.fn.isdirectory(dir) then
-      require("fzf-lua").files({ cwd = dir, winopts = Tweaks.fzf.winopts.mini_with_preview })
-    end
-  end,
-  ["ctrl-g"] = function(item)
-    local dir = vim.fn.split(item[1] or "", "\t")[2] or ""
-    if vim.fn.isdirectory(dir) then
-      require("fzf-lua").live_grep({ cwd = dir, winopts = Tweaks.fzf.winopts.std_preview_top })
-    end
-  end
-}
-
 require("commandpicker").add({
   {
     desc = "Show all bookmarks (Snacks picker)",
@@ -477,8 +462,10 @@ require("commandpicker").add({
     category = "@FZF"
   },
   {
-    desc = "FZF find files (current directory)",
-    cmd = function() fzf.files({ cwd = vim.fn.expand("%:p:h"), winopts = fzf_tweaks.winopts.big_preview_top }) end,
+    desc = "FZF smart find files (project root)",
+    cmd = function()
+      require("subspace.lib.smartpickers").smartfiles_or_grep({useroot = true, op="files"})
+    end,
     keys = {
       { "i", fkeys.s_f8, noremap },
       { "n", fkeys.s_f8, noremap }
@@ -486,12 +473,9 @@ require("commandpicker").add({
     category = "@FZF"
   },
   {
-    desc = "FZF files (project root)",
+    desc = "FZF smart live grep (project root)",
     cmd = function()
-      fzf.files({
-        cwd = lutils.getroot_current(),
-        winopts = fzf_tweaks.winopts.big_preview_top
-      })
+      require("subspace.lib.smartpickers").smartfiles_or_grep({useroot = true, op="grep"})
     end,
     keys = {
       { "n", "<f8>", noremap },
@@ -702,7 +686,7 @@ require("commandpicker").add({
   {
     desc = "Zoxide history (FZF)",
     cmd = function()
-      fzf.zoxide({ actions = fzf_dir_actions, winopts = FWO("mini_with_preview", "Zoxide History, <CR> = browse, <C-g> = Grep" ) })
+      fzf.zoxide({ actions = require("subspace.lib.actions").fzf_dir_actions(), winopts = FWO("mini_with_preview", "Zoxide History, <CR>:browse, <C-g>:Grep, <C-d>:Set CWD" ) })
     end,
     key = { {"n","i"}, "<C-x>z", noremap },
     category = "@FZF"

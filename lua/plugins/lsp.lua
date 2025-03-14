@@ -25,7 +25,7 @@ if not configs.ada then
     default_config = {
       capabilities = CGLOBALS.lsp_capabilities,
       on_attach = On_attach,
-      cmd = { vim.g.lsp_server_bin['als'] },
+      cmd = { Tweaks.lsp.server_bin['als'] },
       filetypes = { 'ada' },
       root_dir = util.root_pattern('Makefile', '.git', '*.gpr', '*.adc'),
       lspinfo = function(cfg)
@@ -116,7 +116,7 @@ end
 -- this was tsserver (will be deprecated in the future)
 lspconfig.ts_ls.setup({
   init_options = { hostInfo = 'neovim' },
-  cmd = { vim.g.lsp_server_bin['tsserver'], '--stdio' },
+  cmd = { Tweaks.lsp.server_bin['tsserver'], '--stdio' },
   filetypes = {
     'javascript',
     'javascriptreact',
@@ -133,7 +133,7 @@ lspconfig.ts_ls.setup({
 })
 
 lspconfig.texlab.setup({
-  cmd = { vim.g.lsp_server_bin['texlab'] },
+  cmd = { Tweaks.lsp.server_bin['texlab'] },
   on_attach = On_attach,
   capabilities = CGLOBALS.lsp_capabilities
 })
@@ -152,7 +152,7 @@ lspconfig.tinymist.setup({
 lspconfig.nim_langserver.setup({
   on_attach = On_attach,
   capabilities = CGLOBALS.lsp_capabilities,
-  cmd = { vim.g.lsp_server_bin['nimls'] },
+  cmd = { Tweaks.lsp.server_bin['nimls'] },
   filetypes = { 'nim' },
   root_dir = function(fname)
     return util.root_pattern '*.nimble' (fname) or util.find_git_ancestor(fname)
@@ -163,7 +163,7 @@ lspconfig.nim_langserver.setup({
 lspconfig.bashls.setup({
   on_attach = On_attach,
   capabilities = CGLOBALS.lsp_capabilities,
-  cmd = { vim.g.lsp_server_bin['bashls'], 'start' },
+  cmd = { Tweaks.lsp.server_bin['bashls'], 'start' },
   filetypes = { 'sh' },
   root_dir = util.find_git_ancestor,
   single_file_support = true,
@@ -254,7 +254,7 @@ local function rust_reload_workspace(bufnr)
 end
 
 lspconfig.rust_analyzer.setup({
-  cmd = { vim.g.lsp_server_bin['rust_analyzer'] },
+  cmd = { Tweaks.lsp.server_bin['rust_analyzer'] },
   on_attach = On_attach,
   capabilities = CGLOBALS.lsp_capabilities,
   filetypes = { 'rust' },
@@ -317,7 +317,7 @@ lspconfig.rust_analyzer.setup({
 })
 lspconfig.emmet_language_server.setup({
   capabilities = CGLOBALS.lsp_capabilities,
-  cmd = { vim.g.lsp_server_bin['emmet'], '--stdio' },
+  cmd = { Tweaks.lsp.server_bin['emmet'], '--stdio' },
   filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass",
                 "scss", "svelte", "pug", "typescriptreact", "vue", "jsp", "razor" },
   root_dir = util.root_pattern('package.json', '.git'),
@@ -344,7 +344,7 @@ lspconfig.emmet_language_server.setup({
 })
 
 lspconfig.cssls.setup({
-  cmd = { vim.g.lsp_server_bin['cssls'], '--stdio' },
+  cmd = { Tweaks.lsp.server_bin['cssls'], '--stdio' },
   filetypes = { 'css', 'scss', 'less' },
   root_dir = util.root_pattern('package.json', '.git'),
   single_file_support = true,
@@ -358,7 +358,7 @@ lspconfig.cssls.setup({
 })
 
 lspconfig.html.setup({
-  cmd = { vim.g.lsp_server_bin['html'], '--stdio' },
+  cmd = { Tweaks.lsp.server_bin['html'], '--stdio' },
   filetypes = { 'html', 'xhtml', 'jsp', 'razor' },
   root_dir = util.root_pattern('package.json', '.git'),
   single_file_support = true,
@@ -374,7 +374,7 @@ lspconfig.html.setup({
 
 lspconfig.gopls.setup({
   on_attach = On_attach,
-  cmd = { vim.g.lsp_server_bin['gopls'] },
+  cmd = { Tweaks.lsp.server_bin['gopls'] },
   capabilities = CGLOBALS.lsp_capabilities,
   single_file_support = true,
   filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
@@ -402,7 +402,7 @@ lspconfig.gopls.setup({
 })
 
 lspconfig.vimls.setup({
-  cmd = { vim.g.lsp_server_bin['vimlsp'], '--stdio' },
+  cmd = { Tweaks.lsp.server_bin['vimlsp'], '--stdio' },
   on_attach = On_attach,
   capabilities = CGLOBALS.lsp_capabilities
 })
@@ -410,7 +410,7 @@ lspconfig.vimls.setup({
 lspconfig.yamlls.setup({
   on_attach = On_attach,
   capabilities = CGLOBALS.lsp_capabilities,
-  cmd = { vim.g.lsp_server_bin['yamlls'], '--stdio' },
+  cmd = { Tweaks.lsp.server_bin['yamlls'], '--stdio' },
   filetypes = { 'yaml', 'yaml.docker-compose' },
   root_dir = util.find_git_ancestor,
   single_file_support = true,
@@ -423,7 +423,7 @@ lspconfig.yamlls.setup({
 -- markdown
 lspconfig.marksman.setup({
   on_attach = On_attach,
-  cmd = { vim.g.lsp_server_bin['marksman'] },
+  cmd = { Tweaks.lsp.server_bin['marksman'] },
   filetypes = { 'markdown', 'telekasten', 'liquid' },
   root_dir = function(fname)
     local root_files = { '.marksman.toml' }
@@ -437,7 +437,7 @@ lspconfig.marksman.setup({
 lspconfig.lemminx.setup({
   on_attach = On_attach,
   capabilities = CGLOBALS.lsp_capabilities,
-  cmd = { vim.g.lsp_server_bin['lemminx'] },
+  cmd = { Tweaks.lsp.server_bin['lemminx'] },
   filetypes = { 'xml', 'xsd', 'xsl', 'xslt', 'svg' },
   root_dir = util.find_git_ancestor,
   single_file_support = true
@@ -447,7 +447,7 @@ lspconfig.lemminx.setup({
 lspconfig.taplo.setup({
   on_attach = On_attach,
   capabilities = CGLOBALS.lsp_capabilities,
-  cmd = { vim.g.lsp_server_bin['taplo'], 'lsp', 'stdio' },
+  cmd = { Tweaks.lsp.server_bin['taplo'], 'lsp', 'stdio' },
   filetypes = { 'toml' },
   root_dir = function(fname)
     return util.root_pattern '*.toml' (fname) or util.find_git_ancestor(fname)
@@ -468,7 +468,7 @@ local lua_root_files = {
 lspconfig.lua_ls.setup {
   capabilities = CGLOBALS.lsp_capabilities,
   on_attach = On_attach,
-  cmd = { vim.g.lsp_server_bin['lua_ls'], '--logpath=' .. vim.fn.stdpath("state") },
+  cmd = { Tweaks.lsp.server_bin['lua_ls'], '--logpath=' .. vim.fn.stdpath("state") },
   root_dir = function(fname)
     local root = util.root_pattern(unpack(lua_root_files))(fname)
     if root and root ~= vim.env.HOME then
@@ -511,7 +511,7 @@ lspconfig.lua_ls.setup {
 lspconfig.groovyls.setup {
   capabilities = CGLOBALS.lsp_capabilities,
   on_attach = On_attach,
-  cmd = { vim.g.lsp_server_bin['groovy'] },
+  cmd = { Tweaks.lsp.server_bin['groovy'] },
   filetypes = { 'groovy' },
   root_dir = function(fname)
     return util.root_pattern 'settings.gradle'(fname) or util.find_git_ancestor(fname)
@@ -519,7 +519,7 @@ lspconfig.groovyls.setup {
 }
 
 lspconfig.jsonls.setup {
-  cmd = { vim.g.lsp_server_bin[ "jsonls" ], "--stdio" },
+  cmd = { Tweaks.lsp.server_bin[ "jsonls" ], "--stdio" },
   filetypes = { "json", "jsonc" },
   init_options = {
     provideFormatter = true,
@@ -536,7 +536,7 @@ lspconfig.zls.setup {
   on_attach = function(client, buf)
     On_attach(client, buf)
   end,
-  cmd = { vim.g.lsp_server_bin[ "zls" ] },
+  cmd = { Tweaks.lsp.server_bin[ "zls" ] },
   on_new_config = function(new_config, new_root_dir)
     if vim.fn.filereadable(vim.fs.joinpath(new_root_dir, "zls.json")) ~= 0 then
       new_config.cmd = { "zls", "--config-path", "zls.json" }

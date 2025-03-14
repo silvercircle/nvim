@@ -1,4 +1,4 @@
-local _s = vim.g.lspkind_symbols
+local _s = CFG.lspkind_symbols
 CFG.outline_plugin = require("outline")
 CFG.outline_plugin.setup(
 {

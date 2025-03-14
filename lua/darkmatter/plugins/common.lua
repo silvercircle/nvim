@@ -150,6 +150,7 @@ local function _set()
   c.link("BlinkCmpKindValue", "StorageClass")
   c.link("BlinkCmpKindTypeParameter", "Type")
   c.link("BlinkCmpKindReference", "Interface")
+  c.link("BlinkCmpKindColor", "StorageClass")
   c.link("BlinkCmpGhostText", "Comment")
 
   -- common hl groups for pickers (telescope, fzf-lua, snacks)

@@ -1,5 +1,5 @@
 local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
-local _, navic = pcall(require, "nvim-navic")
+local navic = nil
 
 local  LuaLineColors = {
     white = "#ffffff",
@@ -38,13 +38,13 @@ local function status()
   local disabled = (s == true and val == false )
   return (CGLOBALS.get_buffer_var(0, "tsc") == true and "C" or "c") ..
          (CGLOBALS.get_buffer_var(0, "inlayhints") == true and "H" or "h") ..
-         (vim.b[0].snacks_indent == false and "i" or (PCFG.ibl_enabled and "I" or "i")) ..
+         (vim.b[0].snacks_indent == false and "i" or (PCFG.indent_guides and "I" or "i")) ..
          (disabled and "a" or "A")
 end
 
 local function status_indicators()
   return (PCFG.treesitter_context == true and "C" or "c") ..
-         (PCFG.debug == true and "D" or "d") ..
+         (PCFG.is_dev == true and "D" or "d") ..
          (PCFG.transbg == true and "T" or "t") ..
          (PCFG.autopair == true and "A" or "a") ..
          (PCFG.cmp_automenu and 'O' or 'o') ..
@@ -79,7 +79,7 @@ local function lualine_internal_theme()
     },
     replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred } },
     inactive = {
-      a = "StatusLine",
+      a = "CursorLine",
       b = "StatusLine",
       c = "StatusLine"
     }
@@ -131,6 +131,9 @@ local function full_filename()
 end
 
 local function navic_context()
+  if navic == nil then
+    navic = require("nvim-navic")
+  end
   return navic.get_location()
 end
 
@@ -161,13 +164,14 @@ require("lualine").setup({
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", 'SymbolsSidebar', 'SymbolsHelp', 'SymbolsSearch', 'terminal', 'query_rt', 'sysmon', 'weather', "NvimTree" },
-      winbar = { 'Outline', 'terminal', 'query_rt', 'qf', 'NvimTree', 'alpha', 'sysmon', 'weather',
-                 'dap-repl', 'dapui_console', 'dapui_watches', 'dapui_stacks', 'dapui_scopes', 'dapui_breakpoints',
-                 'snacks_picker_preview', 'snacks_dashboard', 'SymbolsSidebar', 'SymbolsHelp', 'SymbolsSearch' },
+      statusline = { "Outline", "SymbolsSidebar", "SymbolsHelp", "SymbolsSearch",
+        "terminal", "sysmon", "weather", "NvimTree", "query_rt", "DiffviewFiles", "neominimap" },
+      winbar = { "Outline", "terminal", "qf", "NvimTree", "alpha", "sysmon", "weather", "query_rt",
+        "dap-repl", "dapui_console", "dapui_watches", "dapui_stacks", "dapui_scopes", "dapui_breakpoints",
+        "snacks_picker_preview", "snacks_dashboard", "SymbolsSidebar", "SymbolsHelp", "SymbolsSearch", "DiffviewFiles", "neominimap" },
       tabline = {},
     },
-    -- ignore_focus = {'NvimTree', 'neo-tree'},
+    -- ignore_focus = {"dap-repl", "dapui_console", "dapui_watches", "dapui_stacks", "dapui_scopes", "dapui_breakpoints"},
     always_divide_middle = true,
     globalstatus = false,
     refresh = {
@@ -207,7 +211,13 @@ require("lualine").setup({
     lualine_z = { { getWordsV2 }, "location" },
   },
   inactive_sections = {
-    lualine_a = {},
+    lualine_a = { "mode", "o:formatoptions", " : ",
+    {
+      "o:textwidth",
+      fmt = function(str)
+        return string.format("%s:%s:%s", str, vim.api.nvim_win_get_option(0, "wrap") == true and "wr" or "no", vim.o.foldmethod)
+      end
+    }},
     lualine_b = {},
     lualine_c = { "filename" },
     lualine_x = { "location" },
@@ -271,7 +281,7 @@ require("lualine").setup({
   inactive_winbar = {
     lualine_a = { { full_filename, color = 'WinBarNC' } }
   },
-  extensions = {my_extension},
+  extensions = {my_extension, 'nvim-dap-ui', 'quickfix'},
 })
 
 local M = {}

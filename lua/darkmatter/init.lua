@@ -102,8 +102,6 @@ local conf = {
   coreplugins = { "markdown", "common" }
 }
 
-local diff = vim.api.nvim_win_get_option(0, "diff")
-
 M.set_hl = vim.api.nvim_set_hl
 
 -- these groups are all relevant to the signcolumn and need their bg updated when

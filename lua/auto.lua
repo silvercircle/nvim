@@ -258,7 +258,7 @@ autocmd({ 'FileType' }, {
 
 -- handle treesitter configuration and start it on supported filetypes.
 --autocmd({ "Filetype" }, {
---  pattern = Config.treesitter_types,
+--  pattern = CFG.treesitter_types,
 --  callback = function()
 --    vim.treesitter.start()
 --  end,
@@ -268,11 +268,12 @@ autocmd({ 'FileType' }, {
 local tabstop_pattern = { 'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go' }
 -- filetypes for which we want conceal enabled
 local conceal_pattern = { "markdown", "telekasten", "liquid" }
+local indk_pattern = { "c", "cpp", "python" }
 
 -- generic FileType handler adressing common actions
-autocmd({ 'FileType' }, {
+autocmd({ "FileType" }, {
   pattern = { "Outline", "SymbolsSidebar", "mail", "qf", "replacer",
-    'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go',
+    "vim", "nim", "python", "c", "cpp", "lua", "json", "html", "css", "dart", "go",
     "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
     if args.match == "Outline" or args.match == "SymbolsSidebar" then
@@ -283,11 +284,6 @@ autocmd({ 'FileType' }, {
     elseif args.match == "Glance" then
       vim.defer_fn(function() vim.cmd("setlocal cursorline") end, 400)
     elseif args.match == "qf" or args.match == "replacer" then
-      --if #__Globals.findwinbyBufType("sysmon") > 0 or #__Globals.findwinbyBufType("weather") > 0 then
-      --  vim.cmd("setlocal statuscolumn=%#TreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber | wincmd J")
-      --else
-      --  vim.cmd("setlocal statuscolumn=%#TreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber")
-      --end
       vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal fo-=t")
       -- vim.api.nvim_win_set_height(__Globals.term.winid, PCFG.terminal.height)
     elseif vim.tbl_contains(tabstop_pattern, args.match) then
@@ -296,11 +292,13 @@ autocmd({ 'FileType' }, {
     elseif vim.tbl_contains(conceal_pattern, args.match) then
       vim.cmd("setlocal conceallevel=2 | setlocal concealcursor=nc | setlocal formatexpr=")
     -- metals, attach on filetype
+    elseif vim.tbl_contains(indk_pattern, args.match) then
+      vim.cmd("setlocal indentkeys-=: | setlocal cinkeys-=:")
     elseif args.match == "scala" or args.match == "sbt" then
       require("metals").initialize_or_attach({
         capabilities = CGLOBALS.get_lsp_capabilities(),
         settings = {
-          metalsBinaryPath = vim.g.lsp_server_bin["metals"]
+          metalsBinaryPath = Tweaks.lsp.server_bin["metals"]
         }
       })
     end

@@ -69,7 +69,7 @@ lspkind.init({
   -- override preset symbols
   --
   -- default: {}
-  symbol_map = vim.g.lspkind_symbols
+  symbol_map = CFG.lspkind_symbols
 })
 
 -- autopairs plugin

@@ -43,7 +43,7 @@ M.setup = {
   navbuddy = function()
     local actions = require("nvim-navbuddy.actions")
     require("nvim-navbuddy").setup({
-      icons = vim.g.lspkind_symbols,
+      icons = CFG.lspkind_symbols,
       mappings = {
         ["<Left>"] = actions.parent(),   -- Move to left panel
         ["<Right>"] = actions.children()
@@ -69,7 +69,7 @@ M.setup = {
     require("nvim-navic").setup({
       highlight = true,
       lazy_update_context = true,
-      icons = vim.g.lspkind_symbols,
+      icons = CFG.lspkind_symbols,
     })
   end,
 
@@ -391,6 +391,8 @@ M.setup = {
     -- vim.api.nvim_set_hl(0, "MultiCursorVisual", { link = "Visual" })
     -- vim.api.nvim_set_hl(0, "MultiCursorDisabledCursor", { link = "Visual" })
     -- vim.api.nvim_set_hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
+    local hl = vim.api.nvim_set_hl
+    hl(0, "MultiCursorSign", { link = "SignColumn"})
   end,
 
   -- https://github.com/brenton-leighton/multiple-cursors.nvim
@@ -543,6 +545,45 @@ M.setup = {
         enable = true, -- Available strating from nvim-0.8+
       },
     })
+  end,
+  neominimap = function()
+    -- The following options are recommended when layout == "float"
+    vim.opt.wrap = false
+    vim.opt.sidescrolloff = 36   -- Set a large value
+
+    vim.g.neominimap = {
+      x_multiplier = 3,
+      auto_enable = false,
+      layout = "split",
+      delay = 800,
+      split = {
+        minimap_width = 15,
+        fix_width = true,
+        direction = "right",
+        close_if_last_window = true
+      },
+      exclude_buftypes = {
+        "nofile",
+        "nowrite",
+        "quickfix",
+        "terminal",
+        "prompt",
+      },
+      treesitter = { enabled = Tweaks.minimap.features.treesitter },
+      git = { enabled = Tweaks.minimap.features.git, mode = "icon" },
+      search = { enabled = Tweaks.minimap.features.search },
+      diagnostic = {
+        enabled = Tweaks.minimap.features.diagnostic,
+        mode = "line",
+        severity = vim.diagnostic.severity.HINT
+      },
+      winopt = function(opt, _)
+        opt.statuscolumn = ""
+        opt.winbar = ""
+        opt.signcolumn = "no"
+        opt.statusline = "Minimap"
+      end
+    }
   end
 }
 

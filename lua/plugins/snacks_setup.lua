@@ -1,4 +1,3 @@
-local chunklines = Borderfactory(Tweaks.indent.chunk.lines)
 local old_mode
 
 require("snacks").setup({
@@ -7,6 +6,9 @@ require("snacks").setup({
     style = "fancy",
     top_down = false,
     refresh = 400
+  },
+  words = {
+    enabled = false,
   },
   explorer = {
     replace_netrw = false,
@@ -17,14 +19,14 @@ require("snacks").setup({
     patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "pom.xml", "settings.gradle", "*.sln", "build.zig", "go.mod", "*.gpr" }
   },
   lazygit = {
-    enable = vim.tbl_contains(Tweaks.snacks.enabled_modules, "lazygit"),
+    enabled = vim.tbl_contains(Tweaks.snacks.enabled_modules, "lazygit"),
     win = {
       border = Borderfactory("thicc")
     }
   },
   image = {
     formats = { "png", "bmp", "webp", "tiff" },
-    enable = vim.tbl_contains(Tweaks.snacks.enabled_modules, "image"),
+    enabled = vim.tbl_contains(Tweaks.snacks.enabled_modules, "image"),
     doc = {
       enabled = true,
       inline = false,
@@ -52,9 +54,12 @@ require("snacks").setup({
         truncate = 80
       }
     },
+    matcher = {
+      ignorecase = true
+    },
     layout = { preset = "vertical", layout = { backdrop = Tweaks.theme.picker_backdrop, width = 120, border = Borderfactory("thicc") } },
     icons = {
-      kind = vim.g.lspkind_symbols
+      kind = CFG.lspkind_symbols
     },
     sources = {
       explorer = {
@@ -80,8 +85,8 @@ require("snacks").setup({
         keys = {
           ["<PageDown>"] = { "list_scroll_down", mode = { "i", "n" } },
           ["<PageUp>"] = { "list_scroll_up", mode = { "i", "n" } },
-          ["<Home>"] = { "list_top", mode = { "i", "n" } },
-          ["<End>"] = { "list_bottom", mode = { "i", "n" } },
+          ["<A-Up>"] = { "list_top", mode = { "i", "n" } },
+          ["<S-Down>"] = { "list_bottom", mode = { "i", "n" } },
           ["<A-q>"] = { "qflist", mode = { "i", "n" } },
           ["<C-Up>"] = { "preview_scroll_up", mode = { "i", "n" } },
           ["<C-Down>"] = { "preview_scroll_down", mode = { "i", "n" } }
@@ -91,8 +96,8 @@ require("snacks").setup({
         keys = {
           ["<PageDown>"] = "list_scroll_down",
           ["<PageUp>"] = "list_scroll_up",
-          ["<Home>"] = "list_top",
-          ["<End>"] = "list_bottom",
+          ["<A-Up>"] = "list_top",
+          ["<A-Down>"] = "list_bottom",
           ["<A-q>"] = { "qflist", mode = { "i", "n" } },
           ["<C-Up>"] = { "preview_scroll_up", mode = { "i", "n" } },
           ["<C-Down>"] = { "preview_scroll_down", mode = { "i", "n" } }
@@ -152,54 +157,20 @@ require("snacks").setup({
     enabled = vim.tbl_contains(Tweaks.snacks.enabled_modules, "indent"),
     indent = {
       priority = 100,
-      enabled = true,
+      enabled = Tweaks.indent.enabled,
       char = "│",
       only_scope = false,   -- only show indent guides of the scope
-      only_current = false, -- only show indent guides in the current window
+      only_current = true, -- only show indent guides in the current window
       --hl = "IndentBlankLineChar", ---@type string|string[] hl groups for indent guides
       hl = Tweaks.indent.rainbow_guides == true and {
         "IndentBlanklineIndent1", "IndentBlanklineIndent2", "IndentBlanklineIndent3", "IndentBlanklineIndent4",
         "IndentBlanklineIndent5", "IndentBlanklineIndent6", "IndentBlanklineIndent1", "IndentBlanklineIndent2"
       } or "IndentBlankLineChar",
     },
-    animate = {
-      enabled = Tweaks.indent.animate,
-      style = "out",
-      easing = "linear",
-      duration = {
-        step = 10,   -- ms per step
-        total = 100, -- maximum duration
-      },
-    },
-    scope = {
-      enabled = Tweaks.indent.scope.enabled, -- enable highlighting the current scope
-      priority = 200,
-      char = Tweaks.indent.scope.char,
-      underline = false,    -- underline the start of the scope
-      only_current = false, -- only show scope in the current window
-      hl = Tweaks.indent.scope.hl ---@type string|string[] hl group for scopes
-    },
-    chunk = {
-      -- when enabled, scopes will be rendered as chunks, except for the
-      -- top-level scope which will be rendered as a scope.
-      enabled = Tweaks.indent.chunk.enabled,
-      -- only show chunk scopes in the current window
-      only_current = true,
-      priority = 200,
-      hl = Tweaks.indent.scope.hl, ---@type string|string[] hl group for scopes
-      char = {
-        corner_top = chunklines[1],
-        corner_bottom = chunklines[7],
-        horizontal = chunklines[2],
-        vertical = chunklines[4],
-        arrow = ">",
-      }
-    },
-    blank = {
-      char = " ",
-      -- char = "·",
-      hl = "SnacksIndentBlank", ---@type string|string[] hl group for blank spaces
-    },
+    animate = Tweaks.indent.animate,
+    scope = Tweaks.indent.scope,
+    chunk = Tweaks.indent.chunk,
+    blank = Tweaks.indent.blank,
     -- filter for buffers to enable indent guides
     filter = function(buf)
       return vim.g.snacks_indent ~= false and vim.b[buf].snacks_indent ~= false and vim.bo[buf].buftype == ""

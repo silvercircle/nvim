@@ -34,7 +34,6 @@ lazy.setup({
       require("plugins.others").setup.multicursor_stewart()
     end
   },
-  'nvim-lua/plenary.nvim',
   {
     'nvim-lualine/lualine.nvim',
     event = "UIEnter",
@@ -197,13 +196,6 @@ lazy.setup({
     }
   },
   {
-    'akinsho/toggleterm.nvim',
-    lazy = true,
-    config = function()
-      require("plugins.others").setup.toggleterm()
-    end
-  },
-  {
     "norcalli/nvim-colorizer.lua",
     lazy = true,
     event = { 'BufReadPre'},
@@ -242,51 +234,11 @@ lazy.setup({
     end
   },
   {
-    'folke/todo-comments.nvim',
-    event = "BufReadPre",
-    config = function()
-      require("plugins.todo")
-    end
-  },
-  {
     "smjonas/inc-rename.nvim",
     cmd = "IncRename",
     config = function()
       require("inc_rename").setup()
     end
-  },
-  {
-    'mfussenegger/nvim-jdtls',
-    lazy = true
-  },
-  {
-    "scalameta/nvim-metals",
-    ft = { "scala", "sbt" },
-  },
-  {
-    'seblyng/roslyn.nvim',
-    cond = (Tweaks.lsp.csharp == "roslyn"),
-    ft = { "cs", "razor" },
-    config = function()
-      require("plugins.roslyn")
-    end,
-    dependencies = {
-      {
-        'tris203/rzls.nvim',
-        config = function()
-          require('rzls').setup {}
-          -- revert some wrong highlight redefinitions
-        end,
-        init = function()
-      -- we add the razor filetypes before the plugin loads
-          vim.filetype.add({
-            extension = {
-              razor = 'razor',
-              cshtml = 'razor',
-            }})
-        end
-      }
-    }
   },
   {
     "stevearc/quicker.nvim",
@@ -298,6 +250,9 @@ lazy.setup({
     end
   },
   {
+    "kdheepak/tabline.nvim"
+  },
+  {
     "oskarrrrrrr/symbols.nvim",
     branch = "main",
     cmd = { "Symbols", "SymbolsOpen" },
@@ -305,6 +260,15 @@ lazy.setup({
     cond = Tweaks.outline_plugin == "symbols",
     config = function()
       require("plugins.others").setup.symbols()
+    end
+  },
+  {
+    "Isrothy/neominimap.nvim",
+    version = "v3.*.*",
+    event = "BufReadPost",
+    cond = true,
+    init = function()
+      require("plugins.others").setup.neominimap()
     end
   }
 },

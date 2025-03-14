@@ -205,7 +205,8 @@ vim.keymap.set({ 'n', 'x' }, '<Leader>#', function()
   return ':noh<CR>'
 end, { expr = true, desc = "Export HlsLens results to Quickfix list" })
 
-map('n', 'hl', "<CMD>Inspect<CR>", opts)
+map('n', utility_key .. '<C-h>', "<CMD>Inspect<CR>", opts)
+map('i', utility_key .. '<C-h>', "<c-o><CMD>Inspect<CR>", opts)
 
 if Tweaks.completion.version ~= "blink" then
   vim.g.setkey({ 'i', 'n' }, fkeys.s_f1, function() vim.lsp.buf.signature_help() end, "Show signature help")
@@ -321,19 +322,19 @@ vim.g.setkey({'n', 'i'}, '<A-q>', function()
 end, "Quit Neovim")
 
 vim.g.setkey({'n', 'i'}, '<C-p>', function()
-  if vim.fn.win_getid() == CGLOBALS.main_winid then
+  if vim.fn.win_getid() == CGLOBALS.main_winid or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
     require('fzf-lua').oldfiles( { formatter = "path.filename_first", winopts = Tweaks.fzf.winopts.small_no_preview })
   end
 end, "FZF-LUA old files")
 
 vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
-  if vim.fn.win_getid() == CGLOBALS.main_winid then
+  if vim.fn.win_getid() == CGLOBALS.main_winid or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
     require("fzf-lua").buffers({ formatter = "path.filename_first", mru = true, no_action_zz = true, no_action_set_cursor = true, winopts = Tweaks.fzf.winopts.small_no_preview })
   end
 end, "FZF buffer list")
 vim.g.setkey({'n', 'i', 'v' }, '<A-p>', function()
   require("commandpicker").open()
-end, "Telescope command palette")
+end, "Command palette")
 
 -- quick-focus the four main areas
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-1>', function()
@@ -434,7 +435,7 @@ end, "Focus the quickfix list")
 vim.g.setkey({ 'n', 'i', 't' }, '<f11>', function() CGLOBALS.termToggle(12) end, "Toggle Terminal split at bottom")
 map('t', '<Esc>', '<C-\\><C-n>', opts)
 
-vim.g.setkey('n', fkeys.c_f8, '<CMD>RnvimrToggle<CR>', "Ranger in Floaterm")
+vim.g.setkey('n', fkeys.c_f8, function() require("oil").open() end, "Open Oil file manager")
 vim.keymap.set('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cword>') end,
   { expr = true, desc = "Inc Rename", noremap = true, silent = true })
 
@@ -517,4 +518,7 @@ vim.keymap.set('i', "<Right>",  "<C-g>U<Right>", { silent = true, noremap = true
 
 vim.g.setkey("n", utility_key .. "ll", function() require("darkmatter.colortools").saturatehex(-0.05) end )
 require("subspace.lib.darkmatter").map_keys()
+
+vim.g.setkey( {"v", "n" }, utility_key .. "<tab>", ":tabnext<cr>", "Select next tab")
+vim.g.setkey( {"v", "n", "i" }, utility_key .. "mm", function() require("neominimap").toggle() end, "Select next tab")
 

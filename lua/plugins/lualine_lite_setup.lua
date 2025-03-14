@@ -162,8 +162,6 @@ require("lualine").setup({
     -- section_separators = { left = "", right = "" },
     disabled_filetypes = {
       statusline = { "Outline", 'SymbolsSidebar', 'SymbolsHelp', 'SymbolsSearch', 'terminal', 'query_rt', 'sysmon', 'weather', "NvimTree" },
-      tabline = { 'Outline', 'terminal', 'query_rt', 'qf', 'NvimTree', 'alpha', 'sysmon', 'weather', 'fzf',
-                 'snacks_picker_preview', 'snacks_picker_input', 'snacks_picker_list', 'snacks_dashboard', 'SymbolsSidebar', 'SymbolsHelp', 'SymbolsSearch' },
       winbar = {},
     },
     ignore_focus = {'NvimTree', 'neo-tree', 'fzf'},
@@ -215,12 +213,12 @@ require("lualine").setup({
     lualine_z = {},
   },
   tabline = {
-    lualine_a = {'buffers'},
-    lualine_b = {'branch'},
-    lualine_c = {},
-    lualine_x = {},
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = { require'tabline'.tabline_buffers },
+    lualine_x = { require'tabline'.tabline_tabs },
     lualine_y = {'filename'},
-    lualine_z = {'tabs'}
+    lualine_z = {}
   },
   winbar = {},
   inactive_winbar = {},
