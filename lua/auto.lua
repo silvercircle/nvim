@@ -284,11 +284,6 @@ autocmd({ "FileType" }, {
     elseif args.match == "Glance" then
       vim.defer_fn(function() vim.cmd("setlocal cursorline") end, 400)
     elseif args.match == "qf" or args.match == "replacer" then
-      --if #__Globals.findwinbyBufType("sysmon") > 0 or #__Globals.findwinbyBufType("weather") > 0 then
-      --  vim.cmd("setlocal statuscolumn=%#TreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber | wincmd J")
-      --else
-      --  vim.cmd("setlocal statuscolumn=%#TreeNormalNC#\\  | setlocal signcolumn=no | setlocal nonumber")
-      --end
       vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal fo-=t")
       -- vim.api.nvim_win_set_height(__Globals.term.winid, PCFG.terminal.height)
     elseif vim.tbl_contains(tabstop_pattern, args.match) then

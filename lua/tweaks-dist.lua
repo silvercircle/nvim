@@ -313,7 +313,6 @@ Tweaks.keymap = {
   utility_key = "<C-l>",
   mapleader = ",",
   fzf_prefix = "<C-q>",
-  maps = { "default", "mine" }
 }
 
 Tweaks.treesitter = {
