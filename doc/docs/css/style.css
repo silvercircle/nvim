@@ -7,8 +7,10 @@ header.md-header, nav.md-tabs {
   line-height: 1em;
 }
 
-.md-typeset h1 + p, .md-typeset h2 + p, .md-typeset h3 + p, .md-typeset h4 + p {
+.md-typeset h1 ~ p, .md-typeset h2 ~ p, .md-typeset h3 ~ p, .md-typeset h4 ~ p {
   margin-block-start: 10px !important;
+  hyphens: auto;
+  text-align: justify !important;
 }
 
 .md-grid {

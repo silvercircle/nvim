@@ -55,8 +55,9 @@ The default key mappings are defined in two places:
 - `lua/plugins/commandpicker_addcommands`. This configures the [command palette](../Plugins/commandpalette.md)
   which also supports keyboard mapping.
 
-- you can always put additional lua files in `lua/keymaps` and they will be executed after 
-  `defaults.lua`, so you can override any default mapping.
+- Additionally, `lua/keymaps/user.lua` will be loaded when it exists. This uses the `pcall` mechanism and 
+  allows you to override existing or define your own keyboard mappings. Below is an example of how such 
+  a `user.lua` file would look like.
 
 ```lua
 local Utils = require('subspace.lib')
@@ -65,4 +66,5 @@ vim.g.setkey('n', '<f5>', function() require("oil").open(Utils.getroot_current()
 
 This would redefine the mapping that opens the [Oil](../Plugins/oil.md) file manager. `vim.g.setkey` is 
 just a shortcut for `vim.keymap.set` and `Utils.getroot_current()` attempts to find the root directory 
-for the current project.
+for the current project. It is part of the `subspace.lib` collection of utility functions which is part 
+of this configuration.
