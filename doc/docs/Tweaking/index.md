@@ -2,7 +2,8 @@
 Like any Neovim configuration, you can modify this to match your own needs. You can basically edit all 
 files below the `lua` directory. The problem with this approach is that you would run into problems when 
 updating the configuration by pulling changes from the repository. This would either merge them with 
-changes you have made, overwrite your changes or result in merge conflicts. This is sub-optimal and 
+changes you have made, overwrite your changes or result in merge conflicts. This is sub-optimal and there 
+should be a way to tweak the configuration.
 
 ## How the tweaks-dist.lua mechanism works
 
@@ -15,7 +16,8 @@ a simple system to prevent this:
 
 - You can now modify settings in `mytweaks` and they will override corresponding settings in 
   `tweaks-dist.lua`. You can also delete everything you do not want to touch from `mytweaks.lua` but 
-  leave the `-dist` alone. The `mytweaks.lua` is merged with the `tweaks-dist` at startup
+  leave the `-dist` alone. The `mytweaks.lua` is merged with the `tweaks-dist` at startup and all 
+  settings in `mytweaks.lua` will overwrite the defaults.
 
 It is important to maintain the file structure. Here is a sample for a valid `mytweaks.lua` file. It 
 redefines exactly two settings. First, it activates `DEV mode` which currently does nothing. Second, it 
@@ -29,11 +31,8 @@ Tweaks.DEV = true
 Tweaks.completion = {
   version = "nvim-cmp" -- # (1)
 }
-
 return Tweaks
-
 ```
-{ .annotate }
 
 !!!Note
 
@@ -61,9 +60,9 @@ The default key mappings are defined in two places:
 
 ```lua
 local Utils = require('subspace.lib')
-
 vim.g.setkey('n', '<f5>', function() require("oil").open(Utils.getroot_current()) end, "Open Oil file manager")
 ```
+
 This would redefine the mapping that opens the [Oil](../Plugins/oil.md) file manager. `vim.g.setkey` is 
 just a shortcut for `vim.keymap.set` and `Utils.getroot_current()` attempts to find the root directory 
 for the current project.

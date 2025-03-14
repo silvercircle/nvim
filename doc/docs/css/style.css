@@ -1,8 +1,14 @@
 header.md-header, nav.md-tabs {
   background-color: #222233;
 }
-.md-typeset h1 {
+.md-typeset h1, .md-typeset h2, .md-typeset h3, .md-typeset h4 {
   margin-bottom: 0;
+  margin-top: 20px;
+  line-height: 1em;
+}
+
+.md-typeset h1 + p, .md-typeset h2 + p, .md-typeset h3 + p, .md-typeset h4 + p {
+  margin-block-start: 10px !important;
 }
 
 .md-grid {
@@ -12,3 +18,4 @@ header.md-header, nav.md-tabs {
 mark.critic {
   padding: 2px 5px !important;
 }
+

@@ -6,12 +6,12 @@ control of the [lazy plugin manager](https://github.com/folke/lazy.nvim) and sho
 
 ## First start
 
-After cloning the repo to `~/.config/nvim` (or the equivalent on Windows or macOS), you should start nvim 
+After cloning the repo to `~/.config/nvim` (or the equivalent on Windows or macOS), you should start Neovim 
 for the first time with the command:
 ```
 nvim --headless -c 'Lazy! sync' +qa
 ```
-This will start Neovim without an UI (`--headless`) install all the plugins using the plugin manager and 
+This will start Neovim without the UI (`--headless`), install all the plugins using the plugin manager and 
 then quit. Usually, this should complete without errors unless your system lacks prerequisites like a 
 working GIT installation.
 
