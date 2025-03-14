@@ -104,7 +104,8 @@ require("scrollbar").setup({
     "fzf",
     "snacks_picker_list",
     "snacks_picker_input",
-    "snacks_input"
+    "snacks_input",
+    "neominimap"
   },
   autocmd = {
     render = {

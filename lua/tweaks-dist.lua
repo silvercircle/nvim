@@ -444,6 +444,10 @@ Tweaks.snacks = {
   enabled_modules = { "picker", --[["image",]] "indent", "lazygit" }
 }
 
+Tweaks.minimap = {
+  features = { treesitter = true, git = false, search = false, diagnostic = true },
+  debounce = 800
+}
 Tweaks.smartpicker = {
   project_types = {
     lua = { names = {"stylua.toml", "init.vim"} }

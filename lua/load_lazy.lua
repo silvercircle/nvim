@@ -559,22 +559,38 @@ lazy.setup({
     "Isrothy/neominimap.nvim",
     version = "v3.*.*",
     event = "BufReadPost",
-    cond = false,
+    cond = true,
     init = function()
       -- The following options are recommended when layout == "float"
       vim.opt.wrap = false
       vim.opt.sidescrolloff = 36 -- Set a large value
 
       vim.g.neominimap = {
-        auto_enable = true,
+        x_multiplier = 3,
+        auto_enable = false,
         layout = "split",
+        delay = 800,
         split = {
           minimap_width = 15,
           fix_width = true,
           direction = "right",
-          close_if_last_window = false
+          close_if_last_window = true
         },
-        winopt = function(opt, id)
+        exclude_buftypes = {
+          "nofile",
+          "nowrite",
+          "quickfix",
+          "terminal",
+          "prompt",
+        },
+        treesitter = { enabled = Tweaks.minimap.features.treesitter },
+        git = { enabled = Tweaks.minimap.features.git, mode = "icon" },
+        search = { enabled = Tweaks.minimap.features.search },
+        diagnostic = { enabled = Tweaks.minimap.features.diagnostic,
+          mode = "line",
+          severity = vim.diagnostic.severity.HINT
+        },
+        winopt = function(opt, _)
           opt.statuscolumn = ""
           opt.winbar = ""
           opt.signcolumn = "no"

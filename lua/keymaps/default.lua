@@ -520,4 +520,5 @@ vim.g.setkey("n", utility_key .. "ll", function() require("darkmatter.colortools
 require("subspace.lib.darkmatter").map_keys()
 
 vim.g.setkey( {"v", "n" }, utility_key .. "<tab>", ":tabnext<cr>", "Select next tab")
+vim.g.setkey( {"v", "n", "i" }, utility_key .. "mm", function() require("neominimap").toggle() end, "Select next tab")
 
