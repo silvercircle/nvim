@@ -19,7 +19,7 @@ require("commandpicker").add({
         input = "bottom",
         title = "Select Bookmark"
       })
-      require("plugins.bookmarkspicker").open({ layout = layout })
+      require("subspace.content.bookmarkspicker").open({ layout = layout })
     end,
     keys = {
       { "n", "<A-b>", noremap },

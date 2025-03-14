@@ -254,8 +254,8 @@ lazy.setup({
     event = { "BufReadPost" },
     dependencies = {
       {
-        "silvercircle/nvim-navic",
-        branch = "mine",
+        PCFG.is_dev and "silvercircle/nvim-navic" or "SmiteshP/nvim-navic",
+        branch = PCFG.is_dev and "mine" or "master",
         config = function()
           require("plugins.others").setup.navic()
         end
@@ -265,19 +265,13 @@ lazy.setup({
       -- { 'Decodetalkers/csharpls-extended-lsp.nvim', cond = (Tweaks.lsp.csharp == "csharp_ls") },  -- this is for csharp_ls decompilation support
       'onsails/lspkind-nvim',
       {
-        'https://gitlab.com/silvercircle74/lsp_lines.nvim',
-        cond = Tweaks.lsp.virtual_lines == true,
-        config = function()
-          require("lsp_lines").setup()
-        end
-      },
-      {
         'dnlhc/glance.nvim',
         config = function()
           require("plugins.others").setup.glance()
         end
       },
       { "danymat/neogen",
+        lazy = true,
         cmd = { "Neogen" },
         config = function()
           require("plugins.others").setup.neogen()
@@ -309,7 +303,7 @@ lazy.setup({
       }
     },
     config = function()
-      require("plugins.lsp")
+      require("lsp._defaults")
     end
   },
   {

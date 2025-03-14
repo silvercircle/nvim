@@ -20,6 +20,10 @@ require("subspace.lib.permconfig").restore_config()
 PCFG = require("subspace.lib.permconfig").perm_config
 CGLOBALS.set_statuscol(PCFG.statuscol_current)
 
+if (Tweaks.DEV and Tweaks.DEV ~= false) or os.getenv("NVIM_DEV_PRIVATE") then
+  assert = function(...) return ... end
+end
+
 if vim.g.neovide then
   -- vim.o.guifont = "MonoLisa:h10.2:w-.4:#e-subpixelantialias:#h-full"
   vim.opt.linespace = -1
