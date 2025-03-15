@@ -554,13 +554,19 @@ M.setup = {
     vim.g.neominimap = {
       x_multiplier = 3,
       auto_enable = false,
+      log_level = vim.log.levels.OFF,
       layout = "split",
       delay = 800,
       split = {
         minimap_width = 15,
         fix_width = true,
-        direction = "right",
+        direction = "rightbelow",
         close_if_last_window = true
+      },
+      exclude_filetypes = {
+        "help",
+        "bigfile",
+        "NvimTree"
       },
       exclude_buftypes = {
         "nofile",

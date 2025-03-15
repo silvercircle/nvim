@@ -305,6 +305,7 @@ local function _set()
   c.link("MultiCursorDisabledCursor", "DiffText")
   c.link("MultiCursorDisabledVisual", "Visual")
 
+  c.link("NeominimapBackground", "TreeNormalNC")
   c.hl_with_defaults("QuickFixLine", c.NONE, c.P.accent)
   -- quick fix
   c.link("qfLineNr", "Number")
