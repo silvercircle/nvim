@@ -390,7 +390,7 @@ delcmd = autocmd( { 'BufReadPost' }, {
       return
     end
     _delayloaded = true
-    vim.defer_fn(function() require("plugins.commandpicker_addcommands") end, 200)
+    vim.defer_fn(function() require("plugins.commandpalette") end, 200)
     if CFG.plain == false then
       --vim.system({ 'tmux', 'set', '-qg', 'allow-passthrough', 'all' }, { text = true })
     end
