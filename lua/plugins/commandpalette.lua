@@ -686,7 +686,7 @@ require("commandpicker").add({
   {
     desc = "Zoxide history (FZF)",
     cmd = function()
-      fzf.zoxide({ actions = require("subspace.lib.actions").fzf_dir_actions(), winopts = FWO("mini_with_preview", "Zoxide History, <CR>:browse, <C-g>:Grep, <C-d>:Set CWD" ) })
+      fzf.zoxide({ actions = require("subspace.lib.actions").fzf_dir_actions(), winopts = FWO("mini_with_preview", "Zoxide History, <CR>:browse, <C-g>:Grep, <C-d>:Set CWD, <C-o>:Oil" ) })
     end,
     key = { {"n","i"}, "<C-x>z", noremap },
     category = "@FZF"

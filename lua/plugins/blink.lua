@@ -332,7 +332,7 @@ require("blink.cmp").setup({
   completion = {
     accept = {
       --create_undo_point = true,
-      resolve_timeout_ms = 50,
+      resolve_timeout_ms = 100,
       auto_brackets = {
         enabled = true,
         kind_resolution = {
