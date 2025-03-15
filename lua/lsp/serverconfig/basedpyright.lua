@@ -1,4 +1,3 @@
-local lspconfig = require("lspconfig")
 local util = require 'lspconfig.util'
 
 local root_files = {
@@ -41,11 +40,11 @@ local function set_python_path(path)
   end
 end
 
-lspconfig.basedpyright.setup({
+return {
   capabilities = CGLOBALS.get_lsp_capabilities(),
   on_attach = On_attach,
-  cmd = { Tweaks.lsp.server_bin.basedpyright, '--stdio' },
-  filetypes = { 'python' },
+  cmd = { Tweaks.lsp.server_bin.basedpyright, "--stdio" },
+  filetypes = { "python" },
   root_dir = function(fname)
     return util.root_pattern(unpack(root_files))(fname)
   end,
@@ -55,47 +54,21 @@ lspconfig.basedpyright.setup({
       analysis = {
         autoSearchPaths = true,
         useLibraryCodeForTypes = true,
-        diagnosticMode = 'openFilesOnly',
+        diagnosticMode = "openFilesOnly",
       }
     }
-  }
-})
-
-return {
-  default_config = {
-    cmd = { Tweaks.lsp.server_bin.basedpyright, '--stdio' },
-    filetypes = { 'python' },
-    root_dir = function(fname)
-      return util.root_pattern(unpack(root_files))(fname)
-    end,
-    single_file_support = true,
-    settings = {
-      basedpyright = {
-        analysis = {
-          autoSearchPaths = true,
-          useLibraryCodeForTypes = true,
-          diagnosticMode = 'openFilesOnly',
-        },
-      },
-    },
   },
   commands = {
     PyrightOrganizeImports = {
       organize_imports,
-      description = 'Organize Imports',
+      description = "Organize Imports",
     },
     PyrightSetPythonPath = {
       set_python_path,
-      description = 'Reconfigure basedpyright with the provided python path',
+      description = "Reconfigure basedpyright with the provided python path",
       nargs = 1,
-      complete = 'file',
+      complete = "file",
     },
   },
-  docs = {
-    description = [[
-https://detachhead.github.io/basedpyright
-
-`basedpyright`, a static type checker and language server for python
-]],
-  },
 }
+

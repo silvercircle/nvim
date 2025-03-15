@@ -1,7 +1,6 @@
-local lspconfig = require("lspconfig")
 local util = require 'lspconfig.util'
 
-lspconfig.phpactor.setup({
+return {
   cmd = { Tweaks.lsp.server_bin['phpactor'], 'language-server' },
   on_attach = On_attach,
   filetypes = { 'php' },
@@ -13,5 +12,5 @@ lspconfig.phpactor.setup({
     return util.path.is_descendant(cwd, root) and cwd or root
   end,
   capabilities = CGLOBALS.get_lsp_capabilities()
-})
+}
 

@@ -1,4 +1,3 @@
-local lspconfig = require("lspconfig")
 local util = require('lspconfig.util')
 
 local function clangd_switch_source_header(bufnr)
@@ -56,56 +55,30 @@ local clangd_root_files = {
   'configure.ac', -- AutoTools
 }
 
-if Tweaks.lsp.cpp == "clangd" then
-  lspconfig.clangd.setup({
-    cmd = { "clangd", "--background-index", "--malloc-trim",
-      "--pch-storage=memory", "--log=error", "--header-insertion=never",
-      "--completion-style=detailed", "--function-arg-placeholders=1", "--inlay-hints=true" },
-    filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-    root_dir = function(fname)
-      return util.root_pattern(unpack(clangd_root_files))(fname) or util.find_git_ancestor(fname)
-    end,
-    single_file_support = true,
-    on_attach = On_attach,
-    capabilities = CGLOBALS.lsp_capabilities,
-    commands = {
-      ClangdSwitchSourceHeader = {
-        function()
-          clangd_switch_source_header(0)
-        end,
-        description = "Switch between source/header",
-      },
-      ClangdShowSymbolInfo = {
-        function()
-          clangd_symbol_info()
-        end,
-        description = "Show symbol info",
-      },
-    }
-  })
-end
-
-if Tweaks.lsp.cpp == "ccls" then
-  lspconfig.ccls.setup({
-    default_config = {
-      cmd = { "ccls" },
-      filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
-      root_dir = function(fname)
-        return util.root_pattern("compile_commands.json", ".ccls", "configure.ac")(fname) or vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
+return {
+  cmd = { "clangd", "--background-index", "--malloc-trim",
+    "--pch-storage=memory", "--log=error", "--header-insertion=never",
+    "--completion-style=detailed", "--function-arg-placeholders=1", "--inlay-hints=true" },
+  filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+  root_dir = function(fname)
+    return util.root_pattern(unpack(clangd_root_files))(fname) or util.find_git_ancestor(fname)
+  end,
+  single_file_support = true,
+  on_attach = On_attach,
+  capabilities = CGLOBALS.lsp_capabilities,
+  commands = {
+    ClangdSwitchSourceHeader = {
+      function()
+        clangd_switch_source_header(0)
       end,
-      offset_encoding = "utf-32",
-      -- ccls does not support sending a null root directory
-      single_file_support = false,
-      capabilities = CGLOBALS.lsp_capabilities
+      description = "Switch between source/header",
     },
-    commands = {
-      CclsSwitchSourceHeader = {
-        function()
-          clangd_switch_source_header(0)
-        end,
-        description = "Switch between source/header",
-      },
+    ClangdShowSymbolInfo = {
+      function()
+        clangd_symbol_info()
+      end,
+      description = "Show symbol info",
     },
-  })
-end
+  }
+}
 

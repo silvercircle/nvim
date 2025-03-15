@@ -1,4 +1,3 @@
-local lspconfig = require("lspconfig")
 local util = require('lspconfig.util')
 
 local function rust_reload_workspace(bufnr)
@@ -11,7 +10,7 @@ local function rust_reload_workspace(bufnr)
   end)
 end
 
-lspconfig.rust_analyzer.setup({
+return {
   cmd = { Tweaks.lsp.server_bin['rust_analyzer'] },
   on_attach = On_attach,
   capabilities = CGLOBALS.lsp_capabilities,
@@ -72,4 +71,4 @@ lspconfig.rust_analyzer.setup({
       description = 'Reload current cargo workspace',
     },
   }
-})
+}

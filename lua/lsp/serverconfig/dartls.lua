@@ -1,11 +1,10 @@
-local lspconfig = require("lspconfig")
-local util = require 'lspconfig.util'
+local util = require "lspconfig.util"
 
-lspconfig.dartls.setup({
+return {
   capabilities = CGLOBALS.get_lsp_capabilities(),
-  cmd = { Tweaks.lsp.server_bin['dartls'], 'language-server', '--protocol=lsp' },
-  filetypes = { 'dart' },
-  root_dir = util.root_pattern 'pubspec.yaml',
+  cmd = { Tweaks.lsp.server_bin["dartls"], "language-server", "--protocol=lsp" },
+  filetypes = { "dart" },
+  root_dir = util.root_pattern "pubspec.yaml",
   init_options = {
     onlyAnalyzeProjectsWithOpenFiles = true,
     suggestFromUnimportedLibraries = true,
@@ -19,4 +18,4 @@ lspconfig.dartls.setup({
       showTodos = true,
     }
   }
-})
+}
