@@ -60,6 +60,11 @@ local snacks_fidgethistory = function(layout)
       end
       return notifs
     end,
+    win = {
+      preview = {
+        wo = { wrap = true, signcolumn = "no", number = false, statuscolumn = "" }
+      }
+    },
     focus = "input",
     auto_close = false,
     layout = layout,
