@@ -28,18 +28,6 @@ ON_LSP_ATTACH = function(client, buf)
   end
 end
 
-local local_configs = {
-  ctags_lsp = {
-    default_config = {
-      cmd = { "ctags-lsp" },
-      filetypes = nil,
-      root_dir = function()
-        return vim.fn.getcwd()
-      end
-    }
-  }
-}
-
 local caps = CGLOBALS.get_lsp_capabilities()
 
 for k,v in pairs(LSPDEF.serverconfigs) do
@@ -47,12 +35,12 @@ for k,v in pairs(LSPDEF.serverconfigs) do
     if v.cfg == false then
       local s, config = pcall(require, "lspconfig.configs." .. k)
       if not s then
-        config = local_configs[k]
+        config = LSPDEF.local_configs[k]
         Configs[k] = config
       end
-      if #v.cmd == 1 then
+      if v.cmd and #v.cmd == 1 then
         config.default_config.cmd[1] = v["cmd"][1] or config.default_config.cmd[1]
-      else
+      elseif v.cmd then
         config.default_config.cmd = v.cmd
       end
       config.default_config.on_attach = ON_LSP_ATTACH

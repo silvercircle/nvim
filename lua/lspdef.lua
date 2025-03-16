@@ -134,6 +134,20 @@ M.jdtls = {
   config = "config_linux"
 }
 
+-- local custom lsp definitions that are not provided by nvim-lspconfig.
+-- they still need an entry in serverconfigs.
+M.local_configs = {
+  ctags_lsp = {
+    default_config = {
+      cmd = { "ctags-lsp" },
+      filetypes = nil,
+      root_dir = function()
+        return vim.fn.getcwd()
+      end
+    }
+  }
+}
+
 M.debug = true
 return M
 
