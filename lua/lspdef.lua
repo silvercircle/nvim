@@ -48,43 +48,43 @@ M.server_bin = {
 }
 
 -- serverconfigs lists all servers which will be configured. Set active to false
--- to ignore a server. Set cfg to "_defaults_" to use the defaults from the
+-- to ignore a server. Set cfg to false to use the defaults from the
 -- nvim-lspconfig registry. The server binary locations from server_bin will still
 -- be used when using a default config.
 
 -- Set cfg to a valid lua module to use your own configuration
 -- For example: You can set cfg to "lsp.user.myserver" and then put the config in
 -- lua/lsp/user/myserver.lua. The config file must return a table with configuration
--- options. See the examples like rust_analyzer.lua or lua_ls.lua
+-- options. See the examples like rust_analyzer.lua or lua_ls.lua.
 M.serverconfigs = {
-  ["ts_ls"]                 = { cfg = "_defaults_", active = true },
-  ["texlab"]                = { cfg = "_defaults_", active = true },
-  ["tinymist"]              = { cfg = "_defaults_", active = true },
+  ["ts_ls"]                 = { cfg = false, active = true },
+  ["texlab"]                = { cfg = false, active = true },
+  ["tinymist"]              = { cfg = false, active = true },
   ["nim_langserver"]        = { cfg = "lsp.serverconfig.nim_langserver", active = false },
-  ["bashls"]                = { cfg = "_defaults_", active = true },
+  ["bashls"]                = { cfg = false, active = true },
   ["clangd"]                = { cfg = "lsp.serverconfig.clangd", active = true },
-  ["ccls"]                  = { cfg = "_defaults_", active = false },
+  ["ccls"]                  = { cfg = false, active = false },
   ["ada_ls"]                = { cfg = "lsp.serverconfig.ada_ls", active = false },
-  ["emmet_language_server"] = { cfg = "_defaults_", active = true },
-  ["cssls"]                 = { cfg = "_defaults_", active = true },
-  ["html"]                  = { cfg = "_defaults_", active = true },
+  ["emmet_language_server"] = { cfg = false, active = true },
+  ["cssls"]                 = { cfg = false, active = true },
+  ["html"]                  = { cfg = false, active = true },
   ["gopls"]                 = { cfg = "lsp.serverconfig.gopls", active = true },
-  ["vimls"]                 = { cfg = "_defaults_", active = true },
-  ["yamlls"]                = { cfg = "_defaults_", active = true },
-  ["marksman"]              = { cfg = "_defaults_", active = true },
-  ["lemminx"]               = { cfg = "_defaults_", active = true },
-  ["taplo"]                 = { cfg = "_defaults_", active = true },
+  ["vimls"]                 = { cfg = false, active = true },
+  ["yamlls"]                = { cfg = false, active = true },
+  ["marksman"]              = { cfg = false, active = true },
+  ["lemminx"]               = { cfg = false, active = true },
+  ["taplo"]                 = { cfg = false, active = true },
   ["lua_ls"]                = { cfg = "lsp.serverconfig.lua_ls", active = true },
   ["rust_analyzer"]         = { cfg = "lsp.serverconfig.rust_analyzer", active = false },
-  ["groovyls"]              = { cfg = "_defaults_", active = false },
-  ["jsonls"]                = { cfg = "_defaults_", active = true },
+  ["groovyls"]              = { cfg = false, active = false },
+  ["jsonls"]                = { cfg = false, active = true },
   ["zls"]                   = { cfg = "lsp.serverconfig.zls", active = true },
-  ["ctags_lsp"]             = { cfg = "_defaults_", active = false },
+  ["ctags_lsp"]             = { cfg = false, active = false },
   ["basedpyright"]          = { cfg = "lsp.serverconfig.basedpyright", active = true },
-  ["phpactor"]              = { cfg = "_defaults_", active = false },
-  ["dartls"]                = { cfg = "_defaults_", active = false },
+  ["phpactor"]              = { cfg = false, active = false },
+  ["dartls"]                = { cfg = false, active = false },
   ["hls"]                   = { cfg = "lsp.serverconfig.hls", active = false },
-  ["neocmake"]              = { cfg = "_defaults_", active = true }
+  ["neocmake"]              = { cfg = false, active = true }
 }
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
   -- this can show multiple diagnostic messages for a single line.

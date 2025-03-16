@@ -12,7 +12,13 @@ if status == true then
   Tweaks = vim.tbl_deep_extend("force", Tweaks, mtw)
 end
 Borderfactory = Tweaks.borderfactory
-LSPDEF = require("lspdef")
+
+local have_user_lsp, lspdef = pcall(require, "lspdef_user")
+if have_user_lsp then
+  LSPDEF = lspdef
+else
+  LSPDEF = require("lspdef")
+end
 
 local tree_fts = {
   ['Neo']       = "neo-tree",

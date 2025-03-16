@@ -10,6 +10,8 @@ local lspconfig = require("lspconfig")
 local Configs = require("lspconfig.configs")
 local navic = require("nvim-navic")
 
+local have_lsp_config = false -- (vim.lsp.config ~= nil)
+
 -- Customize LSP behavior via on_attach
 On_attach = function(client, buf)
   navic.attach(client, buf)
@@ -35,9 +37,11 @@ local local_configs = {
   }
 }
 
+local caps = CGLOBALS.get_lsp_capabilities()
+
 for k,v in pairs(LSPDEF.serverconfigs) do
   if v.active == true then
-    if v.cfg == "_defaults_" then
+    if v.cfg == false then
       local s, config = pcall(require, "lspconfig.configs." .. k)
       if not s then
         config = local_configs[k]
@@ -45,13 +49,24 @@ for k,v in pairs(LSPDEF.serverconfigs) do
       end
       config.default_config.cmd[1] = LSPDEF.server_bin[k] or config.default_config.cmd[1]
       config.default_config.on_attach = On_attach
-      config.default_config.capabilities = CGLOBALS.lsp_capabilities
-      lspconfig[k].setup({})
-    else
+      config.default_config.capabilities = caps
+      if have_lsp_config then
+        local c = config.default_config
+        c.settings = config.settings or {}
+        c.commands = config.commands or {}
+        vim.lsp.config(k, c)
+      else
+        lspconfig[k].setup({})
+      end
+    elseif type(v.cfg) == "string" then
       local config = require(v.cfg)
-      config.capabilities = CGLOBALS.lsp_capabilities
+      config.capabilities = caps
       config.on_attach = On_attach
-      lspconfig[k].setup(config)
+      if have_lsp_config then
+        vim.lsp.config(k, config)
+      else
+        lspconfig[k].setup(config)
+      end
     end
   end
 end

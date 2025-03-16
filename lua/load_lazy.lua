@@ -303,7 +303,7 @@ lazy.setup({
       }
     },
     config = function()
-      require("lsp._defaults")
+      require("lsp.defaults")
     end
   },
   {
