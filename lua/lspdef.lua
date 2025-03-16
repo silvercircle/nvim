@@ -5,6 +5,9 @@
 local jp = vim.fs.joinpath
 
 local M = {}
+
+-- these non-standard paths are known and can be used for lsp binaries. All standard paths
+-- like /usr/bin, /usr/local/bin would also work
 M.masonbasepath   = jp(vim.fn.stdpath('data'), '/mason/')
 M.masonbinpath    = jp(M.masonbasepath, 'bin/')
 M.homepath        = vim.fn.getenv('HOME')
@@ -23,7 +26,7 @@ M.server_bin = {
   nimls         =   jp(M.homepath, '/.nimble/bin/nimlangserver'),
   texlab        =   jp(M.localbin, 'texlab'),
   clangd        =   '/usr/bin/clangd',
-  vimlsp        =   jp(M.masonbinpath, 'vim-language-server'),
+  vimls         =   jp(M.masonbinpath, 'vim-language-server'),
   omnisharp     =   jp(vim.fn.stdpath("data"), "/omnisharp/OmniSharp"),
   metals        =   '/home/alex/.local/share/coursier/bin/metals',
   basedpyright  =   jp(M.masonbinpath, 'basedpyright-langserver'),
@@ -64,7 +67,7 @@ M.serverconfigs = {
   ["bashls"]                = { cfg = false, active = true },
   ["clangd"]                = { cfg = "lsp.serverconfig.clangd", active = true },
   ["ccls"]                  = { cfg = false, active = false },
-  ["ada_ls"]                = { cfg = "lsp.serverconfig.ada_ls", active = false },
+  ["ada_ls"]                = { cfg = "lsp.serverconfig.ada_ls", active = true },
   ["emmet_language_server"] = { cfg = false, active = true },
   ["cssls"]                 = { cfg = false, active = true },
   ["html"]                  = { cfg = false, active = true },
@@ -90,6 +93,10 @@ M.serverconfigs = {
   -- this can show multiple diagnostic messages for a single line.
   -- otherwise, use normal virtual text.
 M.virtual_lines = false
+
+-- These LSP servers won't attach to navic (used for the breadcrumbs) because they
+-- do not support the required LSP feature sets.
+M.exclude_navic = { "emmet_language_server" }
 
 return M
 

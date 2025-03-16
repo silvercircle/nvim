@@ -228,7 +228,7 @@ require("blink.cmp").setup({
         show_on_x_blocked_trigger_characters = nil, -- Inherits from top level `completion.trigger.show_on_blocked_trigger_characters` config when not set
       },
       menu = {
-        auto_show = true, -- Inherits from top level `completion.menu.auto_show` config when not set
+        auto_show = false, -- Inherits from top level `completion.menu.auto_show` config when not set
         draw = {
           columns = { { "kind_icon", "label", "label_description", gap = 1 } },
         },

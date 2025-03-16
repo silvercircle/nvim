@@ -74,18 +74,7 @@ local function fix_semantic_tokens(client)
 end
 
 local on_attach = function(client, buf)
-  local _s, navic = pcall(require, "nvim-navic")
-  if _s then
-    navic.attach(client, buf)
-  end
-  if client.server_capabilities.inlayHintProvider then
-    vim.g.inlay_hints_visible = true
-    vim.lsp.inlay_hint.enable(false)
-  end
-  -- don't let rzls mess with my hl groups :)
-  if client.name == "rzls" then
-    vim.cmd("hi! link @lsp.type.field Member")
-  end
+  ON_LSP_ATTACH(client, buf)
   fix_semantic_tokens(client)
 end
 

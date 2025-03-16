@@ -37,7 +37,6 @@ M.perm_config_default = {
   theme_variant = "warm",
   transbg = false,
   theme_palette = "vivid",
-  theme_strings = "yellow",
   theme_scheme = "gruv",
   debug = false,
   indent_guides = true,
@@ -91,7 +90,6 @@ function M.write_config()
       state['theme_variant'] = theme_conf.variant
       state['theme_palette'] = theme_conf.colorpalette
       state['transbg'] = theme_conf.is_trans
-      state['theme_strings'] = theme_conf.theme_strings
       state['theme_scheme'] = theme_conf.scheme
     end
     if wsplit_id ~= nil then
@@ -139,7 +137,6 @@ function M.restore_config()
       scheme = M.perm_config.theme_scheme,
       variant = M.perm_config.theme_variant,
       colorpalette = M.perm_config.theme_palette,
-      theme_strings = M.perm_config.theme_strings,
       is_trans = M.perm_config.transbg,
       sync_kittybg = Tweaks.theme.sync_kittybg,
       kittysocket = Tweaks.theme.kittysocket,
