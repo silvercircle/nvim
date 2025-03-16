@@ -79,7 +79,7 @@ kbd {
   line-height:1.3em;
 }
 
-div.admonition > p:last-child, .md-typeset details > p:last-child {
+div.admonition > p:last-child, .md-typeset details > p:last-child, div.admonition li {
   font-size: 13pt !important;
   line-height: 1.2em;
   font-weight: 400;
