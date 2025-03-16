@@ -56,9 +56,6 @@ local clangd_root_files = {
 }
 
 return {
-  cmd = { "clangd", "--background-index", "--malloc-trim",
-    "--pch-storage=memory", "--log=error", "--header-insertion=never",
-    "--completion-style=detailed", "--function-arg-placeholders=1", "--inlay-hints=true" },
   filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
   root_dir = function(fname)
     return util.root_pattern(unpack(clangd_root_files))(fname) or util.find_git_ancestor(fname)

@@ -10,7 +10,6 @@ local lua_root_files = {
 }
 
 return {
-  cmd = { LSPDEF.serverconfigs['lua_ls'].bin, '--logpath=' .. vim.fn.stdpath("state") },
   root_dir = function(fname)
     local root = Util.root_pattern(unpack(lua_root_files))(fname)
     if root and root ~= vim.env.HOME then

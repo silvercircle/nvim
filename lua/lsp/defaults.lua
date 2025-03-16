@@ -12,6 +12,9 @@ local have_lsp_config = false -- (vim.lsp.config ~= nil)
 
 -- Customize LSP behavior via on_attach
 ON_LSP_ATTACH = function(client, buf)
+  if LSPDEF.debug then
+    vim.notify("Attaching " .. client.name .. " " .. vim.inspect(client.config.cmd) .. " to buffer nr " .. buf)
+  end
   if not vim.tbl_contains(LSPDEF.exclude_navic, client.name) then
     navic.attach(client, buf)
   end
@@ -47,7 +50,11 @@ for k,v in pairs(LSPDEF.serverconfigs) do
         config = local_configs[k]
         Configs[k] = config
       end
-      config.default_config.cmd[1] = v["bin"] or config.default_config.cmd[1]
+      if #v.cmd == 1 then
+        config.default_config.cmd[1] = v["cmd"][1] or config.default_config.cmd[1]
+      else
+        config.default_config.cmd = v.cmd
+      end
       config.default_config.on_attach = ON_LSP_ATTACH
       config.default_config.capabilities = caps
       if have_lsp_config then
@@ -62,8 +69,14 @@ for k,v in pairs(LSPDEF.serverconfigs) do
       local config = require(v.cfg)
       config.capabilities = caps
       config.on_attach = ON_LSP_ATTACH
+      if config.cmd == nil then
+        config.cmd = v.cmd
+      else
+        config.cmd[1] = v.cmd[1]
+      end
       if have_lsp_config then
         vim.lsp.config(k, config)
+        vim.lsp.enable(k)
       else
         lspconfig[k].setup(config)
       end

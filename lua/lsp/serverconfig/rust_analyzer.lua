@@ -11,7 +11,7 @@ local function rust_reload_workspace(bufnr)
 end
 
 return {
-  cmd = { LSPDEF.serverconfigs['rust_analyzer'].bin },
+  cmd = { LSPDEF.serverconfigs['rust_analyzer'].cmd[1] },
   filetypes = { 'rust' },
   root_dir = function(fname)
     local cargo_crate_dir = util.root_pattern 'Cargo.toml' (fname)

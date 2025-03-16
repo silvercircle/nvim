@@ -1,6 +1,5 @@
 local Util = require('lspconfig.util')
 return {
-  cmd = { LSPDEF.serverconfigs["gopls"].bin },
   single_file_support = true,
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
   settings = {

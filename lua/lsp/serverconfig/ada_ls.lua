@@ -1,6 +1,6 @@
 local Util = require('lspconfig.util')
 return {
-  cmd = { LSPDEF.serverconfigs["ada_ls"].bin },
+  cmd = { LSPDEF.serverconfigs["ada_ls"].cmd[1] },
   filetypes = { "ada" },
   root_dir = Util.root_pattern("Makefile", ".git", "*.gpr", "*.adc"),
   lspinfo = function(cfg)

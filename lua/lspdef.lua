@@ -35,79 +35,82 @@ M.server_bin = {
 -- options. See the examples like rust_analyzer.lua or lua_ls.lua.
 M.serverconfigs = {
   ["ts_ls"]                 = { cfg = false, active = true,
-    bin = jp(M.masonbinpath, 'typescript-language-server'),
+    cmd = { jp(M.masonbinpath, 'typescript-language-server') }
   },
   ["texlab"]                = { cfg = false, active = true,
-    bin = jp(M.localbin, 'texlab')
+    cmd = { jp(M.localbin, 'texlab') }
   },
   ["tinymist"]              = { cfg = false, active = true,
-    bin = jp(M.localbin, "tinymist")
+    cmd = { jp(M.localbin, "tinymist") }
   },
   ["bashls"]                = { cfg = false, active = true,
-    bin = jp(M.masonbinpath, 'bash-language-server')
+    cmd = { jp(M.masonbinpath, 'bash-language-server') }
   },
   ["clangd"]                = { cfg = "lsp.serverconfig.clangd", active = true,
-    bin = "/usr/bin/clangd"
+    cmd = { "clangd", "--background-index", "--malloc-trim",
+            "--pch-storage=memory", "--log=error", "--header-insertion=never",
+            "--completion-style=detailed", "--function-arg-placeholders=1",
+            "--inlay-hints=true" }
   },
   ["ada_ls"]                = { cfg = "lsp.serverconfig.ada_ls", active = true,
-    bin = jp(M.masonbinpath, 'ada_language_server')
+    cmd = { jp(M.masonbinpath, 'ada_language_server') }
   },
   ["emmet_language_server"] = { cfg = false, active = true,
-    bin = jp(M.masonbinpath, 'emmet-language-server')
+    cmd = { jp(M.masonbinpath, 'emmet-language-server') }
   },
   ["cssls"]                 = { cfg = false, active = true,
-    bin = jp(M.masonbinpath, 'vscode-css-language-server')
+    cmd = { jp(M.masonbinpath, 'vscode-css-language-server') }
   },
   ["html"]                  = { cfg = false, active = true,
-    bin = jp(M.masonbinpath, 'vscode-html-language-server')
+    cmd = { jp(M.masonbinpath, 'vscode-html-language-server') }
   },
   ["gopls"]                 = { cfg = "lsp.serverconfig.gopls", active = true,
-  bin = jp(M.masonbinpath, 'gopls')
+    cmd = { jp(M.masonbinpath, 'gopls') }
   },
   ["vimls"]                 = { cfg = false, active = true,
-    bin = jp(M.masonbinpath, 'vim-language-server')
+    cmd = { jp(M.masonbinpath, 'vim-language-server') }
   },
   ["yamlls"]                = { cfg = false, active = true,
-    bin = jp(M.masonbinpath, 'yaml-language-server')
+    cmd = { jp(M.masonbinpath, 'yaml-language-server') }
   },
   ["marksman"]              = { cfg = false, active = true,
-    bin = jp(M.masonbinpath, 'marksman')
+    cmd = { jp(M.masonbinpath, 'marksman') }
   },
   ["lemminx"]               = { cfg = false, active = true,
-    bin = jp(M.localbin, 'lemminx')
+    cmd = { jp(M.localbin, 'lemminx') }
   },
   ["taplo"]                 = { cfg = false, active = true,
-    bin = jp(M.masonbinpath, 'taplo')
+    cmd = { jp(M.masonbinpath, 'taplo') }
   },
   ["lua_ls"]                = { cfg = "lsp.serverconfig.lua_ls", active = true,
-    bin = jp(M.masonbinpath, 'lua-language-server')
+    cmd = { jp(M.masonbinpath, "lua-language-server"), '--logpath=' .. vim.fn.stdpath("state") },
   },
   ["rust_analyzer"]         = { cfg = "lsp.serverconfig.rust_analyzer", active = false,
-    bin = jp(M.masonbinpath, 'rust-analyzer')
+    cmd = { jp(M.masonbinpath, 'rust-analyzer') }
   },
   ["groovyls"]              = { cfg = false, active = false,
-    bin = jp(M.masonbinpath, 'groovy-language-server')
+    cmd = { jp(M.masonbinpath, 'groovy-language-server') }
   },
   ["jsonls"]                = { cfg = false, active = true,
-    bin = jp(M.masonbinpath, "vscode-json-language-server")
+    cmd = { jp(M.masonbinpath, "vscode-json-language-server") }
   },
   ["zls"]                   = { cfg = "lsp.serverconfig.zls", active = true,
-    bin = jp(M.localbin, "zls")
+    cmd = { jp(M.localbin, "zls") }
   },
   ["ctags_lsp"]             = { cfg = false, active = false,
-    bin = jp(M.localbin, "ctags_lsp")
+    cmd = { jp(M.localbin, "ctags_lsp") }
   },
   ["basedpyright"]          = { cfg = "lsp.serverconfig.basedpyright", active = true,
-    bin = jp(M.masonbinpath, 'basedpyright-langserver')
+    cmd = { jp(M.masonbinpath, 'basedpyright-langserver') }
   },
   ["dartls"]                = { cfg = false, active = false,
-    bin = jp(M.masonbinpath, "dartls")
+    cmd = { jp(M.masonbinpath, "dartls") }
   },
   ["hls"]                   = { cfg = "lsp.serverconfig.hls", active = false,
-    bin = "/usr/bin/hls"
+    cmd = { "/usr/bin/hls" }
   },
   ["neocmake"]              = { cfg = false, active = true,
-    bin = jp(M.localbin, "neocmakelsp")
+    cmd = { jp(M.localbin, "neocmakelsp") }
   }
 }
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
@@ -131,5 +134,6 @@ M.jdtls = {
   config = "config_linux"
 }
 
+M.debug = true
 return M
 
