@@ -20,34 +20,8 @@ M.localbin        = jp(M.homepath, '/.local/bin/')
 -- This paths should work on most Linux systems, but you have to adjust them for 
 -- Windows or macOS
 M.server_bin = {
-  phpactor      =   '/usr/local/bin/phpactor',
-  rust_analyzer =   jp(M.masonbinpath, 'rust-analyzer'),
-  gopls         =   jp(M.masonbinpath, 'gopls'),
-  nimls         =   jp(M.homepath, '/.nimble/bin/nimlangserver'),
-  texlab        =   jp(M.localbin, 'texlab'),
-  clangd        =   '/usr/bin/clangd',
-  vimls         =   jp(M.masonbinpath, 'vim-language-server'),
-  omnisharp     =   jp(vim.fn.stdpath("data"), "/omnisharp/OmniSharp"),
   metals        =   '/home/alex/.local/share/coursier/bin/metals',
-  basedpyright  =   jp(M.masonbinpath, 'basedpyright-langserver'),
-  lua_ls        =   jp(M.masonbinpath, 'lua-language-server'),
-  serve_d       =   jp(M.localbin .. 'serve-d'),
-  cssls         =   jp(M.masonbinpath, 'vscode-css-language-server'),
-  tsserver      =   jp(M.masonbinpath, 'typescript-language-server'),
-  html          =   jp(M.masonbinpath, 'vscode-html-language-server'),
-  yamlls        =   jp(M.masonbinpath, 'yaml-language-server'),
-  ada_ls        =   jp(M.masonbinpath, 'ada_language_server'),
-  marksman      =   jp(M.masonbinpath, 'marksman'),
-  lemminx       =   jp(M.localbin,     'lemminx'),
-  bashls        =   jp(M.masonbinpath, 'bash-language-server'),
-  taplo         =   jp(M.masonbinpath, 'taplo'),
-  groovy        =   jp(M.masonbinpath, 'groovy-language-server'),
   roslyn        =   jp(vim.fn.stdpath("data"), "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll"),
-  jsonls        =   jp(M.masonbinpath, "vscode-json-language-server"),
-  zls           =   jp(M.localbin, "zls"),
-  ccls          =   jp(M.localbin, "ccls"),
-  hls           =   "/usr/bin/hls",
-  emmet_language_server = jp(M.masonbinpath, 'emmet-language-server')
 }
 
 -- serverconfigs lists all servers which will be configured. Set active to false
@@ -60,34 +34,81 @@ M.server_bin = {
 -- lua/lsp/user/myserver.lua. The config file must return a table with configuration
 -- options. See the examples like rust_analyzer.lua or lua_ls.lua.
 M.serverconfigs = {
-  ["ts_ls"]                 = { cfg = false, active = true },
-  ["texlab"]                = { cfg = false, active = true },
-  ["tinymist"]              = { cfg = false, active = true },
-  ["nim_langserver"]        = { cfg = "lsp.serverconfig.nim_langserver", active = false },
-  ["bashls"]                = { cfg = false, active = true },
-  ["clangd"]                = { cfg = "lsp.serverconfig.clangd", active = true },
-  ["ccls"]                  = { cfg = false, active = false },
-  ["ada_ls"]                = { cfg = "lsp.serverconfig.ada_ls", active = true },
-  ["emmet_language_server"] = { cfg = false, active = true },
-  ["cssls"]                 = { cfg = false, active = true },
-  ["html"]                  = { cfg = false, active = true },
-  ["gopls"]                 = { cfg = "lsp.serverconfig.gopls", active = true },
-  ["vimls"]                 = { cfg = false, active = true },
-  ["yamlls"]                = { cfg = false, active = true },
-  ["marksman"]              = { cfg = false, active = true },
-  ["lemminx"]               = { cfg = false, active = true },
-  ["taplo"]                 = { cfg = false, active = true },
-  ["lua_ls"]                = { cfg = "lsp.serverconfig.lua_ls", active = true },
-  ["rust_analyzer"]         = { cfg = "lsp.serverconfig.rust_analyzer", active = false },
-  ["groovyls"]              = { cfg = false, active = false },
-  ["jsonls"]                = { cfg = false, active = true },
-  ["zls"]                   = { cfg = "lsp.serverconfig.zls", active = true },
-  ["ctags_lsp"]             = { cfg = false, active = false },
-  ["basedpyright"]          = { cfg = "lsp.serverconfig.basedpyright", active = true },
-  ["phpactor"]              = { cfg = false, active = false },
-  ["dartls"]                = { cfg = false, active = false },
-  ["hls"]                   = { cfg = "lsp.serverconfig.hls", active = false },
-  ["neocmake"]              = { cfg = false, active = true }
+  ["ts_ls"]                 = { cfg = false, active = true,
+    bin = jp(M.masonbinpath, 'typescript-language-server'),
+  },
+  ["texlab"]                = { cfg = false, active = true,
+    bin = jp(M.localbin, 'texlab')
+  },
+  ["tinymist"]              = { cfg = false, active = true,
+    bin = jp(M.localbin, "tinymist")
+  },
+  ["bashls"]                = { cfg = false, active = true,
+    bin = jp(M.masonbinpath, 'bash-language-server')
+  },
+  ["clangd"]                = { cfg = "lsp.serverconfig.clangd", active = true,
+    bin = "/usr/bin/clangd"
+  },
+  ["ada_ls"]                = { cfg = "lsp.serverconfig.ada_ls", active = true,
+    bin = jp(M.masonbinpath, 'ada_language_server')
+  },
+  ["emmet_language_server"] = { cfg = false, active = true,
+    bin = jp(M.masonbinpath, 'emmet-language-server')
+  },
+  ["cssls"]                 = { cfg = false, active = true,
+    bin = jp(M.masonbinpath, 'vscode-css-language-server')
+  },
+  ["html"]                  = { cfg = false, active = true,
+    bin = jp(M.masonbinpath, 'vscode-html-language-server')
+  },
+  ["gopls"]                 = { cfg = "lsp.serverconfig.gopls", active = true,
+  bin = jp(M.masonbinpath, 'gopls')
+  },
+  ["vimls"]                 = { cfg = false, active = true,
+    bin = jp(M.masonbinpath, 'vim-language-server')
+  },
+  ["yamlls"]                = { cfg = false, active = true,
+    bin = jp(M.masonbinpath, 'yaml-language-server')
+  },
+  ["marksman"]              = { cfg = false, active = true,
+    bin = jp(M.masonbinpath, 'marksman')
+  },
+  ["lemminx"]               = { cfg = false, active = true,
+    bin = jp(M.localbin, 'lemminx')
+  },
+  ["taplo"]                 = { cfg = false, active = true,
+    bin = jp(M.masonbinpath, 'taplo')
+  },
+  ["lua_ls"]                = { cfg = "lsp.serverconfig.lua_ls", active = true,
+    bin = jp(M.masonbinpath, 'lua-language-server')
+  },
+  ["rust_analyzer"]         = { cfg = "lsp.serverconfig.rust_analyzer", active = false,
+    bin = jp(M.masonbinpath, 'rust-analyzer')
+  },
+  ["groovyls"]              = { cfg = false, active = false,
+    bin = jp(M.masonbinpath, 'groovy-language-server')
+  },
+  ["jsonls"]                = { cfg = false, active = true,
+    bin = jp(M.masonbinpath, "vscode-json-language-server")
+  },
+  ["zls"]                   = { cfg = "lsp.serverconfig.zls", active = true,
+    bin = jp(M.localbin, "zls")
+  },
+  ["ctags_lsp"]             = { cfg = false, active = false,
+    bin = jp(M.localbin, "ctags_lsp")
+  },
+  ["basedpyright"]          = { cfg = "lsp.serverconfig.basedpyright", active = true,
+    bin = jp(M.masonbinpath, 'basedpyright-langserver')
+  },
+  ["dartls"]                = { cfg = false, active = false,
+    bin = jp(M.masonbinpath, "dartls")
+  },
+  ["hls"]                   = { cfg = "lsp.serverconfig.hls", active = false,
+    bin = "/usr/bin/hls"
+  },
+  ["neocmake"]              = { cfg = false, active = true,
+    bin = jp(M.localbin, "neocmakelsp")
+  }
 }
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
   -- this can show multiple diagnostic messages for a single line.
@@ -97,6 +118,18 @@ M.virtual_lines = false
 -- These LSP servers won't attach to navic (used for the breadcrumbs) because they
 -- do not support the required LSP feature sets.
 M.exclude_navic = { "emmet_language_server" }
+
+
+-- settings for the nvim-jdtls plugin. See ftplugin/java.lua
+-- avoid absolute paths except for system binaries, we vim.fn.expand() it when
+-- needed
+M.jdtls = {
+  workspace_base = "~/.cache/jdtls_workspace/",
+  java_executable = "/usr/bin/java",
+  jdtls_install_dir = "~/.local/share/nvim/mason/packages/jdtls/",
+  equinox_version = "1.6.900.v20240613-2009",
+  config = "config_linux"
+}
 
 return M
 

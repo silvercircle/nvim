@@ -47,7 +47,7 @@ for k,v in pairs(LSPDEF.serverconfigs) do
         config = local_configs[k]
         Configs[k] = config
       end
-      config.default_config.cmd[1] = LSPDEF.server_bin[k] or config.default_config.cmd[1]
+      config.default_config.cmd[1] = v["bin"] or config.default_config.cmd[1]
       config.default_config.on_attach = ON_LSP_ATTACH
       config.default_config.capabilities = caps
       if have_lsp_config then

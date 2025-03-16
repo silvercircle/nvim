@@ -115,8 +115,7 @@ require("roslyn").setup({
   roslyn_version = "4.14.0-3.25054.1",
   dotnet_cmd = "dotnet",
   exe = {
-    "dotnet",
-     vim.fs.joinpath(vim.fn.stdpath("data"), "roslyn", "Microsoft.CodeAnalysis.LanguageServer.dll"),
+    "dotnet", LSPDEF.server_bin["roslyn"]
   },
   args = {
     "--stdio",

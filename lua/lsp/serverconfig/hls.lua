@@ -1,7 +1,7 @@
 local util = require "lspconfig.util"
 
 return {
-  cmd = { LSPDEF.server_bin["hls"], "--lsp" },
+  cmd = { LSPDEF.serverconfigs["hls"].bin, "--lsp" },
   filetypes = { "haskell", "lhaskell" },
   root_dir = function(filepath)
     return (

@@ -41,7 +41,7 @@ local function set_python_path(path)
 end
 
 return {
-  cmd = { LSPDEF.server_bin.basedpyright, "--stdio" },
+  cmd = { LSPDEF.serverconfigs["basedpyright"].bin, "--stdio" },
   filetypes = { "python" },
   root_dir = function(fname)
     return util.root_pattern(unpack(root_files))(fname)

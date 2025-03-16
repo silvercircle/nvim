@@ -293,16 +293,6 @@ Tweaks.tree = {
   use_git = true
 }
 
--- settings for the nvim-jdtls plugin. See ftplugin/java.lua
--- avoid absolute paths except for system binaries, we vim.fn.expand() it when
--- needed
-Tweaks.jdtls = {
-  workspace_base = "~/.cache/jdtls_workspace/",
-  java_executable = "/usr/bin/java",
-  jdtls_install_dir = "~/.local/share/nvim/mason/packages/jdtls/",
-  equinox_version = "1.6.900.v20240613-2009",
-  config = "config_linux"
-}
 -- a list of filename patterns that define a project root. This will be used as some kind of
 -- fallback when no other means of finding a project's root are successfull. This is highly
 -- incomplete and inaccurate, but you can expand this with whatever you want.
