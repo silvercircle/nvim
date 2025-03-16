@@ -1,7 +1,5 @@
 -- main configuration for lspconfig
 -- it imports config.handlers and config.misc
--- it will also try to import lsp/user.lua via pcall()
--- This is where you should add your own server configurations.
 --
 -- NOTE: This does not include configurations for C#, Java and scala, because
 -- they are all handled by separate plugins.
@@ -13,8 +11,10 @@ local navic = require("nvim-navic")
 local have_lsp_config = false -- (vim.lsp.config ~= nil)
 
 -- Customize LSP behavior via on_attach
-On_attach = function(client, buf)
-  navic.attach(client, buf)
+ON_LSP_ATTACH = function(client, buf)
+  if not vim.tbl_contains(LSPDEF.exclude_navic, client.name) then
+    navic.attach(client, buf)
+  end
   vim.g.inlay_hints_visible = true
   if client.server_capabilities.inlayHintProvider then
     vim.g.inlay_hints_visible = PCFG.lsp.inlay_hints
@@ -48,7 +48,7 @@ for k,v in pairs(LSPDEF.serverconfigs) do
         Configs[k] = config
       end
       config.default_config.cmd[1] = LSPDEF.server_bin[k] or config.default_config.cmd[1]
-      config.default_config.on_attach = On_attach
+      config.default_config.on_attach = ON_LSP_ATTACH
       config.default_config.capabilities = caps
       if have_lsp_config then
         local c = config.default_config
@@ -61,7 +61,7 @@ for k,v in pairs(LSPDEF.serverconfigs) do
     elseif type(v.cfg) == "string" then
       local config = require(v.cfg)
       config.capabilities = caps
-      config.on_attach = On_attach
+      config.on_attach = ON_LSP_ATTACH
       if have_lsp_config then
         vim.lsp.config(k, config)
       else

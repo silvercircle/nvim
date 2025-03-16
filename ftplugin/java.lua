@@ -122,7 +122,7 @@ local config = {
   },
   on_attach = function(client, buf)
     vim.lsp.codelens.refresh()
-    On_attach(client, buf)
+    ON_LSP_ATTACH(client, buf)
   end
 }
 -- This starts a new client & server,
