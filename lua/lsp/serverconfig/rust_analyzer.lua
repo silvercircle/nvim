@@ -11,9 +11,7 @@ local function rust_reload_workspace(bufnr)
 end
 
 return {
-  cmd = { Tweaks.lsp.server_bin['rust_analyzer'] },
-  on_attach = On_attach,
-  capabilities = CGLOBALS.lsp_capabilities,
+  cmd = { LSPDEF.server_bin['rust_analyzer'] },
   filetypes = { 'rust' },
   root_dir = function(fname)
     local cargo_crate_dir = util.root_pattern 'Cargo.toml' (fname)

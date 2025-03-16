@@ -1,8 +1,6 @@
 local Util = require('lspconfig.util')
 return {
-  on_attach = On_attach,
-  cmd = { Tweaks.lsp.server_bin["gopls"] },
-  capabilities = CGLOBALS.lsp_capabilities,
+  cmd = { LSPDEF.server_bin["gopls"] },
   single_file_support = true,
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
   settings = {

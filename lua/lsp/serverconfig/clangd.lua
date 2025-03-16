@@ -64,8 +64,6 @@ return {
     return util.root_pattern(unpack(clangd_root_files))(fname) or util.find_git_ancestor(fname)
   end,
   single_file_support = true,
-  on_attach = On_attach,
-  capabilities = CGLOBALS.lsp_capabilities,
   commands = {
     ClangdSwitchSourceHeader = {
       function()

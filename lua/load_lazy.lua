@@ -503,7 +503,6 @@ lazy.setup({
   },
   {
     'seblyng/roslyn.nvim',
-    cond = (Tweaks.lsp.csharp == "roslyn"),
     ft = { "cs", "razor" },
     config = function()
       require("plugins.roslyn")

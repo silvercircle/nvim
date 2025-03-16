@@ -41,9 +41,7 @@ local function set_python_path(path)
 end
 
 return {
-  capabilities = CGLOBALS.get_lsp_capabilities(),
-  on_attach = On_attach,
-  cmd = { Tweaks.lsp.server_bin.basedpyright, "--stdio" },
+  cmd = { LSPDEF.server_bin.basedpyright, "--stdio" },
   filetypes = { "python" },
   root_dir = function(fname)
     return util.root_pattern(unpack(root_files))(fname)
