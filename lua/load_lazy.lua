@@ -504,24 +504,29 @@ lazy.setup({
   {
     'seblyng/roslyn.nvim',
     ft = { "cs", "razor" },
+    init = function()
+      vim.filetype.add({
+        extension = {
+          razor = "razor",
+          cshtml = "razor",
+        }
+      })
+    end,
     config = function()
       require("plugins.roslyn")
     end,
     dependencies = {
       {
         'tris203/rzls.nvim',
+        ft = { "razor" },
         config = function()
-          require('rzls').setup {}
-          -- revert some wrong highlight redefinitions
+          require('rzls').setup({
+            capabilities = CGLOBALS.get_lsp_capabilities(),
+            on_attch = function(client, buf)
+              ON_LSP_ATTACH(client, buf)
+            end
+          })
         end,
-        init = function()
-      -- we add the razor filetypes before the plugin loads
-          vim.filetype.add({
-            extension = {
-              razor = 'razor',
-              cshtml = 'razor',
-            }})
-        end
       }
     }
   },

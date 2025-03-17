@@ -119,9 +119,8 @@ Tweaks.blink = {
   label_max_width = 40,
   -- label_description maximum width
   desc_max_width = 30,
-  -- prefetch on InsertEnter. This might improve performance but might have
-  -- memory leaks at the moment.
-  prefetch = true,
+  -- prefetch on InsertEnter. This might improve performance
+  prefetch = false,
   -- if you use a theme that does not yet support blink.cmp, set this to true
   -- to use the fallback nvim-cmp hl groups which are supported by most themes
   use_cmp_hl = false,
@@ -334,18 +333,7 @@ Tweaks.zk = {
   root_dir = "~/Documents/zettelkasten"
 }
 
--- tweaks for the fzf-lua plugin
--- fzf-lua is an alternative to telescope. It offers a bit more pickers and features, but some
--- extensions are only available for telescope. So both plugins are kept available in this confit
--- and care has been taken to make them appear visually similar and consistent.
 Tweaks.fzf = {
-  -- customize for what feature sets fzf-lua should be preferred over telescope
-  enable_keys = true,       -- use generic (grep, files...) fzf-lua pickers instead of telescope
-  prefer_for = {
-    lsp       = true,       -- use fzf-lua for lsp pickers
-    git       = true,       -- use fzf-lua for git pickers
-    selector  = true        -- use-fzf-lua for basic selectors (buffers, oldfiles)
-  },
   -- some predefined window layouts
   winopts = {
     small_no_preview     =  { row = 0.25, width=0.5, height = 0.4, preview = { hidden="hidden" } },
