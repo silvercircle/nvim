@@ -1,7 +1,9 @@
 # How to configure LSP
 
 First of all, this configuration is not meant to work **out-of-the-box** as a full-featured *IDE* or 
-something like that. It can, but this needs some additional work.
+something like that. It can, but this needs some additional work. The system has been designed with 
+flexibility in mind — to support different ways of installing language servers. It is only tested on 
+Linux (including WSL)
 
 !!! Note
 
