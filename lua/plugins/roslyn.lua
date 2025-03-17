@@ -78,6 +78,9 @@ local on_attach = function(client, buf)
   fix_semantic_tokens(client)
 end
 
+-- local capabilities = vim.deepcopy(CGLOBALS.get_lsp_capabilities())
+-- capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
+
 require("roslyn").setup({
   config = {
     filetypes = { "cs", "razor" },
@@ -114,28 +117,12 @@ require("roslyn").setup({
   },
   roslyn_version = "4.14.0-3.25054.1",
   dotnet_cmd = "dotnet",
-  exe = {
-    "dotnet", LSPDEF.server_bin["roslyn"]
-  },
+  exe = { "dotnet", LSPDEF.server_bin["roslyn"] },
   args = {
     "--stdio",
     "--logLevel=Information",
     "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
-    "--razorSourceGenerator=" .. vim.fs.joinpath(
-      vim.fn.stdpath('data'),
-      -- 'mason',
-      -- 'packages',
-      'roslyn',
-      'Microsoft.CodeAnalysis.Razor.Compiler.dll'
-    ),
-    "--razorDesignTimePath=" .. vim.fs.joinpath(
-      vim.fn.stdpath('data'),
-      'mason',
-      'packages',
-      'rzls',
-      'libexec',
-      'Targets',
-      'Microsoft.NET.Sdk.Razor.DesignTime.targets'
-    )
-  },
+  "--razorSourceGenerator=" .. LSPDEF.roslyn.razor_compiler,
+  "--razorDesignTimePath=" ..  LSPDEF.roslyn.razor_designer
+  }
 })

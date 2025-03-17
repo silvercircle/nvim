@@ -644,7 +644,7 @@ function M.get_lsp_capabilities()
       M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
       M.lsp_capabilities = vim.tbl_deep_extend("force", M.lsp_capabilities, require("cmp_nvim_lsp").default_capabilities())
     end
-    M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
+    M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = LSPDEF.use_dynamic_registration
     M.lsp_capabilities.textDocument.completion.editsNearCursor = true
   end
   return M.lsp_capabilities

@@ -137,6 +137,26 @@ M.jdtls = {
   config = "config_linux"
 }
 
+-- definitions for the roslyn plugin. You may need to change this, depending on the
+-- locations you have installed the Roslyn and rzls language servers.
+M.roslyn = {
+  razor_compiler = vim.fs.joinpath(
+    vim.fn.stdpath("data"),
+    -- 'mason',
+    -- 'packages',
+    "roslyn",
+    "Microsoft.CodeAnalysis.Razor.Compiler.dll"
+  ),
+  razor_designer = vim.fs.joinpath(
+    vim.fn.stdpath("data"),
+    "mason",
+    "packages",
+    "rzls",
+    "libexec",
+    "Targets",
+    "Microsoft.NET.Sdk.Razor.DesignTime.targets"
+  )
+}
 -- local custom lsp definitions that are not provided by nvim-lspconfig.
 -- they still need an entry in serverconfigs.
 M.local_configs = {
@@ -152,6 +172,7 @@ M.local_configs = {
 }
 
 -- set to true to get some debugging output via notifications
-M.debug = false
+M.debug = true
+M.use_dynamic_registration = true
 return M
 
