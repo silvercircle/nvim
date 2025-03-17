@@ -1,38 +1,41 @@
 -- this is the main anchor for lsp server configuration. If you want to personalize this,
 -- make a copy and name it lspdef_user.lua. If this exists (in the same directory as this 
 -- lspdef.lua file), it will be used instead and you will not lose your settings when updating
--- the config with git pull.
+-- this file via git.
 local jp = vim.fs.joinpath
 
 local M = {}
 
 -- these non-standard paths are known and can be used for lsp binaries. All standard paths
 -- like /usr/bin, /usr/local/bin would also work
+
+-- you can add your own paths as needed, use vim.fs.joinpath() to construct them
+-- in os-agnostic ways. Remember, on Windows you need to double-escape the \ or just
+-- use / instead (it will be normalized automatically)
 M.masonbasepath   = jp(vim.fn.stdpath('data'), '/mason/')
 M.masonbinpath    = jp(M.masonbasepath, 'bin/')
 M.homepath        = vim.fn.getenv('HOME')
 M.localbin        = jp(M.homepath, '/.local/bin/')
 
--- edit this to reflect your installation directories for lsp servers. Most will
--- be in masonbinpath. Also supported are $HOME/.local/.bin and $HOME itself
--- for everything else, you can use full paths in the server_bin table.
--- for LSP servers that are in $PATH, the executable name alone should be enough.
--- This paths should work on most Linux systems, but you have to adjust them for 
--- Windows or macOS
+-- binaries for external LSP plugins not covered by lspconfig
 M.server_bin = {
   metals        =   '/home/alex/.local/share/coursier/bin/metals',
   roslyn        =   jp(vim.fn.stdpath("data"), "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll"),
 }
 
 -- serverconfigs lists all servers which will be configured. Set active to false
--- to ignore a server. Set cfg to false to use the defaults from the
--- nvim-lspconfig registry. The server binary locations from server_bin will still
--- be used when using a default config.
+-- to entirely ignore a server. Set cfg to false to use the defaults from the
+-- nvim-lspconfig registry.
 
 -- Set cfg to a valid lua module to use your own configuration
 -- For example: You can set cfg to "lsp.user.myserver" and then put the config in
 -- lua/lsp/user/myserver.lua. The config file must return a table with configuration
 -- options. See the examples like rust_analyzer.lua or lua_ls.lua.
+
+-- cmd follows the rules for LSP server configurations. It's a list of strings, the
+-- first element must be the executable of the language server. Unless it can be found in
+-- in your $PATH, a full path must be given. The remaining entries of cmd will be passed
+-- as command line args to the LSP
 M.serverconfigs = {
   ["ts_ls"]                 = { cfg = false, active = true,
     cmd = { jp(M.masonbinpath, 'typescript-language-server') }
@@ -52,7 +55,7 @@ M.serverconfigs = {
             "--completion-style=detailed", "--function-arg-placeholders=1",
             "--inlay-hints=true" }
   },
-  ["ada_ls"]                = { cfg = "lsp.serverconfig.ada_ls", active = true,
+  ["ada_ls"]                = { cfg = "lsp.serverconfig.ada_ls", active = false,
     cmd = { jp(M.masonbinpath, 'ada_language_server') }
   },
   ["emmet_language_server"] = { cfg = false, active = true,
@@ -77,7 +80,7 @@ M.serverconfigs = {
     cmd = { jp(M.masonbinpath, 'marksman') }
   },
   ["lemminx"]               = { cfg = false, active = true,
-    cmd = { jp(M.localbin, 'lemminx') }
+    cmd = { jp(M.localbin, 'lemminx-linux') }
   },
   ["taplo"]                 = { cfg = false, active = true,
     cmd = { jp(M.masonbinpath, 'taplo') }
@@ -148,6 +151,7 @@ M.local_configs = {
   }
 }
 
-M.debug = true
+-- set to true to get some debugging output via notifications
+M.debug = false
 return M
 

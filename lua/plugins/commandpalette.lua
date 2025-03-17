@@ -386,7 +386,7 @@ require("commandpicker").add({
         cwd = dir, query = vim.fn.expand("%:t"), winopts = fzf_tweaks.winopts.std_preview_top })
     end,
     keys = {
-      { "n", "tdf",                                 noremap },
+      { "n", "tdf", noremap },
       { "i", Tweaks.keymap.fzf_prefix .. "f", noremap }
     },
     category = "@Neovim"
@@ -399,7 +399,7 @@ require("commandpicker").add({
         cwd = dir, winopts = FWO("std_preview_top", "TODO list (current directory)") })
     end,
     keys = {
-      { "n", "tdo",                                 noremap },
+      { "n", "tdo", noremap },
       { "i", Tweaks.keymap.fzf_prefix .. "t", noremap }
     },
     category = "@Neovim"
@@ -411,7 +411,7 @@ require("commandpicker").add({
         cwd = lutils.getroot_current(), winopts = FWO("std_preview_top", "TODO list (project root)") })
     end,
     keys = {
-      { "n", "tdp",                                     noremap },
+      { "n", "tdp", noremap },
       { "i", Tweaks.keymap.fzf_prefix .. "<C-t>", noremap }
     },
     category = "@Neovim"
