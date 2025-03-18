@@ -372,6 +372,7 @@ autocmd({ 'LspAttach' }, {
       require("outline").refresh()
       vim.schedule(function() refresh_outline_providerinfo() end)
     end
+    if Wsplit.content == "info" then Wsplit.refresh() end
   end
 })
 

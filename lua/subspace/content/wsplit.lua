@@ -143,6 +143,7 @@ function Wsplit.toggle_content()
   elseif Wsplit.content == "weather" then
     Wsplit.content = "info"
   end
+  Wsplit.freeze = false
   Wsplit.on_content_change()
 end
 
@@ -544,6 +545,18 @@ function Wsplit.refresh()
         local val = CGLOBALS.get_buffer_var(curbuf, "tsc")
         table.insert(lines, Wsplit.prepare_line(" Treesitter: " .. treesitter,
           "Context: " .. ((val == true) and "On" or "Off"), 4))
+
+        local lsp_clients = vim.lsp.get_clients({ bufnr = curbuf })
+        if #lsp_clients > 0 then
+          local line, k = " LSP: ", 0
+          for _,v in pairs(lsp_clients) do
+            line = line .. string.format(k == 0 and "%d:%s" or ", %d:%s", v.id, v.name)
+            k = k + 1
+          end
+          table.insert(lines, line)
+        else
+          table.insert(lines, Wsplit.prepare_line(" LSP ", "None attached", 4))
+        end
         table.insert(lines, " ")
         -- add the cookie
         if Wsplit.cookie ~= nil and #Wsplit.cookie >= 1 then
@@ -565,6 +578,7 @@ function Wsplit.refresh()
       vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "BlueBold", 7, 0, Wsplit.win_width + 1)
       vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "BlueBold", 8, 0, Wsplit.win_width + 1)
       vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "PurpleBold", 9, 0, Wsplit.win_width + 1)
+      vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "String", 10, 0, Wsplit.win_width + 1)
       vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", false)
     end
   elseif Wsplit.content == "weather" then

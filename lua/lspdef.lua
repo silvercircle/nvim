@@ -172,7 +172,7 @@ M.local_configs = {
 }
 
 -- set to true to get some debugging output via notifications
-M.debug = true
+M.debug = false
 M.use_dynamic_registration = true
 return M
 
