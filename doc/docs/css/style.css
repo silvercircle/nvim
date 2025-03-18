@@ -13,6 +13,11 @@ header.md-header, nav.md-tabs {
   text-align: justify !important;
 }
 
+mark > p {
+  text-align: justify !important;
+  padding: 0 5px;
+}
+
 .md-grid {
   max-width: 1440px;
 }

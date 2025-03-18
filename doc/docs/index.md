@@ -14,6 +14,24 @@ and hidden files start with a dot in their filenames*. Hence the name dotfiles.
 Neovim is no different. Its configuration is normally written in the Lua programming language and — on 
 UNIX-like operating systems — resides under `$HOME/.config/nvim`
 
+## Quick overview
+This Neovim configuration is meant to be a general purpose configuration targeting many different use 
+cases. It supports a wide range of languages out-of-the-box and can be expanded with relative ease.
+
+## Highlights
+* Support for many most common languages. C/C++, C#, Java, Python, TypeScript/JavaScript, Scala, HTML, 
+  CSS, JSON, Lua, Markdown, LaTeX and many more.
+
+* All supported languages have support for Treesitter and are ready for LSP
+
+* auto-completion via either blink or nvim-cmp plugins.
+
+* Various means of managing files inside the editor. NvimTree and Oil are integrated by default.
+
+* Integrated theme engine that support Treesitter and semantic highlighting. At the moment, it comes with 
+  four different color schemes, based on Gruvbox, Dracula, OneDark and Sonokai. Each scheme has variants 
+  to tweak the background color tone, contrast and color-richness.
+
 ## [LSP setup](LSP/index.md)
 This is probably the most important and most complex setup task. While a lot has been pre-configured you 
 will likely still have to configure quite a few things.

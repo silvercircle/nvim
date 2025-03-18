@@ -1,20 +1,31 @@
 # Roslyn (C#)
 
-LSP support for C# is difficult and covered by dedicated plugins supporting the Roslyn-based C#-devkit 
+LSP support for C# is difficult and covered by dedicated plugins supporting the Roslyn-based C# Dev Kit 
 language server by Microsoft. This is a far better solution than 
 [OmniSharp](https://github.com/OmniSharp/omnisharp-roslyn) which now seems to be in maintenance mode, no 
-longer receiving major updates.
+longer receiving major updates. Since the Roslyn language servers does some non-standard things not 
+covered by Neovim's LSP client implementation, it's easier to integrate it with an extra plugin.
 
 ## Requirements
 
-* A [working installation](https://dotnet.microsoft.com/en-us/download) of Microsoft .NET (aka DotNet).
+* A [working installation](https://dotnet.microsoft.com/en-us/download) of Microsoft .NET (aka DotNet). 
+  The command `dotnet` must be on your `$PATH` and it should at least be version 8. Find out with `dotnet 
+  --version`.
 
 ## Neovim Plugins used
 
 The relevant plugins for C# support on this configuration are [the Roslyn 
 plugin](https://github.com/seblyng/roslyn.nvim) and the [Razor language server 
 plugin](https://github.com/tris203/rzls.nvim). The latter is optional, but recommended if you plan to 
-edit Razor/Blazor pages in your project.
+edit Razor/Blazor pages in your project. The configuration file for the plugin is 
+[`lua/plugins/roslyn.lua`](https://github.com/silvercircle/nvim/blob/main/lua/plugins/roslyn.lua)
+
+## Supported features
+
+* Code analysis, diagnostics
+* Formatting (including `.editorconfig` support)
+* auto-completion, symbol search, including workspace symbols.
+* Semantic highlighting
 
 ## For installing the language server, you basically have two options
 
