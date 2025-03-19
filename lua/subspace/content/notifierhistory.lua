@@ -65,7 +65,7 @@ local show_history = function(layout)
     layout = layout,
     win = {
       preview = {
-        wo = { conceallevel = 2 }
+        wo = { wrap = true, signcolumn = "no", number = false, statuscolumn = "", conceallevel = 2 }
       }
     },
     format = function(item, _)
