@@ -21,6 +21,7 @@ return {
     end
     return Util.find_git_ancestor(fname)
   end,
+  filetypes = { "lua" },
   single_file_support = true,
   settings = {
     Lua = {
