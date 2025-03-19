@@ -27,6 +27,11 @@ local cookie_timer_interval = 900000
 
 local autocmd_set = false -- remember whether the OptionSet autocmd has been set
 
+-- shorten some lsp names.
+local lsp_server_abbrev = {
+  ["emmet_language_server"] = "emmet"
+}
+
 -- this translates condition codes (single letters) to actual readable conditions. This is API specific
 -- and right now only implemented for the VC (visual crossing) and CC (tomorrow.io, formerly climacell)
 -- this also requires a NERD font.
@@ -550,7 +555,7 @@ function Wsplit.refresh()
         if #lsp_clients > 0 then
           local line, k = " LSP: ", 0
           for _,v in pairs(lsp_clients) do
-            line = line .. string.format(k == 0 and "%d:%s" or ", %d:%s", v.id, v.name)
+            line = line .. string.format(k == 0 and "%d:%s" or ", %d:%s", v.id, lsp_server_abbrev[v.name] or v.name)
             k = k + 1
           end
           table.insert(lines, line)

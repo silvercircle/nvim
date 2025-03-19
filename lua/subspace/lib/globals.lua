@@ -57,6 +57,7 @@ function M.open_outline()
   end
   local id_win = CGLOBALS.is_outline_open()
   if id_win and vim.api.nvim_win_is_valid(id_win) then
+    vim.api.nvim_win_set_option(id_win, "winhl", "Normal:TreeNormalNC,CursorLine:TreeCursorLine")
     vim.api.nvim_win_set_width(id_win, PCFG.outline.width)
   end
 end
