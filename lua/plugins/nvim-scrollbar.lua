@@ -86,7 +86,8 @@ require("scrollbar").setup({
     },
   },
   excluded_buftypes = {
-    "terminal"
+    "terminal",
+    "nofile"
   },
   excluded_filetypes = {
     "prompt",
@@ -105,7 +106,8 @@ require("scrollbar").setup({
     "snacks_picker_list",
     "snacks_picker_input",
     "snacks_input",
-    "neominimap"
+    "neominimap",
+    "oil_preview"
   },
   autocmd = {
     render = {

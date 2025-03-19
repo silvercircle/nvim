@@ -326,10 +326,9 @@ function Wsplit.open(_weatherfile)
     vim.api.nvim_buf_set_option(Wsplit.bufid, "buftype", "nofile")
     vim.api.nvim_win_set_option(Wsplit.winid, "list", false)
     vim.api.nvim_win_set_option(Wsplit.winid, "statusline", "Weather")
-    vim.cmd(
-      "set winfixheight | set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:TreeNormalNC | set foldcolumn=0 | set statuscolumn=%#TreeNormalNC#\\  | setlocal nocursorline"
-    )
-    vim.fn.win_gotoid(curwin)
+    vim.cmd("set winfixheight | set filetype=weather | set nonumber | set signcolumn=no")
+    vim.cmd("set winhl=Normal:TreeNormalNC | set foldcolumn=0 | set statuscolumn=\\  | setlocal nocursorline")
+      vim.fn.win_gotoid(curwin)
   end
   Wsplit.refresh()
   Wsplit.installwatch()
