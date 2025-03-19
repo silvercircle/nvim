@@ -1,7 +1,6 @@
 --- global functions for my Neovim configuration
 local M = {}
 
-M.winid_bufferlist = 0
 M.main_winid = 0
 M.cur_bufsize = 0
 M.outline_is_open = false
@@ -311,38 +310,9 @@ function M.toggle_wrap()
   require("lualine").refresh()
 end
 
--- split the file tree horizontally
---- @param _factor number:  if _factor is betweeen 0 and 1 it is interpreted as percentage
---  of the window to split. Otherwise as an absolute number. The default is set to 1/3 (0.33)
---- @return number: the window id, 0 if the process failed
-function M.splittree(_factor)
-  local factor = math.abs((_factor ~= nil and _factor > 0) and _factor or 0.33)
-  local winid = M.findWinByFiletype(Tweaks.tree.filetype)
-  if #winid > 0 then
-    local splitheight
-    if factor < 1 then
-      splitheight = vim.fn.winheight(winid[1]) * factor
-    else
-      splitheight = factor
-    end
-    vim.fn.win_gotoid(winid[1])
-    vim.cmd("below " .. splitheight .. " sp")
-    M.winid_bufferlist = vim.fn.win_getid()
-    vim.api.nvim_win_set_option(M.winid_bufferlist, "list", false)
-    vim.api.nvim_win_set_option(M.winid_bufferlist, "statusline", "Buffer List")
-    vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:TreeNormalNC | set foldcolumn=0")
-    vim.fn.win_gotoid(M.main_winid)
-    return M.winid_bufferlist
-  end
-  return 0
-end
-
 --- close all quickfix windows
 function M.close_qf_or_loc()
   local winid = M.findWinByFiletype("qf")
-  if #winid == 0 then
-    winid = M.findWinByFiletype("replacer")
-  end
   if #winid > 0 then
     for i, _ in pairs(winid) do
       if winid[i] > 0 and vim.api.nvim_win_is_valid(winid[i]) then

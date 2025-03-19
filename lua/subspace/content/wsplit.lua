@@ -16,6 +16,7 @@ Wsplit.content = "info"    -- content type (info or weather as of now)
 Wsplit.content_winid = nil -- window of interest.
 Wsplit.freeze = false      -- do not refresh when set
 Wsplit.cookie = {}
+Wsplit.winid_bufferlist = nil
 
 Wsplit.cookie_source = Tweaks.cookie_source
 
@@ -112,6 +113,32 @@ local fdm = {
   marker = "Marker",
   diff = "Diff",
 }
+
+-- split the file tree horizontally
+--- @param _factor number:  if _factor is betweeen 0 and 1 it is interpreted as percentage
+--  of the window to split. Otherwise as an absolute number. The default is set to 1/3 (0.33)
+--- @return number: the window id, 0 if the process failed
+function Wsplit.splittree(_factor)
+  local factor = math.abs((_factor ~= nil and _factor > 0) and _factor or 0.33)
+  local winid = CGLOBALS.findWinByFiletype(Tweaks.tree.filetype)
+  if #winid > 0 then
+    local splitheight
+    if factor < 1 then
+      splitheight = vim.fn.winheight(winid[1]) * factor
+    else
+      splitheight = factor
+    end
+    vim.fn.win_gotoid(winid[1])
+    vim.cmd("below " .. splitheight .. " sp")
+    Wsplit.winid_bufferlist = vim.fn.win_getid()
+    vim.api.nvim_win_set_option(Wsplit.winid_bufferlist, "list", false)
+    vim.api.nvim_win_set_option(Wsplit.winid_bufferlist, "statusline", "Buffer List")
+    vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:TreeNormalNC | set foldcolumn=0")
+    vim.fn.win_gotoid(CGLOBALS.main_winid)
+    return Wsplit.winid_bufferlist
+  end
+  return 0
+end
 
 -- set minimum height of the window. Depends on the content type.
 function Wsplit.set_minheight()
@@ -313,7 +340,7 @@ end
 function Wsplit.openleftsplit(_weatherfile)
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   Wsplit.weatherfile = vim.fn.expand(_weatherfile)
-  Wsplit.winid = CGLOBALS.splittree(CFG.weather.required_height)
+  Wsplit.winid = Wsplit.splittree(CFG.weather.required_height)
   if Wsplit.winid == 0 then
     Wsplit.close()
     return
