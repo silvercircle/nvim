@@ -303,7 +303,7 @@ lazy.setup({
       }
     },
     config = function()
-      require("lsp.defaults")
+      if not CFG.have_lsp_config then require("lsp.defaults") end
     end
   },
   {

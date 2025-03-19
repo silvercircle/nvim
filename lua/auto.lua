@@ -386,19 +386,35 @@ local function _delcmd()
   end
 end
 
-delcmd = autocmd( { 'BufReadPost' }, {
+delcmd = autocmd({ "BufReadPost" }, {
   callback = function()
     if _delayloaded == true then
       return
     end
     _delayloaded = true
     vim.defer_fn(function() require("plugins.commandpalette") end, 200)
-    if CFG.plain == false then
-      --vim.system({ 'tmux', 'set', '-qg', 'allow-passthrough', 'all' }, { text = true })
-    end
     vim.schedule(function() _delcmd() end)
   end
 })
+
+if CFG.have_lsp_config then
+  local lspcmd = nil
+  local lsp_done = false
+
+  lspcmd = autocmd({ "BufReadPre", "BufNewFile" }, {
+    callback = function()
+      if not lsp_done then
+        require("lsp.defaults")
+        lsp_done = true
+      end
+      vim.schedule(function()
+        if lspcmd ~= nil and lsp_done == true then
+          vim.api.nvim_del_autocmd(lspcmd)
+        end
+      end)
+    end
+  })
+end
 
 autocmd("TextYankPost", {
   callback = function()

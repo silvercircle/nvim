@@ -4,11 +4,12 @@
 -- NOTE: This does not include configurations for C#, Java and scala, because
 -- they are all handled by separate plugins.
 
-local lspconfig = require("lspconfig")
+local lspconfig
+if not CFG.have_lsp_config then
+  lspconfig = require("lspconfig")
+end
 local Configs = require("lspconfig.configs")
 local navic = require("nvim-navic")
-
-local have_lsp_config = (vim.lsp.config ~= nil)
 
 ---@type table<string, table>
 local lsp_filetypes = {}
@@ -51,11 +52,12 @@ if v.cfg == false then
       config.default_config.on_attach = ON_LSP_ATTACH
       config.default_config.capabilities = caps
       config.default_config.name = k
-      if have_lsp_config then
+      if CFG.have_lsp_config then
         local c = config.default_config
+        c.root_dir_fn = c.root_dir
         c.settings = config.settings or {}
         c.commands = config.commands or {}
-        table.insert(lsp_filetypes, { config = "lspconfig.configs." .. k, ft = c.lsp_filetypes })
+        table.insert(lsp_filetypes, { config = "lspconfig.configs." .. k, ft = c.filetypes })
         vim.iter(c.filetypes):map(function(kk)
           if not vim.tbl_contains(auto_filetypes, kk) then table.insert(auto_filetypes, kk) end
         end)
@@ -72,8 +74,9 @@ if v.cfg == false then
       else
         config.cmd[1] = v.cmd[1]
       end
-      if have_lsp_config then
-        table.insert(lsp_filetypes, { config = v.cfg, ft = config.lsp_filetypes } )
+      if CFG.have_lsp_config then
+        config.root_dir_fn = config.root_dir
+        table.insert(lsp_filetypes, { config = v.cfg, ft = config.filetypes } )
         vim.iter(config.filetypes):map(function(kk)
           if not vim.tbl_contains(auto_filetypes, kk) then table.insert(auto_filetypes, kk) end
         end)
@@ -85,21 +88,26 @@ if v.cfg == false then
 end
 
 -- this autocommand watches all filetypes for which we have an lsp
--- and launches them. 
-vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = auto_filetypes,
-  callback = function(args)
-    for _,v in pairs(lsp_filetypes) do
-      if vim.tbl_contains(v.ft, args.match) then
-        local s, c = pcall(require, v.config)
-        if s then
-          vim.lsp.start(c.default_config or c)
+-- and launches them.
+if CFG.have_lsp_config then
+  vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = auto_filetypes,
+    callback = function(args)
+      for _, v in pairs(lsp_filetypes) do
+        if vim.tbl_contains(v.ft, args.match) then
+          local s, c = pcall(require, v.config)
+          if s then
+            local conf = c.default_config or c
+            conf.root_dir = conf.root_dir_fn(vim.fn.expand("%:p:h"))
+            vim.lsp.start(conf)
+          end
         end
       end
-    end
-  end,
-  group = nil
-})
+    end,
+    group = nil
+  })
+end
+
 require("lsp.config.handlers")
 require("lsp.config.misc")
 
