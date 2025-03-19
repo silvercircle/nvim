@@ -57,15 +57,8 @@ else
   o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
 end
 o.foldcolumn = "1"
--- configure folding. Use Treesitter expressions when treesitter is enabled. Otherwise use 
--- indentation-based folding.
-if CFG.treesitter == true then
-  vim.wo.foldmethod = "expr"
-  vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-else
-  vim.wo.foldmethod = "indent"
-  vim.wo.foldexpr = ""
-end
+vim.wo.foldmethod = "expr"
+vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 o.foldlevelstart = 99
 o.foldnestmax = 10
@@ -104,4 +97,8 @@ o.cmdheight=Tweaks.cmdheight
 o.cinoptions=":N,=4"
 o.splitbelow = true
 vim.opt.matchpairs:append("<:>")
+
+if CFG.nightly then
+  vim.o.winborder="single"
+end
 -- o.secure=true
