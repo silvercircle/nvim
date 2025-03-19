@@ -567,6 +567,11 @@ lazy.setup({
     "sindrets/diffview.nvim",
     lazy = true,
     cmd = { "DiffviewOpen" }
+  },
+  {
+    'nmac427/guess-indent.nvim',
+    event = "UIEnter",
+    config = function() require('guess-indent').setup {} end,
   }
 },
 {
