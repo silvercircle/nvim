@@ -1,6 +1,9 @@
+local util = require('lspconfig.util')
+
 local function clangd_switch_source_header(bufnr)
   local method_name = 'textDocument/switchSourceHeader'
-  local client = require("lsp.defaults").get_active_client_by_name(bufnr, 'clangd')
+  bufnr = util.validate_bufnr(bufnr)
+  local client = util.get_active_client_by_name(bufnr, 'clangd')
   if not client then
     return vim.notify(('method %s is not supported by any servers active on the current buffer'):format(method_name))
   end
@@ -19,7 +22,7 @@ end
 
 local function clangd_symbol_info()
   local bufnr = vim.api.nvim_get_current_buf()
-  local clangd_client = require("lsp.defaults").get_active_client_by_name(bufnr, 'clangd')
+  local clangd_client = util.get_active_client_by_name(bufnr, 'clangd')
   if not clangd_client or not clangd_client.supports_method 'textDocument/symbolInfo' then
     return vim.notify('Clangd client not found', vim.log.levels.ERROR)
   end
@@ -54,6 +57,9 @@ local clangd_root_files = {
 
 return {
   filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+  root_dir = function(fname)
+    return util.root_pattern(unpack(clangd_root_files))(fname) or util.find_git_ancestor(fname)
+  end,
   root_markers = clangd_root_files,
   single_file_support = true,
   commands = {

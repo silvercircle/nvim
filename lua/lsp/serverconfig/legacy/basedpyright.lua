@@ -1,3 +1,5 @@
+local util = require 'lspconfig.util'
+
 local root_files = {
   'pyproject.toml',
   'setup.py',
@@ -41,6 +43,9 @@ end
 return {
   cmd = { LSPDEF.serverconfigs["basedpyright"].cmd[1], "--stdio" },
   filetypes = { "python" },
+  root_dir = function(fname)
+    return util.root_pattern(unpack(root_files))(fname)
+  end,
   root_markers = root_files,
   single_file_support = true,
   settings = {

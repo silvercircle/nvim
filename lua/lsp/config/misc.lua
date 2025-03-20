@@ -56,5 +56,3 @@ do
   vim.fn.sign_define("DiagnosticSignInfo", { text = "◉", texthl = "BlueSign" })
   vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "GreenSign" })
 end
--- set a border for the default hover and diagnostics windows
-require('lspconfig.ui.windows').default_options.border = PCFG.float_borders

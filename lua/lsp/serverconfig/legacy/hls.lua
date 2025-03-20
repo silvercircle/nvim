@@ -1,7 +1,14 @@
+local util = require "lspconfig.util"
+
 return {
   cmd = { LSPDEF.serverconfigs["hls"].cmd[1], "--lsp" },
   filetypes = { "haskell", "lhaskell" },
-  root_markers = { "hie.yaml", "stack.yaml", "cabal.project", "*.cabal", "package.yaml" },
+  root_dir = function(filepath)
+    return (
+      util.root_pattern("hie.yaml", "stack.yaml", "cabal.project")(filepath)
+      or util.root_pattern("*.cabal", "package.yaml")(filepath)
+    )
+  end,
   single_file_support = true,
   settings = {
     haskell = {

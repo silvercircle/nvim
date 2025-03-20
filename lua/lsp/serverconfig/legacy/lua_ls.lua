@@ -1,6 +1,26 @@
+local Util = require('lspconfig.util')
+local lua_root_files = {
+  '.luarc.json',
+  '.luarc.jsonc',
+  '.luacheckrc',
+  '.stylua.toml',
+  'stylua.toml',
+  'selene.toml',
+  'selene.yml',
+}
+
 return {
-  root_markers = {'.luarc.json', '.luarc.jsonc', '.luacheckrc', '.stylua.toml', 'stylua.toml', 'selene.toml',
-                  'selene.yml' },
+  root_dir = function(fname)
+    local root = Util.root_pattern(unpack(lua_root_files))(fname)
+    if root and root ~= vim.env.HOME then
+      return root
+    end
+    root = Util.root_pattern 'lua/' (fname)
+    if root then
+      return root .. '/lua/'
+    end
+    return Util.find_git_ancestor(fname)
+  end,
   filetypes = { "lua" },
   single_file_support = true,
   settings = {

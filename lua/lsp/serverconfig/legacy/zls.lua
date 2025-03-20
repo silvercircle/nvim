@@ -1,3 +1,4 @@
+local Util = require('lspconfig.util')
 vim.g.zig_fmt_parse_errors = 0
 vim.g.zig_fmt_autosave = 0
 
@@ -8,6 +9,6 @@ return {
     end
   end,
   filetypes = { "zig", "zir" },
-  root_markers = { "zls.json", "build.zig", ".git" },
+  root_dir = Util.root_pattern("zls.json", "build.zig", ".git"),
   single_file_support = true,
 }

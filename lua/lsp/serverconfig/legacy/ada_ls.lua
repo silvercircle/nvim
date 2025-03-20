@@ -1,7 +1,8 @@
+local Util = require('lspconfig.util')
 return {
   cmd = { LSPDEF.serverconfigs["ada_ls"].cmd[1] },
   filetypes = { "ada" },
-  root_markers = { "Makefile", ".git", "*.gpr", "*.adc" },
+  root_dir = Util.root_pattern("Makefile", ".git", "*.gpr", "*.adc"),
   lspinfo = function(cfg)
     local extra = {}
     local function find_gpr_project()

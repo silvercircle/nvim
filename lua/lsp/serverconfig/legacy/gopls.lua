@@ -1,3 +1,4 @@
+local Util = require('lspconfig.util')
 return {
   single_file_support = true,
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
@@ -19,6 +20,8 @@ return {
       },
     }
   },
-  root_markers = { "go.work", "go.mod "}
+  root_dir = function(fname)
+    return Util.root_pattern "go.work" (fname) or Util.root_pattern("go.mod", ".git")(fname)
+  end
 }
 

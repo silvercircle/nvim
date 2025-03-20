@@ -4,17 +4,7 @@
 -- NOTE: This does not include configurations for C#, Java and scala, because
 -- they are all handled by separate plugins.
 
-local lspconfig
-if not CFG.have_lsp_config then
-  lspconfig = require("lspconfig")
-end
-local Configs = require("lspconfig.configs")
 local navic = require("nvim-navic")
-
----@type table<string, table>
-local lsp_filetypes = {}
--- list of filetypes used for the autocmd pattern
-local auto_filetypes = {}
 
 -- Customize LSP behavior via on_attach
 ON_LSP_ATTACH = function(client, buf)
@@ -36,78 +26,53 @@ end
 
 local caps = CGLOBALS.get_lsp_capabilities()
 
+vim.lsp.config("*", {
+  on_attach = ON_LSP_ATTACH,
+  capabilities = caps
+})
+
 for k,v in pairs(LSPDEF.serverconfigs) do
   if v.active == true then
-if v.cfg == false then
-      local s, config = pcall(require, "lspconfig.configs." .. k)
-      if not s then
-        config = LSPDEF.local_configs[k]
-        Configs[k] = config
-      end
+    if v.cfg == false then
+      local config = require("lsp.serverconfig." .. k)
       if v.cmd and #v.cmd == 1 then
-        config.default_config.cmd[1] = v["cmd"][1] or config.default_config.cmd[1]
+        config.cmd[1] = v["cmd"][1] or config.cmd[1]
       elseif v.cmd then
-        config.default_config.cmd = v.cmd
+        config.cmd = v.cmd
       end
-      config.default_config.on_attach = ON_LSP_ATTACH
-      config.default_config.capabilities = caps
-      config.default_config.name = k
-      if CFG.have_lsp_config then
-        local c = config.default_config
-        c.root_dir_fn = c.root_dir
-        c.settings = config.settings or {}
-        c.commands = config.commands or {}
-        table.insert(lsp_filetypes, { config = "lspconfig.configs." .. k, ft = c.filetypes })
-        vim.iter(c.filetypes):map(function(kk)
-          if not vim.tbl_contains(auto_filetypes, kk) then table.insert(auto_filetypes, kk) end
-        end)
-      else
-        lspconfig[k].setup({})
-      end
+      config.name = k
+      vim.lsp.config[k] = config
+      vim.lsp.enable(k, true)
     elseif type(v.cfg) == "string" then
       local config = require(v.cfg)
       config.name = k
-      config.capabilities = caps
-      config.on_attach = ON_LSP_ATTACH
       if config.cmd == nil then
         config.cmd = v.cmd
       else
         config.cmd[1] = v.cmd[1]
       end
       if CFG.have_lsp_config then
-        config.root_dir_fn = config.root_dir
-        table.insert(lsp_filetypes, { config = v.cfg, ft = config.filetypes } )
-        vim.iter(config.filetypes):map(function(kk)
-          if not vim.tbl_contains(auto_filetypes, kk) then table.insert(auto_filetypes, kk) end
-        end)
-      else
-        lspconfig[k].setup(config)
+        config.root_dir = nil
+        vim.lsp.config[k] = config
+        vim.lsp.enable(k, true)
       end
     end
   end
 end
 
--- this autocommand watches all filetypes for which we have an lsp
--- and launches them.
-if CFG.have_lsp_config then
-  vim.api.nvim_create_autocmd({ "FileType" }, {
-    pattern = auto_filetypes,
-    callback = function(args)
-      for _, v in pairs(lsp_filetypes) do
-        if vim.tbl_contains(v.ft, args.match) then
-          local s, c = pcall(require, v.config)
-          if s then
-            local conf = c.default_config or c
-            conf.root_dir = conf.root_dir_fn(vim.fn.expand("%:p:h"))
-            vim.lsp.start(conf)
-          end
-        end
-      end
-    end,
-    group = nil
-  })
-end
-
 require("lsp.config.handlers")
 require("lsp.config.misc")
+
+local M = {}
+
+function M.get_active_client_by_name(bufnr, servername)
+  --TODO(glepnir): remove this for loop when we want only support 0.10+
+  for _, client in pairs(vim.lsp.get_clients { bufnr = bufnr }) do
+    if client.name == servername then
+      return client
+    end
+  end
+end
+
+return M
 
