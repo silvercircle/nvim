@@ -397,16 +397,18 @@ delcmd = autocmd({ "BufReadPost" }, {
   end
 })
 
-if CFG.have_lsp_config then
-  local lspcmd = nil
-  local lsp_done = false
-
+if LSPDEF.auto_shutdown then
   autocmd({ "BufDelete" }, {
     callback = function(_)
       vim.defer_fn(function() require("subspace.lib").StopLsp(true) end, 2000)
     end,
     group = agroup_views
   })
+end
+
+if CFG.have_lsp_config then
+  local lspcmd = nil
+  local lsp_done = false
 
   lspcmd = autocmd({ "BufReadPre", "BufNewFile" }, {
     callback = function(args)
