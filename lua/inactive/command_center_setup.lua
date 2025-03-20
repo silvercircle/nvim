@@ -3,7 +3,7 @@
 -- setup_telescope and fzf-lua mappings to fzf-lua respectively.
 local command_center = require("command_center")
 local noremap = { noremap = true }
-local lsputil = require("lspconfig.util")
+local lsputil = require("lsp.utils")
 local Utils = require("subspace.lib")
 local _tb = require("telescope.builtin")
 local Terminal  = require('toggleterm.terminal').Terminal

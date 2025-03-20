@@ -3,7 +3,7 @@ local fzf_tweaks = Tweaks.fzf
 local fzf        = require("fzf-lua")
 local Snacks     = require("snacks")
 local lutils     = require("subspace.lib")
-local lsputil    = require("lspconfig.util")
+local lsputil    = require("lsp.utils")
 local noremap    = true
 
 require("commandpicker").add({

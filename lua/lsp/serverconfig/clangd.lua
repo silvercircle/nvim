@@ -1,6 +1,6 @@
 local function clangd_switch_source_header(bufnr)
   local method_name = 'textDocument/switchSourceHeader'
-  local client = require("lsp.defaults").get_active_client_by_name(bufnr, 'clangd')
+  local client = require("lsp.utils").get_active_client_by_name(bufnr, 'clangd')
   if not client then
     return vim.notify(('method %s is not supported by any servers active on the current buffer'):format(method_name))
   end

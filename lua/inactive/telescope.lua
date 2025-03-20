@@ -211,7 +211,7 @@ require("telescope").setup({
 --require("telescope").load_extension("noice")
 
 local noremap  = { noremap = true }
-local lsputil  = require("lspconfig.util")
+local lsputil  = require("lsp.utils")
 local lutils   = require("subspace.lib")
 local _t       = require("telescope")
 local _tb      = require("telescope.builtin")

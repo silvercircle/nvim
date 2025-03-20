@@ -1,4 +1,4 @@
-local Util = require('lspconfig.util')
+local Util = require('lsp.utils')
 local lua_root_files = {
   '.luarc.json',
   '.luarc.jsonc',

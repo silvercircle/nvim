@@ -51,11 +51,8 @@ for k,v in pairs(LSPDEF.serverconfigs) do
       else
         config.cmd[1] = v.cmd[1]
       end
-      if CFG.have_lsp_config then
-        config.root_dir = nil
-        vim.lsp.config[k] = config
-        vim.lsp.enable(k, true)
-      end
+      vim.lsp.config[k] = config
+      vim.lsp.enable(k, true)
     end
   end
 end
@@ -64,15 +61,6 @@ require("lsp.config.handlers")
 require("lsp.config.misc")
 
 local M = {}
-
-function M.get_active_client_by_name(bufnr, servername)
-  --TODO(glepnir): remove this for loop when we want only support 0.10+
-  for _, client in pairs(vim.lsp.get_clients { bufnr = bufnr }) do
-    if client.name == servername then
-      return client
-    end
-  end
-end
 
 return M
 

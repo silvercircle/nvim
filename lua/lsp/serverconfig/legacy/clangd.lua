@@ -1,4 +1,4 @@
-local util = require('lspconfig.util')
+local util = require('lsp.utils')
 
 local function clangd_switch_source_header(bufnr)
   local method_name = 'textDocument/switchSourceHeader'

@@ -1,4 +1,4 @@
-local util = require "lspconfig.util"
+local util = require "lsp.utils"
 
 return {
   cmd = { LSPDEF.serverconfigs["hls"].cmd[1], "--lsp" },

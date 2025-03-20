@@ -1,4 +1,4 @@
-local Util = require('lspconfig.util')
+local Util = require('lsp.utils')
 return {
   cmd = { LSPDEF.serverconfigs["ada_ls"].cmd[1] },
   filetypes = { "ada" },

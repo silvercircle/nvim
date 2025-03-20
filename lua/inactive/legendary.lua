@@ -1,6 +1,6 @@
 local _t = require("telescope")
 local _tb = require("telescope.builtin")
-local lsputil = require('lspconfig.util')
+local lsputil = require('lsp.utils')
 
 require('legendary').setup({
   include_builtin = true,

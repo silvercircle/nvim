@@ -175,7 +175,7 @@ end
 --- patterns are in conf table.
 --- @param fname string (a fullpath filename)
 function Utils.getroot(fname)
-  local lsputil = require("lspconfig.util")
+  local lsputil = require("lsp.utils")
   -- try git root first
   local path = nil
   if conf.ignore_git == false then

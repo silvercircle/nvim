@@ -1,7 +1,7 @@
 local function client_with_fn(fn)
   return function()
     local bufnr = vim.api.nvim_get_current_buf()
-    local client = require("lsp.defaults").get_active_client_by_name(bufnr, 'texlab')
+    local client = require("lsp.utils").get_active_client_by_name(bufnr, 'texlab')
     if not client then
       return vim.notify(('texlab client not found in bufnr %d'):format(bufnr), vim.log.levels.ERROR)
     end

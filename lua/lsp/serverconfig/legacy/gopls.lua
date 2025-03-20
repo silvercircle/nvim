@@ -1,4 +1,4 @@
-local Util = require('lspconfig.util')
+local Util = require('lsp.utils')
 return {
   single_file_support = true,
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
