@@ -68,7 +68,7 @@ require("commandpicker").add({
   },
   {
     desc = "Shutdown LSP server",
-    cmd = function() lutils.StopLsp() end,
+    cmd = function() lutils.StopLsp(false) end,
     keys = { "n", "lss", noremap },
     category = "@LSP"
   },

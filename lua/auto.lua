@@ -401,6 +401,13 @@ if CFG.have_lsp_config then
   local lspcmd = nil
   local lsp_done = false
 
+  autocmd({ "BufDelete" }, {
+    callback = function(_)
+      vim.defer_fn(function() require("subspace.lib").StopLsp(true) end, 2000)
+    end,
+    group = agroup_views
+  })
+
   lspcmd = autocmd({ "BufReadPre", "BufNewFile" }, {
     callback = function(args)
       if vim.bo[args.buf].buftype ~= "" then return end
@@ -413,7 +420,8 @@ if CFG.have_lsp_config then
           vim.api.nvim_del_autocmd(lspcmd)
         end
       end)
-    end
+    end,
+    group = agroup_views
   })
 end
 
