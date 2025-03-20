@@ -9,6 +9,25 @@ local M = { path = {} }
 
 -- global on_setup hook
 M.on_setup = nil
+-- Customize LSP behavior via on_attach
+local navic = require("nvim-navic")
+
+ON_LSP_ATTACH = function(client, buf)
+  if LSPDEF.debug then
+    vim.notify("Attaching " .. client.name .. " " .. vim.inspect(client.config.cmd) .. " to buffer nr " .. buf)
+  end
+  if not vim.tbl_contains(LSPDEF.exclude_navic, client.name) then
+    navic.attach(client, buf)
+  end
+  vim.g.inlay_hints_visible = true
+  if client.server_capabilities.inlayHintProvider then
+    vim.g.inlay_hints_visible = PCFG.lsp.inlay_hints
+    vim.lsp.inlay_hint.enable(PCFG.lsp.inlay_hints)
+  end
+  if client.name == "rzls" then
+    vim.cmd("hi! link @lsp.type.field Member")
+  end
+end
 
 function M.bufname_valid(bufname)
   if bufname:match '^/' or bufname:match '^[a-zA-Z]:' or bufname:match '^zipfile://' or bufname:match '^tarfile:' then
