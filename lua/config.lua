@@ -29,6 +29,7 @@ Tweaks.tree.filetype = tree_fts[Tweaks.tree.version]
 local nvim_11 = vim.fn.has("nvim-0.11")
 
 CFG = {
+  have_lsp_config = (vim.lsp.config ~= nil),
   nightly = (nvim_11 ~= 0) and true or false,
   cmp = {
     -- the following lists file types that are allowed to use the cmp_buffer source
@@ -283,20 +284,20 @@ CFG.SIDEBAR_FancySymbols = {
           H6 = "",
         },
         json = {
-          Array       = " ",
-          Object      = " ",
-          String      = " ",
-          Number      = " ",
-          Boolean     = " ",
-          Null        = "󰟢 ",
+          Array       = "",
+          Object      = "",
+          String      = "",
+          Number      = "",
+          Boolean     = "",
+          Null        = "󰟢",
         },
         jsonl = {
-          Array       = " ",
-          Object      = " ",
-          String      = " ",
-          Number      = " ",
-          Boolean     = " ",
-          Null        = "󰟢 ",
+          Array       = "",
+          Object      = "",
+          String      = "",
+          Number      = "",
+          Boolean     = "",
+          Null        = "󰟢",
         },
         org = {
           H1 = "",

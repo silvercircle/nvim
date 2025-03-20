@@ -402,9 +402,10 @@ if CFG.have_lsp_config then
   local lsp_done = false
 
   lspcmd = autocmd({ "BufReadPre", "BufNewFile" }, {
-    callback = function()
+    callback = function(args)
+      if vim.bo[args.buf].buftype ~= "" then return end
       if not lsp_done then
-        require("lsp.defaults")
+        if CFG.have_lsp_config then require("lsp.defaults") else require("lsp.legacy.defaults") end
         lsp_done = true
       end
       vim.schedule(function()

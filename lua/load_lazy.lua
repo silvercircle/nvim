@@ -251,7 +251,7 @@ lazy.setup({
   {
     'neovim/nvim-lspconfig',
     lazy = true,
-    event = { "BufReadPost" },
+    event = CFG.have_lsp_config and {} or { "BufReadPost" },
     dependencies = {
       {
         PCFG.is_dev and "silvercircle/nvim-navic" or "SmiteshP/nvim-navic",
@@ -303,7 +303,7 @@ lazy.setup({
       }
     },
     config = function()
-      if not CFG.have_lsp_config then require("lsp.defaults") end
+      if not CFG.have_lsp_config then require("lsp.legacy.defaults") end
     end
   },
   {
