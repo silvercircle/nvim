@@ -185,63 +185,16 @@ end
 
 --- Deprecated functions
 
---- @deprecated use `vim.fn.isdirectory(path) == 1` instead
---- @param filename string
---- @return boolean
-function M.path.is_dir(filename)
-  return vim.fn.isdirectory(filename) == 1
-end
-
---- @deprecated use `(vim.loop.fs_stat(path) or {}).type == 'file'` instead
---- @param path string
---- @return boolean
-function M.path.is_file(path)
-  return (vim.loop.fs_stat(path) or {}).type == 'file'
-end
-
 --- @deprecated use `vim.fs.dirname` instead
 M.path.dirname = vim.fs.dirname
 
 --- @deprecated use `vim.fs.normalize` instead
 M.path.sanitize = vim.fs.normalize
 
---- @deprecated use `vim.loop.fs_stat` instead
---- @param filename string
---- @return string|false
-function M.path.exists(filename)
-  local stat = vim.loop.fs_stat(filename)
-  return stat and stat.type or false
-end
-
---- @deprecated use `table.concat({"path1", "path2"})` or regular string concatenation instead
-function M.path.join(...)
-  return table.concat({ ... }, '/')
-end
-
 --- @deprecated use `vim.fn.has('win32') == 1 and ';' or ':'` instead
 M.path.path_separator = vim.fn.has('win32') == 1 and ';' or ':'
 
 --- @deprecated use `vim.fs.parents(path)` instead
 M.path.iterate_parents = vim.fs.parents
-
---- @deprecated use `vim.fs.dirname(vim.fs.find('.hg', { path = startpath, upward = true })[1])` instead
-function M.find_mercurial_ancestor(startpath)
-  return vim.fs.dirname(vim.fs.find('.hg', { path = startpath, upward = true })[1])
-end
-
---- @deprecated use `vim.fs.dirname(vim.fs.find('node_modules', { path = startpath, upward = true })[1])` instead
-function M.find_node_modules_ancestor(startpath)
-  return vim.fs.dirname(vim.fs.find('node_modules', { path = startpath, upward = true })[1])
-end
-
---- @deprecated use `vim.fs.dirname(vim.fs.find('package.json', { path = startpath, upward = true })[1])` instead
-function M.find_package_json_ancestor(startpath)
-  return vim.fs.dirname(vim.fs.find('package.json', { path = startpath, upward = true })[1])
-end
-
---- @deprecated use `vim.fs.dirname(vim.fs.find('.git', { path = startpath, upward = true })[1])` instead
-function M.find_git_ancestor(startpath)
-  return vim.fs.dirname(vim.fs.find('.git', { path = startpath, upward = true })[1])
-end
 
 return M

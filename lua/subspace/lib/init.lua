@@ -175,11 +175,10 @@ end
 --- patterns are in conf table.
 --- @param fname string (a fullpath filename)
 function Utils.getroot(fname)
-  local lsputil = require("lsp.utils")
   -- try git root first
   local path = nil
   if conf.ignore_git == false then
-    path = lsputil.find_git_ancestor(fname)
+    path = vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
   end
   if path == nil then
     if conf.ignore_git == false then
