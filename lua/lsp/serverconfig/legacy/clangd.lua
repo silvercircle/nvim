@@ -58,7 +58,7 @@ local clangd_root_files = {
 return {
   filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
   root_dir = function(fname)
-    return util.root_pattern(unpack(clangd_root_files))(fname) or util.find_git_ancestor(fname)
+    return util.root_pattern(unpack(clangd_root_files))(fname) or vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
   end,
   root_markers = clangd_root_files,
   single_file_support = true,

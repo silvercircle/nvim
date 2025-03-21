@@ -18,7 +18,7 @@ return {
     local cmd = { 'cargo', 'metadata', '--no-deps', '--format-version', '1' }
     if cargo_crate_dir ~= nil then
       cmd[#cmd + 1] = '--manifest-path'
-      cmd[#cmd + 1] = util.path.join(cargo_crate_dir, 'Cargo.toml')
+      cmd[#cmd + 1] = vim.fs.joinpath(cargo_crate_dir, 'Cargo.toml')
     end
     local cargo_metadata = ''
     local cargo_metadata_err = ''
@@ -41,7 +41,7 @@ return {
     if cm == 0 then
       cargo_workspace_dir = vim.json.decode(cargo_metadata)['workspace_root']
       if cargo_workspace_dir ~= nil then
-        cargo_workspace_dir = util.path.sanitize(cargo_workspace_dir)
+        cargo_workspace_dir = vim.fs.normalize(cargo_workspace_dir)
       end
     else
       vim.notify(
@@ -52,7 +52,7 @@ return {
     return cargo_workspace_dir
         or cargo_crate_dir
         or util.root_pattern 'rust-project.json' (fname)
-        or util.find_git_ancestor(fname)
+        or vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
   end,
   settings = {
     ['rust-analyzer'] = {

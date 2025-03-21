@@ -1,8 +1,5 @@
--- main configuration for lspconfig
--- it imports config.handlers and config.misc
---
--- NOTE: This does not include configurations for C#, Java and scala, because
--- they are all handled by separate plugins.
+-- this is the legacy mode
+-- it requires nvim-lspconfig to setup langauge servers.
 
 local lspconfig
 lspconfig = require("lspconfig")

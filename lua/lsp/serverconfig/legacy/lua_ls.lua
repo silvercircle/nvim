@@ -19,7 +19,7 @@ return {
     if root then
       return root .. '/lua/'
     end
-    return Util.find_git_ancestor(fname)
+    return vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
   end,
   filetypes = { "lua" },
   single_file_support = true,
