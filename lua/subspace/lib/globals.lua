@@ -4,7 +4,6 @@ local M = {}
 M.main_winid = 0
 M.cur_bufsize = 0
 M.outline_is_open = false
-M.lsp_capabilities = nil
 M.notifier = nil
 M.cmp_setup_done = false
 M.blink_setup_done = false
@@ -420,14 +419,6 @@ function M.debugmsg(msg)
   end
 end
 
-local notify_classes = {
-  { icon = " ", title = "Trace" },
-  { icon = " ", title = "Debug" },
-  { icon = "󰋼 ", title = "Information" },
-  { icon = " ", title = "Warning" },
-  { icon = " ", title = "Error" },
-}
-
 --- toggle the debug mode and display the new status.
 --- when enabled, additional debug messages will be shown using
 --- the notifier
@@ -602,23 +593,6 @@ function M.ufo_virtual_text_handler(virtText, lnum, endLnum, width, truncate)
   end
   table.insert(newVirtText, { suffix, 'MoreMsg' })
   return newVirtText
-end
-
---- obtain lsp capabilities from lsp and cmp-lsp plugin
---- @return table
-function M.get_lsp_capabilities()
-  if M.lsp_capabilities == nil then
-    if Tweaks.completion.version == "blink" then
-      M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
-      M.lsp_capabilities = vim.tbl_deep_extend("force", M.lsp_capabilities, require("blink.cmp").get_lsp_capabilities())
-    else
-      M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
-      M.lsp_capabilities = vim.tbl_deep_extend("force", M.lsp_capabilities, require("cmp_nvim_lsp").default_capabilities())
-    end
-    M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = LSPDEF.use_dynamic_registration
-    M.lsp_capabilities.textDocument.completion.editsNearCursor = true
-  end
-  return M.lsp_capabilities
 end
 
 return M

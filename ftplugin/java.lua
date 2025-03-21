@@ -83,7 +83,7 @@ local config = {
     "-configuration", vim.fn.expand(LSPDEF.jdtls.jdtls_install_dir) .. LSPDEF.jdtls.config,
     "-data", workspace_dir
   },
-  capabilities = CGLOBALS.get_lsp_capabilities(),
+  capabilities = require("lsp.utils").get_lsp_capabilities(),
 
   -- This is the default if not provided, you can remove it. Or adjust as needed.
   -- One dedicated LSP server & client will be started per unique root_dir

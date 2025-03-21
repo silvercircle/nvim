@@ -78,13 +78,10 @@ local on_attach = function(client, buf)
   fix_semantic_tokens(client)
 end
 
--- local capabilities = vim.deepcopy(CGLOBALS.get_lsp_capabilities())
--- capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
-
 require("roslyn").setup({
   config = {
     filetypes = { "cs", "razor" },
-    capabilities = CGLOBALS.get_lsp_capabilities(),
+    capabilities = require("lsp.utils").get_lsp_capabilities(),
     handlers = require "rzls.roslyn_handlers",
     --the project root needs a .sln file (mandatory)
     root_dir = function(fname)

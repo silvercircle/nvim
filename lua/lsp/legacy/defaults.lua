@@ -5,7 +5,7 @@ local lspconfig
 lspconfig = require("lspconfig")
 require("lsp.utils")
 
-local caps = CGLOBALS.get_lsp_capabilities()
+local caps = require("lsp.utils").get_lsp_capabilities()
 
 for k,v in pairs(LSPDEF.serverconfigs) do
   local s, config = pcall(require, "lsp.serverconfig.legacy." .. k)

@@ -524,7 +524,7 @@ lazy.setup({
           ft = { "razor" },
           config = function()
             require("rzls").setup({
-              capabilities = CGLOBALS.get_lsp_capabilities(),
+              capabilities = require("lsp.utils").get_lsp_capabilities(),
               on_attch = function(client, buf)
                 ON_LSP_ATTACH(client, buf)
               end

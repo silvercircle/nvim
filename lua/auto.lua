@@ -297,7 +297,7 @@ autocmd({ "FileType" }, {
       vim.cmd("setlocal indentkeys-=: | setlocal cinkeys-=:")
     elseif args.match == "scala" or args.match == "sbt" then
       require("metals").initialize_or_attach({
-        capabilities = CGLOBALS.get_lsp_capabilities(),
+        capabilities = require("lsp.utils").get_lsp_capabilities(),
         settings = {
           metalsBinaryPath = Tweaks.lsp.server_bin["metals"]
         }

@@ -5,7 +5,7 @@
 
 require("lsp.utils")
 
-local caps = CGLOBALS.get_lsp_capabilities()
+local caps = require("lsp.utils").get_lsp_capabilities()
 
 -- the reason why we are doing it this was is that I want to have control
 -- over config.cmd, because language servers might be installed everywhere
