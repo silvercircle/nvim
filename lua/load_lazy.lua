@@ -124,6 +124,7 @@ lazy.setup({
       cond = Tweaks.completion.version == "nvim-cmp",
       event = { "InsertEnter", "CmdLineEnter" },
       dependencies = {
+        "onsails/lspkind-nvim",
         { "iguanacucumber/mag-cmdline",  name = "cmp-cmdline" },
         { "iguanacucumber/mag-nvim-lsp", name = "cmp-nvim-lsp", opts = {} },
         "hrsh7th/cmp-path",
@@ -258,7 +259,6 @@ lazy.setup({
         require("plugins.others").setup.navic()
       end
     },
-    "onsails/lspkind-nvim",
     {
       "dnlhc/glance.nvim",
       lazy = true,
@@ -301,9 +301,10 @@ lazy.setup({
     {
       "neovim/nvim-lspconfig",
       lazy = true,
-      event = CFG.have_lsp_config and {} or { "BufReadPost" },
+      cond = CFG.have_eleven == 0,
+      event = { "BufReadPost" },
       config = function()
-        if not CFG.have_lsp_config then require("lsp.legacy.defaults") end
+        require("lsp.legacy")
       end
     },
     {
@@ -557,9 +558,10 @@ lazy.setup({
       end
     },
     {
-      url = PCFG.is_dev and "https://github.com/silvercircle/neominimap.nvim" or "https://github.com/Isrothy/neominimap.nvim",
+      -- url = PCFG.is_dev and "https://github.com/silvercircle/neominimap.nvim" or "https://github.com/Isrothy/neominimap.nvim",
+      "Isrothy/neominimap.nvim",
       -- version = "v3.*.*",
-      branch = PCFG.is_dev and "mine" or "main",
+      -- branch = PCFG.is_dev and "mine" or "main",
       event = "BufReadPost",
       cond = true,
       init = function()

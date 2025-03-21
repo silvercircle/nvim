@@ -14,7 +14,7 @@ local navic = require("nvim-navic")
 
 ON_LSP_ATTACH = function(client, buf)
   if LSPDEF.debug then
-    vim.notify("Attaching " .. client.name .. " " .. vim.inspect(client.config.cmd) .. " to buffer nr " .. buf)
+    vim.notify("Attaching " .. vim.inspect(client.config.cmd) .. " to buffer nr " .. buf)
   end
   if not vim.tbl_contains(LSPDEF.exclude_navic, client.name) then
     navic.attach(client, buf)
@@ -192,8 +192,7 @@ function M.get_lsp_capabilities()
     local cmp_capabilities = Tweaks.completion.version == "blink"
       and require("blink.cmp").get_lsp_capabilities()
       or require("cmp_nvim_lsp").default_capabilities()
-    M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
-    M.lsp_capabilities = vim.tbl_deep_extend("force", M.lsp_capabilities, cmp_capabilities)
+    M.lsp_capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), cmp_capabilities)
     M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = LSPDEF.use_dynamic_registration
     M.lsp_capabilities.textDocument.completion.editsNearCursor = true
   end

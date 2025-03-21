@@ -414,7 +414,7 @@ if CFG.have_lsp_config then
     callback = function(args)
       if vim.bo[args.buf].buftype ~= "" then return end
       if not lsp_done then
-        if CFG.have_lsp_config then require("lsp.defaults") else require("lsp.legacy.defaults") end
+        require("lsp.config")
         lsp_done = true
       end
       vim.schedule(function()

@@ -31,6 +31,7 @@ local nvim_11 = vim.fn.has("nvim-0.11")
 CFG = {
   have_lsp_config = (vim.lsp.config ~= nil),
   nightly = (nvim_11 ~= 0) and true or false,
+  have_eleven = nvim_11,
   cmp = {
     -- the following lists file types that are allowed to use the cmp_buffer source
     buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true, liquid = true },
