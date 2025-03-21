@@ -22,12 +22,11 @@ local borderstyles = {
   thiccc    = { "▛", "▀", "▜", "▐", "▟", "▄", "▙", "▌" },
 }
 local Tweaks = {}
-Tweaks.lsp = {}
 
 -- plugin choices.
 -- notification system
 -- either "mini", "fidget" or "snacks".
-Tweaks.notifier = "fidget"
+Tweaks.notifier = "snacks"
 
 -- set this to "outline" to use the symbols-outline plugin.
 -- set it to "symbols" to use the symbols plugin.
@@ -101,67 +100,6 @@ Tweaks.indent = {
 Tweaks.dap = {
   enabled = true
 }
--- a list of keyboard mappings to load. lua/keymaps/default.lua will always be loaded
--- and you can add your own. Put them in lua/keymaps/mapname.lua and add the mapname
--- to this list.
-
--- edit this to reflect your installation directories for lsp servers. Most will
--- be in masonbinpath. Also supported are $HOME/.local/.bin and $HOME itself
--- for everything else, you can use full paths in the server_bin table.
--- for LSP servers that are in $PATH, the executable name alone should be enough.
--- This paths should work on most Linux systems, but you have to adjust them for 
--- Windows or macOS
-
-local jp = vim.fs.joinpath
-
-Tweaks.lsp.masonbasepath = jp(vim.fn.stdpath('data'), '/mason/')
-Tweaks.lsp.masonbinpath = jp(Tweaks.lsp.masonbasepath, 'bin/')
-Tweaks.lsp.homepath      = vim.fn.getenv('HOME')
-Tweaks.lsp.localbin      = jp(Tweaks.lsp.homepath, '/.local/bin/')
-
-Tweaks.lsp = {
-  server_bin = {
-    -- phpactor      =   '/usr/local/bin/phpactor',
-    rust_analyzer =   jp(Tweaks.lsp.masonbinpath, 'rust-analyzer'),
-    gopls         =   jp(Tweaks.lsp.masonbinpath, 'gopls'),
-    nimls         =   jp(Tweaks.lsp.homepath, '/.nimble/bin/nimlangserver'),
-    texlab        =   jp(Tweaks.lsp.localbin, 'texlab'),
-    clangd        =   '/usr/bin/clangd',
-    vimlsp        =   jp(Tweaks.lsp.masonbinpath, 'vim-language-server'),
-    omnisharp     =   jp(vim.fn.stdpath("data"), "/omnisharp/OmniSharp"),
-    metals        =   '/home/alex/.local/share/coursier/bin/metals',
-    basedpyright  =   jp(Tweaks.lsp.masonbinpath, 'basedpyright-langserver'),
-    lua_ls        =   jp(Tweaks.lsp.masonbinpath, 'lua-language-server'),
-    serve_d       =   jp(Tweaks.lsp.localbin .. 'serve-d'),
-    cssls         =   jp(Tweaks.lsp.masonbinpath, 'vscode-css-language-server'),
-    tsserver      =   jp(Tweaks.lsp.masonbinpath, 'typescript-language-server'),
-    html          =   jp(Tweaks.lsp.masonbinpath, 'vscode-html-language-server'),
-    yamlls        =   jp(Tweaks.lsp.masonbinpath, 'yaml-language-server'),
-    als           =   jp(Tweaks.lsp.masonbinpath, 'ada_language_server'),
-    csharp_ls     =   jp(Tweaks.lsp.masonbasepath, "packages/csharpls/CSharpLanguageServer"),
-    marksman      =   jp(Tweaks.lsp.masonbinpath, 'marksman'),
-    lemminx       =   jp(Tweaks.lsp.localbin,     'lemminx'),
-    bashls        =   jp(Tweaks.lsp.masonbinpath, 'bash-language-server'),
-    taplo         =   jp(Tweaks.lsp.masonbinpath, 'taplo'),
-    emmet         =   jp(Tweaks.lsp.masonbinpath, 'emmet-language-server'),
-    groovy        =   jp(Tweaks.lsp.masonbinpath, 'groovy-language-server'),
-    roslyn        =   jp(vim.fn.stdpath("data"), "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll"),
-    jsonls        =   jp(Tweaks.lsp.masonbinpath, "vscode-json-language-server"),
-    zls           =   jp(Tweaks.lsp.localbin, "zls"),
-    ccls          =   jp(Tweaks.lsp.localbin, "ccls")
-  },
-  -- the roslyn language server is now sufficiently stable for development and supported by
-  -- a stable plugin. Alternatives are still "omnisharp" and "csharp_ls", but both are not
-  -- on the same level. The roslyn ls is officially supported by Microsoft and is the default
-  -- LS for Visual Studio and Visual Studio Code.
-  csharp = "roslyn",
-  -- use either clangd or ccls for c/cpp/objc.
-  cpp = "clangd",
-  -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
-  -- this can show multiple diagnostic messages for a single line.
-  -- otherwise, use normal virtual text.
-  virtual_lines = false
-}
 
 -- blink.cmp related tweaks
 Tweaks.blink = {
@@ -181,9 +119,8 @@ Tweaks.blink = {
   label_max_width = 40,
   -- label_description maximum width
   desc_max_width = 30,
-  -- prefetch on InsertEnter. This might improve performance but might have
-  -- memory leaks at the moment.
-  prefetch = true,
+  -- prefetch on InsertEnter. This might improve performance
+  prefetch = false,
   -- if you use a theme that does not yet support blink.cmp, set this to true
   -- to use the fallback nvim-cmp hl groups which are supported by most themes
   use_cmp_hl = false,
@@ -313,7 +250,6 @@ Tweaks.keymap = {
   utility_key = "<C-l>",
   mapleader = ",",
   fzf_prefix = "<C-q>",
-  maps = { "default", "mine" }
 }
 
 Tweaks.treesitter = {
@@ -356,16 +292,6 @@ Tweaks.tree = {
   use_git = true
 }
 
--- settings for the nvim-jdtls plugin. See ftplugin/java.lua
--- avoid absolute paths except for system binaries, we vim.fn.expand() it when
--- needed
-Tweaks.jdtls = {
-  workspace_base = "~/.cache/jdtls_workspace/",
-  java_executable = "/usr/bin/java",
-  jdtls_install_dir = "~/.local/share/nvim/mason/packages/jdtls/",
-  equinox_version = "1.6.900.v20240613-2009",
-  config = "config_linux"
-}
 -- a list of filename patterns that define a project root. This will be used as some kind of
 -- fallback when no other means of finding a project's root are successfull. This is highly
 -- incomplete and inaccurate, but you can expand this with whatever you want.
@@ -407,18 +333,7 @@ Tweaks.zk = {
   root_dir = "~/Documents/zettelkasten"
 }
 
--- tweaks for the fzf-lua plugin
--- fzf-lua is an alternative to telescope. It offers a bit more pickers and features, but some
--- extensions are only available for telescope. So both plugins are kept available in this confit
--- and care has been taken to make them appear visually similar and consistent.
 Tweaks.fzf = {
-  -- customize for what feature sets fzf-lua should be preferred over telescope
-  enable_keys = true,       -- use generic (grep, files...) fzf-lua pickers instead of telescope
-  prefer_for = {
-    lsp       = true,       -- use fzf-lua for lsp pickers
-    git       = true,       -- use fzf-lua for git pickers
-    selector  = true        -- use-fzf-lua for basic selectors (buffers, oldfiles)
-  },
   -- some predefined window layouts
   winopts = {
     small_no_preview     =  { row = 0.25, width=0.5, height = 0.4, preview = { hidden="hidden" } },

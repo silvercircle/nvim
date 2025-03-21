@@ -14,11 +14,15 @@ vim.loader.enable()
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 -- bootstrap lazy
-vim.g._ts_force_sync_parsing = true
+-- vim.g._ts_force_sync_parsing = true
 require('config')
 require("subspace.lib.permconfig").restore_config()
 PCFG = require("subspace.lib.permconfig").perm_config
 CGLOBALS.set_statuscol(PCFG.statuscol_current)
+
+if (Tweaks.DEV and Tweaks.DEV ~= false) or os.getenv("NVIM_DEV_PRIVATE") then
+  assert = function(...) return ... end
+end
 
 if vim.g.neovide then
   -- vim.o.guifont = "MonoLisa:h10.2:w-.4:#e-subpixelantialias:#h-full"
@@ -50,11 +54,7 @@ require('options')
 require('load_lazy')
 require("auto")
 require("keymaps.default")
-for _, v in ipairs(Tweaks.keymap.maps) do
-  if v ~= "default" then
-    _, _ = pcall(require, "keymaps." .. v)
-  end
-end
+local _,_ = pcall(require, "keymaps.user")
 EOB
 
 run macros/justify.vim

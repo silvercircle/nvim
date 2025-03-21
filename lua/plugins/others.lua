@@ -40,31 +40,6 @@ M.setup = {
     })
   end,
 
-  navbuddy = function()
-    local actions = require("nvim-navbuddy.actions")
-    require("nvim-navbuddy").setup({
-      icons = CFG.lspkind_symbols,
-      mappings = {
-        ["<Left>"] = actions.parent(),   -- Move to left panel
-        ["<Right>"] = actions.children()
-      },
-      window = {
-        sections = {
-          left = {
-            size = "33%",
-          },
-          mid = {
-            size = "33%",
-          },
-          right = {
-            size = "33%",
-            preview = "never"
-          }
-        }
-      }
-    })
-  end,
-
   navic = function()
     require("nvim-navic").setup({
       highlight = true,
@@ -216,47 +191,6 @@ M.setup = {
       --yadm = {
       --  enable = false,
       --},
-    })
-  end,
-
-  toggleterm = function()
-    require("toggleterm").setup({
-      highlights = {
-        NormalFloat = {
-          link = "TreeNormalNC"
-        },
-        FloatBorder = {
-          link = "TelescopeBorder"
-        }
-      }
-    })
-  end,
-
-  -- currently not in use
-  conform = function()
-    require("conform").setup({
-      formatters_by_ft = {
-        lua = { "stylua" },
-        cs = { "astyle" },
-        -- Conform will run multiple formatters sequentially
-        python = { "isort", "black" },
-        -- Use a sub-list to run only the first available formatter
-        javascript = { { "prettierd", "prettier" } },
-      },
-      formatters = {
-        astyle = {
-          prepend_args = { "--project=.astylerc" }
-        }
-      }
-    })
-  end,
-
-  -- unused
-  orgmode = function()
-    require('orgmode').setup_ts_grammar()
-    require("orgmode").setup({
-      org_agenda_files = '~/orgfiles/**/*',
-      org_default_notes_file = '~/orgfiles/refile.org'
     })
   end,
 
@@ -554,13 +488,19 @@ M.setup = {
     vim.g.neominimap = {
       x_multiplier = 3,
       auto_enable = false,
+      log_level = vim.log.levels.OFF,
       layout = "split",
       delay = 800,
       split = {
         minimap_width = 15,
         fix_width = true,
-        direction = "right",
+        direction = "rightbelow",
         close_if_last_window = true
+      },
+      exclude_filetypes = {
+        "help",
+        "bigfile",
+        "NvimTree"
       },
       exclude_buftypes = {
         "nofile",

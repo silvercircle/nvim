@@ -175,11 +175,10 @@ end
 --- patterns are in conf table.
 --- @param fname string (a fullpath filename)
 function Utils.getroot(fname)
-  local lsputil = require("lspconfig.util")
   -- try git root first
   local path = nil
   if conf.ignore_git == false then
-    path = lsputil.find_git_ancestor(fname)
+    path = vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
   end
   if path == nil then
     if conf.ignore_git == false then
@@ -204,26 +203,33 @@ function Utils.getroot_current()
 end
 
 --- simple telescope picker to list active LSP servers. Allows to terminate a server on selection.
-function Utils.StopLsp()
+function Utils.StopLsp(auto)
+  auto = auto or false
   local Snacks = require("snacks")
   local Align = Snacks.picker.util.align
   local entries = {}
-  local clients = vim.lsp.get_active_clients()
+  local clients = vim.lsp.get_clients()
 
   for _, client in ipairs(clients) do
     local attached = client["attached_buffers"]
     local count = 0
     for _ in pairs(attached) do count = count + 1 end
-    local entry = {
-      id      = client["id"],
-      name    = client["name"],
-      buffers = count,
-      type = (type(client["config"]["cmd"]) == "table" and (vim.fn.fnamemodify(client["config"]["cmd"][1], ":t")) or client["name"]),
-      text = client['name']
-    }
-    table.insert(entries, entry)
+    if auto and count == 0 then
+      vim.notify(string.format("Auto shutdown for LSP: %d:%s", client["id"], client["name"]))
+      vim.lsp.stop_client(client["id"], true)
+    end
+    if not auto then
+      local entry = {
+        id      = client["id"],
+        name    = client["name"],
+        buffers = count,
+        type    = (type(client["config"]["cmd"]) == "table" and (vim.fn.fnamemodify(client["config"]["cmd"][1], ":t")) or client["name"]),
+        text    = client["name"]
+      }
+      table.insert(entries, entry)
+    end
   end
-
+  if auto then return end
   --- terminate the client given by id
   --- @param id number client id
   --- @oaram nrbufs number the number of attached buffers

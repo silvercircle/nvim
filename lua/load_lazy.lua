@@ -23,8 +23,12 @@ lazy.setup({
     end
   },
   {
-    'neovim/nvim-lspconfig',
+    PCFG.is_dev and "silvercircle/nvim-navic" or "SmiteshP/nvim-navic",
+    branch = PCFG.is_dev and "mine" or "master",
     lazy = true,
+    config = function()
+      require("plugins.others").setup.navic()
+    end
   },
   {
     "jake-stewart/multicursor.nvim",

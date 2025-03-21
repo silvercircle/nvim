@@ -56,9 +56,6 @@ local conf = {
   variant = "warm",
   -- color brightness. Set to false to get very vivid and strong colors.
   colorpalette = "vivid",
-  -- The color of strings. Some prefer yellow, others not so.
-  -- Supported are "yellow" and "green".
-  theme_strings = "yellow",
   -- kitty features are disabled by default.
   -- if configured properly, the theme's set() function can also set kitty's background
   -- color via remote control. It needs a valid unix socket and kitten executable.
@@ -179,7 +176,6 @@ local function configure()
   M.P.fg_dim = { M.T[conf.variant].fg_dim[conf.colorpalette] or M.T.fg_dim_default, 2 }
 
   M.P.styled.fg = { M.T[conf.variant].fg , 1 }
-  --M.P.string = conf.theme_strings == "yellow" and M.P.yellow or M.P.green
   M.P.string = M.P[conf.style.strings]
 
   -- merge custom colors into the palette
@@ -442,7 +438,7 @@ local function set_all()
   M.link("LspReferenceText", "CurrentWord")
   M.link("LspReferenceRead", "CurrentWord")
   M.link("LspReferenceWrite", "CurrentWord")
-  M.link("LspCodeLens", conf.theme_strings == "yellow" and "Green" or "Yellow")
+  M.link("LspCodeLens", "String")
   M.link("LspCodeLensSeparator", "VirtualTextHint")
   M.link("LspSignatureActiveParameter", "Yellow")
   M.link("TermCursor", "Cursor")

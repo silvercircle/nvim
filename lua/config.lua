@@ -13,25 +13,25 @@ if status == true then
 end
 Borderfactory = Tweaks.borderfactory
 
+local have_user_lsp, lspdef = pcall(require, "lspdef_user")
+if have_user_lsp then
+  LSPDEF = lspdef
+else
+  LSPDEF = require("lspdef")
+end
+
 local tree_fts = {
   ['Neo']       = "neo-tree",
   ['Nvim']      = "NvimTree",
   ['Explorer']  = "snacks_picker_list"
 }
 Tweaks.tree.filetype = tree_fts[Tweaks.tree.version]
-
-if (Tweaks.DEV and Tweaks.DEV ~= false) or os.getenv("NVIM_DEV_PRIVATE") then
-  assert = function(...) return ... end
-end
--- FIXME: silence deprecation warnings in dev builds. currently 0.11
--- adjust this for future dev builds
 local nvim_11 = vim.fn.has("nvim-0.11")
-if nvim_11 == 1 then
-  vim.deprecate = function() end
-end
 
 CFG = {
+  have_lsp_config = (vim.lsp.config ~= nil),
   nightly = (nvim_11 ~= 0) and true or false,
+  have_eleven = nvim_11,
   cmp = {
     -- the following lists file types that are allowed to use the cmp_buffer source
     buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true, liquid = true },
@@ -285,20 +285,20 @@ CFG.SIDEBAR_FancySymbols = {
           H6 = "",
         },
         json = {
-          Array       = " ",
-          Object      = " ",
-          String      = " ",
-          Number      = " ",
-          Boolean     = " ",
-          Null        = "󰟢 ",
+          Array       = "",
+          Object      = "",
+          String      = "",
+          Number      = "",
+          Boolean     = "",
+          Null        = "󰟢",
         },
         jsonl = {
-          Array       = " ",
-          Object      = " ",
-          String      = " ",
-          Number      = " ",
-          Boolean     = " ",
-          Null        = "󰟢 ",
+          Array       = "",
+          Object      = "",
+          String      = "",
+          Number      = "",
+          Boolean     = "",
+          Null        = "󰟢",
         },
         org = {
           H1 = "",

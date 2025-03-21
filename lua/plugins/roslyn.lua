@@ -1,4 +1,4 @@
-local util = require 'lspconfig.util'
+local util = require 'lsp.utils'
 
 --- the following functions are necessary to support semantic tokens with the roslyn
 --- language server.
@@ -74,25 +74,14 @@ local function fix_semantic_tokens(client)
 end
 
 local on_attach = function(client, buf)
-  local _s, navic = pcall(require, "nvim-navic")
-  if _s then
-    navic.attach(client, buf)
-  end
-  if client.server_capabilities.inlayHintProvider then
-    vim.g.inlay_hints_visible = true
-    vim.lsp.inlay_hint.enable(false)
-  end
-  -- don't let rzls mess with my hl groups :)
-  if client.name == "rzls" then
-    vim.cmd("hi! link @lsp.type.field Member")
-  end
+  ON_LSP_ATTACH(client, buf)
   fix_semantic_tokens(client)
 end
 
 require("roslyn").setup({
   config = {
     filetypes = { "cs", "razor" },
-    capabilities = CGLOBALS.get_lsp_capabilities(),
+    capabilities = require("lsp.utils").get_lsp_capabilities(),
     handlers = require "rzls.roslyn_handlers",
     --the project root needs a .sln file (mandatory)
     root_dir = function(fname)
@@ -125,29 +114,12 @@ require("roslyn").setup({
   },
   roslyn_version = "4.14.0-3.25054.1",
   dotnet_cmd = "dotnet",
-  exe = {
-    "dotnet",
-     vim.fs.joinpath(vim.fn.stdpath("data"), "roslyn", "Microsoft.CodeAnalysis.LanguageServer.dll"),
-  },
+  exe = { "dotnet", LSPDEF.server_bin["roslyn"] },
   args = {
     "--stdio",
     "--logLevel=Information",
     "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
-    "--razorSourceGenerator=" .. vim.fs.joinpath(
-      vim.fn.stdpath('data'),
-      -- 'mason',
-      -- 'packages',
-      'roslyn',
-      'Microsoft.CodeAnalysis.Razor.Compiler.dll'
-    ),
-    "--razorDesignTimePath=" .. vim.fs.joinpath(
-      vim.fn.stdpath('data'),
-      'mason',
-      'packages',
-      'rzls',
-      'libexec',
-      'Targets',
-      'Microsoft.NET.Sdk.Razor.DesignTime.targets'
-    )
-  },
+  "--razorSourceGenerator=" .. LSPDEF.roslyn.razor_compiler,
+  "--razorDesignTimePath=" ..  LSPDEF.roslyn.razor_designer
+  }
 })

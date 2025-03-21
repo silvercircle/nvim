@@ -157,19 +157,19 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
         bookmarks = true
       },
       glyphs = {
-        default = ' ',
-        symlink = ' ',
+        default  = '',
+        symlink  = '',
         bookmark = '',
         modified = '●',
         folder = {
           arrow_closed = '',
           arrow_open = '',
-          default = ' ',
-          open = ' ',
-          empty = ' ',
-          empty_open = ' ',
-          symlink = ' ',
-          symlink_open = ' ',
+          default = '',
+          open = '',
+          empty = '',
+          empty_open = '',
+          symlink = '',
+          symlink_open = '',
         },
         git = {
           unstaged = "󰊢",

@@ -1,11 +1,9 @@
 --- global functions for my Neovim configuration
 local M = {}
 
-M.winid_bufferlist = 0
 M.main_winid = 0
 M.cur_bufsize = 0
 M.outline_is_open = false
-M.lsp_capabilities = nil
 M.notifier = nil
 M.cmp_setup_done = false
 M.blink_setup_done = false
@@ -57,6 +55,7 @@ function M.open_outline()
   end
   local id_win = CGLOBALS.is_outline_open()
   if id_win and vim.api.nvim_win_is_valid(id_win) then
+    vim.api.nvim_win_set_option(id_win, "winhl", "Normal:TreeNormalNC,CursorLine:TreeCursorLine")
     vim.api.nvim_win_set_width(id_win, PCFG.outline.width)
   end
 end
@@ -310,38 +309,9 @@ function M.toggle_wrap()
   require("lualine").refresh()
 end
 
--- split the file tree horizontally
---- @param _factor number:  if _factor is betweeen 0 and 1 it is interpreted as percentage
---  of the window to split. Otherwise as an absolute number. The default is set to 1/3 (0.33)
---- @return number: the window id, 0 if the process failed
-function M.splittree(_factor)
-  local factor = math.abs((_factor ~= nil and _factor > 0) and _factor or 0.33)
-  local winid = M.findWinByFiletype(Tweaks.tree.filetype)
-  if #winid > 0 then
-    local splitheight
-    if factor < 1 then
-      splitheight = vim.fn.winheight(winid[1]) * factor
-    else
-      splitheight = factor
-    end
-    vim.fn.win_gotoid(winid[1])
-    vim.cmd("below " .. splitheight .. " sp")
-    M.winid_bufferlist = vim.fn.win_getid()
-    vim.api.nvim_win_set_option(M.winid_bufferlist, "list", false)
-    vim.api.nvim_win_set_option(M.winid_bufferlist, "statusline", "Buffer List")
-    vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:TreeNormalNC | set foldcolumn=0")
-    vim.fn.win_gotoid(M.main_winid)
-    return M.winid_bufferlist
-  end
-  return 0
-end
-
 --- close all quickfix windows
 function M.close_qf_or_loc()
   local winid = M.findWinByFiletype("qf")
-  if #winid == 0 then
-    winid = M.findWinByFiletype("replacer")
-  end
   if #winid > 0 then
     for i, _ in pairs(winid) do
       if winid[i] > 0 and vim.api.nvim_win_is_valid(winid[i]) then
@@ -448,14 +418,6 @@ function M.debugmsg(msg)
     vim.notify(msg, vim.log.levels.DEBUG, { title = "Debug" })
   end
 end
-
-local notify_classes = {
-  { icon = " ", title = "Trace" },
-  { icon = " ", title = "Debug" },
-  { icon = "󰋼 ", title = "Information" },
-  { icon = " ", title = "Warning" },
-  { icon = " ", title = "Error" },
-}
 
 --- toggle the debug mode and display the new status.
 --- when enabled, additional debug messages will be shown using
@@ -631,23 +593,6 @@ function M.ufo_virtual_text_handler(virtText, lnum, endLnum, width, truncate)
   end
   table.insert(newVirtText, { suffix, 'MoreMsg' })
   return newVirtText
-end
-
---- obtain lsp capabilities from lsp and cmp-lsp plugin
---- @return table
-function M.get_lsp_capabilities()
-  if M.lsp_capabilities == nil then
-    if Tweaks.completion.version == "blink" then
-      M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
-      M.lsp_capabilities = vim.tbl_deep_extend("force", M.lsp_capabilities, require("blink.cmp").get_lsp_capabilities())
-    else
-      M.lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
-      M.lsp_capabilities = vim.tbl_deep_extend("force", M.lsp_capabilities, require("cmp_nvim_lsp").default_capabilities())
-    end
-    M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
-    M.lsp_capabilities.textDocument.completion.editsNearCursor = true
-  end
-  return M.lsp_capabilities
 end
 
 return M

@@ -26,7 +26,8 @@ local function configure_outline_sidebar()
   --vim.schedule(function()
     vim.cmd("silent! set foldcolumn=0 | silent! set signcolumn=no | silent! set nonumber | setlocal listchars=eol:\\ ")
     vim.cmd("silent! set statusline=\\ \\ Outline" .. "\\ (" .. PCFG.outline_filetype .. ")")
-    vim.cmd("set winhl=Normal:TreeNormalNC,CursorLine:TreeCursorLine | hi nCursor blend=0")
+    --vim.cmd("set winhl=Normal:TreeNormalNC,CursorLine:TreeCursorLine | hi nCursor blend=0")
+    vim.cmd("hi nCursor blend=0")
     vim.cmd("silent! set statuscolumn=")
   --end)
 end
@@ -296,7 +297,7 @@ autocmd({ "FileType" }, {
       vim.cmd("setlocal indentkeys-=: | setlocal cinkeys-=:")
     elseif args.match == "scala" or args.match == "sbt" then
       require("metals").initialize_or_attach({
-        capabilities = CGLOBALS.get_lsp_capabilities(),
+        capabilities = require("lsp.utils").get_lsp_capabilities(),
         settings = {
           metalsBinaryPath = Tweaks.lsp.server_bin["metals"]
         }
@@ -372,6 +373,7 @@ autocmd({ 'LspAttach' }, {
       require("outline").refresh()
       vim.schedule(function() refresh_outline_providerinfo() end)
     end
+    if Wsplit.content == "info" then Wsplit.refresh() end
   end
 })
 
@@ -384,19 +386,46 @@ local function _delcmd()
   end
 end
 
-delcmd = autocmd( { 'BufReadPost' }, {
+delcmd = autocmd({ "BufReadPost" }, {
   callback = function()
     if _delayloaded == true then
       return
     end
     _delayloaded = true
-    vim.defer_fn(function() require("plugins.commandpicker_addcommands") end, 200)
-    if CFG.plain == false then
-      --vim.system({ 'tmux', 'set', '-qg', 'allow-passthrough', 'all' }, { text = true })
-    end
+    vim.defer_fn(function() require("plugins.commandpalette") end, 200)
     vim.schedule(function() _delcmd() end)
   end
 })
+
+if LSPDEF.auto_shutdown then
+  autocmd({ "BufDelete" }, {
+    callback = function(_)
+      vim.defer_fn(function() require("subspace.lib").StopLsp(true) end, 2000)
+    end,
+    group = agroup_views
+  })
+end
+
+if CFG.have_lsp_config then
+  local lspcmd = nil
+  local lsp_done = false
+
+  lspcmd = autocmd({ "BufReadPre", "BufNewFile" }, {
+    callback = function(args)
+      if vim.bo[args.buf].buftype ~= "" then return end
+      if not lsp_done then
+        require("lsp.config")
+        lsp_done = true
+      end
+      vim.schedule(function()
+        if lspcmd ~= nil and lsp_done == true then
+          vim.api.nvim_del_autocmd(lspcmd)
+        end
+      end)
+    end,
+    group = agroup_views
+  })
+end
 
 autocmd("TextYankPost", {
   callback = function()

@@ -160,7 +160,7 @@ require("snacks").setup({
       enabled = Tweaks.indent.enabled,
       char = "│",
       only_scope = false,   -- only show indent guides of the scope
-      only_current = true, -- only show indent guides in the current window
+      only_current = false, -- only show indent guides in the current window
       --hl = "IndentBlankLineChar", ---@type string|string[] hl groups for indent guides
       hl = Tweaks.indent.rainbow_guides == true and {
         "IndentBlanklineIndent1", "IndentBlanklineIndent2", "IndentBlanklineIndent3", "IndentBlanklineIndent4",
