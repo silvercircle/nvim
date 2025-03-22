@@ -3,10 +3,6 @@
 -------------------------
 
 do
-  local on_references = vim.lsp.handlers["textDocument/references"]
-  local lsp_handlers_hover = vim.lsp.with(vim.lsp.handlers.hover, {
-    border = PCFG.float_borders
-  })
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
       -- delay update diagnostics
@@ -19,15 +15,6 @@ do
     vim.diagnostic.reset(ns, bufnr)
     return true
   end
-  vim.lsp.handlers["textDocument/references"] = vim.lsp.with(
-    on_references, {
-    }
-  )
-  vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
-    local bufnr, winnr = lsp_handlers_hover(err, result, ctx, config)
-    return bufnr, winnr
-  end
-
   -- this is for vim.lsp.buf.signature_help()
   -- Bound to C-p in insert mode
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
