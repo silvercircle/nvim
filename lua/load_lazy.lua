@@ -6,7 +6,7 @@ lazy.setup({
       -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
       lazy = true,
       config = function()
-        require("plugins.oil")
+        require("plugins.oilsetup")
       end
     },
     {
@@ -82,7 +82,6 @@ lazy.setup({
       end
     },
     {
-      -- dir = "/mnt/shared/data/code/neovim_plugins/quickfavs.nvim/",
       "https://gitlab.com/silvercircle74/quickfavs.nvim",
       lazy = true,
       config = function()
@@ -316,31 +315,6 @@ lazy.setup({
             border = PCFG.float_borders
           }
         })
-      end
-    },
-    {
-      "tomasky/bookmarks.nvim",
-      event = "UIEnter",
-      config = function()
-        local bm = require "bookmarks"
-        require("bookmarks").setup({
-          -- sign_priority = 8,  --set bookmark sign priority to cover other sign
-          save_file = vim.fn.stdpath("state") .. "/.bookmarks", -- bookmarks save file path
-          keywords = {
-            ["@t"] = " ", -- mark annotation startswith @t ,signs this icon as `Todo`
-            ["@w"] = " ", -- mark annotation startswith @w ,signs this icon as `Warn`
-            ["@f"] = " ", -- mark annotation startswith @f ,signs this icon as `Fix`
-            ["@n"] = "󰈔 ", -- mark annotation startswith @n ,signs this icon as `Note`
-          }
-        })
-        local map = vim.keymap.set
-        map("n", "<leader>bm", bm.bookmark_toggle)  -- add or remove bookmark at current line
-        map("n", "<leader>bi", bm.bookmark_ann)     -- add or edit mark annotation at current line
-        map("n", "<leader>bc", bm.bookmark_clean)   -- clean all marks in local buffer
-        map("n", "<leader>bn", bm.bookmark_next)    -- jump to next mark in local buffer
-        map("n", "<leader>bp", bm.bookmark_prev)    -- jump to previous mark in local buffer
-        map("n", "<leader>bl", bm.bookmark_list)    -- show marked file list in quickfix window
-        map("n", "<leader>bx", bm.bookmark_clear_all) -- removes all bookmarks
       end
     },
     {
