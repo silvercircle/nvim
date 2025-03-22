@@ -393,6 +393,12 @@ delcmd = autocmd({ "BufReadPost" }, {
     end
     _delayloaded = true
     vim.defer_fn(function() require("plugins.commandpalette") end, 200)
+    if PCFG.outline_view ~= false or PCFG.minimap_view > 0 then
+      vim.defer_fn(function()
+        if PCFG.outline_view ~= false then CGLOBALS.open_outline() end
+        if PCFG.minimap_view > 0 then require("neominimap").toggle() end
+      end, 1000)
+    end
     vim.schedule(function() _delcmd() end)
   end
 })

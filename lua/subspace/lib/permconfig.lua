@@ -54,7 +54,9 @@ M.perm_config_default = {
   lsp = {
     inlay_hints = true
   },
-  is_dev = false
+  is_dev = false,
+  outline_view = false,
+  minimap_view = false
 }
 
 M.perm_config = {}
@@ -98,6 +100,8 @@ function M.write_config()
     if usplit_id ~= nil then
       state.sysmon.width = vim.api.nvim_win_get_width(usplit_id)
     end
+    state.outline_view = CGLOBALS.is_outline_open()
+    state.minimap_view = CGLOBALS.findWinByFiletype("neominimap")[1] or 0
     local string = vim.fn.json_encode(vim.tbl_deep_extend("force", M.perm_config, state))
     f:write(string)
     io.close(f)
