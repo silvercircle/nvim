@@ -17,10 +17,12 @@ for k,v in pairs(LSPDEF.serverconfigs) do
   if v.active == true then
     local s, config = pcall(require, "lsp.serverconfig." .. k)
     if not s then goto continue end
-    if config.cmd == nil then
-      config.cmd = v.cmd
-    else
-      config.cmd[1] = v.cmd[1]
+    if v.cmd then
+      if config.cmd == nil then
+        config.cmd = v.cmd
+      else
+        config.cmd[1] = v.cmd[1]
+      end
     end
     config.name = k
     vim.lsp.config[k] = config

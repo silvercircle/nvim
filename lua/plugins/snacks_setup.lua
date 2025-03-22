@@ -7,6 +7,12 @@ require("snacks").setup({
     top_down = false,
     refresh = 400
   },
+  scratch = {
+    win = {
+      border = Borderfactory("thicc")
+    },
+    icon = "󱪗 ",
+  },
   words = {
     enabled = false,
   },
