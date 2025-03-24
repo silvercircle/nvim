@@ -13,15 +13,6 @@ local treeft = Tweaks.tree.filetype
 
 -- local ibl = require('indent_blankline')
 
-local function refresh_outline_providerinfo()
-  local _o = CGLOBALS.findWinByFiletype("Outline")
-  if #_o > 0 and _o[1] ~= nil then
-    local p = require("outline")._get_sidebar().provider
-    local name = (p and p.name) and p.name or "No provider"
-    vim.api.nvim_win_set_option(_o[1], "statusline", "  Outline (" .. name .. ")")
-  end
-end
-
 local function configure_outline_sidebar()
   --vim.schedule(function()
     vim.cmd("silent! set foldcolumn=0 | silent! set signcolumn=no | silent! set nonumber | setlocal listchars=eol:\\ ")
@@ -219,7 +210,6 @@ autocmd({ 'BufEnter' }, {
     end
     marks.BufWinEnterHandler(args) -- update marks in sign column
     vim.schedule(function() require("lualine").refresh() end)
-    vim.schedule(function() refresh_outline_providerinfo() end)
   end,
   group = agroup_views
 })
@@ -335,7 +325,7 @@ autocmd({ 'WinEnter' }, {
     end
     -- HACK: NvimTree and outline windows will complain about the buffer being not modifiable
     -- when insert mode is active. So stop it and remember its state
-    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "Outline" then
+    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "SymbolsSidebar" then
       old_mode = vim.api.nvim_get_mode().mode
       vim.cmd.stopinsert()
     end
@@ -352,7 +342,7 @@ autocmd({ 'WinLeave' }, {
     end
     -- HACK: restore the insert mode if it was active when changing to the NvimTree or outline
     -- split.
-    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "Outline" then
+    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "SymbolsSidebar" then
       if old_mode == 'i' then
         old_mode = ''
         vim.cmd.startinsert()
@@ -368,10 +358,6 @@ autocmd({ 'LspAttach' }, {
   callback = function(args)
     if vim.bo[args.buf].ft == "razor" then
       vim.cmd("hi! link @lsp.type.field Member")
-    end
-    if PCFG.outline_filetype == "Outline" then
-      require("outline").refresh()
-      vim.schedule(function() refresh_outline_providerinfo() end)
     end
     if Wsplit.content == "info" then Wsplit.refresh() end
   end

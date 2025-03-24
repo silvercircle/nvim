@@ -423,6 +423,7 @@ lazy.setup({
     },
     {
       "smjonas/inc-rename.nvim",
+      cond = false,
       cmd = "IncRename",
       config = function()
         require("inc_rename").setup()
@@ -435,22 +436,6 @@ lazy.setup({
       branch = "mine",
       config = function()
         require("plugins.cokeline")
-      end
-    },
-    {
-      "silvercircle/outline.nvim",
-      -- dir = "/data/mnt/shared/data/code/neovim_plugins/outline.nvim/",
-      branch = "mine",
-      cond = Tweaks.outline_plugin == "outline",
-      cmd = { "Outline", "OutlineOpen", "OutlineClose" },
-      lazy = true,
-      dependencies = {
-        {
-          "epheien/outline-treesitter-provider.nvim"
-        }
-      },
-      config = function()
-        require("plugins.outline_setup")
       end
     },
     {
@@ -525,7 +510,6 @@ lazy.setup({
       dir = PCFG.is_dev and "/mnt/shared/data/code/neovim_plugins/symbols.nvim/" or nil,
       cmd = { "Symbols", "SymbolsOpen" },
       lazy = true,
-      cond = Tweaks.outline_plugin == "symbols",
       branch = PCFG.is_dev and "experiments" or "main",
       config = function()
         require("plugins.others").setup.symbols()

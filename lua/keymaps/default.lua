@@ -490,7 +490,7 @@ end, "Show buftype of current buffer")
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
   local status = CGLOBALS.is_outline_open()
   if status ~= false then
-    if PCFG.outline_filetype == "Outline" then require("outline").refresh_outline() else require("symbols").api.refresh_symbols() end
+    require("symbols").api.refresh_symbols()
   end
 end, "Refresh outline symbols")
 

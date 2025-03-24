@@ -48,11 +48,7 @@ function M.open_outline()
   if buftype ~= "" then  --current buffer is no ordinary file. Ignore it.
     return
   end
-  if PCFG.outline_filetype == "Outline" then
-    vim.cmd("OutlineOpen")
-  elseif PCFG.outline_filetype == "SymbolsSidebar" then
-    vim.cmd("Symbols!")
-  end
+  vim.cmd("Symbols!")
   local id_win = CGLOBALS.is_outline_open()
   if id_win and vim.api.nvim_win_is_valid(id_win) then
     vim.api.nvim_win_set_option(id_win, "winhl", "Normal:TreeNormalNC,CursorLine:TreeCursorLine")
@@ -62,11 +58,7 @@ end
 
 --- close the outline window
 function M.close_outline()
-  if PCFG.outline_filetype == "Outline" then
-    vim.cmd("OutlineClose")
-  elseif PCFG.outline_filetype == "SymbolsSidebar" then
-    vim.cmd("SymbolsClose")
-  end
+  vim.cmd("SymbolsClose")
 end
 
 function M.is_outline_open()
@@ -75,17 +67,6 @@ function M.is_outline_open()
     return _o[1]
   end
   return false
-end
-
--- toggle the type of outline window to use between outline.nvim and aerial.
-function M.toggle_outline_type()
-  M.close_outline()
-  if PCFG.outline_filetype == "SymbolsSidebar" then
-    PCFG.outline_filetype = "Outline"
-  elseif PCFG.outline_filetype == "Outline" then
-    PCFG.outline_filetype = "SymbolsSidebar"
-  end
-  vim.notify("Now using " .. PCFG.outline_filetype, vim.log.levels.INFO)
 end
 
 --- open the tree (file manager tree on the left). It can be either NvimTree

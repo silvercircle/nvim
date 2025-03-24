@@ -23,14 +23,12 @@ M.server_bin = {
   roslyn        =   jp(vim.fn.stdpath("data"), "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll"),
 }
 
--- serverconfigs lists all servers which will be configured. Set active to false
--- to entirely ignore a server. Set cfg to false to use the defaults from the
--- nvim-lspconfig registry.
-
--- Set cfg to a valid lua module to use your own configuration
--- For example: You can set cfg to "lsp.user.myserver" and then put the config in
--- lua/lsp/user/myserver.lua. The config file must return a table with configuration
--- options. See the examples like rust_analyzer.lua or lua_ls.lua.
+-- exceptions:
+-- the language servers for Java (jdtls), C# (roslyn) and Scala (metal) are NOT
+-- covered by this. They have dedicated plugins with more complex configurations.
+-- see: ftplugin/java.lua for Java support
+--      plugins/roslyn.lua for C#/Razor support
+--      Scala is implemented as filetype autocommand.
 
 -- cmd follows the rules for LSP server configurations. It's a list of strings, the
 -- first element must be the executable of the language server. Unless it can be found in

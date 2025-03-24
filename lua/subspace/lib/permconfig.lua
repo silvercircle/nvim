@@ -2,7 +2,7 @@
 -- file in statedir.
 
 local function get_permconfig_filename()
-  return vim.fs.joinpath(vim.fn.stdpath("state"), "/permconfig.json")
+  return vim.fs.joinpath(vim.fn.stdpath("state"), "permconfig.json")
 end
 
 local M = {}
@@ -42,7 +42,7 @@ M.perm_config_default = {
   indent_guides = true,
   scrollbar = true,
   statusline_declutter = 0,
-  outline_filetype = "Outline",
+  outline_filetype = "SymbolsSidebar",
   treesitter_context = true,
   show_indicators = true,
   float_borders = "single",
@@ -132,7 +132,7 @@ function M.restore_config()
   end
   PCFG = M.perm_config
 
-  PCFG.outline_filetype = (Tweaks.outline_plugin == "symbols") and "SymbolsSidebar" or "Outline"
+  PCFG.outline_filetype = "SymbolsSidebar"
   PCFG.indent_guides = Tweaks.indent.enabled
   -- configure the theme
   local cmp_kind_attr = { bold=true, reverse=true }
