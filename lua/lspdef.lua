@@ -100,8 +100,8 @@ M.serverconfigs = {
   ["zls"]                   = { aactive = true,
     cmd = { jp(M.localbin, "zls") }
   },
-  ["ctags_lsp"]             = { active = false,
-    cmd = { jp(M.localbin, "ctags_lsp") }
+  ["ctags"]             = { active = false,
+    cmd = { jp(M.localbin, "ctags-lsp") }
   },
   ["basedpyright"]          = { active = true,
     cmd = { jp(M.masonbinpath, 'basedpyright-langserver') }
@@ -114,7 +114,10 @@ M.serverconfigs = {
   },
   ["neocmake"]              = { active = true,
     cmd = { jp(M.localbin, "neocmakelsp") }
-  }
+  },
+  ["zk"]             = { active = true,
+    cmd = { jp(M.localbin, "zk") }
+  },
 }
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
   -- this can show multiple diagnostic messages for a single line.
@@ -123,7 +126,7 @@ M.virtual_lines = false
 
 -- These LSP servers won't attach to navic (used for the breadcrumbs) because they
 -- do not support the required LSP feature sets.
-M.exclude_navic = { "emmet_language_server" }
+M.exclude_navic = { "emmet_language_server", "ctags", "zk" }
 
 
 -- settings for the nvim-jdtls plugin. See ftplugin/java.lua
