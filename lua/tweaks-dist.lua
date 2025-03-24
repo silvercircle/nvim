@@ -26,7 +26,7 @@ local Tweaks = {}
 -- plugin choices.
 -- notification system
 -- either "mini", "fidget" or "snacks".
-Tweaks.notifier = "snacks"
+Tweaks.notifier = "fidget"
 
 -- set this to "outline" to use the symbols-outline plugin.
 -- set it to "symbols" to use the symbols plugin.

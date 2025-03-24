@@ -657,10 +657,10 @@ end
 
 --- call the configured (if any) callback function to indicate what
 --- has changed in the theme's configuration
---- @param what string: what was changed. can be "variant", "strings"
+--- @param what? string: what was changed. can be "variant", "strings"
 --- "desaturate" or "trans"
 local function default_conf_callback(what)
-  vim.notify("Darkmatter: default configuration callback in use.")
+  vim.notify("Darkmatter: default configuration callback in use for " .. what)
 end
 
 local supported_variants = { "warm", "cold", "deepblack", "pitchblack" }
