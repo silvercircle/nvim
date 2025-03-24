@@ -372,12 +372,19 @@ local function _delcmd()
   end
 end
 
+-- one time setup tasks which must be done after the first
+-- file has been loaded
 delcmd = autocmd({ "BufReadPost" }, {
   callback = function()
     if _delayloaded == true then
       return
     end
     _delayloaded = true
+    require("subspace.content.move").setup()
+    vim.g.setkey( "v", "<A-l>", function() MiniMove.move_selection("right") end)
+    vim.g.setkey( "v", "<A-h>", function() MiniMove.move_selection("left") end)
+    vim.g.setkey( "v", "<A-k>", function() MiniMove.move_selection("up") end)
+    vim.g.setkey( "v", "<A-j>", function() MiniMove.move_selection("down") end)
     vim.defer_fn(function() require("plugins.commandpalette") end, 200)
     if PCFG.outline_view ~= false or PCFG.minimap_view > 0 then
       vim.defer_fn(function()

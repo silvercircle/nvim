@@ -369,14 +369,14 @@ lazy.setup({
         }
       end
     },
-    {
-      "echasnovski/mini.move",
-      lazy = true,
-      event = { "BufReadPre" },
-      config = function()
-        require("mini.move").setup()
-      end
-    },
+    --{
+    --  "echasnovski/mini.move",
+    --  lazy = true,
+    --  event = { "BufReadPre" },
+    --  config = function()
+    --    require("mini.move").setup()
+    --  end
+    --},
     {
       "nvim-tree/nvim-tree.lua",
       -- cond = Tweaks.tree.version == "Nvim",
