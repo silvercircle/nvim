@@ -72,7 +72,7 @@ M.setup = {
     require("zk").setup({
       -- can be "telescope", "fzf", "fzf_lua", "minipick", or "select" (`vim.ui.select`)
       -- it's recommended to use "telescope", "fzf", "fzf_lua", or "minipick"
-      picker = "telescope",
+      picker = "fzf_lua",
 
       lsp = {
         -- `config` is passed to `vim.lsp.start_client(config)`
@@ -84,7 +84,7 @@ M.setup = {
         },
         -- automatically attach buffers in a zk notebook that match the given filetypes
         auto_attach = {
-          enabled = true,
+          enabled = false,
           filetypes = { "markdown", "liquid" },
         },
       }
@@ -373,10 +373,10 @@ M.setup = {
         cursor_follow = true,
         show_details_pop_up = false,
         chars = {
-          hl = "OutlineGuides",
+          hl_guides = "OutlineGuides",
           hl_toplevel = "Operator"
         },
-        hl_details = "Function",
+        hl_details = "String",
         on_symbols_complete = function(ctx)
           vim.api.nvim_win_set_option(ctx.id_win, "statusline", "  Outline (" .. (ctx.pname or "None") ..
             (ctx.followmode and ", follow" or "") .. ")")

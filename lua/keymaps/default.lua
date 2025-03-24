@@ -490,7 +490,7 @@ end, "Show buftype of current buffer")
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
   local status = CGLOBALS.is_outline_open()
   if status ~= false then
-    if PCFG.outline_filetype == "Outline" then require("outline").refresh_outline() else require("symbols").api.refresh_symbols() end
+    require("symbols").api.refresh_symbols()
   end
 end, "Refresh outline symbols")
 
@@ -520,5 +520,5 @@ vim.g.setkey("n", utility_key .. "ll", function() require("darkmatter.colortools
 require("subspace.lib.darkmatter").map_keys()
 
 vim.g.setkey( {"v", "n" }, utility_key .. "<tab>", ":tabnext<cr>", "Select next tab")
-vim.g.setkey( {"v", "n", "i" }, utility_key .. "mm", function() require("neominimap").toggle() end, "Select next tab")
+vim.g.setkey( {"v", "n", "i" }, utility_key .. "mm", function() require("neominimap").toggle() end, "Toggle Minimap")
 

@@ -203,6 +203,8 @@ function Utils.getroot_current()
 end
 
 --- simple telescope picker to list active LSP servers. Allows to terminate a server on selection.
+--- @param auto boolean - true:  perform auto shutdown for unused LSP servers and return.
+---                       false: present the picker.
 function Utils.StopLsp(auto)
   auto = auto or false
   local Snacks = require("snacks")
@@ -215,7 +217,7 @@ function Utils.StopLsp(auto)
     local count = 0
     for _ in pairs(attached) do count = count + 1 end
     if auto and count == 0 then
-      vim.notify(string.format("Auto shutdown for LSP: %d:%s", client["id"], client["name"]))
+      vim.notify(string.format("Auto shutdown for LSP: %s (client_id=%d)", client["name"], client["id"]))
       vim.lsp.stop_client(client["id"], true)
     end
     if not auto then

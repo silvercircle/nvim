@@ -2,7 +2,7 @@
 -- file in statedir.
 
 local function get_permconfig_filename()
-  return vim.fs.joinpath(vim.fn.stdpath("state"), "/permconfig.json")
+  return vim.fs.joinpath(vim.fn.stdpath("state"), "permconfig.json")
 end
 
 local M = {}
@@ -42,7 +42,7 @@ M.perm_config_default = {
   indent_guides = true,
   scrollbar = true,
   statusline_declutter = 0,
-  outline_filetype = "Outline",
+  outline_filetype = "SymbolsSidebar",
   treesitter_context = true,
   show_indicators = true,
   float_borders = "single",
@@ -54,7 +54,9 @@ M.perm_config_default = {
   lsp = {
     inlay_hints = true
   },
-  is_dev = false
+  is_dev = false,
+  outline_view = false,
+  minimap_view = false
 }
 
 M.perm_config = {}
@@ -98,6 +100,8 @@ function M.write_config()
     if usplit_id ~= nil then
       state.sysmon.width = vim.api.nvim_win_get_width(usplit_id)
     end
+    state.outline_view = CGLOBALS.is_outline_open()
+    state.minimap_view = CGLOBALS.findWinByFiletype("neominimap")[1] or 0
     local string = vim.fn.json_encode(vim.tbl_deep_extend("force", M.perm_config, state))
     f:write(string)
     io.close(f)
@@ -128,7 +132,7 @@ function M.restore_config()
   end
   PCFG = M.perm_config
 
-  PCFG.outline_filetype = (Tweaks.outline_plugin == "symbols") and "SymbolsSidebar" or "Outline"
+  PCFG.outline_filetype = "SymbolsSidebar"
   PCFG.indent_guides = Tweaks.indent.enabled
   -- configure the theme
   local cmp_kind_attr = { bold=true, reverse=true }

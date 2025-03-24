@@ -3,9 +3,9 @@
 -- NOTE: This does not include configurations for C#, Java and scala, because
 -- they are all handled by separate plugins.
 
-require("lsp.utils")
+local Utils = require("lsp.utils")
 
-local caps = require("lsp.utils").get_lsp_capabilities()
+local caps = Utils.get_lsp_capabilities()
 
 -- the reason why we are doing it this was is that I want to have control
 -- over config.cmd, because language servers might be installed everywhere
@@ -15,16 +15,20 @@ local caps = require("lsp.utils").get_lsp_capabilities()
 
 for k,v in pairs(LSPDEF.serverconfigs) do
   if v.active == true then
-    local config = require("lsp.serverconfig." .. k)
-    if config.cmd == nil then
-      config.cmd = v.cmd
-    else
-      config.cmd[1] = v.cmd[1]
+    local s, config = pcall(require, "lsp.serverconfig." .. k)
+    if not s then goto continue end
+    if v.cmd then
+      if config.cmd == nil then
+        config.cmd = v.cmd
+      else
+        config.cmd[1] = v.cmd[1]
+      end
     end
     config.name = k
     vim.lsp.config[k] = config
     vim.lsp.enable(k, true)
   end
+  ::continue::
 end
 
 -- modify defaults for all configurations

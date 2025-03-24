@@ -238,13 +238,6 @@ lazy.setup({
     end
   },
   {
-    "smjonas/inc-rename.nvim",
-    cmd = "IncRename",
-    config = function()
-      require("inc_rename").setup()
-    end
-  },
-  {
     "stevearc/quicker.nvim",
     event = "FileType qf",
     config = function()
