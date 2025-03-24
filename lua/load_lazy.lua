@@ -422,14 +422,6 @@ lazy.setup({
       config = function() require("dap.nvim_dap_ui") end
     },
     {
-      "smjonas/inc-rename.nvim",
-      cond = false,
-      cmd = "IncRename",
-      config = function()
-        require("inc_rename").setup()
-      end
-    },
-    {
       "silvercircle/nvim-cokeline",
       lazy = true,
       event = "UIEnter",
@@ -455,14 +447,6 @@ lazy.setup({
     {
       "scalameta/nvim-metals",
       ft = { "scala", "sbt" },
-    },
-    {
-      "folke/trouble.nvim",
-      cond = false,
-      event = "LspAttach",
-      config = function()
-        require("plugins.others").setup.trouble()
-      end
     },
     {
       "seblyng/roslyn.nvim",
