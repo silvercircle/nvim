@@ -195,20 +195,9 @@ lazy.setup({
               expr = true,
               silent = true,
               mode = { "i", "s" },
-            },
-          },
-        },
-        {
-          "windwp/nvim-autopairs",
-          config = function()
-            require("nvim-autopairs").setup({})
-            if PCFG.autopair then
-              require("nvim-autopairs").enable()
-            else
-              require("nvim-autopairs").disable()
-            end
-          end
-        },
+            }
+          }
+        }
       },
       config = function()
         require("plugins.cmp_setup")
@@ -231,17 +220,6 @@ lazy.setup({
           -- 'Kaiser-Yang/blink-cmp-dictionary',
         },
         { "moyiz/blink-emoji.nvim" },
-        {
-          "windwp/nvim-autopairs",
-          config = function()
-            require("nvim-autopairs").setup({})
-            if PCFG.autopair then
-              require("nvim-autopairs").enable()
-            else
-              require("nvim-autopairs").disable()
-            end
-          end
-        },
         {
           "https://gitlab.com/silvercircle74/blink-cmp-wordlist"
         },

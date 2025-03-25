@@ -90,15 +90,9 @@ local H = {}
 ---   -- OR
 ---   require('mini.move').setup({}) -- replace {} with your config table
 --- <
-MiniMove.setup = function(config)
+MiniMove.setup = function()
   -- Export module
   _G.MiniMove = MiniMove
-
-  -- Setup config
-  -- config = H.setup_config(config)
-
-  -- Apply config
-  -- H.apply_config(config)
 end
 
 --- Module config

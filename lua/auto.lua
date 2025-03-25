@@ -380,11 +380,16 @@ delcmd = autocmd({ "BufReadPost" }, {
       return
     end
     _delayloaded = true
+    require("subspace.content.pairs").setup()
     require("subspace.content.move").setup()
     vim.g.setkey( "v", "<A-l>", function() MiniMove.move_selection("right") end)
     vim.g.setkey( "v", "<A-h>", function() MiniMove.move_selection("left") end)
     vim.g.setkey( "v", "<A-k>", function() MiniMove.move_selection("up") end)
     vim.g.setkey( "v", "<A-j>", function() MiniMove.move_selection("down") end)
+    vim.g.setkey( "n", "<A-l>", function() MiniMove.move_line("right") end)
+    vim.g.setkey( "n", "<A-h>", function() MiniMove.move_line("left") end)
+    vim.g.setkey( "n", "<A-k>", function() MiniMove.move_line("up") end)
+    vim.g.setkey( "n", "<A-j>", function() MiniMove.move_line("down") end)
     vim.defer_fn(function() require("plugins.commandpalette") end, 200)
     if PCFG.outline_view ~= false or PCFG.minimap_view > 0 then
       vim.defer_fn(function()
