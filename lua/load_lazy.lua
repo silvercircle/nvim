@@ -424,7 +424,11 @@ lazy.setup({
     },
     {
       "scalameta/nvim-metals",
+      cond = LSPDEF.advanced_config.scala,
       ft = { "scala", "sbt" },
+      dependencies = {
+        "nvim-lua/plenary.nvim"
+      }
     },
     {
       "seblyng/roslyn.nvim",
