@@ -270,7 +270,7 @@ M.setup = {
     vim.keymap.set({ "n", "v" }, "<C-right>", mc.prevCursor)
 
     -- Delete the main cursor.
-    vim.keymap.set({ "n", "v" }, "<leader>x", mc.deleteCursor)
+    vim.keymap.set({ "n", "v" }, "<c-s-q>", mc.deleteCursor)
 
     -- Add and remove cursors with control + left click.
     vim.keymap.set("n", "<c-leftmouse>", mc.handleMouse)
@@ -382,7 +382,7 @@ M.setup = {
             (ctx.followmode and ", follow" or "") .. ")")
           -- unfold for some filetypes. Not a good idea for others (like lua) because
           -- they have excessiv symbol spam so keep the list collapsed.
-          local unfold_for = { "tex", "markdown", "typst", "zig", "cpp", "cs" }
+          local unfold_for = { "tex", "markdown", "typst", "zig", "cpp", "cs", "scala" }
           if vim.tbl_contains(unfold_for, vim.bo.filetype) then
             Symbols.api.action("unfold-all")
           end

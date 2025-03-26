@@ -302,37 +302,37 @@ require("blink.cmp").setup({
           end,
         }
       },
-      dictionary = {
-        min_keyword_length = 3,
-        max_items = 8,
-        async = true,
-        module = "blink-cmp-dictionary",
-        name = "Dict",
-        opts = {
-          kind_icons = {
-            Dict = " "
-          },
-          dictionary_directories = { vim.fn.expand("~/.config/nvim/dict") },
-          get_command = "rg",
-          get_command_args = function(prefix)
-            return { -- make sure this command is available in your system
-              "--color=never",
-              "--no-line-number",
-              "--no-messages",
-              "--no-filename",
-              "--ignore-case",
-              "--",
-              prefix
-            }
-          end,
-        }
-      }
+      --dictionary = {
+      --  min_keyword_length = 3,
+      --  max_items = 8,
+      --  async = true,
+      --  module = "blink-cmp-dictionary",
+      --  name = "Dict",
+      --  opts = {
+      --    kind_icons = {
+      --      Dict = " "
+      --    },
+      --    dictionary_directories = { vim.fn.expand("~/.config/nvim/dict") },
+      --    get_command = "rg",
+      --    get_command_args = function(prefix)
+      --      return { -- make sure this command is available in your system
+      --        "--color=never",
+      --        "--no-line-number",
+      --        "--no-messages",
+      --        "--no-filename",
+      --        "--ignore-case",
+      --        "--",
+      --        prefix
+      --      }
+      --    end,
+      --  }
+      --}
     }
   },
   completion = {
     accept = {
       --create_undo_point = true,
-      resolve_timeout_ms = 100,
+      resolve_timeout_ms = 1000,
       auto_brackets = {
         enabled = true,
         kind_resolution = {
