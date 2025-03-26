@@ -195,6 +195,9 @@ function M.get_lsp_capabilities()
     M.lsp_capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), cmp_capabilities)
     M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = LSPDEF.use_dynamic_registration
     M.lsp_capabilities.textDocument.completion.editsNearCursor = true
+    M.lsp_capabilities.workspace.executeCommand = {
+      dynamicRegistration = true
+    }
   end
   return M.lsp_capabilities
 end

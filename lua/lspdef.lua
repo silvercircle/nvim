@@ -95,7 +95,7 @@ M.serverconfigs = {
   ["jsonls"]                = { active = true,
     cmd = { jp(M.masonbinpath, "vscode-json-language-server") }
   },
-  ["zls"]                   = { aactive = true,
+  ["zls"]                   = { active = true,
     cmd = { jp(M.localbin, "zls") }
   },
   ["ctags"]             = { active = false,
@@ -177,5 +177,9 @@ M.debug = false
 M.use_dynamic_registration = true
 -- automatically terminate unused (= 0 clients) lsp servers
 M.auto_shutdown = true
+M.advanced_config = {
+  scala = false,
+  roslyn = true
+}
 return M
 

@@ -276,7 +276,6 @@ autocmd({ "FileType" }, {
       vim.defer_fn(function() vim.cmd("setlocal cursorline") end, 400)
     elseif args.match == "qf" or args.match == "replacer" then
       vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal fo-=t")
-      -- vim.api.nvim_win_set_height(__Globals.term.winid, PCFG.terminal.height)
     elseif vim.tbl_contains(tabstop_pattern, args.match) then
       vim.cmd(
       "setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal fo-=c")
@@ -285,13 +284,14 @@ autocmd({ "FileType" }, {
     -- metals, attach on filetype
     elseif vim.tbl_contains(indk_pattern, args.match) then
       vim.cmd("setlocal indentkeys-=: | setlocal cinkeys-=:")
-    elseif args.match == "scala" or args.match == "sbt" then
-      require("metals").initialize_or_attach({
-        capabilities = require("lsp.utils").get_lsp_capabilities(),
-        settings = {
-          metalsBinaryPath = Tweaks.lsp.server_bin["metals"]
-        }
-      })
+    elseif (args.match == "scala" or args.match == "sbt") and LSPDEF.advanced_config.scala == true then
+      local cfg = require("metals").bare_config()
+      cfg.capabilities = require("lsp.utils").get_lsp_capabilities()
+      cfg.on_attach = ON_LSP_ATTACH
+      cfg.settings = {
+        metalsBinaryPath = LSPDEF.server_bin["metals"]
+      }
+      require("metals").initialize_or_attach(cfg)
     end
   end,
   group = agroup_hl
