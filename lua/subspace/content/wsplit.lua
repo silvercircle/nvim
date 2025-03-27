@@ -17,6 +17,7 @@ Wsplit.content_winid = nil -- window of interest.
 Wsplit.freeze = false      -- do not refresh when set
 Wsplit.cookie = {}
 Wsplit.winid_bufferlist = nil
+Wsplit.nsid = nil
 
 Wsplit.cookie_source = Tweaks.cookie_source
 
@@ -306,8 +307,8 @@ end
 function Wsplit.open(_weatherfile)
   local wid = CGLOBALS.findWinByFiletype("terminal")
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
-  Wsplit.weatherfile = vim.fn.expand(_weatherfile)
 
+  Wsplit.weatherfile = vim.fn.expand(_weatherfile)
   if vim.fn.filereadable(Wsplit.weatherfile) == 0 then
     return
   end
@@ -338,6 +339,7 @@ end
 --- open the weather split in a split of the nvim-tree
 function Wsplit.openleftsplit(_weatherfile)
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
+  if Wsplit.nsid == nil then Wsplit.nsid = vim.api.nvim_create_namespace("default") end
   Wsplit.weatherfile = vim.fn.expand(_weatherfile)
   Wsplit.winid = Wsplit.splittree(CFG.weather.required_height)
   if Wsplit.winid == 0 then
@@ -388,6 +390,9 @@ function Wsplit.close()
   end
   if timer ~= nil then
     timer:stop()
+  end
+  if Wsplit.nsid ~= nil then
+    vim.api.nvim_buf_clear_namespace(Wsplit.bufid, Wsplit.nsid, 0, -1)
   end
 end
 
@@ -488,7 +493,7 @@ function Wsplit.refresh()
     end
     vim.api.nvim_win_set_option(Wsplit.winid, "statusline", " 󰋼  Information")
 
-    vim.api.nvim_buf_clear_namespace(Wsplit.bufid, -1, 0, -1)
+    vim.api.nvim_buf_clear_namespace(Wsplit.bufid, Wsplit.nsid, 0, -1)
     if Wsplit.content_winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.content_winid) then
       local curbuf = vim.api.nvim_win_get_buf(Wsplit.content_winid)
       local name = nil
@@ -598,22 +603,22 @@ function Wsplit.refresh()
         vim.api.nvim_buf_set_lines(Wsplit.bufid, 0, -1, false, lines)
       end
       -- set highlights
-      vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Visual", 0, 0, Wsplit.win_width + 1)
+      vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 0, 0, { hl_group = "Visual", end_col = #lines[1] })
       if string.len(name) > 0 then
-        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "CursorLine", 1, 0, Wsplit.win_width + 1)
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 1, 0, { hl_group = "CursorLine", end_col = #lines[2] })
       end
       if fn_symbol_hl ~= nil then
-        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, fn_symbol_hl, 4, 0, Wsplit.win_width + 1)
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 4, 0, { hl_group = fn_symbol_hl, end_col = #lines[5] })
       end
-      vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Debug", 6, 0, Wsplit.win_width + 1)
-      vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "BlueBold", 7, 0, Wsplit.win_width + 1)
-      vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "BlueBold", 8, 0, Wsplit.win_width + 1)
-      vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "PurpleBold", 9, 0, Wsplit.win_width + 1)
-      vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "String", 10, 0, Wsplit.win_width + 1)
+      vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 6, 0, { hl_group = "Debug", end_col = #lines[7] })
+      vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 7, 0, { hl_group = "BlueBold", end_col = #lines[8] })
+      vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 8, 0, { hl_group = "BlueBold", end_col = #lines[9] })
+      vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 9, 0, { hl_group = "PurpleBold", end_col = #lines[10] })
+      vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 10, 0,{ hl_group = "String", end_col = #lines[11] })
       vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", false)
     end
   elseif Wsplit.content == "weather" then
-    vim.api.nvim_buf_clear_namespace(Wsplit.bufid, -1, 0, -1)
+    vim.api.nvim_buf_clear_namespace(Wsplit.bufid, Wsplit.nsid, 0, -1)
     vim.api.nvim_win_set_option(Wsplit.winid, "statusline", " 󰏈  Weather")
     if vim.fn.filereadable(Wsplit.weatherfile) then
       local lines = {}
@@ -664,25 +669,26 @@ function Wsplit.refresh()
         -- temps (like the Dew Point)
         hl = temp_to_hl(results["6"])
         vim.api.nvim_buf_set_lines(Wsplit.bufid, 0, -1, false, lines)
-        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 11, 0, -1)
+        vim.notify(lines[13])
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 12, 0, { hl_group = hl, end_col = #lines[13] })
 
-        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, "Function", 1, 0, -1)
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 1, 0, { hl_group = "Function", end_col = #lines[2] })
         -- temp
         hl = temp_to_hl(results["3"]) -- the current temperature, also colorize the condition string
-        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 2, 0, -1)
-        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 4, 0, 20)
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 2, 0, { hl_group = hl, end_col = Wsplit.win_width })
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 4, 0, { hl_group = hl, end_col = 20 })
         hl = temp_to_hl(results["16"])
-        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 4, 20, -1)
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 4, 20, { hl_group = hl, end_col = #lines[5] })
 
         hl = temp_to_hl(results["29"])
-        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 5, 0, 20)
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 5, 0, { hl_group = hl, end_col = 20 })
         hl = temp_to_hl(results["30"])
-        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 5, 20, -1)
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 5, 20, { hl_group = hl, end_col = #lines[6] })
         hl = temp_to_hl(results["17"])
-        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 6, 0, 20)
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 6, 0, { hl_group = hl, end_col = 20 })
 
         hl = wind_to_hl(results["20"])
-        vim.api.nvim_buf_add_highlight(Wsplit.bufid, -1, hl, 8, 0, 25)
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 8, 0, { hl_group = hl, end_col = 20 })
         vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", false)
       end
     end
