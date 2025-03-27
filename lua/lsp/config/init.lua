@@ -13,6 +13,8 @@ local caps = Utils.get_lsp_capabilities()
 -- That's why lspdef.lua contains the cmd definitions and this can be easily
 -- overridden by using a lspdef_user.lua
 
+local to_enable = {}
+
 for k,v in pairs(LSPDEF.serverconfigs) do
   if v.active == true then
     local s, config = pcall(require, "lsp.serverconfig." .. k)
@@ -25,12 +27,13 @@ for k,v in pairs(LSPDEF.serverconfigs) do
       end
     end
     config.name = k
+    table.insert(to_enable, k)
     vim.lsp.config[k] = config
-    vim.lsp.enable(k, true)
   end
   ::continue::
 end
 
+vim.lsp.enable(to_enable)
 -- modify defaults for all configurations
 vim.lsp.config("*", {
   on_attach = ON_LSP_ATTACH,

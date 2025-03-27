@@ -376,7 +376,7 @@ M.setup = {
           hl_guides = "OutlineGuides",
           hl_foldmarker = "Operator"
         },
-        hl_details = "Number",
+        hl_details = "String",
         on_symbols_complete = function(ctx)
           vim.api.nvim_set_option_value("statusline", "  Outline (" .. (ctx.pname or "None") ..
             (ctx.followmode and ", follow" or "") .. ")", { win = ctx.id_win })

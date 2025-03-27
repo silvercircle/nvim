@@ -105,7 +105,7 @@ local function main_layout()
             PCFG.terminal.height = vim.api.nvim_win_get_height(CGLOBALS.term.winid)
           end
           Wsplit.set_minheight()
-          Wsplit.refresh()
+          Wsplit.refresh("resize")
           local status = CGLOBALS.is_outline_open()
           local tree = CGLOBALS.findWinByFiletype(treeft)
           if status ~= false then
@@ -206,7 +206,7 @@ autocmd({ 'BufEnter' }, {
     CGLOBALS.get_bufsize()
     Wsplit.content_set_winid(vim.fn.win_getid())
     if Wsplit.content == 'info' then
-      vim.schedule(function() Wsplit.refresh() end)
+      vim.schedule(function() Wsplit.refresh("BufEnter (auto.lua)") end)
     end
     marks.BufWinEnterHandler(args) -- update marks in sign column
     vim.schedule(function() require("lualine").refresh() end)
@@ -316,7 +316,7 @@ autocmd({ 'WinEnter' }, {
     Wsplit.content_set_winid(vim.fn.win_getid())
     if Wsplit.content == 'info' then
       CGLOBALS.get_bufsize()
-      vim.schedule(function() Wsplit.refresh() end)
+      vim.schedule(function() Wsplit.refresh("WinEnter (auto.lua)") end)
     end
 
     local filetype = vim.bo.filetype
@@ -359,7 +359,7 @@ autocmd({ 'LspAttach' }, {
     if vim.bo[args.buf].ft == "razor" then
       vim.cmd("hi! link @lsp.type.field Member")
     end
-    if Wsplit.content == "info" then Wsplit.refresh() end
+    if Wsplit.content == "info" then Wsplit.refresh("LspAttach (auto.lua)") end
   end
 })
 
