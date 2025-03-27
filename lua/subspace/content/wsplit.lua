@@ -630,7 +630,6 @@ function Wsplit.refresh(reason)
       vim.api.nvim_set_option_value("modifiable", false, { buf = Wsplit.bufid })
     end
   elseif Wsplit.content == "weather" then
-    vim.notify("Weather refresh, reason = " .. reason)
     vim.api.nvim_buf_clear_namespace(Wsplit.bufid, Wsplit.nsid, 0, -1)
     vim.api.nvim_set_option_value("statusline", " 󰏈  Weather", { win = Wsplit.winid })
     if vim.fn.filereadable(Wsplit.weatherfile) then

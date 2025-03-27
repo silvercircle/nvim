@@ -27,10 +27,8 @@ function M.ui_select_scheme()
     Dmtheme.cfg()
     if conf.callback ~= nil and type(conf.callback) == "function" then
       conf.callback("scheme")
-      Dmtheme.set(false)
-    else
-      Dmtheme.set(false)
     end
+    Dmtheme.set(false)
   end
 
   Utils.simplepicker(schemes, execute, { pre = "current", sortby = { "text:desc" }, prompt = "Select theme scheme" })

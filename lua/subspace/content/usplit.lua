@@ -4,6 +4,10 @@ Usplit.bufid = nil -- buffer id
 Usplit.content = "fortune"
 Usplit.cookie = {}
 Usplit.width = 0
+Usplit.old_dimensions = {
+  w = 0,
+  h = 0
+}
 
 local timer = nil
 local num_cookies = Tweaks.fortune.numcookies or 1
@@ -26,7 +30,7 @@ function Usplit.resize_or_closed(_)
       end
       Usplit.winid = nil
     else
-      Usplit.refresh()
+      Usplit.refresh("resize")
       PCFG.sysmon.width = vim.api.nvim_win_get_width(Usplit.winid)
     end
   end
@@ -67,10 +71,15 @@ end
 
 --- this renders the fortune cookie content. In sysmon mode, it
 --- does nothing.
-function Usplit.refresh()
+function Usplit.refresh(reason)
+  reason = reason or "resize"
   if Usplit.content == "sysmon" then
     return
   end
+  local w, h = vim.api.nvim_win_get_width(Usplit.winid), vim.api.nvim_win_get_height(Usplit.winid)
+  if reason == "resize" and w == Usplit.old_dimensions.w and h == Usplit.old_dimensions.h then return end
+  Usplit.old_dimensions.w = w
+  Usplit.old_dimensions.h = h
   local lines = {}
   vim.api.nvim_set_option_value("modifiable", true, { buf = Usplit.bufid })
   -- prevent the winbar from appearing (nvim 0.10 or higher)
@@ -106,7 +115,7 @@ function Usplit.refresh_on_timer()
       end,
       on_exit = function()
         table.insert(Usplit.cookie, " ")
-        Usplit.refresh()
+        Usplit.refresh("content")
       end,
     })
   end
