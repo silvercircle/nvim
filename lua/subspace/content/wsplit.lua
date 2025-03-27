@@ -474,7 +474,7 @@ end
 ---   b) The current window or buffer changes (WinEnter, BufWinEnter events)
 function Wsplit.refresh()
   local results = {}
-  local relpath = CFG.nightly == true and vim.fs.relpath or require("subspace.lib.fs").relpath
+  local relpath = vim.fs.relpath
 
   if Wsplit.bufid == nil or Wsplit.winid == nil then
     return
@@ -610,11 +610,13 @@ function Wsplit.refresh()
       if fn_symbol_hl ~= nil and lines[5] then
         vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 4, 0, { hl_group = fn_symbol_hl, end_col = #lines[5] })
       end
-      vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 6, 0, { hl_group = "Debug", end_col = #lines[7] })
-      vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 7, 0, { hl_group = "BlueBold", end_col = #lines[8] })
-      vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 8, 0, { hl_group = "BlueBold", end_col = #lines[9] })
-      vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 9, 0, { hl_group = "PurpleBold", end_col = #lines[10] })
-      vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 10, 0,{ hl_group = "String", end_col = #lines[11] })
+      if #lines >= 7 then
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 6, 0, { hl_group = "Debug", end_col = #lines[7] })
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 7, 0, { hl_group = "BlueBold", end_col = #lines[8] })
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 8, 0, { hl_group = "BlueBold", end_col = #lines[9] })
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 9, 0, { hl_group = "PurpleBold", end_col = #lines[10] })
+        vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 10, 0,{ hl_group = "String", end_col = #lines[11] })
+      end
       vim.api.nvim_set_option_value("modifiable", false, { buf = Wsplit.bufid })
     end
   elseif Wsplit.content == "weather" then

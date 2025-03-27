@@ -97,8 +97,5 @@ o.cmdheight=Tweaks.cmdheight
 o.cinoptions=":N,=4"
 o.splitbelow = true
 vim.opt.matchpairs:append("<:>")
-
-if CFG.nightly then
-  vim.o.winborder="single"
-end
+vim.o.winborder="single"
 -- o.secure=true

@@ -367,14 +367,14 @@ M.setup = {
         show_inline_details = true,
         open_direction = "right",
         on_open_make_windows_equal = false,
-        show_guide_lines = false,
+        show_guide_lines = true,
         unfold_on_goto = true,
         hide_cursor = false,
         cursor_follow = true,
         show_details_pop_up = false,
         chars = {
-          hl_guides = "Number",
-          hl_foldmarker = "DiffDelete"
+          hl_guides = "OutlineGuides",
+          hl_foldmarker = "Operator"
         },
         hl_details = "Number",
         on_symbols_complete = function(ctx)

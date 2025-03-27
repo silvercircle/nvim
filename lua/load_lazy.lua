@@ -53,6 +53,7 @@ lazy.setup({
       event = "UIEnter",
       config = function()
         require("plugins.lualine_setup")
+        require("plugins.lualine_setup").fixhl()
       end
     },
     {
@@ -271,15 +272,6 @@ lazy.setup({
           preview_window = true,
           title = true
         })
-      end
-    },
-    {
-      "neovim/nvim-lspconfig",
-      lazy = true,
-      cond = CFG.have_eleven == 0,
-      event = { "BufReadPost" },
-      config = function()
-        require("lsp.legacy")
       end
     },
     {
