@@ -18,7 +18,9 @@ Wsplit.freeze = false      -- do not refresh when set
 Wsplit.cookie = {}
 Wsplit.winid_bufferlist = nil
 Wsplit.nsid = nil
-
+Wsplit.old_dimensions = {
+  w = 0, h = 0
+}
 Wsplit.cookie_source = Tweaks.cookie_source
 
 local watch = nil            -- file watcher (for weather content)
@@ -166,7 +168,7 @@ function Wsplit.on_content_change()
     end
   end
   Wsplit.set_minheight()
-  Wsplit.refresh()
+  Wsplit.refresh("on_content_change()")
 end
 
 --- toggle window content
@@ -230,7 +232,7 @@ function Wsplit.resize_or_closed()
     Wsplit.winid = nil
   elseif Wsplit.winid ~= nil then
     Wsplit.set_minheight()
-    Wsplit.refresh()
+    Wsplit.refresh("resize_or_closed")
   end
 end
 
@@ -243,7 +245,7 @@ local function onChange(cust, _, _, status)
   if watch ~= nil then
     vim.uv.fs_event_stop(watch)
   end
-  Wsplit.refresh()
+  Wsplit.refresh("onChange()")
   if watch ~= nil then
     vim.uv.fs_event_start(
       watch,
@@ -290,7 +292,7 @@ function Wsplit.installwatch()
       callback = function()
         -- weather content refreshes from a file watcher
         if Wsplit.content ~= "weather" then
-          Wsplit.refresh()
+          Wsplit.refresh("installwatch()")
         end
       end,
     })
@@ -331,7 +333,7 @@ function Wsplit.open(_weatherfile)
     vim.cmd("set winhl=Normal:TreeNormalNC | set foldcolumn=0 | set statuscolumn=\\  | setlocal nocursorline")
       vim.fn.win_gotoid(curwin)
   end
-  Wsplit.refresh()
+  Wsplit.refresh("open()")
   Wsplit.installwatch()
   PCFG.weather.active = true
 end
@@ -359,7 +361,7 @@ function Wsplit.openleftsplit(_weatherfile)
     "set winfixheight | setlocal statuscolumn=| set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:TreeNormalNC | set foldcolumn=0 | setlocal nocursorline"
   )
   vim.fn.win_gotoid(curwin)
-  Wsplit.refresh()
+  Wsplit.refresh("openleftsplit()")
   Wsplit.installwatch()
   PCFG.weather.active = true
 end
@@ -454,7 +456,7 @@ function Wsplit.refresh_cookie()
       end
     end,
     on_exit = function()
-      Wsplit.refresh()
+      Wsplit.refresh("refresh_cookie()")
     end,
   })
 end
@@ -465,14 +467,16 @@ function Wsplit.refresh_on_timer()
   if Wsplit.content == "weather" then
     return
   end
-  Wsplit.refresh()
+  Wsplit.refresh("refresh_on_timer()")
 end
 
 --- refresh the buffer. Called when the window is resized or the file watcher detects a change
 --- in the weather file. For info content, this is called when:
 ---   a) one option of interest changes
 ---   b) The current window or buffer changes (WinEnter, BufWinEnter events)
-function Wsplit.refresh()
+function Wsplit.refresh(reason)
+  -- assume resize when no reason is given
+  reason = reason or "resize"
   local results = {}
   local relpath = vim.fs.relpath
 
@@ -483,6 +487,12 @@ function Wsplit.refresh()
   if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) then
     Wsplit.win_width = vim.api.nvim_win_get_width(Wsplit.winid)
     Wsplit.win_height = vim.api.nvim_win_get_height(Wsplit.winid)
+    if reason == "resize" and Wsplit.win_width == Wsplit.old_dimensions.w and Wsplit.win_height == Wsplit.old_dimensions.h then
+      return
+    else
+      Wsplit.old_dimensions.w = Wsplit.win_width
+      Wsplit.old_dimensions.h = Wsplit.win_height
+    end
   else
     return
   end
@@ -620,6 +630,7 @@ function Wsplit.refresh()
       vim.api.nvim_set_option_value("modifiable", false, { buf = Wsplit.bufid })
     end
   elseif Wsplit.content == "weather" then
+    vim.notify("Weather refresh, reason = " .. reason)
     vim.api.nvim_buf_clear_namespace(Wsplit.bufid, Wsplit.nsid, 0, -1)
     vim.api.nvim_set_option_value("statusline", " 󰏈  Weather", { win = Wsplit.winid })
     if vim.fn.filereadable(Wsplit.weatherfile) then
@@ -671,7 +682,6 @@ function Wsplit.refresh()
         -- temps (like the Dew Point)
         hl = temp_to_hl(results["6"])
         vim.api.nvim_buf_set_lines(Wsplit.bufid, 0, -1, false, lines)
-        vim.notify(lines[13])
         vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 12, 0, { hl_group = hl, end_col = #lines[13] })
 
         vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 1, 0, { hl_group = "Function", end_col = #lines[2] })
