@@ -142,8 +142,7 @@ local telescope_fidgethistory = function(opts)
         local notification = entry.value
         local bufnr = self.state.bufnr
         local headersize = 3
-        -- local max_width = vim.api.nvim_win_get_config(status.preview_win).width
-        vim.api.nvim_win_set_option(status.preview_win, "wrap", true)
+        vim.api.nvim_set_option_value("wrap", true, { win = status.preview_win })
         vim.api.nvim_buf_clear_namespace(bufnr, -1, 0, -1)
         table.insert(lines, "Source:    " .. notification.group_name)
         table.insert(lines, "Title:     " .. notification.annote)

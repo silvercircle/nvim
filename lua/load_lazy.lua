@@ -139,8 +139,7 @@ lazy.setup({
               wordfiles = { "wordlist.txt", "personal.txt" },
               debug = false,
               read_on_setup = false,
-              watch_files = true,
-              telescope_theme = __Telescope_dropdown_theme
+              watch_files = true
             })
           end
         },
@@ -203,7 +202,6 @@ lazy.setup({
         require("plugins.cmp_setup")
       end
     },
-    -- blink.cmp (alternative to nvim-cmp)
     {
       "Saghen/blink.cmp",
       branch = "main",

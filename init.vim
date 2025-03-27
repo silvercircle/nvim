@@ -39,7 +39,7 @@ if vim.g.neovide then
   vim.g.neovide_underline_stroke_scale = 2.0
 end
 
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",

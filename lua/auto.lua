@@ -50,10 +50,10 @@ autocmd({ 'VimEnter' }, {
     end
     -- support textwidth and formatoptions roperties via editorconfig files
     econfig.properties.textwidth = function(bufnr, val, _)
-      vim.api.nvim_buf_set_option(bufnr, "textwidth", tonumber(val))
+      vim.api.nvim_set_option_value("textwidth", tonumber(val), { buf = bufnr })
     end
     econfig.properties.formatoptions = function(bufnr, val, _)
-      vim.api.nvim_buf_set_option(bufnr, "formatoptions", val)
+      vim.api.nvim_set_option_value("formatoptions", val, { buf = bufnr })
     end
   end
 })
@@ -191,7 +191,7 @@ autocmd({ 'bufwinleave' }, {
 autocmd({ 'BufEnter' }, {
   pattern = "*",
   callback = function(args)
-    if vim.api.nvim_buf_get_option(args.buf, "buftype") == '' then
+    if vim.api.nvim_get_option_value("buftype", { buf = args.buf }) == '' then
       local val = CGLOBALS.get_buffer_var(args.buf, "tsc")
       if val == true then
         vim.schedule(function() Tsc.enable() end)
@@ -220,7 +220,7 @@ autocmd({ 'BufReadPost' }, {
   callback = function(args)
     vim.api.nvim_buf_set_var(0, "tsc", PCFG.treesitter_context)
     vim.api.nvim_buf_set_var(0, "inlayhints", PCFG.lsp.inlay_hints)
-    if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
+    if #vim.fn.expand("%") > 0 and vim.api.nvim_get_option_value("buftype", { buf = args.buf }) ~= 'nofile' then
       -- make sure parsing is complete before loading the view because restoring the folds
       -- would not work otherwise. This is only needed when using async parsing.
       if vim.g._ts_force_sync_parsing ~= true then

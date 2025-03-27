@@ -72,9 +72,8 @@ function Usplit.refresh()
     return
   end
   local lines = {}
-  vim.api.nvim_buf_set_option(Usplit.bufid, "modifiable", true)
+  vim.api.nvim_set_option_value("modifiable", true, { buf = Usplit.bufid })
   -- prevent the winbar from appearing (nvim 0.10 or higher)
-  vim.api.nvim_buf_set_option(Usplit.bufid, "winbar", "")
   vim.api.nvim_buf_clear_namespace(Usplit.bufid, -1, 0, -1)
   table.insert(lines, " ")
   table.insert(lines, "    *** Quote of the moment ***")
@@ -83,8 +82,9 @@ function Usplit.refresh()
     table.insert(lines, " " .. v)
   end
   vim.api.nvim_buf_set_lines(Usplit.bufid, 0, -1, false, lines)
-  vim.api.nvim_buf_set_option(Usplit.bufid, "modifiable", false)
-  vim.api.nvim_buf_set_option(Usplit.bufid, "modified", false)
+  vim.api.nvim_set_option_value("modifiable", false, { buf = Usplit.bufid })
+  vim.api.nvim_set_option_value("winbar", "", { win = Usplit.winid })
+  vim.api.nvim_set_option_value("modified", false, { buf = Usplit.bufid })
   vim.api.nvim_buf_add_highlight(Usplit.bufid, -1, "Debug", 1, 0, -1)
 end
 
@@ -134,15 +134,14 @@ function Usplit.open()
           .. " --time 3"
       )
       Usplit.winid = vim.fn.win_getid()
-      vim.api.nvim_win_set_option(Usplit.winid, "statusline", "  System Monitor")
+      vim.api.nvim_set_option_value("statusline", "  System Monitor", { win = Usplit.winid })
     elseif Usplit.content == "fortune" then
-      vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(wid[1]), "modifiable", true)
+      vim.api.nvim_set_option_value("modifiable", true, { buf = vim.api.nvim_win_get_buf(wid[1]) })
       vim.cmd("rightbelow " .. width .. " vsplit new")
       vim.cmd("setlocal buftype=nofile")
       Usplit.winid = vim.fn.win_getid()
-      --vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(wid[1]), "buftype", "nofile")
-      vim.api.nvim_win_set_option(Usplit.winid, "statusline", "󰈙  Fortune cookie")
-      vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(wid[1]), "modifiable", false)
+      vim.api.nvim_set_option_value("statusline", "󰈙  Fortune cookie", { win = Usplit.winid })
+      vim.api.nvim_set_option_value("modifiable", false, { buf = vim.api.nvim_win_get_buf(wid[1]) })
     end
     vim.schedule(function()
       vim.api.nvim_win_set_width(Usplit.winid, PCFG.sysmon.width - 2)
@@ -151,8 +150,8 @@ function Usplit.open()
       vim.api.nvim_win_set_width(Usplit.winid, PCFG.sysmon.width)
     end)
     Usplit.bufid = vim.api.nvim_get_current_buf()
-    vim.api.nvim_buf_set_option(Usplit.bufid, "buflisted", false)
-    vim.api.nvim_win_set_option(Usplit.winid, "list", false)
+    vim.api.nvim_set_option_value("buflisted", false, { buf = Usplit.bufid })
+    vim.api.nvim_set_option_value("list", false, { win = Usplit.winid })
     vim.cmd(
       "setlocal statuscolumn=%#TreeNormalNC#\\ |set winfixheight | setlocal winbar= |set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=SignColumn:TreeNormalNC,Normal:TreeNormalNC | set foldcolumn=0 | setlocal nocursorline"
     )
@@ -161,7 +160,7 @@ function Usplit.open()
   if timer ~= nil then
     timer:stop()
   else
-    timer = vim.loop.new_timer()
+    timer = vim.uv.new_timer()
   end
   if timer ~= nil and Usplit.content == "fortune" then
     timer:start(0, timer_interval, vim.schedule_wrap(Usplit.refresh_on_timer))

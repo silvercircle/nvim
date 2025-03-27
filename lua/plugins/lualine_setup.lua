@@ -185,7 +185,7 @@ require("lualine").setup({
     {
       "o:textwidth",
       fmt = function(str)
-        return string.format("%s:%s:%s", str, vim.api.nvim_win_get_option(0, "wrap") == true and "wr" or "no", vim.o.foldmethod)
+        return string.format("%s:%s:%s", str, vim.api.nvim_get_option_value("wrap", { win = 0 }) == true and "wr" or "no", vim.o.foldmethod)
       end
     },
     }, -- display textwidth after formattingoptions
@@ -215,7 +215,7 @@ require("lualine").setup({
     {
       "o:textwidth",
       fmt = function(str)
-        return string.format("%s:%s:%s", str, vim.api.nvim_win_get_option(0, "wrap") == true and "wr" or "no", vim.o.foldmethod)
+        return string.format("%s:%s:%s", str, vim.api.nvim_get_option_value("wrap", { win = 0 }) == true and "wr" or "no", vim.o.foldmethod)
       end
     }},
     lualine_b = {},

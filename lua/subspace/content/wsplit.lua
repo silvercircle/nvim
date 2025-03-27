@@ -132,8 +132,8 @@ function Wsplit.splittree(_factor)
     vim.fn.win_gotoid(winid[1])
     vim.cmd("below " .. splitheight .. " sp")
     Wsplit.winid_bufferlist = vim.fn.win_getid()
-    vim.api.nvim_win_set_option(Wsplit.winid_bufferlist, "list", false)
-    vim.api.nvim_win_set_option(Wsplit.winid_bufferlist, "statusline", "Buffer List")
+    vim.api.nvim_set_option_value("list", false, { win = Wsplit.winid_bufferlist })
+    vim.api.nvim_set_option_value("statusline", "Buffer List", { win = Wsplit.winid_bufferlist })
     vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:TreeNormalNC | set foldcolumn=0")
     vim.fn.win_gotoid(CGLOBALS.main_winid)
     return Wsplit.winid_bufferlist
@@ -205,11 +205,11 @@ function Wsplit.content_set_winid(_id)
       return
     end
     -- ignore buffers without a type
-    if vim.api.nvim_buf_get_option(bufid, "buftype") == "nofile" then
+    if vim.api.nvim_get_option_value("buftype", { buf = bufid }) == "nofile" then
       return
     end
     -- ignore certain filetypes
-    if vim.tbl_contains(info_exclude, vim.api.nvim_buf_get_option(bufid, "filetype")) == true then
+    if vim.tbl_contains(info_exclude, vim.api.nvim_get_option_value("filetype", { buf = bufid })) == true then
       Wsplit.freeze = true
       return
     end
@@ -241,11 +241,11 @@ local function onChange(cust, _, _, status)
     return
   end
   if watch ~= nil then
-    vim.loop.fs_event_stop(watch)
+    vim.uv.fs_event_stop(watch)
   end
   Wsplit.refresh()
   if watch ~= nil then
-    vim.loop.fs_event_start(
+    vim.uv.fs_event_start(
       watch,
       Wsplit.weatherfile,
       {},
@@ -260,11 +260,11 @@ end
 --- when the file containing the weather dump changes, refresh the buffer
 function Wsplit.installwatch()
   if watch == nil then
-    watch = vim.loop.new_fs_event()
+    watch = vim.uv.new_fs_event()
   end
   if watch ~= nil then
     if vim.fn.filereadable(Wsplit.weatherfile) then
-      vim.loop.fs_event_start(
+      vim.uv.fs_event_start(
         watch,
         Wsplit.weatherfile,
         {},
@@ -275,7 +275,7 @@ function Wsplit.installwatch()
     end
   end
   if timer == nil then
-    timer = vim.loop.new_timer()
+    timer = vim.uv.new_timer()
   end
   if timer ~= nil then
     if Wsplit.content == "info" then
@@ -296,7 +296,7 @@ function Wsplit.installwatch()
     })
   end
   if cookie_timer == nil then
-    cookie_timer = vim.loop.new_timer()
+    cookie_timer = vim.uv.new_timer()
     if cookie_timer ~= nil then
       cookie_timer:start(0, cookie_timer_interval, vim.schedule_wrap(Wsplit.refresh_cookie))
     end
@@ -324,9 +324,9 @@ function Wsplit.open(_weatherfile)
     Wsplit.winid = vim.fn.win_getid()
     Wsplit.bufid = vim.api.nvim_get_current_buf()
     vim.bo[Wsplit.bufid].buflisted = false
-    vim.api.nvim_buf_set_option(Wsplit.bufid, "buftype", "nofile")
-    vim.api.nvim_win_set_option(Wsplit.winid, "list", false)
-    vim.api.nvim_win_set_option(Wsplit.winid, "statusline", "Weather")
+    vim.api.nvim_set_option_value("buftype", "nofile", { buf = Wsplit.bufid })
+    vim.api.nvim_set_option_value("list", false, { win = Wsplit.winid })
+    vim.api.nvim_set_option_value("statusline", "Weather", { win = Wsplit.winid })
     vim.cmd("set winfixheight | set filetype=weather | set nonumber | set signcolumn=no")
     vim.cmd("set winhl=Normal:TreeNormalNC | set foldcolumn=0 | set statuscolumn=\\  | setlocal nocursorline")
       vim.fn.win_gotoid(curwin)
@@ -353,8 +353,8 @@ function Wsplit.openleftsplit(_weatherfile)
   Wsplit.bufid = vim.api.nvim_create_buf(false, true)
   vim.bo[Wsplit.bufid].buflisted = false
   vim.api.nvim_win_set_buf(Wsplit.winid, Wsplit.bufid)
-  vim.api.nvim_buf_set_option(Wsplit.bufid, "buftype", "nofile")
-  vim.api.nvim_win_set_option(Wsplit.winid, "list", false)
+  vim.api.nvim_set_option_value("buftype", "nofile", { buf = Wsplit.bufid })
+  vim.api.nvim_set_option_value("list", false, { win = Wsplit.winid })
   vim.cmd(
     "set winfixheight | setlocal statuscolumn=| set filetype=weather | set nonumber | set signcolumn=no | set winhl=Normal:TreeNormalNC | set foldcolumn=0 | setlocal nocursorline"
   )
@@ -386,7 +386,7 @@ function Wsplit.close()
     Wsplit.winid = nil
   end
   if watch ~= nil then
-    vim.loop.fs_event_stop(watch)
+    vim.uv.fs_event_stop(watch)
   end
   if timer ~= nil then
     timer:stop()
@@ -491,14 +491,14 @@ function Wsplit.refresh()
     if Wsplit.freeze == true then
       return
     end
-    vim.api.nvim_win_set_option(Wsplit.winid, "statusline", " 󰋼  Information")
+    vim.api.nvim_set_option_value("statusline", " 󰋼  Information", { win = Wsplit.winid })
 
     vim.api.nvim_buf_clear_namespace(Wsplit.bufid, Wsplit.nsid, 0, -1)
     if Wsplit.content_winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.content_winid) then
       local curbuf = vim.api.nvim_win_get_buf(Wsplit.content_winid)
       local name = nil
 
-      vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", true)
+      vim.api.nvim_set_option_value("modifiable", true, { buf = Wsplit.bufid })
       local lines = {}
       local buf_filename = vim.api.nvim_buf_get_name(curbuf)
       if buf_filename ~= nil and vim.bo[curbuf].bt == "" and vim.fn.filereadable(buf_filename) then
@@ -607,7 +607,7 @@ function Wsplit.refresh()
       if string.len(name) > 0 then
         vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 1, 0, { hl_group = "CursorLine", end_col = #lines[2] })
       end
-      if fn_symbol_hl ~= nil then
+      if fn_symbol_hl ~= nil and lines[5] then
         vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 4, 0, { hl_group = fn_symbol_hl, end_col = #lines[5] })
       end
       vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 6, 0, { hl_group = "Debug", end_col = #lines[7] })
@@ -615,11 +615,11 @@ function Wsplit.refresh()
       vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 8, 0, { hl_group = "BlueBold", end_col = #lines[9] })
       vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 9, 0, { hl_group = "PurpleBold", end_col = #lines[10] })
       vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 10, 0,{ hl_group = "String", end_col = #lines[11] })
-      vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", false)
+      vim.api.nvim_set_option_value("modifiable", false, { buf = Wsplit.bufid })
     end
   elseif Wsplit.content == "weather" then
     vim.api.nvim_buf_clear_namespace(Wsplit.bufid, Wsplit.nsid, 0, -1)
-    vim.api.nvim_win_set_option(Wsplit.winid, "statusline", " 󰏈  Weather")
+    vim.api.nvim_set_option_value("statusline", " 󰏈  Weather", { win = Wsplit.winid })
     if vim.fn.filereadable(Wsplit.weatherfile) then
       local lines = {}
       local file = io.open(Wsplit.weatherfile)
@@ -632,7 +632,7 @@ function Wsplit.refresh()
           index = index + 1
         end
         io.close(file)
-        vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", true)
+        vim.api.nvim_set_option_value("modifiable", true, { buf = Wsplit.bufid })
         local lcond = conditions[results["37"]][string.lower(results["2"])]
         table.insert(lines, " ")
         table.insert(lines, Wsplit.prepare_line("  " .. results["26"], " " .. results["28"], 0))
@@ -689,7 +689,7 @@ function Wsplit.refresh()
 
         hl = wind_to_hl(results["20"])
         vim.api.nvim_buf_set_extmark(Wsplit.bufid, Wsplit.nsid, 8, 0, { hl_group = hl, end_col = 20 })
-        vim.api.nvim_buf_set_option(Wsplit.bufid, "modifiable", false)
+        vim.api.nvim_set_option_value("modifiable", false, { buf = Wsplit.bufid })
       end
     end
   end
