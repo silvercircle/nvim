@@ -24,9 +24,12 @@ function M.ui_select_scheme()
   local function execute(item)
     conf.scheme = item.cmd
     PCFG.theme_scheme = item.cmd
-    Dmtheme.set()
+    Dmtheme.cfg()
     if conf.callback ~= nil and type(conf.callback) == "function" then
       conf.callback("scheme")
+      Dmtheme.set(false)
+    else
+      Dmtheme.set(false)
     end
   end
 

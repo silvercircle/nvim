@@ -529,7 +529,7 @@ function M.toggle_treesitter_context()
   PCFG.treesitter_context = M.get_buffer_var(0, "tsc")
   M.setup_treesitter_context(false)
   wsplit.freeze = false
-  vim.schedule(function() wsplit.refresh() end)
+  vim.schedule(function() wsplit.refresh("toggle_treesitter_context()") end)
 end
 
 function M.toggle_inlayhints()

@@ -608,6 +608,10 @@ local function set_all()
   M.set_hl(0, "@ibl.scope.char.1", { bg = "none" })
 end
 
+function M.cfg()
+  configure()
+end
+
 --- this activates the theme.
 --- it always calls configure(), no need to call this explicitely
 --- @param _c? boolean when true (default), call configure()
