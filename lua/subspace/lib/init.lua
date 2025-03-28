@@ -203,7 +203,7 @@ function Utils.getroot_current()
 end
 
 --- simple telescope picker to list active LSP servers. Allows to terminate a server on selection.
---- @param auto boolean - true:  perform auto shutdown for unused LSP servers and return.
+--- @param auto? boolean - true:  perform auto shutdown for unused LSP servers and return.
 ---                       false: present the picker.
 function Utils.StopLsp(auto)
   auto = auto or false
@@ -302,7 +302,7 @@ function Utils.BufClose()
 
   -- do not close these filetypes
   local dontclose = { "neo-tree ", "NvimTree", "Outline", "weather", "terminal", "sysmon", "aerial" }
-  if vim.tbl_contains(dontclose, vim.api.nvim_buf_get_option(0, "filetype")) then
+  if vim.tbl_contains(dontclose, vim.api.nvim_get_option_value("filetype", { buf = 0 })) then
     return
   end
 
@@ -321,7 +321,7 @@ function Utils.BufClose()
     end
   end
 
-  if vim.api.nvim_buf_get_option(0, "modified") == true then
+  if vim.api.nvim_get_option_value("modified", { buf = 0 }) == true then
     local items = {
       { p = 1, cmd = "save", text = "Save and Close", hl = "Number" },
       { p = 1, cmd = "discard", text = "Close and discard", hl = "DeepRedBold" },
@@ -382,8 +382,8 @@ function Utils.Quitapp()
   local prompt = ""
 
   for _, bufnr in ipairs(bufs) do
-    if vim.api.nvim_buf_get_option(bufnr, "buflisted") then
-      have_modified_buf = vim.api.nvim_buf_get_option(bufnr, "modified") == true and true or have_modified_buf
+    if vim.api.nvim_get_option_value("buflisted", { buf = bufnr }) then
+      have_modified_buf = vim.api.nvim_get_option_value("modified", { buf = bufnr }) == true and true or have_modified_buf
     end
   end
 
@@ -457,7 +457,7 @@ end
 
 -- helper function for cmp <TAB> mapping.
 Utils.has_words_before = function()
-  if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+  if vim.api.nvim_get_option_value("buftype", { buf = 0 }) == "prompt" then
     return false
   end
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))

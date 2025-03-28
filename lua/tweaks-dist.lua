@@ -26,13 +26,7 @@ local Tweaks = {}
 -- plugin choices.
 -- notification system
 -- either "mini", "fidget" or "snacks".
-Tweaks.notifier = "snacks"
-
--- set this to "outline" to use the symbols-outline plugin.
--- set it to "symbols" to use the symbols plugin.
--- this is a ONLY A DEFAULT, it can be switched at runtime and the setting
--- will be remembered
-Tweaks.outline_plugin = "symbols"
+Tweaks.notifier = "fidget"
 
 -- what plugin to use for breadcrumbs in the winbar
 -- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized

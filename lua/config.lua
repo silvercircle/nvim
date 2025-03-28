@@ -27,10 +27,14 @@ local tree_fts = {
 }
 Tweaks.tree.filetype = tree_fts[Tweaks.tree.version]
 local nvim_11 = vim.fn.has("nvim-0.11")
+local nvim_12 = vim.fn.has("nvim-0.12")
+
+if nvim_12 == 1 then
+  vim.deprecate = function() end
+end
 
 CFG = {
   have_lsp_config = (vim.lsp.config ~= nil),
-  nightly = (nvim_11 ~= 0) and true or false,
   have_eleven = nvim_11,
   cmp = {
     -- the following lists file types that are allowed to use the cmp_buffer source
@@ -46,7 +50,7 @@ CFG = {
   treesitter = true,
   plain = (env_plain ~= nil or vim.g.want_plain == true) and true or false,
   statuscol_normal = '%s%=%l %C ',
-  statuscol_rel = nvim_11 == 1 and '%s%=%l %C ' or "%s%=%r %C ",
+  statuscol_rel = '%s%=%l %C ',
   nvim_tree = true,
   fortunecookie = false, -- "fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
                                               -- needs fortune and cowsay installed.

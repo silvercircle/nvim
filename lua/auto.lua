@@ -5,22 +5,12 @@ local autocmd = vim.api.nvim_create_autocmd
 local agroup_views = vim.api.nvim_create_augroup("views", {})
 local agroup_hl = vim.api.nvim_create_augroup("hl", {})
 local Wsplit = require("subspace.content.wsplit")
-Wsplit.freeze = true
 local Usplit = require("subspace.content.usplit")
 local Tsc = require("treesitter-context")
 local marks = require("subspace.lib.marks")
 local treeft = Tweaks.tree.filetype
 
 -- local ibl = require('indent_blankline')
-
-local function refresh_outline_providerinfo()
-  local _o = CGLOBALS.findWinByFiletype("Outline")
-  if #_o > 0 and _o[1] ~= nil then
-    local p = require("outline")._get_sidebar().provider
-    local name = (p and p.name) and p.name or "No provider"
-    vim.api.nvim_win_set_option(_o[1], "statusline", "  Outline (" .. name .. ")")
-  end
-end
 
 local function configure_outline_sidebar()
   --vim.schedule(function()
@@ -59,10 +49,10 @@ autocmd({ 'VimEnter' }, {
     end
     -- support textwidth and formatoptions roperties via editorconfig files
     econfig.properties.textwidth = function(bufnr, val, _)
-      vim.api.nvim_buf_set_option(bufnr, "textwidth", tonumber(val))
+      vim.api.nvim_set_option_value("textwidth", tonumber(val), { buf = bufnr })
     end
     econfig.properties.formatoptions = function(bufnr, val, _)
-      vim.api.nvim_buf_set_option(bufnr, "formatoptions", val)
+      vim.api.nvim_set_option_value("formatoptions", val, { buf = bufnr })
     end
   end
 })
@@ -114,7 +104,7 @@ local function main_layout()
             PCFG.terminal.height = vim.api.nvim_win_get_height(CGLOBALS.term.winid)
           end
           Wsplit.set_minheight()
-          Wsplit.refresh()
+          Wsplit.refresh("resize")
           local status = CGLOBALS.is_outline_open()
           local tree = CGLOBALS.findWinByFiletype(treeft)
           if status ~= false then
@@ -135,9 +125,8 @@ local function main_layout()
     })
     vim.api.nvim_command("wincmd p")
     if PCFG.weather.active == true then
-      Wsplit.freeze = true
       Wsplit.content = PCFG.weather.content
-      Wsplit.content_set_winid(CGLOBALS.main_winid)
+      Wsplit.content_winid = CGLOBALS.main_winid
     end
     if PCFG.sysmon.active then
       Usplit.content = PCFG.sysmon.content
@@ -200,7 +189,7 @@ autocmd({ 'bufwinleave' }, {
 autocmd({ 'BufEnter' }, {
   pattern = "*",
   callback = function(args)
-    if vim.api.nvim_buf_get_option(args.buf, "buftype") == '' then
+    if vim.api.nvim_get_option_value("buftype", { buf = args.buf }) == '' then
       local val = CGLOBALS.get_buffer_var(args.buf, "tsc")
       if val == true then
         vim.schedule(function() Tsc.enable() end)
@@ -213,13 +202,11 @@ autocmd({ 'BufEnter' }, {
       end
     end
     CGLOBALS.get_bufsize()
-    Wsplit.content_set_winid(vim.fn.win_getid())
     if Wsplit.content == 'info' then
-      vim.schedule(function() Wsplit.refresh() end)
+      vim.schedule(function() Wsplit.refresh("BufEnter (auto.lua)") end)
     end
     marks.BufWinEnterHandler(args) -- update marks in sign column
     vim.schedule(function() require("lualine").refresh() end)
-    vim.schedule(function() refresh_outline_providerinfo() end)
   end,
   group = agroup_views
 })
@@ -230,7 +217,7 @@ autocmd({ 'BufReadPost' }, {
   callback = function(args)
     vim.api.nvim_buf_set_var(0, "tsc", PCFG.treesitter_context)
     vim.api.nvim_buf_set_var(0, "inlayhints", PCFG.lsp.inlay_hints)
-    if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(args.buf, "buftype") ~= 'nofile' then
+    if #vim.fn.expand("%") > 0 and vim.api.nvim_get_option_value("buftype", { buf = args.buf }) ~= 'nofile' then
       -- make sure parsing is complete before loading the view because restoring the folds
       -- would not work otherwise. This is only needed when using async parsing.
       if vim.g._ts_force_sync_parsing ~= true then
@@ -273,11 +260,11 @@ local indk_pattern = { "c", "cpp", "python" }
 
 -- generic FileType handler adressing common actions
 autocmd({ "FileType" }, {
-  pattern = { "Outline", "SymbolsSidebar", "mail", "qf", "replacer",
+  pattern = { "SymbolsSidebar", "mail", "qf", "replacer",
     "vim", "nim", "python", "c", "cpp", "lua", "json", "html", "css", "dart", "go",
     "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
-    if args.match == "Outline" or args.match == "SymbolsSidebar" then
+    if args.match == "SymbolsSidebar" then
       configure_outline_sidebar()
       vim.api.nvim_win_set_width(0, PCFG.outline.width)
     elseif args.match == "mail" then
@@ -286,7 +273,6 @@ autocmd({ "FileType" }, {
       vim.defer_fn(function() vim.cmd("setlocal cursorline") end, 400)
     elseif args.match == "qf" or args.match == "replacer" then
       vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal fo-=t")
-      -- vim.api.nvim_win_set_height(__Globals.term.winid, PCFG.terminal.height)
     elseif vim.tbl_contains(tabstop_pattern, args.match) then
       vim.cmd(
       "setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal fo-=c")
@@ -295,13 +281,14 @@ autocmd({ "FileType" }, {
     -- metals, attach on filetype
     elseif vim.tbl_contains(indk_pattern, args.match) then
       vim.cmd("setlocal indentkeys-=: | setlocal cinkeys-=:")
-    elseif args.match == "scala" or args.match == "sbt" then
-      require("metals").initialize_or_attach({
-        capabilities = require("lsp.utils").get_lsp_capabilities(),
-        settings = {
-          metalsBinaryPath = Tweaks.lsp.server_bin["metals"]
-        }
-      })
+    elseif (args.match == "scala" or args.match == "sbt") and LSPDEF.advanced_config.scala == true then
+      local cfg = require("metals").bare_config()
+      cfg.capabilities = require("lsp.utils").get_lsp_capabilities()
+      cfg.on_attach = ON_LSP_ATTACH
+      cfg.settings = {
+        metalsBinaryPath = LSPDEF.server_bin["metals"]
+      }
+      require("metals").initialize_or_attach(cfg)
     end
   end,
   group = agroup_hl
@@ -317,16 +304,15 @@ autocmd({ 'CmdLineEnter' }, {
 
 -- filetypes for left, right and bottom splits. They are meant to have a different background
 -- color and no cursor
-local enter_leave_filetypes = { "Outline", "NvimTree", 'snacks_picker_list', "SymbolsSidebar", "SymbolsSearch" }
+local enter_leave_filetypes = { "NvimTree", 'snacks_picker_list', "SymbolsSidebar", "SymbolsSearch" }
 local old_mode
 
 autocmd({ 'WinEnter' }, {
   pattern = '*',
   callback = function()
-    Wsplit.content_set_winid(vim.fn.win_getid())
     if Wsplit.content == 'info' then
       CGLOBALS.get_bufsize()
-      vim.schedule(function() Wsplit.refresh() end)
+      vim.schedule(function() Wsplit.refresh("WinEnter (auto.lua)") end)
     end
 
     local filetype = vim.bo.filetype
@@ -335,7 +321,7 @@ autocmd({ 'WinEnter' }, {
     end
     -- HACK: NvimTree and outline windows will complain about the buffer being not modifiable
     -- when insert mode is active. So stop it and remember its state
-    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "Outline" then
+    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "SymbolsSidebar" then
       old_mode = vim.api.nvim_get_mode().mode
       vim.cmd.stopinsert()
     end
@@ -352,7 +338,7 @@ autocmd({ 'WinLeave' }, {
     end
     -- HACK: restore the insert mode if it was active when changing to the NvimTree or outline
     -- split.
-    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "Outline" then
+    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "SymbolsSidebar" then
       if old_mode == 'i' then
         old_mode = ''
         vim.cmd.startinsert()
@@ -369,11 +355,7 @@ autocmd({ 'LspAttach' }, {
     if vim.bo[args.buf].ft == "razor" then
       vim.cmd("hi! link @lsp.type.field Member")
     end
-    if PCFG.outline_filetype == "Outline" then
-      require("outline").refresh()
-      vim.schedule(function() refresh_outline_providerinfo() end)
-    end
-    if Wsplit.content == "info" then Wsplit.refresh() end
+    if Wsplit.content == "info" then Wsplit.refresh("LspAttach (auto.lua)") end
   end
 })
 
@@ -386,13 +368,31 @@ local function _delcmd()
   end
 end
 
+-- one time setup tasks which must be done after the first
+-- file has been loaded
 delcmd = autocmd({ "BufReadPost" }, {
   callback = function()
     if _delayloaded == true then
       return
     end
     _delayloaded = true
+    require("subspace.content.pairs").setup()
+    require("subspace.content.move").setup()
+    vim.g.setkey( "v", "<A-l>", function() MiniMove.move_selection("right") end)
+    vim.g.setkey( "v", "<A-h>", function() MiniMove.move_selection("left") end)
+    vim.g.setkey( "v", "<A-k>", function() MiniMove.move_selection("up") end)
+    vim.g.setkey( "v", "<A-j>", function() MiniMove.move_selection("down") end)
+    vim.g.setkey( "n", "<A-l>", function() MiniMove.move_line("right") end)
+    vim.g.setkey( "n", "<A-h>", function() MiniMove.move_line("left") end)
+    vim.g.setkey( "n", "<A-k>", function() MiniMove.move_line("up") end)
+    vim.g.setkey( "n", "<A-j>", function() MiniMove.move_line("down") end)
     vim.defer_fn(function() require("plugins.commandpalette") end, 200)
+    if PCFG.outline_view ~= false or PCFG.minimap_view > 0 then
+      vim.defer_fn(function()
+        if PCFG.outline_view ~= false then CGLOBALS.open_outline() end
+        if PCFG.minimap_view > 0 then require("neominimap").toggle() end
+      end, 1000)
+    end
     vim.schedule(function() _delcmd() end)
   end
 })
@@ -437,47 +437,3 @@ autocmd("TextYankPost", {
   end,
 })
 
---- LSP progress handler for snacks.notifier
-if Tweaks.notifier == "snacks" then
-  local progress = vim.defaulttable()
-  vim.api.nvim_create_autocmd("LspProgress", {
-    callback = function(ev)
-      local client = vim.lsp.get_client_by_id(ev.data.client_id)
-      local value = ev.data.params.value --[[@as {percentage?: number, title?: string, message?: string, kind: "begin" | "report" | "end"}]]
-      if not client or type(value) ~= "table" then
-        return
-      end
-      local p = progress[client.id]
-
-      for i = 1, #p + 1 do
-        if i == #p + 1 or p[i].token == ev.data.params.token then
-          p[i] = {
-            token = ev.data.params.token,
-            msg = ("`%3d%%` %s%s"):format(
-              value.kind == "end" and 100 or value.percentage or 100,
-              value.title or "",
-              value.message and (" **%s**"):format(value.message) or ""
-            ),
-            done = value.kind == "end",
-          }
-          break
-        end
-      end
-
-      local msg = {} ---@type string[]
-      progress[client.id] = vim.tbl_filter(function(v)
-        return table.insert(msg, v.msg) or not v.done
-      end, p)
-
-      local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-      vim.notify(table.concat(msg, "\n"), "info", {
-        id = "lsp_progress",
-        title = client.name,
-        opts = function(notif)
-          notif.icon = #progress[client.id] == 0 and " "
-            or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
-        end,
-      })
-    end,
-  })
-end

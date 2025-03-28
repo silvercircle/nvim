@@ -312,7 +312,7 @@ cmp.setup({
         keyword_pattern = [[\k\+]],
         get_bufnrs = function()
           local buf = vim.api.nvim_get_current_buf()
-          local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+          local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
           if CFG.cmp.buffer_ft_allowed[ft] == nil then
             return {}
           end

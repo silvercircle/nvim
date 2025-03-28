@@ -32,7 +32,6 @@ lazy.setup({
   },
   {
     "jake-stewart/multicursor.nvim",
-    cond = Tweaks.multicursor == "jake-stewart",
     branch = "1.0",
     config = function()
       require("plugins.others").setup.multicursor_stewart()
@@ -43,6 +42,7 @@ lazy.setup({
     event = "UIEnter",
     config = function()
       require("plugins.lualine_lite_setup")
+      require("plugins.lualine_lite_setup").fixhl()
     end
   },
   {
@@ -118,16 +118,6 @@ lazy.setup({
         'Kaiser-Yang/blink-cmp-dictionary',
       },
       { "moyiz/blink-emoji.nvim" },
-      { 'windwp/nvim-autopairs',
-        config = function()
-          require("nvim-autopairs").setup({})
-          if PCFG.autopair then
-            require("nvim-autopairs").enable()
-          else
-            require("nvim-autopairs").disable()
-          end
-        end
-      },
       {
         'https://gitlab.com/silvercircle74/blink-cmp-wordlist'
       },
@@ -211,14 +201,6 @@ lazy.setup({
           mode = "foreground",
         }
       }
-    end
-  },
-  {
-    'echasnovski/mini.move',
-    lazy = true,
-    event = { 'BufReadPre'},
-    config = function()
-      require("mini.move").setup()
     end
   },
   {

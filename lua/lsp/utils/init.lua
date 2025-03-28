@@ -3,7 +3,7 @@ local api = vim.api
 local lsp = vim.lsp
 local nvim_eleven = vim.fn.has 'nvim-0.11' == 1
 
-local iswin = vim.loop.os_uname().version:match 'Windows'
+local iswin = vim.uv.os_uname().version:match 'Windows'
 
 local M = { path = {} }
 
@@ -80,7 +80,7 @@ function M.root_pattern(...)
     for _, pattern in ipairs(patterns) do
       local match = M.search_ancestors(startpath, function(path)
         for _, p in ipairs(vim.fn.glob(table.concat({ escape_wildcards(path), pattern }, '/'), true, true)) do
-          if vim.loop.fs_stat(p) then
+          if vim.uv.fs_stat(p) then
             return path
           end
         end
@@ -138,7 +138,7 @@ end
 
 -- Traverse the path calling cb along the way.
 local function traverse_parents(path, cb)
-  path = vim.loop.fs_realpath(path)
+  path = vim.uv.fs_realpath(path)
   local dir = path
   -- Just in case our algo is buggy, don't infinite loop.
   for _ = 1, 100 do
@@ -195,6 +195,9 @@ function M.get_lsp_capabilities()
     M.lsp_capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), cmp_capabilities)
     M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = LSPDEF.use_dynamic_registration
     M.lsp_capabilities.textDocument.completion.editsNearCursor = true
+    M.lsp_capabilities.workspace.executeCommand = {
+      dynamicRegistration = true
+    }
   end
   return M.lsp_capabilities
 end

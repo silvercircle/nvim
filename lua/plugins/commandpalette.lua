@@ -81,13 +81,13 @@ require("commandpicker").add({
   },
   {
     desc = "Go to next diagnostic",
-    cmd = function() vim.diagnostic.goto_next() end,
+    cmd = function() vim.diagnostic.jump({ count = 1, float = true }) end,
     keys = { "n", "DN", noremap },
     category = "@LSP Diagnostics"
   },
   {
     desc = "Go to previous diagnostic",
-    cmd = function() vim.diagnostic.goto_prev() end,
+    cmd = function() vim.diagnostic.jump({ count = -1, float = true }) end,
     keys = { "n", "DP", noremap },
     category = "@LSP Diagnostics"
   },
@@ -190,7 +190,7 @@ require("commandpicker").add({
     cmd = function()
       vim.treesitter.inspect_tree({ command = "rightbelow 50vnew" })
       vim.o.statuscolumn = ""
-      vim.cmd("set ft=query_rt | silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal norelativenumber | silent! setlocal nonumber | setlocal statusline=Treesitter | setlocal winhl=Normal:TreeNormalNC")
+      vim.cmd("silent! setlocal signcolumn=no | silent! setlocal foldcolumn=0 | silent! setlocal norelativenumber | silent! setlocal nonumber | setlocal statusline=Treesitter | setlocal winhl=Normal:TreeNormalNC")
     end,
     keys = { "n", "tsp", noremap },
     category = "@Neovim"

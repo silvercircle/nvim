@@ -62,14 +62,14 @@ local function lualine_internal_theme()
         bg = LuaLineColors.brightgreen, --[[, gui = 'bold']]
       },
       b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
-      c = "StatusLine",
-      x = "StatusLine",
+      c = "LuaLine",
+      x = "LuaLine",
     },
     insert = {
       a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred },
       b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
-      c = "StatusLine",
-      x = "StatusLine",
+      c = "LuaLine",
+      x = "LuaLine",
     },
     visual = {
       a = {
@@ -80,8 +80,8 @@ local function lualine_internal_theme()
     replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred } },
     inactive = {
       a = "CursorLine",
-      b = "StatusLine",
-      c = "StatusLine"
+      b = "LuaLine",
+      c = "LuaLine"
     }
   }
 end
@@ -95,7 +95,7 @@ local function setup_theme()
     LuaLineColors.darkestgreen = T.accent_fg
     LuaLineColors.brightgreen = T.accent_color
     LuaLineColors.brightred = T.alt_accent_color
-    LuaLineColors.statuslinebg = vim.api.nvim_get_hl(0, { name = "StatusLine" }).bg
+    LuaLineColors.statuslinebg = vim.api.nvim_get_hl(0, { name = "LuaLine" }).bg
     local _bg = vim.api.nvim_get_hl(0, { name="Visual" }).bg
     local _fg = vim.api.nvim_get_hl(0, { name="Fg" }).fg
     local _normal_bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
@@ -148,10 +148,12 @@ local navic_component = {
       return ""
     else
      --return string.format("%s: %s", vim.lsp.get_active_clients( {bufnr=0} )[1].name, string)
-     return string.format("> %s", string)
+     --return string.format("> %s", string)
+     return string.format("> %s", string)
    end
   end,
-  separator = "",
+  separator = { left = "", right = "" },
+  -- separator = "",
   color = 'WinBarFilename',
 }
 
@@ -164,9 +166,9 @@ require("lualine").setup({
     section_separators = { left = '', right = '' },
     -- section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "Outline", "SymbolsSidebar", "SymbolsHelp", "SymbolsSearch",
+      statusline = { "SymbolsSidebar", "SymbolsHelp", "SymbolsSearch",
         "terminal", "sysmon", "weather", "NvimTree", "query_rt", "DiffviewFiles", "neominimap" },
-      winbar = { "Outline", "terminal", "qf", "NvimTree", "alpha", "sysmon", "weather", "query_rt",
+      winbar = { "terminal", "qf", "NvimTree", "alpha", "sysmon", "weather", "query_rt", "help",
         "dap-repl", "dapui_console", "dapui_watches", "dapui_stacks", "dapui_scopes", "dapui_breakpoints",
         "snacks_picker_preview", "snacks_dashboard", "SymbolsSidebar", "SymbolsHelp", "SymbolsSearch", "DiffviewFiles", "neominimap" },
       tabline = {},
@@ -185,7 +187,7 @@ require("lualine").setup({
     {
       "o:textwidth",
       fmt = function(str)
-        return string.format("%s:%s:%s", str, vim.api.nvim_win_get_option(0, "wrap") == true and "wr" or "no", vim.o.foldmethod)
+        return string.format("%s:%s:%s", str, vim.api.nvim_get_option_value("wrap", { win = 0 }) == true and "wr" or "no", vim.o.foldmethod)
       end
     },
     }, -- display textwidth after formattingoptions
@@ -215,7 +217,7 @@ require("lualine").setup({
     {
       "o:textwidth",
       fmt = function(str)
-        return string.format("%s:%s:%s", str, vim.api.nvim_win_get_option(0, "wrap") == true and "wr" or "no", vim.o.foldmethod)
+        return string.format("%s:%s:%s", str, vim.api.nvim_get_option_value("wrap", { win = 0 }) == true and "wr" or "no", vim.o.foldmethod)
       end
     }},
     lualine_b = {},
@@ -286,6 +288,15 @@ require("lualine").setup({
 
 local M = {}
 
+function M.fixhl()
+  if Tweaks.theme.disable == true then return end
+  local fix_hlg = { "StatusLine", "StatusLineNC", "Tabline", "TabLineFill", "TabLineSel", "Winbar", "WinbarNC" }
+  local hl = vim.api.nvim_get_hl(0, { name = "LuaLine" })
+  for _,v in ipairs(fix_hlg) do
+    vim.api.nvim_set_hl(0, v, { fg = hl.fg, bg = hl.bg })
+  end
+end
+
 function M.update_internal_theme()
   setup_theme()
   require("lualine").setup({
@@ -293,6 +304,7 @@ function M.update_internal_theme()
       theme = Tweaks.statusline.lualine.theme == "internal" and lualine_internal_theme() or Tweaks.statusline.lualine.theme
     }
   })
+  M.fixhl()
 end
 
 return M

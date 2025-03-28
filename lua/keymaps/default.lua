@@ -349,7 +349,7 @@ end, "Focus Main Window") -- main window
 -- focus or toggle the outline window
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   -- if the outline window is focused, close it.
-  if vim.api.nvim_buf_get_option(0, "filetype") == PCFG.outline_filetype then
+  if vim.api.nvim_get_option_value("filetype", { buf = 0 }) == PCFG.outline_filetype then
     CGLOBALS.close_outline()
     return
   end
@@ -385,7 +385,7 @@ end, "Focus Terminal split and change to project root")
 
 kms({ 'n', 'i', 't', 'v' }, '<A-0>', function()
   local wid = vim.fn.win_getid()
-  vim.api.nvim_win_set_option(wid, "winfixwidth", false)
+  vim.api.nvim_set_option_value("winfixwidth", false, { win = wid })
   CGLOBALS.main_winid = wid
 end, opts) -- save current winid as main window id
 

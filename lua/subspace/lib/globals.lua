@@ -14,21 +14,6 @@ M.term = {
   height = 12,
   visible = false,
 }
--- use multiple colors for indentation guides ("rainbow colors")
--- theme is responsible for defining the colors
-M.ibl_rainbow_highlight = {
-  "IndentBlanklineIndent1",
-  "IndentBlanklineIndent2",
-  "IndentBlanklineIndent3",
-  "IndentBlanklineIndent4",
-  "IndentBlanklineIndent5",
-  "IndentBlanklineIndent6",
-}
--- use single color for ibl highlight
-M.ibl_highlight = {
-  "IndentBlanklineChar",
-}
-
 -- ignore symbol types for the fast symbol browser (telescope)
 M.ignore_symbols = {
   lua = { "string", "object", "boolean", "number", "array", "variable" },
@@ -44,14 +29,14 @@ end
 
 --- open the outline window
 function M.open_outline()
-  local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+  local buftype = vim.api.nvim_get_option_value("buftype", { buf = 0 })
   if buftype ~= "" then  --current buffer is no ordinary file. Ignore it.
     return
   end
   vim.cmd("Symbols!")
   local id_win = CGLOBALS.is_outline_open()
   if id_win and vim.api.nvim_win_is_valid(id_win) then
-    vim.api.nvim_win_set_option(id_win, "winhl", "Normal:TreeNormalNC,CursorLine:TreeCursorLine")
+    vim.api.nvim_set_option_value("winhl", "Normal:TreeNormalNC,CursorLine:TreeCursorLine", { win = id_win })
     vim.api.nvim_win_set_width(id_win, PCFG.outline.width)
   end
 end
@@ -109,7 +94,7 @@ function M.tree_open_handler()
   local wsplit = require("subspace.content.wsplit")
   vim.opt.statuscolumn = ''
   local w = vim.fn.win_getid()
-  vim.api.nvim_win_set_option(w, 'statusline', '   ' .. (Tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"))
+  vim.api.nvim_set_option_value('statusline', '   ' .. (Tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"), { win = w })
   vim.cmd('setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
   vim.api.nvim_win_set_width(w, PCFG.tree.width)
   CGLOBALS.adjust_layout()
@@ -203,7 +188,7 @@ function M.findWinByFiletype(filetypes)
   local win_ids = {}
   for i = 1, #ls, 1 do
     if vim.api.nvim_buf_is_valid(ls[i]) then
-      local filetype = vim.api.nvim_buf_get_option(ls[i], "filetype")
+      local filetype = vim.api.nvim_get_option_value("filetype", { buf = ls[i] })
       if finder(filetype, filetypes) then
         local wins = vim.fn.win_findbuf(ls[i])
         if wins == 1 then
@@ -238,7 +223,7 @@ local _mkview_exclude = Tweaks.mkview_exclude
 --- it also respects the filetype exclusion list to avoid unwanted clutter in the views folder
 function M.mkview()
   -- require valid filename and ignore all buffers with special buftype
-  if #vim.fn.expand("%") > 0 and vim.api.nvim_buf_get_option(0, "buftype") == "" then
+  if #vim.fn.expand("%") > 0 and vim.api.nvim_get_option_value("buftype", { buf = 0 }) == "" then
     -- respect exclusion list
     if vim.tbl_contains(_mkview_exclude, vim.bo.filetype) == true then
       return
@@ -341,9 +326,9 @@ function M.termToggle(_height)
     "setlocal statuscolumn=%#TreeNormalNC#\\  | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=no | set winfixheight | set nocursorline | set winhl=SignColumn:TreeNormalNC,Normal:TreeNormalNC"
   )
   M.term.winid = vim.fn.win_getid()
-  vim.api.nvim_win_set_option(M.term.winid, "statusline", "  Terminal")
+  vim.api.nvim_set_option_value("statusline", "  Terminal", { win = M.term.winid })
   M.term.bufid = vim.api.nvim_get_current_buf()
-  vim.api.nvim_buf_set_option(M.term.bufid, "buflisted", false)
+  vim.api.nvim_set_option_value("buflisted", false, { buf = M.term.bufid })
   M.term.visible = true
 
   -- finally, open the sub frames if they were previously open
@@ -529,7 +514,7 @@ function M.toggle_treesitter_context()
   PCFG.treesitter_context = M.get_buffer_var(0, "tsc")
   M.setup_treesitter_context(false)
   wsplit.freeze = false
-  vim.schedule(function() wsplit.refresh() end)
+  vim.schedule(function() wsplit.refresh("toggle_treesitter_context()") end)
 end
 
 function M.toggle_inlayhints()

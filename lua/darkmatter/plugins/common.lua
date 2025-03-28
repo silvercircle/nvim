@@ -297,8 +297,6 @@ local function _set()
         --fg = function(tab) return (tab.is_first and tab.is_active) and colors.cokeline_colors.focus_bg or colors.P.accent[1] end,
         --bg = colors.cokeline_colors.bg
   -- brenton-leighton multiple-cursors
-  c.link("MultipleCursorsCursor", "Search")
-  c.link("MultipleCursorsVisual", "CurSearch")
   -- jake-stewart multicursor
   c.link("MultiCursorCursor", "Search")
   c.link("MultiCursorVisual", "CurSearch")
@@ -306,7 +304,7 @@ local function _set()
   c.link("MultiCursorDisabledVisual", "Visual")
 
   c.link("NeominimapBackground", "TreeNormalNC")
-  c.hl_with_defaults("QuickFixLine", c.NONE, c.P.accent)
+  c.link("QuickFixLine", "Visual")
   -- quick fix
   c.link("qfLineNr", "Number")
   c.link("qfFileName", "String")

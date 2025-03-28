@@ -23,14 +23,12 @@ M.server_bin = {
   roslyn        =   jp(vim.fn.stdpath("data"), "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll"),
 }
 
--- serverconfigs lists all servers which will be configured. Set active to false
--- to entirely ignore a server. Set cfg to false to use the defaults from the
--- nvim-lspconfig registry.
-
--- Set cfg to a valid lua module to use your own configuration
--- For example: You can set cfg to "lsp.user.myserver" and then put the config in
--- lua/lsp/user/myserver.lua. The config file must return a table with configuration
--- options. See the examples like rust_analyzer.lua or lua_ls.lua.
+-- exceptions:
+-- the language servers for Java (jdtls), C# (roslyn) and Scala (metal) are NOT
+-- covered by this. They have dedicated plugins with more complex configurations.
+-- see: ftplugin/java.lua for Java support
+--      plugins/roslyn.lua for C#/Razor support
+--      Scala is implemented as filetype autocommand.
 
 -- cmd follows the rules for LSP server configurations. It's a list of strings, the
 -- first element must be the executable of the language server. Unless it can be found in
@@ -97,11 +95,11 @@ M.serverconfigs = {
   ["jsonls"]                = { active = true,
     cmd = { jp(M.masonbinpath, "vscode-json-language-server") }
   },
-  ["zls"]                   = { aactive = true,
+  ["zls"]                   = { active = true,
     cmd = { jp(M.localbin, "zls") }
   },
-  ["ctags_lsp"]             = { active = false,
-    cmd = { jp(M.localbin, "ctags_lsp") }
+  ["ctags"]             = { active = false,
+    cmd = { jp(M.localbin, "ctags-lsp") }
   },
   ["basedpyright"]          = { active = true,
     cmd = { jp(M.masonbinpath, 'basedpyright-langserver') }
@@ -114,7 +112,10 @@ M.serverconfigs = {
   },
   ["neocmake"]              = { active = true,
     cmd = { jp(M.localbin, "neocmakelsp") }
-  }
+  },
+  ["zk"]             = { active = true,
+    cmd = { jp(M.localbin, "zk") }
+  },
 }
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
   -- this can show multiple diagnostic messages for a single line.
@@ -123,7 +124,7 @@ M.virtual_lines = false
 
 -- These LSP servers won't attach to navic (used for the breadcrumbs) because they
 -- do not support the required LSP feature sets.
-M.exclude_navic = { "emmet_language_server" }
+M.exclude_navic = { "emmet_language_server", "ctags", "zk" }
 
 
 -- settings for the nvim-jdtls plugin. See ftplugin/java.lua
@@ -176,5 +177,9 @@ M.debug = false
 M.use_dynamic_registration = true
 -- automatically terminate unused (= 0 clients) lsp servers
 M.auto_shutdown = true
+M.advanced_config = {
+  scala = false,
+  roslyn = true
+}
 return M
 
