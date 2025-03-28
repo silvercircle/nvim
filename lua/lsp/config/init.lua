@@ -40,6 +40,5 @@ vim.lsp.config("*", {
   capabilities = caps
 })
 
-require("lsp.config.handlers")
 require("lsp.config.misc")
 
