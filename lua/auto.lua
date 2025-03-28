@@ -5,7 +5,6 @@ local autocmd = vim.api.nvim_create_autocmd
 local agroup_views = vim.api.nvim_create_augroup("views", {})
 local agroup_hl = vim.api.nvim_create_augroup("hl", {})
 local Wsplit = require("subspace.content.wsplit")
-Wsplit.freeze = true
 local Usplit = require("subspace.content.usplit")
 local Tsc = require("treesitter-context")
 local marks = require("subspace.lib.marks")
@@ -126,9 +125,8 @@ local function main_layout()
     })
     vim.api.nvim_command("wincmd p")
     if PCFG.weather.active == true then
-      Wsplit.freeze = true
       Wsplit.content = PCFG.weather.content
-      Wsplit.content_set_winid(CGLOBALS.main_winid)
+      Wsplit.content_winid = CGLOBALS.main_winid
     end
     if PCFG.sysmon.active then
       Usplit.content = PCFG.sysmon.content
@@ -204,7 +202,6 @@ autocmd({ 'BufEnter' }, {
       end
     end
     CGLOBALS.get_bufsize()
-    Wsplit.content_set_winid(vim.fn.win_getid())
     if Wsplit.content == 'info' then
       vim.schedule(function() Wsplit.refresh("BufEnter (auto.lua)") end)
     end
@@ -313,7 +310,6 @@ local old_mode
 autocmd({ 'WinEnter' }, {
   pattern = '*',
   callback = function()
-    Wsplit.content_set_winid(vim.fn.win_getid())
     if Wsplit.content == 'info' then
       CGLOBALS.get_bufsize()
       vim.schedule(function() Wsplit.refresh("WinEnter (auto.lua)") end)
