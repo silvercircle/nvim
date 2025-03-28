@@ -263,11 +263,11 @@ local indk_pattern = { "c", "cpp", "python" }
 
 -- generic FileType handler adressing common actions
 autocmd({ "FileType" }, {
-  pattern = { "Outline", "SymbolsSidebar", "mail", "qf", "replacer",
+  pattern = { "SymbolsSidebar", "mail", "qf", "replacer",
     "vim", "nim", "python", "c", "cpp", "lua", "json", "html", "css", "dart", "go",
     "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
-    if args.match == "Outline" or args.match == "SymbolsSidebar" then
+    if args.match == "SymbolsSidebar" then
       configure_outline_sidebar()
       vim.api.nvim_win_set_width(0, PCFG.outline.width)
     elseif args.match == "mail" then
@@ -307,7 +307,7 @@ autocmd({ 'CmdLineEnter' }, {
 
 -- filetypes for left, right and bottom splits. They are meant to have a different background
 -- color and no cursor
-local enter_leave_filetypes = { "Outline", "NvimTree", 'snacks_picker_list', "SymbolsSidebar", "SymbolsSearch" }
+local enter_leave_filetypes = { "NvimTree", 'snacks_picker_list', "SymbolsSidebar", "SymbolsSearch" }
 local old_mode
 
 autocmd({ 'WinEnter' }, {

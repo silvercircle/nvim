@@ -81,13 +81,13 @@ require("commandpicker").add({
   },
   {
     desc = "Go to next diagnostic",
-    cmd = function() vim.diagnostic.goto_next() end,
+    cmd = function() vim.diagnostic.jump({ count = 1, float = true }) end,
     keys = { "n", "DN", noremap },
     category = "@LSP Diagnostics"
   },
   {
     desc = "Go to previous diagnostic",
-    cmd = function() vim.diagnostic.goto_prev() end,
+    cmd = function() vim.diagnostic.jump({ count = -1, float = true }) end,
     keys = { "n", "DP", noremap },
     category = "@LSP Diagnostics"
   },
