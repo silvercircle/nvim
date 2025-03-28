@@ -4,6 +4,16 @@ These `dotfiles` are targeted at software development, mainly with LSP and CMP a
 Many Plugins are optional and not loaded on startup for quick startup time. This happens all under 
 control of the [lazy plugin manager](https://github.com/folke/lazy.nvim) and should not require additional configuration.
 
+## Requirements
+
+* [Neovim](https://neovim.io) version 0.11 or later. Older versions will not work. You can install this 
+  in a variety of ways, using your local package management, compile from source or using a 
+  prebuilt binary installation. This is, however, not topic in these docs.
+* A working [git](https://git-scm.com) Installation.
+* A supported terminal. On Windows, I recommend [WezTerm](https://wezterm.org), but others will work. On 
+  Linux, [kitty](https://sw.kovidgoyal.net/kitty/) is my favorite and macOS users may look into Ghostty 
+  or iTerm2 for best results.
+
 ## First start
 
 After cloning the repo to `~/.config/nvim` (or the equivalent on Windows or macOS), you should start Neovim 

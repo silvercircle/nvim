@@ -1,9 +1,10 @@
 # Content Index
 
-??? Note
+!!! Note
 
       This documentation is WIP. It has only recently been started, so there is not much yet, but it's growing 
-      almost every day.
+      almost every day. Before trying to install, please read [the instructions](Install/), particularly 
+      the section about [requirements](Install/#requirements)
 
 ## What exactly is this all about?
 It's all about a [Neovim](https://neovim.io) configuration. You have probably heard the term **dotfiles** 
