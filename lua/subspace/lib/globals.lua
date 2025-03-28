@@ -14,21 +14,6 @@ M.term = {
   height = 12,
   visible = false,
 }
--- use multiple colors for indentation guides ("rainbow colors")
--- theme is responsible for defining the colors
-M.ibl_rainbow_highlight = {
-  "IndentBlanklineIndent1",
-  "IndentBlanklineIndent2",
-  "IndentBlanklineIndent3",
-  "IndentBlanklineIndent4",
-  "IndentBlanklineIndent5",
-  "IndentBlanklineIndent6",
-}
--- use single color for ibl highlight
-M.ibl_highlight = {
-  "IndentBlanklineChar",
-}
-
 -- ignore symbol types for the fast symbol browser (telescope)
 M.ignore_symbols = {
   lua = { "string", "object", "boolean", "number", "array", "variable" },
