@@ -174,6 +174,8 @@ M.local_configs = {
 
 -- set to true to get some debugging output via notifications
 M.debug = false
+M.virtual_lines = true
+M.virtual_text = true
 M.use_dynamic_registration = true
 -- automatically terminate unused (= 0 clients) lsp servers
 M.auto_shutdown = true

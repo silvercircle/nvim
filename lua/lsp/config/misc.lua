@@ -4,8 +4,8 @@
 if vim.diagnostic then
   vim.diagnostic.config({
     update_in_insert = false,
-    virtual_text = not LSPDEF.virtual_lines,
-    virtual_lines = (LSPDEF.virtual_lines == true) and { only_current_line = true, highlight_whole_line = false } or false,
+    virtual_text = (LSPDEF.virtual_text) and { current_line = false },
+    virtual_lines = (LSPDEF.virtual_lines == true) and { current_line = true, highlight_whole_line = false } or false,
     underline = {
       -- Do not underline text when severity is low (INFO or HINT).
       severity = { min = vim.diagnostic.severity.WARN },

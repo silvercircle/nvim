@@ -288,7 +288,7 @@ require("blink.cmp").setup({
       buffer = {
         score_offset = 3,
         module = "blink.cmp.sources.buffer",
-        min_keyword_length = 4,
+        min_keyword_length = 3,
         opts = {
           -- enable the buffer source for filetypes listed
           -- in tweaks.blink.buffer_source_ft_allowed
