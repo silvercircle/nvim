@@ -81,10 +81,6 @@
 local MiniMove = {}
 local H = {}
 
---- Module setup
----
----@param config table|nil Module config table. See |MiniMove.config|.
----
 ---@usage >lua
 ---   require('mini.move').setup() -- use default config
 ---   -- OR

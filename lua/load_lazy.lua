@@ -339,7 +339,6 @@ lazy.setup({
     },
     {
       "nvim-tree/nvim-tree.lua",
-      -- cond = Tweaks.tree.version == "Nvim",
       -- LAZY = true,
       config = function()
         require("plugins.nvim-tree")
@@ -466,8 +465,6 @@ lazy.setup({
     {
       -- url = PCFG.is_dev and "https://github.com/silvercircle/neominimap.nvim" or "https://github.com/Isrothy/neominimap.nvim",
       "Isrothy/neominimap.nvim",
-      -- version = "v3.*.*",
-      -- branch = PCFG.is_dev and "mine" or "main",
       event = "BufReadPost",
       cond = true,
       init = function()

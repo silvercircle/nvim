@@ -29,9 +29,9 @@ Tweaks.tree.filetype = tree_fts[Tweaks.tree.version]
 local nvim_11 = vim.fn.has("nvim-0.11")
 local nvim_12 = vim.fn.has("nvim-0.12")
 
-if nvim_12 == 1 then
-  vim.deprecate = function() end
-end
+--if nvim_12 == 1 then
+  -- vim.deprecate = function() end
+--end
 
 CFG = {
   have_lsp_config = (vim.lsp.config ~= nil),

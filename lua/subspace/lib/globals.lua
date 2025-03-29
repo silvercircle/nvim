@@ -102,7 +102,6 @@ function M.tree_open_handler()
     wsplit.content = PCFG.weather.content
     if wsplit.winid == nil then
       wsplit.openleftsplit(CFG.weather.file)
-      --vim.schedule(function() wsplit.openleftsplit(Config.weather.file) end)
     end
   end
 end
@@ -409,20 +408,10 @@ end
 --- this works with both the satellite and nvim-scrollbar plugins whatever one
 --- is active. The current status is saved to the permanent configuration.
 function M.set_scrollbar()
-  local status, _ = pcall(require, "satellite")
-
   if PCFG.scrollbar == true then
-    if status then
-      vim.cmd("SatelliteEnable")
-    else
-      vim.cmd("ScrollbarShow")
-    end
+    vim.cmd("ScrollbarShow")
   else
-    if status then
-      vim.cmd("SatelliteDisable")
-    else
-      vim.cmd("ScrollbarHide")
-    end
+    vim.cmd("ScrollbarHide")
   end
 end
 
@@ -434,32 +423,6 @@ function M.detach_all_tui()
       vim.fn.chanclose(ui.chan)
     end
   end
-end
-
---- supporting function for mini.pick
---- returns a window config table to center a mini.picker with desired width and height
---- on screen
---- @param width integer      desired width of the picker window
---- @param height integer     desired height of the picker window
---- @param col_anchor number  vertical anchor in percentage. 0.5 centers
----                           lower values shift upwards, higher downwards
---- @ return table            a valid window config that can be passed to the picker
-function M.mini_pick_center(width, height, col_anchor)
-  local _ca = col_anchor or 0.5
-  if width > 0 and width < 1 then
-    width = math.floor(width * vim.o.columns)
-  end
-  if height > 0 and height < 1 then
-    height = math.floor(height * vim.o.lines)
-  end
-  return {
-    anchor = "NW",
-    height = height,
-    width = width,
-    row = math.floor(_ca * (vim.o.lines - height)),
-    col = math.floor(0.5 * (vim.o.columns - width)),
-    border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" }
-  }
 end
 
 -- configure the treesitter core component. This is called once before
@@ -530,35 +493,6 @@ end
 function M.get_buffer_var(bufnr, varname)
   local status, value = pcall(vim.api.nvim_buf_get_var, bufnr, varname)
   return (status == false) and nil or value
-end
-
---- this handles ufo-nvim fold preview.
-function M.ufo_virtual_text_handler(virtText, lnum, endLnum, width, truncate)
-  local newVirtText = {}
-  local suffix = (' 󰁂 %d '):format(endLnum - lnum)
-  local sufWidth = vim.fn.strdisplaywidth(suffix)
-  local targetWidth = width - sufWidth
-  local curWidth = 0
-  for _, chunk in ipairs(virtText) do
-    local chunkText = chunk[1]
-    local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-    if targetWidth > curWidth + chunkWidth then
-      table.insert(newVirtText, chunk)
-    else
-      chunkText = truncate(chunkText, targetWidth - curWidth)
-      local hlGroup = chunk[2]
-      table.insert(newVirtText, { chunkText, hlGroup })
-      chunkWidth = vim.fn.strdisplaywidth(chunkText)
-      -- str width returned from truncate() may less than 2nd argument, need padding
-      if curWidth + chunkWidth < targetWidth then
-        suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
-      end
-      break
-    end
-    curWidth = curWidth + chunkWidth
-  end
-  table.insert(newVirtText, { suffix, 'MoreMsg' })
-  return newVirtText
 end
 
 return M
