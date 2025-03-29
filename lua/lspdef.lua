@@ -134,7 +134,7 @@ M.jdtls = {
   workspace_base = "~/.cache/jdtls_workspace/",
   java_executable = "/usr/bin/java",
   jdtls_install_dir = "~/.local/share/nvim/mason/packages/jdtls/",
-  equinox_version = "1.6.900.v20240613-2009",
+  equinox_version = "1.6.1100.v20250306-0509",
   config = "config_linux"
 }
 
@@ -174,7 +174,7 @@ M.local_configs = {
 
 -- set to true to get some debugging output via notifications
 M.debug = false
-M.virtual_lines = true
+M.virtual_lines = false
 M.virtual_text = true
 M.use_dynamic_registration = true
 -- automatically terminate unused (= 0 clients) lsp servers
