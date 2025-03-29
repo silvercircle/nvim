@@ -36,7 +36,7 @@ return Tweaks
 
 !!!Note
 
-    Please note line 1 and 8. Do not change them. When changing values, always use `tweaks-dist.lua` as a 
+    Please note line 1 and 7. Do not change them. When changing values, always use `tweaks-dist.lua` as a 
     reference. Do not change to many values at once, it will make it more difficult to find settings 
     responsible for problems.
 
