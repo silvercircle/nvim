@@ -110,13 +110,13 @@ local function main_layout()
           if status ~= false then
             PCFG.outline.width = vim.api.nvim_win_get_width(status)
           end
-          if PCFG.outline.width < CFG.outline_width then
-            PCFG.outline.width = CFG.outline_width
+          if PCFG.outline.width < Tweaks.outline.width then
+            PCFG.outline.width = Tweaks.outline.width
           end
           if #tree > 0 and tree[1] ~= nil then
             PCFG.tree.width = vim.api.nvim_win_get_width(tree[1])
-            if PCFG.tree.width < CFG.filetree_width then
-              PCFG.tree.width = CFG.filetree_width
+            if PCFG.tree.width < Tweaks.tree.width then
+              PCFG.tree.width = Tweaks.tree.width
             end
           end
         end

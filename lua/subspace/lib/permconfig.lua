@@ -25,11 +25,11 @@ M.perm_config_default = {
     height = 12,
   },
   tree = {
-    width = CFG.filetree_width,
+    width = Tweaks.tree.width,
     active = true,
   },
   outline = {
-    width = CFG.outline_width,
+    width = Tweaks.outline.width,
   },
   statuscol_current = "normal",
   blist = true,
