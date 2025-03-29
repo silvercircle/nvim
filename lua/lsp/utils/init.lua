@@ -10,7 +10,7 @@ local M = { path = {} }
 -- global on_setup hook
 M.on_setup = nil
 -- Customize LSP behavior via on_attach
-local navic = require("nvim-navic")
+local navic = require("subspace.nav")
 
 ON_LSP_ATTACH = function(client, buf)
   if LSPDEF.debug then
