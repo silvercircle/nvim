@@ -210,7 +210,6 @@ require("blink.cmp").setup({
     ["<C-k>"]      = {}
   },
   cmdline = {
-    enabled = true,
     keymap = {
       preset = T.keymap_preset,
     },
@@ -228,7 +227,6 @@ require("blink.cmp").setup({
         show_on_x_blocked_trigger_characters = nil, -- Inherits from top level `completion.trigger.show_on_blocked_trigger_characters` config when not set
       },
       menu = {
-        auto_show = false, -- Inherits from top level `completion.menu.auto_show` config when not set
         draw = {
           columns = { { "kind_icon", "label", "label_description", gap = 1 } },
         },
@@ -334,10 +332,6 @@ require("blink.cmp").setup({
       --create_undo_point = true,
       resolve_timeout_ms = 1000,
       auto_brackets = {
-        enabled = true,
-        kind_resolution = {
-          enabled = true
-        },
         semantic_token_resolution = {
           enabled = false
         }
@@ -345,7 +339,6 @@ require("blink.cmp").setup({
     },
     trigger = {
       prefetch_on_insert = T.prefetch,
-      show_on_trigger_character = true
     },
     list = {
       selection = { preselect = true, auto_insert = false }
@@ -358,7 +351,6 @@ require("blink.cmp").setup({
       max_height = T.window_height,
       draw = {
         align_to = "kind_icon",
-        treesitter = {},
         padding = { 0, 1 },
         columns = {
           { "kind_icon", "label",       "label_description", gap = 1 },
@@ -438,23 +430,15 @@ require("blink.cmp").setup({
     },
     ghost_text = {
       enabled = function() return PCFG.cmp_ghost end,
-      show_with_selection = true,
-      show_without_selection = false,
-      show_with_menu = true,
-      show_without_menu = true
     }
   },
   signature = {
     enabled = true,
     trigger = {
-      enabled = true,
       show_on_trigger_character = false,
-      show_on_keyword = false,
-      show_on_insert = false,
       show_on_insert_on_trigger_character = false
     },
     window = {
-      show_documentation = true,
       border = Borderfactory(w_border),
     }
   }
