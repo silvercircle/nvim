@@ -228,14 +228,6 @@ lazy.setup({
       }
     },
     {
-      PCFG.is_dev and "silvercircle/nvim-navic" or "SmiteshP/nvim-navic",
-      branch = PCFG.is_dev and "mine" or "master",
-      lazy = true,
-      config = function()
-        require("plugins.others").setup.navic()
-      end
-    },
-    {
       "dnlhc/glance.nvim",
       lazy = true,
       config = function()
