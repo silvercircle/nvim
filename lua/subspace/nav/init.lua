@@ -27,7 +27,6 @@ local config = {
 	depth_limit = 0,
 	depth_limit_indicator = "..",
 	safe_output = true,
-	lazy_update_context = false,
 	click = false,
 	lsp = {
 		auto_attach = false,
@@ -162,6 +161,42 @@ local function lsp_callback(for_buf, symbols)
 	lib.update_data(for_buf, symbols)
 end
 
+local changedtick = {}
+local autocmds_done = false
+
+local function create_autocmds()
+  if autocmds_done == true then return end
+  autocmds_done = true
+	local navic_augroup_global = vim.api.nvim_create_augroup("navic_global", { clear = false })
+	vim.api.nvim_create_autocmd( { "CursorHold", "CursorHoldI" }, {
+		callback = function(args)
+			lib.update_context(args.buf)
+		end,
+		group = navic_augroup_global,
+	})
+	vim.api.nvim_create_autocmd("BufDelete", {
+		callback = function(args)
+			lib.clear_buffer_data(args.buf)
+		end,
+		group = navic_augroup_global,
+	})
+	vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter" }, {
+		callback = function(args)
+		  local bufnr = args.buf
+		  local s, id = pcall(vim.api.nvim_buf_get_var, bufnr, "client_for_navic")
+		  if s == false then return end
+		  local client = vim.lsp.get_client_by_id(id)
+			if not awaiting_lsp_response[bufnr] and changedtick[bufnr] < vim.b[bufnr].changedtick then
+				awaiting_lsp_response[bufnr] = true
+				changedtick[bufnr] = vim.b[bufnr].changedtick
+				lib.request_symbol(bufnr, lsp_callback, client)
+			end
+		end,
+		group = navic_augroup_global,
+	})
+
+end
+
 function M.attach(client, bufnr)
 	if not client.server_capabilities.documentSymbolProvider then
 		if not vim.g.navic_silence then
@@ -173,67 +208,17 @@ function M.attach(client, bufnr)
 		return
 	end
 
-	if vim.b[bufnr].navic_client_id ~= nil and vim.b[bufnr].navic_client_name ~= client.name then
-		local prev_client = vim.b[bufnr].navic_client_name
-		if not vim.g.navic_silence then
-			vim.notify(
-				"nvim-navic: Failed to attach to "
-					.. client.name
-					.. " for current buffer. Already attached to "
-					.. prev_client,
-				vim.log.levels.WARN
-			)
-		end
-		return
-	end
-
+  vim.api.nvim_buf_set_var(bufnr, "client_for_navic", client.id)
+  create_autocmds()
 	vim.b[bufnr].navic_client_id = client.id
 	vim.b[bufnr].navic_client_name = client.name
-	local changedtick = 0
+	changedtick[bufnr] = 0
 
 	local navic_augroup = vim.api.nvim_create_augroup("navic", { clear = false })
 	vim.api.nvim_clear_autocmds({
 		buffer = bufnr,
 		group = navic_augroup,
 	})
-	vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter", "CursorHold" }, {
-		callback = function()
-			if not awaiting_lsp_response[bufnr] and changedtick < vim.b[bufnr].changedtick then
-				awaiting_lsp_response[bufnr] = true
-				changedtick = vim.b[bufnr].changedtick
-				lib.request_symbol(bufnr, lsp_callback, client)
-			end
-		end,
-		group = navic_augroup,
-		buffer = bufnr,
-	})
-	vim.api.nvim_create_autocmd( { "CursorHold", "CursorHoldI" }, {
-		callback = function()
-			lib.update_context(bufnr)
-		end,
-		group = navic_augroup,
-		buffer = bufnr,
-	})
-	if not config.lazy_update_context then
-		vim.api.nvim_create_autocmd("CursorMoved", {
-			callback = function()
-				if vim.b.navic_lazy_update_context ~= true then
-					lib.update_context(bufnr)
-				end
-			end,
-			group = navic_augroup,
-			buffer = bufnr,
-		})
-	end
-	vim.api.nvim_create_autocmd("BufDelete", {
-		callback = function()
-			lib.clear_buffer_data(bufnr)
-			vim.notify("navic: clear for buffer " .. bufnr)
-		end,
-		group = navic_augroup,
-		buffer = bufnr,
-	})
-
 	-- First call
 	vim.b[bufnr].navic_awaiting_lsp_response = true
 	lib.request_symbol(bufnr, lsp_callback, client)
