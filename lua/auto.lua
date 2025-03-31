@@ -283,7 +283,7 @@ autocmd({ "FileType" }, {
       vim.cmd("setlocal indentkeys-=: | setlocal cinkeys-=:")
     elseif (args.match == "scala" or args.match == "sbt") and LSPDEF.advanced_config.scala == true then
       local cfg = require("metals").bare_config()
-      cfg.capabilities = require("lsp.utils").get_lsp_capabilities()
+      cfg.capabilities = require("lsp.config").get_lsp_capabilities()
       cfg.on_attach = ON_LSP_ATTACH
       cfg.settings = {
         metalsBinaryPath = LSPDEF.server_bin["metals"]
@@ -410,11 +410,11 @@ if CFG.have_lsp_config then
   local lspcmd = nil
   local lsp_done = false
 
-  lspcmd = autocmd({ "BufReadPre", "BufNewFile" }, {
+  lspcmd = autocmd({ "BufReadPre" --[[, "BufNewFile"]] }, {
     callback = function(args)
-      if vim.bo[args.buf].buftype ~= "" then return end
+      if vim.bo[args.buf].buftype ~= "" or vim.bo[args.buf].buflisted == false then return end
       if not lsp_done then
-        require("lsp.config")
+        require("lsp.config").setup()
         lsp_done = true
       end
       vim.schedule(function()
