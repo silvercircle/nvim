@@ -30,7 +30,7 @@ on the command line.
 ## How to configure language servers
 
 The file [lua/lspdef.lua](https://github.com/silvercircle/nvim/blob/main/lua/lspdef.lua) is the main 
-source of configuration data. It is processed in `lua/lsp/defaults.lua` and consists of a large table 
+source of configuration data. It is processed in `lua/lsp/config/init.lua` and consists of a large table 
 defining a list of supported server configurations and a corresponding list of server binary locations. 
 Additionally, it contains data to configure the locations of the Java and C# language servers. This way 
 ensures a most flexible system that can use language servers installed in many different ways. You could 
@@ -46,22 +46,21 @@ be loaded **instead** of `lspdef.lua`.
 Each entry in the `serverconfigs` table is defined as follows:
 ```lua
   -- this entry has a custom configuration in lsp/serverconfig/lua_ls.lua
-  ["lua_ls"]                = { cfg = "lsp.serverconfig.lua_ls", active = true,
-    bin = jp(M.masonbinpath, 'lua-language-server')
+  ["lua_ls"]                = { active = true,
+    cmd = jp(M.masonbinpath, 'lua-language-server')
   },
 ```
 
 Each entry is a key-value pair where the key is a string corresponding to the server name as defined by 
 the `nvim-lspconfig` plugin. The value is a table with the following fields:
 
-    @field  cfg     string|boolean
     @field  active  boolean
     @field  cmd     string
 
-The `cfg` field can be either a string or false. When it is false, the default configuration provided by 
-the `nvim-lspconfig` plugin from `lspconfig.configs.servername` will be used. When it is a string, it must 
-contain a valid Lua module which must return the configuration. See the examples in 
-`lua/lsp/serverconfig`.
+The string in square brackets is the name of the language server. You can freely choose this and **it 
+does not have to match the name of the LSP executable**. So it would be perfectly valid to use `["cpp"]` 
+as the name for your C++ language server and then point the `cmd` field to `clangd`. You'll then have to 
+provide a `lua/lsp/serverconfig/cpp.lua` file to set options for `clangd`.
 
 The `cmd` field has the same format as the `cmd` field in a server configuration. It must be a list of strings with 
 a minimum of one entry. The first value (`cmd[1]`) is the executable of the language server. Unless it 
@@ -74,15 +73,65 @@ A valid entry would look like the following:
 
 This has two entries, the executable and one command line argument (--logpath).
 
-!!! Notes
+## LSP configuration files
 
-    * Even when using a default config (`cfg` == false), the definitions in the `cmd` field will 
-      still be used. You can use this to override start commands for any language server, useful when 
-      your servers are installed in non-standard locations, for example.
+For each language server in `lspdef.serverconfigs` there **MUST** be a corresponding language server 
+configuration file in the `lua/lsp/serverconfig` directory. For example, 
+`lua/lsp/serverconfig/clangd.lua` will be used for the `["clangd"]` entry in `lspdef`. Entries, for which 
+no such file is found will be silently skipped or, in case you have enabled `debug` in `lspdef`, you'll 
+receive a notification.
 
-    * When not using a default config (`cfg` specifies a module), it depends whether this 
-      configuration has a `cmd` field. If it does, this will be used, otherwise, the 
-      `serverconfigs["server].cmd` will be used
+### Anatomy of a server configuration file
+
+Here is an example (for the LUA language server)
+```lua
+
+  root_markers = {'.luarc.json', '.luarc.jsonc', '.luacheckrc', '.stylua.toml', 'stylua.toml', 'selene.toml',
+                  'selene.yml' },
+  filetypes = { "lua" },
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { "vim" },
+        workspaceEvent = "OnSave",
+        disable = {
+          "param-type-mismatch",
+          "undefined-field",
+          "invisible"
+        }
+      },
+      hint = {
+        enable = true
+      },
+      runtime = {
+        version = "LuaJIT", -- Lua 5.1/LuaJIT
+      },
+      telemetry = {
+        enable = false
+      },
+      window = {
+        progressBar = true
+      }
+    }
+  }
+}
+
+```
+
+As you can see, the server configuration file must return a table. The fields are documented in Neovim 
+documentation, the important ones are:
+
+* `cmd` - This is optional. When missing, it is added from the `lspdef` entry. When present, only the 
+  first element (the path and filename of the LSP server executable is replaced from `lspdef`). This 
+  gives some flexibility and allows you to use configuration files downloaded from the net without having 
+  to edit them for your LSP install locations. You simply edit `lspdef` and that's about it.
+
+* `root_markers` - A list of filename patterns that are usually be found in the root directory of a 
+  project.
+
+* `filetypes` - list of filetypes that will use this LSP server.
+
+* `settings` - server specific settings
 
 ## Supported languages and language servers:
 

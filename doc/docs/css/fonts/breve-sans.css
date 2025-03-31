@@ -69,10 +69,10 @@
 }
 
 article.md-typeset {
-  font-size: 1.7em !important;
+  font-size: 1.8em !important;
   font-family: "Breve Sans";
   line-height: 1.4em;
-  font-weight: 400;
+  font-weight: 300;
 }
 
 kbd {
@@ -80,7 +80,7 @@ kbd {
 }
 
 div.admonition > p:last-child, .md-typeset details > p:last-child, div.admonition li {
-  font-size: 1.3em !important;
+  font-size: 1.4em !important;
   line-height: 1.2em;
-  font-weight: 400;
+  font-weight: 300;
 }
