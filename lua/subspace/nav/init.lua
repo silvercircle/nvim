@@ -164,6 +164,9 @@ end
 local changedtick = {}
 local autocmds_done = false
 
+-- auto commands
+-- CursorHold[I]: update the context
+-- BufDelete: clear the buffer data
 local function create_autocmds()
   if autocmds_done == true then return end
   autocmds_done = true
@@ -208,17 +211,14 @@ function M.attach(client, bufnr)
 		return
 	end
 
+  if vim.tbl_contains(LSPDEF.exclude_navic, client.name) then return end
+
   vim.api.nvim_buf_set_var(bufnr, "client_for_navic", client.id)
   create_autocmds()
 	vim.b[bufnr].navic_client_id = client.id
 	vim.b[bufnr].navic_client_name = client.name
 	changedtick[bufnr] = 0
 
-	local navic_augroup = vim.api.nvim_create_augroup("navic", { clear = false })
-	vim.api.nvim_clear_autocmds({
-		buffer = bufnr,
-		group = navic_augroup,
-	})
 	-- First call
 	vim.b[bufnr].navic_awaiting_lsp_response = true
 	lib.request_symbol(bufnr, lsp_callback, client)

@@ -472,6 +472,18 @@ lazy.setup({
       "nmac427/guess-indent.nvim",
       event = "UIEnter",
       config = function() require("guess-indent").setup {} end,
+    },
+    {
+      'windwp/nvim-autopairs',
+      event = "InsertEnter",
+      config = function()
+        local npairs = require('nvim-autopairs')
+        npairs.setup({})
+        local Rule = require('nvim-autopairs.rule')
+        npairs.add_rules({
+          Rule("<", ">")
+        })
+      end
     }
   },
   {
