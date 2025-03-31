@@ -44,4 +44,3 @@ colors with lower contrast and brightness. Switching between them
 
 ## Configuration
 
-
