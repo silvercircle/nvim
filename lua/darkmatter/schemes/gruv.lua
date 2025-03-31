@@ -8,7 +8,7 @@ local _p_fallback = 'vivid'
 local schemeconfig = {
   -- name and desc are currently not used anywhere, but might be in the future
   name = "Frankengruv",
-  desc = "Gruvbox - inspired color theme for Neovim",
+  desc = "Gruvbox-inspired color theme for Neovim",
   -- palettes must be represented in colorvariant
   -- each palette must be fully defined.
   palettes = {
