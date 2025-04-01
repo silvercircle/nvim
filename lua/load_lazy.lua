@@ -23,14 +23,6 @@ lazy.setup({
     end
   },
   {
-    PCFG.is_dev and "silvercircle/nvim-navic" or "SmiteshP/nvim-navic",
-    branch = PCFG.is_dev and "mine" or "master",
-    lazy = true,
-    config = function()
-      require("plugins.others").setup.navic()
-    end
-  },
-  {
     "jake-stewart/multicursor.nvim",
     branch = "1.0",
     config = function()
@@ -120,6 +112,7 @@ lazy.setup({
     cond = Tweaks.completion.version == "blink",
     config = function()
       require("plugins.blink")
+      vim.schedule(function() require("plugins.blink").update_hl() end)
     end,
     dependencies = {
       { "rafamadriz/friendly-snippets" },
@@ -236,9 +229,6 @@ lazy.setup({
         use_default_opts = true
       })
     end
-  },
-  {
-    "kdheepak/tabline.nvim"
   },
   {
     "oskarrrrrrr/symbols.nvim",

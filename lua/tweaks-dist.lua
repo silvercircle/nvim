@@ -26,7 +26,7 @@ local Tweaks = {}
 -- plugin choices.
 -- notification system
 -- either "mini", "fidget" or "snacks".
-Tweaks.notifier = "fidget"
+Tweaks.notifier = "snacks"
 
 -- what plugin to use for breadcrumbs in the winbar
 -- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized

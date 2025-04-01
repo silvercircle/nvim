@@ -113,8 +113,6 @@ function M.update_hl()
   italizemenugroups()
 end
 
-M.update_hl()
-
 -- this maps source names to highlight groups
 local blink_menu_hl_group = {
   buffer = "CmpItemMenuBuffer",
