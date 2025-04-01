@@ -406,26 +406,24 @@ if LSPDEF.auto_shutdown then
   })
 end
 
-if CFG.have_lsp_config then
-  local lspcmd = nil
-  local lsp_done = false
+local lspcmd = nil
+local lsp_done = false
 
-  lspcmd = autocmd({ "BufReadPre" --[[, "BufNewFile"]] }, {
-    callback = function(args)
-      if vim.bo[args.buf].buftype ~= "" or vim.bo[args.buf].buflisted == false then return end
-      if not lsp_done then
-        require("lsp.config").setup()
-        lsp_done = true
+lspcmd = autocmd({ "BufReadPre" --[[, "BufNewFile"]] }, {
+  callback = function(args)
+    if vim.bo[args.buf].buftype ~= "" or vim.bo[args.buf].buflisted == false then return end
+    if not lsp_done then
+      require("lsp.config").setup()
+      lsp_done = true
+    end
+    vim.schedule(function()
+      if lspcmd ~= nil and lsp_done == true then
+        vim.api.nvim_del_autocmd(lspcmd)
       end
-      vim.schedule(function()
-        if lspcmd ~= nil and lsp_done == true then
-          vim.api.nvim_del_autocmd(lspcmd)
-        end
-      end)
-    end,
-    group = agroup_views
-  })
-end
+    end)
+  end,
+  group = agroup_views
+})
 
 autocmd("TextYankPost", {
   callback = function()

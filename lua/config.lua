@@ -34,7 +34,6 @@ local nvim_12 = vim.fn.has("nvim-0.12")
 --end
 
 CFG = {
-  have_lsp_config = (vim.lsp.config ~= nil),
   have_eleven = nvim_11,
   have_twelve = nvim_12,
   minipicker_iprefix = "#>",
