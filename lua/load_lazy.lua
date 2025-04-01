@@ -212,6 +212,7 @@ lazy.setup({
       cond = Tweaks.completion.version == "blink",
       config = function()
         require("plugins.blink")
+        vim.schedule(function() require("plugins.blink").update_hl() end)
       end,
       dependencies = {
         { "rafamadriz/friendly-snippets" },

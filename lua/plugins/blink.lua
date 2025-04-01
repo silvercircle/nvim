@@ -101,10 +101,8 @@ local function italizemenugroups()
 
   vim.iter(groups):map(function(k)
     local hl = vim.api.nvim_get_hl(0, { name = k })
-    local name = hl.link or k
-    local fg = vim.api.nvim_get_hl(0, { name = name }).fg
-    local bg = vim.api.nvim_get_hl(0, { name = name }).bg
-    vim.api.nvim_set_hl(0, k, { fg = fg, bg = bg, italic = true })
+    local gg = hl.link and vim.api.nvim_get_hl(0, { name = hl.link }) or hl
+    vim.api.nvim_set_hl(0, k, { fg = gg.fg, bg = gg.bg, italic = true })
   end)
 end
 
@@ -112,8 +110,6 @@ function M.update_hl()
   reverse_hl_groups()
   italizemenugroups()
 end
-
-M.update_hl()
 
 -- this maps source names to highlight groups
 local blink_menu_hl_group = {

@@ -14,7 +14,7 @@ vim.loader.enable()
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 -- bootstrap lazy
--- vim.g._ts_force_sync_parsing = true
+vim.g._ts_force_sync_parsing = true
 require('config')
 require("subspace.lib.permconfig").restore_config()
 PCFG = require("subspace.lib.permconfig").perm_config
