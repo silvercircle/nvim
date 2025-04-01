@@ -132,7 +132,7 @@ end
 
 local function navic_context()
   if navic == nil then
-    navic = require("nvim-navic")
+    navic = require("subspace.nav")
   end
   return navic.get_location()
 end

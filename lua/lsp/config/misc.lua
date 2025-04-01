@@ -4,8 +4,8 @@
 if vim.diagnostic then
   vim.diagnostic.config({
     update_in_insert = false,
-    virtual_text = not LSPDEF.virtual_lines,
-    virtual_lines = (LSPDEF.virtual_lines == true) and { only_current_line = true, highlight_whole_line = false } or false,
+    virtual_text = (LSPDEF.virtual_text) and { current_line = false },
+    virtual_lines = (LSPDEF.virtual_lines == true) and { current_line = true, highlight_whole_line = false } or false,
     underline = {
       -- Do not underline text when severity is low (INFO or HINT).
       severity = { min = vim.diagnostic.severity.WARN },
@@ -50,13 +50,6 @@ if vim.diagnostic then
     },
   })
 end
-do
-  vim.fn.sign_define("DiagnosticSignError", { text = "✘", texthl = "RedSign" })
-  vim.fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "YellowSign" })
-  vim.fn.sign_define("DiagnosticSignInfo", { text = "◉", texthl = "BlueSign" })
-  vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "GreenSign" })
-end
-
 --- LSP progress handler for snacks.notifier
 --- not needed when notifier is set to "fidget", because it has its own
 --- implementation

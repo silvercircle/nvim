@@ -191,6 +191,7 @@ Tweaks.cmp = {
       whl_doc =  "Normal:CmpFloat,FloatBorder:CmpBorder,CursorLine:Visual,Search:None"
     }
   },
+  buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true, liquid = true }
 }
 
 -- internal function to create the border characters. You can expand it with more styles
@@ -283,9 +284,14 @@ Tweaks.tree = {
   -- valid versions are Neo (for NeoTree), Nvim (for NvimTree)
   version = "Nvim",
   -- use the git integration (currently only available for NeoTree)
-  use_git = true
+  use_git = true,
+  -- this is a minimum value
+  width = 42
 }
 
+Tweaks.outline = {
+  width = 28
+}
 -- a list of filename patterns that define a project root. This will be used as some kind of
 -- fallback when no other means of finding a project's root are successfull. This is highly
 -- incomplete and inaccurate, but you can expand this with whatever you want.

@@ -202,8 +202,11 @@ function Utils.getroot_current()
   return Utils.getroot(vim.fn.expand("%:p:h"))
 end
 
---- simple telescope picker to list active LSP servers. Allows to terminate a server on selection.
---- @param auto? boolean - true:  perform auto shutdown for unused LSP servers and return.
+--- simple snacks picker to list active LSP servers and shutdown them
+--- when they are idle (0 clients attached).
+--- this will never be able to shutdown a LSP server that is attached to
+--- at least one buffer.
+--- @param auto? boolean  true:  perform auto shutdown for unused LSP servers and return.
 ---                       false: present the picker.
 function Utils.StopLsp(auto)
   auto = auto or false

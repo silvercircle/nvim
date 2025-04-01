@@ -313,7 +313,7 @@ cmp.setup({
         get_bufnrs = function()
           local buf = vim.api.nvim_get_current_buf()
           local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
-          if CFG.cmp.buffer_ft_allowed[ft] == nil then
+          if Tweaks.cmp.buffer_ft_allowed[ft] == nil then
             return {}
           end
           if CGLOBALS.cur_bufsize > T.buffer_maxsize then -- 300kb

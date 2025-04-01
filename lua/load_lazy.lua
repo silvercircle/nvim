@@ -41,8 +41,17 @@ lazy.setup({
     'nvim-lualine/lualine.nvim',
     event = "UIEnter",
     config = function()
-      require("plugins.lualine_lite_setup")
-      require("plugins.lualine_lite_setup").fixhl()
+      require("plugins.lualine_setup")
+      require("plugins.lualine_setup").fixhl()
+    end
+  },
+  {
+    "silvercircle/nvim-cokeline",
+    lazy = true,
+    event = "UIEnter",
+    branch = "mine",
+    config = function()
+      require("plugins.cokeline")
     end
   },
   {

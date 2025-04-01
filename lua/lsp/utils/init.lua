@@ -10,7 +10,7 @@ local M = { path = {} }
 -- global on_setup hook
 M.on_setup = nil
 -- Customize LSP behavior via on_attach
-local navic = require("nvim-navic")
+local navic = require("subspace.nav")
 
 ON_LSP_ATTACH = function(client, buf)
   if LSPDEF.debug then
@@ -181,25 +181,6 @@ end
 function M.get_lsp_clients(filter)
   --- @diagnostic disable-next-line:deprecated
   return nvim_eleven and lsp.get_clients(filter) or lsp.get_active_clients(filter)
-end
-
-M.lsp_capabilities = nil
-
---- obtain lsp capabilities from lsp and cmp-lsp plugin
---- @return table
-function M.get_lsp_capabilities()
-  if M.lsp_capabilities == nil then
-    local cmp_capabilities = Tweaks.completion.version == "blink"
-      and require("blink.cmp").get_lsp_capabilities()
-      or require("cmp_nvim_lsp").default_capabilities()
-    M.lsp_capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), cmp_capabilities)
-    M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = LSPDEF.use_dynamic_registration
-    M.lsp_capabilities.textDocument.completion.editsNearCursor = true
-    M.lsp_capabilities.workspace.executeCommand = {
-      dynamicRegistration = true
-    }
-  end
-  return M.lsp_capabilities
 end
 
 return M

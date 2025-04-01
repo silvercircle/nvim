@@ -10,12 +10,17 @@ M.keys_set = false;
 -- provide a simple ui selector to select and activate one of the available
 -- color schemes.
 function M.ui_select_scheme()
-  local schemes = {
-    { cmd = "dark", text = "Sonokai-inspired dark" },
-    { cmd = "gruv", text = "Frankengruv, A Gruvbox inspired scheme" },
-    { cmd = "transylvania", text = "Transylvania - A Dracula inspired scheme" },
-    { cmd = "onedarker", text = "One Darker - A One Dark inspired scheme" }
-  }
+  local schemes = {}
+  for x,_ in vim.fs.dir(vim.fs.joinpath(vim.fn.stdpath("config"), "lua", "darkmatter", "schemes")) do
+    local s, c = pcall(require, "darkmatter.schemes." .. vim.fn.fnamemodify(x, ":r"))
+    if s then
+      local sc = c.schemeconfig()
+      table.insert(schemes, {
+        cmd = vim.fn.fnamemodify(x, ":r"),
+        text = (sc.name or x) .. " - " .. (sc.desc or "no decription")
+      })
+    end
+  end
   local conf = Dmtheme.get_conf()
   vim.iter(schemes):filter(function(k)
     if k.cmd == conf.scheme then k.current = true k.hl = "Green" else k.current = nil k.hl = "Fg" end

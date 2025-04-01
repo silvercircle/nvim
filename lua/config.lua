@@ -29,36 +29,23 @@ Tweaks.tree.filetype = tree_fts[Tweaks.tree.version]
 local nvim_11 = vim.fn.has("nvim-0.11")
 local nvim_12 = vim.fn.has("nvim-0.12")
 
-if nvim_12 == 1 then
-  vim.deprecate = function() end
-end
+--if nvim_12 == 1 then
+  -- vim.deprecate = function() end
+--end
 
 CFG = {
-  have_lsp_config = (vim.lsp.config ~= nil),
   have_eleven = nvim_11,
-  cmp = {
-    -- the following lists file types that are allowed to use the cmp_buffer source
-    buffer_ft_allowed = {tex = true, md = true, markdown = true, telekasten = true, text =true, mail = true, liquid = true },
-  },
+  have_twelve = nvim_12,
   minipicker_iprefix = "#>",
-  -- these are minimal values
-  filetree_width = 42,                          -- width nvim-tree plugin (file tree)
-  outline_width = 28,                           -- split width for symbols-outline window (right sidebar)
-  -- some optional plugins
-  mason = true,                                 -- on demand, setup in setup_lsp.lua
-  null_ls = false,                              -- setup by lazy loader
   treesitter = true,
   plain = (env_plain ~= nil or vim.g.want_plain == true) and true or false,
   statuscol_normal = '%s%=%l %C ',
   statuscol_rel = '%s%=%l %C ',
-  nvim_tree = true,
   fortunecookie = false, -- "fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
                                               -- needs fortune and cowsay installed.
                                               -- set to false or an empty string to disable
                                               -- set this to "" or false if your start screen throws errors.
                                               -- when false, views are only written on write/update or manually (f4)
-  termheight = 11,
-  iconpad = '',                              -- additional padding for devicons.
   texoutput = "~/Documents/TEXOUTPUT/",
   wordcount_limit = 5,                         -- file size limit in megabytes. Above it, the word count will be disabled for performance reasons
   sysmon = {
@@ -93,7 +80,6 @@ CFG = {
                        "yaml", "rust", "javascript", "ruby", "objc", "markdown",
                        "markdown_inline", "zig", "latex" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
-  outline_plugin = nil,
   theme = require("darkmatter")
 }
 

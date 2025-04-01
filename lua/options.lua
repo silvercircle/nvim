@@ -98,5 +98,4 @@ o.cinoptions=":N,=4"
 o.splitbelow = true
 vim.opt.matchpairs:append("<:>")
 vim.o.winborder="single"
-vim.o.mouse = ""
 -- o.secure=true
