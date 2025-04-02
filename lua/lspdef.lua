@@ -191,5 +191,6 @@ M.advanced_config = {
   scala = false,
   roslyn = true
 }
+M.inlay_hints = true
 return M
 

@@ -52,7 +52,7 @@ M.perm_config_default = {
   cmp_automenu = Tweaks.cmp.autocomplete,
   cmp_ghost = false,
   lsp = {
-    inlay_hints = true
+    inlay_hints = LSPDEF.inlay_hints
   },
   is_dev = false,
   outline_view = false,

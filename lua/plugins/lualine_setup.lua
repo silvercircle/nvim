@@ -147,8 +147,6 @@ local navic_component = {
     if #string < 2 then
       return ""
     else
-     --return string.format("%s: %s", vim.lsp.get_active_clients( {bufnr=0} )[1].name, string)
-     --return string.format("> %s", string)
      return string.format("> %s", string)
    end
   end,

@@ -379,10 +379,10 @@ M.setup = {
         hl_details = "String",
         on_symbols_complete = function(ctx)
           vim.api.nvim_set_option_value("statusline", "  Outline (" .. (ctx.pname or "None") ..
-            (ctx.followmode and ", follow" or "") .. ")", { win = ctx.id_win })
+            (", " .. ctx.symbolcount ) .. " Symbols," .. (ctx.followmode and " F" or "") ..  ")", { win = ctx.id_win })
           -- unfold for some filetypes. Not a good idea for others (like lua) because
           -- they have excessiv symbol spam so keep the list collapsed.
-          local unfold_for = { "tex", "markdown", "typst", "zig", "cpp", "cs", "scala" }
+          local unfold_for = { "tex", "markdown", "typst", "zig", "cpp", "cs", "scala", "toml", "python" }
           if vim.tbl_contains(unfold_for, vim.bo.filetype) then
             Symbols.api.action("unfold-all")
           end
