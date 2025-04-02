@@ -202,11 +202,8 @@ end
 
 function M.attach(client, bufnr)
 	if not client.server_capabilities.documentSymbolProvider then
-		if not vim.g.navic_silence then
-			vim.notify(
-				'nvim-navic: Server "' .. client.name .. '" does not support documentSymbols.',
-				vim.log.levels.ERROR
-			)
+		if LSPDEF.verbose then
+			vim.notify('nvim-navic: Server "' .. client.name .. '" does not support documentSymbols.',vim.log.levels.INFO)
 		end
 		return
 	end

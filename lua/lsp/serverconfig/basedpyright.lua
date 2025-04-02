@@ -43,12 +43,30 @@ return {
   filetypes = { "python" },
   root_markers = root_files,
   single_file_support = true,
+  capabilities = {
+    textDocument = {
+      publishDiagnostics = {
+        tagSupport = {
+          valueSet = { 2 }
+        }
+      }
+    }
+  },
   settings = {
     basedpyright = {
       analysis = {
         autoSearchPaths = true,
         useLibraryCodeForTypes = true,
+        inlayHints = {
+          callArgumentNames = true
+        },
         diagnosticMode = "openFilesOnly",
+        typeCheckingMode = "standard",
+      }
+    },
+    python = {
+      analysis = {
+        ignore = { "*" }
       }
     }
   },

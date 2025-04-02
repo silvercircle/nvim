@@ -102,7 +102,11 @@ M.serverconfigs = {
     cmd = { jp(M.localbin, "ctags-lsp") }
   },
   ["basedpyright"]          = { active = true,
-    cmd = { jp(M.masonbinpath, 'basedpyright-langserver') }
+    cmd = { jp(M.masonbinpath, 'basedpyright-langserver') },
+    attach_config = function(client, buf)
+      if client.name == "basedpyright" then
+      end
+    end
   },
   ["dartls"]                = { active = false,
     cmd = { jp(M.masonbinpath, "dartls") }
@@ -116,6 +120,9 @@ M.serverconfigs = {
   ["zk"]             = { active = true,
     cmd = { jp(M.localbin, "zk") }
   },
+  ["ruff"]                  = { active = true,
+    cmd = { jp(M.localbin, "ruff"), "server" }
+  }
 }
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
   -- this can show multiple diagnostic messages for a single line.
@@ -174,6 +181,7 @@ M.local_configs = {
 
 -- set to true to get some debugging output via notifications
 M.debug = false
+M.verbose = true
 M.virtual_lines = false
 M.virtual_text = true
 M.use_dynamic_registration = true

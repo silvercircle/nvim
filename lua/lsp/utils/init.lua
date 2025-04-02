@@ -27,6 +27,14 @@ ON_LSP_ATTACH = function(client, buf)
   if client.name == "rzls" then
     vim.cmd("hi! link @lsp.type.field Member")
   end
+  -- this mechanism allows to inject on_attach code from either lspdef or the
+  -- serverconfig/clientname.lua
+  if LSPDEF.serverconfigs[client.name].attach_config then
+    LSPDEF.serverconfigs[client.name].attach_config(client, buf)
+  end
+  if vim.lsp.config[client.name].attach_config then
+    vim.lsp.config[client.name].attach_config(client, buf)
+  end
 end
 
 function M.bufname_valid(bufname)

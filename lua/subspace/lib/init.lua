@@ -220,7 +220,9 @@ function Utils.StopLsp(auto)
     local count = 0
     for _ in pairs(attached) do count = count + 1 end
     if auto and count == 0 then
-      vim.notify(string.format("Auto shutdown for LSP: %s (client_id=%d)", client["name"], client["id"]))
+      if LSPDEF.verbose then
+        vim.notify(string.format("Auto shutdown for LSP: %s (client_id=%d)", client["name"], client["id"]))
+      end
       vim.lsp.stop_client(client["id"], true)
     end
     if not auto then
@@ -266,7 +268,7 @@ function Utils.StopLsp(auto)
       local pos = #entry
       local hl = item.buffers > 0 and "Red" or "Green"
 
-      entry[pos + 1] = { Align("ID:" .. tostring(item.id), 6, { align="right" }), "Fg" }
+      entry[pos + 1] = { Align("ID:" .. string.format("%3d", item.id), 6, { align="right" }), "Fg" }
       entry[pos + 2] = { Align(" " .. item.name, 25, { align="left" }), "Fg" }
       entry[pos + 3] = { Align(string.format("%3d", item.buffers) .. (item.buffers == 1 and " Buffer " or " Buffers"), 20, { align="right" }), hl }
       entry[pos + 4] = { Align(item.type, 45, { align="right" }), "String" }
