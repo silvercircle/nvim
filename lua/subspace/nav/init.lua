@@ -161,7 +161,6 @@ local function lsp_callback(for_buf, symbols)
 	lib.update_data(for_buf, symbols)
 end
 
-local changedtick = {}
 local autocmds_done = false
 local navic_augroup_buf = nil
 
@@ -207,6 +206,7 @@ local function create_autocmds()
 end
 
 function M.attach(client, bufnr)
+  local changedtick = 0
   if vim.tbl_contains(LSPDEF.exclude_navic, client.name) then return end
 
 	if not client.server_capabilities.documentSymbolProvider then
@@ -227,9 +227,9 @@ function M.attach(client, bufnr)
 
 	vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter" }, {
 		callback = function()
-			if not awaiting_lsp_response[bufnr] and changedtick[bufnr] < vim.b[bufnr].changedtick then
+			if not awaiting_lsp_response[bufnr] and changedtick < vim.b[bufnr].changedtick then
 				awaiting_lsp_response[bufnr] = true
-				changedtick[bufnr] = vim.b[bufnr].changedtick
+				changedtick = vim.b[bufnr].changedtick
 				lib.request_symbol(bufnr, lsp_callback, client)
 			end
 		end,
@@ -239,7 +239,6 @@ function M.attach(client, bufnr)
 
 	vim.b[bufnr].navic_client_id = client.id
 	vim.b[bufnr].navic_client_name = client.name
-	changedtick[bufnr] = 0
 
 	-- First call
 	vim.b[bufnr].navic_awaiting_lsp_response = true

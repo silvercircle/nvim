@@ -326,7 +326,7 @@ require("blink.cmp").setup({
   completion = {
     accept = {
       --create_undo_point = true,
-      resolve_timeout_ms = 1000,
+      resolve_timeout_ms = 5000, -- some lsps can be *that* slow, hello pyright :)
       auto_brackets = {
         semantic_token_resolution = {
           enabled = false

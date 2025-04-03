@@ -396,15 +396,19 @@ M.setup = {
     })
     local utility_key = Tweaks.keymap.utility_key
     vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sf', function()
-      Symbols.api.action("unfold-all")
+      -- Symbols.api.action("unfold-all")
+      Symbols.sidebar.symbols.unfold_all(0)
     end, "SymbolsSidebar Unfold all")
 
     vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sg', function()
-      Symbols.api.action("fold-all")
+      -- Symbols.api.action("fold-all")
+      Symbols.sidebar.symbols.fold_all(0)
     end, "SymbolsSidebar Fold all")
 
     vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'ss', function()
-      Symbols.api.action("search")
+      -- Symbols.api.action("search")
+      Symbols.sidebar.view_set(0, "search")
+      Symbols.sidebar.focus(0)
     end, "SymbolsSidebar Search")
 
     vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sc', function()
