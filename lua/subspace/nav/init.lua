@@ -163,14 +163,18 @@ end
 
 local changedtick = {}
 local autocmds_done = false
+local navic_augroup_buf = nil
 
 -- auto commands
 -- CursorHold[I]: update the context
 -- BufDelete: clear the buffer data
+-- these do not need buf-local data, so they can be global
 local function create_autocmds()
   if autocmds_done == true then return end
   autocmds_done = true
 	local navic_augroup_global = vim.api.nvim_create_augroup("navic_global", { clear = false })
+	navic_augroup_buf = vim.api.nvim_create_augroup("navic", { clear = false })
+
 	vim.api.nvim_create_autocmd( { "CursorHold", "CursorHoldI" }, {
 		callback = function(args)
 			lib.update_context(args.buf)
@@ -183,35 +187,56 @@ local function create_autocmds()
 		end,
 		group = navic_augroup_global,
 	})
+
+	--vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter" }, {
+	--	callback = function(args)
+	--	  local bufnr = args.buf
+	--	  local s, id = pcall(vim.api.nvim_buf_get_var, bufnr, "client_for_navic")
+	--	  if s == false then return end
+	--	  local client = vim.lsp.get_client_by_id(id)
+	--		if not awaiting_lsp_response[bufnr] and changedtick[bufnr] < vim.b[bufnr].changedtick then
+	--			awaiting_lsp_response[bufnr] = true
+	--			changedtick[bufnr] = vim.b[bufnr].changedtick
+	--			lib.request_symbol(bufnr, lsp_callback, client)
+	--		end
+	--	end,
+	--	group = navic_augroup_buf,
+	--	buffer = bufnr
+	--})
+
+end
+
+function M.attach(client, bufnr)
+  if vim.tbl_contains(LSPDEF.exclude_navic, client.name) then return end
+
+	if not client.server_capabilities.documentSymbolProvider then
+		if LSPDEF.verbose then
+			vim.notify(string.format('Navic: Server %s does not support **documentSymbols**. Not attaching to buffer %d',
+			  client.name, bufnr), vim.log.levels.INFO)
+		end
+		return
+	end
+
+  if LSPDEF.debug then
+    vim.notify(string.format("Navic: Attaching client %s to buffer %d (%s)", client.name,
+      bufnr, vim.api.nvim_buf_get_name(bufnr)), vim.log.levels.DEBUG)
+  end
+
+  -- vim.api.nvim_buf_set_var(bufnr, "client_for_navic", client.id)
+  create_autocmds()
+
 	vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter" }, {
-		callback = function(args)
-		  local bufnr = args.buf
-		  local s, id = pcall(vim.api.nvim_buf_get_var, bufnr, "client_for_navic")
-		  if s == false then return end
-		  local client = vim.lsp.get_client_by_id(id)
+		callback = function()
 			if not awaiting_lsp_response[bufnr] and changedtick[bufnr] < vim.b[bufnr].changedtick then
 				awaiting_lsp_response[bufnr] = true
 				changedtick[bufnr] = vim.b[bufnr].changedtick
 				lib.request_symbol(bufnr, lsp_callback, client)
 			end
 		end,
-		group = navic_augroup_global,
+		group = navic_augroup_buf,
+		buffer = bufnr
 	})
 
-end
-
-function M.attach(client, bufnr)
-	if not client.server_capabilities.documentSymbolProvider then
-		if LSPDEF.verbose then
-			vim.notify('nvim-navic: Server "' .. client.name .. '" does not support documentSymbols.',vim.log.levels.INFO)
-		end
-		return
-	end
-
-  if vim.tbl_contains(LSPDEF.exclude_navic, client.name) then return end
-
-  vim.api.nvim_buf_set_var(bufnr, "client_for_navic", client.id)
-  create_autocmds()
 	vim.b[bufnr].navic_client_id = client.id
 	vim.b[bufnr].navic_client_name = client.name
 	changedtick[bufnr] = 0
