@@ -378,5 +378,9 @@ Tweaks["indent"]["chunk"]["char"] = {
   vertical = chunklines[4],
   arrow = ">",
 }
-
+Tweaks.fortunecookie = false -- "fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
+                             -- needs fortune and cowsay installed.
+                             -- set to false or an empty string to disable
+                             -- set this to "" or false if your start screen throws errors.
+                             -- when false, views are only written on write/update or manually (f4)
 return Tweaks
