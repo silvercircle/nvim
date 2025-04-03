@@ -20,7 +20,7 @@ if CFG.plain == false then
     --""                                                     ",
   }
   theme.section.bottom_buttons.val = {}
-  if vim.fn.has("linux") > 0 and (CFG.fortunecookie ~= false and #CFG.fortunecookie > 0) then
+  if vim.fn.has("linux") > 0 and (Tweaks.fortunecookie ~= false and #Tweaks.fortunecookie > 0) then
     local handle = io.popen("fortune science politics -s -n500 | cowsay -W 120")
     local result = {"",""}
     if handle ~= nil then
