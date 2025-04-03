@@ -31,12 +31,13 @@ if vim.g.neovide then
   vim.g.neovide_text_contrast = .4
   vim.g.neovide_padding_top = 7
   vim.g.neovide_padding_bottom = 7
-  vim.g.neovide_padding_right = 3
-  vim.g.neovide_padding_left = 3
+  vim.g.neovide_padding_right = 2
+  vim.g.neovide_padding_left = 2
   vim.g.neovide_floating_corner_radius = 0.0
   vim.g.neovide_cursor_trail_size = 0.0
   vim.g.neovide_remember_window_size = true
-  vim.g.neovide_underline_stroke_scale = 2.0
+  vim.g.neovide_underline_stroke_scale = 3.0
+  vim.cmd("map! <S-Insert> <C-R>+")
 end
 
 if not vim.uv.fs_stat(lazypath) then
