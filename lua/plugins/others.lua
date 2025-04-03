@@ -384,7 +384,7 @@ M.setup = {
           -- they have excessiv symbol spam so keep the list collapsed.
           local unfold_for = { "tex", "markdown", "typst", "zig", "cpp", "cs", "scala", "toml", "python" }
           if vim.tbl_contains(unfold_for, vim.bo.filetype) then
-            Symbols.api.action("unfold-all")
+            Symbols.sidebar.symbols.unfold_all(0)
           end
         end
       },
@@ -396,27 +396,24 @@ M.setup = {
     })
     local utility_key = Tweaks.keymap.utility_key
     vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sf', function()
-      -- Symbols.api.action("unfold-all")
       Symbols.sidebar.symbols.unfold_all(0)
     end, "SymbolsSidebar Unfold all")
 
     vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sg', function()
-      -- Symbols.api.action("fold-all")
       Symbols.sidebar.symbols.fold_all(0)
     end, "SymbolsSidebar Fold all")
 
     vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'ss', function()
-      -- Symbols.api.action("search")
       Symbols.sidebar.view_set(0, "search")
       Symbols.sidebar.focus(0)
     end, "SymbolsSidebar Search")
 
     vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sc', function()
-      Symbols.api.action("toggle-cursor-follow")
+      Symbols.sidebar.symbols_cursor_follow_toggle(0)
     end, "SymbolsSidebar Toggle follow")
 
     vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sd', function()
-      Symbols.api.action("show-symbol-under-cursor")
+      Symbols.sidebar.symbols.goto_symbol_under_cursor(0)
     end, "SymbolsSidebar show symbol under cursor")
   end,
   glance = function()
