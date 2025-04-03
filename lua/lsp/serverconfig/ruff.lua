@@ -1,3 +1,5 @@
+-- ruff python linter and formatter
+-- https://github.com/astral-sh/ruff
 local root_files = {
   'pyproject.toml',
   'setup.py',
