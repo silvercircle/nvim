@@ -26,7 +26,7 @@ local Tweaks = {}
 -- plugin choices.
 -- notification system
 -- either "mini", "fidget" or "snacks".
-Tweaks.notifier = "fidget"
+Tweaks.notifier = "snacks"
 
 -- what plugin to use for breadcrumbs in the winbar
 -- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
@@ -129,7 +129,7 @@ Tweaks.blink = {
   -- list of filetypes for which we want to allow the "buffer" source to
   -- collect all the buffer words.
   -- set this to an empty table to allow buffer words for all filetype
-  buffer_source_ft_allowed = {} -- { "tex", "markdown" }
+  buffer_source_ft_allowed = {}, -- { "tex", "markdown" }
 }
 
 -- tweaks for the cmp autocompletion system
@@ -383,4 +383,17 @@ Tweaks.fortunecookie = false -- "fortune science politics -s -n500 | cowsay -W 1
                              -- set to false or an empty string to disable
                              -- set this to "" or false if your start screen throws errors.
                              -- when false, views are only written on write/update or manually (f4)
+
+                             -- some filetype patterns used in auto.lua for setting auto commands.
+                             -- each one is either a list of valid file types or boolean true/false where:
+                             -- - true means enable for all filetypes
+                             -- - false means turn it off for all
+Tweaks.ft_patterns = {
+   spell       = { 'tex', 'markdown', 'text', 'telekasten', 'liquid', 'typst'  },
+   conceal     = { "markdown", "telekasten", "liquid" },
+   indentkeys  = { "c", "cpp", "python" },
+   tabstop     = { 'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go' },
+   -- this MUST be a list of filetypes
+   enter_leave = { "NvimTree", 'snacks_picker_list', "SymbolsSidebar", "SymbolsSearch" }
+}
 return Tweaks

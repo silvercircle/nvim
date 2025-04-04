@@ -230,19 +230,6 @@ autocmd({ 'BufReadPost' }, {
   group = agroup_views
 })
 
--- for these file types we want spellcheck
-autocmd({ 'FileType' }, {
-  pattern = { 'tex', 'markdown', 'text', 'telekasten', 'liquid', 'typst' },
-  callback = function()
-    if vim.bo.modifiable == true then
-      vim.cmd("setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nwqtc | setlocal foldmethod=manual")
-    end
-    if vim.bo.buftype == "" then
-      vim.cmd("setlocal spell spelllang=en_us,de_de")
-    end
-  end,
-  group = agroup_views
-})
 
 -- handle treesitter configuration and start it on supported filetypes.
 --autocmd({ "Filetype" }, {
@@ -252,18 +239,30 @@ autocmd({ 'FileType' }, {
 --  end,
 --  group = agroup_hl
 --})
--- pattern for which the indent and tabstop options must be set.
-local tabstop_pattern = { 'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go' }
--- filetypes for which we want conceal enabled
-local conceal_pattern = { "markdown", "telekasten", "liquid" }
-local indk_pattern = { "c", "cpp", "python" }
-
 -- generic FileType handler adressing common actions
+-- see Tweaks.ft_patterns
 autocmd({ "FileType" }, {
-  pattern = { "SymbolsSidebar", "mail", "qf", "replacer",
-    "vim", "nim", "python", "c", "cpp", "lua", "json", "html", "css", "dart", "go",
-    "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
+  pattern = "*",
+  --pattern = { "SymbolsSidebar", "mail", "qf", "replacer",
+  --  "vim", "nim", "python", "c", "cpp", "lua", "json", "html", "css", "dart", "go",
+  --  "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
+    local function in_pattern(p, ft)
+      if p == false then return false end
+      if p == true or vim.tbl_contains(p, ft) then
+        return true
+      end
+      return false
+    end
+
+    if in_pattern(Tweaks.ft_patterns.spell) then
+      if vim.bo.modifiable == true then
+        vim.cmd("setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal textwidth=105 | setlocal ff=unix | setlocal fo+=nwqtc | setlocal foldmethod=manual")
+      end
+      if vim.bo.buftype == "" then
+        vim.cmd("setlocal spell spelllang=en_us,de_de")
+      end
+    end
     if args.match == "SymbolsSidebar" then
       configure_outline_sidebar()
       vim.api.nvim_win_set_width(0, PCFG.outline.width)
@@ -273,13 +272,12 @@ autocmd({ "FileType" }, {
       vim.defer_fn(function() vim.cmd("setlocal cursorline") end, 400)
     elseif args.match == "qf" or args.match == "replacer" then
       vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal fo-=t")
-    elseif vim.tbl_contains(tabstop_pattern, args.match) then
+    elseif in_pattern(Tweaks.ft_patterns.tabstop, args.match) then
       vim.cmd(
       "setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal fo-=c")
-    elseif vim.tbl_contains(conceal_pattern, args.match) then
+    elseif in_pattern(Tweaks.ft_patterns.conceal, args.match) then
       vim.cmd("setlocal conceallevel=2 | setlocal concealcursor=nc | setlocal formatexpr=")
-    -- metals, attach on filetype
-    elseif vim.tbl_contains(indk_pattern, args.match) then
+    elseif in_pattern(Tweaks.ft_patterns.indentkeys, args.match) then
       vim.cmd("setlocal indentkeys-=: | setlocal cinkeys-=:")
     elseif (args.match == "scala" or args.match == "sbt") and LSPDEF.advanced_config.scala == true then
       local cfg = require("metals").bare_config()
@@ -302,9 +300,6 @@ autocmd({ 'CmdLineEnter' }, {
   group = agroup_hl
 })
 
--- filetypes for left, right and bottom splits. They are meant to have a different background
--- color and no cursor
-local enter_leave_filetypes = { "NvimTree", 'snacks_picker_list', "SymbolsSidebar", "SymbolsSearch" }
 local old_mode
 
 autocmd({ 'WinEnter' }, {
@@ -316,12 +311,12 @@ autocmd({ 'WinEnter' }, {
     end
 
     local filetype = vim.bo.filetype
-    if vim.tbl_contains(enter_leave_filetypes, filetype) then
+    if vim.tbl_contains(Tweaks.ft_patterns.enter_leave, filetype) then
       vim.cmd("setlocal winhl=CursorLine:TreeCursorLine,Normal:TreeNormalNC | hi nCursor blend=100")
     end
     -- HACK: NvimTree and outline windows will complain about the buffer being not modifiable
     -- when insert mode is active. So stop it and remember its state
-    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "SymbolsSidebar" then
+    if filetype == "NvimTree" or filetype == "SymbolsSidebar" then
       old_mode = vim.api.nvim_get_mode().mode
       vim.cmd.stopinsert()
     end
@@ -333,7 +328,7 @@ autocmd({ 'WinLeave' }, {
   pattern = '*',
   callback = function()
     local filetype = vim.bo.filetype
-    if vim.tbl_contains(enter_leave_filetypes, filetype) then
+    if vim.tbl_contains(Tweaks.ft_patterns.enter_leave, filetype) then
       vim.cmd("hi nCursor blend=0")
     end
     -- HACK: restore the insert mode if it was active when changing to the NvimTree or outline
@@ -397,6 +392,7 @@ delcmd = autocmd({ "BufReadPost" }, {
   end
 })
 
+-- watches BufDelete and shuts down unused LSP servers
 if LSPDEF.auto_shutdown then
   autocmd({ "BufDelete" }, {
     callback = function(_)
