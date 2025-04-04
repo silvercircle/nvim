@@ -1,4 +1,4 @@
-local lib = require("subspace.nav.lib")
+local Navlib = require("subspace.nav.lib")
 
 ---@class LspOptions
 ---@field auto_attach boolean
@@ -24,7 +24,7 @@ local config = {
   icons = CFG.lspkind_symbols,
 	highlight = true,
 	separator = " > ",
-	depth_limit = 0,
+	depth_limit = 5,
 	depth_limit_indicator = "..",
 	safe_output = true,
 	click = false,
@@ -44,7 +44,7 @@ setmetatable(config.icons, {
 -- returns table of context or nil
 function M.get_data(bufnr)
 	bufnr = bufnr or vim.api.nvim_get_current_buf()
-	local context_data = lib.get_context_data(bufnr)
+	local context_data = Navlib.get_context_data(bufnr)
 
 	if context_data == nil then
 		return nil
@@ -54,7 +54,7 @@ function M.get_data(bufnr)
 
 	for i, v in ipairs(context_data) do
 		if i ~= 1 then
-		  local t = lib.adapt_lsp_num_to_str(v.kind)
+		  local t = Navlib.adapt_lsp_num_to_str(v.kind)
 			table.insert(ret, {
 				kind = v.kind,
 				type = t,
@@ -84,8 +84,8 @@ function M.format_data(data, opts)
 
 		if opts.icons ~= nil then
 			for k, v in pairs(opts.icons) do
-				if lib.adapt_lsp_str_to_num(k) then
-					local_config.icons[lib.adapt_lsp_str_to_num(k)] = v
+				if Navlib.adapt_lsp_str_to_num(k) then
+					local_config.icons[Navlib.adapt_lsp_str_to_num(k)] = v
 				end
 			end
 		end
@@ -117,7 +117,7 @@ function M.format_data(data, opts)
 
 	local function add_hl(kind, type, name)
 		return "%#NavicIcons"
-			.. lib.adapt_lsp_num_to_str(kind)
+			.. Navlib.adapt_lsp_num_to_str(kind)
 			.. "#"
 			.. local_config.icons[type]
 			.. "%*%#NavicText#"
@@ -158,7 +158,7 @@ end
 local awaiting_lsp_response = {}
 local function lsp_callback(for_buf, symbols)
 	awaiting_lsp_response[for_buf] = false
-	lib.update_data(for_buf, symbols)
+	Navlib.update_data(for_buf, symbols)
 end
 
 local autocmds_done = false
@@ -177,13 +177,13 @@ local function create_autocmds()
 
 	vim.api.nvim_create_autocmd( { "CursorHold", "CursorHoldI" }, {
 		callback = function(args)
-			lib.update_context(args.buf)
+			Navlib.update_context(args.buf)
 		end,
 		group = navic_augroup_global,
 	})
 	vim.api.nvim_create_autocmd("BufDelete", {
 		callback = function(args)
-			lib.clear_buffer_data(args.buf)
+			Navlib.clear_buffer_data(args.buf)
 			if buf_autocmd[args.buf] then
   			for _,v in ipairs(buf_autocmd[args.buf]) do
 	  		  vim.api.nvim_del_autocmd(v)
@@ -238,7 +238,7 @@ function M.attach(client, bufnr)
 			if not awaiting_lsp_response[bufnr] and changedtick < vim.b[bufnr].changedtick then
 				awaiting_lsp_response[bufnr] = true
 				changedtick = vim.b[bufnr].changedtick
-				lib.request_symbol(bufnr, lsp_callback, client)
+				Navlib.request_symbol(bufnr, lsp_callback, client)
 			end
 		end,
 		group = navic_augroup_buf,
@@ -248,9 +248,8 @@ function M.attach(client, bufnr)
 	vim.b[bufnr].navic_client_id = client.id
 	vim.b[bufnr].navic_client_name = client.name
 
-	-- First call
 	vim.b[bufnr].navic_awaiting_lsp_response = true
-	lib.request_symbol(bufnr, lsp_callback, client)
+	Navlib.request_symbol(bufnr, lsp_callback, client)
 end
 
 return M
