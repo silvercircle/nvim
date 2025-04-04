@@ -18,7 +18,7 @@ collection of color palette(s) background colors and style rules. Four schemes a
   * Dark - a Sonokai inspired dark theme
 
 #### Background modes
-The theme supports different background color tones, independent of the color palette. *Cold* (a cool 
+The **theme** supports different background color tones, independent of the color palette. *Cold* (a cool 
 medium gray with a slight blue-ish hue), *Warm* (lower color temperature, slightly red-ish tint), 
 *Deepdark* (very dark, almost black background) and *OLED*, a pitch black background designed to save 
 battery on modern OLED displays.

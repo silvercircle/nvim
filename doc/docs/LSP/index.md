@@ -83,9 +83,10 @@ receive a notification.
 
 ### Anatomy of a server configuration file
 
-Here is an example (for the LUA language server)
+Here is an example (for the LUA language server). The return value must be of type `table` and must 
+contain the required fields (see below).
 ```lua
-
+return {
   root_markers = {'.luarc.json', '.luarc.jsonc', '.luacheckrc', '.stylua.toml', 'stylua.toml', 'selene.toml',
                   'selene.yml' },
   filetypes = { "lua" },
@@ -115,7 +116,6 @@ Here is an example (for the LUA language server)
     }
   }
 }
-
 ```
 
 As you can see, the server configuration file must return a table. The fields are documented in Neovim 
