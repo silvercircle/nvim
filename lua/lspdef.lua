@@ -77,6 +77,9 @@ M.serverconfigs = {
   ["marksman"]              = { active = true,
     cmd = { jp(M.masonbinpath, 'marksman') }
   },
+  ["markdown-oxide"]        = { active = false,
+    cmd = { jp(M.localbin, 'markdown-oxide') }
+  },
   ["lemminx"]               = { active = true,
     cmd = { jp(M.localbin, 'lemminx-linux') }
   },
