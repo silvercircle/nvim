@@ -315,7 +315,8 @@ function M.termToggle(_height)
   -- now, if we have no terminal buffer (yet), create one. Otherwise just select
   -- the existing one.
   if M.term.bufid == nil then
-    vim.cmd("belowright " .. height .. " sp|terminal export NOCOW=1 && $SHELL")
+    local shell = Tweaks.shell or "$SHELL"
+    vim.cmd("belowright " .. height .. " sp|terminal export NOCOW=1 && " .. shell )
   else
     vim.cmd("belowright " .. height .. " sp")
     vim.api.nvim_win_set_buf(0, M.term.bufid)
