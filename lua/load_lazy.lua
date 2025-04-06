@@ -458,6 +458,7 @@ lazy.setup({
     {
       -- url = PCFG.is_dev and "https://github.com/silvercircle/neominimap.nvim" or "https://github.com/Isrothy/neominimap.nvim",
       "Isrothy/neominimap.nvim",
+      branch = "v4",
       event = "BufReadPost",
       cond = true,
       init = function()

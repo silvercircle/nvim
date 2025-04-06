@@ -87,7 +87,6 @@ local function lualine_internal_theme()
 end
 
 
-local tab_sep_color;
 local function setup_theme()
   if Tweaks.theme.disable == false then
     local T = require("darkmatter").T
@@ -101,7 +100,6 @@ local function setup_theme()
     local _normal_bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
     vim.api.nvim_set_hl(0, "WinBarULSep", { fg = _bg, bg = _normal_bg })
     vim.api.nvim_set_hl(0, "WinBarUL", { fg = _fg, bg = _bg, sp = _bg, underline = true })
-    tab_sep_color = { fg = T.accent_color, bg = string.format("#%x", _normal_bg ) }
   end
 end
 setup_theme()
@@ -117,6 +115,7 @@ local function getWordsV2()
     return wc["words"] .. " Words"
   end
 end
+
 
 local pad_string = string.rep(" ", 250)
 --- hack-ish. just return a very long string for the central section. Set the

@@ -396,4 +396,6 @@ Tweaks.ft_patterns = {
    -- this MUST be a list of filetypes
    enter_leave = { "NvimTree", 'snacks_picker_list', "SymbolsSidebar", "SymbolsSearch" }
 }
+Tweaks.shell = "/usr/bin/fish"
+
 return Tweaks

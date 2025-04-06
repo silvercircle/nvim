@@ -174,7 +174,7 @@ require("oil").setup({
     min_height = { 5, 0.1 },
     -- optionally define an integer/float for the exact height of the preview window
     height = nil,
-    border = "rounded",
+    border = Borderfactory("thicc"),
     win_options = {
       winblend = 0,
     },
