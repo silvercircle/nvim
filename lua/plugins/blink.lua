@@ -7,6 +7,20 @@ local w_border = T.border
 local itemlist = nil
 local M = {}
 
+-- local workaround when using neovide. This just temporarily disables
+-- the cursor animation to avoid the confusing cursor-jumping when accepting
+-- suggestions with <CR>
+local disable_animation = function()
+    local origin_len = vim.g.neovide_cursor_animation_length
+    local origin_trail = vim.g.neovide_cursor_trail_size
+    vim.g.neovide_cursor_animation_length = 0
+    vim.g.neovide_cursor_trail_size = 0
+    vim.defer_fn(function()
+        vim.g.neovide_cursor_animation_length = origin_len
+        vim.g.neovide_cursor_trail_size = origin_trail
+    end, 100)
+end
+
 --- workaround for missing feature (scroll completion window page-wise)
 --- @param idx number: number of entries to scroll
 --- @param dir? number: direction to scroll (+1 to scroll down, -1 to scroll up, defaults to 1)-
@@ -138,11 +152,22 @@ require("blink.cmp").setup({
   },
   keymap = {
     preset         = T.keymap_preset,
+    ["<cr>"]       = { function(cmp)
+      if cmp.is_visible() then
+        disable_animation()
+        cmp.accept()
+        return true
+      else
+        return
+      end
+    end, "fallback"
+    },
     ["<Esc>"]      = { "cancel", "fallback" }, -- make <Esc> behave like <C-e>
     ["<C-Up>"]     = { "scroll_documentation_up", "fallback" },
     ["<C-Down>"]   = { "scroll_documentation_down", "fallback" },
     ["<Tab>"]      = {
       function(cmp)
+        disable_animation()
         if cmp.snippet_active() then
           return cmp.accept()
         else
@@ -441,7 +466,7 @@ require("blink.cmp").setup({
 })
 
 CGLOBALS.blink_setup_done = true
-vim.g.setkey({ "n", "i" }, "<f13>", function()
+vim.g.setkey({ "n", "i" }, vim.g.fkeys.s_f1, function()
   local cmp = require("blink.cmp")
   local status = cmp.is_signature_visible()
   if status then cmp.hide_signature() else cmp.show_signature() end
