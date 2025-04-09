@@ -355,7 +355,7 @@ function M.schemeconfig()
 end
 
 function M.custom_hl(theme)
-  theme.hl_with_defaults("iCursor", theme.P.altyellow, theme.P.altyellow)
+  theme.hl_with_defaults("iCursor", theme.NONE, theme.P.altyellow)
 end
 
 return M
