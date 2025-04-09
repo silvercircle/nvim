@@ -265,24 +265,18 @@ M.setup = {
     -- Jump to the next word under cursor but do not add a cursor.
     vim.keymap.set({ "n", "v" }, "<M-n>", function() mc.matchSkipCursor(1) end)
 
+    -- add a cursor for all matches
+    vim.keymap.set({"n", "x"}, "<leader>a", mc.matchAllAddCursors)
+
     -- Rotate the main cursor.
     vim.keymap.set({ "n", "v" }, "<C-left>", mc.nextCursor)
     vim.keymap.set({ "n", "v" }, "<C-right>", mc.prevCursor)
-
-    -- Delete the main cursor.
-    vim.keymap.set({ "n", "v" }, "<c-s-q>", mc.deleteCursor)
 
     -- Add and remove cursors with control + left click.
     vim.keymap.set("n", "<c-leftmouse>", mc.handleMouse)
 
     vim.keymap.set({ "n", "v" }, "<c-q>", function()
-      if mc.cursorsEnabled() then
-        -- Stop other cursors from moving.
-        -- This allows you to reposition the main cursor.
-        mc.disableCursors()
-      else
-        mc.addCursor()
-      end
+      mc.toggleCursor()
     end)
 
     vim.keymap.set({ "n", "v" }, "<leader>q", function()
@@ -378,8 +372,8 @@ M.setup = {
         },
         hl_details = "String",
         on_symbols_complete = function(ctx)
-          vim.api.nvim_set_option_value("statusline", "  Outline (" .. (ctx.pname or "None") ..
-            (", " .. ctx.symbolcount ) .. " Symbols," .. (ctx.followmode and " F" or "") ..  ")", { win = ctx.id_win })
+          vim.api.nvim_set_option_value("statusline", "  Outline: " .. (ctx.pname or "None") ..
+            (" (" .. ctx.symbolcount .. ")" ) .. (ctx.followmode and " follow" or ""), { win = ctx.id_win })
           -- unfold for some filetypes. Not a good idea for others (like lua) because
           -- they have excessiv symbol spam so keep the list collapsed.
           local unfold_for = { "tex", "markdown", "typst", "zig", "cpp", "cs", "scala", "toml", "python" }
