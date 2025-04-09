@@ -490,6 +490,7 @@ lazy.setup({
   },
   {
     ui = {
-      border = Borderfactory("thicc")
+      border = Borderfactory("thicc"),
+      backdrop = 100
     },
   })
