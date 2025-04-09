@@ -10,6 +10,7 @@ local M = {}
 -- local workaround when using neovide. This just temporarily disables
 -- the cursor animation to avoid the confusing cursor-jumping when accepting
 -- suggestions with <CR>
+-- reference: https://github.com/Saghen/blink.cmp/issues/1247
 local disable_animation = function()
     local origin_len = vim.g.neovide_cursor_animation_length
     local origin_trail = vim.g.neovide_cursor_trail_size
@@ -154,6 +155,7 @@ require("blink.cmp").setup({
     preset         = T.keymap_preset,
     ["<cr>"]       = { function(cmp)
       if cmp.is_visible() then
+        -- see: https://github.com/Saghen/blink.cmp/issues/1247
         disable_animation()
         cmp.accept()
         return true
@@ -167,6 +169,7 @@ require("blink.cmp").setup({
     ["<C-Down>"]   = { "scroll_documentation_down", "fallback" },
     ["<Tab>"]      = {
       function(cmp)
+        -- see: https://github.com/Saghen/blink.cmp/issues/1247
         disable_animation()
         if cmp.snippet_active() then
           return cmp.accept()
@@ -353,6 +356,9 @@ require("blink.cmp").setup({
       --create_undo_point = true,
       resolve_timeout_ms = 5000, -- some lsps can be *that* slow, hello pyright :)
       auto_brackets = {
+        kind_resolution = {
+          blocked_filetypes = { 'cpp', 'typescriptreact', 'javascriptreact', 'vue', 'rust' }
+        },
         semantic_token_resolution = {
           enabled = false
         }
