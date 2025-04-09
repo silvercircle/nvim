@@ -38,6 +38,12 @@
           "zig"
         ],
         "path": "./zig.json"
+      },
+      {
+        "language": [
+          "typst"
+        ],
+        "path": "./typst.json"
       }
     ]
   }
