@@ -52,9 +52,12 @@ M.lsp_capabilities = nil
 --- @return table
 function M.get_lsp_capabilities()
   if M.lsp_capabilities == nil then
-    M.lsp_capabilities = Tweaks.completion.version == "blink"
-      and require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
-      or require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+    if Tweaks.completion.version == "blink" then
+      M.lsp_capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
+    else
+      M.lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+      M.lsp_capabilities = vim.tbl_deep_extend("force", M.lsp_capabilities, vim.lsp.protocol.make_client_capabilities())
+    end
     M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = LSPDEF.use_dynamic_registration
     M.lsp_capabilities.textDocument.completion.editsNearCursor = true
     M.lsp_capabilities.workspace.executeCommand = {
