@@ -27,10 +27,10 @@ ON_LSP_ATTACH = function(client, buf)
   end
   -- this mechanism allows to inject on_attach code from either lspdef or the
   -- serverconfig/clientname.lua
-  if LSPDEF.serverconfigs[client.name].attach_config then
+  if LSPDEF.serverconfigs[client.name] and LSPDEF.serverconfigs[client.name].attach_config then
     LSPDEF.serverconfigs[client.name].attach_config(client, buf)
   end
-  if vim.lsp.config[client.name].attach_config then
+  if vim.lsp.config[client.name] and vim.lsp.config[client.name].attach_config then
     vim.lsp.config[client.name].attach_config(client, buf)
   end
 end

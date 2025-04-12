@@ -131,7 +131,11 @@ M.serverconfigs = {
   },
   ["ruff"]                  = { active = true,
     cmd = { jp(M.localbin, "ruff"), "server" }
-  }
+  },
+  --- these are DUMMY entries. They are handled by dedicated plugins in this
+  --- config.
+  ["roslyn"]                = { active = false },
+  ["jdtls"]                 = { active = false }
 }
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
   -- this can show multiple diagnostic messages for a single line.
