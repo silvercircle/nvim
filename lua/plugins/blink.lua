@@ -139,7 +139,7 @@ local blink_menu_hl_group = {
 
 local context_sources = {
   default = { "lsp", "path", "snippets", "buffer" },
-  lua = { "lsp", "path", "snippets", "lua", "buffer" },
+  lua = { "lsp", "path", "snippets", "buffer" },
   text = { "lsp", "path", "snippets", "emoji", "wordlist", "buffer" }--, "dictionary" }
 }
 require("blink.cmp").setup({
@@ -281,11 +281,6 @@ require("blink.cmp").setup({
           watch_files = true
         }
       },
-      lua = {
-        score_offset = 9,
-        name = "Lua",
-        module = "blink-cmp-lua"
-      },
       emoji = {
         score_offset = 0,
         name = "emoji",
@@ -294,11 +289,6 @@ require("blink.cmp").setup({
       lsp = {
         score_offset = 10
       },
-      --lazydev = {
-      --  module = "lazydev.integrations.blink",
-      --  score_offset = 8,
-      --  name = "LazyDev"
-      --},
       snippets = {
         score_offset = 5,
         min_keyword_length = 2,
