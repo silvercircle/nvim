@@ -137,7 +137,7 @@ function Wsplit.splittree(_factor)
     vim.api.nvim_set_option_value("list", false, { win = Wsplit.winid_bufferlist })
     vim.api.nvim_set_option_value("statusline", "Buffer List", { win = Wsplit.winid_bufferlist })
     vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:TreeNormalNC | set foldcolumn=0")
-    vim.fn.win_gotoid(CGLOBALS.main_winid)
+    vim.fn.win_gotoid(CGLOBALS.main_winid[PCFG.tab])
     return Wsplit.winid_bufferlist
   end
   return 0

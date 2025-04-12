@@ -68,13 +68,14 @@ local function main_layout()
   end
 
   did_UIEnter = true
-  CGLOBALS.main_winid = vim.fn.win_getid()
+  local curtab = vim.api.nvim_get_current_tabpage()
+  CGLOBALS.main_winid[curtab] = vim.fn.win_getid()
   if CFG.plain == false then
     if PCFG.tree.active == true then
       CGLOBALS.open_tree()
     end
     if PCFG.terminal.active == true then
-      vim.schedule(function() CGLOBALS.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(CGLOBALS.main_winid) end)
+      vim.schedule(function() CGLOBALS.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(CGLOBALS.main_winid[curtab]) end)
     end
     -- create the WinResized watcher to keep track of the terminal split height.
     -- also call the resize handlers for the usplit/wsplit frames.
@@ -82,11 +83,11 @@ local function main_layout()
     autocmd({ "WinClosed", "WinResized" }, {
       callback = function(sizeevent)
         require("subspace.content.usplit").resize_or_closed(sizeevent)
-        local curtab = vim.api.nvim_get_current_tabpage()
+        local ct = vim.api.nvim_get_current_tabpage()
         if sizeevent.event == "WinClosed" then
-          if CGLOBALS.term[curtab].winid ~= nil and vim.api.nvim_win_is_valid(CGLOBALS.term[curtab].winid) == false then
-            CGLOBALS.term[curtab].winid = nil
-            CGLOBALS.term[curtab].visible = false
+          if CGLOBALS.term[ct].winid ~= nil and vim.api.nvim_win_is_valid(CGLOBALS.term[ct].winid) == false then
+            CGLOBALS.term[ct].winid = nil
+            CGLOBALS.term[ct].visible = false
           end
           if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) == false then
             Wsplit.winid = nil
@@ -127,7 +128,7 @@ local function main_layout()
     vim.api.nvim_command("wincmd p")
     if PCFG.weather.active == true then
       Wsplit.content = PCFG.weather.content
-      Wsplit.content_winid = CGLOBALS.main_winid
+      Wsplit.content_winid = CGLOBALS.main_winid[curtab]
     end
     if PCFG.sysmon.active then
       Usplit.content = PCFG.sysmon.content
@@ -136,7 +137,7 @@ local function main_layout()
       CFG.theme.set_bg()
     end
   end
-  vim.fn.win_gotoid(CGLOBALS.main_winid)
+  vim.fn.win_gotoid(CGLOBALS.main_winid[curtab])
 end
 
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
@@ -435,6 +436,7 @@ autocmd("TextYankPost", {
 autocmd("TabNew", {
   callback = function()
     local curtab = vim.api.nvim_get_current_tabpage()
+    CGLOBALS.main_winid[curtab] = vim.fn.win_getid()
     CGLOBALS.term[curtab] = {
       bufid = nil,
       winid = nil,
@@ -444,9 +446,18 @@ autocmd("TabNew", {
   end,
   group = agroup_views
 })
+
 autocmd("TabClosed", {
   callback = function(args)
     local term = CGLOBALS.term[args.match]
+    vim.cmd("SymbolsClose")
+  end,
+  group = agroup_views
+})
+
+autocmd("TabEnter", {
+  callback = function()
+    PCFG.tab = vim.api.nvim_get_current_tabpage()
   end,
   group = agroup_views
 })

@@ -56,7 +56,8 @@ M.perm_config_default = {
   },
   is_dev = false,
   outline_view = false,
-  minimap_view = false
+  minimap_view = false,
+  tab = 1
 }
 
 M.perm_config = {}
@@ -134,6 +135,7 @@ function M.restore_config()
 
   PCFG.outline_filetype = "SymbolsSidebar"
   PCFG.indent_guides = Tweaks.indent.enabled
+  PCFG.tab = 1
   -- configure the theme
   local cmp_kind_attr = { bold=true, reverse=true }
   if Tweaks.theme.disable == false then

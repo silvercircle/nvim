@@ -120,7 +120,7 @@ vim.g.setkey('i', '<C-z>', function() perform_command("undo") end, "Undo (insert
 map('i', '<C-y>-', '—', opts) -- emdash
 map('i', '<C-y>"', '„”', opts) -- typographic quotes („”)
 vim.g.setkey({ 'n', 'i' }, '<A-w>', function()
-  if vim.fn.win_getid() ~= CGLOBALS.main_winid then vim.cmd('close') end
+  if vim.fn.win_getid() ~= CGLOBALS.main_winid[PCFG.tab] then vim.cmd('close') end
 end, "Close Window")
 
 vim.g.setkey({'n', 'i'}, '<C-f>c', function()
@@ -322,13 +322,13 @@ vim.g.setkey({'n', 'i'}, '<A-q>', function()
 end, "Quit Neovim")
 
 vim.g.setkey({'n', 'i'}, '<C-p>', function()
-  if vim.fn.win_getid() == CGLOBALS.main_winid or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
+  if vim.fn.win_getid() == CGLOBALS.main_winid[PCFG.tab] or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
     require('fzf-lua').oldfiles( { formatter = "path.filename_first", winopts = Tweaks.fzf.winopts.small_no_preview })
   end
 end, "FZF-LUA old files")
 
 vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
-  if vim.fn.win_getid() == CGLOBALS.main_winid or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
+  if vim.fn.win_getid() == CGLOBALS.main_winid[PCFG.tab] or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
     require("fzf-lua").buffers({ formatter = "path.filename_first", mru = true, no_action_zz = true, no_action_set_cursor = true, winopts = Tweaks.fzf.winopts.small_no_preview })
   end
 end, "FZF buffer list")
@@ -342,7 +342,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-1>', function()
 end, "Focus NvimTree") -- Nvim-tree
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-2>', function()
-  vim.fn.win_gotoid(CGLOBALS.main_winid)
+  vim.fn.win_gotoid(CGLOBALS.main_winid[PCFG.tab])
   vim.cmd("hi nCursor blend=0")
 end, "Focus Main Window") -- main window
 
@@ -386,7 +386,7 @@ end, "Focus Terminal split and change to project root")
 kms({ 'n', 'i', 't', 'v' }, '<A-0>', function()
   local wid = vim.fn.win_getid()
   vim.api.nvim_set_option_value("winfixwidth", false, { win = wid })
-  CGLOBALS.main_winid = wid
+  CGLOBALS.main_winid[PCFG.tab] = wid
 end, opts) -- save current winid as main window id
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
@@ -398,7 +398,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
       vim.fn.win_gotoid(uspl.winid)
     else
       uspl.close()
-      vim.fn.win_gotoid(CGLOBALS.main_winid)
+      vim.fn.win_gotoid(CGLOBALS.main_winid[PCFG.tab])
     end
   end
 end, "Open the sysmon/fortune window")
@@ -412,7 +412,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-8>', function()
       vim.fn.win_gotoid(wspl.winid)
     else
       wspl.close()
-      vim.fn.win_gotoid(CGLOBALS.main_winid)
+      vim.fn.win_gotoid(CGLOBALS.main_winid[PCFG.tab])
     end
   end
 end, "Open the info/weather window")
