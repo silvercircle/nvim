@@ -389,12 +389,12 @@ Tweaks.fortunecookie = false -- "fortune science politics -s -n500 | cowsay -W 1
                              -- - true means enable for all filetypes
                              -- - false means turn it off for all
 Tweaks.ft_patterns = {
-   spell       = { 'tex', 'markdown', 'text', 'telekasten', 'liquid', 'typst'  },
-   conceal     = { "markdown", "telekasten", "liquid" },
-   indentkeys  = { "c", "cpp", "python" },
-   tabstop     = { 'vim', 'nim', 'python', 'lua', 'json', 'html', 'css', 'dart', 'go' },
-   -- this MUST be a list of filetypes
-   enter_leave = { "NvimTree", 'snacks_picker_list', "SymbolsSidebar", "SymbolsSearch" }
+  spell       = { "tex", "markdown", "text", "telekasten", "liquid", "typst" },
+  conceal     = { "markdown", "telekasten", "liquid", "typst" },
+  indentkeys  = { "c", "cpp", "python" },
+  tabstop     = { "vim", "nim", "python", "lua", "json", "html", "css", "dart", "go" },
+  -- this MUST be a list of filetypes
+  enter_leave = { "NvimTree", "snacks_picker_list", "SymbolsSidebar", "SymbolsSearch" }
 }
 
 return Tweaks
