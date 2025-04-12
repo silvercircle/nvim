@@ -11,6 +11,7 @@ local M = {}
 -- the cursor animation to avoid the confusing cursor-jumping when accepting
 -- suggestions with <CR>
 -- reference: https://github.com/Saghen/blink.cmp/issues/1247
+-- this will be fixed in both blink and a future neovide release
 local disable_animation = function()
     local origin_len = vim.g.neovide_cursor_animation_length
     local origin_trail = vim.g.neovide_cursor_trail_size
