@@ -222,10 +222,10 @@ lazy.setup({
         { "moyiz/blink-emoji.nvim" },
         {
           "https://gitlab.com/silvercircle74/blink-cmp-wordlist"
-        },
-        {
-          "https://gitlab.com/silvercircle74/blink-cmp-lua"
         }
+        --{
+        --  "https://gitlab.com/silvercircle74/blink-cmp-lua"
+        --}
       }
     },
     {
