@@ -93,8 +93,8 @@ vim.g.setkey({ 'i', 'n' }, utility_key .. 'an', function()
   CGLOBALS.set_fo('wacqtl')
 end, "Set all formatting options")
 
-map('v', '<leader>V', ':!fmt -110<CR>', opts)
-map('v', '<leader>y', ':!fmt -85<CR>', opts)
+map('v', '<leader>V', ":<Home>silent <End>!fmt -105<CR>", opts)
+map('v', '<leader>y', ":<Home>silent <End>!fmt -85<CR>", opts)
 
 vim.g.setkey('n', '<A-C-w>', function()
   vim.api.nvim_feedkeys('}kV{jgq', 'i', true)
