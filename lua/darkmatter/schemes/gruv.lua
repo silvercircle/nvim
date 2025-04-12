@@ -5,6 +5,7 @@
 -- palette to use when basepalette() is called with an unknown name
 local _p_fallback = 'vivid'
 
+---@class schemeconfig
 local schemeconfig = {
   -- name and desc are currently not used anywhere, but might be in the future
   name = "Frankengruv",
@@ -347,7 +348,7 @@ function M.custom_colors()
   }
 end
 
----@return table: supported color variants
+---@return schemeconfig
 function M.schemeconfig()
   return schemeconfig
 end

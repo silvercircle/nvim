@@ -26,6 +26,27 @@
 -- Customization is possible, but lacks certain features. Right now, new highlight
 -- groups require plugins while it should be possible to add them during theme setup
 
+---@class schemeconfig_palette
+---@field cmd string
+---@field text string
+
+---@class schemeconfig_variant
+---@field hl string
+---@field cmd string
+---@field text string
+
+---@class schemeconfig
+---@field name string
+---@field desc string
+---@field palettes table[schemeconfig_palette]
+---@field variants table[schemeconfig_variant]
+
+---@class theme
+---@field NONE string[]
+---@field keys_set boolean
+---@field set_hl function
+---@field P palette
+---@field T theme
 local M = {}
 
 -- the "no color"
