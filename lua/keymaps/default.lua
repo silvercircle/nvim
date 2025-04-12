@@ -354,7 +354,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
     return
   end
   -- otherwise search it and if none is found, open it.
-  if CGLOBALS.findbufbyType(PCFG.outline_filetype) == false then
+  if CGLOBALS.findbufbyType(PCFG.outline_filetype, true) == false then
     CGLOBALS.open_outline()
   end
 end, "Focus Outline window") -- Outline

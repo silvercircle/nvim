@@ -82,10 +82,11 @@ local function main_layout()
     autocmd({ "WinClosed", "WinResized" }, {
       callback = function(sizeevent)
         require("subspace.content.usplit").resize_or_closed(sizeevent)
+        local curtab = vim.api.nvim_get_current_tabpage()
         if sizeevent.event == "WinClosed" then
-          if CGLOBALS.term.winid ~= nil and vim.api.nvim_win_is_valid(CGLOBALS.term.winid) == false then
-            CGLOBALS.term.winid = nil
-            CGLOBALS.term.visible = false
+          if CGLOBALS.term[curtab].winid ~= nil and vim.api.nvim_win_is_valid(CGLOBALS.term[curtab].winid) == false then
+            CGLOBALS.term[curtab].winid = nil
+            CGLOBALS.term[curtab].visible = false
           end
           if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) == false then
             Wsplit.winid = nil
@@ -431,3 +432,21 @@ autocmd("TextYankPost", {
   end,
 })
 
+autocmd("TabNew", {
+  callback = function()
+    local curtab = vim.api.nvim_get_current_tabpage()
+    CGLOBALS.term[curtab] = {
+      bufid = nil,
+      winid = nil,
+      height = 12,
+      visible = false
+    }
+  end,
+  group = agroup_views
+})
+autocmd("TabClosed", {
+  callback = function(args)
+    local term = CGLOBALS.term[args.match]
+  end,
+  group = agroup_views
+})

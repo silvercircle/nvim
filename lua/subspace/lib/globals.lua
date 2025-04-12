@@ -8,11 +8,13 @@ M.notifier = nil
 M.cmp_setup_done = false
 M.blink_setup_done = false
 
-M.term = {
+local curtab = vim.api.nvim_get_current_tabpage()
+M.term = {}
+M.term[curtab] = {
   bufid = nil,
   winid = nil,
   height = 12,
-  visible = false,
+  visible = false
 }
 -- ignore symbol types for the fast symbol browser (telescope)
 M.ignore_symbols = {
@@ -173,7 +175,9 @@ end
 --- find the first window for a given filetype.
 --- @param filetypes string|table: the filetype(s)
 --- @return table: a list of windows displaying the buffer or an empty list if none has been found
-function M.findWinByFiletype(filetypes)
+function M.findWinByFiletype(filetypes, intab)
+  intab = intab or false
+  local curtab = vim.api.nvim_get_current_tabpage()
 
   local function finder(ft, where)
     if type(where) == "string" then
@@ -190,11 +194,13 @@ function M.findWinByFiletype(filetypes)
       local filetype = vim.api.nvim_get_option_value("filetype", { buf = ls[i] })
       if finder(filetype, filetypes) then
         local wins = vim.fn.win_findbuf(ls[i])
-        if wins == 1 then
+        if #wins == 1 and (not intab or (vim.api.nvim_win_get_tabpage(wins[1]) == curtab)) then
           table.insert(win_ids, wins[1])
         else
           for j = 1, #wins, 1 do
-            table.insert(win_ids, wins[j])
+            if (not intab or (vim.api.nvim_win_get_tabpage(wins[1]) == curtab)) then
+              table.insert(win_ids, wins[j])
+            end
           end
         end
       end
@@ -206,8 +212,9 @@ end
 --- find a buffer with type and focus its primary window split
 --- @param type string: filetype (e.g. "NvimTree"
 --- @return boolean: true if a window was found, false otherwise
-function M.findbufbyType(type)
-  local winid = M.findWinByFiletype(type)
+function M.findbufbyType(type, intab)
+  intab = intab or false
+  local winid = M.findWinByFiletype(type, intab)
   if #winid > 0 then
     vim.fn.win_gotoid(winid[1])
     return true
@@ -292,19 +299,19 @@ end
 --- opens a terminal split at the bottom. May also open the sysmon/fortune split
 --- @param _height number: height of the terminal split to open.
 function M.termToggle(_height)
-  local height = _height or M.term.height
+  local height = _height or M.term[curtab].height
   height = height <= vim.o.lines/2 and height or vim.o.lines/2
   local reopen_outline = false
   -- if it is visible, then close it an all sub frames
   -- but leave the buffer open
-  if M.term.visible == true then
+  if M.term[curtab].visible == true then
     require("subspace.content.usplit").close()
-    vim.api.nvim_win_hide(M.term.winid)
-    M.term.visible = false
-    M.term.winid = nil
+    vim.api.nvim_win_hide(M.term[curtab].winid)
+    M.term[curtab].visible = false
+    M.term[curtab].winid = nil
     return
   end
-  local outline_win = M.findWinByFiletype(PCFG.outline_filetype)
+  local outline_win = M.findWinByFiletype(PCFG.outline_filetype, true)
 
   if outline_win[1] ~= nil and vim.api.nvim_win_is_valid(outline_win[1]) then
     M.close_outline()
@@ -314,22 +321,22 @@ function M.termToggle(_height)
   vim.fn.win_gotoid(M.main_winid)
   -- now, if we have no terminal buffer (yet), create one. Otherwise just select
   -- the existing one.
-  if M.term.bufid == nil then
+  if M.term[curtab].bufid == nil then
     local shell = Tweaks.shell or "$SHELL"
     vim.cmd("belowright " .. height .. " sp|terminal export NOCOW=1 && " .. shell )
   else
     vim.cmd("belowright " .. height .. " sp")
-    vim.api.nvim_win_set_buf(0, M.term.bufid)
+    vim.api.nvim_win_set_buf(0, M.term[curtab].bufid)
   end
   -- configure the terminal window
   vim.cmd(
     "setlocal statuscolumn=%#TreeNormalNC#\\  | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=no | set winfixheight | set nocursorline | set winhl=SignColumn:TreeNormalNC,Normal:TreeNormalNC"
   )
-  M.term.winid = vim.fn.win_getid()
-  vim.api.nvim_set_option_value("statusline", "  Terminal", { win = M.term.winid })
-  M.term.bufid = vim.api.nvim_get_current_buf()
-  vim.api.nvim_set_option_value("buflisted", false, { buf = M.term.bufid })
-  M.term.visible = true
+  M.term[curtab].winid = vim.fn.win_getid()
+  vim.api.nvim_set_option_value("statusline", "  Terminal", { win = M.term[curtab].winid })
+  M.term[curtab].bufid = vim.api.nvim_get_current_buf()
+  vim.api.nvim_set_option_value("buflisted", false, { buf = M.term[curtab].bufid })
+  M.term[curtab].visible = true
 
   -- finally, open the sub frames if they were previously open
   if PCFG.sysmon.active == true then
@@ -355,11 +362,11 @@ function M.adjust_layout()
     vim.api.nvim_win_set_width(usplit, PCFG.sysmon.width)
   end
   vim.api.nvim_win_set_height(M.main_winid, 200)
-  if M.term.winid ~= nil then
-    local width = vim.api.nvim_win_get_width(M.term.winid)
-    vim.api.nvim_win_set_height(M.term.winid, M.term.height)
-    vim.api.nvim_win_set_width(M.term.winid, width - 1)
-    vim.api.nvim_win_set_width(M.term.winid, width)
+  if M.term[curtab].winid ~= nil then
+    local width = vim.api.nvim_win_get_width(M.term[curtab].winid)
+    vim.api.nvim_win_set_height(M.term[curtab].winid, M.term[curtab].height)
+    vim.api.nvim_win_set_width(M.term[curtab].winid, width - 1)
+    vim.api.nvim_win_set_width(M.term[curtab].winid, width)
   end
   local outline = M.findWinByFiletype(PCFG.outline_filetype)
   if #outline > 0 then

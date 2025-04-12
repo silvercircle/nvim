@@ -75,7 +75,7 @@ function M.write_config()
     local usplit_id = require("subspace.content.usplit").winid
     local state = {
       terminal = {
-        active = CGLOBALS.term.winid ~= nil and true or false,
+        active = CGLOBALS.term[1].winid ~= nil and true or false,
       },
       weather = {
         active = wsplit_id ~= nil and true or false,
