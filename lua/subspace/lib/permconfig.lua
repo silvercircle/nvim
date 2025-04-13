@@ -72,7 +72,7 @@ function M.write_config()
   local file = get_permconfig_filename()
   local f = io.open(file, "w+")
   if f ~= nil then
-    local wsplit_id = require("subspace.content.wsplit").winid
+    local wsplit_id = TABM.get(1).wsplit.id_win
     local usplit_id = TABM.get(1).usplit.id_win
     local state = {
       terminal = {

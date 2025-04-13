@@ -339,7 +339,7 @@ end, "Command palette")
 
 -- quick-focus the four main areas
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-1>', function()
-  TABM.findbufbyType(treename)
+  TABM.findbufbyType(treename, true)
 end, "Focus NvimTree") -- Nvim-tree
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-2>', function()
@@ -407,14 +407,15 @@ end, "Open the sysmon/fortune window")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-8>', function()
   local wspl = require('subspace.content.wsplit')
-  if wspl.winid == nil then
+  local wsplit = TABM.get().wsplit
+  if wsplit.id_win == nil then
     wspl.openleftsplit(CFG.weather.file)
   else
-    if wspl.winid ~= vim.fn.win_getid() then
-      vim.fn.win_gotoid(wspl.winid)
+    if wsplit.id_win ~= vim.fn.win_getid() then
+      vim.fn.win_gotoid(wsplit.id_win)
     else
       wspl.close()
-      vim.fn.win_gotoid(CGLOBALS.main_winid[PCFG.tab])
+      vim.fn.win_gotoid(TABM.T[TABM.active].id_main)
     end
   end
 end, "Open the info/weather window")
@@ -425,7 +426,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-7>', function()
   if TABM.findbufbyType('qf') == false then
     vim.cmd('below 10 copen')
   else
-    local winid = TABM.findWinByFiletype('qf')[1]
+    local winid = TABM.findWinByFiletype('qf', true)[1]
     if curwin == winid then
       vim.cmd('ccl')
     else

@@ -88,13 +88,14 @@ local function main_layout()
         require("subspace.content.usplit").resize_or_closed(sizeevent)
         local ct = vim.api.nvim_get_current_tabpage()
         local usplit_id_win = TABM.T[ct].usplit.id_win
+        local wsplit_id_win = TABM.T[ct].wsplit.id_win
         if sizeevent.event == "WinClosed" then
           if Tabs.T[ct].term.id_win ~= nil and vim.api.nvim_win_is_valid(Tabs.T[ct].term.id_win) == false then
             Tabs.T[ct].term.id_win = nil
             Tabs.T[ct].term.visible = false
           end
-          if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) == false then
-            Wsplit.winid = nil
+          if wsplit_id_win ~= nil and vim.api.nvim_win_is_valid(wsplit_id_win) == false then
+            TABM.T[ct].wsplit.id_win = nil
           end
           if usplit_id_win ~= nil and vim.api.nvim_win_is_valid(usplit_id_win) == false then
             TABM.T[ct].usplit.id_win = nil
@@ -132,8 +133,8 @@ local function main_layout()
     })
     vim.api.nvim_command("wincmd p")
     if PCFG.weather.active == true then
-      Wsplit.content = PCFG.weather.content
-      Wsplit.content_winid = TABM.T[TABM.active].id_main
+      TABM.T[curtab].wsplit.content = PCFG.weather.content
+      TABM.T[curtab].wsplit.content_id_win = TABM.T[TABM.active].id_main
     end
     if PCFG.sysmon.active then
       TABM.T[1].usplit.content = PCFG.sysmon.content
@@ -209,7 +210,7 @@ autocmd({ 'BufEnter' }, {
       end
     end
     CGLOBALS.get_bufsize()
-    if Wsplit.content == 'info' then
+    if TABM.T[TABM.active] and TABM.T[TABM.active].wsplit.content == 'info' then
       vim.schedule(function() Wsplit.refresh("BufEnter (auto.lua)") end)
     end
     marks.BufWinEnterHandler(args) -- update marks in sign column
@@ -312,7 +313,7 @@ local old_mode
 autocmd({ 'WinEnter' }, {
   pattern = '*',
   callback = function()
-    if Wsplit.content == 'info' then
+    if TABM.T[TABM.active].wsplit.content == 'info' then
       CGLOBALS.get_bufsize()
       vim.schedule(function() Wsplit.refresh("WinEnter (auto.lua)") end)
     end
@@ -357,7 +358,7 @@ autocmd({ 'LspAttach' }, {
     if vim.bo[args.buf].ft == "razor" then
       vim.cmd("hi! link @lsp.type.field Member")
     end
-    if Wsplit.content == "info" then Wsplit.refresh("LspAttach (auto.lua)") end
+    if TABM.T[TABM.active].wsplit.content == "info" then Wsplit.refresh("LspAttach (auto.lua)") end
   end
 })
 

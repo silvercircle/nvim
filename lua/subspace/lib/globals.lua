@@ -1,6 +1,4 @@
 --- global functions for my Neovim configuration
-local Tabs = _G.TABM
-
 local M = {}
 
 M.cur_bufsize = 0
@@ -87,6 +85,8 @@ end
 --- the file tree has been opened.
 function M.tree_open_handler()
   local wsplit = require("subspace.content.wsplit")
+  local ws = TABM.get().wsplit
+
   vim.opt.statuscolumn = ''
   local w = vim.fn.win_getid()
   vim.api.nvim_set_option_value('statusline', '   ' .. (Tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"), { win = w })
@@ -94,8 +94,8 @@ function M.tree_open_handler()
   vim.api.nvim_win_set_width(w, PCFG.tree.width)
   CGLOBALS.adjust_layout()
   if PCFG.weather.active == true then
-    wsplit.content = PCFG.weather.content
-    if wsplit.winid == nil then
+    ws.content = PCFG.weather.content
+    if ws.id_win == nil then
       wsplit.openleftsplit(CFG.weather.file)
     end
   end
@@ -106,10 +106,10 @@ end
 function M.tree_close_handler()
   local wsplit = require("subspace.content.wsplit")
   wsplit.close()
-  wsplit.winid = nil
+  TABM.T[TABM.active].wsplit.id_win = nil
   CGLOBALS.adjust_layout()
-  if Tabs.T[Tabs.active].term.id_win ~= nil then
-    vim.api.nvim_win_set_height(Tabs.T[Tabs.active].term.id_win, Tabs.T[Tabs.active].term.height)
+  if TABM.T[TABM.active].term.id_win ~= nil then
+    vim.api.nvim_win_set_height(TABM.T[TABM.active].term.id_win, TABM.T[TABM.active].term.height)
   end
 end
 
@@ -231,8 +231,8 @@ function M.close_qf_or_loc()
     for i, _ in pairs(winid) do
       if winid[i] > 0 and vim.api.nvim_win_is_valid(winid[i]) then
         vim.api.nvim_win_close(winid[i], {})
-        if Tabs.T[Tabs.active].term.id_win ~= nil then
-          vim.api.nvim_win_set_height(Tabs.T[Tabs.active].term.id_win, PCFG.terminal.height)
+        if TABM.T[TABM.active].term.id_win ~= nil then
+          vim.api.nvim_win_set_height(TABM.T[TABM.active].term.id_win, PCFG.terminal.height)
         end
       end
     end
@@ -248,7 +248,7 @@ function M.adjust_layout()
   if usplit ~= nil then
     vim.api.nvim_win_set_width(usplit, PCFG.sysmon.width)
   end
-  vim.api.nvim_win_set_height(Tabs.T[Tabs.active].id_main, 200)
+  vim.api.nvim_win_set_height(TABM.T[TABM.active].id_main, 200)
   if term.id_win ~= nil then
     local width = vim.api.nvim_win_get_width(term.id_win)
     vim.api.nvim_win_set_height(term.id_win, term.height)
@@ -371,7 +371,7 @@ function M.toggle_treesitter_context()
   vim.api.nvim_buf_set_var(0, "tsc", not vim.api.nvim_buf_get_var(0, "tsc"))
   PCFG.treesitter_context = M.get_buffer_var(0, "tsc")
   M.setup_treesitter_context(false)
-  wsplit.freeze = false
+  TABM.T[TABM.active].wsplit.freeze = false
   vim.schedule(function() wsplit.refresh("toggle_treesitter_context()") end)
 end
 

@@ -1,5 +1,5 @@
 ---@class tab
----@field id_main number    -- main window id
+---@field id_main integer    -- main window id
 ---@field id_page integer   -- tabpage #
 ---@field term term         -- term split
 ---@field wsplit wsplit
@@ -14,6 +14,16 @@
 ---@class wsplit
 ---@field id_win  integer?
 ---@field id_buf  integer?
+---@field timer   uv.uv_timer_t?
+---@field cookie_timer   uv.uv_timer_t?
+---@field watch   uv.uv_fs_event_t?
+---@field cookie  table<integer, string>
+---@field old_dimensions table
+---@field width   integer?
+---@field height  integer?
+---@field content_id_win integer?
+---@field content string
+---@field freeze  boolean
 
 ---@class usplit
 ---@field id_win  integer?
@@ -29,14 +39,26 @@ local M = {}
 ---@type table<number, tab>
 M.T = {}
 
-M.active = nil
+M.active = 1
 
 function M.new(tabpage)
   M.T[tabpage] = {
     id_main = 0,
     id_page = tabpage,
     term = { id_buf = nil, id_win = nil, height = 0, visible = false },
-    wsplit = { id_win = nil, id_buf = nil },
+    wsplit = { id_win = nil, id_buf = nil, width = 0, height = 0,
+      content = "info",
+      content_id_win = nil,
+      cookie = {},
+      old_dimensions = {
+        w = 0,
+        h = 0
+      },
+      timer = nil,
+      cookie_timer = nil,
+      watch = nil,
+      freeze = false
+    },
     usplit = { id_win = nil, id_buf = nil, content = "fortune", width = 0,
       cookie = {},
       old_dimensions = {
@@ -48,10 +70,11 @@ function M.new(tabpage)
   }
 end
 
+-- cleanup a tab page.
+---@param tabpage integer
 function M.remove(tabpage)
   local tab = M.T[tabpage]
   if tab then
-    vim.notify(vim.inspect(tab))
     if CGLOBALS.is_outline_open() then vim.cmd("SymbolsClose") end
     if tab.usplit then
       if tab.usplit.timer then tab.usplit.timer:stop() end
