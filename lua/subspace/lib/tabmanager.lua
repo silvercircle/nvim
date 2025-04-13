@@ -50,10 +50,7 @@ function M.new(tabpage)
       content = "info",
       content_id_win = nil,
       cookie = {},
-      old_dimensions = {
-        w = 0,
-        h = 0
-      },
+      old_dimensions = { w = 0, h = 0 },
       timer = nil,
       cookie_timer = nil,
       watch = nil,
@@ -61,10 +58,7 @@ function M.new(tabpage)
     },
     usplit = { id_win = nil, id_buf = nil, content = "fortune", width = 0,
       cookie = {},
-      old_dimensions = {
-        w = 0,
-        h = 0
-      },
+      old_dimensions = { w = 0, h = 0 },
       timer = nil
     }
   }
@@ -77,11 +71,25 @@ function M.remove(tabpage)
   if tab then
     if CGLOBALS.is_outline_open() then vim.cmd("SymbolsClose") end
     if tab.usplit then
-      if tab.usplit.timer then tab.usplit.timer:stop() end
+      if tab.usplit.timer then
+        tab.usplit.timer:stop()
+        tab.usplit.timer:close()
+      end
       if tab.usplit.id_buf ~= nil then vim.api.nvim_buf_delete(tab.usplit.id_buf, { force = true }) end
     end
     if tab.term then
       if tab.term.id_buf ~= nil then vim.api.nvim_buf_delete(tab.term.id_buf, { force = true }) end
+    end
+    if tab.wsplit then
+      if tab.wsplit.timer then
+        tab.wsplit.timer:stop()
+        tab.wsplit.timer:close()
+      end
+      if tab.wsplit.cookie_timer then
+        tab.wsplit.cookie_timer:stop()
+        tab.wsplit.cookie_timer:close()
+      end
+      if tab.wsplit.id_buf ~= nil then vim.api.nvim_buf_delete(tab.wsplit.id_buf, { force = true }) end
     end
   end
   M.T[tabpage] = nil

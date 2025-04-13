@@ -313,7 +313,7 @@ local old_mode
 autocmd({ 'WinEnter' }, {
   pattern = '*',
   callback = function()
-    if TABM.T[TABM.active].wsplit.content == 'info' then
+    if TABM.T[TABM.active] and TABM.T[TABM.active].wsplit.content == 'info' then
       CGLOBALS.get_bufsize()
       vim.schedule(function() Wsplit.refresh("WinEnter (auto.lua)") end)
     end
