@@ -20,6 +20,8 @@ else
   LSPDEF = require("lspdef")
 end
 
+_G.TABM = require("subspace.lib.tabmanager")
+
 local tree_fts = {
   ['Neo']       = "neo-tree",
   ['Nvim']      = "NvimTree",

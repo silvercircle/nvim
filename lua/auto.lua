@@ -8,6 +8,7 @@ local Wsplit = require("subspace.content.wsplit")
 local Usplit = require("subspace.content.usplit")
 local Tsc = require("treesitter-context")
 local marks = require("subspace.lib.marks")
+local Tabs = _G.TABM
 local treeft = Tweaks.tree.filetype
 
 -- local ibl = require('indent_blankline')
@@ -69,13 +70,15 @@ local function main_layout()
 
   did_UIEnter = true
   local curtab = vim.api.nvim_get_current_tabpage()
-  CGLOBALS.main_winid[curtab] = vim.fn.win_getid()
+  Tabs.active = curtab
+  Tabs.new(curtab)
+  Tabs.T[curtab].id_main = vim.fn.win_getid()
   if CFG.plain == false then
     if PCFG.tree.active == true then
       CGLOBALS.open_tree()
     end
     if PCFG.terminal.active == true then
-      vim.schedule(function() CGLOBALS.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(CGLOBALS.main_winid[curtab]) end)
+      vim.schedule(function() TABM.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(TABM.T[curtab].id_main) end)
     end
     -- create the WinResized watcher to keep track of the terminal split height.
     -- also call the resize handlers for the usplit/wsplit frames.
@@ -85,9 +88,9 @@ local function main_layout()
         require("subspace.content.usplit").resize_or_closed(sizeevent)
         local ct = vim.api.nvim_get_current_tabpage()
         if sizeevent.event == "WinClosed" then
-          if CGLOBALS.term[ct].winid ~= nil and vim.api.nvim_win_is_valid(CGLOBALS.term[ct].winid) == false then
-            CGLOBALS.term[ct].winid = nil
-            CGLOBALS.term[ct].visible = false
+          if Tabs.T[ct].term.id_win ~= nil and vim.api.nvim_win_is_valid(Tabs.T[ct].term.id_win) == false then
+            Tabs.T[ct].term.id_win = nil
+            Tabs.T[ct].term.visible = false
           end
           if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) == false then
             Wsplit.winid = nil
@@ -97,13 +100,14 @@ local function main_layout()
           end
           local id = sizeevent.match
           local status, target = pcall(vim.api.nvim_win_get_var, tonumber(id), "termheight")
-          if status and CGLOBALS.term.winid ~= nil then
-            vim.schedule(function() vim.api.nvim_win_set_height(CGLOBALS.term.winid, tonumber(target)) end)
+          if status and Tabs.T[ct].term.id_win ~= nil then
+            vim.schedule(function() vim.api.nvim_win_set_height(Tabs.T[ct].term.id_win, tonumber(target)) end)
           end
         end
         if sizeevent.event == "WinResized" then
-          if CGLOBALS.term.winid ~= nil then
-            PCFG.terminal.height = vim.api.nvim_win_get_height(CGLOBALS.term.winid)
+          if Tabs.T[ct].term.id_win ~= nil then
+            PCFG.terminal.height = vim.api.nvim_win_get_height(Tabs.T[ct].term.id_win)
+            Tabs.T[ct].term.height = vim.api.nvim_win_get_height(Tabs.T[ct].term.id_win)
           end
           Wsplit.set_minheight()
           Wsplit.refresh("resize")
@@ -128,7 +132,7 @@ local function main_layout()
     vim.api.nvim_command("wincmd p")
     if PCFG.weather.active == true then
       Wsplit.content = PCFG.weather.content
-      Wsplit.content_winid = CGLOBALS.main_winid[curtab]
+      Wsplit.content_winid = TABM.T[TABM.active].id_main
     end
     if PCFG.sysmon.active then
       Usplit.content = PCFG.sysmon.content
@@ -137,7 +141,7 @@ local function main_layout()
       CFG.theme.set_bg()
     end
   end
-  vim.fn.win_gotoid(CGLOBALS.main_winid[curtab])
+  vim.fn.win_gotoid(Tabs.T[curtab].id_main)
 end
 
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
@@ -436,13 +440,8 @@ autocmd("TextYankPost", {
 autocmd("TabNew", {
   callback = function()
     local curtab = vim.api.nvim_get_current_tabpage()
-    CGLOBALS.main_winid[curtab] = vim.fn.win_getid()
-    CGLOBALS.term[curtab] = {
-      bufid = nil,
-      winid = nil,
-      height = 12,
-      visible = false
-    }
+    Tabs.new(curtab)
+    Tabs.T[curtab].id_main = vim.fn.win_getid()
   end,
   group = agroup_views
 })
@@ -457,7 +456,7 @@ autocmd("TabClosed", {
 
 autocmd("TabEnter", {
   callback = function()
-    PCFG.tab = vim.api.nvim_get_current_tabpage()
+    Tabs.active = vim.api.nvim_get_current_tabpage()
   end,
   group = agroup_views
 })

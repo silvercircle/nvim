@@ -239,7 +239,7 @@ function Utils.StopLsp(auto)
   if auto then return end
   --- terminate the client given by id
   --- @param id number client id
-  --- @oaram nrbufs number the number of attached buffers
+  --- @param picker any the picker object
   local function do_terminate(id, picker)
     if id ~= nil and id > 0 then
       if #vim.lsp.get_buffers_by_client_id(id) > 0 then
@@ -247,7 +247,7 @@ function Utils.StopLsp(auto)
       else
         vim.lsp.stop_client(id, true)
         entries = vim.iter(entries):filter(function(k, _)
-          if k.id == id then return nil else return k end
+          if k.id == id then return false else return k end
         end):totable()
         picker:find()
         collectgarbage("collect")

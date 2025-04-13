@@ -57,7 +57,6 @@ M.perm_config_default = {
   is_dev = false,
   outline_view = false,
   minimap_view = false,
-  tab = 1
 }
 
 M.perm_config = {}
@@ -69,6 +68,7 @@ function M.write_config()
   if CFG.plain == true then
     return
   end
+  local Tabs = require("subspace.lib.tabmanager")
   local file = get_permconfig_filename()
   local f = io.open(file, "w+")
   if f ~= nil then
@@ -76,7 +76,7 @@ function M.write_config()
     local usplit_id = require("subspace.content.usplit").winid
     local state = {
       terminal = {
-        active = CGLOBALS.term[1].winid ~= nil and true or false,
+        active = Tabs.T[1].term.id_win ~= nil and true or false,
       },
       weather = {
         active = wsplit_id ~= nil and true or false,
@@ -135,7 +135,6 @@ function M.restore_config()
 
   PCFG.outline_filetype = "SymbolsSidebar"
   PCFG.indent_guides = Tweaks.indent.enabled
-  PCFG.tab = 1
   -- configure the theme
   local cmp_kind_attr = { bold=true, reverse=true }
   if Tweaks.theme.disable == false then

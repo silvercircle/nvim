@@ -6,6 +6,7 @@ local Utils = require('subspace.lib')
 local utility_key = Tweaks.keymap.utility_key
 local treename = Tweaks.tree.filetype
 local Snacks = require("snacks")
+local Tabs = require("subspace.lib.tabmanager")
 
 local function fkey_mappings()
   if vim.g.is_tmux == 1 then
@@ -342,7 +343,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-1>', function()
 end, "Focus NvimTree") -- Nvim-tree
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-2>', function()
-  vim.fn.win_gotoid(CGLOBALS.main_winid[PCFG.tab])
+  vim.fn.win_gotoid(Tabs.T[Tabs.active].id_main)
   vim.cmd("hi nCursor blend=0")
 end, "Focus Main Window") -- main window
 
@@ -432,7 +433,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-7>', function()
   end
 end, "Focus the quickfix list")
 
-vim.g.setkey({ 'n', 'i', 't' }, '<f11>', function() CGLOBALS.termToggle(12) end, "Toggle Terminal split at bottom")
+vim.g.setkey({ 'n', 'i', 't' }, '<f11>', function() TABM.termToggle(12) end, "Toggle Terminal split at bottom")
 map('t', '<Esc>', '<C-\\><C-n>', opts)
 
 vim.g.setkey('n', fkeys.c_f8, function() require("oil").open() end, "Open Oil file manager")

@@ -123,7 +123,7 @@ local fdm = {
 --- @return number: the window id, 0 if the process failed
 function Wsplit.splittree(_factor)
   local factor = math.abs((_factor ~= nil and _factor > 0) and _factor or 0.33)
-  local winid = CGLOBALS.findWinByFiletype(Tweaks.tree.filetype)
+  local winid = CGLOBALS.findWinByFiletype(Tweaks.tree.filetype, true)
   if #winid > 0 then
     local splitheight
     if factor < 1 then
@@ -137,7 +137,7 @@ function Wsplit.splittree(_factor)
     vim.api.nvim_set_option_value("list", false, { win = Wsplit.winid_bufferlist })
     vim.api.nvim_set_option_value("statusline", "Buffer List", { win = Wsplit.winid_bufferlist })
     vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:TreeNormalNC | set foldcolumn=0")
-    vim.fn.win_gotoid(CGLOBALS.main_winid[PCFG.tab])
+    vim.fn.win_gotoid(TABM.get().id_main)
     return Wsplit.winid_bufferlist
   end
   return 0

@@ -1,21 +1,14 @@
 --- global functions for my Neovim configuration
+local Tabs = _G.TABM
+
 local M = {}
 
-M.main_winid = { 0 }
 M.cur_bufsize = 0
 M.outline_is_open = false
 M.notifier = nil
 M.cmp_setup_done = false
 M.blink_setup_done = false
 
-local _curtab = vim.api.nvim_get_current_tabpage()
-M.term = {}
-M.term[_curtab] = {
-  bufid = nil,
-  winid = nil,
-  height = 12,
-  visible = false
-}
 -- ignore symbol types for the fast symbol browser (telescope)
 M.ignore_symbols = {
   lua = { "string", "object", "boolean", "number", "array", "variable" },
@@ -115,8 +108,8 @@ function M.tree_close_handler()
   wsplit.close()
   wsplit.winid = nil
   CGLOBALS.adjust_layout()
-  if CGLOBALS.term.winid ~= nil then
-    vim.api.nvim_win_set_height(CGLOBALS.term.winid, CGLOBALS.term.height)
+  if Tabs.T[Tabs.active].term.id_win ~= nil then
+    vim.api.nvim_win_set_height(Tabs.T[Tabs.active].term.id_win, Tabs.T[Tabs.active].term.height)
   end
 end
 
@@ -288,89 +281,30 @@ function M.close_qf_or_loc()
     for i, _ in pairs(winid) do
       if winid[i] > 0 and vim.api.nvim_win_is_valid(winid[i]) then
         vim.api.nvim_win_close(winid[i], {})
-        if M.term.winid ~= nil then
-          vim.api.nvim_win_set_height(M.term.winid, PCFG.terminal.height)
+        if Tabs.T[Tabs.active].term.id_win ~= nil then
+          vim.api.nvim_win_set_height(Tabs.T[Tabs.active].term.id_win, PCFG.terminal.height)
         end
       end
     end
   end
 end
 
---- opens a terminal split at the bottom. May also open the sysmon/fortune split
---- @param _height number: height of the terminal split to open.
-function M.termToggle(_height)
-  local curtab = vim.api.nvim_get_current_tabpage()
-  local height = _height or M.term[curtab].height
-  local term = M.term[curtab]
-
-  height = height <= vim.o.lines/2 and height or vim.o.lines/2
-  local reopen_outline = false
-  -- if it is visible, then close it an all sub frames
-  -- but leave the buffer open
-  if term.visible == true then
-    require("subspace.content.usplit").close()
-    vim.api.nvim_win_hide(term.winid)
-    term.visible = false
-    term.winid = nil
-    return
-  end
-  local outline_win = M.findWinByFiletype(PCFG.outline_filetype, true)
-
-  if outline_win[1] ~= nil and vim.api.nvim_win_is_valid(outline_win[1]) then
-    M.close_outline()
-    reopen_outline = true
-  end
-
-  vim.fn.win_gotoid(M.main_winid[PCFG.tab])
-  -- now, if we have no terminal buffer (yet), create one. Otherwise just select
-  -- the existing one.
-  if term.bufid == nil then
-    local shell = Tweaks.shell or "$SHELL"
-    vim.cmd("belowright " .. height .. " sp|terminal export NOCOW=1 && " .. shell )
-  else
-    vim.cmd("belowright " .. height .. " sp")
-    vim.api.nvim_win_set_buf(0, term.bufid)
-  end
-  -- configure the terminal window
-  vim.cmd(
-    "setlocal statuscolumn=%#TreeNormalNC#\\  | set filetype=terminal | set nonumber | set norelativenumber | set foldcolumn=0 | set signcolumn=no | set winfixheight | set nocursorline | set winhl=SignColumn:TreeNormalNC,Normal:TreeNormalNC"
-  )
-  term.winid = vim.fn.win_getid()
-  vim.api.nvim_set_option_value("statusline", "  Terminal", { win = term.winid })
-  term.bufid = vim.api.nvim_get_current_buf()
-  vim.api.nvim_set_option_value("buflisted", false, { buf = term.bufid })
-  term.visible = true
-
-  -- finally, open the sub frames if they were previously open
-  if PCFG.sysmon.active == true then
-    require("subspace.content.usplit").content = PCFG.sysmon.content
-    require("subspace.content.usplit").open()
-  end
-
-  if reopen_outline == true then
-    vim.fn.win_gotoid(M.main_winid[PCFG.tab])
-    M.open_outline()
-    vim.schedule(function()
-      vim.fn.win_gotoid(M.main_winid[PCFG.tab])
-    end)
-  end
-end
-
-
 --- adjust the optional frames so they will keep their width when the side tree opens or closes
 function M.adjust_layout()
   local usplit = require("subspace.content.usplit").winid
   local curtab = vim.api.nvim_get_current_tabpage()
+  local term = Tabs.T[Tabs.active].term
+
   vim.o.cmdheight = Tweaks.cmdheight
   if usplit ~= nil then
     vim.api.nvim_win_set_width(usplit, PCFG.sysmon.width)
   end
-  vim.api.nvim_win_set_height(M.main_winid[PCFG.tab], 200)
-  if M.term[curtab].winid ~= nil then
-    local width = vim.api.nvim_win_get_width(M.term[curtab].winid)
-    vim.api.nvim_win_set_height(M.term[curtab].winid, M.term[curtab].height)
-    vim.api.nvim_win_set_width(M.term[curtab].winid, width - 1)
-    vim.api.nvim_win_set_width(M.term[curtab].winid, width)
+  vim.api.nvim_win_set_height(Tabs.T[Tabs.active].id_main, 200)
+  if term.id_win ~= nil then
+    local width = vim.api.nvim_win_get_width(term.id_win)
+    vim.api.nvim_win_set_height(term.id_win, term.height)
+    vim.api.nvim_win_set_width(term.id_win, width - 1)
+    vim.api.nvim_win_set_width(term.id_win, width)
   end
   local outline = M.findWinByFiletype(PCFG.outline_filetype)
   if #outline > 0 then
