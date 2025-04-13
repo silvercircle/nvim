@@ -24,6 +24,7 @@ function M.ui_select_scheme()
   local conf = Dmtheme.get_conf()
   vim.iter(schemes):filter(function(k)
     if k.cmd == conf.scheme then k.current = true k.hl = "Green" else k.current = nil k.hl = "Fg" end
+    return k
   end)
 
   local function execute(item)
@@ -46,6 +47,7 @@ function M.ui_select_variant()
 
   vim.iter(variants):filter(function(k)
     if k.cmd == conf.variant then k.current = true k.hl = "Green" else k.current = false k.hl = "Fg" end
+    return k
   end)
 
   local function execute(item)
