@@ -121,7 +121,7 @@ vim.g.setkey('i', '<C-z>', function() perform_command("undo") end, "Undo (insert
 map('i', '<C-y>-', '—', opts) -- emdash
 map('i', '<C-y>"', '„”', opts) -- typographic quotes („”)
 vim.g.setkey({ 'n', 'i' }, '<A-w>', function()
-  if vim.fn.win_getid() ~= CGLOBALS.main_winid[PCFG.tab] then vim.cmd('close') end
+  if vim.fn.win_getid() ~= TABM.T[TABM.active].id_main then vim.cmd('close') end
 end, "Close Window")
 
 vim.g.setkey({'n', 'i'}, '<C-f>c', function()
@@ -323,13 +323,13 @@ vim.g.setkey({'n', 'i'}, '<A-q>', function()
 end, "Quit Neovim")
 
 vim.g.setkey({'n', 'i'}, '<C-p>', function()
-  if vim.fn.win_getid() == CGLOBALS.main_winid[PCFG.tab] or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
+  if vim.fn.win_getid() == TABM.T[TABM.active].id_main or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
     require('fzf-lua').oldfiles( { formatter = "path.filename_first", winopts = Tweaks.fzf.winopts.small_no_preview })
   end
 end, "FZF-LUA old files")
 
 vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
-  if vim.fn.win_getid() == CGLOBALS.main_winid[PCFG.tab] or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
+  if vim.fn.win_getid() == TABM.T[TABM.active].id_main or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
     require("fzf-lua").buffers({ formatter = "path.filename_first", mru = true, no_action_zz = true, no_action_set_cursor = true, winopts = Tweaks.fzf.winopts.small_no_preview })
   end
 end, "FZF buffer list")
@@ -339,7 +339,7 @@ end, "Command palette")
 
 -- quick-focus the four main areas
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-1>', function()
-  CGLOBALS.findbufbyType(treename)
+  TABM.findbufbyType(treename)
 end, "Focus NvimTree") -- Nvim-tree
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-2>', function()
@@ -355,13 +355,13 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
     return
   end
   -- otherwise search it and if none is found, open it.
-  if CGLOBALS.findbufbyType(PCFG.outline_filetype, true) == false then
+  if TABM.findbufbyType(PCFG.outline_filetype, true) == false then
     CGLOBALS.open_outline()
   end
 end, "Focus Outline window") -- Outline
 
 local function focus_term_split(dir)
-  if CGLOBALS.findbufbyType('terminal') == false then
+  if TABM.findbufbyType('terminal') == false then
     vim.api.nvim_input('<f11>')
   end
   vim.cmd.startinsert()
@@ -392,14 +392,15 @@ end, opts) -- save current winid as main window id
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
   local uspl = require('subspace.content.usplit')
-  if uspl.winid == nil then
+  local uspl_id_win = TABM.get().usplit.id_win
+  if uspl_id_win == nil then
     uspl.open()
   else
-    if uspl.winid ~= vim.fn.win_getid() then
-      vim.fn.win_gotoid(uspl.winid)
+    if uspl_id_win ~= vim.fn.win_getid() then
+      vim.fn.win_gotoid(uspl_id_win)
     else
       uspl.close()
-      vim.fn.win_gotoid(CGLOBALS.main_winid[PCFG.tab])
+      vim.fn.win_gotoid(TABM.T[TABM.active].id_main)
     end
   end
 end, "Open the sysmon/fortune window")
@@ -421,10 +422,10 @@ end, "Open the info/weather window")
 -- focus quickfix list (when open)
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-7>', function()
   local curwin = vim.fn.win_getid()
-  if CGLOBALS.findbufbyType('qf') == false then
+  if TABM.findbufbyType('qf') == false then
     vim.cmd('below 10 copen')
   else
-    local winid = CGLOBALS.findWinByFiletype('qf')[1]
+    local winid = TABM.findWinByFiletype('qf')[1]
     if curwin == winid then
       vim.cmd('ccl')
     else

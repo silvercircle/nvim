@@ -87,6 +87,7 @@ local function main_layout()
       callback = function(sizeevent)
         require("subspace.content.usplit").resize_or_closed(sizeevent)
         local ct = vim.api.nvim_get_current_tabpage()
+        local usplit_id_win = TABM.T[ct].usplit.id_win
         if sizeevent.event == "WinClosed" then
           if Tabs.T[ct].term.id_win ~= nil and vim.api.nvim_win_is_valid(Tabs.T[ct].term.id_win) == false then
             Tabs.T[ct].term.id_win = nil
@@ -95,8 +96,8 @@ local function main_layout()
           if Wsplit.winid ~= nil and vim.api.nvim_win_is_valid(Wsplit.winid) == false then
             Wsplit.winid = nil
           end
-          if Usplit.winid ~= nil and vim.api.nvim_win_is_valid(Usplit.winid) == false then
-            Usplit.winid = nil
+          if usplit_id_win ~= nil and vim.api.nvim_win_is_valid(usplit_id_win) == false then
+            TABM.T[ct].usplit.id_win = nil
           end
           local id = sizeevent.match
           local status, target = pcall(vim.api.nvim_win_get_var, tonumber(id), "termheight")
@@ -112,7 +113,7 @@ local function main_layout()
           Wsplit.set_minheight()
           Wsplit.refresh("resize")
           local status = CGLOBALS.is_outline_open()
-          local tree = CGLOBALS.findWinByFiletype(treeft)
+          local tree = TABM.findWinByFiletype(treeft)
           if status ~= false then
             PCFG.outline.width = vim.api.nvim_win_get_width(status)
           end
@@ -135,7 +136,7 @@ local function main_layout()
       Wsplit.content_winid = TABM.T[TABM.active].id_main
     end
     if PCFG.sysmon.active then
-      Usplit.content = PCFG.sysmon.content
+      TABM.T[1].usplit.content = PCFG.sysmon.content
     end
     if PCFG.transbg == true then
       CFG.theme.set_bg()
@@ -448,8 +449,7 @@ autocmd("TabNew", {
 
 autocmd("TabClosed", {
   callback = function(args)
-    local term = CGLOBALS.term[args.match]
-    vim.cmd("SymbolsClose")
+    TABM.remove(tonumber(args.match))
   end,
   group = agroup_views
 })

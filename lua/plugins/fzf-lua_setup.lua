@@ -412,6 +412,7 @@ require "fzf-lua".setup({
       -- can resume the buffers picker on the same window
       -- eliminating an otherwise unaesthetic win "flash"
       ["ctrl-d"] = { actions.buf_del, actions.resume },
+      ["ctrl-w"] = { function(item) vim.print(item) end, actions.resume },
       ["ctrl-x"] = false
     }
   },

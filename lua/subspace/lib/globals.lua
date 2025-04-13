@@ -42,7 +42,7 @@ function M.close_outline()
 end
 
 function M.is_outline_open()
-  local _o = M.findWinByFiletype(PCFG.outline_filetype)
+  local _o = TABM.findWinByFiletype(PCFG.outline_filetype, true)
   if #_o > 0 and _o[1] ~= nil then
     return _o[1]
   end
@@ -165,56 +165,6 @@ function M.toggle_colorcolumn()
   end
 end
 
---- find the first window for a given filetype.
---- @param filetypes string|table: the filetype(s)
---- @return table: a list of windows displaying the buffer or an empty list if none has been found
-function M.findWinByFiletype(filetypes, intab)
-  intab = intab or false
-  local curtab = vim.api.nvim_get_current_tabpage()
-
-  local function finder(ft, where)
-    if type(where) == "string" then
-      return ft == where
-    else
-      return vim.tbl_contains(where, ft)
-    end
-  end
-
-  local ls = vim.api.nvim_list_bufs()
-  local win_ids = {}
-  for i = 1, #ls, 1 do
-    if vim.api.nvim_buf_is_valid(ls[i]) then
-      local filetype = vim.api.nvim_get_option_value("filetype", { buf = ls[i] })
-      if finder(filetype, filetypes) then
-        local wins = vim.fn.win_findbuf(ls[i])
-        if #wins == 1 and (not intab or (vim.api.nvim_win_get_tabpage(wins[1]) == curtab)) then
-          table.insert(win_ids, wins[1])
-        else
-          for j = 1, #wins, 1 do
-            if (not intab or (vim.api.nvim_win_get_tabpage(wins[1]) == curtab)) then
-              table.insert(win_ids, wins[j])
-            end
-          end
-        end
-      end
-    end
-  end
-  return win_ids
-end
-
---- find a buffer with type and focus its primary window split
---- @param type string: filetype (e.g. "NvimTree"
---- @return boolean: true if a window was found, false otherwise
-function M.findbufbyType(type, intab)
-  intab = intab or false
-  local winid = M.findWinByFiletype(type, intab)
-  if #winid > 0 then
-    vim.fn.win_gotoid(winid[1])
-    return true
-  end
-  return false
-end
-
 -- list of filetypes we never want to create views for.'
 local _mkview_exclude = Tweaks.mkview_exclude
 
@@ -276,7 +226,7 @@ end
 
 --- close all quickfix windows
 function M.close_qf_or_loc()
-  local winid = M.findWinByFiletype("qf")
+  local winid = TABM.findWinByFiletype("qf", true)
   if #winid > 0 then
     for i, _ in pairs(winid) do
       if winid[i] > 0 and vim.api.nvim_win_is_valid(winid[i]) then
@@ -291,9 +241,8 @@ end
 
 --- adjust the optional frames so they will keep their width when the side tree opens or closes
 function M.adjust_layout()
-  local usplit = require("subspace.content.usplit").winid
-  local curtab = vim.api.nvim_get_current_tabpage()
-  local term = Tabs.T[Tabs.active].term
+  local usplit = TABM.T[TABM.active].usplit.id_win
+  local term = TABM.T[TABM.active].term
 
   vim.o.cmdheight = Tweaks.cmdheight
   if usplit ~= nil then
@@ -306,7 +255,7 @@ function M.adjust_layout()
     vim.api.nvim_win_set_width(term.id_win, width - 1)
     vim.api.nvim_win_set_width(term.id_win, width)
   end
-  local outline = M.findWinByFiletype(PCFG.outline_filetype)
+  local outline = TABM.findWinByFiletype(PCFG.outline_filetype, true)
   if #outline > 0 then
     vim.api.nvim_win_set_width(outline[1], PCFG.outline.width)
   end

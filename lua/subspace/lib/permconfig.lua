@@ -73,7 +73,7 @@ function M.write_config()
   local f = io.open(file, "w+")
   if f ~= nil then
     local wsplit_id = require("subspace.content.wsplit").winid
-    local usplit_id = require("subspace.content.usplit").winid
+    local usplit_id = TABM.get(1).usplit.id_win
     local state = {
       terminal = {
         active = Tabs.T[1].term.id_win ~= nil and true or false,
@@ -85,7 +85,7 @@ function M.write_config()
         active = usplit_id ~= nil and true or false,
       },
       tree = {
-        active = #CGLOBALS.findWinByFiletype(Tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
+        active = #TABM.findWinByFiletype(Tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
       }
     }
     if Tweaks.theme.disable == false then
@@ -102,7 +102,7 @@ function M.write_config()
       state.sysmon.width = vim.api.nvim_win_get_width(usplit_id)
     end
     state.outline_view = CGLOBALS.is_outline_open()
-    state.minimap_view = CGLOBALS.findWinByFiletype("neominimap")[1] or 0
+    state.minimap_view = TABM.findWinByFiletype("neominimap")[1] or 0
     local string = vim.fn.json_encode(vim.tbl_deep_extend("force", M.perm_config, state))
     f:write(string)
     io.close(f)

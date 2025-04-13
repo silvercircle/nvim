@@ -123,7 +123,7 @@ local fdm = {
 --- @return number: the window id, 0 if the process failed
 function Wsplit.splittree(_factor)
   local factor = math.abs((_factor ~= nil and _factor > 0) and _factor or 0.33)
-  local winid = CGLOBALS.findWinByFiletype(Tweaks.tree.filetype, true)
+  local winid = TABM.findWinByFiletype(Tweaks.tree.filetype, true)
   if #winid > 0 then
     local splitheight
     if factor < 1 then
@@ -278,7 +278,7 @@ function Wsplit.installwatch()
 end
 
 function Wsplit.open(_weatherfile)
-  local wid = CGLOBALS.findWinByFiletype("terminal")
+  local wid = TABM.findWinByFiletype("terminal")
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
 
   Wsplit.weatherfile = vim.fn.expand(_weatherfile)
