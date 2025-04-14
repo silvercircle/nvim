@@ -314,11 +314,11 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
 -- react on open and close events to adjust the remaining window layout
 local Event = api.events.Event
 api.events.subscribe(Event.TreeOpen, function(_)
-  CGLOBALS.tree_open_handler()
+  TABM.tree_open_handler()
 end)
 
 api.events.subscribe(Event.TreeClose, function(_)
-  CGLOBALS.tree_close_handler()
+  TABM.tree_close_handler()
 end)
 
 vim.g.setkey({'n', 'v'}, '<leader>r', function() vim.cmd('NvimTreeFindFile!|wincmd p') end, "Sync NvimTree with current Buffer")

@@ -351,12 +351,12 @@ end, "Focus Main Window") -- main window
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   -- if the outline window is focused, close it.
   if vim.api.nvim_get_option_value("filetype", { buf = 0 }) == PCFG.outline_filetype then
-    CGLOBALS.close_outline()
+    TABM.close_outline()
     return
   end
   -- otherwise search it and if none is found, open it.
   if TABM.findbufbyType(PCFG.outline_filetype, true) == false then
-    CGLOBALS.open_outline()
+    TABM.open_outline()
   end
 end, "Focus Outline window") -- Outline
 
@@ -491,7 +491,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<C-x>bt', function()
 end, "Show buftype of current buffer")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
-  local status = CGLOBALS.is_outline_open()
+  local status = TABM.is_outline_open()
   if status ~= false then
     require("symbols").api.refresh_symbols()
   end
@@ -522,6 +522,8 @@ vim.keymap.set('i', "<Right>",  "<C-g>U<Right>", { silent = true, noremap = true
 vim.g.setkey("n", utility_key .. "ll", function() require("darkmatter.colortools").saturatehex(-0.05) end )
 require("subspace.lib.darkmatter").map_keys()
 
-vim.g.setkey( {"v", "n" }, utility_key .. "<tab>", ":tabnext<cr>", "Select next tab")
-vim.g.setkey( {"v", "n", "i" }, utility_key .. "mm", function() require("neominimap.api").toggle() end, "Toggle Minimap")
+vim.g.setkey( {"v", "n"}, utility_key .. "<tab>", ":tabnext<cr>", "Select next tab")
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "mm", function() require("neominimap.api").toggle() end, "Toggle Minimap")
 
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "tn", function() vim.cmd("tabnew") end, "Open new tab page")
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "tc", function() vim.cmd("tabclose") end, "Close tab page")

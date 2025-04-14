@@ -4,6 +4,7 @@
 ---@field term term         -- term split
 ---@field wsplit wsplit
 ---@field usplit usplit
+---@field id_outline integer?
 
 ---@class term
 ---@field id_buf  number?
@@ -45,6 +46,7 @@ function M.new(tabpage)
   M.T[tabpage] = {
     id_main = 0,
     id_page = tabpage,
+    id_outline = nil,
     term = { id_buf = nil, id_win = nil, height = 0, visible = false },
     wsplit = { id_win = nil, id_buf = nil, width = 0, height = 0,
       content = "info",
@@ -67,9 +69,13 @@ end
 -- cleanup a tab page.
 ---@param tabpage integer
 function M.remove(tabpage)
+  local Symbols = require("symbols")
   local tab = M.T[tabpage]
   if tab then
-    if CGLOBALS.is_outline_open() then vim.cmd("SymbolsClose") end
+    if tab.id_outline then
+      local id = Symbols.sidebar.get(tab.id_main)
+      Symbols.sidebar.close(id)
+    end
     if tab.usplit then
       if tab.usplit.timer then
         tab.usplit.timer:stop()
@@ -123,7 +129,7 @@ function M.termToggle(_height)
   local outline_win = TABM.findWinByFiletype(PCFG.outline_filetype, true)
 
   if outline_win[1] ~= nil and vim.api.nvim_win_is_valid(outline_win[1]) then
-    CGLOBALS.close_outline()
+    M.close_outline()
     reopen_outline = true
   end
 
@@ -156,7 +162,7 @@ function M.termToggle(_height)
 
   if reopen_outline == true then
     vim.fn.win_gotoid(M.T[curtab].id_main)
-    CGLOBALS.open_outline()
+    TABM.open_outline()
     vim.schedule(function()
       vim.fn.win_gotoid(M.T[curtab].id_main)
     end)
@@ -213,6 +219,112 @@ function M.findWinByFiletype(filetypes, intab)
     end
   end
   return win_ids
+end
+
+-- outline (Symbols plugin) related
+
+function M.is_outline_open()
+  local _o = M.findWinByFiletype(PCFG.outline_filetype, true)
+  if #_o > 0 and _o[1] ~= nil then
+    return _o[1]
+  end
+  return false
+end
+
+--- open the outline window
+function M.open_outline()
+  local buftype = vim.api.nvim_get_option_value("buftype", { buf = 0 })
+  if buftype ~= "" then  --current buffer is no ordinary file. Ignore it.
+    return
+  end
+  vim.cmd("Symbols!")
+  local id_win = M.is_outline_open()
+  if id_win and vim.api.nvim_win_is_valid(id_win) then
+    vim.api.nvim_set_option_value("winhl", "Normal:TreeNormalNC,CursorLine:TreeCursorLine", { win = id_win })
+    vim.api.nvim_win_set_width(id_win, PCFG.outline.width)
+    M.T[M.active].id_outline = id_win
+  end
+end
+
+--- close the outline window
+function M.close_outline()
+  local tab = TABM.get()
+  vim.cmd("SymbolsClose")
+  tab.id_outline = nil
+end
+
+-- file-tree related
+
+--- open the tree (file manager tree on the left). It can be either NvimTree
+--- or NeoTree
+function M.open_tree()
+  if Tweaks.tree.version == "Nvim" then
+    require('nvim-tree.api').tree.toggle({ focus = false })
+  elseif Tweaks.tree.version == "Neo" then
+    require("neo-tree.command").execute({
+      action = "show",
+      source = "filesystem",
+      position = "left"
+    })
+  -- TODO: make it work with snacks explorer
+  elseif Tweaks.tree.version == "Explorer" then
+    require("snacks").picker.explorer( { jump = {close=false},
+      auto_close = false, layout={position="left", layout={ border="none", width=40, min_width=40}} } )
+  end
+end
+
+--- called by the event handler in NvimTree or NeoTree to inidicate that
+--- the file tree has been opened.
+function M.tree_open_handler()
+  local wsplit = require("subspace.content.wsplit")
+  local ws = M.get().wsplit
+
+  vim.opt.statuscolumn = ''
+  local w = vim.fn.win_getid()
+  vim.api.nvim_set_option_value('statusline', '   ' .. (Tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"), { win = w })
+  vim.cmd('setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
+  vim.api.nvim_win_set_width(w, PCFG.tree.width)
+  M.adjust_layout()
+  if PCFG.weather.active == true then
+    ws.content = PCFG.weather.content
+    if ws.id_win == nil then
+      wsplit.openleftsplit(CFG.weather.file)
+    end
+  end
+end
+
+--- called by the event handler in NvimTree or NeoTree to inidicate that
+--- the file tree was opened.
+function M.tree_close_handler()
+  local wsplit = require("subspace.content.wsplit")
+  wsplit.close()
+  M.T[M.active].wsplit.id_win = nil
+  M.adjust_layout()
+  if M.T[M.active].term.id_win ~= nil then
+    vim.api.nvim_win_set_height(M.T[M.active].term.id_win, M.T[M.active].term.height)
+  end
+end
+
+--- adjust the optional frames so they will keep their width when the side tree opens or closes
+function M.adjust_layout()
+  local usplit = M.T[M.active].usplit.id_win
+  local term = M.T[M.active].term
+
+  vim.o.cmdheight = Tweaks.cmdheight
+  if usplit ~= nil then
+    vim.api.nvim_win_set_width(usplit, PCFG.sysmon.width)
+  end
+  vim.api.nvim_win_set_height(M.T[M.active].id_main, 200)
+  if term.id_win ~= nil then
+    local width = vim.api.nvim_win_get_width(term.id_win)
+    vim.api.nvim_win_set_height(term.id_win, term.height)
+    vim.api.nvim_win_set_width(term.id_win, width - 1)
+    vim.api.nvim_win_set_width(term.id_win, width)
+  end
+  local outline = M.findWinByFiletype(PCFG.outline_filetype, true)
+  if #outline > 0 then
+    vim.api.nvim_win_set_width(outline[1], PCFG.outline.width)
+  end
 end
 
 return M

@@ -101,7 +101,7 @@ function M.write_config()
     if usplit_id ~= nil then
       state.sysmon.width = vim.api.nvim_win_get_width(usplit_id)
     end
-    state.outline_view = CGLOBALS.is_outline_open()
+    state.outline_view = TABM.is_outline_open()
     state.minimap_view = TABM.findWinByFiletype("neominimap")[1] or 0
     local string = vim.fn.json_encode(vim.tbl_deep_extend("force", M.perm_config, state))
     f:write(string)

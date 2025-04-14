@@ -2,8 +2,6 @@
 local M = {}
 
 M.cur_bufsize = 0
-M.outline_is_open = false
-M.notifier = nil
 M.cmp_setup_done = false
 M.blink_setup_done = false
 
@@ -17,51 +15,6 @@ function M.open_with_fzf(cwd)
     vim.schedule(function() require("fzf-lua").files({ formatter = "path.filename_first", cwd = cwd,
       winopts = Tweaks.fzf.winopts.very_narrow_no_preview })
      end)
-  end
-end
-
---- open the outline window
-function M.open_outline()
-  local buftype = vim.api.nvim_get_option_value("buftype", { buf = 0 })
-  if buftype ~= "" then  --current buffer is no ordinary file. Ignore it.
-    return
-  end
-  vim.cmd("Symbols!")
-  local id_win = CGLOBALS.is_outline_open()
-  if id_win and vim.api.nvim_win_is_valid(id_win) then
-    vim.api.nvim_set_option_value("winhl", "Normal:TreeNormalNC,CursorLine:TreeCursorLine", { win = id_win })
-    vim.api.nvim_win_set_width(id_win, PCFG.outline.width)
-  end
-end
-
---- close the outline window
-function M.close_outline()
-  vim.cmd("SymbolsClose")
-end
-
-function M.is_outline_open()
-  local _o = TABM.findWinByFiletype(PCFG.outline_filetype, true)
-  if #_o > 0 and _o[1] ~= nil then
-    return _o[1]
-  end
-  return false
-end
-
---- open the tree (file manager tree on the left). It can be either NvimTree
---- or NeoTree
-function M.open_tree()
-  if Tweaks.tree.version == "Nvim" then
-    require('nvim-tree.api').tree.toggle({ focus = false })
-  elseif Tweaks.tree.version == "Neo" then
-    require("neo-tree.command").execute({
-      action = "show",
-      source = "filesystem",
-      position = "left"
-    })
-  -- TODO: make it work with snacks explorer
-  elseif Tweaks.tree.version == "Explorer" then
-    require("snacks").picker.explorer( { jump = {close=false},
-      auto_close = false, layout={position="left", layout={ border="none", width=40, min_width=40}} } )
   end
 end
 
@@ -79,37 +32,6 @@ function M.sync_tree()
     vim.cmd("NvimTreeFindFile")
   -- TODO: Make this work with a docked "snacks explorer" as filetree
   elseif Tweaks.tree.version == "Explorer" then
-  end
-end
---- called by the event handler in NvimTree or NeoTree to inidicate that
---- the file tree has been opened.
-function M.tree_open_handler()
-  local wsplit = require("subspace.content.wsplit")
-  local ws = TABM.get().wsplit
-
-  vim.opt.statuscolumn = ''
-  local w = vim.fn.win_getid()
-  vim.api.nvim_set_option_value('statusline', '   ' .. (Tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"), { win = w })
-  vim.cmd('setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
-  vim.api.nvim_win_set_width(w, PCFG.tree.width)
-  CGLOBALS.adjust_layout()
-  if PCFG.weather.active == true then
-    ws.content = PCFG.weather.content
-    if ws.id_win == nil then
-      wsplit.openleftsplit(CFG.weather.file)
-    end
-  end
-end
-
---- called by the event handler in NvimTree or NeoTree to inidicate that
---- the file tree was opened.
-function M.tree_close_handler()
-  local wsplit = require("subspace.content.wsplit")
-  wsplit.close()
-  TABM.T[TABM.active].wsplit.id_win = nil
-  CGLOBALS.adjust_layout()
-  if TABM.T[TABM.active].term.id_win ~= nil then
-    vim.api.nvim_win_set_height(TABM.T[TABM.active].term.id_win, TABM.T[TABM.active].term.height)
   end
 end
 
@@ -236,28 +158,6 @@ function M.close_qf_or_loc()
         end
       end
     end
-  end
-end
-
---- adjust the optional frames so they will keep their width when the side tree opens or closes
-function M.adjust_layout()
-  local usplit = TABM.T[TABM.active].usplit.id_win
-  local term = TABM.T[TABM.active].term
-
-  vim.o.cmdheight = Tweaks.cmdheight
-  if usplit ~= nil then
-    vim.api.nvim_win_set_width(usplit, PCFG.sysmon.width)
-  end
-  vim.api.nvim_win_set_height(TABM.T[TABM.active].id_main, 200)
-  if term.id_win ~= nil then
-    local width = vim.api.nvim_win_get_width(term.id_win)
-    vim.api.nvim_win_set_height(term.id_win, term.height)
-    vim.api.nvim_win_set_width(term.id_win, width - 1)
-    vim.api.nvim_win_set_width(term.id_win, width)
-  end
-  local outline = TABM.findWinByFiletype(PCFG.outline_filetype, true)
-  if #outline > 0 then
-    vim.api.nvim_win_set_width(outline[1], PCFG.outline.width)
   end
 end
 
