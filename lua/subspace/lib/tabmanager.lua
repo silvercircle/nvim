@@ -77,6 +77,17 @@ function M.clonetab()
   if tree and #tree >= 1 then M.open_tree() end
 end
 
+function M.cleaner()
+  local pages = vim.api.nvim_list_tabpages()
+  if #pages >= 1 then
+    vim.iter(M.T):map(function(k)
+      if not vim.api.nvim_tabpage_is_valid(k.id_page) then
+        M.remove(tonumber(k.id_page))
+      end
+    end)
+  end
+end
+
 -- cleanup a tab page.
 ---@param tabpage integer
 function M.remove(tabpage)
@@ -109,6 +120,10 @@ function M.remove(tabpage)
         tab.wsplit.cookie_timer:close()
       end
       if tab.wsplit.id_buf ~= nil then vim.api.nvim_buf_delete(tab.wsplit.id_buf, { force = true }) end
+      if tab.wsplit.watch then
+        vim.uv.fs_event_stop(tab.wsplit.watch)
+        tab.wsplit.watch:close()
+      end
     end
   end
   M.T[tabpage] = nil

@@ -444,8 +444,8 @@ autocmd("TabNew", {
 })
 
 autocmd("TabClosed", {
-  callback = function(args)
-    TABM.remove(tonumber(args.match))
+  callback = function(_)
+    vim.schedule(function() TABM.cleaner() end)
   end,
   group = agroup_views
 })

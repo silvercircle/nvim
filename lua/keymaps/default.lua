@@ -526,6 +526,10 @@ vim.g.setkey( {"v", "n", "i"}, utility_key .. "mm", function() require("neominim
 
 vim.g.setkey( {"v", "n"}, utility_key .. "<tab>", ":tabnext<cr>", "Select next tab")
 vim.g.setkey( {"v", "n", "i"}, utility_key .. "tn", function() vim.cmd("tabnew") end, "Open new tab page")
-vim.g.setkey( {"v", "n", "i"}, utility_key .. "td", function() vim.cmd("tabclose") end, "Close tab page")
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "tx", function() vim.cmd("tabclose") end, "Close tab page")
 vim.g.setkey( {"v", "n", "i"}, utility_key .. "tc", function() TABM.clonetab() end, "Close tab page")
-
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "td",
+  function()
+    vim.cmd("tabnew")
+    require("dapui").open()
+  end, "Open new tab page")
