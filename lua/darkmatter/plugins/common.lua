@@ -291,8 +291,10 @@ local function _set()
   c.set_hl(0, "CokelineActivePad", { bg = cokeline_active_bg, fg = c.P.statuslinebg[1]})
   c.set_hl(0, "CokelineActiveModified", { bg = cokeline_active_bg, fg = c.P.red[1] })
   c.set_hl(0, "CokelineInactiveModified", { bg = c.P.statuslinebg[1], fg = c.P.red[1] })
-  c.set_hl(0, "CokelineTabSepActive", { fg = c.P.bg4[1], bg = c.P.statuslinebg[1] })
+  c.set_hl(0, "CokelineTabSepActive", { fg = c.P.c1[1], bg = c.P.statuslinebg[1] })
+  c.set_hl(0, "CokelineTabActive", { fg = c.P.c2[1], bg = c.P.c1[1] })
   c.set_hl(0, "CokelineTabSepInactive", { fg = c.P.accent[1], bg = c.P.statuslinebg[1] })
+  c.set_hl(0, "CokelineTabInactive", { fg = c.P.fg_dim[1], bg = c.P.accent[1] })
 
         --fg = function(tab) return (tab.is_first and tab.is_active) and colors.cokeline_colors.focus_bg or colors.P.accent[1] end,
         --bg = colors.cokeline_colors.bg
