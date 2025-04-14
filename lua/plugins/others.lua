@@ -217,7 +217,6 @@ M.setup = {
 
   -- https://github.com/j-hui/fidget.nvim
   fidget = function()
-    CGLOBALS.notifier = require("fidget").notify
     vim.notify = require("fidget").notify
     require("fidget").setup({
       progress = {

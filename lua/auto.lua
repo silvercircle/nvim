@@ -59,23 +59,10 @@ autocmd({ 'VimEnter' }, {
 })
 
 --- this function configures the UI layout on UIEnter
-local function main_layout()
-  -- this should only run on initial UIEnter (nvim start), exactly ONCE. UIEnter is also
-  -- fired when nvim resumes from suspend (Ctrl-Z) in which case this code is no longer needed
-  -- because all the sub splits have already been created
-  -- running this more than once will cause all kind of mayhem, so don't
-  if did_UIEnter == true then
-    return
-  end
-
-  did_UIEnter = true
-  local curtab = vim.api.nvim_get_current_tabpage()
-  Tabs.active = curtab
-  Tabs.new(curtab)
-  Tabs.T[curtab].id_main = vim.fn.win_getid()
+local function main_layout(curtab)
   if CFG.plain == false then
     if PCFG.tree.active == true then
-      CGLOBALS.open_tree()
+      TABM.open_tree()
     end
     if PCFG.terminal.active == true then
       vim.schedule(function() TABM.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(TABM.T[curtab].id_main) end)
@@ -113,7 +100,7 @@ local function main_layout()
           end
           Wsplit.set_minheight()
           Wsplit.refresh("resize")
-          local status = CGLOBALS.is_outline_open()
+          local status = TABM.is_outline_open()
           local tree = TABM.findWinByFiletype(treeft)
           if status ~= false then
             PCFG.outline.width = vim.api.nvim_win_get_width(status)
@@ -137,7 +124,7 @@ local function main_layout()
       TABM.T[curtab].wsplit.content_id_win = TABM.T[TABM.active].id_main
     end
     if PCFG.sysmon.active then
-      TABM.T[1].usplit.content = PCFG.sysmon.content
+      TABM.T[curtab].usplit.content = PCFG.sysmon.content
     end
     if PCFG.transbg == true then
       CFG.theme.set_bg()
@@ -152,7 +139,15 @@ end
 
 autocmd({ "UIEnter" }, {
   callback = function()
-    main_layout()
+    if did_UIEnter == true then
+      return
+    end
+    did_UIEnter = true
+    local curtab = vim.api.nvim_get_current_tabpage()
+    Tabs.active = curtab
+    Tabs.new(curtab)
+    Tabs.T[curtab].id_main = vim.fn.win_getid()
+    main_layout(curtab)
   end
 })
 
@@ -392,7 +387,7 @@ delcmd = autocmd({ "BufReadPost" }, {
     vim.defer_fn(function() require("plugins.commandpalette") end, 200)
     if PCFG.outline_view ~= false or PCFG.minimap_view > 0 then
       vim.defer_fn(function()
-        if PCFG.outline_view ~= false then CGLOBALS.open_outline() end
+        if PCFG.outline_view ~= false then TABM.open_outline() end
         if PCFG.minimap_view > 0 then require("neominimap.api").toggle() end
       end, 1000)
     end
