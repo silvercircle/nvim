@@ -1,5 +1,5 @@
 require("nvim-treesitter.configs").setup({
-  auto_install = true,
+  auto_install = false,
   ensure_installed = CFG.treesitter_types,
   textobjects = {
     enable = true
@@ -34,6 +34,7 @@ require("nvim-treesitter.configs").setup({
       "typescriptreact",
       "vue",
       "xml",
+      "typst"
     }
   }
 })

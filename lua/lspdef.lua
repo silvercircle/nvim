@@ -12,10 +12,10 @@ local M = {}
 -- you can add your own paths as needed, use vim.fs.joinpath() to construct them
 -- in os-agnostic ways. Remember, on Windows you need to double-escape the \ or just
 -- use / instead (it will be normalized automatically)
-M.masonbasepath   = jp(vim.fn.stdpath('data'), '/mason/')
+M.masonbasepath   = jp(vim.fn.stdpath('data'), 'mason/')
 M.masonbinpath    = jp(M.masonbasepath, 'bin/')
 M.homepath        = vim.fn.getenv('HOME')
-M.localbin        = jp(M.homepath, '/.local/bin/')
+M.localbin        = jp(M.homepath, '.local/bin/')
 
 -- binaries for external LSP plugins not covered by lspconfig
 M.server_bin = {
@@ -42,7 +42,13 @@ M.serverconfigs = {
     cmd = { jp(M.localbin, 'texlab') }
   },
   ["tinymist"]              = { active = true,
-    cmd = { jp(M.localbin, "tinymist") }
+    cmd = { jp(M.localbin, "tinymist") },
+    attach_config = function(client, _)
+      client.server_capabilities.semanticTokensProvider = {
+        full = false,
+        legend = false
+      }
+    end
   },
   ["bashls"]                = { active = true,
     cmd = { jp(M.masonbinpath, 'bash-language-server') }
@@ -77,6 +83,9 @@ M.serverconfigs = {
   ["marksman"]              = { active = true,
     cmd = { jp(M.masonbinpath, 'marksman') }
   },
+  ["markdown-oxide"]        = { active = false,
+    cmd = { jp(M.localbin, 'markdown-oxide') }
+  },
   ["lemminx"]               = { active = true,
     cmd = { jp(M.localbin, 'lemminx-linux') }
   },
@@ -102,7 +111,11 @@ M.serverconfigs = {
     cmd = { jp(M.localbin, "ctags-lsp") }
   },
   ["basedpyright"]          = { active = true,
-    cmd = { jp(M.masonbinpath, 'basedpyright-langserver') }
+    cmd = { jp(M.masonbinpath, 'basedpyright-langserver') },
+    attach_config = function(client, buf)
+      if client.name == "basedpyright" then
+      end
+    end
   },
   ["dartls"]                = { active = false,
     cmd = { jp(M.masonbinpath, "dartls") }
@@ -116,6 +129,13 @@ M.serverconfigs = {
   ["zk"]             = { active = true,
     cmd = { jp(M.localbin, "zk") }
   },
+  ["ruff"]                  = { active = true,
+    cmd = { jp(M.localbin, "ruff"), "server" }
+  },
+  --- these are DUMMY entries. They are handled by dedicated plugins in this
+  --- config.
+  ["roslyn"]                = { active = false },
+  ["jdtls"]                 = { active = false }
 }
   -- when set to true, use the lsp_lines plugin to display virtual text diagnostics
   -- this can show multiple diagnostic messages for a single line.
@@ -124,7 +144,7 @@ M.virtual_lines = false
 
 -- These LSP servers won't attach to navic (used for the breadcrumbs) because they
 -- do not support the required LSP feature sets.
-M.exclude_navic = { "emmet_language_server", "ctags", "zk" }
+M.exclude_navic = { "emmet_language_server", "ctags" }
 
 
 -- settings for the nvim-jdtls plugin. See ftplugin/java.lua
@@ -141,14 +161,14 @@ M.jdtls = {
 -- definitions for the roslyn plugin. You may need to change this, depending on the
 -- locations you have installed the Roslyn and rzls language servers.
 M.roslyn = {
-  razor_compiler = vim.fs.joinpath(
+  razor_compiler = jp(
     vim.fn.stdpath("data"),
     -- 'mason',
     -- 'packages',
     "roslyn",
     "Microsoft.CodeAnalysis.Razor.Compiler.dll"
   ),
-  razor_designer = vim.fs.joinpath(
+  razor_designer = jp(
     vim.fn.stdpath("data"),
     "mason",
     "packages",
@@ -174,14 +194,17 @@ M.local_configs = {
 
 -- set to true to get some debugging output via notifications
 M.debug = false
+M.verbose = true
 M.virtual_lines = false
 M.virtual_text = true
 M.use_dynamic_registration = true
+M.disable_breadcrumb = false
 -- automatically terminate unused (= 0 clients) lsp servers
 M.auto_shutdown = true
 M.advanced_config = {
   scala = false,
   roslyn = true
 }
+M.inlay_hints = true
 return M
 

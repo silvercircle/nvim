@@ -20,6 +20,13 @@ return {
       runtime = {
         version = "LuaJIT", -- Lua 5.1/LuaJIT
       },
+      workspace = {
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME,
+          "${3rd}/luv/library",
+        }
+      },
       telemetry = {
         enable = false
       },

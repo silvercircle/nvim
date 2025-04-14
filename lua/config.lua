@@ -20,6 +20,8 @@ else
   LSPDEF = require("lspdef")
 end
 
+_G.TABM = require("subspace.lib.tabmanager")
+
 local tree_fts = {
   ['Neo']       = "neo-tree",
   ['Nvim']      = "NvimTree",
@@ -41,11 +43,6 @@ CFG = {
   plain = (env_plain ~= nil or vim.g.want_plain == true) and true or false,
   statuscol_normal = '%s%=%l %C ',
   statuscol_rel = '%s%=%l %C ',
-  fortunecookie = false, -- "fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
-                                              -- needs fortune and cowsay installed.
-                                              -- set to false or an empty string to disable
-                                              -- set this to "" or false if your start screen throws errors.
-                                              -- when false, views are only written on write/update or manually (f4)
   texoutput = "~/Documents/TEXOUTPUT/",
   wordcount_limit = 5,                         -- file size limit in megabytes. Above it, the word count will be disabled for performance reasons
   sysmon = {
@@ -76,9 +73,9 @@ CFG = {
     }
   },
   treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
-                       "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid", "typst",
+                       "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid",
                        "yaml", "rust", "javascript", "ruby", "objc", "markdown",
-                       "markdown_inline", "zig", "latex" },
+                       "markdown_inline", "zig" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   theme = require("darkmatter")
 }

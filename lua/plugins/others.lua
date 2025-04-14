@@ -217,7 +217,6 @@ M.setup = {
 
   -- https://github.com/j-hui/fidget.nvim
   fidget = function()
-    CGLOBALS.notifier = require("fidget").notify
     vim.notify = require("fidget").notify
     require("fidget").setup({
       progress = {
@@ -265,24 +264,18 @@ M.setup = {
     -- Jump to the next word under cursor but do not add a cursor.
     vim.keymap.set({ "n", "v" }, "<M-n>", function() mc.matchSkipCursor(1) end)
 
+    -- add a cursor for all matches
+    vim.keymap.set({"n", "x"}, "<leader>a", mc.matchAllAddCursors)
+
     -- Rotate the main cursor.
     vim.keymap.set({ "n", "v" }, "<C-left>", mc.nextCursor)
     vim.keymap.set({ "n", "v" }, "<C-right>", mc.prevCursor)
-
-    -- Delete the main cursor.
-    vim.keymap.set({ "n", "v" }, "<c-s-q>", mc.deleteCursor)
 
     -- Add and remove cursors with control + left click.
     vim.keymap.set("n", "<c-leftmouse>", mc.handleMouse)
 
     vim.keymap.set({ "n", "v" }, "<c-q>", function()
-      if mc.cursorsEnabled() then
-        -- Stop other cursors from moving.
-        -- This allows you to reposition the main cursor.
-        mc.disableCursors()
-      else
-        mc.addCursor()
-      end
+      mc.toggleCursor()
     end)
 
     vim.keymap.set({ "n", "v" }, "<leader>q", function()
@@ -378,13 +371,13 @@ M.setup = {
         },
         hl_details = "String",
         on_symbols_complete = function(ctx)
-          vim.api.nvim_set_option_value("statusline", "  Outline (" .. (ctx.pname or "None") ..
-            (ctx.followmode and ", follow" or "") .. ")", { win = ctx.id_win })
+          vim.api.nvim_set_option_value("statusline", "  Outline: " .. (ctx.pname or "None") ..
+            (" (" .. ctx.symbolcount .. ")" ) .. (ctx.followmode and " follow" or ""), { win = ctx.id_win })
           -- unfold for some filetypes. Not a good idea for others (like lua) because
           -- they have excessiv symbol spam so keep the list collapsed.
-          local unfold_for = { "tex", "markdown", "typst", "zig", "cpp", "cs", "scala" }
+          local unfold_for = { "tex", "markdown", "typst", "zig", "cpp", "cs", "scala", "toml", "python" }
           if vim.tbl_contains(unfold_for, vim.bo.filetype) then
-            Symbols.api.action("unfold-all")
+            Symbols.sidebar.symbols.unfold_all(0)
           end
         end
       },
@@ -396,23 +389,24 @@ M.setup = {
     })
     local utility_key = Tweaks.keymap.utility_key
     vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sf', function()
-      Symbols.api.action("unfold-all")
+      Symbols.sidebar.symbols.unfold_all(0)
     end, "SymbolsSidebar Unfold all")
 
     vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sg', function()
-      Symbols.api.action("fold-all")
+      Symbols.sidebar.symbols.fold_all(0)
     end, "SymbolsSidebar Fold all")
 
     vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'ss', function()
-      Symbols.api.action("search")
+      Symbols.sidebar.view_set(0, "search")
+      Symbols.sidebar.focus(0)
     end, "SymbolsSidebar Search")
 
     vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sc', function()
-      Symbols.api.action("toggle-cursor-follow")
+      Symbols.sidebar.symbols_cursor_follow_toggle(0)
     end, "SymbolsSidebar Toggle follow")
 
     vim.g.setkey({ 'n', 'i', 'v' }, utility_key ..  'sd', function()
-      Symbols.api.action("show-symbol-under-cursor")
+      Symbols.sidebar.symbols.goto_symbol_under_cursor(0)
     end, "SymbolsSidebar show symbol under cursor")
   end,
   glance = function()

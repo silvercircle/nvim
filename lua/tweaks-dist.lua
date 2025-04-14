@@ -129,7 +129,7 @@ Tweaks.blink = {
   -- list of filetypes for which we want to allow the "buffer" source to
   -- collect all the buffer words.
   -- set this to an empty table to allow buffer words for all filetype
-  buffer_source_ft_allowed = {} -- { "tex", "markdown" }
+  buffer_source_ft_allowed = {}, -- { "tex", "markdown" }
 }
 
 -- tweaks for the cmp autocompletion system
@@ -377,6 +377,24 @@ Tweaks["indent"]["chunk"]["char"] = {
   horizontal = chunklines[2],
   vertical = chunklines[4],
   arrow = ">",
+}
+Tweaks.fortunecookie = false -- "fortune science politics -s -n500 | cowsay -W 120",  -- display a fortune cookie on start screen.
+                             -- needs fortune and cowsay installed.
+                             -- set to false or an empty string to disable
+                             -- set this to "" or false if your start screen throws errors.
+                             -- when false, views are only written on write/update or manually (f4)
+
+                             -- some filetype patterns used in auto.lua for setting auto commands.
+                             -- each one is either a list of valid file types or boolean true/false where:
+                             -- - true means enable for all filetypes
+                             -- - false means turn it off for all
+Tweaks.ft_patterns = {
+  spell       = { "tex", "markdown", "text", "telekasten", "liquid", "typst" },
+  conceal     = { "markdown", "telekasten", "liquid", "typst" },
+  indentkeys  = { "c", "cpp", "python" },
+  tabstop     = { "vim", "nim", "python", "lua", "json", "html", "css", "dart", "go" },
+  -- this MUST be a list of filetypes
+  enter_leave = { "NvimTree", "snacks_picker_list", "SymbolsSidebar", "SymbolsSearch" }
 }
 
 return Tweaks

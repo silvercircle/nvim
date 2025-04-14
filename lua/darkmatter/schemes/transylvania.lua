@@ -354,8 +354,11 @@ function M.schemeconfig()
   return schemeconfig
 end
 
+-- this is an optional function that can be used to override highlight
+-- groups.
+---@param theme theme
 function M.custom_hl(theme)
-  theme.hl_with_defaults("iCursor", theme.P.altyellow, theme.P.altyellow)
+  theme.hl_with_defaults("iCursor", theme.NONE, theme.P.altyellow)
 end
 
 return M

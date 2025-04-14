@@ -7,6 +7,22 @@ local w_border = T.border
 local itemlist = nil
 local M = {}
 
+-- local workaround when using neovide. This just temporarily disables
+-- the cursor animation to avoid the confusing cursor-jumping when accepting
+-- suggestions with <CR>
+-- reference: https://github.com/Saghen/blink.cmp/issues/1247
+-- this will be fixed in both blink and a future neovide release
+local disable_animation = function()
+    local origin_len = vim.g.neovide_cursor_animation_length
+    local origin_trail = vim.g.neovide_cursor_trail_size
+    vim.g.neovide_cursor_animation_length = 0
+    vim.g.neovide_cursor_trail_size = 0
+    vim.defer_fn(function()
+        vim.g.neovide_cursor_animation_length = origin_len
+        vim.g.neovide_cursor_trail_size = origin_trail
+    end, 100)
+end
+
 --- workaround for missing feature (scroll completion window page-wise)
 --- @param idx number: number of entries to scroll
 --- @param dir? number: direction to scroll (+1 to scroll down, -1 to scroll up, defaults to 1)-
@@ -101,10 +117,8 @@ local function italizemenugroups()
 
   vim.iter(groups):map(function(k)
     local hl = vim.api.nvim_get_hl(0, { name = k })
-    local name = hl.link or k
-    local fg = vim.api.nvim_get_hl(0, { name = name }).fg
-    local bg = vim.api.nvim_get_hl(0, { name = name }).bg
-    vim.api.nvim_set_hl(0, k, { fg = fg, bg = bg, italic = true })
+    local gg = hl.link and vim.api.nvim_get_hl(0, { name = hl.link }) or hl
+    vim.api.nvim_set_hl(0, k, { fg = gg.fg, bg = gg.bg, italic = true })
   end)
 end
 
@@ -125,7 +139,7 @@ local blink_menu_hl_group = {
 
 local context_sources = {
   default = { "lsp", "path", "snippets", "buffer" },
-  lua = { "lsp", "path", "snippets", "lua", "buffer" },
+  lua = { "lsp", "path", "snippets", "buffer" },
   text = { "lsp", "path", "snippets", "emoji", "wordlist", "buffer" }--, "dictionary" }
 }
 require("blink.cmp").setup({
@@ -140,11 +154,24 @@ require("blink.cmp").setup({
   },
   keymap = {
     preset         = T.keymap_preset,
+    ["<cr>"]       = { function(cmp)
+      if cmp.is_visible() then
+        -- see: https://github.com/Saghen/blink.cmp/issues/1247
+        disable_animation()
+        cmp.accept()
+        return true
+      else
+        return
+      end
+    end, "fallback"
+    },
     ["<Esc>"]      = { "cancel", "fallback" }, -- make <Esc> behave like <C-e>
     ["<C-Up>"]     = { "scroll_documentation_up", "fallback" },
     ["<C-Down>"]   = { "scroll_documentation_down", "fallback" },
     ["<Tab>"]      = {
       function(cmp)
+        -- see: https://github.com/Saghen/blink.cmp/issues/1247
+        disable_animation()
         if cmp.snippet_active() then
           return cmp.accept()
         else
@@ -254,11 +281,6 @@ require("blink.cmp").setup({
           watch_files = true
         }
       },
-      lua = {
-        score_offset = 9,
-        name = "Lua",
-        module = "blink-cmp-lua"
-      },
       emoji = {
         score_offset = 0,
         name = "emoji",
@@ -267,11 +289,6 @@ require("blink.cmp").setup({
       lsp = {
         score_offset = 10
       },
-      --lazydev = {
-      --  module = "lazydev.integrations.blink",
-      --  score_offset = 8,
-      --  name = "LazyDev"
-      --},
       snippets = {
         score_offset = 5,
         min_keyword_length = 2,
@@ -328,8 +345,11 @@ require("blink.cmp").setup({
   completion = {
     accept = {
       --create_undo_point = true,
-      resolve_timeout_ms = 1000,
+      resolve_timeout_ms = 5000, -- some lsps can be *that* slow, hello pyright :)
       auto_brackets = {
+        kind_resolution = {
+          blocked_filetypes = { 'cpp', 'typescriptreact', 'javascriptreact', 'vue', 'rust' }
+        },
         semantic_token_resolution = {
           enabled = false
         }
@@ -443,7 +463,7 @@ require("blink.cmp").setup({
 })
 
 CGLOBALS.blink_setup_done = true
-vim.g.setkey({ "n", "i" }, "<f13>", function()
+vim.g.setkey({ "n", "i" }, vim.g.fkeys.s_f1, function()
   local cmp = require("blink.cmp")
   local status = cmp.is_signature_visible()
   if status then cmp.hide_signature() else cmp.show_signature() end

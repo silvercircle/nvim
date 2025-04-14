@@ -74,6 +74,12 @@ local function _set()
   c.link("texEnvArgName", "Green")
   c.link("texDelimiter", "PunctDelim")
   c.link("texArg", "String")
+  -- Typst
+  c.link("typstMarkupHeading", "@module")
+--  c.link("typstCodeParen", "Braces")
+--  c.link("typstCodeBracket", "Braces")
+  c.link("typstCodeFunctionArgument", "Parameter")
+  c.link("typstCodeIdentifier", "@type")
 end
 
 local M = {}

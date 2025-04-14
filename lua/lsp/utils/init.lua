@@ -15,8 +15,9 @@ local navic = require("subspace.nav")
 ON_LSP_ATTACH = function(client, buf)
   if LSPDEF.debug then
     vim.notify("Attaching " .. vim.inspect(client.config.cmd) .. " to buffer nr " .. buf)
+    vim.notify("Root directory is: " .. client.root_dir)
   end
-  if not vim.tbl_contains(LSPDEF.exclude_navic, client.name) then
+  if not vim.tbl_contains(LSPDEF.exclude_navic, client.name) and not LSPDEF.disable_breadcrumb then
     navic.attach(client, buf)
   end
   vim.g.inlay_hints_visible = true
@@ -24,8 +25,13 @@ ON_LSP_ATTACH = function(client, buf)
     vim.g.inlay_hints_visible = PCFG.lsp.inlay_hints
     vim.lsp.inlay_hint.enable(PCFG.lsp.inlay_hints)
   end
-  if client.name == "rzls" then
-    vim.cmd("hi! link @lsp.type.field Member")
+  -- this mechanism allows to inject on_attach code from either lspdef or the
+  -- serverconfig/clientname.lua
+  if LSPDEF.serverconfigs[client.name] and LSPDEF.serverconfigs[client.name].attach_config then
+    LSPDEF.serverconfigs[client.name].attach_config(client, buf)
+  end
+  if vim.lsp.config[client.name] and vim.lsp.config[client.name].attach_config then
+    vim.lsp.config[client.name].attach_config(client, buf)
   end
 end
 

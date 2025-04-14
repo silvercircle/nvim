@@ -1,15 +1,6 @@
 local Usplit = {}
-Usplit.winid = nil -- window id
-Usplit.bufid = nil -- buffer id
-Usplit.content = "fortune"
-Usplit.cookie = {}
-Usplit.width = 0
-Usplit.old_dimensions = {
-  w = 0,
-  h = 0
-}
+Usplit.nsid = vim.api.nvim_create_namespace("usplit")
 
-local timer = nil
 local num_cookies = Tweaks.fortune.numcookies or 1
 local cookie_command = Tweaks.fortune.command
 
@@ -22,37 +13,40 @@ end
 -- this is called from the winresized / winclosed handler in auto.lua
 -- when the window has disappeared, the buffer is deleted.
 function Usplit.resize_or_closed(_)
-  if Usplit.winid ~= nil then
-    if vim.api.nvim_win_is_valid(Usplit.winid) == false then -- window has disappeared
-      if Usplit.bufid ~= nil and vim.api.nvim_buf_is_valid(Usplit.bufid) then
-        vim.api.nvim_buf_delete(Usplit.bufid, { force = true })
-        Usplit.bufid = nil
+  local usplit = TABM.get().usplit
+  if usplit.id_win ~= nil then
+    if vim.api.nvim_win_is_valid(usplit.id_win) == false then -- window has disappeared
+      if usplit.id_buf ~= nil and vim.api.nvim_buf_is_valid(usplit.id_buf) then
+        vim.api.nvim_buf_delete(usplit.id_buf, { force = true })
+        usplit.id_buf = nil
       end
-      Usplit.winid = nil
+      usplit.id_win = nil
     else
       Usplit.refresh("resize")
-      PCFG.sysmon.width = vim.api.nvim_win_get_width(Usplit.winid)
+      PCFG.sysmon.width = vim.api.nvim_win_get_width(usplit.id_win)
     end
   end
 end
 
 -- toggle content. close() will stop and open() will restart the timer
 function Usplit.toggle_content()
-  if Usplit.content == "sysmon" then
-    Usplit.content = "fortune"
-  elseif Usplit.content == "fortune" then
-    Usplit.content = "sysmon"
+  local usplit = TABM.get().usplit
+  if usplit.content == "sysmon" then
+    usplit.content = "fortune"
+  elseif usplit.content == "fortune" then
+    usplit.content = "sysmon"
   end
-  PCFG.sysmon.content = Usplit.content
+  PCFG.sysmon.content = usplit.content
   Usplit.close()
   Usplit.open()
 end
 
 -- force refreshing the cookie. just restart the timer should be enough
 function Usplit.refresh_cookie()
-  if Usplit.content ~= "fortune" then
+  if TABM.get().usplit.content ~= "fortune" then
     return
   end
+  local timer = TABM.get().usplit.timer
   if timer ~= nil then
     timer:stop()
     timer:start(0, timer_interval, vim.schedule_wrap(Usplit.refresh_on_timer))
@@ -60,61 +54,65 @@ function Usplit.refresh_cookie()
 end
 
 function Usplit.close()
-  if Usplit.winid ~= nil then
-    vim.api.nvim_win_close(Usplit.winid, { force = true })
-    -- resize_or_closed() will cleanup, triggered by auto command
+  local usplit = TABM.get().usplit
+  if usplit.id_win ~= nil then
+    vim.api.nvim_win_close(usplit.id_win, { force = true })
   end
-  if timer ~= nil then
-    timer:stop()
+  if usplit.timer ~= nil then
+    usplit.timer:stop()
   end
+  usplit.id_win = nil
 end
 
 --- this renders the fortune cookie content. In sysmon mode, it
 --- does nothing.
 function Usplit.refresh(reason)
   reason = reason or "resize"
-  if Usplit.content == "sysmon" then
+  local usplit = TABM.get().usplit
+  if usplit.content == "sysmon" then
     return
   end
-  local w, h = vim.api.nvim_win_get_width(Usplit.winid), vim.api.nvim_win_get_height(Usplit.winid)
-  if reason == "resize" and w == Usplit.old_dimensions.w and h == Usplit.old_dimensions.h then return end
-  Usplit.old_dimensions.w = w
-  Usplit.old_dimensions.h = h
+  local id_win = usplit.id_win
+  local w, h = vim.api.nvim_win_get_width(id_win), vim.api.nvim_win_get_height(id_win)
+  if reason == "resize" and w == usplit.old_dimensions.w and h == usplit.old_dimensions.h then return end
+  usplit.old_dimensions.w = w
+  usplit.old_dimensions.h = h
   local lines = {}
-  vim.api.nvim_set_option_value("modifiable", true, { buf = Usplit.bufid })
+  vim.api.nvim_set_option_value("modifiable", true, { buf = usplit.id_buf })
   -- prevent the winbar from appearing (nvim 0.10 or higher)
-  vim.api.nvim_buf_clear_namespace(Usplit.bufid, -1, 0, -1)
+  vim.api.nvim_buf_clear_namespace(usplit.id_buf, Usplit.nsid, 0, -1)
   table.insert(lines, " ")
   table.insert(lines, "    *** Quote of the moment ***")
   table.insert(lines, " ")
-  for _, v in ipairs(Usplit.cookie) do
+  for _, v in ipairs(usplit.cookie) do
     table.insert(lines, " " .. v)
   end
-  vim.api.nvim_buf_set_lines(Usplit.bufid, 0, -1, false, lines)
-  vim.api.nvim_set_option_value("modifiable", false, { buf = Usplit.bufid })
-  vim.api.nvim_set_option_value("winbar", "", { win = Usplit.winid })
-  vim.api.nvim_set_option_value("modified", false, { buf = Usplit.bufid })
-  vim.api.nvim_buf_add_highlight(Usplit.bufid, -1, "Debug", 1, 0, -1)
+  vim.api.nvim_buf_set_lines(usplit.id_buf, 0, -1, false, lines)
+  vim.api.nvim_set_option_value("modifiable", false, { buf = usplit.id_buf })
+  vim.api.nvim_set_option_value("winbar", "", { win = id_win })
+  vim.api.nvim_set_option_value("modified", false, { buf = usplit.id_buf })
+  vim.api.nvim_buf_set_extmark(usplit.id_buf, Usplit.nsid, 1, 1, { hl_group = "Debug", end_col = #lines[2] })
 end
 
 --- timer event. fetch a new fortune cookie and store it. On completion
 --- it calls refresh() to render
 function Usplit.refresh_on_timer()
-  for i, _ in ipairs(Usplit.cookie) do
-    Usplit.cookie[i] = nil
+  local usplit = TABM.get().usplit
+  for i, _ in ipairs(usplit.cookie) do
+    usplit.cookie[i] = nil
   end
-  local width = vim.api.nvim_win_get_width(Usplit.winid)
+  local width = vim.api.nvim_win_get_width(usplit.id_win)
   for _ = 1, num_cookies, 1 do
     vim.fn.jobstart(cookie_command .. "|fmt -" .. width - 2, {
       on_stdout = function(_, b, _)
         for _, v in ipairs(b) do
           if #v > 1 then
-            table.insert(Usplit.cookie, v)
+            table.insert(usplit.cookie, v)
           end
         end
       end,
       on_exit = function()
-        table.insert(Usplit.cookie, " ")
+        table.insert(usplit.cookie, " ")
         Usplit.refresh("content")
       end,
     })
@@ -124,17 +122,18 @@ end
 --- this opens a split next to the terminal split and launches an instance of glances
 --- system monitor in it. See: https://nicolargo.github.io/glances/
 function Usplit.open()
+  local usplit = TABM.get().usplit
   local width = PCFG.sysmon.width
-  local wid = CGLOBALS.findWinByFiletype("terminal")
+  local wid = TABM.findWinByFiletype("terminal", true)
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   -- glances must be executable otherwise do nothing
   -- also, a terminal split must be present.
   if not vim.fn.executable("glances") then
-    Usplit.content = "fortune"
+    usplit.content = "fortune"
   end
   if #wid > 0 then
     vim.fn.win_gotoid(wid[1])
-    if Usplit.content == "sysmon" then
+    if usplit.content == "sysmon" then
       vim.cmd(
         "rightbelow "
           .. width
@@ -142,37 +141,37 @@ function Usplit.open()
           .. CFG.sysmon.modules
           .. " --time 3"
       )
-      Usplit.winid = vim.fn.win_getid()
-      vim.api.nvim_set_option_value("statusline", "  System Monitor", { win = Usplit.winid })
-    elseif Usplit.content == "fortune" then
+      usplit.id_win = vim.fn.win_getid()
+      vim.api.nvim_set_option_value("statusline", "  System Monitor", { win = usplit.id_win })
+    elseif usplit.content == "fortune" then
       vim.api.nvim_set_option_value("modifiable", true, { buf = vim.api.nvim_win_get_buf(wid[1]) })
-      vim.cmd("rightbelow " .. width .. " vsplit new")
+      vim.cmd("rightbelow " .. width .. " vsplit new_usplit_" .. TABM.active)
       vim.cmd("setlocal buftype=nofile")
-      Usplit.winid = vim.fn.win_getid()
-      vim.api.nvim_set_option_value("statusline", "󰈙  Fortune cookie", { win = Usplit.winid })
+      usplit.id_win = vim.fn.win_getid()
+      vim.api.nvim_set_option_value("statusline", "󰈙  Fortune cookie", { win = usplit.id_win })
       vim.api.nvim_set_option_value("modifiable", false, { buf = vim.api.nvim_win_get_buf(wid[1]) })
     end
     vim.schedule(function()
-      vim.api.nvim_win_set_width(Usplit.winid, PCFG.sysmon.width - 2)
+      vim.api.nvim_win_set_width(usplit.id_win, PCFG.sysmon.width - 2)
     end)
     vim.schedule(function()
-      vim.api.nvim_win_set_width(Usplit.winid, PCFG.sysmon.width)
+      vim.api.nvim_win_set_width(usplit.id_win, PCFG.sysmon.width)
     end)
-    Usplit.bufid = vim.api.nvim_get_current_buf()
-    vim.api.nvim_set_option_value("buflisted", false, { buf = Usplit.bufid })
-    vim.api.nvim_set_option_value("list", false, { win = Usplit.winid })
+    usplit.id_buf = vim.api.nvim_get_current_buf()
+    vim.api.nvim_set_option_value("buflisted", false, { buf = usplit.id_buf })
+    vim.api.nvim_set_option_value("list", false, { win = usplit.id_win })
     vim.cmd(
       "setlocal statuscolumn=%#TreeNormalNC#\\ |set winfixheight | setlocal winbar= |set filetype=sysmon | set nonumber | set signcolumn=no | set winhl=SignColumn:TreeNormalNC,Normal:TreeNormalNC | set foldcolumn=0 | setlocal nocursorline"
     )
     vim.fn.win_gotoid(curwin)
   end
-  if timer ~= nil then
-    timer:stop()
+  if usplit.timer ~= nil then
+    usplit.timer:stop()
   else
-    timer = vim.uv.new_timer()
+    usplit.timer = vim.uv.new_timer()
   end
-  if timer ~= nil and Usplit.content == "fortune" then
-    timer:start(0, timer_interval, vim.schedule_wrap(Usplit.refresh_on_timer))
+  if usplit.timer ~= nil and usplit.content == "fortune" then
+    usplit.timer:start(0, timer_interval, vim.schedule_wrap(Usplit.refresh_on_timer))
   end
 end
 

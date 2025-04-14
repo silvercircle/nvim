@@ -14,20 +14,20 @@ local function organize_imports()
     arguments = { vim.uri_from_bufnr(0) },
   }
 
-  local clients = vim.lsp.get_active_clients {
+  local clients = vim.lsp.get_clients({
     bufnr = vim.api.nvim_get_current_buf(),
     name = 'basedpyright',
-  }
+  })
   for _, client in ipairs(clients) do
     client.request('workspace/executeCommand', params, nil, 0)
   end
 end
 
 local function set_python_path(path)
-  local clients = vim.lsp.get_active_clients {
+  local clients = vim.lsp.get_clients({
     bufnr = vim.api.nvim_get_current_buf(),
     name = 'basedpyright',
-  }
+  })
   for _, client in ipairs(clients) do
     if client.settings then
       client.settings.python = vim.tbl_deep_extend('force', client.settings.python, { pythonPath = path })
@@ -43,12 +43,30 @@ return {
   filetypes = { "python" },
   root_markers = root_files,
   single_file_support = true,
+  capabilities = {
+    textDocument = {
+      publishDiagnostics = {
+        tagSupport = {
+          valueSet = { 2 }
+        }
+      }
+    }
+  },
   settings = {
     basedpyright = {
       analysis = {
         autoSearchPaths = true,
         useLibraryCodeForTypes = true,
+        inlayHints = {
+          callArgumentNames = true
+        },
         diagnosticMode = "openFilesOnly",
+        typeCheckingMode = "standard",
+      }
+    },
+    python = {
+      analysis = {
+        ignore = { "*" }
       }
     }
   },
