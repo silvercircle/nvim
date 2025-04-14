@@ -66,12 +66,25 @@ function M.new(tabpage)
   }
 end
 
+function M.clonetab()
+  local from_id = vim.api.nvim_get_current_tabpage()
+  local from = M.T[from_id]
+  local tree = M.findWinByFiletype(Tweaks.tree.filetype, true)
+  local ol = M.is_outline_open()
+  vim.cmd("tabnew")
+  if ol ~= false then M.open_outline() end
+  if from.term.visible then M.termToggle(12) end
+  if tree and #tree >= 1 then M.open_tree() end
+end
+
 -- cleanup a tab page.
 ---@param tabpage integer
 function M.remove(tabpage)
   local Symbols = require("symbols")
   local tab = M.T[tabpage]
   if tab then
+    -- id == 1 is the first tab created at startup. do not allow to remove it.
+    if tab.id_page == 1 then return end
     if tab.id_outline then
       local id = Symbols.sidebar.get(tab.id_main)
       Symbols.sidebar.close(id)
@@ -172,15 +185,17 @@ end
 --- find a buffer with type and focus its primary window split
 --- @param type string: filetype (e.g. "NvimTree"
 --- @param intab? boolean: stay in the current tab when searching
---- @return boolean: true if a window was found, false otherwise
-function M.findbufbyType(type, intab)
+--- @param focus? boolean: focus the window
+--- @return integer: id of the window or 0 if none was found
+function M.findbufbyType(type, intab, focus)
   intab = intab or false
+  focus = focus or true
   local winid = M.findWinByFiletype(type, intab)
   if #winid > 0 then
-    vim.fn.win_gotoid(winid[1])
-    return true
+    if focus then vim.fn.win_gotoid(winid[1]) end
+    return winid[1]
   end
-  return false
+  return 0
 end
 
 --- find the first window for a given filetype.

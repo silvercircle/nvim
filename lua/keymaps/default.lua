@@ -355,13 +355,13 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
     return
   end
   -- otherwise search it and if none is found, open it.
-  if TABM.findbufbyType(PCFG.outline_filetype, true) == false then
+  if TABM.findbufbyType(PCFG.outline_filetype, true) == 0 then
     TABM.open_outline()
   end
 end, "Focus Outline window") -- Outline
 
 local function focus_term_split(dir)
-  if TABM.findbufbyType('terminal') == false then
+  if TABM.findbufbyType('terminal') == 0 then
     vim.api.nvim_input('<f11>')
   end
   vim.cmd.startinsert()
@@ -423,7 +423,7 @@ end, "Open the info/weather window")
 -- focus quickfix list (when open)
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-7>', function()
   local curwin = vim.fn.win_getid()
-  if TABM.findbufbyType('qf') == false then
+  if TABM.findbufbyType('qf') == 0 then
     vim.cmd('below 10 copen')
   else
     local winid = TABM.findWinByFiletype('qf', true)[1]
@@ -522,8 +522,10 @@ vim.keymap.set('i', "<Right>",  "<C-g>U<Right>", { silent = true, noremap = true
 vim.g.setkey("n", utility_key .. "ll", function() require("darkmatter.colortools").saturatehex(-0.05) end )
 require("subspace.lib.darkmatter").map_keys()
 
-vim.g.setkey( {"v", "n"}, utility_key .. "<tab>", ":tabnext<cr>", "Select next tab")
 vim.g.setkey( {"v", "n", "i"}, utility_key .. "mm", function() require("neominimap.api").toggle() end, "Toggle Minimap")
 
+vim.g.setkey( {"v", "n"}, utility_key .. "<tab>", ":tabnext<cr>", "Select next tab")
 vim.g.setkey( {"v", "n", "i"}, utility_key .. "tn", function() vim.cmd("tabnew") end, "Open new tab page")
-vim.g.setkey( {"v", "n", "i"}, utility_key .. "tc", function() vim.cmd("tabclose") end, "Close tab page")
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "td", function() vim.cmd("tabclose") end, "Close tab page")
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "tc", function() TABM.clonetab() end, "Close tab page")
+
