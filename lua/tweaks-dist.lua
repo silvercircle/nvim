@@ -272,7 +272,6 @@ Tweaks.theme = {
 -- right now, only lualine is supported by this config. This might change in the
 -- future.
 Tweaks.statusline = {
-  version = "lualine",
   -- specific tweaks for lualine.
   lualine = {
     -- Set this to "internal" to use darkmatter integration or to some available

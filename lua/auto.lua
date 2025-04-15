@@ -5,7 +5,6 @@ local autocmd = vim.api.nvim_create_autocmd
 local agroup_views = vim.api.nvim_create_augroup("views", {})
 local agroup_hl = vim.api.nvim_create_augroup("hl", {})
 local Wsplit = require("subspace.content.wsplit")
-local Usplit = require("subspace.content.usplit")
 local Tsc = require("treesitter-context")
 local marks = require("subspace.lib.marks")
 local treeft = Tweaks.tree.filetype
@@ -153,15 +152,13 @@ autocmd({ "UIEnter" }, {
 -- force refresh lualine on ModeChanged event. This allows for higher debounce timers
 -- (= better performance) and still get instant response for mode changes (which I feel
 -- is important)
-if Tweaks.statusline.version == "lualine" then
-  autocmd( { "ModeChanged" }, {
-    pattern = "*",
-    callback = function()
-      vim.schedule(function() require("lualine").refresh() end)
-    end,
-    group = agroup_views
-  })
-end
+autocmd( { "ModeChanged" }, {
+  pattern = "*",
+  callback = function()
+    vim.schedule(function() require("lualine").refresh() end)
+  end,
+  group = agroup_views
+})
 
 -- create a view to save folds when saving the file
 autocmd({ 'bufwritepost' }, {
