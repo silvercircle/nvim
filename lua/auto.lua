@@ -8,7 +8,6 @@ local Wsplit = require("subspace.content.wsplit")
 local Usplit = require("subspace.content.usplit")
 local Tsc = require("treesitter-context")
 local marks = require("subspace.lib.marks")
-local Tabs = _G.TABM
 local treeft = Tweaks.tree.filetype
 
 -- local ibl = require('indent_blankline')
@@ -77,9 +76,9 @@ local function main_layout(curtab)
         local usplit_id_win = TABM.T[ct].usplit.id_win
         local wsplit_id_win = TABM.T[ct].wsplit.id_win
         if sizeevent.event == "WinClosed" then
-          if Tabs.T[ct].term.id_win ~= nil and vim.api.nvim_win_is_valid(Tabs.T[ct].term.id_win) == false then
-            Tabs.T[ct].term.id_win = nil
-            Tabs.T[ct].term.visible = false
+          if TABM.T[ct].term.id_win ~= nil and vim.api.nvim_win_is_valid(TABM.T[ct].term.id_win) == false then
+            TABM.T[ct].term.id_win = nil
+            TABM.T[ct].term.visible = false
           end
           if wsplit_id_win ~= nil and vim.api.nvim_win_is_valid(wsplit_id_win) == false then
             TABM.T[ct].wsplit.id_win = nil
@@ -89,14 +88,14 @@ local function main_layout(curtab)
           end
           local id = sizeevent.match
           local status, target = pcall(vim.api.nvim_win_get_var, tonumber(id), "termheight")
-          if status and Tabs.T[ct].term.id_win ~= nil then
-            vim.schedule(function() vim.api.nvim_win_set_height(Tabs.T[ct].term.id_win, tonumber(target)) end)
+          if status and TABM.T[ct].term.id_win ~= nil then
+            vim.schedule(function() vim.api.nvim_win_set_height(TABM.T[ct].term.id_win, tonumber(target)) end)
           end
         end
         if sizeevent.event == "WinResized" then
-          if Tabs.T[ct].term.id_win ~= nil then
-            PCFG.terminal.height = vim.api.nvim_win_get_height(Tabs.T[ct].term.id_win)
-            Tabs.T[ct].term.height = vim.api.nvim_win_get_height(Tabs.T[ct].term.id_win)
+          if TABM.T[ct].term.id_win ~= nil then
+            PCFG.terminal.height = vim.api.nvim_win_get_height(TABM.T[ct].term.id_win)
+            TABM.T[ct].term.height = vim.api.nvim_win_get_height(TABM.T[ct].term.id_win)
           end
           Wsplit.set_minheight()
           Wsplit.refresh("resize")
@@ -130,7 +129,7 @@ local function main_layout(curtab)
       CFG.theme.set_bg()
     end
   end
-  vim.fn.win_gotoid(Tabs.T[curtab].id_main)
+  vim.fn.win_gotoid(TABM.T[curtab].id_main)
 end
 
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
@@ -144,9 +143,9 @@ autocmd({ "UIEnter" }, {
     end
     did_UIEnter = true
     local curtab = vim.api.nvim_get_current_tabpage()
-    Tabs.active = curtab
-    Tabs.new(curtab)
-    Tabs.T[curtab].id_main = vim.fn.win_getid()
+    TABM.active = curtab
+    TABM.new(curtab)
+    TABM.T[curtab].id_main = vim.fn.win_getid()
     main_layout(curtab)
   end
 })
@@ -437,8 +436,8 @@ autocmd("TextYankPost", {
 autocmd("TabNew", {
   callback = function()
     local curtab = vim.api.nvim_get_current_tabpage()
-    Tabs.new(curtab)
-    Tabs.T[curtab].id_main = vim.fn.win_getid()
+    TABM.new(curtab)
+    TABM.T[curtab].id_main = vim.fn.win_getid()
   end,
   group = agroup_views
 })
@@ -452,7 +451,7 @@ autocmd("TabClosed", {
 
 autocmd("TabEnter", {
   callback = function()
-    Tabs.active = vim.api.nvim_get_current_tabpage()
+    TABM.set_active()
   end,
   group = agroup_views
 })

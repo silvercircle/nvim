@@ -53,8 +53,11 @@ function Usplit.refresh_cookie()
   end
 end
 
-function Usplit.close()
-  local usplit = TABM.get().usplit
+---@param id_tab? integer the tab page on which to act
+function Usplit.close(id_tab)
+  id_tab = id_tab or vim.api.nvim_get_current_tabpage()
+  if not TABM.T[id_tab] then return end
+  local usplit = TABM.get(id_tab).usplit
   if usplit.id_win ~= nil then
     vim.api.nvim_win_close(usplit.id_win, { force = true })
   end

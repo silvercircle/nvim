@@ -152,11 +152,27 @@ function M.get(nr)
   return M.T[nr] and M.T[nr] or M.T[1]
 end
 
+-- set a tab active
+---@param id_tab? integer: the tab to activate. defaults to currently active
+function M.set_active(id_tab)
+  id_tab = id_tab or vim.api.nvim_get_current_tabpage()
+  if not M.T[id_tab] then return end
+  if vim.api.nvim_tabpage_is_valid(id_tab) then
+    M.active = id_tab
+    vim.fn.win_gotoid(M.T[id_tab].id_main)
+    if vim.api.nvim_get_current_tabpage() ~= id_tab then
+      vim.api.nvim_set_current_tabpage(id_tab)
+    end
+  end
+end
+
 --- opens a terminal split at the bottom. May also open the sysmon/fortune split
 --- @param _height number: height of the terminal split to open.
-function M.termToggle(_height)
-  local curtab = vim.api.nvim_get_current_tabpage()
-  local term = M.T[curtab].term
+--- @param tab? integer: the tabpage id on which to act. defaults to current
+function M.termToggle(_height, tab)
+  tab = tab or vim.api.nvim_get_current_tabpage()
+  if not M.T[tab] then return end
+  local term = M.T[tab].term
   local height = _height or term.height
 
   height = height <= vim.o.lines / 2 and height or vim.o.lines / 2
@@ -170,14 +186,14 @@ function M.termToggle(_height)
     term.id_win = nil
     return
   end
-  local outline_win = TABM.findWinByFiletype(PCFG.outline_filetype, true)
+  local outline_win = M.T[tab].id_outline
 
-  if outline_win[1] ~= nil and vim.api.nvim_win_is_valid(outline_win[1]) then
-    M.close_outline()
+  if outline_win ~= nil and vim.api.nvim_win_is_valid(outline_win) then
+    M.close_outline(tab)
     reopen_outline = true
   end
 
-  vim.fn.win_gotoid(M.T[curtab].id_main)
+  vim.fn.win_gotoid(M.T[tab].id_main)
   -- now, if we have no terminal buffer (yet), create one. Otherwise just select
   -- the existing one.
   if term.id_buf == nil then
@@ -200,22 +216,22 @@ function M.termToggle(_height)
 
   -- finally, open the sub frames if they were previously open
   if PCFG.sysmon.active == true then
-    TABM.T[curtab].usplit.content = PCFG.sysmon.content
+    TABM.T[tab].usplit.content = PCFG.sysmon.content
     require("subspace.content.usplit").open()
   end
 
   if reopen_outline == true then
-    vim.fn.win_gotoid(M.T[curtab].id_main)
-    TABM.open_outline()
+    vim.fn.win_gotoid(M.T[tab].id_main)
+    TABM.open_outline(tab)
     vim.schedule(function()
-      vim.fn.win_gotoid(M.T[curtab].id_main)
+      vim.fn.win_gotoid(M.T[tab].id_main)
     end)
   end
 end
 
 --- find a buffer with type and focus its primary window split
 --- @param type string: filetype (e.g. "NvimTree"
---- @param intab? boolean: stay in the current tab when searching
+--- @param intab? boolean|integer: stay in given id_tab or in the current
 --- @param focus? boolean: focus the window
 --- @return integer: id of the window or 0 if none was found
 function M.findbufbyType(type, intab, focus)
@@ -231,11 +247,16 @@ end
 
 --- find the first window for a given filetype.
 --- @param filetypes string|table: the filetype(s)
---- @param intab? boolean: stay in tab
+--- @param intab? boolean|integer: stay in given id_tab or in the current
 --- @return table: a list of windows displaying the buffer or an empty list if none has been found
 function M.findWinByFiletype(filetypes, intab)
   intab = intab or false
-  local curtab = vim.api.nvim_get_current_tabpage()
+  local curtab
+
+  if type(intab) == "number" and M.T[intab] then curtab = intab end
+  if type(intab) == "boolean" and intab == true then
+    curtab = vim.api.nvim_get_current_tabpage()
+  end
 
   local function finder(ft, where)
     if type(where) == "string" then
@@ -268,9 +289,11 @@ function M.findWinByFiletype(filetypes, intab)
 end
 
 -- outline (Symbols plugin) related
-
-function M.is_outline_open()
-  local _o = M.findWinByFiletype(PCFG.outline_filetype, true)
+---@param id_tab? integer tabpage on which to operate. defaults to current
+function M.is_outline_open(id_tab)
+  id_tab = id_tab or vim.api.nvim_get_current_tabpage()
+  if not M.T[id_tab] then return end
+  local _o = M.findWinByFiletype(PCFG.outline_filetype, id_tab)
   if #_o > 0 and _o[1] ~= nil then
     return _o[1]
   end
@@ -278,25 +301,35 @@ function M.is_outline_open()
 end
 
 --- open the outline window
-function M.open_outline()
+--- @param id_tab? integer: tabpage on which to operate. defaults to current
+function M.open_outline(id_tab)
   local buftype = vim.api.nvim_get_option_value("buftype", { buf = 0 })
   if buftype ~= "" then --current buffer is no ordinary file. Ignore it.
     return
   end
-  vim.cmd("Symbols!")
-  local id_win = M.is_outline_open()
-  if id_win and vim.api.nvim_win_is_valid(id_win) then
-    vim.api.nvim_set_option_value("winhl", "Normal:TreeNormalNC,CursorLine:TreeCursorLine", { win = id_win })
-    vim.api.nvim_win_set_width(id_win, PCFG.outline.width)
-    M.T[M.active].id_outline = id_win
+  id_tab = id_tab or vim.api.nvim_get_current_tabpage()
+  if not M.T[id_tab] then return end
+  local Symbols = require("symbols")
+  local sb = Symbols.sidebar.get(M.T[id_tab].id_main)
+  if sb then
+    Symbols.sidebar.open(sb)()
+    local id_win = Symbols.sidebar.win(sb)
+    if id_win and vim.api.nvim_win_is_valid(id_win) then
+      vim.api.nvim_set_option_value("winhl", "Normal:TreeNormalNC,CursorLine:TreeCursorLine", { win = id_win })
+      vim.api.nvim_win_set_width(id_win, PCFG.outline.width)
+      M.T[M.active].id_outline = id_win
+    end
   end
 end
 
 --- close the outline window
-function M.close_outline()
-  local tab = TABM.get()
-  vim.cmd("SymbolsClose")
-  tab.id_outline = nil
+function M.close_outline(id_tab)
+  id_tab = id_tab or vim.api.nvim_get_current_tabpage()
+  if not M.T[id_tab] or M.T[id_tab].id_outline == nil then return end
+  local Symbols = require("symbols")
+  local sb = Symbols.sidebar.get(M.T[id_tab].id_main)
+  Symbols.sidebar.close(sb)
+  M.T[id_tab].id_outline = nil
 end
 
 -- file-tree related

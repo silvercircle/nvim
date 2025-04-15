@@ -223,9 +223,6 @@ lazy.setup({
         {
           "https://gitlab.com/silvercircle74/blink-cmp-wordlist"
         }
-        --{
-        --  "https://gitlab.com/silvercircle74/blink-cmp-lua"
-        --}
       }
     },
     {
@@ -273,7 +270,8 @@ lazy.setup({
       config = function()
         require("mason").setup({
           ui = {
-            border = PCFG.float_borders
+            border = Borderfactory("thicc"),
+            backdrop = 100
           }
         })
       end
