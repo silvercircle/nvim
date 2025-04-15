@@ -48,7 +48,11 @@ function M.new(tabpage)
     id_page = tabpage,
     id_outline = nil,
     term = { id_buf = nil, id_win = nil, height = 0, visible = false },
-    wsplit = { id_win = nil, id_buf = nil, width = 0, height = 0,
+    wsplit = {
+      id_win = nil,
+      id_buf = nil,
+      width = 0,
+      height = 0,
       content = "info",
       content_id_win = nil,
       cookie = {},
@@ -58,7 +62,11 @@ function M.new(tabpage)
       watch = nil,
       freeze = false
     },
-    usplit = { id_win = nil, id_buf = nil, content = "fortune", width = 0,
+    usplit = {
+      id_win = nil,
+      id_buf = nil,
+      content = "fortune",
+      width = 0,
       cookie = {},
       old_dimensions = { w = 0, h = 0 },
       timer = nil
@@ -70,28 +78,36 @@ function M.clonetab()
   local from_id = vim.api.nvim_get_current_tabpage()
   local from = M.T[from_id]
   local tree = M.findWinByFiletype(Tweaks.tree.filetype, true)
+  local buf = vim.api.nvim_get_current_buf()
   local ol = M.is_outline_open()
-  vim.cmd("tabnew")
+  if vim.bo[buf].buftype == "" then
+    vim.cmd("tab sb " .. buf)
+  else
+    vim.cmd("tabnew")
+  end
   if ol ~= false then M.open_outline() end
   if from.term.visible then M.termToggle(12) end
   if tree and #tree >= 1 then M.open_tree() end
+  vim.schedule(function()
+    local t = vim.api.nvim_get_current_tabpage()
+    vim.fn.win_gotoid(M.T[t].id_main)
+    vim.cmd("hi nCursor blend=0")
+  end)
 end
 
 function M.cleaner()
-  local pages = vim.api.nvim_list_tabpages()
-  if #pages >= 1 then
-    vim.iter(M.T):map(function(k)
-      if not vim.api.nvim_tabpage_is_valid(k.id_page) then
-        M.remove(tonumber(k.id_page))
-      end
-    end)
-  end
+  vim.iter(M.T):map(function(k)
+    if not vim.api.nvim_tabpage_is_valid(k.id_page) then
+      M.remove(tonumber(k.id_page))
+    end
+  end)
 end
 
 -- cleanup a tab page.
 ---@param tabpage integer
 function M.remove(tabpage)
   local Symbols = require("symbols")
+  ---@type tab
   local tab = M.T[tabpage]
   if tab then
     -- id == 1 is the first tab created at startup. do not allow to remove it.
@@ -143,7 +159,7 @@ function M.termToggle(_height)
   local term = M.T[curtab].term
   local height = _height or term.height
 
-  height = height <= vim.o.lines/2 and height or vim.o.lines/2
+  height = height <= vim.o.lines / 2 and height or vim.o.lines / 2
   local reopen_outline = false
   -- if it is visible, then close it an all sub frames
   -- but leave the buffer open
@@ -166,7 +182,7 @@ function M.termToggle(_height)
   -- the existing one.
   if term.id_buf == nil then
     local shell = Tweaks.shell or "$SHELL"
-    vim.cmd("belowright " .. height .. " sp|terminal export NOCOW=1 && " .. shell )
+    vim.cmd("belowright " .. height .. " sp|terminal export NOCOW=1 && " .. shell)
   else
     vim.cmd("belowright " .. height .. " sp")
     vim.api.nvim_win_set_buf(0, term.id_buf)
@@ -264,7 +280,7 @@ end
 --- open the outline window
 function M.open_outline()
   local buftype = vim.api.nvim_get_option_value("buftype", { buf = 0 })
-  if buftype ~= "" then  --current buffer is no ordinary file. Ignore it.
+  if buftype ~= "" then --current buffer is no ordinary file. Ignore it.
     return
   end
   vim.cmd("Symbols!")
@@ -289,17 +305,20 @@ end
 --- or NeoTree
 function M.open_tree()
   if Tweaks.tree.version == "Nvim" then
-    require('nvim-tree.api').tree.toggle({ focus = false })
+    require("nvim-tree.api").tree.toggle({ focus = false })
   elseif Tweaks.tree.version == "Neo" then
     require("neo-tree.command").execute({
       action = "show",
       source = "filesystem",
       position = "left"
     })
-  -- TODO: make it work with snacks explorer
+    -- TODO: make it work with snacks explorer
   elseif Tweaks.tree.version == "Explorer" then
-    require("snacks").picker.explorer( { jump = {close=false},
-      auto_close = false, layout={position="left", layout={ border="none", width=40, min_width=40}} } )
+    require("snacks").picker.explorer({
+      jump = { close = false },
+      auto_close = false,
+      layout = { position = "left", layout = { border = "none", width = 40, min_width = 40 } }
+    })
   end
 end
 
@@ -309,10 +328,10 @@ function M.tree_open_handler()
   local wsplit = require("subspace.content.wsplit")
   local ws = M.get().wsplit
 
-  vim.opt.statuscolumn = ''
+  vim.opt.statuscolumn = ""
   local w = vim.fn.win_getid()
-  vim.api.nvim_set_option_value('statusline', '   ' .. (Tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"), { win = w })
-  vim.cmd('setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber')
+  vim.api.nvim_set_option_value("statusline", "   " .. (Tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"), { win = w })
+  vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber")
   vim.api.nvim_win_set_width(w, PCFG.tree.width)
   M.adjust_layout()
   if PCFG.weather.active == true then

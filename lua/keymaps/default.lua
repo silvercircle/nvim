@@ -361,7 +361,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
 end, "Focus Outline window") -- Outline
 
 local function focus_term_split(dir)
-  if TABM.findbufbyType('terminal') == 0 then
+  if TABM.findbufbyType('terminal', true) == 0 then
     vim.api.nvim_input('<f11>')
   end
   vim.cmd.startinsert()
@@ -524,12 +524,11 @@ require("subspace.lib.darkmatter").map_keys()
 
 vim.g.setkey( {"v", "n", "i"}, utility_key .. "mm", function() require("neominimap.api").toggle() end, "Toggle Minimap")
 
-vim.g.setkey( {"v", "n"}, utility_key .. "<tab>", ":tabnext<cr>", "Select next tab")
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "<tab>", ":tabnext<cr>", "Select next tab")
 vim.g.setkey( {"v", "n", "i"}, utility_key .. "tn", function() vim.cmd("tabnew") end, "Open new tab page")
 vim.g.setkey( {"v", "n", "i"}, utility_key .. "tx", function() vim.cmd("tabclose") end, "Close tab page")
 vim.g.setkey( {"v", "n", "i"}, utility_key .. "tc", function() TABM.clonetab() end, "Close tab page")
-vim.g.setkey( {"v", "n", "i"}, utility_key .. "td",
-  function()
-    vim.cmd("tabnew")
-    require("dapui").open()
-  end, "Open new tab page")
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "td", function()
+  vim.cmd("tabnew")
+  require("dapui").open()
+end, "Open new tab page")
