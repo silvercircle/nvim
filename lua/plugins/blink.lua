@@ -367,6 +367,7 @@ require("blink.cmp").setup({
       border = Borderfactory(w_border),
       winblend = T.winblend.menu,
       max_height = T.window_height,
+      scrollbar = T.scrollbar.menu,
       draw = {
         align_to = "kind_icon",
         padding = { 0, 1 },
@@ -440,6 +441,7 @@ require("blink.cmp").setup({
         min_width = 30,
         max_width = 95,
         max_height = 35,
+        scrollbar = T.scrollbar.doc,
         direction_priority = {
           menu_north = { "w", "e", "n", "s" },
           menu_south = { "w", "e", "s", "n" },

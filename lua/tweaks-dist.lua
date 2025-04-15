@@ -123,6 +123,10 @@ Tweaks.blink = {
     menu = 0,
     signature = 0
   },
+  scrollbar = {
+    menu = true,
+    doc = true
+  },
   --- show the effective LSP client name in the last column when available
   --- otherwise show just the source name (LSP, snippets etc.)
   show_client_name = true,
