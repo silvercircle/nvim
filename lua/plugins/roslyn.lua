@@ -75,7 +75,7 @@ end
 
 local on_attach = function(client, buf)
   ON_LSP_ATTACH(client, buf)
-  fix_semantic_tokens(client)
+  -- fix_semantic_tokens(client)
 end
 
 require("roslyn").setup({
