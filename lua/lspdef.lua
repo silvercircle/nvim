@@ -114,11 +114,7 @@ M.serverconfigs = {
     cmd = { jp(M.localbin, "ctags-lsp") }
   },
   ["basedpyright"]          = { active = true,
-    cmd = { jp(M.masonbinpath, 'basedpyright-langserver') },
-    attach_config = function(client, buf)
-      if client.name == "basedpyright" then
-      end
-    end
+    cmd = { jp(M.masonbinpath, 'basedpyright-langserver') }
   },
   ["dartls"]                = { active = false,
     cmd = { jp(M.masonbinpath, "dartls") }
