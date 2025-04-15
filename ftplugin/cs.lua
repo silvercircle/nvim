@@ -1,3 +1,6 @@
+if CFG.csfolds_done == true then return end
+
+CFG.csfolds_done = true
 local csfolds = [[
 
 body: [
