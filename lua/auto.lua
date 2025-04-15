@@ -283,7 +283,7 @@ autocmd({ "FileType" }, {
       cfg.capabilities = require("lsp.config").get_lsp_capabilities()
       cfg.on_attach = ON_LSP_ATTACH
       cfg.settings = {
-        metalsBinaryPath = LSPDEF.server_bin["metals"]
+        metalsBinaryPath = vim.fn.expand(LSPDEF.server_bin["metals"])
       }
       require("metals").initialize_or_attach(cfg)
     end
@@ -318,6 +318,10 @@ autocmd({ 'WinEnter' }, {
     if filetype == "NvimTree" or filetype == "SymbolsSidebar" then
       old_mode = vim.api.nvim_get_mode().mode
       vim.cmd.stopinsert()
+    end
+    local tab = TABM.get()
+    if tab.id_page == vim.api.nvim_get_current_tabpage() then
+      tab.id_cur = vim.fn.win_getid()
     end
   end,
   group = agroup_hl
@@ -435,6 +439,7 @@ autocmd("TabNew", {
     local curtab = vim.api.nvim_get_current_tabpage()
     TABM.new(curtab)
     TABM.T[curtab].id_main = vim.fn.win_getid()
+    TABM.T[curtab].id_cur = vim.fn.win_getid()
   end,
   group = agroup_views
 })

@@ -1,5 +1,6 @@
 ---@class tab
 ---@field id_main integer    -- main window id
+---@field id_cur  integer    -- current window
 ---@field id_page integer   -- tabpage #
 ---@field term term         -- term split
 ---@field wsplit wsplit
@@ -45,6 +46,7 @@ M.active = 1
 function M.new(tabpage)
   M.T[tabpage] = {
     id_main = 0,
+    id_cur = 0,
     id_page = tabpage,
     id_outline = nil,
     term = { id_buf = nil, id_win = nil, height = 0, visible = false },
@@ -159,7 +161,10 @@ function M.set_active(id_tab)
   if not M.T[id_tab] then return end
   if vim.api.nvim_tabpage_is_valid(id_tab) then
     M.active = id_tab
-    vim.fn.win_gotoid(M.T[id_tab].id_main)
+    vim.fn.win_gotoid(M.T[id_tab].id_cur)
+    if M.T[id_tab].id_cur == M.T[id_tab].id_main then
+      vim.cmd("hi nCursor blend=0")
+    end
     if vim.api.nvim_get_current_tabpage() ~= id_tab then
       vim.api.nvim_set_current_tabpage(id_tab)
     end

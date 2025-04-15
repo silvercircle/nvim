@@ -19,7 +19,7 @@ M.localbin        = jp(M.homepath, '.local/bin/')
 
 -- binaries for external LSP plugins not covered by lspconfig
 M.server_bin = {
-  metals        =   '/home/alex/.local/share/coursier/bin/metals',
+  metals        =   '$HOME/.local/share/coursier/bin/metals',
   roslyn        =   jp(vim.fn.stdpath("data"), "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll"),
 }
 
@@ -31,7 +31,7 @@ M.server_bin = {
 --      Scala is implemented as filetype autocommand.
 
 -- cmd follows the rules for LSP server configurations. It's a list of strings, the
--- first element must be the executable of the language server. Unless it can be found in
+-- first element must be the executable of the language server. Unless it can be found
 -- in your $PATH, a full path must be given. The remaining entries of cmd will be passed
 -- as command line args to the LSP
 M.serverconfigs = {
