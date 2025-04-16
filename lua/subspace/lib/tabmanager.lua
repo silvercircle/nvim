@@ -16,8 +16,6 @@
 ---@class wsplit
 ---@field id_win  integer?
 ---@field id_buf  integer?
----@field timer   uv.uv_timer_t?
----@field cookie_timer   uv.uv_timer_t?
 ---@field watch   uv.uv_fs_event_t?
 ---@field cookie  table<integer, string>
 ---@field old_dimensions table
@@ -34,7 +32,6 @@
 ---@field width   integer
 ---@field cookie  table<integer, string>
 ---@field old_dimensions table
----@field timer   uv.uv_timer_t?
 
 local M = {}
 
@@ -59,8 +56,6 @@ function M.new(tabpage)
       content_id_win = nil,
       cookie = {},
       old_dimensions = { w = 0, h = 0 },
-      timer = nil,
-      cookie_timer = nil,
       watch = nil,
       freeze = false
     },
@@ -71,7 +66,6 @@ function M.new(tabpage)
       width = 0,
       cookie = {},
       old_dimensions = { w = 0, h = 0 },
-      timer = nil
     }
   }
 end

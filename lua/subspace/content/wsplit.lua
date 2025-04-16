@@ -11,8 +11,10 @@ Wsplit.weatherfile = ""
 Wsplit.nsid = nil
 Wsplit.cookie_source = Tweaks.cookie_source
 
-local timer_interval = 60000 -- timer interval
 local cookie_timer_interval = 900000
+
+---@type uv.uv_timer_t?
+local wsplit_cookie_timer = nil
 
 local autocmd_set = false -- remember whether the OptionSet autocmd has been set
 
@@ -145,16 +147,6 @@ function Wsplit.on_content_change()
 
   PCFG.weather.content = wsplit.content
   wsplit.content_id_win = vim.fn.win_getid()
-  if wsplit.content ~= "weather" then
-    if wsplit.timer ~= nil then
-      wsplit.timer:stop()
-      wsplit.timer:start(0, timer_interval, vim.schedule_wrap(Wsplit.refresh_on_timer))
-    end
-  else
-    if wsplit.timer ~= nil then
-      wsplit.timer:stop()
-    end
-  end
   Wsplit.set_minheight()
   Wsplit.refresh("on_content_change()")
 end
@@ -239,14 +231,6 @@ function Wsplit.installwatch()
       )
     end
   end
-  if wsplit.timer == nil then
-    wsplit.timer = vim.uv.new_timer()
-  end
-  if wsplit.timer ~= nil then
-    if wsplit.content == "info" then
-      wsplit.timer:start(0, timer_interval, vim.schedule_wrap(Wsplit.refresh_on_timer))
-    end
-  end
   if autocmd_set == false then
     autocmd_set = true
     vim.api.nvim_create_autocmd({ "OptionSet" }, {
@@ -260,10 +244,10 @@ function Wsplit.installwatch()
       end,
     })
   end
-  if wsplit.cookie_timer == nil then
-    wsplit.cookie_timer = vim.uv.new_timer()
-    if wsplit.cookie_timer ~= nil then
-      wsplit.cookie_timer:start(0, cookie_timer_interval, vim.schedule_wrap(Wsplit.refresh_cookie))
+  if wsplit_cookie_timer == nil then
+    wsplit_cookie_timer = vim.uv.new_timer()
+    if wsplit_cookie_timer ~= nil then
+      wsplit_cookie_timer:start(0, cookie_timer_interval, vim.schedule_wrap(Wsplit.refresh_cookie))
     end
   end
   Wsplit.set_minheight()
@@ -295,6 +279,7 @@ function Wsplit.openleftsplit(_weatherfile)
   Wsplit.refresh("openleftsplit()")
   Wsplit.installwatch()
   PCFG.weather.active = true
+  Wsplit.refresh_tab_cookie(TABM.active)
 end
 
 --- prepare a line with two elements
@@ -377,8 +362,10 @@ end
 -- this can be any shell command that returns a string with multiple lines
 -- it could be a fortune cookie or anything for example. It should not be longe
 -- than 4 lines at most otherwise it will be clipped at the bottom of the frame.
-function Wsplit.refresh_cookie()
-  local wsplit = TABM.get().wsplit
+---@param id_tab? integer tab page id
+function Wsplit.refresh_tab_cookie(id_tab)
+  id_tab = id_tab or TABM.active
+  local wsplit = TABM.T[id_tab].wsplit
   for i, _ in ipairs(wsplit.cookie) do
     wsplit.cookie[i] = nil
   end
@@ -394,13 +381,12 @@ function Wsplit.refresh_cookie()
   })
 end
 
--- refresh on timer. But only for info content. Weather content ist handled by the
--- file watcher plugin
-function Wsplit.refresh_on_timer()
-  if TABM.T[TABM.active].wsplit.content == "weather" then
-    return
+function Wsplit.refresh_cookie()
+  for _,v in ipairs(TABM.T) do
+    if v.wsplit.id_win and vim.api.nvim_win_is_valid(v.wsplit.id_win) then
+      Wsplit.refresh_tab_cookie(v.id_page)
+    end
   end
-  Wsplit.refresh("refresh_on_timer()")
 end
 
 --- filetypes we are not interested in
