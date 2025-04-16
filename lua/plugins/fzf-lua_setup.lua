@@ -1,6 +1,7 @@
 local actions = require "fzf-lua.actions"
 local old_mode = nil
 local fzf_tweaks = Tweaks.fzf
+local fzfpath = require("fzf-lua.path")
 
 require "fzf-lua".setup({
   defaults = {
@@ -412,7 +413,16 @@ require "fzf-lua".setup({
       -- can resume the buffers picker on the same window
       -- eliminating an otherwise unaesthetic win "flash"
       ["ctrl-d"] = { actions.buf_del, actions.resume },
-      ["ctrl-w"] = { function(item) vim.print(item) end, actions.resume },
+      ["ctrl-w"] = { function(item)
+        local file = fzfpath.entry_to_file(item[1])
+        if vim.api.nvim_buf_is_valid(file.bufnr)
+          and vim.api.nvim_get_option_value("modified", { buf = file.bufnr })
+          and vim.api.nvim_get_option_value("buftype", { buf = file.bufnr }) == "" then
+          vim.api.nvim_buf_call(file.bufnr, function() vim.cmd("w!") end)
+        else
+          vim.notify("Buffer not modified or not saveable")
+        end
+      end, actions.resume },
       ["ctrl-x"] = false
     }
   },
