@@ -8,30 +8,10 @@ local noremap    = true
 
 require("commandpicker").add({
   {
-    desc = "Show all bookmarks (Snacks picker)",
-    cmd = function()
-      local layout = SPL({
-        preset = "select",
-        preview = true,
-        width = 120,
-        height = 0.7,
-        psize = 12,
-        input = "bottom",
-        title = "Select Bookmark"
-      })
-      require("subspace.content.bookmarkspicker").open({ layout = layout })
-    end,
-    keys = {
-      { "n", "<A-b>", noremap },
-      { "i", "<A-b>", noremap },
-    },
-    category = "@Bookmarks"
-  },
-  {
     desc = "Show favorite folders",
     cmd = function() require "quickfavs".Quickfavs(false) end,
     keys = { "n", "<f12>", },
-    category = "@Bookmarks"
+    category = "@Favorites"
   },
   {
     desc = "LSP server info",

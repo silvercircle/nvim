@@ -81,12 +81,12 @@ require("oil").setup({
     -- Show files and directories that start with "."
     show_hidden = true,
     -- This function defines what is considered a "hidden" file
-    is_hidden_file = function(name, bufnr)
+    is_hidden_file = function(name, _)
       local m = name:match("^%.")
       return m ~= nil
     end,
     -- This function defines what will never be shown, even when `show_hidden` is set
-    is_always_hidden = function(name, bufnr)
+    is_always_hidden = function(_, _)
       return false
     end,
     -- Sort file names with numbers in a more intuitive order for humans.
@@ -112,12 +112,15 @@ require("oil").setup({
   -- EXPERIMENTAL support for performing file operations with git
   git = {
     -- Return true to automatically git add/mv/rm files
+    ---@diagnostic disable-next-line
     add = function(path)
       return false
     end,
+    ---@diagnostic disable-next-line
     mv = function(src_path, dest_path)
       return false
     end,
+    ---@diagnostic disable-next-line
     rm = function(path)
       return false
     end,
@@ -150,6 +153,7 @@ require("oil").setup({
     -- How to open the preview window "load"|"scratch"|"fast_scratch"
     preview_method = "fast_scratch",
     -- A function that returns true to disable preview on a file e.g. to avoid lag
+    ---@diagnostic disable-next-line
     disable_preview = function(filename)
       return false
     end,

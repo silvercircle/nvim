@@ -9,6 +9,8 @@ local util = require 'lsp.utils'
 --- NOTE: kept for reference, this is no longer needed. Beginning with version 5.0.0.1,
 --- the roslyn LSP server supports semanticTokens/full and is therefore fully compatible
 --- with Neovim.
+--- @param client vim.lsp.ClientConfig
+--- @diagnostic disable-next-line
 local function fix_semantic_tokens(client)
   if client.is_patched then
     return

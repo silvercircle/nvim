@@ -80,10 +80,10 @@ M.serverconfigs = {
   ["yamlls"]                = { active = true,
     cmd = { jp(M.masonbinpath, 'yaml-language-server') }
   },
-  ["marksman"]              = { active = false,
+  ["marksman"]              = { active = true,
     cmd = { jp(M.masonbinpath, 'marksman') }
   },
-  ["iwe"]                   = { active = true,
+  ["iwe"]                   = { active = false,
     cmd = { jp(M.localbin, 'iwes') }
   },
   ["markdown-oxide"]        = { active = false,
