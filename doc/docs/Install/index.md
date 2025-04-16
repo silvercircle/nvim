@@ -7,16 +7,27 @@ control of the [lazy plugin manager](https://github.com/folke/lazy.nvim) and sho
 ## Requirements
 
 * [Neovim](https://neovim.io) version 0.11 or later. Older versions will not work. You can install this 
-  in a variety of ways, using your local package management, compile from source or using a 
-  prebuilt binary installation. This is, however, not topic in these docs.
+  in a variety of ways, using your local package management, compile from source or using a prebuilt 
+  binary installation. This is, however, not topic in these docs.
 * A working [git](https://git-scm.com) Installation.
 * A supported terminal. On Windows, I recommend [WezTerm](https://wezterm.org), but others will work. On 
   Linux, [kitty](https://sw.kovidgoyal.net/kitty/) is my favorite and macOS users may look into Ghostty 
   or iTerm2 for best results.
 
+
+For best results, some tools are required. There are many options to install them, from source, with the 
+package management of your OS and probably more.
+
+* [FzF](https://github.com/junegunn/fzf) is needed by the Fzf-Lua plugin to find stuff. It is used for many 
+  different things, file pickers, live grep, LSP symbol selection and much more. You need at least **FzF 
+  version 0.40 or later**.
+
+* [ripgrep](https://github.com/BurntSushi/ripgrep) is an extremely fast grep utility
+
+
 ## First start
 
-After cloning the repo to `~/.config/nvim` (or the equivalent on Windows or macOS), you should start Neovim 
+After cloning the repository to `~/.config/nvim` (or the equivalent on Windows or macOS), you should start Neovim 
 for the first time with the command:
 ```
 nvim --headless -c 'Lazy! sync' +qa
@@ -42,8 +53,8 @@ all in `lua/keymap.lua` and `lua/plugins/command_center.lua`.
 
 This will need most of your attention. The configuration is built with **manual LSP server installation** in 
 mind. You can use `Mason` to install servers, but as bare minimum, you have to check the contents of 
-the `vim.g.lsp_server_bin` table in `config.lua`. This defines paths (and filenames ) of the supported LSP 
-servers and is used in `plugins/lsp.lua` to setup LSP servers.
+the server executable paths in `lspdef.lua`. This is explained in detail in the [LSP](../LSP/index.md) 
+part of this document.
 
 ## Plain mode
 

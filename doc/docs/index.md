@@ -15,9 +15,21 @@ and hidden files start with a dot in their filenames*. Hence the name dotfiles.
 Neovim is no different. Its configuration is normally written in the Lua programming language and — on 
 UNIX-like operating systems — resides under `$HOME/.config/nvim`
 
-## Quick overview
+## Quick overview and design goals
 This Neovim configuration is meant to be a general purpose configuration targeting many different use 
 cases. It supports a wide range of languages out-of-the-box and can be expanded with relative ease.
+
+The goal of this configuration is to **establish an IDE-like feeling**. If you look for a minimalistic 
+configuration, this is probably not for you.
+
+Many things are user-tweakable, but the basic configuration and choice of plugins is not. The following 
+choices have been made:
+
+* auto-completion. You can select from the two most popular sources. 
+  [Blink.cmp](https://github.com/Saghen/blink.cmp) and [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
+
+* Picker: [fzf-lua](https://github.com/ibhagwan/fzf-lua) is the default. Therefore, you must have recent 
+  versions of **FzF** and other utilities on your system. Please see the [Install](Install/index.md#requirements) section.
 
 ## Highlights
 * Support for many most common languages. C/C++, C#, Java, Python, TypeScript/JavaScript, Scala, HTML, 

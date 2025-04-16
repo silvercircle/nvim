@@ -133,6 +133,10 @@ documentation, the important ones are:
 
 * `settings` - server specific settings
 
+* `attach_config` - must be a `function(client, buf)` similar to `on_attach` functions. This will be 
+  injected at the end of the global `ON_LSP_ATTACH` handler. It can be used to adjust capabilities or set 
+  other options.
+
 ## Supported languages and language servers:
 
 * C and C++ using Clangd. It is recommended to install Clangd with your operating system tools like 
