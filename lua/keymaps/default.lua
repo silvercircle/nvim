@@ -392,15 +392,14 @@ kms({ 'n', 'i', 't', 'v' }, '<A-0>', function()
 end, opts) -- save current winid as main window id
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
-  local uspl = require('subspace.content.usplit')
-  local uspl_id_win = TABM.get().usplit.id_win
-  if uspl_id_win == nil then
-    uspl.open()
+  local uspl = TABM.get().usplit
+  if not uspl.id_win then
+    uspl:open()
   else
-    if uspl_id_win ~= vim.fn.win_getid() then
-      vim.fn.win_gotoid(uspl_id_win)
+    if uspl.id_win ~= vim.fn.win_getid() then
+      vim.fn.win_gotoid(uspl.id_win)
     else
-      uspl.close()
+      uspl:close()
       vim.fn.win_gotoid(TABM.T[TABM.active].id_main)
     end
   end

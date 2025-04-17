@@ -59,11 +59,12 @@ autocmd({ 'VimEnter' }, {
 --- this function configures the UI layout on UIEnter
 local function main_layout(curtab)
   if CFG.plain == false then
-    if PCFG.tree.active == true then
-      TABM.open_tree()
-    end
     if PCFG.terminal.active == true then
       vim.schedule(function() TABM.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(TABM.T[curtab].id_main) end)
+    end
+    if PCFG.tree.active == true then
+      vim.notify("The tree width is " .. PCFG.tree.width)
+      TABM.open_tree()
     end
     -- create the WinResized watcher to keep track of the terminal split height.
     -- also call the resize handlers for the usplit/wsplit frames.

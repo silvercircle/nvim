@@ -4,7 +4,7 @@
 ---@field id_page integer   -- tabpage #
 ---@field term term         -- term split
 ---@field wsplit wsplit
----@field usplit usplit
+---@field usplit subspace.Usplit
 ---@field id_outline integer?
 
 ---@class term
@@ -24,15 +24,6 @@
 ---@field content_id_win integer?
 ---@field content string
 ---@field freeze  boolean
-
----@class usplit
----@field id_win  integer?
----@field id_buf  integer?
----@field content string
----@field width   integer
----@field cookie  table<integer, string>
----@field old_dimensions table
----@field provider? subspace.Fortune
 
 local M = {}
 
@@ -60,15 +51,7 @@ function M.new(tabpage)
       watch = nil,
       freeze = false
     },
-    usplit = {
-      id_win = nil,
-      id_buf = nil,
-      content = "fortune",
-      width = 0,
-      cookie = {},
-      old_dimensions = { w = 0, h = 0 },
-      provider = nil
-    }
+    usplit = require("subspace.content.usplit").new(tabpage)
   }
 end
 
@@ -115,14 +98,8 @@ function M.remove(tabpage)
       Symbols.sidebar.close(id)
     end
     if tab.usplit then
-      if tab.usplit.timer then
-        tab.usplit.timer:stop()
-        tab.usplit.timer:close()
-      end
-      if tab.usplit.id_buf ~= nil then vim.api.nvim_buf_delete(tab.usplit.id_buf, { force = true }) end
-      if tab.usplit.provider then
-        tab.usplit.provider:destroy()
-      end
+      tab.usplit:destroy()
+      tab.usplit = nil
     end
     if tab.term then
       if tab.term.id_buf ~= nil then vim.api.nvim_buf_delete(tab.term.id_buf, { force = true }) end
@@ -184,7 +161,7 @@ function M.termToggle(_height, tab)
   -- if it is visible, then close it an all sub frames
   -- but leave the buffer open
   if term.visible == true then
-    require("subspace.content.usplit").close()
+    M.T[tab].usplit:close()
     vim.api.nvim_win_hide(term.id_win)
     term.visible = false
     term.id_win = nil
@@ -221,7 +198,8 @@ function M.termToggle(_height, tab)
   -- finally, open the sub frames if they were previously open
   if PCFG.sysmon.active == true then
     TABM.T[tab].usplit.content = PCFG.sysmon.content
-    require("subspace.content.usplit").open()
+    vim.schedule(function() TABM.T[tab].usplit:open() end)
+    -- require("subspace.content.usplit").open()
   end
 
   if reopen_outline == true then

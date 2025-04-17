@@ -30,7 +30,6 @@ function Fortune:new(b, w, t, n)
 end
 
 function Fortune:render()
-  -- prevent the winbar from appearing (nvim 0.10 or higher)
   if #self.lines >= 1 then
     for i,_ in pairs(self.lines) do self.lines[i] = nil end
   end
@@ -45,7 +44,6 @@ function Fortune:render()
   end
   vim.api.nvim_buf_set_lines(self.id_buf, 0, -1, false, self.lines)
   vim.api.nvim_set_option_value("modifiable", false, { buf = self.id_buf })
-  vim.api.nvim_set_option_value("winbar", "", { win = self.id_win })
   vim.api.nvim_set_option_value("modified", false, { buf = self.id_buf })
   vim.api.nvim_buf_set_extmark(self.id_buf, self.id_ns, 1, 1, { hl_group = "Debug", end_col = #self.lines[2] })
 end
