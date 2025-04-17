@@ -374,7 +374,6 @@ delcmd = autocmd({ "BufReadPost" }, {
       return
     end
     _delayloaded = true
-    -- require("subspace.content.pairs").setup()
     require("subspace.content.move").setup()
     vim.g.setkey( "v", "<A-l>", function() MiniMove.move_selection("right") end)
     vim.g.setkey( "v", "<A-h>", function() MiniMove.move_selection("left") end)

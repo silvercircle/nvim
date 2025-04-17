@@ -32,6 +32,7 @@
 ---@field width   integer
 ---@field cookie  table<integer, string>
 ---@field old_dimensions table
+---@field provider? subspace.Fortune
 
 local M = {}
 
@@ -66,6 +67,7 @@ function M.new(tabpage)
       width = 0,
       cookie = {},
       old_dimensions = { w = 0, h = 0 },
+      provider = nil
     }
   }
 end
@@ -118,6 +120,9 @@ function M.remove(tabpage)
         tab.usplit.timer:close()
       end
       if tab.usplit.id_buf ~= nil then vim.api.nvim_buf_delete(tab.usplit.id_buf, { force = true }) end
+      if tab.usplit.provider then
+        tab.usplit.provider:destroy()
+      end
     end
     if tab.term then
       if tab.term.id_buf ~= nil then vim.api.nvim_buf_delete(tab.term.id_buf, { force = true }) end

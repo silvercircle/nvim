@@ -1,9 +1,6 @@
 local Usplit = {}
 Usplit.nsid = vim.api.nvim_create_namespace("usplit")
 
-local num_cookies = Tweaks.fortune.numcookies or 1
-local cookie_command = Tweaks.fortune.command
-
 -- timer interval is in minutes. We accept nothing lower than one minute
 local timer_interval = Tweaks.fortune.refresh * 60 * 1000
 if timer_interval < 30000 then timer_interval = 30000 end
@@ -62,10 +59,11 @@ function Usplit.close(id_tab)
   if usplit.id_win ~= nil then
     vim.api.nvim_win_close(usplit.id_win, { force = true })
   end
-  if usplit.timer ~= nil then
-    usplit.timer:stop()
-  end
   usplit.id_win = nil
+  if usplit.provider then
+    usplit.provider:destroy()
+    usplit.provider = nil
+  end
 end
 
 --- this renders the fortune cookie content. In sysmon mode, it
@@ -82,21 +80,8 @@ function Usplit.refresh(reason, id_tab)
   if reason == "resize" and w == usplit.old_dimensions.w and h == usplit.old_dimensions.h then return end
   usplit.old_dimensions.w = w
   usplit.old_dimensions.h = h
-  local lines = {}
-  vim.api.nvim_set_option_value("modifiable", true, { buf = usplit.id_buf })
-  -- prevent the winbar from appearing (nvim 0.10 or higher)
-  vim.api.nvim_buf_clear_namespace(usplit.id_buf, Usplit.nsid, 0, -1)
-  table.insert(lines, " ")
-  table.insert(lines, "    *** Quote of the moment ***")
-  table.insert(lines, " ")
-  for _, v in ipairs(usplit.cookie) do
-    table.insert(lines, " " .. v)
-  end
-  vim.api.nvim_buf_set_lines(usplit.id_buf, 0, -1, false, lines)
-  vim.api.nvim_set_option_value("modifiable", false, { buf = usplit.id_buf })
-  vim.api.nvim_set_option_value("winbar", "", { win = id_win })
-  vim.api.nvim_set_option_value("modified", false, { buf = usplit.id_buf })
-  vim.api.nvim_buf_set_extmark(usplit.id_buf, Usplit.nsid, 1, 1, { hl_group = "Debug", end_col = #lines[2] })
+  usplit.provider:update()
+  usplit.provider:render()
 end
 
 --- timer event. fetch a new fortune cookie and store it. On completion
@@ -105,27 +90,7 @@ end
 function Usplit.refresh_tab_on_timer(id_tab)
   if not TABM.T[id_tab] then return end
   local usplit = TABM.T[id_tab].usplit
-  if #usplit.cookie > 0 then
-    for i,_ in pairs(usplit.cookie) do
-      usplit.cookie[i] = nil
-    end
-  end
-  local width = vim.api.nvim_win_get_width(usplit.id_win)
-  for _ = 1, num_cookies, 1 do
-    vim.fn.jobstart(cookie_command .. "|fmt -" .. width - 2, {
-      on_stdout = function(_, b, _)
-        for _, v in ipairs(b) do
-          if #v > 1 then
-            table.insert(usplit.cookie, v)
-          end
-        end
-      end,
-      on_exit = function()
-        table.insert(usplit.cookie, " ")
-        Usplit.refresh("content", id_tab)
-      end,
-    })
-  end
+  Usplit.refresh("content", id_tab)
 end
 
 function Usplit.refresh_on_timer()
@@ -191,6 +156,7 @@ function Usplit.open()
     usplit_timer:start(0, timer_interval, vim.schedule_wrap(Usplit.refresh_on_timer))
   end
   vim.schedule_wrap(function() Usplit.refresh_tab_on_timer(TABM.active) end)
+  usplit.provider = require("subspace.content.fortune").new(usplit.id_buf, usplit.id_win, TABM.active, Usplit.nsid)
 end
 
 return Usplit
