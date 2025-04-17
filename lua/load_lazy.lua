@@ -47,7 +47,6 @@ lazy.setup({
         require("plugins.others").setup.fidget()
       end
     },
-    -- 'nvim-lua/plenary.nvim',
     {
       "nvim-lualine/lualine.nvim",
       event = "UIEnter",
@@ -335,12 +334,24 @@ lazy.setup({
         require("plugins.nvim-tree")
       end
     },
+    --{
+    --  "zk-org/zk-nvim",
+    --  lazy = true,
+    --  ft = { "markdown" },
+    --  config = function()
+    --    require("plugins.others").setup.zk()
+    --  end
+    --},
     {
-      "zk-org/zk-nvim",
+      "obsidian-nvim/obsidian.nvim",
+      version = "*", -- recommended, use latest release instead of latest commit
       lazy = true,
-      ft = { "markdown" },
+      ft = "markdown",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+      },
       config = function()
-        require("plugins.others").setup.zk()
+        require("plugins.obsidian")
       end
     },
     {

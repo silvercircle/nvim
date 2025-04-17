@@ -125,7 +125,7 @@ M.serverconfigs = {
   ["neocmake"]              = { active = true,
     cmd = { jp(M.localbin, "neocmakelsp") }
   },
-  ["zk"]             = { active = true,
+  ["zk"]             = { active = false,
     cmd = { jp(M.localbin, "zk") }
   },
   ["ruff"]                  = { active = true,
