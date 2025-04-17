@@ -191,6 +191,7 @@ function M.termToggle(_height, tab)
   term.id_win = vim.fn.win_getid()
   term.height = vim.api.nvim_win_get_height(term.id_win)
   vim.api.nvim_set_option_value("statusline", "  Terminal", { win = term.id_win })
+  vim.api.nvim_set_option_value("listchars", "eol: ", { win = term.id_win })
   term.id_buf = vim.api.nvim_get_current_buf()
   vim.api.nvim_set_option_value("buflisted", false, { buf = term.bufid })
   term.visible = true
