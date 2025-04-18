@@ -63,7 +63,6 @@ local function main_layout(curtab)
       vim.schedule(function() TABM.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(TABM.T[curtab].id_main) end)
     end
     if PCFG.tree.active == true then
-      vim.notify("The tree width is " .. PCFG.tree.width)
       TABM.open_tree()
     end
     -- create the WinResized watcher to keep track of the terminal split height.

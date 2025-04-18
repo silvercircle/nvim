@@ -98,7 +98,7 @@ function M.write_config()
     if wsplit_id ~= nil then
       state.weather.width = vim.api.nvim_win_get_width(wsplit_id)
     end
-    if usplit_id ~= nil then
+    if usplit_id and usplit_id ~= 0 then
       state.sysmon.width = vim.api.nvim_win_get_width(usplit_id)
     end
     state.outline_view = TABM.is_outline_open()

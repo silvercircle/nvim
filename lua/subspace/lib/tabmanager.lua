@@ -24,6 +24,7 @@
 ---@field content_id_win integer?
 ---@field content string
 ---@field freeze  boolean
+---@field provider? subspace.Wx
 
 local M = {}
 
@@ -49,7 +50,8 @@ function M.new(tabpage)
       cookie = {},
       old_dimensions = { w = 0, h = 0 },
       watch = nil,
-      freeze = false
+      freeze = false,
+      provider = nil
     },
     usplit = require("subspace.content.usplit").new(tabpage)
   }
@@ -67,8 +69,8 @@ function M.clonetab()
     vim.cmd("tabnew")
   end
   if ol ~= false then M.open_outline() end
-  if from.term.visible then M.termToggle(12) end
   if tree and #tree >= 1 then M.open_tree() end
+  if from.term.visible then M.termToggle(12) end
   vim.schedule(function()
     local t = vim.api.nvim_get_current_tabpage()
     vim.fn.win_gotoid(M.T[t].id_main)
@@ -199,8 +201,7 @@ function M.termToggle(_height, tab)
   -- finally, open the sub frames if they were previously open
   if PCFG.sysmon.active == true then
     TABM.T[tab].usplit.content = PCFG.sysmon.content
-    vim.schedule(function() TABM.T[tab].usplit:open() end)
-    -- require("subspace.content.usplit").open()
+    TABM.T[tab].usplit:open()
   end
 
   if reopen_outline == true then
@@ -288,6 +289,7 @@ end
 function M.open_outline(id_tab)
   local buftype = vim.api.nvim_get_option_value("buftype", { buf = 0 })
   if buftype ~= "" then --current buffer is no ordinary file. Ignore it.
+    vim.notify("outline ignore")
     return
   end
   id_tab = id_tab or vim.api.nvim_get_current_tabpage()
@@ -348,8 +350,8 @@ function M.tree_open_handler()
   local w = vim.fn.win_getid()
   vim.api.nvim_set_option_value("statusline", "   " .. (Tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"), { win = w })
   vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber")
-  vim.api.nvim_win_set_width(w, PCFG.tree.width)
   M.adjust_layout()
+  vim.api.nvim_win_set_width(w, PCFG.tree.width)
   if PCFG.weather.active == true then
     ws.content = PCFG.weather.content
     if ws.id_win == nil then

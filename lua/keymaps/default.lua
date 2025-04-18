@@ -393,7 +393,7 @@ end, opts) -- save current winid as main window id
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
   local uspl = TABM.get().usplit
-  if not uspl.id_win then
+  if not uspl.id_win or uspl.id_win == 0 then
     uspl:open()
   else
     if uspl.id_win ~= vim.fn.win_getid() then
@@ -459,7 +459,8 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'wt', function()
   require("subspace.content.wsplit").toggle_content()
 end, "Toggle weather/info content")
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'st', function()
-  require("subspace.content.usplit").toggle_content()
+  local usplit = TABM.get().usplit
+  usplit:toggle_content()
 end, "Toggle sysmon/fortune content")
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'sr', function()
   require("subspace.content.usplit").refresh_cookie()
