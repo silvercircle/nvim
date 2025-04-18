@@ -60,9 +60,9 @@ function Wsplit.on_content_change()
   wsplit.content_id_win = vim.fn.win_getid()
   if wsplit.provider then wsplit.provider:destroy() wsplit.provider = nil end
   if wsplit.content == "weather" then
-    wsplit.provider = require("subspace.content.wx").new(wsplit)
+    wsplit.provider = require("subspace.content.providers.wx").new(wsplit)
   elseif wsplit.content == "info" then
-    wsplit.provider = require("subspace.content.info").new(wsplit)
+    wsplit.provider = require("subspace.content.providers.info").new(wsplit)
   end
   Wsplit.set_minheight()
   Wsplit.refresh("on_content_change()")
@@ -232,6 +232,9 @@ function Wsplit.close()
   if Wsplit.nsid ~= nil then
     vim.api.nvim_buf_clear_namespace(wsplit.id_buf, Wsplit.nsid, 0, -1)
   end
+  if wsplit.provider then
+    wsplit.provider:destroy()
+  end
 end
 
 -- refresh the cookie
@@ -272,8 +275,6 @@ end
 function Wsplit.refresh(reason)
   -- assume resize when no reason is given
   reason = reason or "resize"
-  local results = {}
-  local relpath = vim.fs.relpath
   local wsplit = TABM.get().wsplit
 
   if wsplit.id_buf == nil or wsplit.id_win == nil then

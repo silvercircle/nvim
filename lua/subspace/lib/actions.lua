@@ -31,6 +31,7 @@ M.fzf_dir_actions = function()
       Actions.resume
     },
     ["ctrl-o"] = {
+      ---@diagnostic disable-next-line
       function(item, picker)
         vim.schedule(function() require("oil").open(extract_dir(item)) end)
         Fzf.hide()

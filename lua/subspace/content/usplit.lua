@@ -134,7 +134,7 @@ function Usplit:open()
   end
   vim.api.nvim_win_set_width(self.id_win, width)
   vim.schedule_wrap(function() Usplit.refresh_tab_on_timer(TABM.active) end)
-  self.provider = require("subspace.content.fortune").new(self.id_buf, self.id_win, TABM.active, self.id_ns)
+  self.provider = require("subspace.content.providers.fortune").new(self.id_buf, self.id_win, TABM.active, self.id_ns)
   self:refresh("content")
 end
 
