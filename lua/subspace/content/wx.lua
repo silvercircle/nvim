@@ -207,6 +207,9 @@ function Wx:render()
   end
 end
 
+function Wx:destroy()
+end
+
 local M = {}
 
 ---@param owner wsplit

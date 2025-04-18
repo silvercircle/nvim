@@ -16,6 +16,7 @@
 ---@class wsplit
 ---@field id_win  integer?
 ---@field id_buf  integer?
+---@field id_tab  integer?
 ---@field watch   uv.uv_fs_event_t?
 ---@field cookie  table<integer, string>
 ---@field old_dimensions table
@@ -24,7 +25,7 @@
 ---@field content_id_win integer?
 ---@field content string
 ---@field freeze  boolean
----@field provider? subspace.Wx
+---@field provider? subspace.Wx|subspace.Info
 
 local M = {}
 
