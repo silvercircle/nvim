@@ -53,13 +53,13 @@ function Usplit:refresh_cookie()
 end
 
 function Usplit:close()
-  if self.id_win then
+  if self.id_win and self.id_win ~= 0 then
     vim.api.nvim_win_close(self.id_win, { force = true })
   end
   if self.id_buf and vim.api.nvim_buf_is_valid(self.id_buf) then
     vim.api.nvim_buf_clear_namespace(self.id_buf, self.id_ns, 0, -1)
     vim.api.nvim_buf_delete(self.id_buf, { force = true })
-    self.id_buf = 0
+    self.id_buf = nil
   end
   self.id_win = nil
   if self.provider then
@@ -70,8 +70,8 @@ end
 
 function Usplit:destroy()
   self:close()
-  self.id_win = 0
-  self.id_buf = 0
+  self.id_win = nil
+  self.id_buf = nil
 end
 --- this renders the fortune cookie content. In sysmon mode, it
 --- does nothing.
@@ -115,15 +115,14 @@ function Usplit:open()
           .. CFG.sysmon.modules
           .. " --time 3"
       )
-      vim.api.nvim_set_option_value("statusline", "  System Monitor", { win = 0 })
+      self.id_win = vim.fn.win_getid()
+      vim.api.nvim_set_option_value("statusline", "  System Monitor", { win = self.id_win })
     else
-      --vim.api.nvim_set_option_value("modifiable", true, { buf = vim.api.nvim_win_get_buf(wid[1]) })
       vim.cmd("rightbelow " .. width .. " vsplit new_usplit_" .. TABM.active)
-      vim.api.nvim_set_option_value("statusline", "󰈙  Fortune cookie", { win = 0 })
+      self.id_win = vim.fn.win_getid()
+      vim.api.nvim_set_option_value("statusline", "󰈙  Fortune cookie", { win = self.id_win })
       vim.api.nvim_set_option_value("buftype", "nofile", { buf = vim.api.nvim_get_current_buf() })
-      --vim.api.nvim_set_option_value("modifiable", false, { buf = vim.api.nvim_win_get_buf(wid[1]) })
     end
-    self.id_win = vim.fn.win_getid()
     self.id_buf = vim.api.nvim_get_current_buf()
     vim.api.nvim_set_option_value("winbar", "", { win = self.id_win })
     vim.api.nvim_set_option_value("buflisted", false, { buf = self.id_buf })
@@ -133,6 +132,7 @@ function Usplit:open()
     )
     vim.fn.win_gotoid(curwin)
   end
+  vim.api.nvim_win_set_width(self.id_win, width)
   vim.schedule_wrap(function() Usplit.refresh_tab_on_timer(TABM.active) end)
   self.provider = require("subspace.content.fortune").new(self.id_buf, self.id_win, TABM.active, self.id_ns)
   self:refresh("content")
@@ -158,7 +158,6 @@ function M.resize_or_closed(_)
       usplit.id_win = nil
     else
       usplit:refresh("resize")
-      PCFG.sysmon.width = vim.api.nvim_win_get_width(usplit.id_win)
     end
   end
 end
