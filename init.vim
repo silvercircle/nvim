@@ -26,7 +26,7 @@ end
 
 if vim.g.neovide then
   -- vim.o.guifont = "MonoLisa:h10.2:w-.4:#e-subpixelantialias:#h-full"
-  vim.opt.linespace = -1
+  -- vim.opt.linespace = -1  for MonoLisa, not needed for other fonts
   vim.g.neovide_text_gamma = 1.0
   vim.g.neovide_text_contrast = .4
   vim.g.neovide_padding_top = 7
@@ -36,7 +36,8 @@ if vim.g.neovide then
   vim.g.neovide_floating_corner_radius = 0.0
   vim.g.neovide_cursor_trail_size = 0.0
   vim.g.neovide_remember_window_size = true
-  vim.g.neovide_underline_stroke_scale = 3.0
+  vim.g.neovide_underline_stroke_scale = 1.05
+  -- vim.g.neovide_underline_stroke_scale = 3.0 (for MonoLisa)
   vim.cmd("map! <S-Insert> <C-R>+")
 end
 
