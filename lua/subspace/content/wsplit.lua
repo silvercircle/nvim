@@ -60,8 +60,10 @@ function Wsplit.on_content_change()
   wsplit.content_id_win = vim.fn.win_getid()
   if wsplit.provider then wsplit.provider:destroy() wsplit.provider = nil end
   if wsplit.content == "weather" then
+    vim.api.nvim_set_option_value("statusline", " 󰏈  Weather", { win = wsplit.id_win })
     wsplit.provider = require("subspace.content.providers.wx").new(wsplit)
   elseif wsplit.content == "info" then
+    vim.api.nvim_set_option_value("statusline", " 󰋼  Information", { win = wsplit.id_win })
     wsplit.provider = require("subspace.content.providers.info").new(wsplit)
   end
   Wsplit.set_minheight()

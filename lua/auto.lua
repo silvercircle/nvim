@@ -9,8 +9,6 @@ local Tsc = require("treesitter-context")
 local marks = require("subspace.lib.marks")
 local treeft = Tweaks.tree.filetype
 
--- local ibl = require('indent_blankline')
-
 local function configure_outline_sidebar()
   --vim.schedule(function()
     vim.cmd("silent! set foldcolumn=0 | silent! set signcolumn=no | silent! set nonumber | setlocal listchars=eol:\\ ")

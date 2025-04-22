@@ -6,7 +6,7 @@
 ---@field width  integer
 ---@field content string
 ---@field old_dimensions table
----@field provider? subspace.Fortune
+---@field provider? subspace.providers.Fortune
 ---@field timer uv.uv_timer_t
 
 local Usplit = {}
@@ -117,6 +117,10 @@ function Usplit:open()
       )
       self.id_win = vim.fn.win_getid()
       vim.api.nvim_set_option_value("statusline", "  System Monitor", { win = self.id_win })
+      if self.provider then
+        self.provider:destroy()
+        self.provider = nil
+      end
     else
       vim.cmd("rightbelow " .. width .. " vsplit new_usplit_" .. TABM.active)
       self.id_win = vim.fn.win_getid()
@@ -134,7 +138,9 @@ function Usplit:open()
   end
   vim.api.nvim_win_set_width(self.id_win, width)
   vim.schedule_wrap(function() Usplit.refresh_tab_on_timer(TABM.active) end)
-  self.provider = require("subspace.content.providers.fortune").new(self.id_buf, self.id_win, TABM.active, self.id_ns)
+  if self.content ~= "sysmon" then
+    self.provider = require("subspace.content.providers.fortune").new(self.id_buf, self.id_win, TABM.active, self.id_ns)
+  end
   self:refresh("content")
 end
 

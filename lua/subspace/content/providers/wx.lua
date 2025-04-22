@@ -114,13 +114,13 @@ local function wind_to_hl(wind)
   end
 end
 
----@class subspace.Wx
+---@class subspace.providers.Wx
 ---@field owner wsplit
 ---@field ws    table
 local Wx = {}
 Wx.__index = Wx
 
----@return subspace.Wx
+---@return subspace.providers.Wx
 ---@param  _owner wsplit
 function Wx:new(_owner)
   return setmetatable({
@@ -133,7 +133,6 @@ end
 function Wx:render()
   local results = {}
   vim.api.nvim_buf_clear_namespace(self.owner.id_buf, self.ws.nsid, 0, -1)
-  vim.api.nvim_set_option_value("statusline", " 󰏈  Weather", { win = self.owner.id_win })
   if vim.fn.filereadable(self.ws.weatherfile) then
     local lines = {}
     local file = io.open(self.ws.weatherfile)
@@ -208,10 +207,12 @@ function Wx:render()
 end
 
 function Wx:destroy()
+  vim.api.nvim_buf_clear_namespace(self.owner.id_buf, self.ws.nsid, 0, -1)
 end
 
 local M = {}
 
+---@return subspace.providers.Wx
 ---@param owner wsplit
 function M.new(owner)
   return Wx:new(owner)

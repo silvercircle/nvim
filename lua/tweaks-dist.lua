@@ -359,7 +359,8 @@ Tweaks.fzf = {
 }
 
 Tweaks.snacks = {
-  enabled_modules = { "picker", --[["image",]] "indent", "lazygit" }
+  enabled_modules = { "picker", --[["image",]] "indent", "lazygit" },
+  dev = { "~/dev", "~/Projects", "/data/mnt/shared/data/code/" },
 }
 
 Tweaks.minimap = {

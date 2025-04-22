@@ -1,6 +1,6 @@
 -- info provider for the wsplit
 
----@class subspace.Info
+---@class subspace.providers.Info
 ---@field owner wsplit
 ---@field id_content integer
 ---@field ws    table
@@ -8,7 +8,7 @@
 local Info = {}
 Info.__index = Info
 
----@return subspace.Info
+---@return subspace.providers.Info
 ---@param  _owner wsplit
 function Info:new(_owner)
   return setmetatable({
@@ -43,7 +43,6 @@ function Info:render()
   self.owner.content_id_win = vim.fn.win_getid()
   self.id_content = self.owner.content_id_win
   local relpath = vim.fs.relpath
-  vim.api.nvim_set_option_value("statusline", " 󰋼  Information", { win = self.id_content })
 
   if self.id_content ~= nil and vim.api.nvim_win_is_valid(self.id_content) then
     local curbuf = vim.api.nvim_win_get_buf(self.id_content)
@@ -184,6 +183,7 @@ end
 
 local M = {}
 
+---@return subspace.providers.Info
 ---@param owner wsplit
 function M.new(owner)
   return Info:new(owner)

@@ -25,7 +25,7 @@
 ---@field content_id_win integer?
 ---@field content string
 ---@field freeze  boolean
----@field provider? subspace.Wx|subspace.Info
+---@field provider? subspace.providers.Wx|subspace.providers.Info
 
 local M = {}
 

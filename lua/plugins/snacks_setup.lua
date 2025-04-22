@@ -48,6 +48,10 @@ require("snacks").setup({
         vim.schedule(function() vim.api.nvim_input("i") end)
       end
     end,
+    projects = {
+      dev = Tweaks.snacks.dev,
+      patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "CMakeLists.txt", "Cargo.toml" },
+    },
     treesitter = {
       filter = {
         markdown = true,

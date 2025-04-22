@@ -2,7 +2,7 @@
 local num_cookies = Tweaks.fortune.numcookies or 1
 local cookie_command = Tweaks.fortune.command
 
----@class subspace.Fortune
+---@class subspace.providers.Fortune
 ---@field content string
 ---@field id_buf integer
 ---@field id_tab integer
@@ -12,7 +12,7 @@ local cookie_command = Tweaks.fortune.command
 local Fortune = {}
 Fortune.__index = Fortune
 
----@return subspace.Fortune
+---@return subspace.providers.Fortune
 ---@param b integer  -- buf_id
 ---@param w integer  -- window_id this object belongs to
 ---@param t integer  -- tab id
@@ -82,7 +82,7 @@ local M = {}
 ---@param id_win integer
 ---@param id_tab integer
 ---@param id_ns  integer
----@return subspace.Fortune
+---@return subspace.providers.Fortune
 function M.new(id_buf, id_win, id_tab, id_ns)
   return Fortune:new(id_buf, id_win, id_tab, id_ns)
 end
