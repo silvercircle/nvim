@@ -116,7 +116,8 @@ end
 
 ---@class subspace.providers.Wx
 ---@field owner wsplit
----@field ws    table
+---@field ws    table,
+---@field min_height integer
 local Wx = {}
 Wx.__index = Wx
 
@@ -126,7 +127,8 @@ function Wx:new(_owner)
   return setmetatable({
     content = "test",
     owner    = _owner,
-    ws       = require("subspace.content.wsplit")
+    ws       = require("subspace.content.wsplit"),
+    min_height = 14
   }, self)
 end
 

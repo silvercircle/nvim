@@ -4,7 +4,8 @@
 ---@field owner wsplit
 ---@field id_content integer
 ---@field ws    table
----@field Utils table
+---@field Utils table,
+---@field min_height integer
 local Info = {}
 Info.__index = Info
 
@@ -16,7 +17,8 @@ function Info:new(_owner)
     owner       = _owner,
     id_content  = nil,
     ws       = require("subspace.content.wsplit"),
-    Utils    = require("subspace.lib")
+    Utils    = require("subspace.lib"),
+    min_height  = 15
   }, self)
 end
 

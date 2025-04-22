@@ -45,10 +45,9 @@ end
 function Wsplit.set_minheight()
   local wsplit = TABM.get().wsplit
   if wsplit.id_win ~= nil and vim.api.nvim_win_is_valid(wsplit.id_win) then
-    vim.api.nvim_win_set_height(
-      wsplit.id_win,
-      (wsplit.content == "info") and CFG.weather.required_height or CFG.weather.required_height - 1
-    )
+    if wsplit.provider then
+      vim.api.nvim_win_set_height(wsplit.id_win, wsplit.provider.min_height)
+    end
   end
 end
 
