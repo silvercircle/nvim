@@ -3,7 +3,20 @@
 -- this is useless without.
 -- requires a NERDFont
 
+---@class subspace.Wsplit
+---@field id_win integer
+---@field id_buf integer
+---@field id_tab integer
+---@field id_ns  integer
+---@field width  integer
+---@field content string
+---@field old_dimensions table
+---@field provider? subspace.providers.Wx|subspace.providers.Info
+---@field timer uv.uv_timer_t
+
 local Wsplit = {}
+Wsplit.__index = Wsplit
+
 Wsplit.weatherfile = ""
 Wsplit.nsid = nil
 Wsplit.cookie_source = Tweaks.cookie_source
@@ -15,6 +28,30 @@ local wsplit_cookie_timer = nil
 
 local autocmd_set = false -- remember whether the OptionSet autocmd has been set
 
+---@return subspace.Wsplit
+---@param  t integer - the tabpage
+---@param  tim uv.uv_timer_t timer object
+function Wsplit:new(t, tim)
+  return setmetatable({
+    id_win = 0,
+    id_tab = t,
+    id_buf = 0,
+    id_ns  = Wsplit.nsid and Wsplit.nsid or vim.api.nvim_create_namespace("wsplit" .. tostring(t)),
+    content = PCFG.weather.content,
+    provider = nil,
+    timer = tim,
+    old_dimensions = {
+      w = 0, h = 0
+    }
+  }, self)
+end
+
+function Wsplit:render()
+end
+
+function Wsplit:destroy()
+end
+
 -- split the file tree horizontally
 --- @param _factor number:  if _factor is betweeen 0 and 1 it is interpreted as percentage
 --  of the window to split. Otherwise as an absolute number. The default is set to 1/3 (0.33)
@@ -23,17 +60,11 @@ function Wsplit.splittree(_factor)
   local factor = math.abs((_factor ~= nil and _factor > 0) and _factor or 0.33)
   local winid = TABM.findWinByFiletype(Tweaks.tree.filetype, true)
   if #winid > 0 then
-    local splitheight
-    if factor < 1 then
-      splitheight = vim.fn.winheight(winid[1]) * factor
-    else
-      splitheight = factor
-    end
+    local splitheight = (factor < 1) and (vim.fn.winheight(winid[1]) * factor) or factor
     vim.fn.win_gotoid(winid[1])
-    vim.cmd("below " .. splitheight .. " sp")
+    vim.cmd("below " .. splitheight .. " sp wsplit_")
     local wid = vim.fn.win_getid()
     vim.api.nvim_set_option_value("list", false, { win = wid })
-    vim.api.nvim_set_option_value("statusline", "Buffer List", { win = wid })
     vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:TreeNormalNC | set foldcolumn=0")
     vim.fn.win_gotoid(TABM.get().id_main)
     return wid
@@ -172,12 +203,13 @@ function Wsplit.installwatch()
 end
 
 --- open the weather split in a split of the nvim-tree
-function Wsplit.openleftsplit(_weatherfile)
+function Wsplit.open(_weatherfile)
   local wsplit = TABM.get().wsplit
   local curwin = vim.api.nvim_get_current_win() -- remember active win for going back
   if Wsplit.nsid == nil then Wsplit.nsid = vim.api.nvim_create_namespace("wsplit") end
   Wsplit.weatherfile = vim.fn.expand(_weatherfile)
   wsplit.id_win = Wsplit.splittree(CFG.weather.required_height)
+  wsplit.id_buf = vim.api.nvim_win_get_buf(wsplit.id_win)
   wsplit.id_tab = TABM.active
   if wsplit.id_win == 0 then
     Wsplit.close()
@@ -187,7 +219,6 @@ function Wsplit.openleftsplit(_weatherfile)
     wsplit.content = "info"
   end
   vim.fn.win_gotoid(wsplit.id_win)
-  wsplit.id_buf = vim.api.nvim_create_buf(false, true)
   vim.bo[wsplit.id_buf].buflisted = false
   vim.api.nvim_win_set_buf(wsplit.id_win, wsplit.id_buf)
   vim.api.nvim_set_option_value("buftype", "nofile", { buf = wsplit.id_buf })
@@ -235,7 +266,9 @@ function Wsplit.close()
   end
   if wsplit.provider then
     wsplit.provider:destroy()
+    wsplit.provider = nil
   end
+  wsplit.cookie = {}
 end
 
 -- refresh the cookie
@@ -295,10 +328,8 @@ function Wsplit.refresh(reason)
     return
   end
 
-  if wsplit.provider then
-    wsplit.provider:render()
-    return
-  end
+  _ = wsplit.provider and wsplit.provider:render() or nil
+  vim.api.nvim_set_option_value("modified", false, { buf = wsplit.id_buf })
 end
 
 return Wsplit

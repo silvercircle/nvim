@@ -177,10 +177,14 @@ function Info:render()
       vim.api.nvim_buf_set_extmark(self.owner.id_buf, self.ws.nsid, 10, 0, { hl_group = "String", end_col = #lines[11] })
     end
     vim.api.nvim_set_option_value("modifiable", false, { buf = self.owner.id_buf })
+    vim.api.nvim_set_option_value("modified", false, { buf = self.owner.id_buf })
   end
 end
 
 function Info:destroy()
+  if self.owner.id_buf ~= nil and vim.api.nvim_buf_is_valid(self.owner.id_buf) then
+    vim.api.nvim_buf_delete(self.owner.id_buf, { force = true })
+  end
 end
 
 local M = {}

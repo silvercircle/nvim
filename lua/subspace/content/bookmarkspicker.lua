@@ -19,7 +19,6 @@ end
 local keys = { ['<CR>'] = { { 'jump', 'close' }, mode = {'n', 'i'}} }
 
 function M.open(opts)
-  local lutils = require("subspace.lib")
   opts = opts or {}
   local allmarks = config.cache.data
   local marklist = {}
@@ -56,6 +55,7 @@ function M.open(opts)
 
       return entry
     end,
+    ---@diagnostic disable-next-line
     confirm = function(picker, item)
       picker:close()
     end,

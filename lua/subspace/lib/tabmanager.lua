@@ -105,7 +105,10 @@ function M.remove(tabpage)
       tab.usplit = nil
     end
     if tab.term then
-      if tab.term.id_buf ~= nil then vim.api.nvim_buf_delete(tab.term.id_buf, { force = true }) end
+      if tab.term.id_buf ~= nil and vim.api.nvim_buf_is_valid(tab.term.id_buf) then
+        vim.api.nvim_buf_delete(tab.term.id_buf, { force = true })
+        tab.term.id_buf = nil
+      end
     end
     if tab.wsplit then
       if tab.wsplit.timer then
@@ -116,7 +119,9 @@ function M.remove(tabpage)
         tab.wsplit.cookie_timer:stop()
         tab.wsplit.cookie_timer:close()
       end
-      if tab.wsplit.id_buf ~= nil then vim.api.nvim_buf_delete(tab.wsplit.id_buf, { force = true }) end
+      if tab.wsplit.id_buf ~= nil and vim.api.nvim_buf_is_valid(tab.wsplit.id_buf)
+        then vim.api.nvim_buf_delete(tab.wsplit.id_buf, { force = true })
+      end
       if tab.wsplit.watch then
         vim.uv.fs_event_stop(tab.wsplit.watch)
         tab.wsplit.watch:close()
@@ -356,7 +361,7 @@ function M.tree_open_handler()
   if PCFG.weather.active == true then
     ws.content = PCFG.weather.content
     if ws.id_win == nil then
-      wsplit.openleftsplit(CFG.weather.file)
+      wsplit.open(CFG.weather.file)
     end
   end
 end

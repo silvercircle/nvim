@@ -204,12 +204,16 @@ function Wx:render()
       hl = wind_to_hl(results["20"])
       vim.api.nvim_buf_set_extmark(self.owner.id_buf, self.ws.nsid, 8, 0, { hl_group = hl, end_col = 20 })
       vim.api.nvim_set_option_value("modifiable", false, { buf = self.owner.id_buf })
+      vim.api.nvim_set_option_value("modified", false, { buf = self.owner.id_buf })
     end
   end
 end
 
 function Wx:destroy()
   vim.api.nvim_buf_clear_namespace(self.owner.id_buf, self.ws.nsid, 0, -1)
+  if self.owner.id_buf ~= nil and vim.api.nvim_buf_is_valid(self.owner.id_buf) then
+    vim.api.nvim_buf_delete(self.owner.id_buf, { force = true })
+  end
 end
 
 local M = {}
