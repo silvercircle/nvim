@@ -27,7 +27,8 @@ require("snacks").setup({
   lazygit = {
     enabled = vim.tbl_contains(Tweaks.snacks.enabled_modules, "lazygit"),
     win = {
-      border = Borderfactory("thicc")
+      border = Borderfactory("thicc"),
+      backdrop = Tweaks.theme.picker_backdrop
     }
   },
   image = {
