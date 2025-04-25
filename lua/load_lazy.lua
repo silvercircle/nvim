@@ -315,10 +315,20 @@ lazy.setup({
       }
     },
     {
-      "norcalli/nvim-colorizer.lua",
+      "catgoose/nvim-colorizer.lua",
       event = "BufReadPost",
       config = function()
         require "colorizer".setup {
+          filetypes = {
+            "!css",
+            "!sass"
+          },
+          user_default_options = {
+            mode = "virtualtext",
+            virtualtext ="",
+            virtualtext_inline = "before",
+            css = true
+          },
           html = {
             mode = "foreground",
           }
