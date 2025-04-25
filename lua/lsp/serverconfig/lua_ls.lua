@@ -2,7 +2,7 @@ return {
   root_markers = {'.luarc.json', '.luarc.jsonc', '.luacheckrc', '.stylua.toml', 'stylua.toml', 'selene.toml',
                   'selene.yml' },
   filetypes = { "lua" },
-  single_file_support = true,
+  workspace_required = true,
   settings = {
     Lua = {
       diagnostics = {
