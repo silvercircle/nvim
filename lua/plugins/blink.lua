@@ -142,6 +142,13 @@ local context_sources = {
   lua = { "lsp", "path", "snippets", "buffer" },
   text = { "lsp", "path", "snippets", "emoji", "wordlist", "buffer" }--, "dictionary" }
 }
+
+local icon_trans = {
+  ["Color"] = " ",
+  ["Unit"]  = " ",
+  ["Dict"]  = "﬜ "
+}
+
 require("blink.cmp").setup({
   fuzzy = {
     implementation = "rust"
@@ -378,7 +385,7 @@ require("blink.cmp").setup({
         components = {
           kind_icon = {
             text = function(ctx)
-              -- ctx.kind_icon = ctx.kind == "Dict" and "󰘝 " or ctx.kind_icon
+              ctx.kind_icon = icon_trans[ctx.kind] or ctx.kind_icon
               return "▌" .. ctx.kind_icon .. "▐"
             end,
             highlight = function(ctx) return "BlinkCmpKind" .. ctx.kind .. "Rev" end
