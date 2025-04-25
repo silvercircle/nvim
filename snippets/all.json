@@ -3,6 +3,10 @@
     "prefix": "emdash",
     "body": "—"
   },
+  "endash": {
+    "prefix": "endash",
+    "body": "–"
+  },
   "dquotes": {
     "prefix": "dquotes",
     "body": "„$0“"
