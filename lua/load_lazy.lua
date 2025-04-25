@@ -319,8 +319,6 @@ lazy.setup({
       event = "BufReadPost",
       config = function()
         require "colorizer".setup {
-          "css",
-          "scss",
           html = {
             mode = "foreground",
           }

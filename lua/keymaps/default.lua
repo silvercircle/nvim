@@ -409,7 +409,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-8>', function()
   local wspl = require('subspace.content.wsplit')
   local wsplit = TABM.get().wsplit
   if wsplit.id_win == nil then
-    wspl.openleftsplit(CFG.weather.file)
+    wspl.open(CFG.weather.file)
   else
     if wsplit.id_win ~= vim.fn.win_getid() then
       vim.fn.win_gotoid(wsplit.id_win)
