@@ -10,6 +10,7 @@ vim.iter(disabled_plugins):map(function(k)
 end)
 
 vim.loader.enable()
+vim.cmd.copen = function(...) vim.cmd("below copen") end
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -26,11 +27,11 @@ end
 
 if vim.g.neovide then
   -- vim.o.guifont = "MonoLisa:h10.2:w-.4:#e-subpixelantialias:#h-full"
-  -- vim.opt.linespace = -1  for MonoLisa, not needed for other fonts
+  vim.opt.linespace = -1 -- for MonoLisa or Maple Mono
   vim.g.neovide_text_gamma = 1.0
   vim.g.neovide_text_contrast = .4
-  vim.g.neovide_padding_top = 7
-  vim.g.neovide_padding_bottom = 7
+  vim.g.neovide_padding_top = 4
+  vim.g.neovide_padding_bottom = 2
   vim.g.neovide_padding_right = 2
   vim.g.neovide_padding_left = 2
   vim.g.neovide_floating_corner_radius = 0.0
@@ -67,7 +68,6 @@ set noshowmode
 
 command C Kwbd
 cabbrev botright below
-
 " This is for adding fortune cookies. User will be prompted for a section
 " (multiple sections can be entered separated with spaces) and the fortune
 " cookie will be inserted at the current cursor position.
