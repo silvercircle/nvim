@@ -59,7 +59,6 @@ function Info:render()
     local name = nil
 
     vim.api.nvim_buf_clear_namespace(self.owner.id_buf, self.ws.nsid, 0, -1)
-    vim.api.nvim_set_option_value("modifiable", true, { buf = self.owner.id_buf })
     local lines = {}
     local buf_filename = vim.api.nvim_buf_get_name(curbuf)
     if buf_filename ~= nil and vim.bo[curbuf].bt == "" and vim.fn.filereadable(buf_filename) then
@@ -176,15 +175,11 @@ function Info:render()
       vim.api.nvim_buf_set_extmark(self.owner.id_buf, self.ws.nsid, 9, 0, { hl_group = "PurpleBold", end_col = #lines[10] })
       vim.api.nvim_buf_set_extmark(self.owner.id_buf, self.ws.nsid, 10, 0, { hl_group = "String", end_col = #lines[11] })
     end
-    vim.api.nvim_set_option_value("modifiable", false, { buf = self.owner.id_buf })
     vim.api.nvim_set_option_value("modified", false, { buf = self.owner.id_buf })
   end
 end
 
 function Info:destroy()
-  if self.owner.id_buf ~= nil and vim.api.nvim_buf_is_valid(self.owner.id_buf) then
-    vim.api.nvim_buf_delete(self.owner.id_buf, { force = true })
-  end
 end
 
 local M = {}

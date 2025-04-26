@@ -62,7 +62,7 @@ function Wsplit.splittree(_factor)
   if #winid > 0 then
     local splitheight = (factor < 1) and (vim.fn.winheight(winid[1]) * factor) or factor
     vim.fn.win_gotoid(winid[1])
-    vim.cmd("below " .. splitheight .. " sp wsplit_")
+    vim.cmd("below " .. splitheight .. " sp wsplit_" .. winid[1])
     local wid = vim.fn.win_getid()
     vim.api.nvim_set_option_value("list", false, { win = wid })
     vim.cmd("set nonumber | set norelativenumber | set signcolumn=no | set winhl=Normal:TreeNormalNC | set foldcolumn=0")
@@ -209,18 +209,18 @@ function Wsplit.open(_weatherfile)
   if Wsplit.nsid == nil then Wsplit.nsid = vim.api.nvim_create_namespace("wsplit") end
   Wsplit.weatherfile = vim.fn.expand(_weatherfile)
   wsplit.id_win = Wsplit.splittree(CFG.weather.required_height)
-  wsplit.id_buf = vim.api.nvim_win_get_buf(wsplit.id_win)
-  wsplit.id_tab = TABM.active
   if wsplit.id_win == 0 then
     Wsplit.close()
     return
   end
+  wsplit.id_buf = vim.api.nvim_win_get_buf(wsplit.id_win)
+  wsplit.id_tab = TABM.active
   if vim.fn.filereadable(Wsplit.weatherfile) == 0 then
     wsplit.content = "info"
   end
   vim.fn.win_gotoid(wsplit.id_win)
   vim.bo[wsplit.id_buf].buflisted = false
-  vim.api.nvim_win_set_buf(wsplit.id_win, wsplit.id_buf)
+  --vim.api.nvim_win_set_buf(wsplit.id_win, wsplit.id_buf)
   vim.api.nvim_set_option_value("buftype", "nofile", { buf = wsplit.id_buf })
   vim.api.nvim_set_option_value("list", false, { win = wsplit.id_win })
   vim.cmd("set winfixheight | setlocal statuscolumn=| set filetype=weather | set nonumber |\
@@ -328,8 +328,9 @@ function Wsplit.refresh(reason)
     return
   end
 
+  vim.api.nvim_set_option_value("modifiable", true, { buf = wsplit.id_buf })
   _ = wsplit.provider and wsplit.provider:render() or nil
-  vim.api.nvim_set_option_value("modified", false, { buf = wsplit.id_buf })
+  vim.api.nvim_set_option_value("modifiable", false, { buf = wsplit.id_buf })
 end
 
 return Wsplit
