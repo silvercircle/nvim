@@ -19,7 +19,7 @@ M.localbin        = jp(M.homepath, '.local/bin/')
 
 -- binaries for external LSP plugins not covered by lspconfig
 M.server_bin = {
-  metals        =   '/home/alex/.local/share/coursier/bin/metals',
+  metals        =   '$HOME/.local/share/coursier/bin/metals',
   roslyn        =   jp(vim.fn.stdpath("data"), "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll"),
 }
 
@@ -31,7 +31,7 @@ M.server_bin = {
 --      Scala is implemented as filetype autocommand.
 
 -- cmd follows the rules for LSP server configurations. It's a list of strings, the
--- first element must be the executable of the language server. Unless it can be found in
+-- first element must be the executable of the language server. Unless it can be found
 -- in your $PATH, a full path must be given. The remaining entries of cmd will be passed
 -- as command line args to the LSP
 M.serverconfigs = {
@@ -83,6 +83,9 @@ M.serverconfigs = {
   ["marksman"]              = { active = true,
     cmd = { jp(M.masonbinpath, 'marksman') }
   },
+  ["iwe"]                   = { active = false,
+    cmd = { jp(M.localbin, 'iwes') }
+  },
   ["markdown-oxide"]        = { active = false,
     cmd = { jp(M.localbin, 'markdown-oxide') }
   },
@@ -111,11 +114,7 @@ M.serverconfigs = {
     cmd = { jp(M.localbin, "ctags-lsp") }
   },
   ["basedpyright"]          = { active = true,
-    cmd = { jp(M.masonbinpath, 'basedpyright-langserver') },
-    attach_config = function(client, buf)
-      if client.name == "basedpyright" then
-      end
-    end
+    cmd = { jp(M.masonbinpath, 'basedpyright-langserver') }
   },
   ["dartls"]                = { active = false,
     cmd = { jp(M.masonbinpath, "dartls") }
@@ -126,7 +125,7 @@ M.serverconfigs = {
   ["neocmake"]              = { active = true,
     cmd = { jp(M.localbin, "neocmakelsp") }
   },
-  ["zk"]             = { active = true,
+  ["zk"]             = { active = false,
     cmd = { jp(M.localbin, "zk") }
   },
   ["ruff"]                  = { active = true,
@@ -144,7 +143,8 @@ M.virtual_lines = false
 
 -- These LSP servers won't attach to navic (used for the breadcrumbs) because they
 -- do not support the required LSP feature sets.
-M.exclude_navic = { "emmet_language_server", "ctags" }
+-- M.exclude_navic = { "emmet_language_server", "ctags" }
+M.exclude_navic = { "ctags" }
 
 
 -- settings for the nvim-jdtls plugin. See ftplugin/java.lua

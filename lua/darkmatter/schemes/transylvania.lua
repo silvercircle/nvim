@@ -280,11 +280,11 @@ function M.bgtheme()
       bg2 = { "#403936", 236 },
       bg4 = { "#555565", 237 },
       statuslinebg = "#242436",
-      bg = "#282A36",
-      treebg = "#2b2d39",
-      floatbg = "#2b2d39",
-      gutterbg = "#282a36",
-      kittybg = "#2b2d39",
+      bg = "#121214",
+      treebg = "#151518",
+      floatbg = "#151519",
+      gutterbg = "#121213",
+      kittybg = "#151518",
       fg = fg_def,
       fg_dim = fg_dim_def
     },
@@ -341,8 +341,8 @@ end
 
 function M.custom_colors()
   return {
-    c1 = '#ff0000',
-    c2 = '#00ff00',
+    c1 = "#2f47df",
+    c2 = "#cccc20",
     c3 = '#4c4866',
     c4 = '#8383c0',
     c5 = '#ff00ff'

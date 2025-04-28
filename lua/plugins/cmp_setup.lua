@@ -1,5 +1,7 @@
 -- nvim-cmp: completion support
 local utils = require("subspace.lib")
+
+---@diagnostic disable-next-line
 local cmp_helper = {}
 
 local T = Tweaks.cmp
@@ -336,7 +338,7 @@ cmp.setup({
       cmp.config.compare.offset,
       cmp.config.compare.exact,
       cmp.config.compare.score,
-      -- function(...) return cmp_helper.compare.deprioritize_snippet(...) end,
+      function(...) return cmp_helper.compare.deprioritize_snippet(...) end,
 --      function(...)
 --        return cmp_helper.compare.prioritize_argument(...)
 --      end,
@@ -419,7 +421,7 @@ end
 
 --- set the CMP theme
 --- This sets the border style and configures the theme for the desired menu style
---- @param theme string menu style (content)
+--- @param theme? string menu style (content)
 --- @param decoration string the decoration style for the completion popup
 --- @param decoration_doc string the decoration style for the documentation popup
 function M.setup_theme(theme, decoration, decoration_doc)

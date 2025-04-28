@@ -48,7 +48,7 @@ require('cokeline').setup({
       },
       {
         text = function(tab) return " " .. tab.number .. " " end,
-        highlight = function(tab) return tab.is_active and "CokelineActive" or "Accent" end
+        highlight = function(tab) return tab.is_active and "CokelineTabActive" or "CokelineTabInactive" end
       }
     }
   },

@@ -72,7 +72,7 @@ M.smartfiles_or_grep = function(opts)
     if opts.debug then
       vim.notify(rg_opts_default)
     end
-    local title = Utils.truncate("Live Grep " .. cwd .. " (Search in: " .. result ..(fresult and fresult or "") .. ")", vim.o.columns - 10)
+    local title = Utils.truncate("Live Grep " .. cwd .. " (Search in: " .. result ..(fresult and ("," .. fresult) or "") .. ")", vim.o.columns - 10)
 
     Fzf.live_grep({ cwd = cwd, query = Utils.get_selection(), rg_opts = rg_opts_default,
       winopts = FWO("std_preview_top", title,

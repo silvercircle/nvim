@@ -5,6 +5,12 @@ local util = require 'lsp.utils'
 
 --- reference: https://github.com/seblyng/roslyn.nvim/wiki#semantic-tokens
 --- this function should work with 0.10 and 0.11 of Neovim
+
+--- NOTE: kept for reference, this is no longer needed. Beginning with version 5.0.0.1,
+--- the roslyn LSP server supports semanticTokens/full and is therefore fully compatible
+--- with Neovim.
+--- @param client vim.lsp.ClientConfig
+--- @diagnostic disable-next-line
 local function fix_semantic_tokens(client)
   if client.is_patched then
     return
@@ -73,11 +79,6 @@ local function fix_semantic_tokens(client)
   end
 end
 
-local on_attach = function(client, buf)
-  ON_LSP_ATTACH(client, buf)
-  fix_semantic_tokens(client)
-end
-
 require("roslyn").setup({
   config = {
     filetypes = { "cs", "razor" },
@@ -87,7 +88,7 @@ require("roslyn").setup({
     root_dir = function(fname)
       return util.root_pattern "*.sln" (fname)
     end,
-    on_attach = on_attach,
+    on_attach = ON_LSP_ATTACH,
     settings = {
       ["csharp|background_analysis"] = {
         dotnet_analyzer_diagnostics_scope = "fullSolution",

@@ -1,25 +1,18 @@
 local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
 local navic = nil
 
-local  LuaLineColors = {
-    white = "#ffffff",
-    darkestgreen = "#106010", -- M.T.accent_fg,
-    brightgreen = "#106060", -- M.T.accent_color,
-    darkestcyan = "#005f5f",
-    mediumcyan = "#87dfff",
-    darkestblue = "#002f47",
-    darkred = "#870000",
-    brightred = "#802020", -- M.T.alt_accent_color,
-    brightorange = "#2f47df",
-    gray1 = "#262626",
-    gray2 = "#303030",
-    gray4 = "#585858",
-    gray5 = "#404050",
-    gray7 = "#9e9e9e",
-    gray10 = "#f0f0f0",
-    statuslinebg = "#263031", -- M.T[conf.variant].statuslinebg,
-  }
+local LuaLineColors = {
+  white = "#ffffff",
+  accent_fg = "#106010",   -- M.T.accent_fg,
+  accent_bg = "#106060",    -- M.T.accent_color,
+  darkestcyan = "#005f5f",
+  darkestblue = "#002f47",
+  insertbg = "#802020",   -- M.T.alt_accent_color,
+  visualbg = "#2f47df",
+  statuslinebg = "#263031",   -- M.T[conf.variant].statuslinebg,
+}
 
+---@diagnostic disable-next-line
 local function get_permissions_color()
   local file = vim.fn.expand("%:p")
   if file == "" or file == nil then
@@ -58,15 +51,15 @@ local function lualine_internal_theme()
   return {
     normal = {
       a = {
-        fg = LuaLineColors.darkestgreen,
-        bg = LuaLineColors.brightgreen, --[[, gui = 'bold']]
+        fg = LuaLineColors.accent_fg,
+        bg = LuaLineColors.accent_bg, --[[, gui = 'bold']]
       },
       b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
       c = "LuaLine",
       x = "LuaLine",
     },
     insert = {
-      a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred },
+      a = { fg = LuaLineColors.white, bg = LuaLineColors.insertbg },
       b = { fg = LuaLineColors.white, bg = LuaLineColors.darkestblue },
       c = "LuaLine",
       x = "LuaLine",
@@ -74,10 +67,10 @@ local function lualine_internal_theme()
     visual = {
       a = {
         fg = LuaLineColors.white,
-        bg = LuaLineColors.brightorange, --[[, gui = 'bold']]
+        bg = LuaLineColors.visualbg, --[[, gui = 'bold']]
       },
     },
-    replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.brightred } },
+    replace = { a = { fg = LuaLineColors.white, bg = LuaLineColors.insertbg } },
     inactive = {
       a = "CursorLine",
       b = "LuaLine",
@@ -91,9 +84,9 @@ local function setup_theme()
   if Tweaks.theme.disable == false then
     local T = require("darkmatter").T
 
-    LuaLineColors.darkestgreen = T.accent_fg
-    LuaLineColors.brightgreen = T.accent_color
-    LuaLineColors.brightred = T.alt_accent_color
+    LuaLineColors.accent_fg = T.accent_fg
+    LuaLineColors.accent_bg = T.accent_color
+    LuaLineColors.insertbg = T.alt_accent_color
     LuaLineColors.statuslinebg = vim.api.nvim_get_hl(0, { name = "LuaLine" }).bg
     local _bg = vim.api.nvim_get_hl(0, { name="Visual" }).bg
     local _fg = vim.api.nvim_get_hl(0, { name="Fg" }).fg

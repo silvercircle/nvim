@@ -344,12 +344,12 @@ end
 
 function M.custom_colors()
   return {
-    c1 = '#ff0000',
-    c2 = '#00ff00',
+    c1 = "#2f47df",
+    c2 = "#cccc20",
     c3 = '#4c4866',
     c4 = '#8383c0',
-    c5 = '#ff00ff'
-  }
+    c5 = '#ff00ff',
+}
 end
 
 ---@return table: supported color variants

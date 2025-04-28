@@ -25,7 +25,7 @@ if vim.diagnostic then
       }
     },
     float = {
-      source = "always",
+      source = "if_many",
       focusable = true,
       focus = false,
       border = PCFG.float_borders,

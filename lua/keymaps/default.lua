@@ -6,6 +6,7 @@ local Utils = require('subspace.lib')
 local utility_key = Tweaks.keymap.utility_key
 local treename = Tweaks.tree.filetype
 local Snacks = require("snacks")
+local Tabs = require("subspace.lib.tabmanager")
 
 local function fkey_mappings()
   if vim.g.is_tmux == 1 then
@@ -93,8 +94,8 @@ vim.g.setkey({ 'i', 'n' }, utility_key .. 'an', function()
   CGLOBALS.set_fo('wacqtl')
 end, "Set all formatting options")
 
-map('v', '<leader>V', ':!fmt -110<CR>', opts)
-map('v', '<leader>y', ':!fmt -85<CR>', opts)
+map('v', '<leader>V', ":<Home>silent <End>!fmt -105<CR>", opts)
+map('v', '<leader>y', ":<Home>silent <End>!fmt -85<CR>", opts)
 
 vim.g.setkey('n', '<A-C-w>', function()
   vim.api.nvim_feedkeys('}kV{jgq', 'i', true)
@@ -120,7 +121,7 @@ vim.g.setkey('i', '<C-z>', function() perform_command("undo") end, "Undo (insert
 map('i', '<C-y>-', '—', opts) -- emdash
 map('i', '<C-y>"', '„”', opts) -- typographic quotes („”)
 vim.g.setkey({ 'n', 'i' }, '<A-w>', function()
-  if vim.fn.win_getid() ~= CGLOBALS.main_winid then vim.cmd('close') end
+  if vim.fn.win_getid() ~= TABM.T[TABM.active].id_main then vim.cmd('close') end
 end, "Close Window")
 
 vim.g.setkey({'n', 'i'}, '<C-f>c', function()
@@ -322,14 +323,15 @@ vim.g.setkey({'n', 'i'}, '<A-q>', function()
 end, "Quit Neovim")
 
 vim.g.setkey({'n', 'i'}, '<C-p>', function()
-  if vim.fn.win_getid() == CGLOBALS.main_winid or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
+  if vim.fn.win_getid() == TABM.T[TABM.active].id_main or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
     require('fzf-lua').oldfiles( { formatter = "path.filename_first", winopts = Tweaks.fzf.winopts.small_no_preview })
   end
 end, "FZF-LUA old files")
 
 vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
-  if vim.fn.win_getid() == CGLOBALS.main_winid or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
-    require("fzf-lua").buffers({ formatter = "path.filename_first", mru = true, no_action_zz = true, no_action_set_cursor = true, winopts = Tweaks.fzf.winopts.small_no_preview })
+  if vim.fn.win_getid() == TABM.T[TABM.active].id_main or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
+    require("fzf-lua").buffers({ formatter = "path.filename_first", mru = true, no_action_zz = true,
+      no_action_set_cursor = true, winopts = FWO("small_no_preview", "Buffers <C-d>:delete <C-w>:save when modified") })
   end
 end, "FZF buffer list")
 vim.g.setkey({'n', 'i', 'v' }, '<A-p>', function()
@@ -338,11 +340,11 @@ end, "Command palette")
 
 -- quick-focus the four main areas
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-1>', function()
-  CGLOBALS.findbufbyType(treename)
+  TABM.findbufbyType(treename, true)
 end, "Focus NvimTree") -- Nvim-tree
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-2>', function()
-  vim.fn.win_gotoid(CGLOBALS.main_winid)
+  vim.fn.win_gotoid(Tabs.T[Tabs.active].id_main)
   vim.cmd("hi nCursor blend=0")
 end, "Focus Main Window") -- main window
 
@@ -350,17 +352,17 @@ end, "Focus Main Window") -- main window
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-3>', function()
   -- if the outline window is focused, close it.
   if vim.api.nvim_get_option_value("filetype", { buf = 0 }) == PCFG.outline_filetype then
-    CGLOBALS.close_outline()
+    TABM.close_outline()
     return
   end
   -- otherwise search it and if none is found, open it.
-  if CGLOBALS.findbufbyType(PCFG.outline_filetype) == false then
-    CGLOBALS.open_outline()
+  if TABM.findbufbyType(PCFG.outline_filetype, true) == 0 then
+    TABM.open_outline()
   end
 end, "Focus Outline window") -- Outline
 
 local function focus_term_split(dir)
-  if CGLOBALS.findbufbyType('terminal') == false then
+  if TABM.findbufbyType('terminal', true) == 0 then
     vim.api.nvim_input('<f11>')
   end
   vim.cmd.startinsert()
@@ -386,33 +388,34 @@ end, "Focus Terminal split and change to project root")
 kms({ 'n', 'i', 't', 'v' }, '<A-0>', function()
   local wid = vim.fn.win_getid()
   vim.api.nvim_set_option_value("winfixwidth", false, { win = wid })
-  CGLOBALS.main_winid = wid
+  CGLOBALS.main_winid[PCFG.tab] = wid
 end, opts) -- save current winid as main window id
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-9>', function()
-  local uspl = require('subspace.content.usplit')
-  if uspl.winid == nil then
-    uspl.open()
+  local uspl = TABM.get().usplit
+  if not uspl.id_win or uspl.id_win == 0 then
+    uspl:open()
   else
-    if uspl.winid ~= vim.fn.win_getid() then
-      vim.fn.win_gotoid(uspl.winid)
+    if uspl.id_win ~= vim.fn.win_getid() then
+      vim.fn.win_gotoid(uspl.id_win)
     else
-      uspl.close()
-      vim.fn.win_gotoid(CGLOBALS.main_winid)
+      uspl:close()
+      vim.fn.win_gotoid(TABM.T[TABM.active].id_main)
     end
   end
 end, "Open the sysmon/fortune window")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-8>', function()
   local wspl = require('subspace.content.wsplit')
-  if wspl.winid == nil then
-    wspl.openleftsplit(CFG.weather.file)
+  local wsplit = TABM.get().wsplit
+  if wsplit.id_win == nil then
+    wspl.open(CFG.weather.file)
   else
-    if wspl.winid ~= vim.fn.win_getid() then
-      vim.fn.win_gotoid(wspl.winid)
+    if wsplit.id_win ~= vim.fn.win_getid() then
+      vim.fn.win_gotoid(wsplit.id_win)
     else
       wspl.close()
-      vim.fn.win_gotoid(CGLOBALS.main_winid)
+      vim.fn.win_gotoid(TABM.T[TABM.active].id_main)
     end
   end
 end, "Open the info/weather window")
@@ -420,10 +423,10 @@ end, "Open the info/weather window")
 -- focus quickfix list (when open)
 vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-7>', function()
   local curwin = vim.fn.win_getid()
-  if CGLOBALS.findbufbyType('qf') == false then
+  if TABM.findbufbyType('qf') == 0 then
     vim.cmd('below 10 copen')
   else
-    local winid = CGLOBALS.findWinByFiletype('qf')[1]
+    local winid = TABM.findWinByFiletype('qf', true)[1]
     if curwin == winid then
       vim.cmd('ccl')
     else
@@ -432,7 +435,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-7>', function()
   end
 end, "Focus the quickfix list")
 
-vim.g.setkey({ 'n', 'i', 't' }, '<f11>', function() CGLOBALS.termToggle(12) end, "Toggle Terminal split at bottom")
+vim.g.setkey({ 'n', 'i', 't' }, '<f11>', function() TABM.termToggle(12) end, "Toggle Terminal split at bottom")
 map('t', '<Esc>', '<C-\\><C-n>', opts)
 
 vim.g.setkey('n', fkeys.c_f8, function() require("oil").open() end, "Open Oil file manager")
@@ -456,7 +459,8 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'wt', function()
   require("subspace.content.wsplit").toggle_content()
 end, "Toggle weather/info content")
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'st', function()
-  require("subspace.content.usplit").toggle_content()
+  local usplit = TABM.get().usplit
+  usplit:toggle_content()
 end, "Toggle sysmon/fortune content")
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'sr', function()
   require("subspace.content.usplit").refresh_cookie()
@@ -488,15 +492,12 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, '<C-x>bt', function()
 end, "Show buftype of current buffer")
 
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
-  local status = CGLOBALS.is_outline_open()
+  local status = TABM.is_outline_open()
   if status ~= false then
-    require("symbols").api.refresh_symbols()
+    local sb = require("symbols").sidebar.get()
+    if sb then require("symbols").sidebar.symbols.force_refresh(sb) end
   end
 end, "Refresh outline symbols")
-
-
-require("subspace.lib.marks").set_keymaps()
---vim.cmd("nunmap <cr>")
 
 vim.g.setkey( {'n', 'i'}, '<C-S-E>', function()
   Snacks.picker.smart({ layout = SPL( {width = 70, height = 20, row = 5, title = "Buffers", input = "top" } ) })
@@ -519,6 +520,15 @@ vim.keymap.set('i', "<Right>",  "<C-g>U<Right>", { silent = true, noremap = true
 vim.g.setkey("n", utility_key .. "ll", function() require("darkmatter.colortools").saturatehex(-0.05) end )
 require("subspace.lib.darkmatter").map_keys()
 
-vim.g.setkey( {"v", "n" }, utility_key .. "<tab>", ":tabnext<cr>", "Select next tab")
-vim.g.setkey( {"v", "n", "i" }, utility_key .. "mm", function() require("neominimap").toggle() end, "Toggle Minimap")
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "mm", function() require("neominimap.api").toggle() end, "Toggle Minimap")
 
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "<tab>", ":tabnext<cr>", "Select next tab")
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "tn", function() vim.cmd("tabnew") end, "Open new tab page")
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "tx", function() vim.schedule(function() vim.cmd("tabclose!") end) end, "Close tab page")
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "tc", function() TABM.clonetab() end, "Close tab page")
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "td", function()
+  vim.cmd("tabnew")
+  require("dapui").open()
+end, "Open new tab page")
+
+require("subspace.lib.marks").set_keymaps()

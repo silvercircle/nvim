@@ -32,8 +32,21 @@ local function do_setup()
         end
       end
       config.name = k
-      table.insert(to_enable, k)
-      vim.lsp.config[k] = config
+      config._valid = true
+      -- in debug mode, we check whether the LSP executable is available and executable
+      -- and inform the user when it is not.
+      if LSPDEF.debug then
+        if not LSPDEF.debug_output then LSPDEF.debug_output = {} end
+        if not (config.cmd and config.cmd[1] and vim.fn.executable(config.cmd[1]) == 1) then
+          table.insert(LSPDEF.debug_output,
+            string.format("LSP **%s**: The executable (%s) is not available", k, config.cmd[1] or "Unknown"))
+          config._valid = false
+        end
+      end
+      if config._valid then
+        table.insert(to_enable, k)
+        vim.lsp.config[k] = config
+      end
     end
     ::continue::
   end

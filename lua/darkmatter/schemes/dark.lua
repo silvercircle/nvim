@@ -347,8 +347,8 @@ end
 
 function M.custom_colors()
   return {
-    c1 = '#ff0000',
-    c2 = '#00ff00',
+    c1 = "#2f47df",
+    c2 = "#cccc20",
     c3 = '#5050a0',
     c4 = '#ff00ff',
     c5 = '#ff00ff'

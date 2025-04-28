@@ -123,6 +123,10 @@ Tweaks.blink = {
     menu = 0,
     signature = 0
   },
+  scrollbar = {
+    menu = true,
+    doc = false
+  },
   --- show the effective LSP client name in the last column when available
   --- otherwise show just the source name (LSP, snippets etc.)
   show_client_name = true,
@@ -268,7 +272,6 @@ Tweaks.theme = {
 -- right now, only lualine is supported by this config. This might change in the
 -- future.
 Tweaks.statusline = {
-  version = "lualine",
   -- specific tweaks for lualine.
   lualine = {
     -- Set this to "internal" to use darkmatter integration or to some available
@@ -356,7 +359,8 @@ Tweaks.fzf = {
 }
 
 Tweaks.snacks = {
-  enabled_modules = { "picker", --[["image",]] "indent", "lazygit" }
+  enabled_modules = { "picker", --[["image",]] "indent", "lazygit" },
+  dev = { "~/dev", "~/Projects", "/data/mnt/shared/data/code/" },
 }
 
 Tweaks.minimap = {

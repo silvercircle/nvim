@@ -5,13 +5,9 @@ local autocmd = vim.api.nvim_create_autocmd
 local agroup_views = vim.api.nvim_create_augroup("views", {})
 local agroup_hl = vim.api.nvim_create_augroup("hl", {})
 local Wsplit = require("subspace.content.wsplit")
-local Usplit = require("subspace.content.usplit")
 local Tsc = require("treesitter-context")
 local marks = require("subspace.lib.marks")
-local Tabs = _G.TABM
 local treeft = Tweaks.tree.filetype
-
--- local ibl = require('indent_blankline')
 
 local function configure_outline_sidebar()
   --vim.schedule(function()
@@ -61,11 +57,11 @@ autocmd({ 'VimEnter' }, {
 --- this function configures the UI layout on UIEnter
 local function main_layout(curtab)
   if CFG.plain == false then
-    if PCFG.tree.active == true then
-      TABM.open_tree()
-    end
     if PCFG.terminal.active == true then
       vim.schedule(function() TABM.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(TABM.T[curtab].id_main) end)
+    end
+    if PCFG.tree.active == true then
+      TABM.open_tree()
     end
     -- create the WinResized watcher to keep track of the terminal split height.
     -- also call the resize handlers for the usplit/wsplit frames.
@@ -77,9 +73,9 @@ local function main_layout(curtab)
         local usplit_id_win = TABM.T[ct].usplit.id_win
         local wsplit_id_win = TABM.T[ct].wsplit.id_win
         if sizeevent.event == "WinClosed" then
-          if Tabs.T[ct].term.id_win ~= nil and vim.api.nvim_win_is_valid(Tabs.T[ct].term.id_win) == false then
-            Tabs.T[ct].term.id_win = nil
-            Tabs.T[ct].term.visible = false
+          if TABM.T[ct].term.id_win ~= nil and vim.api.nvim_win_is_valid(TABM.T[ct].term.id_win) == false then
+            TABM.T[ct].term.id_win = nil
+            TABM.T[ct].term.visible = false
           end
           if wsplit_id_win ~= nil and vim.api.nvim_win_is_valid(wsplit_id_win) == false then
             TABM.T[ct].wsplit.id_win = nil
@@ -89,14 +85,14 @@ local function main_layout(curtab)
           end
           local id = sizeevent.match
           local status, target = pcall(vim.api.nvim_win_get_var, tonumber(id), "termheight")
-          if status and Tabs.T[ct].term.id_win ~= nil then
-            vim.schedule(function() vim.api.nvim_win_set_height(Tabs.T[ct].term.id_win, tonumber(target)) end)
+          if status and TABM.T[ct].term.id_win ~= nil then
+            vim.schedule(function() vim.api.nvim_win_set_height(TABM.T[ct].term.id_win, tonumber(target)) end)
           end
         end
         if sizeevent.event == "WinResized" then
-          if Tabs.T[ct].term.id_win ~= nil then
-            PCFG.terminal.height = vim.api.nvim_win_get_height(Tabs.T[ct].term.id_win)
-            Tabs.T[ct].term.height = vim.api.nvim_win_get_height(Tabs.T[ct].term.id_win)
+          if TABM.T[ct].term.id_win ~= nil then
+            PCFG.terminal.height = vim.api.nvim_win_get_height(TABM.T[ct].term.id_win)
+            TABM.T[ct].term.height = vim.api.nvim_win_get_height(TABM.T[ct].term.id_win)
           end
           Wsplit.set_minheight()
           Wsplit.refresh("resize")
@@ -130,7 +126,7 @@ local function main_layout(curtab)
       CFG.theme.set_bg()
     end
   end
-  vim.fn.win_gotoid(Tabs.T[curtab].id_main)
+  vim.fn.win_gotoid(TABM.T[curtab].id_main)
 end
 
 -- on UIEnter show a terminal split and a left-hand nvim-tree file explorer. Unless the
@@ -144,9 +140,9 @@ autocmd({ "UIEnter" }, {
     end
     did_UIEnter = true
     local curtab = vim.api.nvim_get_current_tabpage()
-    Tabs.active = curtab
-    Tabs.new(curtab)
-    Tabs.T[curtab].id_main = vim.fn.win_getid()
+    TABM.active = curtab
+    TABM.new(curtab)
+    TABM.T[curtab].id_main = vim.fn.win_getid()
     main_layout(curtab)
   end
 })
@@ -154,15 +150,13 @@ autocmd({ "UIEnter" }, {
 -- force refresh lualine on ModeChanged event. This allows for higher debounce timers
 -- (= better performance) and still get instant response for mode changes (which I feel
 -- is important)
-if Tweaks.statusline.version == "lualine" then
-  autocmd( { "ModeChanged" }, {
-    pattern = "*",
-    callback = function()
-      vim.schedule(function() require("lualine").refresh() end)
-    end,
-    group = agroup_views
-  })
-end
+autocmd( { "ModeChanged" }, {
+  pattern = "*",
+  callback = function()
+    vim.schedule(function() require("lualine").refresh() end)
+  end,
+  group = agroup_views
+})
 
 -- create a view to save folds when saving the file
 autocmd({ 'bufwritepost' }, {
@@ -287,7 +281,7 @@ autocmd({ "FileType" }, {
       cfg.capabilities = require("lsp.config").get_lsp_capabilities()
       cfg.on_attach = ON_LSP_ATTACH
       cfg.settings = {
-        metalsBinaryPath = LSPDEF.server_bin["metals"]
+        metalsBinaryPath = vim.fn.expand(LSPDEF.server_bin["metals"])
       }
       require("metals").initialize_or_attach(cfg)
     end
@@ -322,6 +316,10 @@ autocmd({ 'WinEnter' }, {
     if filetype == "NvimTree" or filetype == "SymbolsSidebar" then
       old_mode = vim.api.nvim_get_mode().mode
       vim.cmd.stopinsert()
+    end
+    local tab = TABM.get()
+    if tab.id_page == vim.api.nvim_get_current_tabpage() then
+      tab.id_cur = vim.fn.win_getid()
     end
   end,
   group = agroup_hl
@@ -374,7 +372,6 @@ delcmd = autocmd({ "BufReadPost" }, {
       return
     end
     _delayloaded = true
-    -- require("subspace.content.pairs").setup()
     require("subspace.content.move").setup()
     vim.g.setkey( "v", "<A-l>", function() MiniMove.move_selection("right") end)
     vim.g.setkey( "v", "<A-h>", function() MiniMove.move_selection("left") end)
@@ -437,22 +434,23 @@ autocmd("TextYankPost", {
 autocmd("TabNew", {
   callback = function()
     local curtab = vim.api.nvim_get_current_tabpage()
-    Tabs.new(curtab)
-    Tabs.T[curtab].id_main = vim.fn.win_getid()
+    TABM.new(curtab)
+    TABM.T[curtab].id_main = vim.fn.win_getid()
+    TABM.T[curtab].id_cur = vim.fn.win_getid()
   end,
   group = agroup_views
 })
 
 autocmd("TabClosed", {
-  callback = function(args)
-    TABM.remove(tonumber(args.match))
+  callback = function(_)
+    vim.schedule(function() TABM.cleaner() end)
   end,
   group = agroup_views
 })
 
 autocmd("TabEnter", {
   callback = function()
-    Tabs.active = vim.api.nvim_get_current_tabpage()
+    TABM.set_active()
   end,
   group = agroup_views
 })

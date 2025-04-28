@@ -27,7 +27,8 @@ require("snacks").setup({
   lazygit = {
     enabled = vim.tbl_contains(Tweaks.snacks.enabled_modules, "lazygit"),
     win = {
-      border = Borderfactory("thicc")
+      border = Borderfactory("thicc"),
+      backdrop = Tweaks.theme.picker_backdrop
     }
   },
   image = {
@@ -48,6 +49,10 @@ require("snacks").setup({
         vim.schedule(function() vim.api.nvim_input("i") end)
       end
     end,
+    projects = {
+      dev = Tweaks.snacks.dev,
+      patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "CMakeLists.txt", "Cargo.toml" },
+    },
     treesitter = {
       filter = {
         markdown = true,

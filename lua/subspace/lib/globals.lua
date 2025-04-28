@@ -25,12 +25,12 @@ function M.sync_tree()
   local root = require("subspace.lib").getroot_current()
   if Tweaks.tree.version == "Neo" then
     local nc = require("neo-tree.command")
-    nc.execute( {action="show", dir=root, source="filesystem" } )
-    nc.execute( {action="show", reveal=true, reveal_force_cwd=true, source="filesystem" } )
+    nc.execute({ action = "show", dir = root, source = "filesystem" })
+    nc.execute({ action = "show", reveal = true, reveal_force_cwd = true, source = "filesystem" })
   elseif Tweaks.tree.version == "Nvim" then
-    require('nvim-tree.api').tree.change_root(root)
+    require("nvim-tree.api").tree.change_root(root)
     vim.cmd("NvimTreeFindFile")
-  -- TODO: Make this work with a docked "snacks explorer" as filetree
+    -- TODO: Make this work with a docked "snacks explorer" as filetree
   elseif Tweaks.tree.version == "Explorer" then
   end
 end
