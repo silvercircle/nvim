@@ -150,10 +150,20 @@ autocmd({ "UIEnter" }, {
 -- force refresh lualine on ModeChanged event. This allows for higher debounce timers
 -- (= better performance) and still get instant response for mode changes (which I feel
 -- is important)
-autocmd( { "ModeChanged" }, {
+--
+local cline_hl_groups = {
+  ["i"] = "CursorLineInsert",
+  ["v"] = "CursorLineVisual"
+}
+
+autocmd({ "ModeChanged" }, {
   pattern = "*",
   callback = function()
-    vim.schedule(function() require("lualine").refresh() end)
+    vim.schedule(function()
+      local mode = vim.fn.mode()
+      vim.api.nvim_set_hl(0, "CursorLine", { link = cline_hl_groups[mode] or "CursorLineNC" })
+      require("lualine").refresh()
+    end)
   end,
   group = agroup_views
 })
