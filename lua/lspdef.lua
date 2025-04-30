@@ -143,7 +143,8 @@ M.virtual_lines = false
 
 -- These LSP servers won't attach to navic (used for the breadcrumbs) because they
 -- do not support the required LSP feature sets.
-M.exclude_navic = { "emmet_language_server", "ctags" }
+-- M.exclude_navic = { "emmet_language_server", "ctags" }
+M.exclude_navic = { "ctags" }
 
 
 -- settings for the nvim-jdtls plugin. See ftplugin/java.lua

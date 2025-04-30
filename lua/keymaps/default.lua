@@ -494,13 +494,10 @@ end, "Show buftype of current buffer")
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
   local status = TABM.is_outline_open()
   if status ~= false then
-    require("symbols").api.refresh_symbols()
+    local sb = require("symbols").sidebar.get()
+    if sb then require("symbols").sidebar.symbols.force_refresh(sb) end
   end
 end, "Refresh outline symbols")
-
-
-require("subspace.lib.marks").set_keymaps()
---vim.cmd("nunmap <cr>")
 
 vim.g.setkey( {'n', 'i'}, '<C-S-E>', function()
   Snacks.picker.smart({ layout = SPL( {width = 70, height = 20, row = 5, title = "Buffers", input = "top" } ) })
@@ -527,9 +524,11 @@ vim.g.setkey( {"v", "n", "i"}, utility_key .. "mm", function() require("neominim
 
 vim.g.setkey( {"v", "n", "i"}, utility_key .. "<tab>", ":tabnext<cr>", "Select next tab")
 vim.g.setkey( {"v", "n", "i"}, utility_key .. "tn", function() vim.cmd("tabnew") end, "Open new tab page")
-vim.g.setkey( {"v", "n", "i"}, utility_key .. "tx", function() vim.cmd("tabclose") end, "Close tab page")
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "tx", function() vim.schedule(function() vim.cmd("tabclose!") end) end, "Close tab page")
 vim.g.setkey( {"v", "n", "i"}, utility_key .. "tc", function() TABM.clonetab() end, "Close tab page")
 vim.g.setkey( {"v", "n", "i"}, utility_key .. "td", function()
   vim.cmd("tabnew")
   require("dapui").open()
 end, "Open new tab page")
+
+require("subspace.lib.marks").set_keymaps()
