@@ -271,6 +271,11 @@ function M.bgtheme()
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
     selbg = "#4c4866",
     treeselbg = "#38364c",
+    cline = {
+      normal = { "#2c2e34", 111},
+      insert = { "#442e34", 112},
+      visual = { "#2c2e44", 113}
+    },
     cold = {
       black = { "#151212", 232 },
       bg_dim = { "#242020", 232 },

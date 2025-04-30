@@ -331,7 +331,10 @@ local function set_all()
   M.link("CursorIM", "iCursor")
 
   M.hl("FocusedSymbol", M.P.yellow, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("CursorLine", M.NONE, M.P.bg0)
+  M.hl_with_defaults("CursorLineNC", M.NONE, M.T.cline.normal)
+  M.hl_with_defaults("CursorLineInsert", M.NONE, M.T.cline.insert)
+  M.hl_with_defaults("CursorLineVisual", M.NONE, M.T.cline.visual)
+  M.link("CursorLine", "CursorLineNC")
   M.hl_with_defaults("CursorColumn", M.NONE, M.P.bg1)
   M.hl_with_defaults("CursorLineNr", M.P.olive, M.P.darkbg)
 
