@@ -52,18 +52,34 @@ local clangd_root_files = {
   'configure.ac', -- AutoTools
 }
 
+--local function rdir(dir)
+--  vim.notify(dir)
+--end
+
 return {
   filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
   root_markers = clangd_root_files,
-  single_file_support = true,
   capabilities = {
     textDocument = {
       completion = {
         editsNearCursor = true
       },
     },
-    offsetEncoding = { "utf-8", "utf-16" },
+    -- offsetEncoding = { "utf-8", "utf-16" },
   },
+  ---@param client vim.lsp.Client
+  ---@param config vim.lsp.ClientConfig
+  reuse_client = function(client, config)
+    if client.name == "clangd" and (config.root_dir == "." or config.root_dir == client.root_dir) then
+        return true
+    else
+      return false
+    end
+  end,
+  root_dir = function(_, rdir)
+    local dir = require("subspace.lib").getroot_current()
+    rdir(dir)
+  end,
   commands = {
     ClangdSwitchSourceHeader = {
       function()
