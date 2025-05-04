@@ -53,12 +53,14 @@ function Usplit:refresh_cookie()
 end
 
 function Usplit:close()
-  if self.id_win and self.id_win ~= 0 then
+  if self.id_win and self.id_win ~= 0 and vim.api.nvim_win_is_valid(self.id_win) then
     vim.api.nvim_win_close(self.id_win, { force = true })
   end
-  if self.id_buf and vim.api.nvim_buf_is_valid(self.id_buf) then
+  if self.id_buf and self.id_buf ~= 0 and vim.api.nvim_buf_is_valid(self.id_buf) then
+    vim.notify("the id_buf is " .. self.id_buf)
     vim.api.nvim_buf_clear_namespace(self.id_buf, self.id_ns, 0, -1)
-    vim.api.nvim_buf_delete(self.id_buf, { force = true })
+    vim.bo[self.id_buf].buflisted = false
+    vim.api.nvim_buf_delete(self.id_buf, { unload = true })
     self.id_buf = nil
   end
   self.id_win = nil

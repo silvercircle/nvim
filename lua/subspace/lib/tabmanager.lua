@@ -119,8 +119,8 @@ function M.remove(tabpage)
         tab.wsplit.cookie_timer:stop()
         tab.wsplit.cookie_timer:close()
       end
-      if tab.wsplit.id_buf ~= nil and vim.api.nvim_buf_is_valid(tab.wsplit.id_buf)
-        then vim.api.nvim_buf_delete(tab.wsplit.id_buf, { force = true })
+      if tab.wsplit.id_buf ~= nil and vim.api.nvim_buf_is_valid(tab.wsplit.id_buf) then
+        vim.api.nvim_buf_delete(tab.wsplit.id_buf, { force = true })
       end
       if tab.wsplit.watch then
         vim.uv.fs_event_stop(tab.wsplit.watch)
