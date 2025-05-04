@@ -350,6 +350,8 @@ local function _set()
   c.link("helpExample", "Green")
   c.link("helpSpecial", "Purple")
   c.link("helpSectionDelim", "Grey")
+
+  c.hl("SnippetTabstop", c.P.styled.keyword, c.P.statuslinebg, conf.attrib.italic)
 end
 
 local M = {}
