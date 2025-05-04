@@ -379,7 +379,7 @@ lazy.setup({
     },
     {
       "rcarriga/nvim-dap-ui",
-      cond = Tweaks.dap.enabled == true,
+      cond = Tweaks.dap.enabled == true and Tweaks.dap.ui == "dap-ui",
       lazy = true,
       dependencies = {
         {
@@ -389,6 +389,19 @@ lazy.setup({
         "nvim-neotest/nvim-nio"
       },
       config = function() require("dap.nvim_dap_ui") end
+    },
+    {
+      "miroshQa/debugmaster.nvim",
+      cond = Tweaks.dap.enabled == true and Tweaks.dap.ui == "debugmaster",
+      event = { "TabNew" },
+      dependencies = {
+        {
+          "mfussenegger/nvim-dap",
+          config = function() require("dap.nvim_dap") end
+        },
+        "nvim-neotest/nvim-nio"
+      },
+      config = function() require("dap.debugmaster") end
     },
     {
       "silvercircle/nvim-cokeline",

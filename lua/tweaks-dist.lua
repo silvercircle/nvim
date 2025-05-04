@@ -92,7 +92,8 @@ Tweaks.indent = {
 
 -- this enabled DAP and dap-ui
 Tweaks.dap = {
-  enabled = true
+  enabled = true,
+  ui = "debugmaster"
 }
 
 -- blink.cmp related tweaks
