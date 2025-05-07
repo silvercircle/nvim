@@ -28,10 +28,6 @@ local Tweaks = {}
 -- either "mini", "fidget" or "snacks".
 Tweaks.notifier = "snacks"
 
--- what plugin to use for breadcrumbs in the winbar
--- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
-Tweaks.breadcrumb = 'navic'
-
 -- completion framework to use. Can be "blink" or "nvim-cmp"
 -- if you set this to any other value, completion will be UNAVAILABLE
 -- If set to nvim-cmp, the magazine fork (optimized for performance) is used.
