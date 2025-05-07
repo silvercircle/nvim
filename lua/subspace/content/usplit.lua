@@ -15,12 +15,13 @@ Usplit.__index = Usplit
 ---@return subspace.Usplit
 ---@param  t integer - the tabpage
 ---@param  tim uv.uv_timer_t timer object
-function Usplit:new(t, tim)
+---@param  nsid integer namespace id
+function Usplit:new(t, tim, nsid)
   return setmetatable({
     id_win = 0,
     id_tab = t,
     id_buf = 0,
-    id_ns  = vim.api.nvim_create_namespace("usplit_" .. tostring(t)),
+    id_ns  = nsid,
     content = "test",
     provider = nil,
     timer = tim,
@@ -57,10 +58,8 @@ function Usplit:close()
     vim.api.nvim_win_close(self.id_win, { force = true })
   end
   if self.id_buf and self.id_buf ~= 0 and vim.api.nvim_buf_is_valid(self.id_buf) then
-    vim.notify("the id_buf is " .. self.id_buf)
     vim.api.nvim_buf_clear_namespace(self.id_buf, self.id_ns, 0, -1)
-    vim.bo[self.id_buf].buflisted = false
-    vim.api.nvim_buf_delete(self.id_buf, { unload = true })
+    vim.api.nvim_buf_delete(self.id_buf, { force = true })
     self.id_buf = nil
   end
   self.id_win = nil
@@ -152,6 +151,7 @@ M.timer_interval = Tweaks.fortune.refresh * 60 * 1000
 
 ---@type uv.uv_timer_t?
 M.usplit_timer = nil
+M.nsid = nil
 
 -- this is called from the winresized / winclosed handler in auto.lua
 -- when the window has disappeared, the buffer is deleted.
@@ -181,6 +181,8 @@ end
 function M.new(id_tab)
   if M.timer_interval < 30000 then M.timer_interval = 30000 end
 
+  if not M.nsid then M.nsid = vim.api.nvim_create_namespace("_usplit") end
+
   if M.usplit_timer == nil then
     M.usplit_timer = vim.uv.new_timer()
   end
@@ -189,7 +191,7 @@ function M.new(id_tab)
     M.usplit_timer:stop()
     M.usplit_timer:start(0, M.timer_interval, vim.schedule_wrap(M.refresh_on_timer))
   end
-  return Usplit:new(id_tab, M.usplit_timer)
+  return Usplit:new(id_tab, M.usplit_timer, M.nsid)
 end
 
 return M
