@@ -152,7 +152,7 @@ local colorstyles = {
   bool = "darkyellow",
   constructor = "altyellow",
   macro = "lpurple",
-  defaultlib = "darkyellow",
+  defaultlib = "c6",
   staticmethod = "palegreen",
   attribute = "olive",
   strings   = "altgreen",
@@ -238,7 +238,7 @@ function M.attributes()
     module       = { bold = true },
     constant     = {},
     macro        = { bold = true },
-    defaultlib   = { bold = true, italic = true },
+    defaultlib   = { bold = true },
     url          = { bold = true, underline = true }
   }
 end
@@ -273,7 +273,7 @@ function M.bgtheme()
     treeselbg = "#38364c",
     cline = {
       normal = { "#2c2e34", 111},
-      insert = { "#442e34", 112},
+      insert = { "#2e2020", 112},
       visual = { "#2c2e44", 113}
     },
     cold = {
@@ -349,7 +349,8 @@ function M.custom_colors()
     c2 = "#cccc20",
     c3 = '#4c4866',
     c4 = '#7070c0',
-    c5 = '#ff00ff'
+    c5 = '#ff00ff',
+    c6 = '#b07070'
   }
 end
 
