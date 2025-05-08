@@ -38,7 +38,6 @@ end
 local function status_indicators()
   return (PCFG.treesitter_context == true and "C" or "c") ..
          (PCFG.is_dev == true and "D" or "d") ..
-         (PCFG.transbg == true and "T" or "t") ..
          (PCFG.autopair == true and "A" or "a") ..
          (PCFG.cmp_automenu and 'O' or 'o') ..
          (PCFG.cmp_ghost and 'G' or 'g') ..

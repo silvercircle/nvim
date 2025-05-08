@@ -392,7 +392,7 @@ delcmd = autocmd({ "BufReadPost" }, {
     vim.g.setkey( "n", "<A-k>", function() MiniMove.move_line("up") end)
     vim.g.setkey( "n", "<A-j>", function() MiniMove.move_line("down") end)
     vim.defer_fn(function() require("plugins.commandpalette") end, 200)
-    if PCFG.outline_view ~= false or PCFG.minimap_view > 0 then
+    if PCFG.outline_view ~= false or PCFG.minimap_view ~= false then
       vim.defer_fn(function()
         if PCFG.outline_view ~= false then TABM.open_outline() end
         if PCFG.minimap_view > 0 then require("neominimap.api").toggle() end

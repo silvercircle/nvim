@@ -124,7 +124,7 @@ end
 
 function M.update_hl()
   reverse_hl_groups()
-  italizemenugroups()
+  -- italizemenugroups()
 end
 
 -- this maps source names to highlight groups

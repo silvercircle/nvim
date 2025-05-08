@@ -34,10 +34,14 @@ M.perm_config_default = {
   statuscol_current = "normal",
   blist = true,
   blist_height = 0.33,
-  theme_variant = "warm",
-  transbg = false,
-  theme_palette = "vivid",
-  theme_scheme = "gruv",
+  theme = {
+    scheme = "gruv",
+    gruv = {
+      variant = "warm",
+      transbg = false,
+      palette = "vivid"
+    }
+  },
   debug = false,
   indent_guides = true,
   scrollbar = true,
@@ -86,14 +90,16 @@ function M.write_config()
       },
       tree = {
         active = #TABM.findWinByFiletype(Tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
-      }
+      },
+      theme = {}
     }
     if Tweaks.theme.disable == false then
       local theme_conf = CFG.theme.get_conf()
-      state['theme_variant'] = theme_conf.variant
-      state['theme_palette'] = theme_conf.colorpalette
-      state['transbg'] = theme_conf.is_trans
-      state['theme_scheme'] = theme_conf.scheme
+      state.theme.scheme = theme_conf.scheme
+      state.theme[theme_conf.scheme] = {}
+      state.theme[theme_conf.scheme]['variant'] = theme_conf.variant
+      state.theme[theme_conf.scheme]['palette'] = theme_conf.colorpalette
+      state.theme[theme_conf.scheme]['transbg'] = theme_conf.is_trans
     end
     if wsplit_id ~= nil then
       state.weather.width = vim.api.nvim_win_get_width(wsplit_id)
@@ -139,10 +145,10 @@ function M.restore_config()
   local cmp_kind_attr = { bold=true, reverse=true }
   if Tweaks.theme.disable == false then
     CFG.theme.setup({
-      scheme = M.perm_config.theme_scheme,
-      variant = M.perm_config.theme_variant,
-      colorpalette = M.perm_config.theme_palette,
-      is_trans = M.perm_config.transbg,
+      scheme = M.perm_config.theme.scheme,
+      variant = M.perm_config.theme[M.perm_config.theme.scheme].variant,
+      colorpalette = M.perm_config.theme[M.perm_config.theme.scheme].palette,
+      is_trans = M.perm_config.theme[M.perm_config.theme.scheme].transbg,
       sync_kittybg = Tweaks.theme.sync_kittybg,
       kittysocket = Tweaks.theme.kittysocket,
       kittenexec = Tweaks.theme.kittenexec,

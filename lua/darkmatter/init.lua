@@ -179,6 +179,11 @@ local function configure()
   rainbowpalette = Scheme.rainbowpalette()
   conf.attrib = vim.tbl_deep_extend("force", Scheme.attributes(), M.attributes_ovr[conf.scheme] or {} )
   conf.schemeconfig = Scheme.schemeconfig()
+
+  if not M.T[conf.variant] then
+    vim.notify(string.format("Darkmatter: Variant %s does not exist in scheme %s. Setting default.", conf.variant, conf.scheme))
+    conf.variant = "warm"
+  end
   conf.style = Scheme.colorstyles()
   for k,v in pairs(conf.colorstyles_ovr) do
     conf.style[k] = v
@@ -693,7 +698,6 @@ local function default_conf_callback(what)
   vim.notify("Darkmatter: default configuration callback in use for " .. what)
 end
 
-local supported_variants = { "warm", "cold", "deepblack", "pitchblack" }
 --- setup the theme
 --- @param opt table - the options to set. will be merged with local
 --- conf table.
@@ -714,9 +718,6 @@ function M.setup(opt)
     conf.scheme = "dark"
   end
 
-  if vim.tbl_contains(supported_variants, conf.variant) == false then
-    conf.variant = "cold"
-  end
   if conf.callback == nil then
     conf.callback = default_conf_callback
   end
