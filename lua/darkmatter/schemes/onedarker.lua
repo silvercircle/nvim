@@ -26,6 +26,7 @@ local schemeconfig = {
     { hl = "Fg", cmd = "cold", text = "Cold (blue tint, original Dracula theme background)", p = 1 },
     { hl = "Fg", cmd = "deepblack", text = "Deep dark (very dark background)", p = 1 },
     { hl = "Fg", cmd = "pitchblack", text = "OLED (pitch black background)", p = 1 },
+    { hl = "Fg", cmd = "deepgreen", text = "Deep Green (very dark green background)", p = 1 },
   }
 }
 
@@ -338,6 +339,22 @@ function M.bgtheme()
       statuslinebg = "#222228",
       bg = "#020202",
       treebg = "#0d0d0d",
+      floatbg = "#0e0d0d",
+      gutterbg = "#020202",
+      kittybg = "#0d0d0d",
+      fg = fg_def,
+      fg_dim = fg_dim_def
+    },
+    deepgreen = {
+      black = { "#151212", 232 },
+      bg_dim = { "#242020", 232 },
+      bg0 = { "#2c2e34", 235 },
+      bg1 = { "#322a2a", 236 },
+      bg2 = { "#403936", 236 },
+      bg4 = { "#555565", 237 },
+      statuslinebg = "#222228",
+      bg = "#060c06",
+      treebg = "#0e130e",
       floatbg = "#0e0d0d",
       gutterbg = "#020202",
       kittybg = "#0d0d0d",
