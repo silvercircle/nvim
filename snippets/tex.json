@@ -9,7 +9,7 @@
   },
   "emphquote": {
     "prefix": "emphquote",
-    "body": "\\emph{„$0”}"
+    "body": "\\emph{„$0“}"
   },
   "textbold": {
     "prefix": "textbold",
