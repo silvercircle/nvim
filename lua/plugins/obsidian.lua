@@ -15,7 +15,7 @@ require("obsidian").setup({
   },
   picker = {
     -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', 'mini.pick' or 'snacks.pick'.
-    name = "snacks.pick",
+    name = "fzf-lua",
     -- Optional, configure key mappings for the picker. These are the defaults.
     -- Not all pickers support all mappings.
     note_mappings = {

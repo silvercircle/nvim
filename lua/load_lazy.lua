@@ -342,19 +342,12 @@ lazy.setup({
         require("plugins.nvim-tree")
       end
     },
-    --{
-    --  "zk-org/zk-nvim",
-    --  lazy = true,
-    --  ft = { "markdown" },
-    --  config = function()
-    --    require("plugins.others").setup.zk()
-    --  end
-    --},
     {
       "obsidian-nvim/obsidian.nvim",
       version = "*", -- recommended, use latest release instead of latest commit
       lazy = true,
       ft = "markdown",
+      cmd = { "Obsidian" },
       dependencies = {
         "nvim-lua/plenary.nvim",
       },

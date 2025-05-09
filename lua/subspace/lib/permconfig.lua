@@ -21,6 +21,15 @@
 ---@class permconfig.outline
 ---@field width integer
 
+---@class permconfig.theme.schemeconfig
+---@field transbg boolean
+---@field variant string
+---@field palette string
+
+---@class permconfig.theme
+---@field scheme string
+---@field gruv   permconfig.theme.schemeconfig
+
 ---@class permconfig
 ---@field sysmon  permconfig.sysmon
 ---@field weather permconfig.weather
@@ -28,7 +37,21 @@
 ---@field tree     permconfig.tree
 ---@field outline  permconfig.outline
 ---@field statuscol_current string
-
+---@field theme   permconfig.theme
+---@field debug   boolean
+---@field indent_guides boolean
+---@field scrollbar boolean
+---@field statusline_declutter integer
+---@field outline_filetype string
+---@field treesitter_context boolean
+---@field show_indicators boolean
+---@field float_borders string
+---@field cmp_show_docs boolean
+---@field autopair boolean
+---@field cmp_layout string
+---@field cmp_automenu boolean
+---@field cmp_ghost boolean
+---
 local function get_permconfig_filename()
   return vim.fs.joinpath(vim.fn.stdpath("state"), "permconfig.json")
 end
@@ -85,7 +108,7 @@ M.perm_config_default = {
   lsp = {
     inlay_hints = LSPDEF.inlay_hints
   },
-  is_dev = false,
+  is_dev = Tweaks.use_foldlevel_patch,
   outline_view = false,
   minimap_view = false,
 }
