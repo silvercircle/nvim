@@ -353,7 +353,7 @@ function M.bgtheme()
       bg2 = { "#403936", 236 },
       bg4 = { "#555565", 237 },
       statuslinebg = "#222228",
-      bg = "#060c06",
+      bg = "#080f08",
       treebg = "#0e130e",
       floatbg = "#0e0d0d",
       gutterbg = "#020202",

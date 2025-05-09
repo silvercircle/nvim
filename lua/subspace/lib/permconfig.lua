@@ -1,6 +1,34 @@
 -- contains functions to save and retrieve a subset of settings to/from a JSON
 -- file in statedir.
 
+---@class permconfig.weather
+---@field active boolean
+---@field width  integer
+---@field content string
+
+---@class permconfig.sysmon
+---@field active boolean
+---@field width  integer
+---@field content string
+
+---@class permconfig.term
+---@field active  boolean
+---@field height  integer
+
+---@class permconfig.tree
+---@field width integer
+
+---@class permconfig.outline
+---@field width integer
+
+---@class permconfig
+---@field sysmon  permconfig.sysmon
+---@field weather permconfig.weather
+---@field terminal permconfig.term
+---@field tree     permconfig.tree
+---@field outline  permconfig.outline
+---@field statuscol_current string
+
 local function get_permconfig_filename()
   return vim.fs.joinpath(vim.fn.stdpath("state"), "permconfig.json")
 end
@@ -9,6 +37,7 @@ local M = {}
 
 -- these are the defaults for the permanent configuration structure. it will be saved to a JSON
 -- file on exit and read on startup.
+---@class permconfig
 M.perm_config_default = {
   sysmon = {
     active = false,
@@ -32,8 +61,6 @@ M.perm_config_default = {
     width = Tweaks.outline.width,
   },
   statuscol_current = "normal",
-  blist = true,
-  blist_height = 0.33,
   theme = {
     scheme = "gruv",
     gruv = {
@@ -63,6 +90,7 @@ M.perm_config_default = {
   minimap_view = false,
 }
 
+---@diagnostic disable-next-line
 M.perm_config = {}
 
 -- write the configuration to the json file
@@ -107,8 +135,16 @@ function M.write_config()
     if usplit_id and usplit_id ~= 0 then
       state.sysmon.width = vim.api.nvim_win_get_width(usplit_id)
     end
-    state.outline_view = TABM.is_outline_open()
-    state.minimap_view = TABM.findWinByFiletype("neominimap")[1] or 0
+    -- don't record state of minimap and outline window(s) when still in the start
+    -- screen
+    if TABM.T[1].id_main and vim.api.nvim_win_is_valid(TABM.T[1].id_main) and
+        vim.bo[vim.api.nvim_win_get_buf(TABM.T[1].id_main)].filetype ~= "alpha" then
+      state.outline_view = TABM.is_outline_open()
+      state.minimap_view = TABM.findWinByFiletype("neominimap")[1] or 0
+    else
+      state.outline_view = PCFG.outline_view
+      state.minimap_view = PCFG.minimap_view
+    end
     local string = vim.fn.json_encode(vim.tbl_deep_extend("force", M.perm_config, state))
     f:write(string)
     io.close(f)
