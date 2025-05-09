@@ -35,8 +35,11 @@ M.server_bin = {
 -- in your $PATH, a full path must be given. The remaining entries of cmd will be passed
 -- as command line args to the LSP
 M.serverconfigs = {
-  ["ts_ls"]                 = { active = true,
+  ["ts_ls"]                 = { active = false,
     cmd = { jp(M.masonbinpath, 'typescript-language-server') }
+  },
+  ["vtsls"]                 = { active = true,
+    cmd = { jp(M.masonbinpath, 'vtsls'), '--stdio' }
   },
   ["texlab"]                = { active = true,
     cmd = { jp(M.localbin, 'texlab') }
