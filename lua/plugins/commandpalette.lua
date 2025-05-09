@@ -14,12 +14,6 @@ require("commandpicker").add({
     category = "@Favorites"
   },
   {
-    desc = "LSP server info",
-    cmd = "<cmd>LspInfo<cr>",
-    keys = { "n", "lsi", noremap },
-    category = "@LSP"
-  },
-  {
     desc = "Peek definitions (Glance plugin)",
     cmd = function() require("glance").open("definitions") end,
     keys = { "n", fkeys.s_f4, noremap },
