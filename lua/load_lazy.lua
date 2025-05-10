@@ -509,6 +509,13 @@ lazy.setup({
           Rule("<", ">")
         })
       end
+    },
+    {
+      'kaarmu/typst.vim',
+      ft = { "typst" },
+      config = function()
+        vim.g.typst_conceal = 1
+      end
     }
   },
   {

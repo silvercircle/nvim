@@ -19,8 +19,6 @@ require("nvim-treesitter.configs").setup({
     disable = { "tex", "latex" }
   },
   indent = {
-    -- FIXME: Setting this to true will cause a huge memory leak when inserting lines
-    -- probably related to: https://github.com/nvim-treesitter/nvim-treesitter/issues/2918
     enable = false
   },
   autotag = {
@@ -34,7 +32,6 @@ require("nvim-treesitter.configs").setup({
       "typescriptreact",
       "vue",
       "xml",
-      "typst"
     }
   }
 })
