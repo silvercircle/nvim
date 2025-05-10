@@ -41,7 +41,7 @@
 ---@field debug   boolean
 ---@field indent_guides boolean
 ---@field scrollbar boolean
----@field statusline_declutter integer
+---@field statusline_verbosity integer
 ---@field outline_filetype string
 ---@field treesitter_context boolean
 ---@field show_indicators boolean
@@ -95,7 +95,7 @@ M.perm_config_default = {
   debug = false,
   indent_guides = true,
   scrollbar = true,
-  statusline_declutter = 0,
+  statusline_verbosity = Tweaks.statusline.lualine.verbosity,
   outline_filetype = "SymbolsSidebar",
   treesitter_context = true,
   show_indicators = true,

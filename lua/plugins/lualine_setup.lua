@@ -44,6 +44,10 @@ local function status_indicators()
          (PCFG.lsp.inlay_hints and 'H' or 'h')
 end
 
+local function get_mem()
+  return string.format("%.1fM", collectgarbage("count") / 1024)
+end
+
 --- internal global function to create the lualine color theme
 --- @return table
 local function lualine_internal_theme()
@@ -102,9 +106,9 @@ local function getWordsV2()
   end
   local wc = vim.fn.wordcount()
   if wc["visual_words"] then -- text is selected in visual mode
-    return wc["visual_words"] .. " Words/" .. wc['visual_chars'] .. " Chars (Vis)"
+    return wc["visual_words"] .. "W/" .. wc['visual_chars'] .. "C (Vis)"
   else -- all of the document
-    return wc["words"] .. " Words"
+    return wc["words"]
   end
 end
 
@@ -183,7 +187,7 @@ require("lualine").setup({
     lualine_b = { "branch", "diff", "diagnostics"  },
     lualine_c = {"filename", "searchcount"--[[, { get_permissions_color }]] },
     lualine_x = {
-      { indentstats, cond = function() return PCFG.statusline_declutter < 3 and true or false end },
+      { indentstats, cond = function() return PCFG.statusline_verbosity >= 3 and true or false end },
       {
         -- show unicode for character under cursor in hex and decimal
         -- "%05B - %06b",
@@ -193,11 +197,14 @@ require("lualine").setup({
         end
       },
       "filetype",
-      { "fileformat", cond = function() return PCFG.statusline_declutter < 2 and true or false end },
+      { "fileformat", cond = function() return PCFG.statusline_verbosity >= 4 and true or false end },
       { status },
-      { "encoding", draw_empty=false, cond = function() return PCFG.statusline_declutter < 2 and true or false end }
+      { "encoding", draw_empty=false, cond = function() return PCFG.statusline_verbosity >= 4 and true or false end }
     },
-    lualine_y = { { "progress", cond = function() return PCFG.statusline_declutter < 1 and true or false end, draw_empty=false} },
+    lualine_y = {
+      { "progress", cond = function() return PCFG.statusline_verbosity >= 3 and true or false end, draw_empty=false},
+      { get_mem, cond = function() return PCFG.statusline_verbosity >= 2 and true or false end, draw_empty=false},
+    },
     -- word counter via custom function
     lualine_z = { { getWordsV2 }, "location" },
   },

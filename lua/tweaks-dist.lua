@@ -275,7 +275,8 @@ Tweaks.statusline = {
     -- lualine theme, eg "dracula"
     theme = "internal",
     -- redraw debounce (in milliseconds)
-    refresh = 2000
+    refresh = 2000,
+    verbosity = 3
   }
 }
 

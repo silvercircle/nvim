@@ -310,11 +310,11 @@ end, "Toggle scrollbar")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'g', function()
   -- declutter status line. There are 4 levels. 0 displays all components, 1-3 disables some
   -- lesser needed
-  PCFG.statusline_declutter = PCFG.statusline_declutter + 1
-  if PCFG.statusline_declutter == 4 then
-    PCFG.statusline_declutter = 0
+  PCFG.statusline_verbosity = PCFG.statusline_verbosity + 1
+  if PCFG.statusline_verbosity == 4 then
+    PCFG.statusline_verbosity = 0
   end
-  vim.notify("Lualine declutter level: " .. PCFG.statusline_declutter, 0, { title = "Lualine" })
+  vim.notify("Lualine declutter level: " .. PCFG.statusline_verbosity, 0, { title = "Lualine" })
 end, "Declutter status line")
 
 vim.g.setkey({'n', 'i'}, '<A-q>', function()
