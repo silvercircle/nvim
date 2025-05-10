@@ -278,7 +278,7 @@ function M.bgtheme()
     treeselbg = "#3a3e5a",
     cline = {
       normal = { "#2c2e34", 111},
-      insert = { "#442e34", 112},
+      insert = { "#341e24", 112},
       visual = { "#2c2e44", 113}
     },
     cold = {
