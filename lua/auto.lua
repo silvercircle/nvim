@@ -190,6 +190,16 @@ autocmd({ 'bufwinleave' }, {
   group = agroup_views
 })
 
+local function fix_obsidian()
+  if Tweaks.use_foldlevel_patch == true then
+    vim.wo.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]
+    --  --o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
+  else
+    vim.wo.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
+  end
+  vim.wo.foldcolumn = "1"
+end
+
 -- just recalculate buffer size in bytes when entering a buffer.
 -- We need this for some performance tweaks
 -- also: set treesitter-context status (per buffer)
@@ -214,6 +224,9 @@ autocmd({ 'BufEnter' }, {
     end
     marks.BufWinEnterHandler(args) -- update marks in sign column
     vim.schedule(function() require("lualine").refresh() end)
+    if vim.bo.filetype == "markdown" then
+      vim.schedule(function() fix_obsidian() end)
+    end
   end,
   group = agroup_views
 })

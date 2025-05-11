@@ -44,5 +44,11 @@ require("obsidian").setup({
       -- Insert a tag at the current location.
       insert_tag = "<C-l>",
     },
+  },
+  ui = {
+    update_debounce = 1000
+  },
+  statusline = {
+    enabled = false
   }
 })

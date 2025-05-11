@@ -110,6 +110,7 @@ local function reverse_hl_groups()
   end
 end
 
+---@diagnostic disable-next-line
 local function italizemenugroups()
   local groups = {
     "CmpItemMenu", "CmpItemMenuPath", "CmpItemMenuDetail",
