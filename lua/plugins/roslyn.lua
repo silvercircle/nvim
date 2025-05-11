@@ -81,6 +81,13 @@ end
 
 require("roslyn").setup({
   config = {
+    cmd = { "dotnet", LSPDEF.server_bin["roslyn"],
+      "--stdio",
+      "--logLevel=Information",
+      "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
+      "--razorSourceGenerator=" .. LSPDEF.roslyn.razor_compiler,
+      "--razorDesignTimePath=" ..  LSPDEF.roslyn.razor_designer
+    },
     filetypes = { "cs", "razor" },
     capabilities = require("lsp.config").get_lsp_capabilities(),
     handlers = require "rzls.roslyn_handlers",
@@ -114,13 +121,4 @@ require("roslyn").setup({
     }
   },
   roslyn_version = "4.14.0-3.25054.1",
-  dotnet_cmd = "dotnet",
-  exe = { "dotnet", LSPDEF.server_bin["roslyn"] },
-  args = {
-    "--stdio",
-    "--logLevel=Information",
-    "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
-  "--razorSourceGenerator=" .. LSPDEF.roslyn.razor_compiler,
-  "--razorDesignTimePath=" ..  LSPDEF.roslyn.razor_designer
-  }
 })
