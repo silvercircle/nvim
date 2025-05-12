@@ -134,7 +134,7 @@ end
 
 function Wx:render()
   local results = {}
-  vim.api.nvim_buf_clear_namespace(self.owner.id_buf, self.ws.nsid, 0, -1)
+  vim.api.nvim_buf_clear_namespace(self.owner.id_buf, -1 --[[self.ws.nsid]], 0, -1)
   if vim.fn.filereadable(self.ws.weatherfile) then
     local lines = {}
     local file = io.open(self.ws.weatherfile)
@@ -208,7 +208,7 @@ function Wx:render()
 end
 
 function Wx:destroy()
-  vim.api.nvim_buf_clear_namespace(self.owner.id_buf, self.ws.nsid, 0, -1)
+  vim.api.nvim_buf_clear_namespace(self.owner.id_buf, -1 --[[self.ws.nsid]], 0, -1)
 end
 
 local M = {}
