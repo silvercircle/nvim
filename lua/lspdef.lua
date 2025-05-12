@@ -20,7 +20,7 @@ M.localbin        = jp(M.homepath, '.local/bin/')
 -- binaries for external LSP plugins not covered by lspconfig
 M.server_bin = {
   metals        =   '$HOME/.local/share/coursier/bin/metals',
-  roslyn        =   jp(vim.fn.stdpath("data"), "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll"),
+  roslyn        =   jp(M.masonbasepath, "packages/roslyn/libexec/Microsoft.CodeAnalysis.LanguageServer.dll"),
 }
 
 -- exceptions:
@@ -165,15 +165,14 @@ M.jdtls = {
 -- locations you have installed the Roslyn and rzls language servers.
 M.roslyn = {
   razor_compiler = jp(
-    vim.fn.stdpath("data"),
-    -- 'mason',
-    -- 'packages',
-    "roslyn",
+    M.masonbasepath,
+    'packages',
+    "rzls",
+    "libexec",
     "Microsoft.CodeAnalysis.Razor.Compiler.dll"
   ),
   razor_designer = jp(
-    vim.fn.stdpath("data"),
-    "mason",
+    M.masonbasepath,
     "packages",
     "rzls",
     "libexec",
