@@ -99,11 +99,6 @@ vim.g.startify_top = {
   }
 }
 
--- this table holds full path information for lsp server binaries. They can be installed with mason or
--- manually. plugins/lsp.lua does all the real work. Mason and mason-lspconfig are optional.
--- They allow easy installation and upgrading of your lsp servers, but if you do this manually,
--- nvim-lspconfig alone is enough for a working LSP setup.
-
 vim.g.confirm_actions = {
   exit = true,            -- ALWAYS confirm force-close (Alt-q), even when no buffers are modified
   close_buffer = true,    -- <C-x><C-c>: only confirm when buffer modified

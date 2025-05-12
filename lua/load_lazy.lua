@@ -276,6 +276,10 @@ lazy.setup({
           ui = {
             border = Borderfactory("thicc"),
             backdrop = 100
+          },
+          registries = {
+            "github:mason-org/mason-registry",
+            "github:Crashdummyy/mason-registry",
           }
         })
       end
@@ -449,6 +453,7 @@ lazy.setup({
       dependencies = {
         {
           "tris203/rzls.nvim",
+          branch = "pullDiags",
           ft = { "razor" },
           config = function()
             require("rzls").setup({
@@ -520,6 +525,11 @@ lazy.setup({
       ft = { "typst" },
       config = function()
         vim.g.typst_conceal = 1
+        vim.g.typst_conceal_math = 0
+        vim.g.typst_conceal_emoji= 1
+        vim.g.typst_auto_open_quickfix = 0
+        vim.g.typst_folding = 1
+        vim.g.typst_foldnested = 1
       end
     }
   },
