@@ -247,9 +247,9 @@ end
 -- we use the same fg colors for all 3 variants, so just define them
 -- once
 local fg_def = {
-  vivid  = "#ebdbb2",
-  medium = "#bbab92",
-  pastel = "#9b8b72"
+  vivid  = "#e5dbca",
+  medium = "#b5abaa",
+  pastel = "#958b8a"
 }
 
 local fg_dim_def = {
