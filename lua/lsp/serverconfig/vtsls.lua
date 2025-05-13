@@ -22,4 +22,15 @@ return {
     'typescript.tsx',
   },
   root_markers = { 'tsconfig.json', 'package.json', 'jsconfig.json', '.git' },
+  reuse_client = function(client, config)
+    if client.name == "vtsls" and (config.root_dir == "." or config.root_dir == client.root_dir) then
+      return true
+    else
+      return false
+    end
+  end,
+  root_dir = function(_, rdir)
+    local dir = require("subspace.lib").getroot_current()
+    rdir(dir)
+  end,
 }

@@ -71,7 +71,7 @@ return {
   ---@param config vim.lsp.ClientConfig
   reuse_client = function(client, config)
     if client.name == "clangd" and (config.root_dir == "." or config.root_dir == client.root_dir) then
-        return true
+      return true
     else
       return false
     end
