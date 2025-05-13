@@ -5,6 +5,7 @@ require("obsidian").setup({
       path = "~/Documents/zettelkasten",
     },
   },
+  preferred_link_style = "wiki",
   completion = {
     -- Enables completion using nvim_cmp
     nvim_cmp = false,

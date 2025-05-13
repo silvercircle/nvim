@@ -296,7 +296,9 @@ Tweaks.outline = {
 -- a list of filename patterns that define a project root. This will be used as some kind of
 -- fallback when no other means of finding a project's root are successfull. This is highly
 -- incomplete and inaccurate, but you can expand this with whatever you want.
-Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "settings.gradle", "pom.xml", "*.sln", "build.zig", "go.mod", "go.sum" }
+Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble",
+  "settings.gradle", "pom.xml", "*.sln", "build.zig", "go.mod", "go.sum",
+  "package.json", "pyproject.toml", "tsconfig.json", "jsconfig.json" }
 Tweaks.srclocations = { "src", "source", "sources", "SRC", "Src", "SOURCE", "Source", "Sources", "lua" }
 Tweaks.cokeline = {
   closebutton = false,

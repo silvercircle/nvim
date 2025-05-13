@@ -15,6 +15,11 @@ local to_enable = {}
 local function do_setup()
   local caps = M.get_lsp_capabilities()
 
+  vim.lsp.config("*", {
+    on_attach = ON_LSP_ATTACH,
+    capabilities = caps
+  })
+
   for k, v in pairs(LSPDEF.serverconfigs) do
     if v.active == true then
       local s, config = pcall(require, "lsp.serverconfig." .. k)
@@ -52,11 +57,6 @@ local function do_setup()
   end
 
   vim.lsp.enable(to_enable)
-  -- modify defaults for all configurations
-  vim.lsp.config("*", {
-    on_attach = ON_LSP_ATTACH,
-    capabilities = caps
-  })
 end
 
 M.lsp_capabilities = nil
