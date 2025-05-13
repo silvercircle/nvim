@@ -66,8 +66,8 @@ require("commandpicker").add({
     category = "@LSP Diagnostics"
   },
   {
-    desc = "Code action",
-    cmd = function() vim.lsp.buf.code_action() end,
+    desc = "Code actions",
+    cmd = function() fzf.lsp_code_actions( { silent = true, winopts = FWO("mini_with_preview", "Code actions") } ) end,
     keys = { "n", "DA", },
     category = "@LSP Diagnostics"
   },

@@ -494,8 +494,8 @@ end, "Show buftype of current buffer")
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
   local status = TABM.is_outline_open()
   if status ~= false then
-    local sb = require("symbols").sidebar.get()
-    if sb then require("symbols").sidebar.symbols.force_refresh(sb) end
+    -- simply fire BufWinEnter this will refresh the symbols sidebar
+    vim.api.nvim_exec_autocmds({"BufWinEnter"}, {})
   end
 end, "Refresh outline symbols")
 
