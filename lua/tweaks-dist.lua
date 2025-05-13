@@ -283,7 +283,7 @@ Tweaks.statusline = {
 -- filetree tweaks
 Tweaks.tree = {
   -- valid versions are Neo (for NeoTree), Nvim (for NvimTree)
-  version = "Nvim",
+  version = "Neo",
   -- use the git integration (currently only available for NeoTree)
   use_git = true,
   -- this is a minimum value
@@ -398,7 +398,7 @@ Tweaks.ft_patterns = {
   indentkeys  = { "c", "cpp", "python" },
   tabstop     = { "vim", "nim", "python", "lua", "json", "html", "css", "dart", "go" },
   -- this MUST be a list of filetypes
-  enter_leave = { "NvimTree", "snacks_picker_list", "SymbolsSidebar", "SymbolsSearch" }
+  enter_leave = { "neo-tree", "NvimTree", "snacks_picker_list", "SymbolsSidebar", "SymbolsSearch" }
 }
 
 return Tweaks

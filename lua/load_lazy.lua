@@ -346,9 +346,23 @@ lazy.setup({
     },
     {
       "nvim-tree/nvim-tree.lua",
-      -- LAZY = true,
+      cond = Tweaks.tree.version == "Nvim",
       config = function()
         require("plugins.nvim-tree")
+      end
+    },
+    {
+      "nvim-neo-tree/neo-tree.nvim",
+      cond = Tweaks.tree.version == "Neo",
+      branch = "v3.x",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+        "MunifTanjim/nui.nvim",
+        -- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
+      },
+      config = function()
+        require("plugins.neotree")
       end
     },
     {

@@ -150,7 +150,7 @@ require("neo-tree").setup({
       size = { height = "70%", width = "60" },
       position = "50%", -- 50% means center it
     },
-    width = CGLOBALS.perm_config.tree.width,
+    width = PCFG.tree.width,
     mapping_options = {
       noremap = true,
       nowait = true,
@@ -279,11 +279,11 @@ require("neo-tree").setup({
   event_handlers = {
     {
       event = "neo_tree_window_after_open",
-      handler = function(_) CGLOBALS.tree_open_handler() end
+      handler = function(_) TABM.tree_open_handler() end
     },
     {
       event = "neo_tree_window_after_close",
-      handler = function() CGLOBALS.tree_close_handler() end
+      handler = function() TABM.tree_close_handler() end
     },
     {
       event = "neo_tree_popup_input_ready",

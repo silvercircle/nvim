@@ -160,8 +160,8 @@ require("lualine").setup({
     -- section_separators = { left = "", right = "" },
     disabled_filetypes = {
       statusline = { "SymbolsSidebar", "SymbolsHelp", "SymbolsSearch",
-        "terminal", "sysmon", "weather", "NvimTree", "query_rt", "DiffviewFiles", "neominimap" },
-      winbar = { "terminal", "qf", "NvimTree", "alpha", "sysmon", "weather", "query_rt", "help",
+        "terminal", "sysmon", "weather", Tweaks.tree.filetype, "query_rt", "DiffviewFiles", "neominimap" },
+      winbar = { "terminal", "qf", Tweaks.tree.filetype, "alpha", "sysmon", "weather", "query_rt", "help",
         "dap-repl", "dapui_console", "dapui_watches", "dapui_stacks", "dapui_scopes", "dapui_breakpoints",
         "snacks_picker_preview", "snacks_dashboard", "SymbolsSidebar", "SymbolsHelp", "SymbolsSearch", "DiffviewFiles", "neominimap" },
       tabline = {},
