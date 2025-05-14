@@ -10,8 +10,8 @@ end
 require("neo-tree").setup({
   sources = {
     "filesystem",
-    --"git_status",
-    "buffers"
+    "buffers",
+    "document_symbols"
   },
   enable_opened_markers = true,   -- Enable tracking of opened files. Required for `components.name.highlight_opened_files`
   enable_refresh_on_write = true, -- Refresh the tree when a file is written. Only used if `use_libuv_file_watcher` is false.
@@ -37,11 +37,23 @@ require("neo-tree").setup({
     statusline = false, -- toggle to show selector on statusline
     show_scrolled_off_parent_node = false, -- this will replace the tabs with the parent path
     -- of the top visible node when scrolled down.
-    sources = { -- falls back to source_name if nil
-      filesystem = "  Files ",
-      buffers = "  Buffers ",
-      git_status = "  Git ",
-      diagnostics = " 裂Diagnostics ",
+    sources = { -- table
+      {
+        source = "filesystem", -- string
+        display_name = " 󰉓 Files " -- string | nil
+      },
+      {
+        source = "buffers", -- string
+        display_name = " 󰈚 Buffers " -- string | nil
+      },
+      {
+        source = "git_status", -- string
+        display_name = " 󰊢 Git " -- string | nil
+      },
+      {
+        source = "document_symbols", -- string
+        display_name = "  Symbols " -- string | nil
+      }
     },
     content_layout = "start", -- only with `tabs_layout` = "equal", "focus"
     --                start  : |/ 裡 bufname     \/...
@@ -88,10 +100,10 @@ require("neo-tree").setup({
       last_indent_marker = "└",
       highlight = "NeoTreeIndentMarker",
       -- expander config, needed for nesting files
-      with_expanders = nil, -- if nil and file nesting is enabled, will enable expanders
+      with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
       expander_collapsed = "",
       expander_expanded = "",
-      expander_highlight = "NeoTreeExpander",
+      expander_highlight = "Operator",
     },
     icon = {
       folder_closed = "",
@@ -101,7 +113,6 @@ require("neo-tree").setup({
       -- then these will never be used.
       default = "* ",
       highlight = "NeoTreeFileIcon",
-
     },
     modified = {
       symbol = "[+]",
@@ -143,125 +154,125 @@ require("neo-tree").setup({
         conflict = "",
       },
     },
-  },
-  window = {
-    position = "left",
-    popup = { -- settings that apply to float position only
-      size = { height = "70%", width = "60" },
-      position = "50%", -- 50% means center it
-    },
-    width = PCFG.tree.width,
-    mapping_options = {
-      noremap = true,
-      nowait = true,
-    },
-    mappings = {
-      ["<space>"] = {
-        "toggle_node",
-        nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
+    window = {
+      position = "left",
+      popup = {         -- settings that apply to float position only
+        size = { height = "70%", width = "60" },
+        position = "50%", -- 50% means center it
       },
-      ["<2-LeftMouse>"] = "open",
-      ["<cr>"] = "open",
-      ["<esc>"] = "revert_preview",
-      ["P"] = { "toggle_preview", config = { use_float = true } },
-      ["S"] = "open_split",
-      ["s"] = "open_vsplit",
-      -- ["S"] = "split_with_window_picker",
-      -- ["s"] = "vsplit_with_window_picker",
-      ["t"] = "open_tabnew",
-      -- ["<cr>"] = "open_drop",
-      -- ["t"] = "open_tab_drop",
-      ["w"] = "open_with_window_picker",
-      --["P"] = "toggle_preview", -- enter preview mode, which shows the current node without focusing
-      ["C"] = "close_node",
-      ["z"] = "close_all_nodes",
-      --["Z"] = "expand_all_nodes",
-      ["a"] = {
-        "add",
-        -- some commands may take optional config options, see `:h neo-tree-mappings` for details
-        config = {
-          show_path = "none", -- "none", "relative", "absolute"
+      width = PCFG.tree.width,
+      mapping_options = {
+        noremap = true,
+        nowait = true,
+      },
+      mappings = {
+        ["<space>"] = {
+          "toggle_node",
+          nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
         },
+        ["<2-LeftMouse>"] = "open",
+        ["<cr>"] = "open",
+        ["<esc>"] = "cancel", -- close preview or floating neo-tree window
+        ["P"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
+        -- Read `# Preview Mode` for more information
+        ["l"] = "focus_preview",
+        ["S"] = "open_split",
+        ["s"] = "open_vsplit",
+        -- ["S"] = "split_with_window_picker",
+        -- ["s"] = "vsplit_with_window_picker",
+        ["t"] = "open_tabnew",
+        -- ["<cr>"] = "open_drop",
+        -- ["t"] = "open_tab_drop",
+        ["w"] = "open_with_window_picker",
+        --["P"] = "toggle_preview", -- enter preview mode, which shows the current node without focusing
+        ["C"] = "close_node",
+        -- ['C'] = 'close_all_subnodes',
+        ["z"] = "close_all_nodes",
+        --["Z"] = "expand_all_nodes",
+        --["Z"] = "expand_all_subnodes",
+        ["a"] = {
+          "add",
+          -- this command supports BASH style brace expansion ("x{a,b,c}" -> xa,xb,xc). see `:h neo-tree-file-actions` for details
+          -- some commands may take optional config options, see `:h neo-tree-mappings` for details
+          config = {
+            show_path = "none", -- "none", "relative", "absolute"
+          },
+        },
+        ["A"] = "add_directory", -- also accepts the optional config.show_path option like "add". this also supports BASH style brace expansion.
+        ["d"] = "delete",
+        ["r"] = "rename",
+        ["b"] = "rename_basename",
+        ["y"] = "copy_to_clipboard",
+        ["x"] = "cut_to_clipboard",
+        ["p"] = "paste_from_clipboard",
+        ["c"] = "copy", -- takes text input for destination, also accepts the optional config.show_path option like "add":
+        -- ["c"] = {
+        --  "copy",
+        --  config = {
+        --    show_path = "none" -- "none", "relative", "absolute"
+        --  }
+        --}
+        ["m"] = "move", -- takes text input for destination, also accepts the optional config.show_path option like "add".
+        ["q"] = "close_window",
+        ["R"] = "refresh",
+        ["?"] = "show_help",
+        ["<"] = "prev_source",
+        [">"] = "next_source",
+        ["i"] = "show_file_details",
+        -- ["i"] = {
+        --   "show_file_details",
+        --   -- format strings of the timestamps shown for date created and last modified (see `:h os.date()`)
+        --   -- both options accept a string or a function that takes in the date in seconds and returns a string to display
+        --   -- config = {
+        --   --   created_format = "%Y-%m-%d %I:%M %p",
+        --   --   modified_format = "relative", -- equivalent to the line below
+        --   --   modified_format = function(seconds) return require('neo-tree.utils').relative_date(seconds) end
+        --   -- }
+        -- },
       },
-      ["A"] = "add_directory", -- also accepts the optional config.show_path option like "add".
-      ["d"] = "delete",
-      ["r"] = "rename",
-      ["y"] = "copy_to_clipboard",
-      ["x"] = "cut_to_clipboard",
-      ["p"] = "paste_from_clipboard",
-      ["c"] = "copy", -- takes text input for destination, also accepts the optional config.show_path option like "add":
-      -- ["c"] = {
-      --  "copy",
-      --  config = {
-      --    show_path = "none" -- "none", "relative", "absolute"
-      --  }
-      --}
-      ["m"] = "move", -- takes text input for destination, also accepts the optional config.show_path option like "add".
-      ["q"] = "close_window",
-      ["R"] = "refresh",
-      ["?"] = "show_help",
-      ["<"] = "prev_source",
-      [">"] = "next_source",
     },
   },
   nesting_rules = {},
   filesystem = {
-    components = {
-      name = function(config, node, _)
-        local result = {
-          -- add some padding
-          text = " " .. node.name
-        }
-        if node.type == "file" then
-          local rc = find_buffer_by_name(node.path)
-          if rc >= 0 and vim.api.nvim_buf_is_loaded(rc) then
-            result.highlight = "NeoTreeFilenameOpened"
-          else
-            result.highlight = config.highlight
-          end
-        elseif node.type == "directory" then
-          result.highlight = highlights.DIRECTORY_ICON
-        else
-          result.highlight = "NeoTreeMessage"
-        end
-        return result
-      end
-    },
-    bind_to_cwd = true,
     filtered_items = {
-      visible = false, -- when true, they will just be displayed differently than normal items
-      hide_dotfiles = false,
+      visible = false,       -- when true, they will just be displayed differently than normal items
+      hide_dotfiles = true,
       hide_gitignored = true,
-      hide_hidden = true, -- only works on Windows for hidden files/directories
+      hide_hidden = true,       -- only works on Windows for hidden files/directories
       hide_by_name = {
         --"node_modules"
       },
-      hide_by_pattern = { -- uses glob style patterns
+      hide_by_pattern = {       -- uses glob style patterns
         --"*.meta",
         --"*/src/*/tsconfig.json",
       },
-      always_show = { -- remains visible even if other settings would normally hide it
-        ".gitignore",
-        ".editorconfig"
+      always_show = {       -- remains visible even if other settings would normally hide it
+        --".gitignored",
       },
-      never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
+      always_show_by_pattern = {       -- uses glob style patterns
+        --".env*",
+      },
+      never_show = {       -- remains hidden even if visible is toggled to true, this overrides always_show
         --".DS_Store",
         --"thumbs.db"
       },
-      never_show_by_pattern = { -- uses glob style patterns
+      never_show_by_pattern = {       -- uses glob style patterns
         --".null-ls_*",
       },
     },
-    follow_current_file = { enabled = false }, -- This will find and focus the file in the active buffer every
-    -- time the current file is changed while the tree is open.
-    group_empty_dirs = false, -- when true, empty folders will be grouped together
-    hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
+    follow_current_file = {
+      enabled = false,                            -- This will find and focus the file in the active buffer every time
+      --               -- the current file is changed while the tree is open.
+      leave_dirs_open = false,                    -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+    },
+    group_empty_dirs = false,                     -- when true, empty folders will be grouped together
+    hijack_netrw_behavior = "open_default",       -- netrw disabled, opening a directory opens neo-tree
     -- in whatever position is specified in window.position
     -- "open_current",  -- netrw disabled, opening a directory opens within the
     -- window like netrw would, regardless of window.position
     -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
-    use_libuv_file_watcher = true, -- When true, it will use the OS level file watchers to detect changes
-                                    -- instead of relying on nvim autocmd events.
+    use_libuv_file_watcher = false,       -- This will use the OS level file watchers to detect changes
+    -- instead of relying on nvim autocmd events.
     window = {
       mappings = {
         ["<bs>"] = "navigate_up",
@@ -269,12 +280,89 @@ require("neo-tree").setup({
         ["H"] = "toggle_hidden",
         ["/"] = "fuzzy_finder",
         ["D"] = "fuzzy_finder_directory",
+        ["#"] = "fuzzy_sorter",       -- fuzzy sorting using the fzy algorithm
+        -- ["D"] = "fuzzy_sorter_directory",
         ["f"] = "filter_on_submit",
         ["<c-x>"] = "clear_filter",
         ["[g"] = "prev_git_modified",
         ["]g"] = "next_git_modified",
+        ["o"] = {
+          "show_help",
+          nowait = false,
+          config = { title = "Order by", prefix_key = "o" },
+        },
+        ["oc"] = { "order_by_created", nowait = false },
+        ["od"] = { "order_by_diagnostics", nowait = false },
+        ["og"] = { "order_by_git_status", nowait = false },
+        ["om"] = { "order_by_modified", nowait = false },
+        ["on"] = { "order_by_name", nowait = false },
+        ["os"] = { "order_by_size", nowait = false },
+        ["ot"] = { "order_by_type", nowait = false },
+        -- ['<key>'] = function(state) ... end,
+      },
+      fuzzy_finder_mappings = {       -- define keymaps for filter popup window in fuzzy_finder_mode
+        ["<down>"] = "move_cursor_down",
+        ["<C-n>"] = "move_cursor_down",
+        ["<up>"] = "move_cursor_up",
+        ["<C-p>"] = "move_cursor_up",
+        ["<esc>"] = "close",
+        -- ['<key>'] = function(state, scroll_padding) ... end,
       },
     },
+    commands = {},       -- Add a custom command or override a global one using the same function name
+  },
+  buffers = {
+    follow_current_file = {
+      enabled = true,                -- This will find and focus the file in the active buffer every time
+      --              -- the current file is changed while the tree is open.
+      leave_dirs_open = false,       -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+    },
+    group_empty_dirs = true,         -- when true, empty folders will be grouped together
+    show_unloaded = true,
+    window = {
+      mappings = {
+        ["d"] = "buffer_delete",
+        ["bd"] = "buffer_delete",
+        ["<bs>"] = "navigate_up",
+        ["."] = "set_root",
+        ["o"] = {
+          "show_help",
+          nowait = false,
+          config = { title = "Order by", prefix_key = "o" },
+        },
+        ["oc"] = { "order_by_created", nowait = false },
+        ["od"] = { "order_by_diagnostics", nowait = false },
+        ["om"] = { "order_by_modified", nowait = false },
+        ["on"] = { "order_by_name", nowait = false },
+        ["os"] = { "order_by_size", nowait = false },
+        ["ot"] = { "order_by_type", nowait = false },
+      },
+    },
+  },
+  git_status = {
+    window = {
+      position = "float",
+      mappings = {
+        ["A"] = "git_add_all",
+        ["gu"] = "git_unstage_file",
+        ["ga"] = "git_add_file",
+        ["gr"] = "git_revert_file",
+        ["gc"] = "git_commit",
+        ["gp"] = "git_push",
+        ["gg"] = "git_commit_and_push",
+        ["o"] = {
+          "show_help",
+          nowait = false,
+          config = { title = "Order by", prefix_key = "o" },
+        },
+        ["oc"] = { "order_by_created", nowait = false },
+        ["od"] = { "order_by_diagnostics", nowait = false },
+        ["om"] = { "order_by_modified", nowait = false },
+        ["on"] = { "order_by_name", nowait = false },
+        ["os"] = { "order_by_size", nowait = false },
+        ["ot"] = { "order_by_type", nowait = false },
+      },
+    }
   },
   event_handlers = {
     {
@@ -293,38 +381,7 @@ require("neo-tree").setup({
         vim.keymap.set("i", "<esc>", vim.cmd.stopinsert, { noremap = true, buffer = args.bufnr })
       end,
     }
-  },
-  buffers = {
-    follow_current_file = { enabled = true }, -- This will find and focus the file in the active buffer every
-    -- time the current file is changed while the tree is open.
-    group_empty_dirs = true, -- when true, empty folders will be grouped together
-    show_unloaded = true,
-    window = {
-      position = "float",
-      popup = {
-        size = { height = 40, width = 50 },
-      },
-      mappings = {
-        ["bd"] = "buffer_delete",
-        ["<bs>"] = "navigate_up",
-        ["."] = "set_root",
-      },
-    },
-  },
-  git_status = {
-    window = {
-      position = "left",
-      mappings = {
-        ["A"] = "git_add_all",
-        ["gu"] = "git_unstage_file",
-        ["ga"] = "git_add_file",
-        ["gr"] = "git_revert_file",
-        ["gc"] = "git_commit",
-        ["gp"] = "git_push",
-        ["gg"] = "git_commit_and_push",
-      },
-    },
-  },
+  }
 })
 
 local nc = require("neo-tree.command")

@@ -2,6 +2,7 @@
 ---@field id_main integer    -- main window id
 ---@field id_cur  integer    -- current window
 ---@field id_page integer   -- tabpage #
+---@field id_tree integer?   -- neotree id
 ---@field term term         -- term split
 ---@field wsplit wsplit
 ---@field usplit subspace.Usplit
@@ -40,6 +41,7 @@ function M.new(tabpage)
     id_cur = 0,
     id_page = tabpage,
     id_outline = nil,
+    id_tree = nil,
     term = { id_buf = nil, id_win = nil, height = 0, visible = false },
     wsplit = {
       id_win = nil,
@@ -354,6 +356,7 @@ function M.tree_open_handler()
 
   vim.opt.statuscolumn = ""
   local w = vim.fn.win_getid()
+  M.T[M.active].id_tree = w
   vim.api.nvim_set_option_value("statusline", "   " .. (Tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"), { win = w })
   vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber")
   M.adjust_layout()

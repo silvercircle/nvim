@@ -496,6 +496,12 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
   if status ~= false then
     -- simply fire BufWinEnter this will refresh the symbols sidebar
     vim.api.nvim_exec_autocmds({"BufWinEnter"}, {})
+  elseif Tweaks.tree.version == "Neo" then
+    vim.cmd("Neotree focus")
+    vim.cmd("Neotree source=document_symbols")
+    vim.schedule(function()
+      --vim.cmd("wincmd p")
+    end)
   end
 end, "Refresh outline symbols")
 
