@@ -354,7 +354,7 @@ lazy.setup({
     {
       "nvim-neo-tree/neo-tree.nvim",
       cond = Tweaks.tree.version == "Neo",
-      branch = "v3.x",
+      branch = "main",
       dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended

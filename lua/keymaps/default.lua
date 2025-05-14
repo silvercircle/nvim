@@ -505,6 +505,18 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
   end
 end, "Refresh outline symbols")
 
+if Tweaks.tree.version == "Neo" then
+  vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '7', function()
+    vim.cmd("Neotree source=filesystem")
+  end)
+  vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '8', function()
+    vim.cmd("Neotree source=buffers")
+  end)
+  vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '9', function()
+    vim.cmd("Neotree source=document_symbols")
+  end)
+end
+
 vim.g.setkey( {'n', 'i'}, '<C-S-E>', function()
   Snacks.picker.smart({ layout = SPL( {width = 70, height = 20, row = 5, title = "Buffers", input = "top" } ) })
 end, "Snacks buffer list")

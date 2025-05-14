@@ -1,3 +1,4 @@
+local _s = CFG.lspkind_symbols
 local highlights = require("neo-tree.ui.highlights")
 local function find_buffer_by_name(name)
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
@@ -313,7 +314,7 @@ require("neo-tree").setup({
   },
   buffers = {
     follow_current_file = {
-      enabled = true,                -- This will find and focus the file in the active buffer every time
+      enabled = false,                -- This will find and focus the file in the active buffer every time
       --              -- the current file is changed while the tree is open.
       leave_dirs_open = false,       -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
     },
@@ -364,7 +365,60 @@ require("neo-tree").setup({
       },
     }
   },
+  document_symbols = {
+    follow_cursor = true,
+    window = {
+      mappings = {
+        ["<cr>"] = function(state)
+          local node = state.tree:get_node()
+          require("neo-tree.sources.document_symbols.commands").jump_to_symbol(state, node)
+          vim.schedule(function() 
+            vim.fn.win_execute(vim.fn.win_getid(), "normal! zv")
+          end)
+        end
+      }
+    },
+    kinds = {
+      File          = { icon = _s.File, hl = "@text.uri" },
+      Module        = { icon = _s.Module, hl = "Include" },
+      Namespace     = { icon = _s.Namespace, hl = "@namespace" },
+      Package       = { icon = _s.Package, hl = "Include" },
+      Class         = { icon = _s.Class, hl = "Class" },
+      Method        = { icon = _s.Method, hl = "@method" },
+      Property      = { icon = _s.Property, hl = "@property" },
+      Field         = { icon = _s.Field, hl = "@field" },
+      Constructor   = { icon = _s.Constructor, hl = "@constructor" },
+      Enum          = { icon = _s.Enum, hl = "@type" },
+      Interface     = { icon = _s.Interface, hl = "Interface" },
+      Function      = { icon = _s.Function, hl = "@function" },
+      Variable      = { icon = _s.Variable, hl = "@constant" },
+      Constant      = { icon = _s.Constant, hl = "@constant" },
+      String        = { icon = _s.String, hl = "@string" },
+      Number        = { icon = _s.Number, hl = "@number" },
+      Boolean       = { icon = _s.Boolean, hl = "@boolean" },
+      Array         = { icon = _s.Array, hl = "@constant" },
+      Object        = { icon = _s.Object, hl = "@type" },
+      Key           = { icon = _s.Key, hl = "@type" },
+      Null          = { icon = _s.Null, hl = "@type" },
+      EnumMember    = { icon = _s.EnumMember, hl = "@field" },
+      Struct        = { icon = _s.Struct, hl = "@type" },
+      Event         = { icon = _s.Event, hl = "@type" },
+      Operator      = { icon = _s.Operator, hl = "@operator" },
+      TypeParameter = { icon = _s.TypeParameter, hl = "@parameter" },
+      Component     = { icon = _s.Module, hl = "@function" },
+      Fragment      = { icon = _s.Array, hl = "@constant" },
+      -- Added ccls symbols in this fork
+      TypeAlias     = { icon = _s.Type, hl = '@type' },
+      Parameter     = { icon = _s.TypeParameter, hl = '@parameter' },
+      StaticMethod  = { icon = _s.Method, hl = '@function' },
+      Macro         = { icon = ' ', hl = '@macro' },
+    }
+  },
   event_handlers = {
+    {
+      event = "file_opened",
+      handler = function() vim.notify("File Opened") end
+    },
     {
       event = "neo_tree_window_after_open",
       handler = function(_) TABM.tree_open_handler() end

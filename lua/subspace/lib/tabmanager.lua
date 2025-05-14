@@ -353,12 +353,19 @@ end
 function M.tree_open_handler()
   local wsplit = require("subspace.content.wsplit")
   local ws = M.get().wsplit
+  local w = nil
 
-  vim.opt.statuscolumn = ""
-  local w = vim.fn.win_getid()
-  M.T[M.active].id_tree = w
+  if M.T[M.active].id_tree == nil then
+    w = vim.fn.win_getid()
+    M.T[M.active].id_tree = w
+  end
+  w = M.T[M.active].id_tree
   vim.api.nvim_set_option_value("statusline", "   " .. (Tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"), { win = w })
-  vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber")
+  --vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber")
+  vim.api.nvim_set_option_value("winhl", "Normal:TreeNormalNC,CursorLine:Visual", { win = w } )
+  vim.api.nvim_set_option_value("statuscolumn", "", { scope = "local", win = w } )
+  vim.api.nvim_set_option_value("signcolumn", "no", { scope = "local", win = w } )
+  vim.api.nvim_set_option_value("number", false, { scope = "local", win = w } )
   M.adjust_layout()
   vim.api.nvim_win_set_width(w, PCFG.tree.width)
   if PCFG.weather.active == true then
@@ -375,6 +382,7 @@ function M.tree_close_handler()
   local wsplit = require("subspace.content.wsplit")
   wsplit.close()
   M.T[M.active].wsplit.id_win = nil
+  M.T[M.active].id_tree = nil
   M.adjust_layout()
   if M.T[M.active].term.id_win ~= nil then
     vim.api.nvim_win_set_height(M.T[M.active].term.id_win, M.T[M.active].term.height)

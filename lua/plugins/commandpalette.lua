@@ -474,7 +474,7 @@ require("commandpicker").add({
     desc = "FZF Helptags",
     cmd = function()
       fzf.helptags({
-        winopts = fzf_tweaks.winopts.big_preview_topbig,
+        winopts = fzf_tweaks.winopts.narrow_small_preview,
       })
     end,
     keys = {
