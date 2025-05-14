@@ -235,44 +235,66 @@ require("neo-tree").setup({
   },
   nesting_rules = {},
   filesystem = {
+    bind_to_cwd = true,
+    components = {
+      name = function(config, node, _)
+        local result = {
+          -- add some padding
+          text = " " .. node.name
+        }
+        if node.type == "file" then
+          local rc = find_buffer_by_name(node.path)
+          if rc >= 0 and vim.api.nvim_buf_is_loaded(rc) then
+            result.highlight = "NeoTreeFilenameOpened"
+          else
+            result.highlight = config.highlight
+          end
+        elseif node.type == "directory" then
+          result.highlight = highlights.DIRECTORY_ICON
+        else
+          result.highlight = "NeoTreeMessage"
+        end
+        return result
+      end
+    },
     filtered_items = {
-      visible = false,       -- when true, they will just be displayed differently than normal items
+      visible = false, -- when true, they will just be displayed differently than normal items
       hide_dotfiles = true,
       hide_gitignored = true,
-      hide_hidden = true,       -- only works on Windows for hidden files/directories
+      hide_hidden = true, -- only works on Windows for hidden files/directories
       hide_by_name = {
         --"node_modules"
       },
-      hide_by_pattern = {       -- uses glob style patterns
+      hide_by_pattern = { -- uses glob style patterns
         --"*.meta",
         --"*/src/*/tsconfig.json",
       },
-      always_show = {       -- remains visible even if other settings would normally hide it
+      always_show = { -- remains visible even if other settings would normally hide it
         --".gitignored",
       },
-      always_show_by_pattern = {       -- uses glob style patterns
+      always_show_by_pattern = { -- uses glob style patterns
         --".env*",
       },
-      never_show = {       -- remains hidden even if visible is toggled to true, this overrides always_show
+      never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
         --".DS_Store",
         --"thumbs.db"
       },
-      never_show_by_pattern = {       -- uses glob style patterns
+      never_show_by_pattern = { -- uses glob style patterns
         --".null-ls_*",
       },
     },
     follow_current_file = {
-      enabled = false,                            -- This will find and focus the file in the active buffer every time
+      enabled = false,                      -- This will find and focus the file in the active buffer every time
       --               -- the current file is changed while the tree is open.
-      leave_dirs_open = false,                    -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+      leave_dirs_open = false,              -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
     },
-    group_empty_dirs = false,                     -- when true, empty folders will be grouped together
-    hijack_netrw_behavior = "open_default",       -- netrw disabled, opening a directory opens neo-tree
+    group_empty_dirs = false,               -- when true, empty folders will be grouped together
+    hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
     -- in whatever position is specified in window.position
     -- "open_current",  -- netrw disabled, opening a directory opens within the
     -- window like netrw would, regardless of window.position
     -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
-    use_libuv_file_watcher = false,       -- This will use the OS level file watchers to detect changes
+    use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
     -- instead of relying on nvim autocmd events.
     window = {
       mappings = {
@@ -281,7 +303,7 @@ require("neo-tree").setup({
         ["H"] = "toggle_hidden",
         ["/"] = "fuzzy_finder",
         ["D"] = "fuzzy_finder_directory",
-        ["#"] = "fuzzy_sorter",       -- fuzzy sorting using the fzy algorithm
+        ["#"] = "fuzzy_sorter", -- fuzzy sorting using the fzy algorithm
         -- ["D"] = "fuzzy_sorter_directory",
         ["f"] = "filter_on_submit",
         ["<c-x>"] = "clear_filter",
@@ -301,7 +323,7 @@ require("neo-tree").setup({
         ["ot"] = { "order_by_type", nowait = false },
         -- ['<key>'] = function(state) ... end,
       },
-      fuzzy_finder_mappings = {       -- define keymaps for filter popup window in fuzzy_finder_mode
+      fuzzy_finder_mappings = { -- define keymaps for filter popup window in fuzzy_finder_mode
         ["<down>"] = "move_cursor_down",
         ["<C-n>"] = "move_cursor_down",
         ["<up>"] = "move_cursor_up",
@@ -310,7 +332,7 @@ require("neo-tree").setup({
         -- ['<key>'] = function(state, scroll_padding) ... end,
       },
     },
-    commands = {},       -- Add a custom command or override a global one using the same function name
+    commands = {}, -- Add a custom command or override a global one using the same function name
   },
   buffers = {
     follow_current_file = {
@@ -369,10 +391,11 @@ require("neo-tree").setup({
     follow_cursor = true,
     window = {
       mappings = {
+        --custom mapping for <cr>. Jumps to symbol and unfolds the code using zv>
         ["<cr>"] = function(state)
           local node = state.tree:get_node()
           require("neo-tree.sources.document_symbols.commands").jump_to_symbol(state, node)
-          vim.schedule(function() 
+          vim.schedule(function()
             vim.fn.win_execute(vim.fn.win_getid(), "normal! zv")
           end)
         end
