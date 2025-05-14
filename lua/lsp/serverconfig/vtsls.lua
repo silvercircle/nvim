@@ -21,6 +21,18 @@ return {
     'typescriptreact',
     'typescript.tsx',
   },
+  settings = {
+    typescript = {
+      inlayHints = {
+        parameterNames = { enabled = "literals" },
+        parameterTypes = { enabled = true },
+        variableTypes = { enabled = true },
+        propertyDeclarationTypes = { enabled = true },
+        functionLikeReturnTypes = { enabled = true },
+        enumMemberValues = { enabled = true },
+      }
+    },
+  },
   root_markers = { 'tsconfig.json', 'package.json', 'jsconfig.json', '.git' },
   reuse_client = function(client, config)
     if client.name == "vtsls" and (config.root_dir == "." or config.root_dir == client.root_dir) then
