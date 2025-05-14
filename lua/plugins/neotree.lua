@@ -439,10 +439,6 @@ require("neo-tree").setup({
   },
   event_handlers = {
     {
-      event = "file_opened",
-      handler = function() vim.notify("File Opened") end
-    },
-    {
       event = "neo_tree_window_after_open",
       handler = function(_) TABM.tree_open_handler() end
     },
