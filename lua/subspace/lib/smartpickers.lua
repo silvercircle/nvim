@@ -61,8 +61,8 @@ M.smartfiles_or_grep = function(opts)
     end
     local title = Utils.truncate("Smart files (Search for: " .. result .. ")", vim.o.columns - 10)
     Fzf.files( { formatter = "path.filename_first", cwd = cwd, fd_opts = fd_opts_default,
-      winopts = FWO("very_narrow_no_preview", title,
-      { width = vim.fn.strwidth(title) > 80 and vim.fn.strwidth(title) + 4 or Tweaks.fzf.winopts.very_narrow_no_preview.width }) })
+      winopts = FWO("very_narrow_no_preview",
+      { title = title, width = vim.fn.strwidth(title) > 80 and vim.fn.strwidth(title) + 4 or Tweaks.fzf.winopts.very_narrow_no_preview.width }) })
   elseif opts.op == "grep" then
     rg_opts_default = rg_opts_default .. " -g '*.{" .. result .. "}'"
     if fresult then
@@ -75,8 +75,8 @@ M.smartfiles_or_grep = function(opts)
     local title = Utils.truncate("Live Grep " .. cwd .. " (Search in: " .. result ..(fresult and ("," .. fresult) or "") .. ")", vim.o.columns - 10)
 
     Fzf.live_grep({ cwd = cwd, query = Utils.get_selection(), rg_opts = rg_opts_default,
-      winopts = FWO("std_preview_top", title,
-      { width = vim.fn.strwidth(title) > 80 and vim.fn.strwidth(title) + 4 or Tweaks.fzf.winopts.std_preview_top.width } )} )
+      winopts = FWO("std_preview_top",
+      { title = title, width = vim.fn.strwidth(title) > 80 and vim.fn.strwidth(title) + 4 or Tweaks.fzf.winopts.std_preview_top.width } )} )
   end
 end
 

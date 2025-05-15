@@ -375,6 +375,11 @@ autocmd({ 'LspAttach' }, {
       vim.cmd("hi! link @lsp.type.field Member")
     end
     if TABM.T[TABM.active].wsplit.content == "info" then Wsplit.refresh("LspAttach (auto.lua)") end
+    if TABM.T[TABM.active].id_tree and Tweaks.tree.version == "Neo" then
+      if require("neo-tree.sources.manager").get_state_for_window(TABM.T[TABM.active].id_tree).name == "document_symbols" then
+        vim.cmd("Neotree source=document_symbols show")
+      end
+    end
   end
 })
 

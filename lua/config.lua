@@ -172,11 +172,11 @@ CFG.lspkind_symbols = {
 
 vim.g.is_tmux = vim.fn.exists("$TMUX")
 
-function FWO(class, title, opts)
+function FWO(class, opts)
   opts = opts or {}
   local wo = vim.deepcopy(Tweaks.fzf.winopts[class])
-  if title ~= nil and #title > 2 then
-    wo.title = " " .. title .. " "
+  if opts.title ~= nil and #opts.title > 2 then
+    wo.title = " " .. opts.title .. " "
   else
     wo.title = nil
   end

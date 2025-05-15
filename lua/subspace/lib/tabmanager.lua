@@ -237,6 +237,18 @@ function M.findbufbyType(type, intab, focus)
   return 0
 end
 
+function M.findQuickfix(what, id_tab)
+  what = what or "quickfix"
+  id_tab = id_tab or 0
+
+  local id_found = 0
+  vim.iter(vim.fn.getwininfo()):any(function(wi)
+    if id_tab > 0 and wi["tabnr"] ~= id_tab then return false end
+    if wi[what] == 1 then id_found = wi.winid return true else return false end
+  end)
+
+  return id_found
+end
 --- find the first window for a given filetype.
 --- @param filetypes string|table: the filetype(s)
 --- @param intab? boolean|integer: stay in given id_tab or in the current
@@ -354,10 +366,15 @@ function M.tree_open_handler()
   local wsplit = require("subspace.content.wsplit")
   local ws = M.get().wsplit
   local w = nil
+  local qfheight = 0
 
   if M.T[M.active].id_tree == nil then
     w = vim.fn.win_getid()
     M.T[M.active].id_tree = w
+  end
+  local id_qf = M.findQuickfix("quickfix", M.active)
+  if id_qf > 0 then
+    qfheight = vim.api.nvim_win_get_height(id_qf)
   end
   w = M.T[M.active].id_tree
   vim.api.nvim_set_option_value("statusline", "   " .. (Tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"), { win = w })
@@ -373,6 +390,10 @@ function M.tree_open_handler()
     if ws.id_win == nil then
       wsplit.open(CFG.weather.file)
     end
+  end
+
+  if qfheight > 0 then
+    vim.api.nvim_win_set_height(id_qf, qfheight)
   end
 end
 

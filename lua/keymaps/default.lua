@@ -324,14 +324,14 @@ end, "Quit Neovim")
 
 vim.g.setkey({'n', 'i'}, '<C-p>', function()
   if vim.fn.win_getid() == TABM.T[TABM.active].id_main or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
-    require('fzf-lua').oldfiles( { formatter = "path.filename_first", winopts = Tweaks.fzf.winopts.small_no_preview })
+    require('fzf-lua').oldfiles( { formatter = "path.filename_first", winopts = FWO("small_no_preview", { title = "Recent files", width = 100 }) })
   end
 end, "FZF-LUA old files")
 
 vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
   if vim.fn.win_getid() == TABM.T[TABM.active].id_main or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
     require("fzf-lua").buffers({ formatter = "path.filename_first", mru = true, no_action_zz = true,
-      no_action_set_cursor = true, winopts = FWO("small_no_preview", "Buffers <C-d>:delete <C-w>:save when modified") })
+      no_action_set_cursor = true, winopts = FWO("small_no_preview", { title = "Buffers <C-d>:delete <C-w>:save when modified", width = 100 }) })
   end
 end, "FZF buffer list")
 vim.g.setkey({'n', 'i', 'v' }, '<A-p>', function()
@@ -497,11 +497,7 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
     -- simply fire BufWinEnter this will refresh the symbols sidebar
     vim.api.nvim_exec_autocmds({"BufWinEnter"}, {})
   elseif Tweaks.tree.version == "Neo" then
-    vim.cmd("Neotree focus")
     vim.cmd("Neotree source=document_symbols")
-    vim.schedule(function()
-      --vim.cmd("wincmd p")
-    end)
   end
 end, "Refresh outline symbols")
 
