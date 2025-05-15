@@ -35,7 +35,7 @@ require("neo-tree").setup({
   --
   source_selector = {
     winbar = false, -- toggle to show selector on winbar
-    statusline = false, -- toggle to show selector on statusline
+    statusline = true, -- toggle to show selector on statusline
     show_scrolled_off_parent_node = false, -- this will replace the tabs with the parent path
     -- of the top visible node when scrolled down.
     sources = { -- table
@@ -46,10 +46,6 @@ require("neo-tree").setup({
       {
         source = "buffers", -- string
         display_name = " 󰈚 Buffers " -- string | nil
-      },
-      {
-        source = "git_status", -- string
-        display_name = " 󰊢 Git " -- string | nil
       },
       {
         source = "document_symbols", -- string
@@ -235,7 +231,7 @@ require("neo-tree").setup({
   },
   nesting_rules = {},
   filesystem = {
-    bind_to_cwd = true,
+    bind_to_cwd = false,
     components = {
       name = function(config, node, _)
         local result = {
@@ -294,7 +290,7 @@ require("neo-tree").setup({
     -- "open_current",  -- netrw disabled, opening a directory opens within the
     -- window like netrw would, regardless of window.position
     -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
-    use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
+    use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes
     -- instead of relying on nvim autocmd events.
     window = {
       mappings = {
