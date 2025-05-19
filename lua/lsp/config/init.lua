@@ -49,8 +49,13 @@ local function do_setup()
         end
       end
       if config._valid then
+        if config.on_attach and type(config.on_attach) == "function" then
+          config.on_attach_orig = vim.deepcopy(config.on_attach, 1)
+          config.on_attach = nil
+        end
         table.insert(to_enable, k)
         vim.lsp.config[k] = config
+
       end
     end
     ::continue::

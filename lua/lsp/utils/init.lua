@@ -33,8 +33,13 @@ ON_LSP_ATTACH = function(client, buf)
   if LSPDEF.serverconfigs[client.name] and LSPDEF.serverconfigs[client.name].attach_config then
     LSPDEF.serverconfigs[client.name].attach_config(client, buf)
   end
-  if vim.lsp.config[client.name] and vim.lsp.config[client.name].attach_config then
-    vim.lsp.config[client.name].attach_config(client, buf)
+  if vim.lsp.config[client.name] then
+    if vim.lsp.config[client.name].on_attach_orig then
+      vim.lsp.config[client.name].on_attach_orig(client, buf)
+    end
+    if vim.lsp.config[client.name].attach_config then
+      vim.lsp.config[client.name].attach_config(client, buf)
+    end
   end
 end
 
