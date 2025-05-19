@@ -249,6 +249,7 @@ function M.findQuickfix(what, id_tab)
 
   return id_found
 end
+
 --- find the first window for a given filetype.
 --- @param filetypes string|table: the filetype(s)
 --- @param intab? boolean|integer: stay in given id_tab or in the current
