@@ -21,6 +21,7 @@ language servers. Some language servers must be built from source and will thus 
 tools. One example for such a server is `gopls`, the language server for the Go programming language. 
 Installing it requires a working Go installation.
 
+
 To interact with Mason simply issue the command
 
 > Mason

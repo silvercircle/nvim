@@ -20,7 +20,7 @@ This Neovim configuration is meant to be a general purpose configuration targeti
 cases. It supports a wide range of languages out-of-the-box and can be expanded with relative ease.
 
 The goal of this configuration is to **establish an IDE-like feeling**. If you look for a minimalistic 
-configuration, this is probably not for you.
+configuration or can't stand screen „clutter“, this is probably not for you.
 
 Many things are user-tweakable, but the basic configuration and choice of plugins is not. The following 
 choices have been made:
