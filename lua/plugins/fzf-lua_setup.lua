@@ -36,7 +36,7 @@ require "fzf-lua".setup({
     -- "aboveleft vnew   : split left
     -- Only valid when using a float window
     -- (i.e. when 'split' is not defined, default)
-    height     = 0.7,        -- window height
+    height     = 0.8,        -- window height
     width      = 80,        -- window width
     row        = 0.25,       -- window row position (0=top, 1=bottom)
     col        = 0.50,       -- window col position (0=left, 1=right)
@@ -57,7 +57,7 @@ require "fzf-lua".setup({
       hidden       = "nohidden",    -- hidden|nohidden
       vertical     = "down:30%",    -- up|down:size
       horizontal   = "right:60%",   -- right|left:size
-      layout       = "flex",        -- horizontal|vertical|flex
+      layout       = "vertical",        -- horizontal|vertical|flex
       flip_columns = 120,           -- #cols to switch to horizontal on flex
       -- Only used with the builtin previewer:
       title        = true,          -- preview border title (file/buf)?

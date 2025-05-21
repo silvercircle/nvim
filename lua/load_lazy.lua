@@ -367,7 +367,7 @@ lazy.setup({
     },
     {
       "obsidian-nvim/obsidian.nvim",
-      version = "*", -- recommended, use latest release instead of latest commit
+      branch = "main",
       lazy = true,
       ft = "markdown",
       cmd = { "Obsidian" },
