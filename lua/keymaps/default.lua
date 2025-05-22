@@ -546,3 +546,4 @@ vim.g.setkey( {"v", "n", "i"}, utility_key .. "td", function()
 end, "Open new tab page")
 
 require("subspace.lib.marks").set_keymaps()
+vim.g.setkey( { "v", "n", "i" }, "<C-x><C-o>", function() Utils.obsidian_menu() end)

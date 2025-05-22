@@ -1,76 +1,60 @@
-require("obsidian").setup({
-  workspaces = {
-    {
-      name = "personal",
-      path = "~/Documents/zettelkasten",
+local function setup()
+  require("obsidian").setup({
+    workspaces = {
+      {
+        name = "personal",
+        path = "~/Documents/zettelkasten",
+      },
     },
-  },
-  preferred_link_style = "wiki",
-  completion = {
-    -- Enables completion using nvim_cmp
-    nvim_cmp = false,
-    -- Enables completion using blink.cmp
-    blink = true,
-    -- Trigger completion at 2 chars.
-    min_chars = 2,
-  },
-  daily_notes = {
-    -- Optional, if you keep daily notes in a separate directory.
-    folder = "dailies",
-    -- Optional, if you want to change the date format for the ID of daily notes.
-    date_format = "%Y-%m-%d",
-    -- Optional, if you want to change the date format of the default alias of daily notes.
-    alias_format = "%B %-d, %Y",
-    -- Optional, default tags to add to each new daily note created.
-    default_tags = { "daily-notes" },
-    -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
-    template = nil,
-    -- Optional, if you want `Obsidian yesterday` to return the last work day or `Obsidian tomorrow` to return the next work day.
-    workdays_only = false
-  },
-  picker = {
-    -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', 'mini.pick' or 'snacks.pick'.
-    name = "fzf-lua",
-    -- Optional, configure key mappings for the picker. These are the defaults.
-    -- Not all pickers support all mappings.
-    note_mappings = {
-      -- Create a new note from your query.
-      new = "<C-x>",
-      -- Insert a link to the selected note.
-      insert_link = "<C-l>",
+    preferred_link_style = "wiki",
+    completion = {
+      -- Enables completion using nvim_cmp
+      nvim_cmp = false,
+      -- Enables completion using blink.cmp
+      blink = true,
+      -- Trigger completion at 2 chars.
+      min_chars = 2,
     },
-    tag_mappings = {
-      -- Add tag(s) to current note.
-      tag_note = "<C-x>",
-      -- Insert a tag at the current location.
-      insert_tag = "<C-l>",
+    daily_notes = {
+      -- Optional, if you keep daily notes in a separate directory.
+      folder = "dailies",
+      -- Optional, if you want to change the date format for the ID of daily notes.
+      date_format = "%Y-%m-%d",
+      -- Optional, if you want to change the date format of the default alias of daily notes.
+      alias_format = "%B %-d, %Y",
+      -- Optional, default tags to add to each new daily note created.
+      default_tags = { "daily-notes" },
+      -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
+      template = nil,
+      -- Optional, if you want `Obsidian yesterday` to return the last work day or `Obsidian tomorrow` to return the next work day.
+      workdays_only = false
     },
-  },
-  ui = {
-    update_debounce = 1000
-  },
-  statusline = {
-    enabled = false
-  }
-})
-
--- support function. Create a simple picker (using snacks.picker) to access common Obsidian features.
-local function obsidian_menu()
-
-  local function execute(item)
-    vim.cmd("Obsidian " .. item.cmd)
-  end
-
-  local Utils = require("subspace.lib")
-  local items = {
-    { hl = "Fg", cmd = "dailies", text = "Open Dailies selector", p = 1, current = false },
-    { hl = "Fg", cmd = "tags", text = "Open Tags selector", p = 1, current = false },
-    { hl = "Fg", cmd = "today", text = "Open Today journal item", p = 1, current = true },
-    { hl = "Fg", cmd = "search", text = "Search the workspace", p = 1, current = true },
-  }
-
-  Utils.simplepicker(items, execute, { pre = "current", sortby = { "cmd:desc" }, prompt = "Select Obsidian picker" })
+    picker = {
+      -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', 'mini.pick' or 'snacks.pick'.
+      name = "fzf-lua",
+      -- Optional, configure key mappings for the picker. These are the defaults.
+      -- Not all pickers support all mappings.
+      note_mappings = {
+        -- Create a new note from your query.
+        new = "<C-x>",
+        -- Insert a link to the selected note.
+        insert_link = "<C-l>",
+      },
+      tag_mappings = {
+        -- Add tag(s) to current note.
+        tag_note = "<C-x>",
+        -- Insert a tag at the current location.
+        insert_tag = "<C-l>",
+      },
+    },
+    ui = {
+      update_debounce = 1000
+    },
+    statusline = {
+      enabled = false
+    }
+  })
 end
 
-vim.g.setkey( { "v", "n", "i" }, "<C-x><C-o>", function() obsidian_menu() end)
+setup()
 

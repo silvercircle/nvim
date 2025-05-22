@@ -542,4 +542,21 @@ function Utils.simplepicker(entries, fn, opts)
   })
 end
 
+-- support function. Create a simple picker (using snacks.picker) to access common Obsidian features.
+function Utils.obsidian_menu()
+
+  local function execute(item)
+    vim.cmd("Obsidian " .. item.cmd)
+  end
+
+  local items = {
+    { hl = "Fg", cmd = "dailies", text = "Open Dailies selector", p = 1, current = false },
+    { hl = "Fg", cmd = "tags", text = "Open Tags selector", p = 1, current = false },
+    { hl = "Fg", cmd = "today", text = "Open Today journal item", p = 1, current = true },
+    { hl = "Fg", cmd = "search", text = "Search the workspace", p = 1, current = true },
+  }
+
+  Utils.simplepicker(items, execute, { pre = "current", sortby = { "cmd:desc" }, prompt = "Select Obsidian picker" })
+end
+
 return Utils
