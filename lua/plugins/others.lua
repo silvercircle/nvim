@@ -364,6 +364,7 @@ M.setup = {
         unfold_on_goto = true,
         hide_cursor = false,
         cursor_follow = true,
+        cursor_follow_i = true,
         show_details_pop_up = false,
         chars = {
           hl_guides = "OutlineGuides",
