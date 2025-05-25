@@ -107,6 +107,9 @@ M.serverconfigs = {
   ["groovyls"]              = { active = false,
     cmd = { jp(M.masonbinpath, 'groovy-language-server') }
   },
+  ["kotlin"]               = { active = true,
+    cmd = { jp(M.masonbasepath, 'kotlinlsp', "kotlin-lsp.sh"), "--stdio" }
+  },
   ["jsonls"]                = { active = true,
     cmd = { jp(M.masonbinpath, "vscode-json-language-server") }
   },

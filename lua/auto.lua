@@ -237,15 +237,6 @@ autocmd({ 'BufReadPost' }, {
   group = agroup_views
 })
 
-
--- handle treesitter configuration and start it on supported filetypes.
---autocmd({ "Filetype" }, {
---  pattern = CFG.treesitter_types,
---  callback = function()
---    vim.treesitter.start()
---  end,
---  group = agroup_hl
---})
 -- generic FileType handler adressing common actions
 -- see Tweaks.ft_patterns
 autocmd({ "FileType" }, {
@@ -254,6 +245,9 @@ autocmd({ "FileType" }, {
   --  "vim", "nim", "python", "c", "cpp", "lua", "json", "html", "css", "dart", "go",
   --  "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
+    if vim.tbl_contains(CFG.treesitter_types, args.match) then
+      vim.treesitter.start()
+    end
     local function in_pattern(p, ft)
       if p == false then return false end
       if p == true or vim.tbl_contains(p, ft) then
