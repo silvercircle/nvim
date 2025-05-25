@@ -80,7 +80,7 @@ local function fix_semantic_tokens(client)
 end
 
 require("roslyn").setup({
-  config = {
+  vim.lsp.config("roslyn", {
     cmd = { "dotnet", LSPDEF.server_bin["roslyn"],
       "--stdio",
       "--logLevel=Information",
@@ -92,9 +92,7 @@ require("roslyn").setup({
     capabilities = require("lsp.config").get_lsp_capabilities(),
     handlers = require "rzls.roslyn_handlers",
     --the project root needs a .sln file (mandatory)
-    root_dir = function(fname)
-      return util.root_pattern "*.sln" (fname)
-    end,
+    root_markers = { ".sln "},
     on_attach = ON_LSP_ATTACH,
     settings = {
       ["csharp|background_analysis"] = {
@@ -119,6 +117,5 @@ require("roslyn").setup({
         dotnet_enable_references_code_lens = true,
       }
     }
-  },
-  roslyn_version = "4.14.0-3.25054.1",
+  })
 })
