@@ -308,10 +308,9 @@ local function _set()
   c.link("MultiCursorDisabledVisual", "Visual")
 
   c.link("NeominimapBackground", "TreeNormalNC")
-  c.link("QuickFixLine", "Visual")
-  -- quick fix
-  c.link("qfLineNr", "Number")
-  c.link("qfFileName", "String")
+  c.link("QuickFixLine", "CursorLine")
+  c.link("QuickFixLineNr", "Number")
+  c.link("QuickFixFilename", "DefaultLib")
 
   c.hl("htmlH1", c.P.styled.keyword, c.NONE, conf.attrib.bold)
   c.hl("htmlH2", c.P.green, c.NONE, conf.attrib.bold)
