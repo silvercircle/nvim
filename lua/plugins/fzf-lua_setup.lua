@@ -112,7 +112,7 @@ require "fzf-lua".setup({
       ["<F6>"]     = "toggle-preview-cw",
       ["<S-down>"] = "preview-page-down",
       ["<S-up>"]   = "preview-page-up",
-      ["<S-left>"] = "preview-page-reset",
+      ["<S-left>"] = "preview-page-reset"
     },
     fzf = {
       -- fzf '--bind=' options
@@ -123,15 +123,11 @@ require "fzf-lua".setup({
       ["ctrl-a"]     = "beginning-of-line",
       ["ctrl-e"]     = "end-of-line",
       ["alt-a"]      = "toggle-all",
-      ["alt-up"]       = "first",
-      ["alt-down"]        = "last",
       -- Only valid with fzf previewers (bat/cat/git/etc)
       ["f3"]         = "toggle-preview-wrap",
       ["f4"]         = "toggle-preview",
       ["shift-down"] = "preview-page-down",
-      ["shift-up"]   = "preview-page-up",
-      ["end"]        = "last",
-      ["home"]       = "first"
+      ["shift-up"]   = "preview-page-up"
     },
   },
   actions             = {

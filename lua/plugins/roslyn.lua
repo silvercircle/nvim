@@ -1,5 +1,3 @@
-local util = require 'lsp.utils'
-
 --- the following functions are necessary to support semantic tokens with the roslyn
 --- language server.
 
