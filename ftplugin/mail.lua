@@ -40,6 +40,7 @@ function Mail_selectFrom()
   }, function(choice)
     if choice ~= nil and #choice > 1 then
       vim.cmd("%s/^From: .*/From: " .. choice)
+      ---@diagnostic disable-next-line
       return choice
     end
   end)

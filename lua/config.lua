@@ -74,8 +74,8 @@ CFG = {
   },
   treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
                        "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid",
-                       "yaml", "rust", "javascript", "ruby", "objc", "markdown", "typescript",
-                       "markdown_inline", "zig", "cs" },
+                       "yaml", "rust", "javascript", "ruby", "objc", "objcpp", "markdown", "typescript",
+                       "markdown_inline", "zig", "cs", "typst" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   theme = require("darkmatter")
 }
