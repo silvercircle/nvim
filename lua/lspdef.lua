@@ -56,11 +56,14 @@ M.serverconfigs = {
   ["bashls"]                = { active = true,
     cmd = { jp(M.masonbinpath, 'bash-language-server') }
   },
-  ["clangd"]                = { active = true,
+  ["clangd"]                = { active = false,
     cmd = { "clangd", "--background-index", "--malloc-trim",
             "--pch-storage=memory", "--log=error", "--header-insertion=never",
             "--completion-style=detailed", "--function-arg-placeholders=1",
             "--inlay-hints=true" }
+  },
+  ["ccls"]                = { active = true,
+    cmd = { "ccls" }
   },
   ["ada_ls"]                = { active = false,
     cmd = { jp(M.masonbinpath, 'ada_language_server') }
