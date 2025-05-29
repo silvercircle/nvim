@@ -382,6 +382,7 @@ delcmd = autocmd({ "BufReadPost" }, {
     end
     _delayloaded = true
     require("subspace.content.move").setup()
+    CGLOBALS.configure_treesitter()
     vim.g.setkey( "v", "<A-l>", function() MiniMove.move_selection("right") end)
     vim.g.setkey( "v", "<A-h>", function() MiniMove.move_selection("left") end)
     vim.g.setkey( "v", "<A-k>", function() MiniMove.move_selection("up") end)

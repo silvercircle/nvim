@@ -109,14 +109,40 @@ lazy.setup({
         require("plugins.treesitter")
       end,
       dependencies = {
-        {
-          "nvim-treesitter/nvim-treesitter-context",
-          lazy = true,
-          config = function()
-            require("plugins.others").setup.treesitter_context()
-          end
-        }
       }
+    },
+    {
+      "nvim-treesitter/nvim-treesitter-context",
+      lazy = true,
+      event = "BufReadPre",
+      config = function()
+        require("plugins.others").setup.treesitter_context()
+      end
+    },
+    {
+      'MeanderingProgrammer/treesitter-modules.nvim',
+      event = "BufReadPre",
+      config = function()
+        require("treesitter-modules").setup({
+          ensure_installed = {},
+          highlight = {
+            enable = false,
+            disable = {},
+          },
+          incremental_selection = {
+            enable = true,
+            keymaps = {
+              init_selection = "<Space>",
+              node_incremental = "<Space>",
+              scope_incremental = "<C-Space>",
+              node_decremental = "<A-Space>",
+            },
+          },
+          indent = {
+            enable = false,
+          },
+        })
+      end
     },
     -- cmp and all its helpers
     -- using the magazine nvim-cmp fork.
@@ -429,16 +455,6 @@ lazy.setup({
       end
     },
     {
-      "kevinhwang91/nvim-ufo",
-      cond = false,
-      config = function()
-        require("plugins.others").setup.ufo()
-      end,
-      dependencies = {
-        "kevinhwang91/promise-async"
-      }
-    },
-    {
       "mfussenegger/nvim-jdtls",
       lazy = true
     },
@@ -503,7 +519,6 @@ lazy.setup({
       end
     },
     {
-      -- url = PCFG.is_dev and "https://github.com/silvercircle/neominimap.nvim" or "https://github.com/Isrothy/neominimap.nvim",
       "Isrothy/neominimap.nvim",
       branch = "v4",
       lazy = true,

@@ -1,19 +1,9 @@
 require("nvim-treesitter").setup({
   install_dir = vim.fn.stdpath('data') .. '/site',
-  -- ensure_installed = CFG.treesitter_types,
   require'nvim-treesitter'.install(CFG.treesitter_types),
   textobjects = {
     enable = true
   },
-  --incremental_selection = {
-  --  enable = true,
-  --  keymaps = {
-  --    init_selection = '<Space>',
-  --    scope_incremental = '<Space>',
-  --    node_incremental = '<C-Space>',
-  --    node_decremental = '<A-Space>',
-  --  },
-  --},
   highlight = {
     additional_vim_regex_highlighting = false,
     enable = true,
@@ -36,4 +26,3 @@ require("nvim-treesitter").setup({
     }
   }
 })
-CGLOBALS.configure_treesitter()
