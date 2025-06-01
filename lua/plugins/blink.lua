@@ -359,7 +359,7 @@ require("blink.cmp").setup({
           blocked_filetypes = { 'cpp', 'typescriptreact', 'javascriptreact', 'vue', 'rust' }
         },
         semantic_token_resolution = {
-          enabled = false
+          enabled = true
         }
       }
     },

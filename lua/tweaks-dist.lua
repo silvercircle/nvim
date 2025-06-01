@@ -198,6 +198,7 @@ Tweaks.cmp = {
 
 -- internal function to create the border characters. You can expand it with more styles
 -- and use them in the "decoration" option above.
+---@param style string
 Tweaks.borderfactory = function(style)
   style = (style and borderstyles[style] ~= nil) and style or "single"
   return borderstyles[style]
@@ -349,6 +350,7 @@ Tweaks.fzf = {
     narrow_no_preview    =  { width = 0.5, height = 0.8, preview = { hidden = 'hidden' } },
     very_narrow_no_preview= { width = 70, height = 0.8, preview = { hidden = 'hidden' } },
     narrow_small_preview =  { width = 0.5, height = 0.8, preview = { border = 'thicc', layout = 'vertical', vertical = "up:35%" } },
+    narrow_small_preview_dn =  { width = 0.5, height = 0.8, preview = { border = 'thicc', layout = 'vertical', vertical = "down:30%" } },
     narrow_big_preview   =  { width = 0.5, height = 0.9, preview = { border = 'thicc', layout = 'vertical', vertical = "up:45%" } },
     mini_with_preview    =  { width = 80, height = 0.8, preview = { border = 'thicc', layout = 'vertical', vertical = "up:30%" } },
   },

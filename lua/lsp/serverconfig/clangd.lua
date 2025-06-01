@@ -67,6 +67,7 @@ return {
     },
     -- offsetEncoding = { "utf-8", "utf-16" },
   },
+  workspace_required = true,
   ---@param client vim.lsp.Client
   ---@param config vim.lsp.ClientConfig
   reuse_client = function(client, config)

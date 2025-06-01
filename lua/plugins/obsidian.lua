@@ -9,9 +9,9 @@ local function setup()
     preferred_link_style = "wiki",
     completion = {
       -- Enables completion using nvim_cmp
-      nvim_cmp = false,
+      nvim_cmp = Tweaks.completion.version == "nvim-cmp" and true or false,
       -- Enables completion using blink.cmp
-      blink = true,
+      blink = Tweaks.completion.version == "blink" and true or false,
       -- Trigger completion at 2 chars.
       min_chars = 2,
     },

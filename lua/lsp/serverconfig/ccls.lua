@@ -27,6 +27,23 @@ return {
       return false
     end
   end,
+  init_options = {
+    cache = {
+      directory = ".cclscache",
+      retainInMemory = 0
+    },
+    diagnostics = {
+      onChange = 3000
+    },
+    index = {
+      -- leave one thread free when indexing
+      threads = vim.uv.available_parallelism() - 1
+    },
+    completion = {
+      detailedLabel = true,
+      filterAndSort = false
+    }
+  },
   on_attach_orig = function(client, _)
     vim.api.nvim_buf_create_user_command(0, 'LspCclsSwitchSourceHeader', function()
       switch_source_header(client, 0)
