@@ -9,5 +9,21 @@
       "---",
       ""
     ]
+  },
+  "imageleft": {
+    "prefix": "imageleft",
+    "body": [
+      "![$1]($2){align=left width=$3px}"
+    ]
+  },
+  "imageright": {
+    "prefix": "imageright",
+    "body": [
+      "![$1]($2){align=right width=$3px}"
+    ]
+  },
+  "running": {
+    "prefix": "running",
+    "body": [ "**Running time:** $1 minutes ($2 hr, $3 min), **Seen on:** $4."]
   }
 }
