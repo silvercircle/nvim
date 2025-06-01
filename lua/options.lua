@@ -56,7 +56,7 @@ if Tweaks.use_foldlevel_patch == true then
 else
   o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
 end
-o.foldcolumn = "1"
+vim.wo.foldcolumn = "1"
 vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
