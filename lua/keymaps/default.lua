@@ -216,17 +216,13 @@ end
 --- opens a hover for the symbol under the cursor. if it's a closed UFO fold, then
 --- show a hover for it instead.
 --- press <F1> again to enter the hover window, press <q> to dismiss it.
-vim.keymap.set({ "n", "i" }, '<f1>', function()
-  local status, ufo = pcall(require, "ufo")
-  local winid = (status == true) and ufo.peekFoldedLinesUnderCursor() or false
-  if not winid then
-  	local api = vim.api
-	  local hover_win = vim.b.hover_preview
-  	if hover_win and api.nvim_win_is_valid(hover_win) then
-	  	api.nvim_set_current_win(hover_win)
-  	else
-	  	require("hover").hover()
-  	end
+vim.keymap.set({ "n", "i" }, "<f1>", function()
+  local api = vim.api
+  local hover_win = vim.b.hover_preview
+  if hover_win and api.nvim_win_is_valid(hover_win) then
+    api.nvim_set_current_win(hover_win)
+  else
+    require("hover").hover()
   end
 end, { desc = "LSP hover window" })
 

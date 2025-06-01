@@ -464,3 +464,14 @@ autocmd("TabEnter", {
   end,
   group = agroup_views
 })
+
+autocmd("WinNew", {
+  callback = function()
+    vim.schedule(function()
+      if vim.b.hover_preview ~= nil and vim.api.nvim_win_get_config(vim.b.hover_preview).relative == "win" then
+        vim.api.nvim_set_option_value("foldcolumn", "0", { win = vim.b.hover_preview })
+      end
+    end)
+  end,
+  group = agroup_views
+})
