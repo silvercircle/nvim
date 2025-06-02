@@ -152,7 +152,10 @@ local icon_trans = {
 
 require("blink.cmp").setup({
   fuzzy = {
-    implementation = "rust"
+    implementation = "rust",
+    sorts = {
+      "score", "sort_text"
+    }
   },
   appearance = {
     -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -295,10 +298,10 @@ require("blink.cmp").setup({
         module = "blink-emoji"
       },
       lsp = {
-        score_offset = 10
+        score_offset = 20
       },
       snippets = {
-        score_offset = 5,
+        score_offset = -1,
         min_keyword_length = 2,
         module = "blink.cmp.sources.snippets",
         name = "Snippets",
@@ -307,7 +310,7 @@ require("blink.cmp").setup({
         }
       },
       buffer = {
-        score_offset = 3,
+        score_offset = -3,
         module = "blink.cmp.sources.buffer",
         min_keyword_length = 3,
         opts = {
