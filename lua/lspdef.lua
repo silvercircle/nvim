@@ -86,13 +86,13 @@ M.serverconfigs = {
   ["yamlls"]                = { active = true,
     cmd = { jp(M.masonbinpath, 'yaml-language-server') }
   },
-  ["marksman"]              = { active = true,
+  ["marksman"]              = { active = false,
     cmd = { jp(M.masonbinpath, 'marksman') }
   },
   ["iwe"]                   = { active = false,
     cmd = { jp(M.localbin, 'iwes') }
   },
-  ["markdown-oxide"]        = { active = false,
+  ["markdown-oxide"]        = { active = true,
     cmd = { jp(M.localbin, 'markdown-oxide') }
   },
   ["lemminx"]               = { active = true,
