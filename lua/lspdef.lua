@@ -214,5 +214,7 @@ M.advanced_config = {
   roslyn = true
 }
 M.inlay_hints = true
+M.color_support = false
+
 return M
 

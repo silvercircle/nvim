@@ -141,18 +141,20 @@ local blink_menu_hl_group = {
 local context_sources = {
   default = { "lsp", "path", "snippets", "buffer", "wordlist" },
   lua = { "lsp", "path", "snippets", "buffer", "wordlist" },
-  text = { "lsp", "path", "snippets", "emoji", "wordlist", "buffer" }--, "dictionary" }
+  text = { "lsp", "path", "snippets", "emoji", "wordlist", "buffer" }-- , "dictionary" }
 }
 
 local icon_trans = {
   ["Color"] = " ",
   ["Unit"]  = " ",
-  ["Dict"]  = "﬜ "
+  ["Dict"]  = " "
 }
 
 require("blink.cmp").setup({
   fuzzy = {
     implementation = "rust",
+    use_proximity = false,
+    use_frecency = true,
     sorts = {
       "score", "sort_text"
     }
@@ -301,7 +303,7 @@ require("blink.cmp").setup({
         score_offset = 20
       },
       snippets = {
-        score_offset = -1,
+        score_offset = -2,
         min_keyword_length = 2,
         module = "blink.cmp.sources.snippets",
         name = "Snippets",
@@ -310,7 +312,7 @@ require("blink.cmp").setup({
         }
       },
       buffer = {
-        score_offset = -3,
+        score_offset = -10,
         module = "blink.cmp.sources.buffer",
         min_keyword_length = 3,
         opts = {
@@ -326,16 +328,19 @@ require("blink.cmp").setup({
           end,
         }
       },
+      obsidian = {
+        module = "obsidian.completion.sources.blink.refs",
+        score_offset = 5,
+        min_keyword_length = 3
+      },
       --dictionary = {
+      --  score_offset = -3,
       --  min_keyword_length = 3,
       --  max_items = 8,
       --  async = true,
       --  module = "blink-cmp-dictionary",
       --  name = "Dict",
       --  opts = {
-      --    kind_icons = {
-      --      Dict = " "
-      --    },
       --    dictionary_directories = { vim.fn.expand("~/.config/nvim/dict") },
       --    get_command = "rg",
       --    get_command_args = function(prefix)
@@ -362,7 +367,7 @@ require("blink.cmp").setup({
           blocked_filetypes = { 'cpp', 'typescriptreact', 'javascriptreact', 'vue', 'rust' }
         },
         semantic_token_resolution = {
-          enabled = true
+          enabled = false
         }
       }
     },

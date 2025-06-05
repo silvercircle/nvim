@@ -105,6 +105,7 @@ lazy.setup({
       "nvim-treesitter/nvim-treesitter",
       branch = "main",
       event = "BufReadPre",
+      build = ":TSUpdate",
       config = function()
         require("plugins.treesitter")
       end,
@@ -236,6 +237,7 @@ lazy.setup({
     {
       "Saghen/blink.cmp",
       branch = "main",
+      --version = "30f0a7b5bfed80c1e4b1f7ba065f5c36db0ce025",
       build = "cargo build --release",
       lazy = true,
       event = "ModeChanged",
