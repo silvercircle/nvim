@@ -128,41 +128,43 @@ local colorvariants = {
 --- and other semantic elements like types, classes, interfaces and so on.
 ---@table colorstyles
 local colorstyles = {
-  identifier = "fg_dim",
-  comment = "grey",
-  keyword = "purple",
-  kwspec = "purple",
-  kwconditional = "darkpurple",
-  kwrepeat = "darkpurple",
-  kwexception = "purple",
-  kwreturn = "purple",
-  kwfunc = "purple",
-  member = "yellow",
-  staticmember = "orange",
-  method = "altblue",
-  func = "blue",
-  operator = "brown",
-  builtin = "pink",
-  braces = "altgreen",
-  delim = "altgreen",
-  number = "altyellow",
-  class = "darkyellow",
-  interface = "lila",
-  storage = "deepred",
-  constant = "lpurple",
-  module = "olive",
-  namespace = "olive",
-  type = "teal",
-  struct = "altblue",
-  bool = "altyellow",
-  constructor = "brightteal",
-  macro = "lpurple",
-  defaultlib = "maroon",
-  staticmethod = "dblue",
-  attribute = "olive",
-  strings   = "green",
-  parameter = "red",
-  url       = "altblue"
+  __default = {
+    identifier    = "fg_dim",
+    comment       = "grey",
+    keyword       = "purple",
+    kwspec        = "purple",
+    kwconditional = "darkpurple",
+    kwrepeat      = "darkpurple",
+    kwexception   = "purple",
+    kwreturn      = "purple",
+    kwfunc        = "purple",
+    member        = "yellow",
+    staticmember  = "orange",
+    method        = "altblue",
+    func          = "blue",
+    operator      = "brown",
+    builtin       = "pink",
+    braces        = "altgreen",
+    delim         = "altgreen",
+    number        = "altyellow",
+    class         = "darkyellow",
+    interface     = "lila",
+    storage       = "deepred",
+    constant      = "lpurple",
+    module        = "olive",
+    namespace     = "olive",
+    type          = "teal",
+    struct        = "altblue",
+    bool          = "altyellow",
+    constructor   = "brightteal",
+    macro         = "lpurple",
+    defaultlib    = "maroon",
+    staticmethod  = "dblue",
+    attribute     = "olive",
+    strings       = "green",
+    parameter     = "red",
+    url           = "altblue"
+  }
 }
 
 local M = {}
@@ -209,42 +211,44 @@ end
 --- with user-provided options to build the final conf.attrib table.
 function M.attributes()
   return {
-    comment      = {},
-    keyword      = { bold = true },   -- keywords
-    kwspecial    = { bold = true },   -- keywords
-    kwconditional= { bold = true },   -- if/then
-    kwrepeat     = { bold = true },   -- loops
-    kwexception  = { bold = true },
-    kwreturn     = { bold = true },   -- return keyword(s)
-    types        = {},                -- types (classes, interfaces)
-    storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
-    struct       = {},
-    class        = {},
-    interface    = {},
-    number       = {},
-    func         = {},   -- functions
-    method       = {},                -- class methods
-    attribute    = { bold = true, italic = true },
-    staticmethod = { bold = true },
-    member       = {},                -- class member (field, property...)
-    staticmember = { bold = true },
-    operator     = { bold = true },   -- operators
-    parameter    = { }, -- function/method arguments
-    delim        = { bold = true },   -- delimiters
-    brace        = { bold = true },   -- braces, brackets, parenthesis
-    str          = {},                -- strings
-    bold         = { bold = true },
-    italic       = { italic = true },
-    bolditalic   = { bold = true, italic = true },
-    tabline      = {},
-    cmpkind      = {},
-    uri          = {},
-    bool         = { bold = true },
-    module       = { bold = true },
-    constant     = {},
-    macro        = { bold = true },
-    defaultlib   = { },
-    url          = { bold = true, underline = true }
+    __default = {
+      comment       = {},
+      keyword       = { bold = true }, -- keywords
+      kwspecial     = { bold = true }, -- keywords
+      kwconditional = { bold = true }, -- if/then
+      kwrepeat      = { bold = true }, -- loops
+      kwexception   = { bold = true },
+      kwreturn      = { bold = true }, -- return keyword(s)
+      types         = {},           -- types (classes, interfaces)
+      storage       = { bold = true }, -- storage/visibility qualifiers (public, private...)
+      struct        = {},
+      class         = {},
+      interface     = {},
+      number        = {},
+      func          = {}, -- functions
+      method        = {}, -- class methods
+      attribute     = { bold = true, italic = true },
+      staticmethod  = { bold = true },
+      member        = {},           -- class member (field, property...)
+      staticmember  = { bold = true },
+      operator      = { bold = true }, -- operators
+      parameter     = {},           -- function/method arguments
+      delim         = { bold = true }, -- delimiters
+      brace         = { bold = true }, -- braces, brackets, parenthesis
+      str           = {},           -- strings
+      bold          = { bold = true },
+      italic        = { italic = true },
+      bolditalic    = { bold = true, italic = true },
+      tabline       = {},
+      cmpkind       = {},
+      uri           = {},
+      bool          = { bold = true },
+      module        = { bold = true },
+      constant      = {},
+      macro         = { bold = true },
+      defaultlib    = {},
+      url           = { bold = true, underline = true }
+    }
   }
 end
 

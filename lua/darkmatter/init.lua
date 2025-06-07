@@ -175,16 +175,18 @@ local function configure()
   local Scheme = require("darkmatter.schemes." .. conf.scheme)
   local seq = 0
 
+  local attrib = Scheme.attributes()[conf.scheme] or Scheme.attributes()["__default"]
+
   M.T = Scheme.bgtheme()
   rainbowpalette = Scheme.rainbowpalette()
-  conf.attrib = vim.tbl_deep_extend("force", Scheme.attributes(), M.attributes_ovr[conf.scheme] or {} )
+  conf.attrib = vim.tbl_deep_extend("force", attrib, M.attributes_ovr[conf.scheme] or {} )
   conf.schemeconfig = Scheme.schemeconfig()
 
   if not M.T[conf.variant] then
     vim.notify(string.format("Darkmatter: Variant %s does not exist in scheme %s. Setting default.", conf.variant, conf.scheme))
     conf.variant = "warm"
   end
-  conf.style = Scheme.colorstyles()
+  conf.style = Scheme.colorstyles()[conf.scheme] or Scheme.colorstyles()["__default"]
   for k,v in pairs(conf.colorstyles_ovr) do
     conf.style[k] = v
   end

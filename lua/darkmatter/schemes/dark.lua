@@ -30,41 +30,43 @@ local schemeconfig = {
 }
 
 local colorstyles = {
-  identifier = "fg_dim",
-  comment = "grey",
-  keyword = "blue",
-  kwspec = "deepred",
-  kwconditional = "blue",
-  kwrepeat = "blue",
-  kwexception = "blue",
-  kwreturn = "blue",
-  kwfunc = "deepred",
-  member = "orange",
-  staticmember = "orange",
-  method = "brightteal",
-  func = "teal",
-  operator = "brown",
-  builtin = "darkyellow",
-  braces = "altblue",
-  delim = "red",
-  number = "altgreen",
-  class = "maroon",
-  interface = "lila",
-  storage = "palegreen",
-  constant = "lpurple",
-  module = "olive",
-  namespace = "olive",
-  type = "darkpurple",
-  struct = "darkpurple",
-  bool = "deepred",
-  constructor = "altyellow",
-  macro = "lpurple",
-  defaultlib = "palegreen",
-  staticmethod = "palegreen",
-  attribute = "olive",
-  strings   = "yellow",
-  parameter = "fg_dim",
-  url       = "blue"
+  __default = {
+    identifier    = "fg_dim",
+    comment       = "grey",
+    keyword       = "blue",
+    kwspec        = "deepred",
+    kwconditional = "blue",
+    kwrepeat      = "blue",
+    kwexception   = "blue",
+    kwreturn      = "blue",
+    kwfunc        = "deepred",
+    member        = "orange",
+    staticmember  = "orange",
+    method        = "brightteal",
+    func          = "teal",
+    operator      = "brown",
+    builtin       = "darkyellow",
+    braces        = "altblue",
+    delim         = "red",
+    number        = "altgreen",
+    class         = "maroon",
+    interface     = "lila",
+    storage       = "palegreen",
+    constant      = "lpurple",
+    module        = "olive",
+    namespace     = "olive",
+    type          = "darkpurple",
+    struct        = "darkpurple",
+    bool          = "deepred",
+    constructor   = "altyellow",
+    macro         = "lpurple",
+    defaultlib    = "palegreen",
+    staticmethod  = "palegreen",
+    attribute     = "olive",
+    strings       = "yellow",
+    parameter     = "fg_dim",
+    url           = "blue"
+  }
 }
 
 local colorvariants = {
@@ -193,42 +195,44 @@ end
 -- with user-provided options to build the final conf.attrib table.
 function M.attributes()
   return {
-    comment      = {},
-    keyword      = { bold = true },   -- keywords
-    kwspecial    = { bold = true },   -- keywords
-    kwconditional= { bold = true },   -- if/then
-    kwrepeat     = { bold = true },   -- loops
-    kwexception  = { bold = true },
-    kwreturn     = { bold = true },   -- return keyword(s)
-    types        = {},                -- types (classes, interfaces)
-    storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
-    struct       = {},
-    class        = {},
-    interface    = {},
-    number       = {},
-    func         = {},   -- functions
-    method       = {},                -- class methods
-    attribute    = { bold = true, italic = true },
-    staticmethod = { bold = true },
-    member       = {},                -- class member (field, property...)
-    staticmember = { bold = true },
-    operator     = { bold = true },   -- operators
-    parameter    = { italic = true, bold = true }, -- function/method arguments
-    delim        = { bold = true },   -- delimiters
-    brace        = { bold = true },   -- braces, brackets, parenthesis
-    str          = {},                -- strings
-    bold         = { bold = true },
-    italic       = { italic = true },
-    bolditalic   = { bold = true, italic = true },
-    tabline      = {},
-    cmpkind      = {},
-    uri          = {},
-    bool         = { bold = true },
-    module       = { bold = true },
-    constant     = {},
-    macro        = { bold = true },
-    defaultlib   = { bold = true, italic = true },
-    url          = { bold = true }
+    __default = {
+      comment       = {},
+      keyword       = { bold = true }, -- keywords
+      kwspecial     = { bold = true }, -- keywords
+      kwconditional = { bold = true }, -- if/then
+      kwrepeat      = { bold = true }, -- loops
+      kwexception   = { bold = true },
+      kwreturn      = { bold = true }, -- return keyword(s)
+      types         = {},              -- types (classes, interfaces)
+      storage       = { bold = true }, -- storage/visibility qualifiers (public, private...)
+      struct        = {},
+      class         = {},
+      interface     = {},
+      number        = {},
+      func          = {}, -- functions
+      method        = {}, -- class methods
+      attribute     = { bold = true, italic = true },
+      staticmethod  = { bold = true },
+      member        = {},                             -- class member (field, property...)
+      staticmember  = { bold = true },
+      operator      = { bold = true },                -- operators
+      parameter     = { italic = true, bold = true }, -- function/method arguments
+      delim         = { bold = true },                -- delimiters
+      brace         = { bold = true },                -- braces, brackets, parenthesis
+      str           = {},                             -- strings
+      bold          = { bold = true },
+      italic        = { italic = true },
+      bolditalic    = { bold = true, italic = true },
+      tabline       = {},
+      cmpkind       = {},
+      uri           = {},
+      bool          = { bold = true },
+      module        = { bold = true },
+      constant      = {},
+      macro         = { bold = true },
+      defaultlib    = { bold = true, italic = true },
+      url           = { bold = true }
+    }
   }
 end
 
