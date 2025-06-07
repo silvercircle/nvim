@@ -112,10 +112,9 @@ Tweaks.blink = {
   -- label_description maximum width
   desc_max_width = 30,
   -- prefetch on InsertEnter. This might improve performance
-  prefetch = true,
+  prefetch = false,
   -- if you use a theme that does not yet support blink.cmp, set this to true
   -- to use the fallback nvim-cmp hl groups which are supported by most themes
-  use_cmp_hl = false,
   winblend = {
     doc = 0,
     menu = 0,

@@ -376,8 +376,8 @@ M.setup = {
             (" (" .. ctx.symbolcount .. ")" ) .. (ctx.followmode and " follow" or ""), { win = ctx.id_win })
           -- unfold for some filetypes. Not a good idea for others (like lua) because
           -- they have excessiv symbol spam so keep the list collapsed.
-          local unfold_for = { "tex", "markdown", "typst", "zig", "cpp", "cs", "scala", "toml", "python", "c", "typescript", "javascript" }
-          if vim.tbl_contains(unfold_for, vim.bo.filetype) then
+          local dont_unfold = { "lua", "json", "xml", "html" }
+          if not vim.tbl_contains(dont_unfold, vim.bo.filetype) then
             Symbols.sidebar.symbols.unfold_all(0)
           end
         end

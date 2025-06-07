@@ -7,6 +7,8 @@ local w_border = T.border
 local itemlist = nil
 local M = {}
 
+local Types = require("blink.cmp.types")
+
 -- local workaround when using neovide. This just temporarily disables
 -- the cursor animation to avoid the confusing cursor-jumping when accepting
 -- suggestions with <CR>
@@ -221,7 +223,7 @@ require("blink.cmp").setup({
       end,
       "fallback"
     },
-    ["<Home>"]     = {
+    ["<C-Home>"]     = {
       function(cmp)
         if not cmp.is_visible() then
           return
@@ -233,7 +235,7 @@ require("blink.cmp").setup({
       end,
       "fallback"
     },
-    ["<End>"]      = {
+    ["<C-End>"]      = {
       function(cmp)
         if not cmp.is_visible() then
           return
@@ -272,7 +274,6 @@ require("blink.cmp").setup({
     }
   },
   sources = {
-    -- default = { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'lua', 'dictionary', 'buffer' },
     default = function(_)
       if vim.bo.filetype == "lua" then
         return context_sources.lua
@@ -300,10 +301,14 @@ require("blink.cmp").setup({
         module = "blink-emoji"
       },
       lsp = {
-        score_offset = 20
+        transform_items = function(_, items)
+          return vim.tbl_filter(function(item)
+            return (item.kind ~= Types.CompletionItemKind.Text and item.kind ~= Types.CompletionItemKind.Snippet)
+          end, items)
+        end
       },
       snippets = {
-        score_offset = -2,
+        -- score_offset = -2,
         min_keyword_length = 2,
         module = "blink.cmp.sources.snippets",
         name = "Snippets",
@@ -312,7 +317,7 @@ require("blink.cmp").setup({
         }
       },
       buffer = {
-        score_offset = -10,
+        -- score_offset = -10,
         module = "blink.cmp.sources.buffer",
         min_keyword_length = 3,
         opts = {
@@ -387,6 +392,7 @@ require("blink.cmp").setup({
       draw = {
         align_to = "kind_icon",
         padding = { 0, 1 },
+        treesitter = { "lsp "},
         columns = {
           { "kind_icon", "label",       "label_description", gap = 1 },
           { "kind",      "source_name", gap = 1 }

@@ -210,7 +210,7 @@ M.disable_breadcrumb = false
 -- automatically terminate unused (= 0 clients) lsp servers
 M.auto_shutdown = true
 M.advanced_config = {
-  scala = false,
+  scala = true,
   roslyn = true
 }
 M.inlay_hints = true
