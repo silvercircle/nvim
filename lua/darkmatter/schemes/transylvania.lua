@@ -159,7 +159,13 @@ local colorstyles = {
     attribute     = "olive",
     strings       = "yellow",
     parameter     = "fg_dim",
-    url           = "altblue"
+    url           = "altblue",
+    h1          =   "blue",
+    h2          =   "red",
+    h3          =   "green",
+    h4          =   "brown",
+    h5          =   "orange",
+    h6          =   "olive"
   }
 }
 
@@ -243,7 +249,8 @@ function M.attributes()
       constant      = {},
       macro         = { bold = true },
       defaultlib    = { bold = true },
-      url           = { bold = true, underline = true }
+      url           = { bold = true, underline = true },
+      headings      = { bold = true }
     }
   }
 end
