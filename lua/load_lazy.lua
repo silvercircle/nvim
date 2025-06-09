@@ -361,6 +361,7 @@ lazy.setup({
             "!sass"
           },
           user_default_options = {
+            names = false,
             mode = "virtualtext",
             virtualtext ="",
             virtualtext_inline = "before",
