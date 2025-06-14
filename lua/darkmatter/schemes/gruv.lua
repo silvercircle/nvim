@@ -10,6 +10,7 @@ local schemeconfig = {
   -- name and desc are currently not used anywhere, but might be in the future
   name = "Frankengruv",
   desc = "Gruvbox-inspired color theme for Neovim",
+  avail = { "vivid", "medium", "pastel"},
   -- palettes must be represented in colorvariant
   -- each palette must be fully defined.
   palettes = {
@@ -122,6 +123,8 @@ local colorvariants = {
 --- colorstyles assign highlight categories to specific colors in the palette
 --- This table defines what colors hould be used for keywords, comments, variables
 --- and other semantic elements like types, classes, interfaces and so on.
+--- the __default entry is for all color variants in the theme. each variant can 
+--- define its overrides.
 ---@table colorstyles
 local colorstyles = {
   __default = {
@@ -166,6 +169,9 @@ local colorstyles = {
     h4          =   "brown",
     h5          =   "orange",
     h6          =   "olive"
+  },
+  vivid = {
+    -- for the vivid colorpalette variant, styles different from the __default should go here
   }
 }
 

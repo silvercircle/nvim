@@ -356,10 +356,10 @@ lazy.setup({
       event = "BufReadPost",
       config = function()
         require "colorizer".setup {
-          filetypes = {
-            "!css",
-            "!sass"
-          },
+          -- filetypes = {
+          --   "!css",
+          --   "!sass"
+          -- },
           user_default_options = {
             names = false,
             mode = "virtualtext",
@@ -367,8 +367,13 @@ lazy.setup({
             virtualtext_inline = "before",
             css = true
           },
-          html = {
-            mode = "foreground",
+          filetypes = {
+            html = {
+              mode = "foreground",
+            },
+            css = {
+              names = true
+            }
           }
         }
       end

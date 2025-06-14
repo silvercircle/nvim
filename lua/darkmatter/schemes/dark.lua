@@ -13,6 +13,7 @@
 local schemeconfig = {
   name = "Sonokai - dark",
   desc = "Sonokai - inspired color theme for Neovim",
+  avail = { "vivid", "medium", "pastel", "experimental"},
   -- palettes must be represented in colorvariant
   -- each palette must be fully defined.
   palettes = {
@@ -301,7 +302,7 @@ function M.bgtheme()
     treeselbg = "#1c1c63",
     cline = {
       normal = { "#2c2e34", 111},
-      insert = { "#442e34", 112},
+      insert = { "#2e2020", 112},
       visual = { "#2c2e44", 113}
     },
     cold = {

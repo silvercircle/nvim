@@ -182,6 +182,7 @@ local function configure()
   conf.attrib = vim.tbl_deep_extend("force", attrib, M.attributes_ovr[conf.scheme] or {} )
   conf.schemeconfig = Scheme.schemeconfig()
 
+  if not vim.tbl_contains(conf.schemeconfig.avail, conf.colorpalette) then conf.colorpalette = conf.schemeconfig.avail[1] end
   if not M.T[conf.variant] then
     vim.notify(string.format("Darkmatter: Variant %s does not exist in scheme %s. Setting default.", conf.variant, conf.scheme))
     conf.variant = "warm"
@@ -195,6 +196,7 @@ local function configure()
     conf.style[k] = v
   end
   -- setup base palette
+  vim.notify("colorpalette is " .. conf.colorpalette)
   M.P = Scheme.basepalette(conf.colorpalette)
 
   -- TODO: allow cokeline colors per theme variant

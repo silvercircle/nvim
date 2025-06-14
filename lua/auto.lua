@@ -282,10 +282,23 @@ autocmd({ "FileType" }, {
       vim.cmd("setlocal indentkeys-=: | setlocal cinkeys-=:")
     elseif (args.match == "scala" or args.match == "sbt") and LSPDEF.advanced_config.scala == true then
       local cfg = require("metals").bare_config()
+      cfg.settings = {
+        showImplicitArguments = true,
+        excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
+      }
+      cfg.init_options.statusBarProvider = "off"
       cfg.capabilities = require("lsp.config").get_lsp_capabilities()
       cfg.on_attach = ON_LSP_ATTACH
       cfg.settings = {
-        metalsBinaryPath = vim.fn.expand(LSPDEF.server_bin["metals"])
+        metalsBinaryPath = vim.fn.expand(LSPDEF.server_bin["metals"]),
+        inlayHints = {
+          byNameParameters = { enable = true },
+          hintsInPatternMatch = { enable = true },
+          implicitArguments = { enable = true },
+          implicitConversions = { enable = true },
+          inferredTypes = { enable = true },
+          typeParameters = { enable = true },
+        }
       }
       require("metals").initialize_or_attach(cfg)
     end

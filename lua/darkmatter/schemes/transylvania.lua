@@ -10,6 +10,7 @@ local schemeconfig = {
   -- name and desc are currently not used anywhere, but might be in the future
   name = "Transylvania",
   desc = "Dracula - inspired color theme for Neovim",
+  avail = { "vivid", "medium", "pastel"},
   -- palettes must be represented in colorvariant
   -- each palette must be fully defined.
   palettes = {
