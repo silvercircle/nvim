@@ -196,7 +196,6 @@ local function configure()
     conf.style[k] = v
   end
   -- setup base palette
-  vim.notify("colorpalette is " .. conf.colorpalette)
   M.P = Scheme.basepalette(conf.colorpalette)
 
   -- TODO: allow cokeline colors per theme variant

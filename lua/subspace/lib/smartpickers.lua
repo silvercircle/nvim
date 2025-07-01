@@ -14,7 +14,8 @@ Fzf = require("fzf-lua")
 local project_types = {
   lua = { ext = { "lua", "md", "vim" }, names = {"init.vim"} },
   c = { ext = { "c", "cpp", "cxx", "h", "hxx", "hpp", "cc" }, names = {"CMakeLists.txt", "Makefile", "CMakePresets.json"} },
-  tex = { ext = { "tex", "sty" } }
+  tex = { ext = { "tex", "sty" } },
+  scala = { ext = {"scala", "sbt", "java", "conf" } }
 }
 
 M.smartfiles_or_grep = function(opts)

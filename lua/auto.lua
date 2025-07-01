@@ -291,6 +291,24 @@ autocmd({ "FileType" }, {
       cfg.on_attach = ON_LSP_ATTACH
       cfg.settings = {
         metalsBinaryPath = vim.fn.expand(LSPDEF.server_bin["metals"]),
+        --serverProperties = {
+        --  "-Xmx1G", "-XX:+UseParallelGC", "-XX:MaxGCPauseMillis=200", "-XX:+ScavengeBeforeFullGC", "-XX:+UseStringDeduplication",
+        --  "-XX:MaxHeapFreeRatio=85", "-XX:ConcGCThreads=2", "-XX:ParallelGCThreads=2", "-XX:ReservedCodeCacheSize=256m",
+        --  "-XX:+AlwaysPreTouch", "-XX:+UseCompressedOops", "-XX:SoftRefLRUPolicyMSPerMB=50"
+        --},
+        serverProperties = {
+          "-Xmx1G", "-XX:+UseSerialGC", "-XX:MaxGCPauseMillis=200", "-XX:+ScavengeBeforeFullGC",
+          "-XX:MaxHeapFreeRatio=85", "-XX:ReservedCodeCacheSize=256m", "-XX:+UseStringDeduplication",
+          "-XX:+AlwaysPreTouch", "-XX:+UseCompressedOops", "-XX:SoftRefLRUPolicyMSPerMB=50"
+        },
+        --serverProperties = {
+        --  "-Xms512M", "-Xmx768M", "--add-modules=jdk.incubator.vector", "-XX:+UseG1GC", "-XX:+ParallelRefProcEnabled",
+        --  "-XX:MaxGCPauseMillis=200", "-XX:+UnlockExperimentalVMOptions", "-XX:+DisableExplicitGC", "-XX:+AlwaysPreTouch",
+        --  "-XX:G1HeapWastePercent=5", "-XX:G1MixedGCCountTarget=4", "-XX:InitiatingHeapOccupancyPercent=15",
+        --  "-XX:G1MixedGCLiveThresholdPercent=90", "-XX:G1RSetUpdatingPauseTimePercent=5", "-XX:SurvivorRatio=32",
+        --  "-XX:+PerfDisableSharedMem", "-XX:MaxTenuringThreshold=1", "-XX:G1NewSizePercent=30", "-XX:G1MaxNewSizePercent=40",
+        --  "-XX:G1HeapRegionSize=8M", "-XX:G1ReservePercent=20"
+        --},
         inlayHints = {
           byNameParameters = { enable = true },
           hintsInPatternMatch = { enable = true },
