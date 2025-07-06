@@ -305,9 +305,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
     },
   },
   experimental = {
-    git = {
-      async = true
-    }
+    multi_instance = false
   }
 }) -- END_DEFAULT_OPT
 
