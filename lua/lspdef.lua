@@ -161,9 +161,10 @@ M.exclude_navic = { "ctags" }
 -- needed
 M.jdtls = {
   workspace_base = "~/.cache/jdtls_workspace/",
-  java_executable = "/usr/bin/java",
+  -- java_executable = "/usr/bin/java",
+  java_executable = vim.fn.expand("~/.sdkman/candidates/java/current/bin/java"),
   jdtls_install_dir = "~/.local/share/nvim/mason/packages/jdtls/",
-  equinox_version = "1.6.1100.v20250306-0509",
+  equinox_version = "1.7.0.v20250331-1702",
   config = "config_linux"
 }
 
