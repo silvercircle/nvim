@@ -72,10 +72,11 @@ CFG = {
       value = "76"
     }
   },
-  treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
-                       "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid",
-                       "yaml", "rust", "javascript", "ruby", "objc", "objcpp", "markdown", "typescript",
-                       "markdown_inline", "zig", "cs", "typst" },
+  treesitter_types = { "cpp", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
+                       "scala", "java", "kdl", "ada", "json", "d", "liquid",
+                       "yaml", "rust", "javascript", "ruby", "objc", "objcpp", "typescript",
+                       "zig", "cs", "typst" },
+  treesitter_types_builtin = { "c", "lua", "markdown", "markdown_inline", "vim", "vimdoc" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   theme = require("darkmatter")
 }

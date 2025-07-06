@@ -245,7 +245,7 @@ autocmd({ "FileType" }, {
   --  "vim", "nim", "python", "c", "cpp", "lua", "json", "html", "css", "dart", "go",
   --  "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
-    if vim.tbl_contains(CFG.treesitter_types, args.match) then
+    if vim.tbl_contains(CFG.treesitter_types, args.match) or vim.tbl_contains(CFG.treesitter_types_builtin, args.match) then
       vim.treesitter.start()
     end
     local function in_pattern(p, ft)

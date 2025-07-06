@@ -284,7 +284,7 @@ Tweaks.statusline = {
 -- filetree tweaks
 Tweaks.tree = {
   -- valid versions are Neo (for NeoTree), Nvim (for NvimTree)
-  version = "Neo",
+  version = "Nvim",
   -- use the git integration (currently only available for NeoTree)
   use_git = true,
   -- this is a minimum value
