@@ -1,5 +1,3 @@
-local util = require 'lsp.utils'
-
 --- the following functions are necessary to support semantic tokens with the roslyn
 --- language server.
 
@@ -80,14 +78,19 @@ local function fix_semantic_tokens(client)
 end
 
 require("roslyn").setup({
-  config = {
+  vim.lsp.config("roslyn", {
+    cmd = { "dotnet", LSPDEF.server_bin["roslyn"],
+      "--stdio",
+      "--logLevel=Information",
+      "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
+      "--razorSourceGenerator=" .. LSPDEF.roslyn.razor_compiler,
+      "--razorDesignTimePath=" ..  LSPDEF.roslyn.razor_designer
+    },
     filetypes = { "cs", "razor" },
     capabilities = require("lsp.config").get_lsp_capabilities(),
     handlers = require "rzls.roslyn_handlers",
     --the project root needs a .sln file (mandatory)
-    root_dir = function(fname)
-      return util.root_pattern "*.sln" (fname)
-    end,
+    root_markers = { ".sln "},
     on_attach = ON_LSP_ATTACH,
     settings = {
       ["csharp|background_analysis"] = {
@@ -112,15 +115,5 @@ require("roslyn").setup({
         dotnet_enable_references_code_lens = true,
       }
     }
-  },
-  roslyn_version = "4.14.0-3.25054.1",
-  dotnet_cmd = "dotnet",
-  exe = { "dotnet", LSPDEF.server_bin["roslyn"] },
-  args = {
-    "--stdio",
-    "--logLevel=Information",
-    "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
-  "--razorSourceGenerator=" .. LSPDEF.roslyn.razor_compiler,
-  "--razorDesignTimePath=" ..  LSPDEF.roslyn.razor_designer
-  }
+  })
 })

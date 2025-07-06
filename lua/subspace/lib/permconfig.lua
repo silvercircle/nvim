@@ -1,6 +1,57 @@
 -- contains functions to save and retrieve a subset of settings to/from a JSON
 -- file in statedir.
 
+---@class permconfig.weather
+---@field active boolean
+---@field width  integer
+---@field content string
+
+---@class permconfig.sysmon
+---@field active boolean
+---@field width  integer
+---@field content string
+
+---@class permconfig.term
+---@field active  boolean
+---@field height  integer
+
+---@class permconfig.tree
+---@field width integer
+
+---@class permconfig.outline
+---@field width integer
+
+---@class permconfig.theme.schemeconfig
+---@field transbg boolean
+---@field variant string
+---@field palette string
+
+---@class permconfig.theme
+---@field scheme string
+---@field gruv   permconfig.theme.schemeconfig
+
+---@class permconfig
+---@field sysmon  permconfig.sysmon
+---@field weather permconfig.weather
+---@field terminal permconfig.term
+---@field tree     permconfig.tree
+---@field outline  permconfig.outline
+---@field statuscol_current string
+---@field theme   permconfig.theme
+---@field debug   boolean
+---@field indent_guides boolean
+---@field scrollbar boolean
+---@field statusline_verbosity integer
+---@field outline_filetype string
+---@field treesitter_context boolean
+---@field show_indicators boolean
+---@field float_borders string
+---@field cmp_show_docs boolean
+---@field autopair boolean
+---@field cmp_layout string
+---@field cmp_automenu boolean
+---@field cmp_ghost boolean
+---
 local function get_permconfig_filename()
   return vim.fs.joinpath(vim.fn.stdpath("state"), "permconfig.json")
 end
@@ -9,6 +60,7 @@ local M = {}
 
 -- these are the defaults for the permanent configuration structure. it will be saved to a JSON
 -- file on exit and read on startup.
+---@class permconfig
 M.perm_config_default = {
   sysmon = {
     active = false,
@@ -32,16 +84,18 @@ M.perm_config_default = {
     width = Tweaks.outline.width,
   },
   statuscol_current = "normal",
-  blist = true,
-  blist_height = 0.33,
-  theme_variant = "warm",
-  transbg = false,
-  theme_palette = "vivid",
-  theme_scheme = "gruv",
+  theme = {
+    scheme = "gruv",
+    gruv = {
+      variant = "warm",
+      transbg = false,
+      palette = "vivid"
+    }
+  },
   debug = false,
   indent_guides = true,
   scrollbar = true,
-  statusline_declutter = 0,
+  statusline_verbosity = Tweaks.statusline.lualine.verbosity,
   outline_filetype = "SymbolsSidebar",
   treesitter_context = true,
   show_indicators = true,
@@ -54,11 +108,12 @@ M.perm_config_default = {
   lsp = {
     inlay_hints = LSPDEF.inlay_hints
   },
-  is_dev = false,
+  is_dev = Tweaks.use_foldlevel_patch,
   outline_view = false,
   minimap_view = false,
 }
 
+---@diagnostic disable-next-line
 M.perm_config = {}
 
 -- write the configuration to the json file
@@ -86,14 +141,16 @@ function M.write_config()
       },
       tree = {
         active = #TABM.findWinByFiletype(Tweaks.tree.version == "Neo" and "neo-tree" or "NvimTree") > 0 and true or false,
-      }
+      },
+      theme = {}
     }
     if Tweaks.theme.disable == false then
       local theme_conf = CFG.theme.get_conf()
-      state['theme_variant'] = theme_conf.variant
-      state['theme_palette'] = theme_conf.colorpalette
-      state['transbg'] = theme_conf.is_trans
-      state['theme_scheme'] = theme_conf.scheme
+      state.theme.scheme = theme_conf.scheme
+      state.theme[theme_conf.scheme] = {}
+      state.theme[theme_conf.scheme]['variant'] = theme_conf.variant
+      state.theme[theme_conf.scheme]['palette'] = theme_conf.colorpalette
+      state.theme[theme_conf.scheme]['transbg'] = theme_conf.is_trans
     end
     if wsplit_id ~= nil then
       state.weather.width = vim.api.nvim_win_get_width(wsplit_id)
@@ -101,8 +158,16 @@ function M.write_config()
     if usplit_id and usplit_id ~= 0 then
       state.sysmon.width = vim.api.nvim_win_get_width(usplit_id)
     end
-    state.outline_view = TABM.is_outline_open()
-    state.minimap_view = TABM.findWinByFiletype("neominimap")[1] or 0
+    -- don't record state of minimap and outline window(s) when still in the start
+    -- screen
+    if TABM.T[1].id_main and vim.api.nvim_win_is_valid(TABM.T[1].id_main) and
+        vim.bo[vim.api.nvim_win_get_buf(TABM.T[1].id_main)].filetype ~= "alpha" then
+      state.outline_view = TABM.is_outline_open()
+      state.minimap_view = TABM.findWinByFiletype("neominimap")[1] or 0
+    else
+      state.outline_view = PCFG.outline_view
+      state.minimap_view = PCFG.minimap_view
+    end
     local string = vim.fn.json_encode(vim.tbl_deep_extend("force", M.perm_config, state))
     f:write(string)
     io.close(f)
@@ -139,10 +204,10 @@ function M.restore_config()
   local cmp_kind_attr = { bold=true, reverse=true }
   if Tweaks.theme.disable == false then
     CFG.theme.setup({
-      scheme = M.perm_config.theme_scheme,
-      variant = M.perm_config.theme_variant,
-      colorpalette = M.perm_config.theme_palette,
-      is_trans = M.perm_config.transbg,
+      scheme = M.perm_config.theme.scheme,
+      variant = M.perm_config.theme[M.perm_config.theme.scheme].variant,
+      colorpalette = M.perm_config.theme[M.perm_config.theme.scheme].palette,
+      is_trans = M.perm_config.theme[M.perm_config.theme.scheme].transbg,
       sync_kittybg = Tweaks.theme.sync_kittybg,
       kittysocket = Tweaks.theme.kittysocket,
       kittenexec = Tweaks.theme.kittenexec,

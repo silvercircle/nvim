@@ -58,7 +58,7 @@ function Info:render()
     end
     local name = nil
 
-    vim.api.nvim_buf_clear_namespace(self.owner.id_buf, self.ws.nsid, 0, -1)
+    vim.api.nvim_buf_clear_namespace(self.owner.id_buf, -1 --[[self.ws.nsid]], 0, -1)
     local lines = {}
     local buf_filename = vim.api.nvim_buf_get_name(curbuf)
     if buf_filename ~= nil and vim.bo[curbuf].bt == "" and vim.fn.filereadable(buf_filename) then

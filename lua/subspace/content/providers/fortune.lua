@@ -34,7 +34,7 @@ function Fortune:render()
     for i,_ in pairs(self.lines) do self.lines[i] = nil end
   end
   if not vim.api.nvim_buf_is_valid(self.id_buf) then return end
-  vim.api.nvim_buf_clear_namespace(self.id_buf, self.id_ns, 0, -1)
+  vim.api.nvim_buf_clear_namespace(self.id_buf, -1, --[[self.id_ns,]] 0, -1)
   vim.api.nvim_set_option_value("modifiable", true, { buf = self.id_buf })
   table.insert(self.lines, " ")
   table.insert(self.lines, "    *** Quote of the moment ***")

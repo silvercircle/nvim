@@ -134,7 +134,7 @@ end
 
 function Wx:render()
   local results = {}
-  vim.api.nvim_buf_clear_namespace(self.owner.id_buf, self.ws.nsid, 0, -1)
+  vim.api.nvim_buf_clear_namespace(self.owner.id_buf, -1 --[[self.ws.nsid]], 0, -1)
   if vim.fn.filereadable(self.ws.weatherfile) then
     local lines = {}
     local file = io.open(self.ws.weatherfile)
@@ -189,26 +189,26 @@ function Wx:render()
       -- temp
       hl = temp_to_hl(results["3"]) -- the current temperature, also colorize the condition string
       vim.api.nvim_buf_set_extmark(self.owner.id_buf, self.ws.nsid, 2, 0, { hl_group = hl, end_col = self.owner.width })
-      vim.api.nvim_buf_set_extmark(self.owner.id_buf, self.ws.nsid, 4, 0, { hl_group = hl, end_col = 20 })
+      vim.api.nvim_buf_set_extmark(self.owner.id_buf, self.ws.nsid, 4, 0, { hl_group = hl, end_col = 21 })
       hl = temp_to_hl(results["16"])
       vim.api.nvim_buf_set_extmark(self.owner.id_buf, self.ws.nsid, 4, 20, { hl_group = hl, end_col = #lines[5] })
 
       hl = temp_to_hl(results["29"])
-      vim.api.nvim_buf_set_extmark(self.owner.id_buf, self.ws.nsid, 5, 0, { hl_group = hl, end_col = 20 })
+      vim.api.nvim_buf_set_extmark(self.owner.id_buf, self.ws.nsid, 5, 0, { hl_group = hl, end_col = 22 })
       hl = temp_to_hl(results["30"])
       vim.api.nvim_buf_set_extmark(self.owner.id_buf, self.ws.nsid, 5, 20, { hl_group = hl, end_col = #lines[6] })
       hl = temp_to_hl(results["17"])
-      vim.api.nvim_buf_set_extmark(self.owner.id_buf, self.ws.nsid, 6, 0, { hl_group = hl, end_col = 20 })
+      vim.api.nvim_buf_set_extmark(self.owner.id_buf, self.ws.nsid, 6, 0, { hl_group = hl, end_col = 22 })
 
       hl = wind_to_hl(results["20"])
-      vim.api.nvim_buf_set_extmark(self.owner.id_buf, self.ws.nsid, 8, 0, { hl_group = hl, end_col = 20 })
+      vim.api.nvim_buf_set_extmark(self.owner.id_buf, self.ws.nsid, 8, 0, { hl_group = hl, end_col = 22 })
       vim.api.nvim_set_option_value("modified", false, { buf = self.owner.id_buf })
     end
   end
 end
 
 function Wx:destroy()
-  vim.api.nvim_buf_clear_namespace(self.owner.id_buf, self.ws.nsid, 0, -1)
+  vim.api.nvim_buf_clear_namespace(self.owner.id_buf, -1 --[[self.ws.nsid]], 0, -1)
 end
 
 local M = {}

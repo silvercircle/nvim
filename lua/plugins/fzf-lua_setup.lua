@@ -36,8 +36,8 @@ require "fzf-lua".setup({
     -- "aboveleft vnew   : split left
     -- Only valid when using a float window
     -- (i.e. when 'split' is not defined, default)
-    height     = 0.6,        -- window height
-    width      = 0.7,        -- window width
+    height     = 0.8,        -- window height
+    width      = 80,        -- window width
     row        = 0.25,       -- window row position (0=top, 1=bottom)
     col        = 0.50,       -- window col position (0=left, 1=right)
     -- border argument passthrough to nvim_open_win(), also used
@@ -57,7 +57,7 @@ require "fzf-lua".setup({
       hidden       = "nohidden",    -- hidden|nohidden
       vertical     = "down:30%",    -- up|down:size
       horizontal   = "right:60%",   -- right|left:size
-      layout       = "flex",        -- horizontal|vertical|flex
+      layout       = "vertical",        -- horizontal|vertical|flex
       flip_columns = 120,           -- #cols to switch to horizontal on flex
       -- Only used with the builtin previewer:
       title        = true,          -- preview border title (file/buf)?
@@ -112,7 +112,7 @@ require "fzf-lua".setup({
       ["<F6>"]     = "toggle-preview-cw",
       ["<S-down>"] = "preview-page-down",
       ["<S-up>"]   = "preview-page-up",
-      ["<S-left>"] = "preview-page-reset",
+      ["<S-left>"] = "preview-page-reset"
     },
     fzf = {
       -- fzf '--bind=' options
@@ -123,15 +123,11 @@ require "fzf-lua".setup({
       ["ctrl-a"]     = "beginning-of-line",
       ["ctrl-e"]     = "end-of-line",
       ["alt-a"]      = "toggle-all",
-      ["alt-up"]       = "first",
-      ["alt-down"]        = "last",
       -- Only valid with fzf previewers (bat/cat/git/etc)
       ["f3"]         = "toggle-preview-wrap",
       ["f4"]         = "toggle-preview",
       ["shift-down"] = "preview-page-down",
-      ["shift-up"]   = "preview-page-up",
-      ["end"]        = "last",
-      ["home"]       = "first"
+      ["shift-up"]   = "preview-page-up"
     },
   },
   actions             = {

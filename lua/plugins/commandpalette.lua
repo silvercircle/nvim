@@ -14,12 +14,6 @@ require("commandpicker").add({
     category = "@Favorites"
   },
   {
-    desc = "LSP server info",
-    cmd = "<cmd>LspInfo<cr>",
-    keys = { "n", "lsi", noremap },
-    category = "@LSP"
-  },
-  {
     desc = "Peek definitions (Glance plugin)",
     cmd = function() require("glance").open("definitions") end,
     keys = { "n", fkeys.s_f4, noremap },
@@ -72,8 +66,8 @@ require("commandpicker").add({
     category = "@LSP Diagnostics"
   },
   {
-    desc = "Code action",
-    cmd = function() vim.lsp.buf.code_action() end,
+    desc = "Code actions",
+    cmd = function() fzf.lsp_code_actions( { silent = true, winopts = FWO("mini_with_preview", { title = "Code actions" }) } ) end,
     keys = { "n", "DA", },
     category = "@LSP Diagnostics"
   },
@@ -345,7 +339,7 @@ require("commandpicker").add({
   {
     desc = "Fuzzy search in current buffer",
     cmd = function()
-      fzf.blines({ query = lutils.get_selection(), winopts = FWO("std_preview_top", "Fuzzy search in current buffer") })
+      fzf.blines({ query = lutils.get_selection(), winopts = FWO("std_preview_top", { title = "Fuzzy search in current buffer" }) })
     end,
     key = { { "n", "i", "v" }, "<C-x><C-f>", noremap },
     category = "@FZF"
@@ -353,7 +347,7 @@ require("commandpicker").add({
   {
     desc = "Fuzzy search in all open buffers",
     cmd = function()
-      fzf.lines({ query = lutils.get_selection(), winopts = FWO("std_preview_top", "Fuzzy search in all open buffers") })
+      fzf.lines({ query = lutils.get_selection(), winopts = FWO("std_preview_top", { title = "Fuzzy search in all open buffers" }) })
     end,
     key = { { "n", "i", "v" }, "<C-x>f", noremap },
     category = "@FZF"
@@ -376,7 +370,7 @@ require("commandpicker").add({
     cmd = function()
       local dir = vim.fn.expand("%:p:h")
       require("todo-comments.fzf").todo({
-        cwd = dir, winopts = FWO("std_preview_top", "TODO list (current directory)") })
+        cwd = dir, winopts = FWO("std_preview_top", { title = "TODO list (current directory)" }) })
     end,
     keys = {
       { "n", "tdo", noremap },
@@ -388,7 +382,7 @@ require("commandpicker").add({
     desc = "Todo list (project root)",
     cmd = function()
       require("todo-comments.fzf").todo({
-        cwd = lutils.getroot_current(), winopts = FWO("std_preview_top", "TODO list (project root)") })
+        cwd = lutils.getroot_current(), winopts = FWO("std_preview_top", { title = "TODO list (project root)" }) })
     end,
     keys = {
       { "n", "tdp", noremap },
@@ -400,7 +394,7 @@ require("commandpicker").add({
     desc = "List all highlight groups (FZF)",
     cmd = function()
       fzf.highlights({
-        winopts = FWO("narrow_small_preview", "Highlight Groups")
+        winopts = FWO("narrow_small_preview", { title = "Highlight Groups" })
       })
     end,
     keys = { "n", "thl", noremap },
@@ -410,7 +404,7 @@ require("commandpicker").add({
     desc = "FZF live grep (current directory)",
     cmd = function()
       fzf.live_grep({ query = lutils.get_selection(), cwd = vim.fn.expand("%:p:h"),
-        winopts = FWO("std_preview_top", "Live Grep (current directory)") })
+        winopts = FWO("std_preview_top", { title = "Live Grep (current directory)" }) })
     end,
     keys = {
       { "n", "<C-x>g", noremap },
@@ -423,7 +417,7 @@ require("commandpicker").add({
     desc = "FZF live grep (project root)",
     cmd = function()
       fzf.live_grep({ query = lutils.get_selection(), cwd = lutils.getroot_current(),
-        winopts = FWO("std_preview_top", "Live Grep (project root)") })
+        winopts = FWO("std_preview_top", { title = "Live Grep (project root)" }) })
     end,
     keys = {
       { "n", "<C-x><C-g>", noremap },
@@ -480,7 +474,7 @@ require("commandpicker").add({
     desc = "FZF Helptags",
     cmd = function()
       fzf.helptags({
-        winopts = fzf_tweaks.winopts.big_preview_topbig,
+        winopts = fzf_tweaks.winopts.narrow_small_preview,
       })
     end,
     keys = {
@@ -666,7 +660,7 @@ require("commandpicker").add({
   {
     desc = "Zoxide history (FZF)",
     cmd = function()
-      fzf.zoxide({ actions = require("subspace.lib.actions").fzf_dir_actions(), winopts = FWO("mini_with_preview", "Zoxide History, <CR>:browse, <C-g>:Grep, <C-d>:Set CWD, <C-o>:Oil" ) })
+      fzf.zoxide({ actions = require("subspace.lib.actions").fzf_dir_actions(), winopts = FWO("mini_with_preview", { title = "Zoxide History, <CR>:browse, <C-g>:Grep, <C-d>:Set CWD, <C-o>:Oil" }) })
     end,
     key = { {"n","i"}, "<C-x>z", noremap },
     category = "@FZF"

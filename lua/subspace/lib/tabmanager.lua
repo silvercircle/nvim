@@ -2,6 +2,7 @@
 ---@field id_main integer    -- main window id
 ---@field id_cur  integer    -- current window
 ---@field id_page integer   -- tabpage #
+---@field id_tree integer?   -- neotree id
 ---@field term term         -- term split
 ---@field wsplit wsplit
 ---@field usplit subspace.Usplit
@@ -40,6 +41,7 @@ function M.new(tabpage)
     id_cur = 0,
     id_page = tabpage,
     id_outline = nil,
+    id_tree = nil,
     term = { id_buf = nil, id_win = nil, height = 0, visible = false },
     wsplit = {
       id_win = nil,
@@ -119,8 +121,8 @@ function M.remove(tabpage)
         tab.wsplit.cookie_timer:stop()
         tab.wsplit.cookie_timer:close()
       end
-      if tab.wsplit.id_buf ~= nil and vim.api.nvim_buf_is_valid(tab.wsplit.id_buf)
-        then vim.api.nvim_buf_delete(tab.wsplit.id_buf, { force = true })
+      if tab.wsplit.id_buf ~= nil and vim.api.nvim_buf_is_valid(tab.wsplit.id_buf) then
+        vim.api.nvim_buf_delete(tab.wsplit.id_buf, { force = true })
       end
       if tab.wsplit.watch then
         vim.uv.fs_event_stop(tab.wsplit.watch)
@@ -233,6 +235,19 @@ function M.findbufbyType(type, intab, focus)
     return winid[1]
   end
   return 0
+end
+
+function M.findQuickfix(what, id_tab)
+  what = what or "quickfix"
+  id_tab = id_tab or 0
+
+  local id_found = 0
+  vim.iter(vim.fn.getwininfo()):any(function(wi)
+    if id_tab > 0 and wi["tabnr"] ~= id_tab then return false end
+    if wi[what] == 1 then id_found = wi.winid return true else return false end
+  end)
+
+  return id_found
 end
 
 --- find the first window for a given filetype.
@@ -351,11 +366,24 @@ end
 function M.tree_open_handler()
   local wsplit = require("subspace.content.wsplit")
   local ws = M.get().wsplit
+  local w = nil
+  local qfheight = 0
 
-  vim.opt.statuscolumn = ""
-  local w = vim.fn.win_getid()
+  if M.T[M.active].id_tree == nil then
+    w = vim.fn.win_getid()
+    M.T[M.active].id_tree = w
+  end
+  local id_qf = M.findQuickfix("quickfix", M.active)
+  if id_qf > 0 then
+    qfheight = vim.api.nvim_win_get_height(id_qf)
+  end
+  w = M.T[M.active].id_tree
   vim.api.nvim_set_option_value("statusline", "   " .. (Tweaks.tree.version == "Neo" and "NeoTree" or "NvimTree"), { win = w })
-  vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber")
+  --vim.cmd("setlocal winhl=Normal:TreeNormalNC,CursorLine:Visual | setlocal statuscolumn= | setlocal signcolumn=no | setlocal nonumber")
+  vim.api.nvim_set_option_value("winhl", "Normal:TreeNormalNC,CursorLine:Visual", { win = w } )
+  vim.api.nvim_set_option_value("statuscolumn", "", { scope = "local", win = w } )
+  vim.api.nvim_set_option_value("signcolumn", "no", { scope = "local", win = w } )
+  vim.api.nvim_set_option_value("number", false, { scope = "local", win = w } )
   M.adjust_layout()
   vim.api.nvim_win_set_width(w, PCFG.tree.width)
   if PCFG.weather.active == true then
@@ -363,6 +391,10 @@ function M.tree_open_handler()
     if ws.id_win == nil then
       wsplit.open(CFG.weather.file)
     end
+  end
+
+  if qfheight > 0 then
+    vim.api.nvim_win_set_height(id_qf, qfheight)
   end
 end
 
@@ -372,6 +404,7 @@ function M.tree_close_handler()
   local wsplit = require("subspace.content.wsplit")
   wsplit.close()
   M.T[M.active].wsplit.id_win = nil
+  M.T[M.active].id_tree = nil
   M.adjust_layout()
   if M.T[M.active].term.id_win ~= nil then
     vim.api.nvim_win_set_height(M.T[M.active].term.id_win, M.T[M.active].term.height)

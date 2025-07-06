@@ -10,6 +10,7 @@ local schemeconfig = {
   -- name and desc are currently not used anywhere, but might be in the future
   name = "Transylvania",
   desc = "Dracula - inspired color theme for Neovim",
+  avail = { "vivid", "medium", "pastel"},
   -- palettes must be represented in colorvariant
   -- each palette must be fully defined.
   palettes = {
@@ -124,41 +125,49 @@ local colorvariants = {
 --- and other semantic elements like types, classes, interfaces and so on.
 ---@table colorstyles
 local colorstyles = {
-  identifier = "fg_dim",
-  comment = "grey",
-  keyword = "pink",
-  kwspec = "maroon",
-  kwconditional = "maroon",
-  kwrepeat = "maroon",
-  kwexception = "maroon",
-  kwreturn = "pink",
-  kwfunc = "maroon",
-  member = "orange",
-  staticmember = "orange",
-  method = "teal",
-  func = "green",
-  operator = "brown",
-  builtin = "lpurple",
-  braces = "c4",
-  delim = "c4",
-  number = "lila",
-  class = "blue",
-  interface = "lila",
-  storage = "purple",
-  constant = "darkpurple",
-  module = "olive",
-  namespace = "olive",
-  type = "altblue",
-  struct = "altblue",
-  bool = "darkyellow",
-  constructor = "altyellow",
-  macro = "lpurple",
-  defaultlib = "darkyellow",
-  staticmethod = "palegreen",
-  attribute = "olive",
-  strings   = "yellow",
-  parameter = "fg_dim",
-  url       = "altblue"
+  __default = {
+    identifier    = "fg_dim",
+    comment       = "grey",
+    keyword       = "pink",
+    kwspec        = "maroon",
+    kwconditional = "maroon",
+    kwrepeat      = "maroon",
+    kwexception   = "maroon",
+    kwreturn      = "pink",
+    kwfunc        = "maroon",
+    member        = "orange",
+    staticmember  = "orange",
+    method        = "teal",
+    func          = "green",
+    operator      = "brown",
+    builtin       = "lpurple",
+    braces        = "c3",
+    delim         = "c3",
+    number        = "lila",
+    class         = "blue",
+    interface     = "lila",
+    storage       = "purple",
+    constant      = "darkpurple",
+    module        = "olive",
+    namespace     = "olive",
+    type          = "altblue",
+    struct        = "altblue",
+    bool          = "darkyellow",
+    constructor   = "altyellow",
+    macro         = "lpurple",
+    defaultlib    = "darkyellow",
+    staticmethod  = "palegreen",
+    attribute     = "olive",
+    strings       = "yellow",
+    parameter     = "fg_dim",
+    url           = "altblue",
+    h1          =   "blue",
+    h2          =   "red",
+    h3          =   "green",
+    h4          =   "brown",
+    h5          =   "orange",
+    h6          =   "olive"
+  }
 }
 
 local M = {}
@@ -205,42 +214,45 @@ end
 --- with user-provided options to build the final conf.attrib table.
 function M.attributes()
   return {
-    comment      = {},
-    keyword      = { bold = true },   -- keywords
-    kwspecial    = { bold = true },   -- keywords
-    kwconditional= { bold = true },   -- if/then
-    kwrepeat     = { bold = true },   -- loops
-    kwexception  = { bold = true },
-    kwreturn     = { bold = true },   -- return keyword(s)
-    types        = {},                -- types (classes, interfaces)
-    storage      = { bold = true },   -- storage/visibility qualifiers (public, private...)
-    struct       = {},
-    class        = {},
-    interface    = {},
-    number       = {},
-    func         = {},   -- functions
-    method       = {},                -- class methods
-    attribute    = { bold = true, italic = true },
-    staticmethod = { bold = true },
-    member       = {},                -- class member (field, property...)
-    staticmember = { bold = true },
-    operator     = { bold = true },   -- operators
-    parameter    = { italic = true, bold = true }, -- function/method arguments
-    delim        = { bold = true },   -- delimiters
-    brace        = { bold = true },   -- braces, brackets, parenthesis
-    str          = {},                -- strings
-    bold         = { bold = true },
-    italic       = { italic = true },
-    bolditalic   = { bold = true, italic = true },
-    tabline      = {},
-    cmpkind      = {},
-    uri          = {},
-    bool         = { bold = true },
-    module       = { bold = true },
-    constant     = {},
-    macro        = { bold = true },
-    defaultlib   = { bold = true },
-    url          = { bold = true, underline = true }
+    __default = {
+      comment       = {},
+      keyword       = { bold = true }, -- keywords
+      kwspecial     = { bold = true }, -- keywords
+      kwconditional = { bold = true }, -- if/then
+      kwrepeat      = { bold = true }, -- loops
+      kwexception   = { bold = true },
+      kwreturn      = { bold = true }, -- return keyword(s)
+      types         = {},           -- types (classes, interfaces)
+      storage       = { bold = true }, -- storage/visibility qualifiers (public, private...)
+      struct        = {},
+      class         = {},
+      interface     = {},
+      number        = {},
+      func          = {}, -- functions
+      method        = {}, -- class methods
+      attribute     = { bold = true, italic = true },
+      staticmethod  = { bold = true },
+      member        = {},                          -- class member (field, property...)
+      staticmember  = { bold = true },
+      operator      = { bold = true },             -- operators
+      parameter     = { italic = true, bold = true }, -- function/method arguments
+      delim         = { bold = true },             -- delimiters
+      brace         = { bold = true },             -- braces, brackets, parenthesis
+      str           = {},                          -- strings
+      bold          = { bold = true },
+      italic        = { italic = true },
+      bolditalic    = { bold = true, italic = true },
+      tabline       = {},
+      cmpkind       = {},
+      uri           = {},
+      bool          = { bold = true },
+      module        = { bold = true },
+      constant      = {},
+      macro         = { bold = true },
+      defaultlib    = { bold = true },
+      url           = { bold = true, underline = true },
+      headings      = { bold = true }
+    }
   }
 end
 
@@ -272,6 +284,11 @@ function M.bgtheme()
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
     selbg = "#44475A",
     treeselbg = "#303240",
+    cline = {
+      normal = { "#2c2e34", 111},
+      insert = { "#442e34", 112},
+      visual = { "#2c2e44", 113}
+    },
     cold = {
       black = { "#151212", 232 },
       bg_dim = { "#242020", 232 },
@@ -344,8 +361,8 @@ function M.custom_colors()
     c1 = "#2f47df",
     c2 = "#cccc20",
     c3 = '#4c4866',
-    c4 = '#8383c0',
-    c5 = '#ff00ff'
+    c4 = '#4c2e2e',
+    c5 = '#2c2e4c'
   }
 end
 

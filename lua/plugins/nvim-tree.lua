@@ -191,7 +191,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   },
   update_focused_file = {
     enable = false,
-    debounce_delay = 50,
+    debounce_delay = 200,
     update_root = false,
     ignore_list = {},
   },

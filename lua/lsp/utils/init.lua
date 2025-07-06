@@ -25,7 +25,7 @@ ON_LSP_ATTACH = function(client, buf)
     vim.g.inlay_hints_visible = PCFG.lsp.inlay_hints
     vim.lsp.inlay_hint.enable(PCFG.lsp.inlay_hints)
   end
-  if vim.lsp.document_color and client:supports_method("textDocument/documentColor") then
+  if LSPDEF.color_support == true and vim.lsp.document_color and client:supports_method("textDocument/documentColor") then
     vim.lsp.document_color.enable(true, buf, { style = "virtual" })
   end
   -- this mechanism allows to inject on_attach code from either lspdef or the
@@ -33,8 +33,13 @@ ON_LSP_ATTACH = function(client, buf)
   if LSPDEF.serverconfigs[client.name] and LSPDEF.serverconfigs[client.name].attach_config then
     LSPDEF.serverconfigs[client.name].attach_config(client, buf)
   end
-  if vim.lsp.config[client.name] and vim.lsp.config[client.name].attach_config then
-    vim.lsp.config[client.name].attach_config(client, buf)
+  if vim.lsp.config[client.name] then
+    if vim.lsp.config[client.name].on_attach_orig then
+      vim.lsp.config[client.name].on_attach_orig(client, buf)
+    end
+    if vim.lsp.config[client.name].attach_config then
+      vim.lsp.config[client.name].attach_config(client, buf)
+    end
   end
 end
 

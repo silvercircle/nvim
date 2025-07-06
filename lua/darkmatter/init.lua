@@ -175,11 +175,23 @@ local function configure()
   local Scheme = require("darkmatter.schemes." .. conf.scheme)
   local seq = 0
 
+  local attrib = Scheme.attributes()[conf.colorpalette] or Scheme.attributes()["__default"]
+
   M.T = Scheme.bgtheme()
   rainbowpalette = Scheme.rainbowpalette()
-  conf.attrib = vim.tbl_deep_extend("force", Scheme.attributes(), M.attributes_ovr[conf.scheme] or {} )
+  conf.attrib = vim.tbl_deep_extend("force", attrib, M.attributes_ovr[conf.scheme] or {} )
   conf.schemeconfig = Scheme.schemeconfig()
-  conf.style = Scheme.colorstyles()
+
+  if not vim.tbl_contains(conf.schemeconfig.avail, conf.colorpalette) then conf.colorpalette = conf.schemeconfig.avail[1] end
+  if not M.T[conf.variant] then
+    vim.notify(string.format("Darkmatter: Variant %s does not exist in scheme %s. Setting default.", conf.variant, conf.scheme))
+    conf.variant = "warm"
+  end
+  conf.style = vim.deepcopy(Scheme.colorstyles()["__default"])
+  if Scheme.colorstyles()[conf.colorpalette] ~= nil then
+    conf.style = vim.tbl_deep_extend("force", conf.style, Scheme.colorstyles()[conf.colorpalette])
+  end
+
   for k,v in pairs(conf.colorstyles_ovr) do
     conf.style[k] = v
   end
@@ -331,7 +343,10 @@ local function set_all()
   M.link("CursorIM", "iCursor")
 
   M.hl("FocusedSymbol", M.P.yellow, M.NONE, conf.attrib.bold)
-  M.hl_with_defaults("CursorLine", M.NONE, M.P.bg0)
+  M.hl_with_defaults("CursorLineNC", M.NONE, M.T.cline.normal)
+  M.hl_with_defaults("CursorLineInsert", M.NONE, M.T.cline.insert)
+  M.hl_with_defaults("CursorLineVisual", M.NONE, M.T.cline.visual)
+  M.link("CursorLine", "CursorLineNC")
   M.hl_with_defaults("CursorColumn", M.NONE, M.P.bg1)
   M.hl_with_defaults("CursorLineNr", M.P.olive, M.P.darkbg)
 
@@ -474,6 +489,7 @@ local function set_all()
   M.link("@boolean", "Boolean")
   M.link("@character", "Yellow")
   M.link("@comment", "Comment")
+  M.link("@comment.documentation", "NonText")
   M.link("@conditional", "KWConditional")
   M.link("@constant", "Constant")
   M.link("@constant.builtin", "Builtin")
@@ -689,7 +705,6 @@ local function default_conf_callback(what)
   vim.notify("Darkmatter: default configuration callback in use for " .. what)
 end
 
-local supported_variants = { "warm", "cold", "deepblack", "pitchblack" }
 --- setup the theme
 --- @param opt table - the options to set. will be merged with local
 --- conf table.
@@ -710,9 +725,6 @@ function M.setup(opt)
     conf.scheme = "dark"
   end
 
-  if vim.tbl_contains(supported_variants, conf.variant) == false then
-    conf.variant = "cold"
-  end
   if conf.callback == nil then
     conf.callback = default_conf_callback
   end

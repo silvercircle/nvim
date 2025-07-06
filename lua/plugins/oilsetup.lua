@@ -1,3 +1,4 @@
+local Snacks = require("snacks")
 require("oil").setup({
   -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
   -- Set to false if you want some other plugin (e.g. netrw) to open when you edit directories.
@@ -74,6 +75,15 @@ require("oil").setup({
     ["gx"] = "actions.open_external",
     ["g."] = { "actions.toggle_hidden", mode = "n" },
     ["g\\"] = { "actions.toggle_trash", mode = "n" },
+    ["<A-e>"] = { function()
+      local cwd = require("oil").get_current_dir()
+      Snacks.picker.explorer({cwd = cwd,
+        layout = SPL( { width = 80, height=0.9, psize = 15, input = "top", title = cwd }) })
+    end, mode = "n" },
+    ["<A-f>"] = { function()
+      local cwd = require("oil").get_current_dir()
+      require("fzf-lua").files({ formatter = "path.filename_first", cwd = cwd, winopts = FWO("narrow_small_preview_dn", { width = 80}) })
+    end, mode = "n" }
   },
   -- Set to false to disable all of the above keymaps
   use_default_keymaps = true,

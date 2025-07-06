@@ -7,6 +7,8 @@ local w_border = T.border
 local itemlist = nil
 local M = {}
 
+local Types = require("blink.cmp.types")
+
 -- local workaround when using neovide. This just temporarily disables
 -- the cursor animation to avoid the confusing cursor-jumping when accepting
 -- suggestions with <CR>
@@ -110,6 +112,7 @@ local function reverse_hl_groups()
   end
 end
 
+---@diagnostic disable-next-line
 local function italizemenugroups()
   local groups = {
     "CmpItemMenu", "CmpItemMenuPath", "CmpItemMenuDetail",
@@ -124,7 +127,7 @@ end
 
 function M.update_hl()
   reverse_hl_groups()
-  italizemenugroups()
+  -- italizemenugroups()
 end
 
 -- this maps source names to highlight groups
@@ -138,20 +141,25 @@ local blink_menu_hl_group = {
 }
 
 local context_sources = {
-  default = { "lsp", "path", "snippets", "buffer" },
-  lua = { "lsp", "path", "snippets", "buffer" },
-  text = { "lsp", "path", "snippets", "emoji", "wordlist", "buffer" }--, "dictionary" }
+  default = { "lsp", "path", "snippets", "buffer", "wordlist" },
+  lua = { "lsp", "path", "snippets", "buffer", "wordlist" },
+  text = { "lsp", "path", "snippets", "emoji", "wordlist", "buffer" }-- , "dictionary" }
 }
 
 local icon_trans = {
   ["Color"] = " ",
   ["Unit"]  = " ",
-  ["Dict"]  = "﬜ "
+  ["Dict"]  = " "
 }
 
 require("blink.cmp").setup({
   fuzzy = {
-    implementation = "rust"
+    implementation = "rust",
+    use_proximity = false,
+    use_frecency = true,
+    sorts = {
+      "score", "sort_text"
+    }
   },
   appearance = {
     -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -215,7 +223,7 @@ require("blink.cmp").setup({
       end,
       "fallback"
     },
-    ["<Home>"]     = {
+    ["<C-Home>"]     = {
       function(cmp)
         if not cmp.is_visible() then
           return
@@ -227,7 +235,7 @@ require("blink.cmp").setup({
       end,
       "fallback"
     },
-    ["<End>"]      = {
+    ["<C-End>"]      = {
       function(cmp)
         if not cmp.is_visible() then
           return
@@ -266,7 +274,6 @@ require("blink.cmp").setup({
     }
   },
   sources = {
-    -- default = { 'lsp', 'path', 'snippets', 'emoji', 'wordlist', 'lua', 'dictionary', 'buffer' },
     default = function(_)
       if vim.bo.filetype == "lua" then
         return context_sources.lua
@@ -294,10 +301,14 @@ require("blink.cmp").setup({
         module = "blink-emoji"
       },
       lsp = {
-        score_offset = 10
+        transform_items = function(_, items)
+          return vim.tbl_filter(function(item)
+            return (item.kind ~= Types.CompletionItemKind.Text and item.kind ~= Types.CompletionItemKind.Snippet)
+          end, items)
+        end
       },
       snippets = {
-        score_offset = 5,
+        -- score_offset = -2,
         min_keyword_length = 2,
         module = "blink.cmp.sources.snippets",
         name = "Snippets",
@@ -306,7 +317,7 @@ require("blink.cmp").setup({
         }
       },
       buffer = {
-        score_offset = 3,
+        -- score_offset = -10,
         module = "blink.cmp.sources.buffer",
         min_keyword_length = 3,
         opts = {
@@ -322,16 +333,19 @@ require("blink.cmp").setup({
           end,
         }
       },
+      obsidian = {
+        module = "obsidian.completion.sources.blink.refs",
+        score_offset = 5,
+        min_keyword_length = 3
+      },
       --dictionary = {
+      --  score_offset = -3,
       --  min_keyword_length = 3,
       --  max_items = 8,
       --  async = true,
       --  module = "blink-cmp-dictionary",
       --  name = "Dict",
       --  opts = {
-      --    kind_icons = {
-      --      Dict = " "
-      --    },
       --    dictionary_directories = { vim.fn.expand("~/.config/nvim/dict") },
       --    get_command = "rg",
       --    get_command_args = function(prefix)
@@ -378,6 +392,7 @@ require("blink.cmp").setup({
       draw = {
         align_to = "kind_icon",
         padding = { 0, 1 },
+        treesitter = { "lsp "},
         columns = {
           { "kind_icon", "label",       "label_description", gap = 1 },
           { "kind",      "source_name", gap = 1 }

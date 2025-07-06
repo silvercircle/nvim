@@ -15,6 +15,11 @@ local to_enable = {}
 local function do_setup()
   local caps = M.get_lsp_capabilities()
 
+  vim.lsp.config("*", {
+    on_attach = ON_LSP_ATTACH,
+    capabilities = caps
+  })
+
   for k, v in pairs(LSPDEF.serverconfigs) do
     if v.active == true then
       local s, config = pcall(require, "lsp.serverconfig." .. k)
@@ -44,38 +49,55 @@ local function do_setup()
         end
       end
       if config._valid then
+        if config.on_attach and type(config.on_attach) == "function" then
+          config.on_attach_orig = vim.deepcopy(config.on_attach, 1)
+          config.on_attach = nil
+        end
         table.insert(to_enable, k)
         vim.lsp.config[k] = config
+
       end
     end
     ::continue::
   end
 
   vim.lsp.enable(to_enable)
-  -- modify defaults for all configurations
-  vim.lsp.config("*", {
-    on_attach = ON_LSP_ATTACH,
-    capabilities = caps
-  })
 end
 
 M.lsp_capabilities = nil
 
+M.local_caps = {
+  workspace = {
+    didChangeWatchedFiles = {
+      dynamicRegistration = LSPDEF.use_dynamic_registration
+    },
+    executeCommand = {
+      dynamicRegistration = true
+    }
+  },
+  textDocument = {
+    completion = {
+      editsNearCursor = true
+    }
+  }
+}
 --- obtain lsp capabilities from lsp and cmp-lsp plugin
 --- @return table
 function M.get_lsp_capabilities()
   if M.lsp_capabilities == nil then
     if Tweaks.completion.version == "blink" then
       M.lsp_capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
+      M.lsp_capabilities = vim.tbl_deep_extend("force", M.lsp_capabilities, M.local_caps)
     else
-      M.lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
-      M.lsp_capabilities = vim.tbl_deep_extend("force", M.lsp_capabilities, vim.lsp.protocol.make_client_capabilities())
+      local caps = require("cmp_nvim_lsp").default_capabilities()
+      M.lsp_capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), M.local_caps)
+      M.lsp_capabilities = vim.tbl_deep_extend("force", M.lsp_capabilities, caps)
     end
-    M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = LSPDEF.use_dynamic_registration
-    M.lsp_capabilities.textDocument.completion.editsNearCursor = true
-    M.lsp_capabilities.workspace.executeCommand = {
-      dynamicRegistration = true
-    }
+    --M.lsp_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = LSPDEF.use_dynamic_registration
+    --M.lsp_capabilities.textDocument.completion.editsNearCursor = true
+    --M.lsp_capabilities.workspace.executeCommand = {
+    --  dynamicRegistration = true
+    --}
   end
   return M.lsp_capabilities
 end

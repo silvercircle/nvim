@@ -38,11 +38,14 @@ end
 local function status_indicators()
   return (PCFG.treesitter_context == true and "C" or "c") ..
          (PCFG.is_dev == true and "D" or "d") ..
-         (PCFG.transbg == true and "T" or "t") ..
          (PCFG.autopair == true and "A" or "a") ..
          (PCFG.cmp_automenu and 'O' or 'o') ..
          (PCFG.cmp_ghost and 'G' or 'g') ..
          (PCFG.lsp.inlay_hints and 'H' or 'h')
+end
+
+local function get_mem()
+  return string.format("%.1fM", collectgarbage("count") / 1024)
 end
 
 --- internal global function to create the lualine color theme
@@ -103,9 +106,9 @@ local function getWordsV2()
   end
   local wc = vim.fn.wordcount()
   if wc["visual_words"] then -- text is selected in visual mode
-    return wc["visual_words"] .. " Words/" .. wc['visual_chars'] .. " Chars (Vis)"
+    return wc["visual_words"] .. "W/" .. wc['visual_chars'] .. "C (Vis)"
   else -- all of the document
-    return wc["words"] .. " Words"
+    return wc["words"]
   end
 end
 
@@ -157,8 +160,8 @@ require("lualine").setup({
     -- section_separators = { left = "", right = "" },
     disabled_filetypes = {
       statusline = { "SymbolsSidebar", "SymbolsHelp", "SymbolsSearch",
-        "terminal", "sysmon", "weather", "NvimTree", "query_rt", "DiffviewFiles", "neominimap" },
-      winbar = { "terminal", "qf", "NvimTree", "alpha", "sysmon", "weather", "query_rt", "help",
+        "terminal", "sysmon", "weather", Tweaks.tree.filetype, "query_rt", "DiffviewFiles", "neominimap" },
+      winbar = { "terminal", "qf", Tweaks.tree.filetype, "alpha", "sysmon", "weather", "query_rt", "help",
         "dap-repl", "dapui_console", "dapui_watches", "dapui_stacks", "dapui_scopes", "dapui_breakpoints",
         "snacks_picker_preview", "snacks_dashboard", "SymbolsSidebar", "SymbolsHelp", "SymbolsSearch", "DiffviewFiles", "neominimap" },
       tabline = {},
@@ -184,7 +187,7 @@ require("lualine").setup({
     lualine_b = { "branch", "diff", "diagnostics"  },
     lualine_c = {"filename", "searchcount"--[[, { get_permissions_color }]] },
     lualine_x = {
-      { indentstats, cond = function() return PCFG.statusline_declutter < 3 and true or false end },
+      { indentstats, cond = function() return PCFG.statusline_verbosity >= 3 and true or false end },
       {
         -- show unicode for character under cursor in hex and decimal
         -- "%05B - %06b",
@@ -194,11 +197,14 @@ require("lualine").setup({
         end
       },
       "filetype",
-      { "fileformat", cond = function() return PCFG.statusline_declutter < 2 and true or false end },
+      { "fileformat", cond = function() return PCFG.statusline_verbosity >= 4 and true or false end },
       { status },
-      { "encoding", draw_empty=false, cond = function() return PCFG.statusline_declutter < 2 and true or false end }
+      { "encoding", draw_empty=false, cond = function() return PCFG.statusline_verbosity >= 4 and true or false end }
     },
-    lualine_y = { { "progress", cond = function() return PCFG.statusline_declutter < 1 and true or false end, draw_empty=false} },
+    lualine_y = {
+      { "progress", cond = function() return PCFG.statusline_verbosity >= 3 and true or false end, draw_empty=false},
+      { get_mem, cond = function() return PCFG.statusline_verbosity >= 2 and true or false end, draw_empty=false},
+    },
     -- word counter via custom function
     lualine_z = { { getWordsV2 }, "location" },
   },

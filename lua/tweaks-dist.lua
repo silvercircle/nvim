@@ -17,6 +17,7 @@ local borderstyles = {
   rounded   = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
   flat      = { " ", " ", " ", " ", " ", " ", " ", " " },
   topflat   = { " ", " ", " ", "", " ", " ", " ", "" },
+  hpadded   = { "", "", "", " ", "", "", "", " " },
   none      = { "", "", "", "", "", "", "", "" },
   thicc     = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
   thiccc    = { "▛", "▀", "▜", "▐", "▟", "▄", "▙", "▌" },
@@ -26,11 +27,7 @@ local Tweaks = {}
 -- plugin choices.
 -- notification system
 -- either "mini", "fidget" or "snacks".
-Tweaks.notifier = "snacks"
-
--- what plugin to use for breadcrumbs in the winbar
--- valid are 'aerial' and 'navic'. Defaults to 'navic' when unrecognized
-Tweaks.breadcrumb = 'navic'
+Tweaks.notifier = "fidget"
 
 -- completion framework to use. Can be "blink" or "nvim-cmp"
 -- if you set this to any other value, completion will be UNAVAILABLE
@@ -92,7 +89,8 @@ Tweaks.indent = {
 
 -- this enabled DAP and dap-ui
 Tweaks.dap = {
-  enabled = true
+  enabled = true,
+  ui = "debugmaster"
 }
 
 -- blink.cmp related tweaks
@@ -117,7 +115,6 @@ Tweaks.blink = {
   prefetch = false,
   -- if you use a theme that does not yet support blink.cmp, set this to true
   -- to use the fallback nvim-cmp hl groups which are supported by most themes
-  use_cmp_hl = false,
   winblend = {
     doc = 0,
     menu = 0,
@@ -200,6 +197,7 @@ Tweaks.cmp = {
 
 -- internal function to create the border characters. You can expand it with more styles
 -- and use them in the "decoration" option above.
+---@param style string
 Tweaks.borderfactory = function(style)
   style = (style and borderstyles[style] ~= nil) and style or "single"
   return borderstyles[style]
@@ -278,14 +276,15 @@ Tweaks.statusline = {
     -- lualine theme, eg "dracula"
     theme = "internal",
     -- redraw debounce (in milliseconds)
-    refresh = 2000
+    refresh = 2000,
+    verbosity = 3
   }
 }
 
 -- filetree tweaks
 Tweaks.tree = {
   -- valid versions are Neo (for NeoTree), Nvim (for NvimTree)
-  version = "Nvim",
+  version = "Neo",
   -- use the git integration (currently only available for NeoTree)
   use_git = true,
   -- this is a minimum value
@@ -298,7 +297,9 @@ Tweaks.outline = {
 -- a list of filename patterns that define a project root. This will be used as some kind of
 -- fallback when no other means of finding a project's root are successfull. This is highly
 -- incomplete and inaccurate, but you can expand this with whatever you want.
-Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "settings.gradle", "pom.xml", "*.sln", "build.zig", "go.mod", "go.sum" }
+Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble",
+  "settings.gradle", "pom.xml", "*.sln", "build.zig", "go.mod", "go.sum",
+  "package.json", "pyproject.toml", "tsconfig.json", "jsconfig.json" }
 Tweaks.srclocations = { "src", "source", "sources", "SRC", "Src", "SOURCE", "Source", "Sources", "lua" }
 Tweaks.cokeline = {
   closebutton = false,
@@ -348,6 +349,7 @@ Tweaks.fzf = {
     narrow_no_preview    =  { width = 0.5, height = 0.8, preview = { hidden = 'hidden' } },
     very_narrow_no_preview= { width = 70, height = 0.8, preview = { hidden = 'hidden' } },
     narrow_small_preview =  { width = 0.5, height = 0.8, preview = { border = 'thicc', layout = 'vertical', vertical = "up:35%" } },
+    narrow_small_preview_dn =  { width = 0.5, height = 0.8, preview = { border = 'thicc', layout = 'vertical', vertical = "down:30%" } },
     narrow_big_preview   =  { width = 0.5, height = 0.9, preview = { border = 'thicc', layout = 'vertical', vertical = "up:45%" } },
     mini_with_preview    =  { width = 80, height = 0.8, preview = { border = 'thicc', layout = 'vertical', vertical = "up:30%" } },
   },
@@ -398,7 +400,7 @@ Tweaks.ft_patterns = {
   indentkeys  = { "c", "cpp", "python" },
   tabstop     = { "vim", "nim", "python", "lua", "json", "html", "css", "dart", "go" },
   -- this MUST be a list of filetypes
-  enter_leave = { "NvimTree", "snacks_picker_list", "SymbolsSidebar", "SymbolsSearch" }
+  enter_leave = { "neo-tree", "NvimTree", "snacks_picker_list", "SymbolsSidebar", "SymbolsSearch" }
 }
 
 return Tweaks

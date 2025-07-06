@@ -216,17 +216,13 @@ end
 --- opens a hover for the symbol under the cursor. if it's a closed UFO fold, then
 --- show a hover for it instead.
 --- press <F1> again to enter the hover window, press <q> to dismiss it.
-vim.keymap.set({ "n", "i" }, '<f1>', function()
-  local status, ufo = pcall(require, "ufo")
-  local winid = (status == true) and ufo.peekFoldedLinesUnderCursor() or false
-  if not winid then
-  	local api = vim.api
-	  local hover_win = vim.b.hover_preview
-  	if hover_win and api.nvim_win_is_valid(hover_win) then
-	  	api.nvim_set_current_win(hover_win)
-  	else
-	  	require("hover").hover()
-  	end
+vim.keymap.set({ "n", "i" }, "<f1>", function()
+  local api = vim.api
+  local hover_win = vim.b.hover_preview
+  if hover_win and api.nvim_win_is_valid(hover_win) then
+    api.nvim_set_current_win(hover_win)
+  else
+    require("hover").hover()
   end
 end, { desc = "LSP hover window" })
 
@@ -310,11 +306,11 @@ end, "Toggle scrollbar")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'g', function()
   -- declutter status line. There are 4 levels. 0 displays all components, 1-3 disables some
   -- lesser needed
-  PCFG.statusline_declutter = PCFG.statusline_declutter + 1
-  if PCFG.statusline_declutter == 4 then
-    PCFG.statusline_declutter = 0
+  PCFG.statusline_verbosity = PCFG.statusline_verbosity + 1
+  if PCFG.statusline_verbosity == 4 then
+    PCFG.statusline_verbosity = 0
   end
-  vim.notify("Lualine declutter level: " .. PCFG.statusline_declutter, 0, { title = "Lualine" })
+  vim.notify("Lualine declutter level: " .. PCFG.statusline_verbosity, 0, { title = "Lualine" })
 end, "Declutter status line")
 
 vim.g.setkey({'n', 'i'}, '<A-q>', function()
@@ -324,14 +320,14 @@ end, "Quit Neovim")
 
 vim.g.setkey({'n', 'i'}, '<C-p>', function()
   if vim.fn.win_getid() == TABM.T[TABM.active].id_main or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
-    require('fzf-lua').oldfiles( { formatter = "path.filename_first", winopts = Tweaks.fzf.winopts.small_no_preview })
+    require('fzf-lua').oldfiles( { formatter = "path.filename_first", winopts = FWO("small_no_preview", { title = "Recent files", width = 100 }) })
   end
 end, "FZF-LUA old files")
 
 vim.g.setkey({ "n", "i", "t", "v" }, "<C-e>", function()
   if vim.fn.win_getid() == TABM.T[TABM.active].id_main or vim.bo.buftype == "" or vim.bo.buftype == "acwrite" then
     require("fzf-lua").buffers({ formatter = "path.filename_first", mru = true, no_action_zz = true,
-      no_action_set_cursor = true, winopts = FWO("small_no_preview", "Buffers <C-d>:delete <C-w>:save when modified") })
+      no_action_set_cursor = true, winopts = FWO("small_no_preview", { title = "Buffers <C-d>:delete <C-w>:save when modified", width = 100 }) })
   end
 end, "FZF buffer list")
 vim.g.setkey({'n', 'i', 'v' }, '<A-p>', function()
@@ -494,10 +490,24 @@ end, "Show buftype of current buffer")
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '3', function()
   local status = TABM.is_outline_open()
   if status ~= false then
-    local sb = require("symbols").sidebar.get()
-    if sb then require("symbols").sidebar.symbols.force_refresh(sb) end
+    -- simply fire BufWinEnter this will refresh the symbols sidebar
+    vim.api.nvim_exec_autocmds({"BufWinEnter"}, {})
+  elseif Tweaks.tree.version == "Neo" then
+    vim.cmd("Neotree source=document_symbols")
   end
 end, "Refresh outline symbols")
+
+if Tweaks.tree.version == "Neo" then
+  vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '7', function()
+    vim.cmd("Neotree source=filesystem")
+  end)
+  vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '8', function()
+    vim.cmd("Neotree source=buffers")
+  end)
+  vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. '9', function()
+    vim.cmd("Neotree source=document_symbols")
+  end)
+end
 
 vim.g.setkey( {'n', 'i'}, '<C-S-E>', function()
   Snacks.picker.smart({ layout = SPL( {width = 70, height = 20, row = 5, title = "Buffers", input = "top" } ) })
@@ -532,3 +542,6 @@ vim.g.setkey( {"v", "n", "i"}, utility_key .. "td", function()
 end, "Open new tab page")
 
 require("subspace.lib.marks").set_keymaps()
+vim.g.setkey( { "v", "n", "i" }, "<C-x><C-o>", function() Utils.obsidian_menu() end)
+vim.keymap.set('x', 'z/', '<C-\\><C-n>`</\\%V', { desc = 'Search forward within visual selection' })
+vim.keymap.set('x', 'z?', '<C-\\><C-n>`>?\\%V', { desc = 'Search backward within visual selection' })

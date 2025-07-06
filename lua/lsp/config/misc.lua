@@ -4,7 +4,7 @@
 if vim.diagnostic then
   vim.diagnostic.config({
     update_in_insert = false,
-    virtual_text = (LSPDEF.virtual_text) and { current_line = false },
+    virtual_text = (LSPDEF.virtual_text) and true, -- { current_line = true },
     virtual_lines = (LSPDEF.virtual_lines == true) and { current_line = true, highlight_whole_line = false } or false,
     underline = {
       -- Do not underline text when severity is low (INFO or HINT).
@@ -90,7 +90,7 @@ if Tweaks.notifier == "snacks" then
         title = client.name,
         opts = function(notif)
           notif.icon = #progress[client.id] == 0 and " "
-            or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+            or spinner[math.floor(vim.uv.hrtime() / (1e6 * 200)) % #spinner + 1]
         end,
       })
     end,

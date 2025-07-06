@@ -83,23 +83,50 @@ lazy.setup({
   },
   -- treesitter + friends
   {
-    'nvim-treesitter/nvim-treesitter',
-    branch = "master",
-    -- lazy = true,
-    -- event = { "UIEnter" },
+    "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    event = "BufReadPre",
+    build = ":TSUpdate",
     config = function()
       require("plugins.treesitter")
     end,
     dependencies = {
-      {
-        'nvim-treesitter/nvim-treesitter-context',
-        lazy = true,
-        config = function()
-          require("plugins.others").setup.treesitter_context()
-        end
-      }
     }
   },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    lazy = true,
+    event = "BufReadPre",
+    config = function()
+      require("plugins.others").setup.treesitter_context()
+    end
+  },
+  {
+    'MeanderingProgrammer/treesitter-modules.nvim',
+    event = "BufReadPre",
+    config = function()
+      require("treesitter-modules").setup({
+        ensure_installed = {},
+        highlight = {
+          enable = false,
+          disable = {},
+        },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "<Space>",
+            node_incremental = "<Space>",
+            scope_incremental = "<C-Space>",
+            node_decremental = "<A-Space>",
+          },
+        },
+        indent = {
+          enable = true,
+        },
+      })
+    end
+  },
+  -- treesitter + friends
   -- cmp and all its helpers
   -- using the magazine nvim-cmp fork.
   -- blink.cmp (alternative to nvim-cmp)

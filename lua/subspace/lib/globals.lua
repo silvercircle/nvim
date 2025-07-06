@@ -224,7 +224,7 @@ end
 -- treesitter is first started (in auto.lua)
 function M.configure_treesitter()
   vim.treesitter.language.register("objc", "objcpp")
-  vim.treesitter.language.register("markdown", { "telekasten", "liquid" } )
+  vim.treesitter.language.register("markdown", { "liquid" } )
   vim.treesitter.language.register("css", "scss")
   vim.treesitter.language.register("html", "jsp")
   vim.treesitter.language.register("ini", "editorconfig")

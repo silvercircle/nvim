@@ -20,7 +20,7 @@ M.localbin        = jp(M.homepath, '.local/bin/')
 -- binaries for external LSP plugins not covered by lspconfig
 M.server_bin = {
   metals        =   '$HOME/.local/share/coursier/bin/metals',
-  roslyn        =   jp(vim.fn.stdpath("data"), "/roslyn/Microsoft.CodeAnalysis.LanguageServer.dll"),
+  roslyn        =   jp(M.masonbasepath, "packages/roslyn/libexec/Microsoft.CodeAnalysis.LanguageServer.dll"),
 }
 
 -- exceptions:
@@ -35,8 +35,11 @@ M.server_bin = {
 -- in your $PATH, a full path must be given. The remaining entries of cmd will be passed
 -- as command line args to the LSP
 M.serverconfigs = {
-  ["ts_ls"]                 = { active = true,
+  ["ts_ls"]                 = { active = false,
     cmd = { jp(M.masonbinpath, 'typescript-language-server') }
+  },
+  ["vtsls"]                 = { active = true,
+    cmd = { jp(M.masonbinpath, 'vtsls'), '--stdio' }
   },
   ["texlab"]                = { active = true,
     cmd = { jp(M.localbin, 'texlab') }
@@ -59,6 +62,9 @@ M.serverconfigs = {
             "--completion-style=detailed", "--function-arg-placeholders=1",
             "--inlay-hints=true" }
   },
+  ["ccls"]                = { active = false,
+    cmd = { "ccls" }
+  },
   ["ada_ls"]                = { active = false,
     cmd = { jp(M.masonbinpath, 'ada_language_server') }
   },
@@ -80,13 +86,13 @@ M.serverconfigs = {
   ["yamlls"]                = { active = true,
     cmd = { jp(M.masonbinpath, 'yaml-language-server') }
   },
-  ["marksman"]              = { active = true,
+  ["marksman"]              = { active = false,
     cmd = { jp(M.masonbinpath, 'marksman') }
   },
   ["iwe"]                   = { active = false,
     cmd = { jp(M.localbin, 'iwes') }
   },
-  ["markdown-oxide"]        = { active = false,
+  ["markdown-oxide"]        = { active = true,
     cmd = { jp(M.localbin, 'markdown-oxide') }
   },
   ["lemminx"]               = { active = true,
@@ -103,6 +109,9 @@ M.serverconfigs = {
   },
   ["groovyls"]              = { active = false,
     cmd = { jp(M.masonbinpath, 'groovy-language-server') }
+  },
+  ["kotlin"]               = { active = true,
+    cmd = { jp(M.masonbasepath, 'kotlinlsp', "kotlin-lsp.sh"), "--stdio" }
   },
   ["jsonls"]                = { active = true,
     cmd = { jp(M.masonbinpath, "vscode-json-language-server") }
@@ -152,9 +161,10 @@ M.exclude_navic = { "ctags" }
 -- needed
 M.jdtls = {
   workspace_base = "~/.cache/jdtls_workspace/",
-  java_executable = "/usr/bin/java",
+  -- java_executable = "/usr/bin/java",
+  java_executable = vim.fn.expand("~/.sdkman/candidates/java/current/bin/java"),
   jdtls_install_dir = "~/.local/share/nvim/mason/packages/jdtls/",
-  equinox_version = "1.6.1100.v20250306-0509",
+  equinox_version = "1.7.0.v20250331-1702",
   config = "config_linux"
 }
 
@@ -162,15 +172,14 @@ M.jdtls = {
 -- locations you have installed the Roslyn and rzls language servers.
 M.roslyn = {
   razor_compiler = jp(
-    vim.fn.stdpath("data"),
-    -- 'mason',
-    -- 'packages',
-    "roslyn",
+    M.masonbasepath,
+    'packages',
+    "rzls",
+    "libexec",
     "Microsoft.CodeAnalysis.Razor.Compiler.dll"
   ),
   razor_designer = jp(
-    vim.fn.stdpath("data"),
-    "mason",
+    M.masonbasepath,
     "packages",
     "rzls",
     "libexec",
@@ -202,9 +211,11 @@ M.disable_breadcrumb = false
 -- automatically terminate unused (= 0 clients) lsp servers
 M.auto_shutdown = true
 M.advanced_config = {
-  scala = false,
+  scala = true,
   roslyn = true
 }
 M.inlay_hints = true
+M.color_support = false
+
 return M
 

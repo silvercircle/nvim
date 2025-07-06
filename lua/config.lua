@@ -72,10 +72,11 @@ CFG = {
       value = "76"
     }
   },
-  treesitter_types = { "c", "cpp", "lua", "vim", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
-                       "scala", "java", "kdl", "ada", "json", "nim", "d", "vimdoc", "liquid",
-                       "yaml", "rust", "javascript", "ruby", "objc", "markdown",
-                       "markdown_inline", "zig" },
+  treesitter_types = { "cpp", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
+                       "scala", "java", "kdl", "ada", "json", "d", "liquid",
+                       "yaml", "rust", "javascript", "ruby", "objc", "objcpp", "typescript",
+                       "zig", "cs", "typst" },
+  treesitter_types_builtin = { "c", "lua", "markdown", "markdown_inline", "vim", "vimdoc" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   theme = require("darkmatter")
 }
@@ -98,11 +99,6 @@ vim.g.startify_top = {
     command = ":e ~/.config/nvim/init.vim<CR>"
   }
 }
-
--- this table holds full path information for lsp server binaries. They can be installed with mason or
--- manually. plugins/lsp.lua does all the real work. Mason and mason-lspconfig are optional.
--- They allow easy installation and upgrading of your lsp servers, but if you do this manually,
--- nvim-lspconfig alone is enough for a working LSP setup.
 
 vim.g.confirm_actions = {
   exit = true,            -- ALWAYS confirm force-close (Alt-q), even when no buffers are modified
@@ -177,11 +173,11 @@ CFG.lspkind_symbols = {
 
 vim.g.is_tmux = vim.fn.exists("$TMUX")
 
-function FWO(class, title, opts)
+function FWO(class, opts)
   opts = opts or {}
   local wo = vim.deepcopy(Tweaks.fzf.winopts[class])
-  if title ~= nil and #title > 2 then
-    wo.title = " " .. title .. " "
+  if opts.title ~= nil and #opts.title > 2 then
+    wo.title = " " .. opts.title .. " "
   else
     wo.title = nil
   end

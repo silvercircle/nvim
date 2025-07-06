@@ -150,10 +150,20 @@ autocmd({ "UIEnter" }, {
 -- force refresh lualine on ModeChanged event. This allows for higher debounce timers
 -- (= better performance) and still get instant response for mode changes (which I feel
 -- is important)
-autocmd( { "ModeChanged" }, {
+--
+local cline_hl_groups = {
+  ["i"] = "CursorLineInsert",
+  ["v"] = "CursorLineVisual"
+}
+
+autocmd({ "ModeChanged" }, {
   pattern = "*",
   callback = function()
-    vim.schedule(function() require("lualine").refresh() end)
+    vim.schedule(function()
+      local mode = vim.fn.mode()
+      vim.api.nvim_set_hl(0, "CursorLine", { link = cline_hl_groups[mode] or "CursorLineNC" })
+      require("lualine").refresh()
+    end)
   end,
   group = agroup_views
 })
@@ -227,15 +237,6 @@ autocmd({ 'BufReadPost' }, {
   group = agroup_views
 })
 
-
--- handle treesitter configuration and start it on supported filetypes.
---autocmd({ "Filetype" }, {
---  pattern = CFG.treesitter_types,
---  callback = function()
---    vim.treesitter.start()
---  end,
---  group = agroup_hl
---})
 -- generic FileType handler adressing common actions
 -- see Tweaks.ft_patterns
 autocmd({ "FileType" }, {
@@ -244,6 +245,9 @@ autocmd({ "FileType" }, {
   --  "vim", "nim", "python", "c", "cpp", "lua", "json", "html", "css", "dart", "go",
   --  "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
+    if vim.tbl_contains(CFG.treesitter_types, args.match) or vim.tbl_contains(CFG.treesitter_types_builtin, args.match) then
+      vim.treesitter.start()
+    end
     local function in_pattern(p, ft)
       if p == false then return false end
       if p == true or vim.tbl_contains(p, ft) then
@@ -278,10 +282,41 @@ autocmd({ "FileType" }, {
       vim.cmd("setlocal indentkeys-=: | setlocal cinkeys-=:")
     elseif (args.match == "scala" or args.match == "sbt") and LSPDEF.advanced_config.scala == true then
       local cfg = require("metals").bare_config()
+      cfg.settings = {
+        showImplicitArguments = true,
+        excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
+      }
+      cfg.init_options.statusBarProvider = "off"
       cfg.capabilities = require("lsp.config").get_lsp_capabilities()
       cfg.on_attach = ON_LSP_ATTACH
       cfg.settings = {
-        metalsBinaryPath = vim.fn.expand(LSPDEF.server_bin["metals"])
+        metalsBinaryPath = vim.fn.expand(LSPDEF.server_bin["metals"]),
+        --serverProperties = {
+        --  "-Xmx1G", "-XX:+UseParallelGC", "-XX:MaxGCPauseMillis=200", "-XX:+ScavengeBeforeFullGC", "-XX:+UseStringDeduplication",
+        --  "-XX:MaxHeapFreeRatio=85", "-XX:ConcGCThreads=2", "-XX:ParallelGCThreads=2", "-XX:ReservedCodeCacheSize=256m",
+        --  "-XX:+AlwaysPreTouch", "-XX:+UseCompressedOops", "-XX:SoftRefLRUPolicyMSPerMB=50"
+        --},
+        serverProperties = {
+          "-Xmx1G", "-XX:+UseSerialGC", "-XX:MaxGCPauseMillis=200", "-XX:+ScavengeBeforeFullGC",
+          "-XX:MaxHeapFreeRatio=85", "-XX:ReservedCodeCacheSize=256m", "-XX:+UseStringDeduplication",
+          "-XX:+AlwaysPreTouch", "-XX:+UseCompressedOops", "-XX:SoftRefLRUPolicyMSPerMB=50"
+        },
+        --serverProperties = {
+        --  "-Xms512M", "-Xmx768M", "--add-modules=jdk.incubator.vector", "-XX:+UseG1GC", "-XX:+ParallelRefProcEnabled",
+        --  "-XX:MaxGCPauseMillis=200", "-XX:+UnlockExperimentalVMOptions", "-XX:+DisableExplicitGC", "-XX:+AlwaysPreTouch",
+        --  "-XX:G1HeapWastePercent=5", "-XX:G1MixedGCCountTarget=4", "-XX:InitiatingHeapOccupancyPercent=15",
+        --  "-XX:G1MixedGCLiveThresholdPercent=90", "-XX:G1RSetUpdatingPauseTimePercent=5", "-XX:SurvivorRatio=32",
+        --  "-XX:+PerfDisableSharedMem", "-XX:MaxTenuringThreshold=1", "-XX:G1NewSizePercent=30", "-XX:G1MaxNewSizePercent=40",
+        --  "-XX:G1HeapRegionSize=8M", "-XX:G1ReservePercent=20"
+        --},
+        inlayHints = {
+          byNameParameters = { enable = true },
+          hintsInPatternMatch = { enable = true },
+          implicitArguments = { enable = true },
+          implicitConversions = { enable = true },
+          inferredTypes = { enable = true },
+          typeParameters = { enable = true },
+        }
       }
       require("metals").initialize_or_attach(cfg)
     end
@@ -313,7 +348,7 @@ autocmd({ 'WinEnter' }, {
     end
     -- HACK: NvimTree and outline windows will complain about the buffer being not modifiable
     -- when insert mode is active. So stop it and remember its state
-    if filetype == "NvimTree" or filetype == "SymbolsSidebar" then
+    if filetype == Tweaks.tree.filetype or filetype == "SymbolsSidebar" then
       old_mode = vim.api.nvim_get_mode().mode
       vim.cmd.stopinsert()
     end
@@ -334,7 +369,7 @@ autocmd({ 'WinLeave' }, {
     end
     -- HACK: restore the insert mode if it was active when changing to the NvimTree or outline
     -- split.
-    if filetype == "neo-tree" or filetype == "NvimTree" or filetype == "SymbolsSidebar" then
+    if filetype == Tweaks.tree.filetype or filetype == "SymbolsSidebar" then
       if old_mode == 'i' then
         old_mode = ''
         vim.cmd.startinsert()
@@ -352,6 +387,11 @@ autocmd({ 'LspAttach' }, {
       vim.cmd("hi! link @lsp.type.field Member")
     end
     if TABM.T[TABM.active].wsplit.content == "info" then Wsplit.refresh("LspAttach (auto.lua)") end
+    if TABM.T[TABM.active].id_tree and Tweaks.tree.version == "Neo" then
+      if require("neo-tree.sources.manager").get_state_for_window(TABM.T[TABM.active].id_tree).name == "document_symbols" then
+        vim.cmd("Neotree source=document_symbols show")
+      end
+    end
   end
 })
 
@@ -373,6 +413,7 @@ delcmd = autocmd({ "BufReadPost" }, {
     end
     _delayloaded = true
     require("subspace.content.move").setup()
+    CGLOBALS.configure_treesitter()
     vim.g.setkey( "v", "<A-l>", function() MiniMove.move_selection("right") end)
     vim.g.setkey( "v", "<A-h>", function() MiniMove.move_selection("left") end)
     vim.g.setkey( "v", "<A-k>", function() MiniMove.move_selection("up") end)
@@ -382,7 +423,7 @@ delcmd = autocmd({ "BufReadPost" }, {
     vim.g.setkey( "n", "<A-k>", function() MiniMove.move_line("up") end)
     vim.g.setkey( "n", "<A-j>", function() MiniMove.move_line("down") end)
     vim.defer_fn(function() require("plugins.commandpalette") end, 200)
-    if PCFG.outline_view ~= false or PCFG.minimap_view > 0 then
+    if PCFG.outline_view ~= false or PCFG.minimap_view ~= false then
       vim.defer_fn(function()
         if PCFG.outline_view ~= false then TABM.open_outline() end
         if PCFG.minimap_view > 0 then require("neominimap.api").toggle() end
@@ -451,6 +492,17 @@ autocmd("TabClosed", {
 autocmd("TabEnter", {
   callback = function()
     TABM.set_active()
+  end,
+  group = agroup_views
+})
+
+autocmd("WinNew", {
+  callback = function()
+    vim.schedule(function()
+      if vim.b.hover_preview ~= nil and vim.api.nvim_win_get_config(vim.b.hover_preview).relative == "win" then
+        vim.api.nvim_set_option_value("foldcolumn", "0", { win = vim.b.hover_preview })
+      end
+    end)
   end,
   group = agroup_views
 })
