@@ -169,7 +169,7 @@ autocmd({ "ModeChanged" }, {
 })
 
 -- create a view to save folds when saving the file
-autocmd({ 'bufwritepost' }, {
+autocmd( {'BufWritePost' }, {
   pattern = "*",
   callback = function()
     if Tweaks.mkview_on_save == true then
@@ -180,7 +180,7 @@ autocmd({ 'bufwritepost' }, {
 })
 
 -- when config.mkview_on_leave is true, create a view when a buffer loses focus
-autocmd({ 'bufwinleave' }, {
+autocmd({'BufWinLeave'}, {
   pattern = "*",
   callback = function()
     if Tweaks.mkview_on_leave == true then
@@ -282,14 +282,13 @@ autocmd({ "FileType" }, {
       vim.cmd("setlocal indentkeys-=: | setlocal cinkeys-=:")
     elseif (args.match == "scala" or args.match == "sbt") and LSPDEF.advanced_config.scala == true then
       local cfg = require("metals").bare_config()
-      cfg.settings = {
-        showImplicitArguments = true,
-        excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
-      }
       cfg.init_options.statusBarProvider = "off"
       cfg.capabilities = require("lsp.config").get_lsp_capabilities()
       cfg.on_attach = ON_LSP_ATTACH
       cfg.settings = {
+        enableSemanticHighlighting = true,
+        showImplicitArguments = true,
+        excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
         metalsBinaryPath = vim.fn.expand(LSPDEF.server_bin["metals"]),
         --serverProperties = {
         --  "-Xmx1G", "-XX:+UseParallelGC", "-XX:MaxGCPauseMillis=200", "-XX:+ScavengeBeforeFullGC", "-XX:+UseStringDeduplication",
@@ -324,7 +323,7 @@ autocmd({ "FileType" }, {
   group = agroup_hl
 })
 
-autocmd({ 'CmdLineEnter' }, {
+autocmd( {'CmdlineEnter' }, {
   pattern = '*',
   callback = function()
     vim.cmd("hi nCursor blend = 0")
