@@ -163,7 +163,7 @@ local colorstyles = {
     staticmethod  = "dblue",
     attribute     = "olive",
     strings       = "green",
-    parameter     = "red",
+    parameter     = "lpurple",
     url           = "altblue",
     h1          =   "blue",
     h2          =   "red",
@@ -239,7 +239,7 @@ function M.attributes()
       member        = {},           -- class member (field, property...)
       staticmember  = { bold = true },
       operator      = { bold = true }, -- operators
-      parameter     = {},           -- function/method arguments
+      parameter     = { bold = true, italic = true},           -- function/method arguments
       delim         = { bold = true }, -- delimiters
       brace         = { bold = true }, -- braces, brackets, parenthesis
       str           = {},           -- strings
