@@ -50,7 +50,7 @@ local function setup()
     ui = {
       update_debounce = 1000
     },
-    statusline = {
+    footer = {
       enabled = false
     }
   })
