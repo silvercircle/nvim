@@ -445,6 +445,7 @@ end
 local lspcmd = nil
 local lsp_done = false
 
+--- @number
 lspcmd = autocmd({ "BufReadPre" --[[, "BufNewFile"]] }, {
   callback = function(args)
     if vim.bo[args.buf].buftype ~= "" or vim.bo[args.buf].buflisted == false then return end

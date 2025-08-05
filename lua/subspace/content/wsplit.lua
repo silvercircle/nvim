@@ -29,7 +29,7 @@ local wsplit_cookie_timer = nil
 local autocmd_set = false -- remember whether the OptionSet autocmd has been set
 
 ---@return subspace.Wsplit
----@param  t integer - the tabpage
+---@param  t integer tabpage
 ---@param  tim uv.uv_timer_t timer object
 function Wsplit:new(t, tim)
   return setmetatable({

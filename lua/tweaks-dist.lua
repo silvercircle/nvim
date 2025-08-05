@@ -27,7 +27,7 @@ local Tweaks = {}
 -- plugin choices.
 -- notification system
 -- either "mini", "fidget" or "snacks".
-Tweaks.notifier = "fidget"
+Tweaks.notifier = "snacks"
 
 -- completion framework to use. Can be "blink" or "nvim-cmp"
 -- if you set this to any other value, completion will be UNAVAILABLE
@@ -375,7 +375,7 @@ Tweaks.smartpicker = {
   }
 }
 
-local chunklines = Tweaks.borderfactory(Tweaks.indent.chunk.lines)
+local chunklines = Tweaks.borderfactory(Tweaks.indent.chunk.lines) or Tweaks.borderfactory("single")
 
 Tweaks["indent"]["chunk"]["char"] = {
   corner_top = chunklines[1],

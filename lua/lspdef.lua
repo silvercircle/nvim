@@ -101,8 +101,11 @@ M.serverconfigs = {
   ["taplo"]                 = { active = true,
     cmd = { jp(M.masonbinpath, 'taplo') }
   },
-  ["lua_ls"]                = { active = true,
+  ["lua_ls"]                = { active = false,
     cmd = { jp(M.masonbinpath, "lua-language-server"), '--logpath=' .. vim.fn.stdpath("state") },
+  },
+  ["emmylua_ls"]            = { active = true,
+    cmd = { jp(M.localbin, "emmylua_ls") },
   },
   ["rust_analyzer"]         = { active = false,
     cmd = { jp(M.masonbinpath, 'rust-analyzer') }
@@ -139,6 +142,9 @@ M.serverconfigs = {
   },
   ["ruff"]                  = { active = true,
     cmd = { jp(M.localbin, "ruff"), "server" }
+  },
+  ["sqlls"]                  = { active = false,
+    cmd = { jp(M.masonbinpath, "sql-language-server"), "up", "--method", "stdio" }
   },
   --- these are DUMMY entries. They are handled by dedicated plugins in this
   --- config.
