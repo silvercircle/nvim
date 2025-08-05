@@ -32,7 +32,7 @@ return {
         library = {"$VIMRUNTIME"}
       },
       diagnostics = {
-        disable = {"unnecessary-if", "param-type-not-match"}
+        disable = {"unnecessary-if", "param-type-not-match", "need-check-nil"}
       }
     }
   },

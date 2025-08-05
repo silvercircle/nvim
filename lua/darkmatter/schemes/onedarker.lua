@@ -394,7 +394,7 @@ end
 --- this function is called from the theme engine at the end of set(). It allows
 --- to override highlight groups. It is optional and does not have to exist in a scheme
 --- definition.
---- @param theme class theme. The theme engine.
+--- @param theme type theme. The theme engine.
 --- You can use theme.P, theme.T and all the methods.
 function M.custom_hl(theme)
   theme.hl_with_defaults("iCursor", theme.NONE, theme.P.altyellow)

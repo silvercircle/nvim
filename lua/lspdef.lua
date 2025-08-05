@@ -101,10 +101,10 @@ M.serverconfigs = {
   ["taplo"]                 = { active = true,
     cmd = { jp(M.masonbinpath, 'taplo') }
   },
-  ["lua_ls"]                = { active = false,
+  ["lua_ls"]                = { active = true,
     cmd = { jp(M.masonbinpath, "lua-language-server"), '--logpath=' .. vim.fn.stdpath("state") },
   },
-  ["emmylua_ls"]            = { active = true,
+  ["emmylua_ls"]            = { active = false,
     cmd = { jp(M.localbin, "emmylua_ls") },
   },
   ["rust_analyzer"]         = { active = false,

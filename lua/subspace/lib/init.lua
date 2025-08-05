@@ -48,7 +48,7 @@ function Utils.getLongestString(items, labelname)
 end
 
 --- output a debug message
---- @param msg string - what's to be printed
+--- @param msg string what's to be printed
 --- does nothing when conf.debugmode = false (default)
 function Utils.debug(msg)
   if conf.debugmode then

@@ -9,7 +9,7 @@
 -- custom themes must be named as themename.lua and reside in the darkmatter/themes
 -- folder.
 
----@class schemeconfig
+---@schemeconfig
 local schemeconfig = {
   name = "Sonokai - dark",
   desc = "Sonokai - inspired color theme for Neovim",

@@ -9,7 +9,7 @@
     ]
   },
   "diagnostics": {
-    "unnecessary-if": false
+    "disable": ["unnecessary-if"]
   },
   "workspace": {
     "library": [
