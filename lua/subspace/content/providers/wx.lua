@@ -150,7 +150,7 @@ function Wx:render()
       local lcond = conditions[results["37"]][string.lower(results["2"])]
       table.insert(lines, " ")
       table.insert(lines, self.ws.prepare_line("  " .. results["26"], " " .. results["28"], 0))
-      table.insert(lines, self.ws.prepare_line(" " .. lcond, results["33"], 1))
+      table.insert(lines, self.ws.prepare_line(" " .. lcond, results["33"], -1))
       table.insert(lines, "  ")
       table.insert(lines, self.ws.prepare_line(" Temp: " .. results["3"], "Feels: " .. results["16"], 0))
       table.insert(lines, self.ws.prepare_line(" Min:  " .. results["29"], "Max:   " .. results["30"], 0))
