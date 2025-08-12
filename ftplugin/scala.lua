@@ -1,3 +1,4 @@
+-- enhance folding for scala. fold if/else, catch and lambda blocks
 if CFG.scalafolds_done == true then return end
 
 CFG.scalafolds_done = true
@@ -24,7 +25,6 @@ local scalafolds = [[
   (try_expression)
   (catch_clause)
   (case_block)
-  (if_expression)
   (match_expression)
 ] @fold
 
