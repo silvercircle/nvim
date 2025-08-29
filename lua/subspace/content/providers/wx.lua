@@ -31,7 +31,7 @@ local conditions = {
     ['2'] = " Strong wind",
     ['3'] = " Strong wind",
   },
-  OWM = {
+  OPENM = {
     c = "󰖕 Partly Cloudy",
     b = "󰖕 Mostly Clear",
     a = "󰖙 Clear",
