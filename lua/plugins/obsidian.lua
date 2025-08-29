@@ -6,6 +6,7 @@ local function setup()
         path = "~/Documents/zettelkasten",
       },
     },
+    legacy_commands = false,
     preferred_link_style = "wiki",
     completion = {
       -- Enables completion using nvim_cmp

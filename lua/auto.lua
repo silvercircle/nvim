@@ -287,6 +287,7 @@ autocmd({ "FileType" }, {
       cfg.on_attach = ON_LSP_ATTACH
       cfg.settings = {
         enableSemanticHighlighting = true,
+        startMcpServer = false,
         showImplicitArguments = true,
         excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
         metalsBinaryPath = vim.fn.expand(LSPDEF.server_bin["metals"]),

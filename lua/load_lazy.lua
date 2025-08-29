@@ -62,6 +62,7 @@ lazy.setup({
     },
     {
       "ibhagwan/fzf-lua",
+      -- commit = "5d2ba91230356dce4dac52df32ddc6cf5a940d56",
       lazy = true,
       config = function()
         require("plugins.fzf-lua_setup")
@@ -569,7 +570,21 @@ lazy.setup({
         vim.g.typst_folding = 1
         vim.g.typst_foldnested = 1
       end
-    }
+    },
+    --{
+    --  'dmtrKovalenko/fff.nvim',
+    --  build = 'cargo build --release',
+    --  keys = {
+    --    {
+    --      "ff", -- try it if you didn't it is a banger keybinding for a picker
+    --      function() require('fff').find_files() end,
+    --      desc = 'FFFind files',
+    --    }
+    --  },
+    --  config = function()
+    --    require("plugins.fff")
+    --  end
+    --}
   },
   {
     ui = {

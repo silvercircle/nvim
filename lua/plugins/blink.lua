@@ -305,7 +305,9 @@ require("blink.cmp").setup({
           return vim.tbl_filter(function(item)
             return (item.kind ~= Types.CompletionItemKind.Text and item.kind ~= Types.CompletionItemKind.Snippet)
           end, items)
-        end
+        end,
+        -- async = true,
+        timeout_ms = 20000
       },
       snippets = {
         -- score_offset = -2,
