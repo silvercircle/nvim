@@ -6,9 +6,6 @@ local scalafolds = [[
 (call_expression
   (block) @fold)
 
-(if_expression
-  (block) @fold)
-
 (lambda_expression
   (block) @fold)
 
@@ -26,6 +23,7 @@ local scalafolds = [[
   (catch_clause)
   (case_block)
   (match_expression)
+  (if_expression)
 ] @fold
 
 ]]

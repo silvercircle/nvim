@@ -123,6 +123,8 @@ require "fzf-lua".setup({
       ["ctrl-a"]     = "beginning-of-line",
       ["ctrl-e"]     = "end-of-line",
       ["alt-a"]      = "toggle-all",
+      ["alt-up"]     = "first",
+      ["alt-down"]   = "last",
       -- Only valid with fzf previewers (bat/cat/git/etc)
       ["f3"]         = "toggle-preview-wrap",
       ["f4"]         = "toggle-preview",
@@ -150,6 +152,24 @@ require "fzf-lua".setup({
       ["ctrl-t"]  = actions.file_tabedit,
       ["alt-q"]   = actions.file_sel_to_qf,
       ["alt-l"]   = actions.file_sel_to_ll,
+    },
+    buffers = {
+      ["ctrl-d"] = { fn = actions.buf_del, reload = true },
+      -- actions inherit from 'actions.buffers' and merge
+      -- by supplying a table of functions we're telling
+      -- fzf-lua to not close the fzf window, this way we
+      -- can resume the buffers picker on the same window
+      -- eliminating an otherwise unaesthetic win "flash"
+      ["ctrl-w"] = { fn = function(item)
+        local file = fzfpath.entry_to_file(item[1])
+        if vim.api.nvim_buf_is_valid(file.bufnr)
+          and vim.api.nvim_get_option_value("modified", { buf = file.bufnr })
+          and vim.api.nvim_get_option_value("buftype", { buf = file.bufnr }) == "" then
+          vim.api.nvim_buf_call(file.bufnr, function() vim.cmd("w!") end)
+        else
+          vim.notify("Buffer not modified or not saveable")
+        end
+      end, reload = true },
     }
   },
   fzf_opts            = {
@@ -405,23 +425,7 @@ require "fzf-lua".setup({
     cwd               = nil,
     mru           = true,
     actions       = {
-      -- actions inherit from 'actions.buffers' and merge
-      -- by supplying a table of functions we're telling
-      -- fzf-lua to not close the fzf window, this way we
-      -- can resume the buffers picker on the same window
-      -- eliminating an otherwise unaesthetic win "flash"
-      ["ctrl-d"] = { actions.buf_del, actions.resume },
-      ["ctrl-w"] = { function(item)
-        local file = fzfpath.entry_to_file(item[1])
-        if vim.api.nvim_buf_is_valid(file.bufnr)
-          and vim.api.nvim_get_option_value("modified", { buf = file.bufnr })
-          and vim.api.nvim_get_option_value("buftype", { buf = file.bufnr }) == "" then
-          vim.api.nvim_buf_call(file.bufnr, function() vim.cmd("w!") end)
-        else
-          vim.notify("Buffer not modified or not saveable")
-        end
-      end, actions.resume },
-      ["ctrl-x"] = false
+      ["ctrl-x"] = false,
     }
   },
   tabs                = {
