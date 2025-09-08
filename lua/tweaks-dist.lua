@@ -27,7 +27,7 @@ local Tweaks = {}
 -- plugin choices.
 -- notification system
 -- either "mini", "fidget" or "snacks".
-Tweaks.notifier = "fidget"
+Tweaks.notifier = "snacks"
 
 -- completion framework to use. Can be "blink" or "nvim-cmp"
 -- if you set this to any other value, completion will be UNAVAILABLE
@@ -284,7 +284,7 @@ Tweaks.statusline = {
 -- filetree tweaks
 Tweaks.tree = {
   -- valid versions are Neo (for NeoTree), Nvim (for NvimTree)
-  version = "Neo",
+  version = "Nvim",
   -- use the git integration (currently only available for NeoTree)
   use_git = true,
   -- this is a minimum value
@@ -298,7 +298,7 @@ Tweaks.outline = {
 -- fallback when no other means of finding a project's root are successfull. This is highly
 -- incomplete and inaccurate, but you can expand this with whatever you want.
 Tweaks.default_root_patterns = { "*.gpr", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble",
-  "settings.gradle", "pom.xml", "*.sln", "build.zig", "go.mod", "go.sum",
+  "settings.gradle", "pom.xml", "*.sln", "build.zig", "go.mod", "go.sum", "build.sbt", "project.scala",
   "package.json", "pyproject.toml", "tsconfig.json", "jsconfig.json" }
 Tweaks.srclocations = { "src", "source", "sources", "SRC", "Src", "SOURCE", "Source", "Sources", "lua" }
 Tweaks.cokeline = {
@@ -375,7 +375,7 @@ Tweaks.smartpicker = {
   }
 }
 
-local chunklines = Tweaks.borderfactory(Tweaks.indent.chunk.lines)
+local chunklines = Tweaks.borderfactory(Tweaks.indent.chunk.lines) or Tweaks.borderfactory("single")
 
 Tweaks["indent"]["chunk"]["char"] = {
   corner_top = chunklines[1],

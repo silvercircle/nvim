@@ -706,7 +706,7 @@ local function default_conf_callback(what)
 end
 
 --- setup the theme
---- @param opt table - the options to set. will be merged with local
+--- @param opt table the options to set. will be merged with local
 --- conf table.
 function M.setup(opt)
   opt = (opt ~= nil and type(opt) == "table") and opt or {}

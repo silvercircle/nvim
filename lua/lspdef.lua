@@ -104,6 +104,9 @@ M.serverconfigs = {
   ["lua_ls"]                = { active = true,
     cmd = { jp(M.masonbinpath, "lua-language-server"), '--logpath=' .. vim.fn.stdpath("state") },
   },
+  ["emmylua_ls"]            = { active = false,
+    cmd = { jp(M.localbin, "emmylua_ls") },
+  },
   ["rust_analyzer"]         = { active = false,
     cmd = { jp(M.masonbinpath, 'rust-analyzer') }
   },
@@ -140,6 +143,9 @@ M.serverconfigs = {
   ["ruff"]                  = { active = true,
     cmd = { jp(M.localbin, "ruff"), "server" }
   },
+  ["sqlls"]                  = { active = false,
+    cmd = { jp(M.masonbinpath, "sql-language-server"), "up", "--method", "stdio" }
+  },
   --- these are DUMMY entries. They are handled by dedicated plugins in this
   --- config.
   ["roslyn"]                = { active = false },
@@ -164,7 +170,7 @@ M.jdtls = {
   -- java_executable = "/usr/bin/java",
   java_executable = vim.fn.expand("~/.sdkman/candidates/java/current/bin/java"),
   jdtls_install_dir = "~/.local/share/nvim/mason/packages/jdtls/",
-  equinox_version = "1.7.0.v20250331-1702",
+  equinox_version = "1.7.0.v20250519-0528",
   config = "config_linux"
 }
 

@@ -6,6 +6,7 @@ local function setup()
         path = "~/Documents/zettelkasten",
       },
     },
+    legacy_commands = false,
     preferred_link_style = "wiki",
     completion = {
       -- Enables completion using nvim_cmp
@@ -50,7 +51,7 @@ local function setup()
     ui = {
       update_debounce = 1000
     },
-    statusline = {
+    footer = {
       enabled = false
     }
   })

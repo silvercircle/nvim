@@ -163,7 +163,7 @@ local colorstyles = {
     staticmethod  = "dblue",
     attribute     = "olive",
     strings       = "green",
-    parameter     = "red",
+    parameter     = "lpurple",
     url           = "altblue",
     h1          =   "blue",
     h2          =   "red",
@@ -239,7 +239,7 @@ function M.attributes()
       member        = {},           -- class member (field, property...)
       staticmember  = { bold = true },
       operator      = { bold = true }, -- operators
-      parameter     = {},           -- function/method arguments
+      parameter     = { bold = true, italic = true},           -- function/method arguments
       delim         = { bold = true }, -- delimiters
       brace         = { bold = true }, -- braces, brackets, parenthesis
       str           = {},           -- strings
@@ -394,7 +394,7 @@ end
 --- this function is called from the theme engine at the end of set(). It allows
 --- to override highlight groups. It is optional and does not have to exist in a scheme
 --- definition.
---- @param theme class theme. The theme engine.
+--- @param theme type theme. The theme engine.
 --- You can use theme.P, theme.T and all the methods.
 function M.custom_hl(theme)
   theme.hl_with_defaults("iCursor", theme.NONE, theme.P.altyellow)

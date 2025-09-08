@@ -10,13 +10,14 @@ local schemeconfig = {
   -- name and desc are currently not used anywhere, but might be in the future
   name = "Frankengruv",
   desc = "Gruvbox-inspired color theme for Neovim",
-  avail = { "vivid", "medium", "pastel"},
+  avail = { "vivid", "medium", "pastel", "balanced"},
   -- palettes must be represented in colorvariant
   -- each palette must be fully defined.
   palettes = {
     { cmd = "vivid", text = "Vivid (original gruvbox colors, high contrast)", p = 1 },
     { cmd = "medium", text = "Slightly reduced contrast and color intensity", p = 2 },
-    { cmd = "pastel", text = "Low contrast, desaturated and darker colors", p = 3 }
+    { cmd = "pastel", text = "Low contrast, desaturated and darker colors", p = 3 },
+    { cmd = "balanced", text = "Balanced, darker colors", p = 4 }
   },
   -- the variants must be defined in bgtheme() (see below)
   variants = {
@@ -117,6 +118,34 @@ local colorvariants = {
     lpurple = { "#d3969b", 176 },
     brown = { "#905010", 233 },
     styled = {}
+  },
+  balanced = {
+    orange = { "#D19F66", 215 },
+    blue = { "#579DD4", 239 },
+    altblue = { "#3A508F", 239 },
+    altyellow = { "#ba8d00", 231 },
+    altgreen = { "#78772a", 232 },
+    lila = { "#D159B6", 241 }, -- pink
+    palegreen = { "#00A596", 242 }, -- aqua
+    maroon = { "#903060", 243 },
+    purple = { "#9266DA", 241 },
+    teal = { "#487d5a", 238 },
+    brightteal = { "#6ea06c", 238 },
+    darkpurple = { "#b16286", 240 },
+    red = { "#E16464", 203 },
+    yellow = { "#d79921", 231 },
+    green = { "#72BA62", 232 },
+    darkyellow = { "#a78624", 180 },
+    grey = { "#707069", 2 },
+    grey_dim = { "#444955", 240 },
+    diff_red = { "#B55353", 52 },
+    diff_green = { "#10320a", 22 },
+    diff_blue = { "#253147", 17 },
+    deepred = { "#B55353", 203 },
+    olive = { "#708422", 181 },
+    lpurple = { "#d3969b", 176 },
+    brown = { "#905010", 233 },
+    styled = {}
   }
 }
 
@@ -172,6 +201,25 @@ local colorstyles = {
   },
   vivid = {
     -- for the vivid colorpalette variant, styles different from the __default should go here
+  },
+  -- the balanced scheme needs a few different styles.
+  balanced = {
+    constructor   = "blue",
+    constant      = "orange",
+    member        = "lila",
+    interface     = "green",
+    class         = "palegreen",
+    func          = "red",
+    keyword       = "blue",
+    kwconditional = "lila",
+    kwrepeat      = "lila",
+    kwexception   = "lila",
+    method        = "deepred",
+    strings       = "green",
+    number        = "orange",
+    attribute     = "purple",
+    type          = "purple",
+    struct        = "purple"
   }
 }
 
@@ -266,13 +314,15 @@ end
 local fg_def = {
   vivid  = "#e5dbca",
   medium = "#b5abaa",
-  pastel = "#958b8a"
+  pastel = "#958b8a",
+  balanced = "#E6E3DE"
 }
 
 local fg_dim_def = {
   vivid  = "#9f9b82",
   medium = "#8f8b72",
-  pastel = "#7f7b62"
+  pastel = "#7f7b62",
+  balanced = "#D6CFC4"
 }
 
 --- this regurns the background theme and some very basic colors. There are different

@@ -60,7 +60,7 @@ local M = {}
 
 -- these are the defaults for the permanent configuration structure. it will be saved to a JSON
 -- file on exit and read on startup.
----@class permconfig
+---@permconfig
 M.perm_config_default = {
   sysmon = {
     active = false,

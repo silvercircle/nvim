@@ -13,7 +13,7 @@ local Usplit = {}
 Usplit.__index = Usplit
 
 ---@return subspace.Usplit
----@param  t integer - the tabpage
+---@param  t integer the tabpage
 ---@param  tim uv.uv_timer_t timer object
 ---@param  nsid integer namespace id
 function Usplit:new(t, tim, nsid)

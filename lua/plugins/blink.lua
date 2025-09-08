@@ -156,9 +156,11 @@ require("blink.cmp").setup({
   fuzzy = {
     implementation = "rust",
     use_proximity = false,
-    use_frecency = true,
     sorts = {
       "score", "sort_text"
+    },
+    frecency = {
+      enabled = true
     }
   },
   appearance = {
@@ -305,7 +307,9 @@ require("blink.cmp").setup({
           return vim.tbl_filter(function(item)
             return (item.kind ~= Types.CompletionItemKind.Text and item.kind ~= Types.CompletionItemKind.Snippet)
           end, items)
-        end
+        end,
+        -- async = true,
+        timeout_ms = 20000
       },
       snippets = {
         -- score_offset = -2,
@@ -314,6 +318,7 @@ require("blink.cmp").setup({
         name = "Snippets",
         opts = {
           friendly_snippets = true,
+          use_label_description = false
         }
       },
       buffer = {
