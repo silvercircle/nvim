@@ -156,9 +156,11 @@ require("blink.cmp").setup({
   fuzzy = {
     implementation = "rust",
     use_proximity = false,
-    use_frecency = true,
     sorts = {
       "score", "sort_text"
+    },
+    frecency = {
+      enabled = true
     }
   },
   appearance = {
@@ -316,6 +318,7 @@ require("blink.cmp").setup({
         name = "Snippets",
         opts = {
           friendly_snippets = true,
+          use_label_description = false
         }
       },
       buffer = {
