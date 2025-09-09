@@ -206,20 +206,21 @@ local colorstyles = {
   balanced = {
     constructor   = "blue",
     constant      = "orange",
-    member        = "lila",
+    member        = "purple",
     interface     = "green",
     class         = "palegreen",
     func          = "red",
     keyword       = "blue",
-    kwconditional = "lila",
-    kwrepeat      = "lila",
-    kwexception   = "lila",
+    kwconditional = "maroon",
+    kwrepeat      = "maroon",
+    kwexception   = "maroon",
+    kwspec        = "blue",
     method        = "deepred",
     strings       = "green",
     number        = "orange",
     attribute     = "purple",
-    type          = "purple",
-    struct        = "purple"
+    type          = "teal",
+    struct        = "palegreen"
   }
 }
 
@@ -312,17 +313,17 @@ end
 -- we use the same fg colors for all 3 variants, so just define them
 -- once
 local fg_def = {
-  vivid  = "#e5dbca",
-  medium = "#b5abaa",
-  pastel = "#958b8a",
-  balanced = "#E6E3DE"
+  vivid     = "#e5dbca",
+  medium    = "#b5abaa",
+  pastel    = "#958b8a",
+  balanced  = "#D6CFC4"
 }
 
 local fg_dim_def = {
-  vivid  = "#9f9b82",
-  medium = "#8f8b72",
-  pastel = "#7f7b62",
-  balanced = "#D6CFC4"
+  vivid     = "#9f9b82",
+  medium    = "#8f8b72",
+  pastel    = "#7f7b62",
+  balanced  = "#9D9A94"
 }
 
 --- this regurns the background theme and some very basic colors. There are different
