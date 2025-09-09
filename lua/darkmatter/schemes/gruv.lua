@@ -214,13 +214,15 @@ local colorstyles = {
     kwconditional = "maroon",
     kwrepeat      = "maroon",
     kwexception   = "maroon",
+    kwreturn      = "maroon",
     kwspec        = "blue",
     method        = "deepred",
     strings       = "green",
     number        = "orange",
     attribute     = "purple",
     type          = "teal",
-    struct        = "palegreen"
+    struct        = "palegreen",
+    storage       = "brightteal"
   }
 }
 
