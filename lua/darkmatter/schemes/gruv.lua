@@ -158,6 +158,7 @@ local colorvariants = {
 local colorstyles = {
   __default = {
     identifier    = "fg_dim",
+    spelltext     = "fg",
     comment       = "grey",
     keyword       = "darkpurple",
     kwspec        = "deepred",
