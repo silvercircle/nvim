@@ -165,14 +165,6 @@ vim.g.setkey({'n', 'i'}, '<A-e>', function()
   end
 end, "Open Mini File Browser and guess sources root")
 
-vim.g.setkey('n', '<C-a>w', function()
-  require("mini.files").open(vim.fn.expand("%:p:h"))
-end, "Open Mini.Files at current directory")
-
-vim.g.setkey('n', '<C-a><C-w>', function()
-  require("mini.files").open(Utils.getroot_current())
-end, "Open Mini.Files at project root")
-
 vim.g.setkey({'n', 'i', 'v'}, '<C-S-Down>', function() perform_command('silent! cnext') end, "Quickfix next entry")
 vim.g.setkey({'n', 'i', 'v'}, '<C-S-Up>', function() perform_command('silent! cprev') end, "Quickfix previous entry")
 vim.g.setkey({'n', 'i', 'v'}, '<C-S-PageDown>', function() perform_command('silent! lnext') end, "Loclist next entry")

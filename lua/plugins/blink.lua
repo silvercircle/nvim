@@ -319,7 +319,10 @@ require("blink.cmp").setup({
         opts = {
           friendly_snippets = true,
           use_label_description = false
-        }
+        },
+        should_show_items = function(ctx)
+          return ctx.trigger.initial_kind ~= 'trigger_character'
+        end
       },
       buffer = {
         -- score_offset = -10,
@@ -462,6 +465,7 @@ require("blink.cmp").setup({
     },
     documentation = {
       auto_show = T.auto_doc,
+      auto_show_delay_ms = 50,
       window = {
         border = Borderfactory(w_border),
         winblend = T.winblend.doc,

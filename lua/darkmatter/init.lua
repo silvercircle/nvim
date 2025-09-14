@@ -41,6 +41,8 @@
 ---@field palettes table[schemeconfig_palette]
 ---@field variants table[schemeconfig_variant]
 
+---@class palette
+
 ---@class theme
 ---@field NONE string[]
 ---@field keys_set boolean
@@ -485,7 +487,6 @@ local function set_all()
   M.link("healthWarning", "Yellow")
 
   -- Tree-sitter highlight classes
-  M.link("@spell", "Spelltext")
   M.link("@annotation", "Annotation")
   M.link("@attribute", "Attribute")
   M.link("@boolean", "Boolean")
