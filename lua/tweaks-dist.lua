@@ -27,7 +27,7 @@ local Tweaks = {}
 -- plugin choices.
 -- notification system
 -- either "mini", "fidget" or "snacks".
-Tweaks.notifier = "snacks"
+Tweaks.notifier = "fidget"
 
 -- completion framework to use. Can be "blink" or "nvim-cmp"
 -- if you set this to any other value, completion will be UNAVAILABLE

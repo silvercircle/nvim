@@ -537,3 +537,5 @@ require("subspace.lib.marks").set_keymaps()
 vim.g.setkey( { "v", "n", "i" }, "<C-x><C-o>", function() Utils.obsidian_menu() end)
 vim.keymap.set('x', 'z/', '<C-\\><C-n>`</\\%V', { desc = 'Search forward within visual selection' })
 vim.keymap.set('x', 'z?', '<C-\\><C-n>`>?\\%V', { desc = 'Search backward within visual selection' })
+
+vim.g.setkey( {'n', 'i'}, "<C-a>w", function() require("subspace.lib.smartpick").picker() end)

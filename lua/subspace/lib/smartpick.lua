@@ -4,6 +4,7 @@
 
 local SmartPick = {}
 local H = {}
+H.ns_id = nil
 
 -- ============================================================================
 -- PUBLIC API
@@ -18,6 +19,9 @@ function SmartPick.picker()
     _G.MiniPick = require('mini.pick')
   end
 
+  if H.ns_id == nil then
+    SmartPick.setup()
+  end
   local picker_items = { items = {} }
 
   MiniPick.builtin.cli({
@@ -41,7 +45,7 @@ function SmartPick.picker()
       end,
     },
     window = {
-      config = require("subspace.lib").mini_pick_center(120,30, 0.5)
+      config = require("subspace.lib").mini_pick_center(120,25, 0.5)
     }
   })
 end
