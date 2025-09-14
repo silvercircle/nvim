@@ -571,20 +571,13 @@ lazy.setup({
         vim.g.typst_foldnested = 1
       end
     },
-    --{
-    --  'dmtrKovalenko/fff.nvim',
-    --  build = 'cargo build --release',
-    --  keys = {
-    --    {
-    --      "ff", -- try it if you didn't it is a banger keybinding for a picker
-    --      function() require('fff').find_files() end,
-    --      desc = 'FFFind files',
-    --    }
-    --  },
-    --  config = function()
-    --    require("plugins.fff")
-    --  end
-    --}
+    {
+      'nvim-mini/mini.pick',
+      lazy = true,
+      config = function()
+        require("mini.pick").setup()
+      end
+    }
   },
   {
     ui = {
