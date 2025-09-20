@@ -82,7 +82,7 @@ require("commandpicker").add({
     -- use the path of the current buffer to find the .git root. The LSP utils are useful here
     desc = "Snacks LazyGit",
     cmd = function()
-      require("snacks").lazygit({ cwd=lutils.getroot_current() })
+      require("snacks").lazygit({ cwd = lutils.getroot_current() })
     end,
     keys = {
       { "n", "<f6>", noremap },
@@ -548,7 +548,7 @@ require("commandpicker").add({
   },
   {
     desc = "Jump to definition (FZF)",
-    cmd = function() fzf.lsp_definitions({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
+    cmd = function() fzf.lsp_definitions({ cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.std_preview_top }) end,
     key = { { "n", "i"}, "<C-x>D", noremap },
     category = "@LSP FZF"
   },
@@ -576,19 +576,19 @@ require("commandpicker").add({
   },
   {
     desc = "Dynamic workspace symbols (FZF)",
-    cmd = function() fzf.lsp_live_workspace_symbols({ winopts = fzf_tweaks.winopts.big_preview_top }) end,
+    cmd = function() fzf.lsp_live_workspace_symbols({ cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.big_preview_top }) end,
     keys = { "n", "tds", noremap },
     category = "@LSP FZF"
   },
   {
     desc = "Workspace symbols (FZF)",
-    cmd = function() fzf.lsp_workspace_symbols({ winopts = fzf_tweaks.winopts.big_preview_top }) end,
+    cmd = function() fzf.lsp_workspace_symbols({ cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.big_preview_top }) end,
     keys = { "n", "tws", noremap },
     category = "@LSP FZF"
   },
   {
     desc = "Incoming calls (FZF)",
-    cmd = function() fzf.lsp_incoming_calls({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
+    cmd = function() fzf.lsp_incoming_calls({ cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.std_preview_top }) end,
     keys = {
       { "n", "<C-x>i", noremap },
       { "i", "<C-x>i", noremap },
@@ -597,7 +597,7 @@ require("commandpicker").add({
   },
   {
     desc = "Outgoing calls (FZF)",
-    cmd = function() fzf.lsp_outgoing_calls({ winopts = fzf_tweaks.winopts.std_preview_top }) end,
+    cmd = function() fzf.lsp_outgoing_calls({ cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.std_preview_top }) end,
     keys = {
       { "n", "<C-x>o", noremap },
       { "i", "<C-x>o", noremap },
@@ -616,7 +616,7 @@ require("commandpicker").add({
   {
     desc = "Mini document references (FZF)",
     cmd = function()
-      fzf.lsp_references({ winopts = fzf_tweaks.winopts.std_preview_top })
+      fzf.lsp_references({ cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.std_preview_top })
     end,
     keys = {
       { "i", "<A-r>", noremap },
@@ -627,7 +627,7 @@ require("commandpicker").add({
   {
     desc = "Mini document symbols (FZF)",
     cmd = function()
-      fzf.lsp_document_symbols({ winopts = fzf_tweaks.winopts.mini_with_preview })
+      fzf.lsp_document_symbols({ cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.mini_with_preview })
     end,
     keys = {
       { "n", "<A-o>", noremap },
@@ -649,7 +649,7 @@ require("commandpicker").add({
   {
     desc = "LSP finder (FZF)",
     cmd = function()
-      fzf.lsp_finder({ winopts = fzf_tweaks.winopts.std_preview_top })
+      fzf.lsp_finder({ cwd = lutils.getroot_current(), winopts = fzf_tweaks.winopts.std_preview_top })
     end,
     keys = {
       { "n", "<A-f>", noremap },

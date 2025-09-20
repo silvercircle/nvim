@@ -15,7 +15,7 @@ local project_types = {
   lua = { ext = { "lua", "md", "vim" }, names = {"init.vim"} },
   c = { ext = { "c", "cpp", "cxx", "h", "hxx", "hpp", "cc" }, names = {"CMakeLists.txt", "Makefile", "CMakePresets.json"} },
   tex = { ext = { "tex", "sty" } },
-  scala = { ext = {"scala", "sbt", "java", "conf", "json", "xml" } }
+  scala = { ext = {"scala", "sc", "sbt", "java", "conf", "json", "xml" } }
 }
 
 M.smartfiles_or_grep = function(opts)
