@@ -240,7 +240,7 @@ Tweaks.fortune = {
 
 -- leave this alone. Do not set the environment variable unless you know what you're
 -- doing..
-Tweaks.use_foldlevel_patch = (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and true or false
+Tweaks.use_foldlevel_patch = false -- (os.getenv('NVIM_USE_PRIVATE_FORKS') ~= nil) and true or false
 
 -- the key prefix used for various utility functions. See keymap.lua
 Tweaks.keymap = {

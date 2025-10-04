@@ -572,10 +572,11 @@ lazy.setup({
       end
     },
     {
-      'nvim-mini/mini.pick',
-      lazy = true,
+      "FractalCodeRicardo/eyes-wide-bright",
       config = function()
-        require("mini.pick").setup()
+        require("eyes-wide-bright").setup({
+          mode = "normal"  -- options: "normal", "warm", "cold"
+        })
       end
     }
   },

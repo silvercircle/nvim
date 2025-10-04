@@ -42,9 +42,7 @@ function M.set_statuscol(mode)
     return
   end
   PCFG.statuscol_current = mode
-  if Tweaks.use_foldlevel_patch == true then
-    vim.o.statuscolumn = CFG["statuscol_" .. mode]
-  end
+  vim.o.statuscolumn = CFG["statuscol_" .. mode]
   if mode == "normal" then
     vim.o.relativenumber = false
     vim.o.numberwidth = Tweaks.numberwidth

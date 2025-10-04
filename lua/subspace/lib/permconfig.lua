@@ -108,7 +108,7 @@ M.perm_config_default = {
   lsp = {
     inlay_hints = LSPDEF.inlay_hints
   },
-  is_dev = Tweaks.use_foldlevel_patch,
+  is_dev = true, --Tweaks.use_foldlevel_patch,
   outline_view = false,
   minimap_view = false,
 }
