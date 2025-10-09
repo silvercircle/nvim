@@ -214,7 +214,8 @@ vim.keymap.set({ "n", "i" }, "<f1>", function()
   if hover_win and api.nvim_win_is_valid(hover_win) then
     api.nvim_set_current_win(hover_win)
   else
-    require("hover").hover()
+    require("hover").open()
+    --vim.lsp.buf.hover()
   end
 end, { desc = "LSP hover window" })
 
