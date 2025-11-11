@@ -299,9 +299,9 @@ autocmd({ "FileType" }, {
           --  "-XX:+AlwaysPreTouch", "-XX:+UseCompressedOops", "-XX:SoftRefLRUPolicyMSPerMB=50"
           --},
           serverProperties = {
-            "-Xmx1G", "-XX:+UseSerialGC", "-XX:MaxGCPauseMillis=200", "-XX:+ScavengeBeforeFullGC",
-            "-XX:MaxHeapFreeRatio=85", "-XX:ReservedCodeCacheSize=256m", "-XX:+UseStringDeduplication",
-            "-XX:+AlwaysPreTouch", "-XX:+UseCompressedOops", "-XX:SoftRefLRUPolicyMSPerMB=50"
+            "-Xmx1G", "-XX:+UseSerialGC", "-XX:MaxGCPauseMillis=200",
+            "-XX:MaxHeapFreeRatio=85", "-XX:ReservedCodeCacheSize=128m", "-XX:+UseStringDeduplication",
+            "-XX:+UseCompressedOops", "-XX:SoftRefLRUPolicyMSPerMB=50"
           },
           --serverProperties = {
           --  "-Xms512M", "-Xmx768M", "--add-modules=jdk.incubator.vector", "-XX:+UseG1GC", "-XX:+ParallelRefProcEnabled",

@@ -15,7 +15,7 @@ local debug = true
 -- project roots, anything else *might* work.
 
 local root_patterns = {
-  safe =  { "pom.xml", "settings.gradle", ".settings", ".gradle" },
+  safe = { "pom.xml", "settings.gradle", ".settings", ".gradle" },
   guess = { ".project", "nbproject", ".git", ".idea" }
 }
 
@@ -65,13 +65,14 @@ local config = {
     "-Dlog.protocol=true",
     "-Dlog.level=ALL",
     "-Xmx768m",
+    "-Xms256m",
     "-XX:-TieredCompilation",
     "-XX:+UseStringDeduplication",
     "-XX:+UseCompressedOops",
-    "-XX:+UseParallelGC",
+    "-XX:+UseSerialGC",
     "-XX:MaxGCPauseMillis=200",
-    "-XX:+ScavengeBeforeFullGC",
-    "-XX:MaxHeapFreeRatio=85",
+    "-XX:MaxHeapFreeRatio=50",
+    "-XX:MinHeapFreeRatio=20",
     "-XX:ConcGCThreads=2",
     "-XX:ParallelGCThreads=2",
     use_lombok and "-javaagent:" .. vim.fn.expand(LSPDEF.jdtls.jdtls_install_dir) .. "lombok.jar" or "",
@@ -127,4 +128,4 @@ local config = {
 }
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
-require('jdtls').start_or_attach(config)
+require("jdtls").start_or_attach(config)

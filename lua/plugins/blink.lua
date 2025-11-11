@@ -149,7 +149,7 @@ local context_sources = {
 local icon_trans = {
   ["Color"] = " ",
   ["Unit"]  = " ",
-  ["Dict"]  = " "
+  ["Dict"]  = " "
 }
 
 require("blink.cmp").setup({
