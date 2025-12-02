@@ -65,7 +65,10 @@ M.serverconfigs = {
   ["ccls"]                = { active = false,
     cmd = { "ccls" }
   },
-  ["ada_ls"]                = { active = false,
+  ["ada_ls"]                = { active = true,
+    cmd = { jp(M.masonbinpath, 'ada_language_server') }
+  },
+  ["adagpr_ls"]                = { active = true,
     cmd = { jp(M.masonbinpath, 'ada_language_server') }
   },
   ["emmet_language_server"] = { active = true,
@@ -170,7 +173,7 @@ M.jdtls = {
   -- java_executable = "/usr/bin/java",
   java_executable = vim.fn.expand("~/.sdkman/candidates/java/current/bin/java"),
   jdtls_install_dir = "~/.local/share/nvim/mason/packages/jdtls/",
-  equinox_version = "1.7.0.v20250519-0528",
+  equinox_version = "1.7.100.v20251014-1222",
   config = "config_linux"
 }
 

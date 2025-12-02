@@ -35,6 +35,14 @@ local nvim_12 = vim.fn.has("nvim-0.12")
   -- vim.deprecate = function() end
 --end
 
+vim.g.snacks_animate = false
+vim.filetype.add({
+  extension = {
+    gpr = "adagpr"
+  }
+})
+vim.treesitter.language.register("ada", { "adagpr" })
+
 CFG = {
   have_eleven = nvim_11,
   have_twelve = nvim_12,
@@ -73,7 +81,7 @@ CFG = {
     }
   },
   treesitter_types = { "cpp", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
-                       "scala", "java", "kdl", "ada", "json", "d", "liquid",
+                       "scala", "java", "kdl", "ada", "adagpr", "json", "d", "liquid",
                        "yaml", "rust", "javascript", "ruby", "objc", "objcpp", "typescript",
                        "zig", "cs", "typst", "kotlin" },
   treesitter_types_builtin = { "c", "lua", "markdown", "markdown_inline", "vim", "vimdoc" },

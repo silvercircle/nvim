@@ -44,6 +44,12 @@
           "typst"
         ],
         "path": "./typst.json"
+      },
+      {
+        "language": [
+          "ada"
+        ],
+        "path": "./ada.json"
       }
     ]
   }
