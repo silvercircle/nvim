@@ -173,7 +173,7 @@ M.jdtls = {
   -- java_executable = "/usr/bin/java",
   java_executable = vim.fn.expand("~/.sdkman/candidates/java/current/bin/java"),
   jdtls_install_dir = "~/.local/share/nvim/mason/packages/jdtls/",
-  equinox_version = "1.7.100.v20251014-1222",
+  equinox_version = "1.7.100.v20251111-0406",
   config = "config_linux"
 }
 

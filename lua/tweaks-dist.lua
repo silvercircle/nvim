@@ -27,7 +27,7 @@ local Tweaks = {}
 -- plugin choices.
 -- notification system
 -- either "mini", "fidget" or "snacks".
-Tweaks.notifier = "fidget"
+Tweaks.notifier = "snacks"
 
 -- completion framework to use. Can be "blink" or "nvim-cmp"
 -- if you set this to any other value, completion will be UNAVAILABLE
@@ -398,7 +398,7 @@ Tweaks.ft_patterns = {
   spell       = { "tex", "markdown", "text", "telekasten", "liquid", "typst" },
   conceal     = { "markdown", "telekasten", "liquid", "typst" },
   indentkeys  = { "c", "cpp", "python" },
-  tabstop     = { "vim", "nim", "python", "lua", "json", "html", "css", "dart", "go" },
+  tabstop     = { "vim", "nim", "python", "lua", "json", "html", "css", "dart", "go", "ada" },
   -- this MUST be a list of filetypes
   enter_leave = { "neo-tree", "NvimTree", "snacks_picker_list", "SymbolsSidebar", "SymbolsSearch" }
 }
