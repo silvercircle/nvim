@@ -5,7 +5,8 @@ require("snacks").setup({
     enabled = Tweaks.notifier == "snacks" and true or false,
     style = "fancy",
     top_down = false,
-    refresh = 400
+    refresh = 1000,
+    animate = false
   },
   scratch = {
     win = {

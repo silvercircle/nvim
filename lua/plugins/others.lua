@@ -221,7 +221,7 @@ M.setup = {
     require("fidget").setup({
       progress = {
         poll_rate = 1,
-        ignore_done_already = true,
+        ignore_done_already = false,
         ignore_empty_message = true,
         display = {
           render_limit = 4,
