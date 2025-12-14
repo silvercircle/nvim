@@ -293,24 +293,11 @@ autocmd({ "FileType" }, {
           showImplicitArguments = true,
           excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
           metalsBinaryPath = vim.fn.expand(LSPDEF.server_bin["metals"]),
-          --serverProperties = {
-          --  "-Xmx1G", "-XX:+UseParallelGC", "-XX:MaxGCPauseMillis=200", "-XX:+ScavengeBeforeFullGC", "-XX:+UseStringDeduplication",
-          --  "-XX:MaxHeapFreeRatio=85", "-XX:ConcGCThreads=2", "-XX:ParallelGCThreads=2", "-XX:ReservedCodeCacheSize=256m",
-          --  "-XX:+AlwaysPreTouch", "-XX:+UseCompressedOops", "-XX:SoftRefLRUPolicyMSPerMB=50"
-          --},
           serverProperties = {
             "-Xmx1G", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=200", "-XX:+UseCompactObjectHeaders", "-XX:-TieredCompilation",
             "-XX:MaxHeapFreeRatio=60", "-XX:MinHeapFreeRatio=20", "-XX:ReservedCodeCacheSize=70m", "-XX:+UseStringDeduplication",
             "-XX:+UseCompressedOops"
           },
-          --serverProperties = {
-          --  "-Xms512M", "-Xmx768M", "--add-modules=jdk.incubator.vector", "-XX:+UseG1GC", "-XX:+ParallelRefProcEnabled",
-          --  "-XX:MaxGCPauseMillis=200", "-XX:+UnlockExperimentalVMOptions", "-XX:+DisableExplicitGC", "-XX:+AlwaysPreTouch",
-          --  "-XX:G1HeapWastePercent=5", "-XX:G1MixedGCCountTarget=4", "-XX:InitiatingHeapOccupancyPercent=15",
-          --  "-XX:G1MixedGCLiveThresholdPercent=90", "-XX:G1RSetUpdatingPauseTimePercent=5", "-XX:SurvivorRatio=32",
-          --  "-XX:+PerfDisableSharedMem", "-XX:MaxTenuringThreshold=1", "-XX:G1NewSizePercent=30", "-XX:G1MaxNewSizePercent=40",
-          --  "-XX:G1HeapRegionSize=8M", "-XX:G1ReservePercent=20"
-          --},
           inlayHints = {
             byNameParameters = { enable = true },
             hintsInPatternMatch = { enable = true },
