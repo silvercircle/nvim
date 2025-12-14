@@ -44,7 +44,6 @@ local adahl = [[
   "interface"
   "is"
   "limited"
-  "mod"
   "new"
   "null"
   "of"
@@ -320,6 +319,8 @@ local adahl = [[
 ] @punctuation.delimiter
 
 [
+  "mod"
+  "rem"
   "=>"
   "="
   ":="
