@@ -128,7 +128,17 @@ require("commandpicker").add({
   -- note: ranges are not supported by all LSP
   {
     desc = "LSP Format document or range",
-    cmd = function() vim.lsp.buf.format() end,
+    cmd = function()
+      if vim.bo.filetype == "ada" then
+        local cmd = "silent! !gnatpp --source-line-breaks --no-separate-loop --separate-is --alignment -q -M="
+          .. LSPDEF.ada_line_length .. " -i=2 -cl=2 -c0 %"
+        -- vim.notify("Using gnatpp to format with command " .. cmd)
+        vim.cmd(cmd)
+        vim.schedule(function() vim.bo.textwidth = LSPDEF.ada_line_length end)
+      else
+        vim.lsp.buf.format()
+      end
+    end,
     keys = {   -- shift-f7
       { "n", fkeys.s_f7, noremap },
       { "i", fkeys.s_f7, noremap },

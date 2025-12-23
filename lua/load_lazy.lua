@@ -121,31 +121,31 @@ lazy.setup({
         require("plugins.others").setup.treesitter_context()
       end
     },
-    {
-      'MeanderingProgrammer/treesitter-modules.nvim',
-      event = "BufReadPre",
-      config = function()
-        require("treesitter-modules").setup({
-          ensure_installed = {},
-          highlight = {
-            enable = false,
-            disable = {},
-          },
-          incremental_selection = {
-            enable = true,
-            keymaps = {
-              init_selection = "<Space>",
-              node_incremental = "<Space>",
-              scope_incremental = "<C-Space>",
-              node_decremental = "<A-Space>",
-            },
-          },
-          indent = {
-            enable = false,
-          },
-        })
-      end
-    },
+    --{
+    --  'MeanderingProgrammer/treesitter-modules.nvim',
+    --  event = "BufReadPre",
+    --  config = function()
+    --    require("treesitter-modules").setup({
+    --      ensure_installed = {},
+    --      highlight = {
+    --        enable = false,
+    --        disable = {},
+    --      },
+    --      incremental_selection = {
+    --        enable = true,
+    --        keymaps = {
+    --          init_selection = "<Space>",
+    --          node_incremental = "<Space>",
+    --          scope_incremental = "<C-Space>",
+    --          node_decremental = "<A-Space>",
+    --        },
+    --      },
+    --      indent = {
+    --        enable = false,
+    --      },
+    --    })
+    --  end
+    --},
     -- cmp and all its helpers
     -- using the magazine nvim-cmp fork.
     {

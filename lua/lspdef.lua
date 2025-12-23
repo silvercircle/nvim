@@ -225,6 +225,7 @@ M.advanced_config = {
 }
 M.inlay_hints = true
 M.color_support = false
+M.ada_line_length = 120
 
 return M
 

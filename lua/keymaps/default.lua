@@ -540,3 +540,6 @@ vim.keymap.set('x', 'z/', '<C-\\><C-n>`</\\%V', { desc = 'Search forward within 
 vim.keymap.set('x', 'z?', '<C-\\><C-n>`>?\\%V', { desc = 'Search backward within visual selection' })
 
 vim.g.setkey( {'n', 'i'}, "<C-a>w", function() require("subspace.lib.smartpick").picker() end)
+
+vim.g.setkey( {'n', 'v'}, "<Space>", function() vim.lsp.buf.selection_range(1) end)
+vim.g.setkey( {'n', 'v'}, "<C-Space>", function() vim.lsp.buf.selection_range(-1) end)
