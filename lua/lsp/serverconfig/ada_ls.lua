@@ -4,11 +4,12 @@ local util = require("lsp.utils")
 return {
   cmd = { LSPDEF.serverconfigs["ada_ls"].cmd[1] },
   filetypes = { "ada" },
-  root_dir = function(bufnr, on_dir)
-    local fname = vim.api.nvim_buf_get_name(bufnr)
-    -- vim.notify("Fname is: " .. fname)
-    local root = util.root_pattern(".als.json", ".git", "alire.toml", "*.gpr")(fname)
-    -- vim.notify("Root is: " .. root)
-    on_dir(root)
-  end
+  root_markers = { ".als.json", ".git", "*.gpr" },
+  -- root_dir = function(bufnr, on_dir)
+  --   local fname = vim.api.nvim_buf_get_name(bufnr)
+  --   vim.notify("Fname is: " .. fname)
+  --   local root = util.root_pattern(".als.json", ".git", "alire.toml", "*.gpr")(fname)
+  --   vim.notify("Root is: " .. root)
+  --   on_dir(root)
+  -- end
 }

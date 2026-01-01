@@ -55,7 +55,6 @@ local function do_setup()
         end
         table.insert(to_enable, k)
         vim.lsp.config[k] = config
-
       end
     end
     ::continue::

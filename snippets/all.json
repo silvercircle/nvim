@@ -11,6 +11,10 @@
     "prefix": "dquotes",
     "body": "„$0“"
   },
+  "iquotes": {
+    "prefix": "iquotes",
+    "body": "*„$0“*"
+  },
   "bracks": {
     "prefix": "bracks",
     "body": "‹$0›"

@@ -395,8 +395,8 @@ Tweaks.fortunecookie = false -- "fortune science politics -s -n500 | cowsay -W 1
                              -- - true means enable for all filetypes
                              -- - false means turn it off for all
 Tweaks.ft_patterns = {
-  spell       = { "tex", "markdown", "text", "telekasten", "liquid", "typst" },
-  conceal     = { "markdown", "telekasten", "liquid", "typst" },
+  spell       = { "tex", "markdown", "text", "telekasten", "liquid", "typst", "rst" },
+  conceal     = { "markdown", "telekasten", "liquid", "typst", "rst" },
   indentkeys  = { "c", "cpp", "python" },
   tabstop     = { "vim", "nim", "python", "lua", "json", "html", "css", "dart", "go", "ada" },
   -- this MUST be a list of filetypes
