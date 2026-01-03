@@ -6,7 +6,7 @@ return {
   root_markers = { '.git' },
   init_options = {
     server = {
-      logLevel = "debug"
+      logLevel = "error"
     }
   }
 }
