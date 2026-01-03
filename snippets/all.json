@@ -13,7 +13,7 @@
   },
   "iquotes": {
     "prefix": "iquotes",
-    "body": "*„$0“*"
+    "body": "*„$1“*$2"
   },
   "bracks": {
     "prefix": "bracks",

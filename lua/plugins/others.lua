@@ -384,8 +384,12 @@ M.setup = {
       },
       providers = {
         lsp = {
-          timeout_ms = 15000
-        }
+          timeout_ms = 25000
+        },
+        --priority = {
+        --  ["*"] = { "lsp", "treesitter" },
+        --  -- rst = { "treesitter" }
+        --}
       }
     })
     local utility_key = Tweaks.keymap.utility_key
