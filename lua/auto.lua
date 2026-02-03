@@ -245,9 +245,14 @@ autocmd({ "FileType" }, {
   --  "vim", "nim", "python", "c", "cpp", "lua", "json", "html", "css", "dart", "go",
   --  "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
-    if vim.tbl_contains(CFG.treesitter_types, args.match) or vim.tbl_contains(CFG.treesitter_types_builtin, args.match) then
+    if vim.tbl_contains(CFG.treesitter_types, args.match) or vim.tbl_contains(CFG.treesitter_types_builtin, args.match)
+      or vim.tbl_contains(CFG.treesitter_extend_types, args.match) then
+      local parser = args.match
+      if args.match == "adagpr" then
+        parser = "ada"
+      end
       if args.match ~= "markdown" then
-        vim.treesitter.start()
+        vim.treesitter.start(args.buf, parser)
       end
     end
     local function in_pattern(p, ft)

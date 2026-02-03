@@ -81,10 +81,11 @@ CFG = {
     }
   },
   treesitter_types = { "cpp", "python", "dart", "go", "c_sharp", "css", "scss", "xml",
-                       "scala", "java", "kdl", "ada", "adagpr", "json", "d", "liquid",
-                       "yaml", "rust", "javascript", "ruby", "objc", "objcpp", "typescript",
-                       "zig", "cs", "typst", "kotlin", "rst" },
+                       "scala", "java", "kdl", "ada", "json", "d", "liquid",
+                       "yaml", "rust", "javascript", "ruby", "objc", "typescript",
+                       "zig", "typst", "kotlin", "rst" },
   treesitter_types_builtin = { "c", "lua", "markdown", "markdown_inline", "vim", "vimdoc" },
+  treesitter_extend_types = { "adagpr" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
   theme = require("darkmatter")
 }
