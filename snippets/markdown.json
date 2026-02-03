@@ -22,6 +22,15 @@
       "![$1]($2){align=right width=$3px}"
     ]
   },
+  "media": {
+    "prefix": "media",
+    "body": [
+      "```{thumbnail} ../../media/actresses/$1",
+      ":align: left",
+      ":width: $2px",
+      "```"
+    ]
+  },
   "running": {
     "prefix": "running",
     "body": [ "**Running time:** $1 minutes ($2 hr, $3 min), **Seen on:** $4."]
