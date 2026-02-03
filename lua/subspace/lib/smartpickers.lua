@@ -16,7 +16,9 @@ local project_types = {
   c = { ext = { "c", "cpp", "cxx", "h", "hxx", "hpp", "cc" }, names = {"CMakeLists.txt", "Makefile", "CMakePresets.json"} },
   tex = { ext = { "tex", "sty" } },
   scala = { ext = {"scala", "sc", "sbt", "java", "conf", "json", "xml" } },
-  ada = { ext = {"ads", "adb", "gpr", "json", "xml", "md" } }
+  ada = { ext = {"ads", "adb", "gpr", "json", "xml", "md" } },
+  md = { ext = {"md", "rst", "css", "py", "toml" } },
+  rst = { ext = {"md", "rst", "css", "py", "toml" } }
 }
 
 M.smartfiles_or_grep = function(opts)
@@ -32,11 +34,13 @@ M.smartfiles_or_grep = function(opts)
     project_types = vim.tbl_deep_extend("force", project_types, Tweaks.smartpicker.project_types)
   end
 
-  for _,v in pairs(project_types) do
+  for k,v in pairs(project_types) do
     if type(v.ext) ~= "table" or (v.names ~= nil and type(v.names) ~= "table") then
       goto continue
     end
-    if vim.tbl_contains(v.ext, ext) or (v.names ~= nil and vim.tbl_contains(v.names, name) or false) then
+    -- if vim.tbl_contains(v.ext, ext) or (v.names ~= nil and vim.tbl_contains(v.names, name) or false) then
+    if k == ext then
+      vim.notify("Found a valid smartpicker configuration for " .. ext .. "(" .. k .. ")")
       result = vim.fn.join(v.ext, opts.op == "files" and "|" or ",")
       if v.names then
         fresult = vim.fn.join(v.names, opts.op == "files" and "|" or ",")
