@@ -246,7 +246,9 @@ autocmd({ "FileType" }, {
   --  "markdown", "telekasten", "liquid", "Glance", "scala", "sbt" },
   callback = function(args)
     if vim.tbl_contains(CFG.treesitter_types, args.match) or vim.tbl_contains(CFG.treesitter_types_builtin, args.match) then
-      vim.treesitter.start()
+      if args.match ~= "markdown" then
+        vim.treesitter.start()
+      end
     end
     local function in_pattern(p, ft)
       if p == false then return false end

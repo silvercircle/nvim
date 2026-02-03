@@ -400,19 +400,19 @@ lazy.setup({
         require("plugins.neotree")
       end
     },
-    {
-      "obsidian-nvim/obsidian.nvim",
-      branch = "main",
-      lazy = true,
-      ft = "markdown",
-      cmd = { "Obsidian" },
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-      },
-      config = function()
-        require("plugins.obsidian")
-      end
-    },
+    --{
+    --  "obsidian-nvim/obsidian.nvim",
+    --  branch = "main",
+    --  lazy = true,
+    --  ft = "markdown",
+    --  cmd = { "Obsidian" },
+    --  dependencies = {
+    --    "nvim-lua/plenary.nvim",
+    --  },
+    --  config = function()
+    --    require("plugins.obsidian")
+    --  end
+    --},
     {
       "folke/todo-comments.nvim",
       event = "BufReadPre",
