@@ -21,10 +21,6 @@ require("snacks").setup({
     replace_netrw = false,
     layout = SPL({ input = "top", width = 80, psize = 12 })
   },
-  projects = {
-    dev = { "/data/mnt/shared/data/", "/Media/NVIM/", "~/Downloads/Projects/" },
-    patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.nimble", "pom.xml", "settings.gradle", "*.sln", "build.zig", "go.mod", "*.gpr" }
-  },
   lazygit = {
     enabled = vim.tbl_contains(Tweaks.snacks.enabled_modules, "lazygit"),
     win = {
@@ -51,8 +47,8 @@ require("snacks").setup({
       end
     end,
     projects = {
-      dev = Tweaks.snacks.dev,
-      patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "CMakeLists.txt", "Cargo.toml" },
+      -- dev = Tweaks.snacks.dev,
+      -- patterns = { ".git", ".hg", ".bzr", ".svn", "package.json", "Makefile", "CMakeLists.txt", "Cargo.toml", "*.gpr" },
     },
     treesitter = {
       filter = {

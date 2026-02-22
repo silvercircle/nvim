@@ -578,6 +578,25 @@ lazy.setup({
           mode = "normal"  -- options: "normal", "warm", "cold"
         })
       end
+    },
+    {
+      'DrKJeff16/project.nvim',
+      cmd = { -- Lazy-load by commands
+        'Project',
+        'ProjectAdd',
+        'ProjectConfig',
+        'ProjectDelete',
+        'ProjectExport',
+        'ProjectImport',
+        'ProjectHealth',
+        'ProjectHistory',
+        'ProjectRecents',
+        'ProjectRoot',
+        'ProjectSession',
+      },
+      config = function()
+        require("plugins.others").setup.project()
+      end
     }
   },
   {

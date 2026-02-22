@@ -479,6 +479,9 @@ M.setup = {
       },
     })
   end,
+  project = function()
+    require("project").setup()
+  end,
   neominimap = function()
     -- The following options are recommended when layout == "float"
     vim.opt.wrap = false

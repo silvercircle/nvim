@@ -88,6 +88,7 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
   root_dirs = { },
   prefer_startup_root = false,
   sync_root_with_cwd = true,
+  respect_buf_cwd = true,
   reload_on_bufenter = false,
   select_prompts = false,
   view = {
@@ -190,9 +191,9 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
     auto_open = true,
   },
   update_focused_file = {
-    enable = false,
+    enable = true,
     debounce_delay = 200,
-    update_root = false,
+    update_root = true,
     ignore_list = {},
   },
   -- ignore_ft_on_setup = {},
