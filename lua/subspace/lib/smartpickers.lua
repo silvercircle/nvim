@@ -39,7 +39,7 @@ M.smartfiles_or_grep = function(opts)
       goto continue
     end
     -- if vim.tbl_contains(v.ext, ext) or (v.names ~= nil and vim.tbl_contains(v.names, name) or false) then
-    if k == ext then
+    if k == ext or k == vim.bo.ft then
       vim.notify("Found a valid smartpicker configuration for " .. ext .. "(" .. k .. ")")
       result = vim.fn.join(v.ext, opts.op == "files" and "|" or ",")
       if v.names then
