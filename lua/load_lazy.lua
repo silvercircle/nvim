@@ -238,7 +238,7 @@ lazy.setup({
     {
       "Saghen/blink.cmp",
       branch = "main",
-      --version = "30f0a7b5bfed80c1e4b1f7ba065f5c36db0ce025",
+      commit = "cd79f572971c58784ca72551af29af3a63da9168",
       build = "cargo build --release",
       lazy = true,
       event = "ModeChanged",

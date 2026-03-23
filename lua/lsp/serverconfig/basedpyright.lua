@@ -19,7 +19,7 @@ local function organize_imports()
     name = 'basedpyright',
   })
   for _, client in ipairs(clients) do
-    client.request('workspace/executeCommand', params, nil, 0)
+    client:request('workspace/executeCommand', params, nil, 0)
   end
 end
 

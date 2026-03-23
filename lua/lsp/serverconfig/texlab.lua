@@ -12,7 +12,7 @@ end
 local function buf_build(client, bufnr)
   local win = vim.api.nvim_get_current_win()
   local params = vim.lsp.util.make_position_params(win, client.offset_encoding)
-  client.request('textDocument/build', params, function(err, result)
+  client:request('textDocument/build', params, function(err, result)
     if err then
       error(tostring(err))
     end
@@ -29,7 +29,7 @@ end
 local function buf_search(client, bufnr)
   local win = vim.api.nvim_get_current_win()
   local params = vim.lsp.util.make_position_params(win, client.offset_encoding)
-  client.request('textDocument/forwardSearch', params, function(err, result)
+  client:request('textDocument/forwardSearch', params, function(err, result)
     if err then
       error(tostring(err))
     end

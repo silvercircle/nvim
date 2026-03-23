@@ -5,7 +5,7 @@ local function clangd_switch_source_header(bufnr)
     return vim.notify(('method %s is not supported by any servers active on the current buffer'):format(method_name))
   end
   local params = vim.lsp.util.make_text_document_params(bufnr)
-  client.request(method_name, params, function(err, result)
+  client:request(method_name, params, function(err, result)
     if err then
       error(tostring(err))
     end
@@ -25,7 +25,7 @@ local function clangd_symbol_info()
   end
   local win = vim.api.nvim_get_current_win()
   local params = vim.lsp.util.make_position_params(win, clangd_client.offset_encoding)
-  clangd_client.request('textDocument/symbolInfo', params, function(err, res)
+  clangd_client:request('textDocument/symbolInfo', params, function(err, res)
     if err or #res == 0 then
       -- Clangd always returns an error, there is not reason to parse it
       return

@@ -23,7 +23,7 @@ local function fix_semantic_tokens(client)
   })
 
   -- monkey patch the request proxy
-  local request_inner = client.request
+  local request_inner = client:request()
 
   if vim.fn.has("nvim-0.11") == 1 then
     function client:request(method, params, handler, req_bufnr)
@@ -82,7 +82,7 @@ require("roslyn").setup({
     cmd = { "dotnet", LSPDEF.server_bin["roslyn"],
       "--stdio",
       "--logLevel=Information",
-      "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
+      "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.log.get_filename()),
       "--razorSourceGenerator=" .. LSPDEF.roslyn.razor_compiler,
       "--razorDesignTimePath=" ..  LSPDEF.roslyn.razor_designer
     },
