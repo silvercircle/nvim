@@ -89,6 +89,9 @@ M.serverconfigs = {
   ["yamlls"]                = { active = true,
     cmd = { jp(M.masonbinpath, 'yaml-language-server') }
   },
+  ["esbonio"]        = { active = true,
+    cmd = { 'python3' }
+  },
   ["marksman"]              = { active = true,
     cmd = { jp(M.masonbinpath, 'marksman') }
   },
@@ -97,9 +100,6 @@ M.serverconfigs = {
   },
   ["markdown-oxide"]        = { active = false,
     cmd = { jp(M.localbin, 'markdown-oxide') }
-  },
-  ["esbonio"]        = { active = true,
-    cmd = { 'python3' }
   },
   ["lemminx"]               = { active = true,
     cmd = { jp(M.localbin, 'lemminx-linux') }

@@ -432,7 +432,17 @@ vim.keymap.set('n', 'ren', function() return ':IncRename ' .. vim.fn.expand('<cw
   { expr = true, desc = "Inc Rename", noremap = true, silent = true })
 
 -- Alt-d: Detach all TUI sessions from the (headless) master
-vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-d>', function() vim.cmd("detach") end, "Detach all TUI")
+vim.g.setkey({ 'n', 'i', 't', 'v' }, '<A-d>', function()
+  vim.cmd("detach")
+end, "Detach all TUI")
+
+-- Shift-Alt-d: close buffer and detach
+vim.g.setkey({ 'n', 'i', 't', 'v' }, '<S-A-d>', function()
+  vim.cmd.stopinsert()
+  vim.cmd("silent w!")
+  vim.schedule(function() Utils.BufClose() end)
+  vim.cmd("detach")
+end, "Detach all TUI")
 
 local wordlist_module = Tweaks.completion == "nvim-cmp" and "cmp_wordlist" or "blink-cmp-wordlist"
 

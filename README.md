@@ -5,5 +5,6 @@ two branches with different setups.
 
 **NOTE** This **requires** Neovim 0.11 or later.
 
+## Foobar
 Please refer to the [docs](doc/docs/index.md) for more information. There is also a [HTML 
 version](https://silvercircle.github.io)

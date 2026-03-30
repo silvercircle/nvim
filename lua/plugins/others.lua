@@ -386,10 +386,11 @@ M.setup = {
         lsp = {
           timeout_ms = 25000
         },
-        --priority = {
-        --  ["*"] = { "lsp", "treesitter" },
-        --  -- rst = { "treesitter" }
-        --}
+        priority = {
+          ["*"] = { "lsp" },
+          rst = { "lsp", "treesitter" },
+          markdown = { "treesitter" }
+        }
       }
     })
     local utility_key = Tweaks.keymap.utility_key

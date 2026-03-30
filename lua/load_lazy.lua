@@ -121,120 +121,6 @@ lazy.setup({
         require("plugins.others").setup.treesitter_context()
       end
     },
-    --{
-    --  'MeanderingProgrammer/treesitter-modules.nvim',
-    --  event = "BufReadPre",
-    --  config = function()
-    --    require("treesitter-modules").setup({
-    --      ensure_installed = {},
-    --      highlight = {
-    --        enable = false,
-    --        disable = {},
-    --      },
-    --      incremental_selection = {
-    --        enable = true,
-    --        keymaps = {
-    --          init_selection = "<Space>",
-    --          node_incremental = "<Space>",
-    --          scope_incremental = "<C-Space>",
-    --          node_decremental = "<A-Space>",
-    --        },
-    --      },
-    --      indent = {
-    --        enable = false,
-    --      },
-    --    })
-    --  end
-    --},
-    -- cmp and all its helpers
-    -- using the magazine nvim-cmp fork.
-    {
-      --'hrsh7th/nvim-cmp',
-      "iguanacucumber/magazine.nvim",
-      name = "nvim-cmp",
-      lazy = true,
-      cond = Tweaks.completion.version == "nvim-cmp",
-      event = { "InsertEnter", "CmdLineEnter" },
-      dependencies = {
-        "onsails/lspkind-nvim",
-        { "iguanacucumber/mag-cmdline",  name = "cmp-cmdline" },
-        { "iguanacucumber/mag-nvim-lsp", name = "cmp-nvim-lsp", opts = {} },
-        "hrsh7th/cmp-path",
-        "hrsh7th/cmp-emoji",
-        { "iguanacucumber/mag-nvim-lua", name = "cmp-nvim-lua" },
-        "PhilRunninger/cmp-rpncalc",
-        "kdheepak/cmp-latex-symbols",
-        "hrsh7th/cmp-nvim-lsp-signature-help",
-        {
-          "https://gitlab.com/silvercircle74/cmp-wordlist.nvim",
-          config = function()
-            require("cmp_wordlist").setup({
-              wordfiles = { "wordlist.txt", "personal.txt" },
-              debug = false,
-              read_on_setup = false,
-              watch_files = true
-            })
-          end
-        },
-        --{ 'hrsh7th/cmp-buffer' },
-        { "iguanacucumber/mag-buffer",   name = "cmp-buffer" },
-        { "rafamadriz/friendly-snippets" },
-        {
-          "garymjr/nvim-snippets",
-          config = function()
-            require("snippets").setup({
-              friendly_snippets = true
-            })
-          end,
-          keys = {
-            {
-              "<Tab>",
-              function()
-                if vim.snippet.active({ direction = 1 }) then
-                  vim.schedule(function()
-                    vim.snippet.jump(1)
-                  end)
-                  return
-                end
-                return "<Tab>"
-              end,
-              expr = true,
-              silent = true,
-              mode = "i",
-            },
-            {
-              "<Tab>",
-              function()
-                vim.schedule(function()
-                  vim.snippet.jump(1)
-                end)
-              end,
-              expr = true,
-              silent = true,
-              mode = "s",
-            },
-            {
-              "<S-Tab>",
-              function()
-                if vim.snippet.active({ direction = -1 }) then
-                  vim.schedule(function()
-                    vim.snippet.jump(-1)
-                  end)
-                  return
-                end
-                return "<S-Tab>"
-              end,
-              expr = true,
-              silent = true,
-              mode = { "i", "s" },
-            }
-          }
-        }
-      },
-      config = function()
-        require("plugins.cmp_setup")
-      end
-    },
     {
       "Saghen/blink.cmp",
       branch = "main",
@@ -400,19 +286,6 @@ lazy.setup({
         require("plugins.neotree")
       end
     },
-    --{
-    --  "obsidian-nvim/obsidian.nvim",
-    --  branch = "main",
-    --  lazy = true,
-    --  ft = "markdown",
-    --  cmd = { "Obsidian" },
-    --  dependencies = {
-    --    "nvim-lua/plenary.nvim",
-    --  },
-    --  config = function()
-    --    require("plugins.obsidian")
-    --  end
-    --},
     {
       "folke/todo-comments.nvim",
       event = "BufReadPre",
@@ -579,25 +452,25 @@ lazy.setup({
         })
       end
     },
-    {
-      'DrKJeff16/project.nvim',
-      cmd = { -- Lazy-load by commands
-        'Project',
-        'ProjectAdd',
-        'ProjectConfig',
-        'ProjectDelete',
-        'ProjectExport',
-        'ProjectImport',
-        'ProjectHealth',
-        'ProjectHistory',
-        'ProjectRecents',
-        'ProjectRoot',
-        'ProjectSession',
-      },
-      config = function()
-        require("plugins.others").setup.project()
-      end
-    }
+    --{
+    --  'DrKJeff16/project.nvim',
+    --  cmd = { -- Lazy-load by commands
+    --    'Project',
+    --    'ProjectAdd',
+    --    'ProjectConfig',
+    --    'ProjectDelete',
+    --    'ProjectExport',
+    --    'ProjectImport',
+    --    'ProjectHealth',
+    --    'ProjectHistory',
+    --    'ProjectRecents',
+    --    'ProjectRoot',
+    --    'ProjectSession',
+    --  },
+    --  config = function()
+    --    require("plugins.others").setup.project()
+    --  end
+    --}
   },
   {
     ui = {
