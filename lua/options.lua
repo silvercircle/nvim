@@ -50,12 +50,7 @@ o.wrap = false
 o.numberwidth =  Tweaks.numberwidth
 vim.opt.listchars = {tab = '  ', trail = '▪', extends = '>', precedes = '<', eol = '↴' }
 vim.opt.list = true
-if Tweaks.use_foldlevel_patch == true then
-  o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldlevel:│]]
---  --o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
-else
-  o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+]]
-end
+o.fillchars = [[eob: ,fold: ,foldopen:-,foldsep:│,foldclose:+,foldinner:│]]
 vim.wo.foldcolumn = "1"
 vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
