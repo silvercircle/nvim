@@ -28,6 +28,7 @@ local schemeconfig = {
     { hl = "Fg", cmd = "cold", text = "Cold (blue tint, high color temp)", p = 1 },
     { hl = "Fg", cmd = "deepblack", text = "Deep dark (very dark background)", p = 1 },
     { hl = "Fg", cmd = "pitchblack", text = "OLED (pitch black background)", p = 1 },
+    { hl = "Fg", cmd = "deepgreen", text = "Deep Green (very dark green background)", p = 1 }
   }
 }
 
@@ -307,8 +308,6 @@ function M.bgtheme()
       visual = { "#2c2e44", 113}
     },
     cold = {
-      black = { "#151212", 232 },
-      bg_dim = { "#242020", 232 },
       bg0 = { "#2c2e34", 235 },
       bg1 = { "#322a2a", 236 },
       bg2 = { "#403936", 236 },
@@ -323,8 +322,6 @@ function M.bgtheme()
       fg_dim = fg_dim_def
     },
     warm = {
-      black = { "#121215", 232 },
-      bg_dim = { "#222327", 232 },
       bg0 = { "#202026", 235 },
       bg1 = { "#33353f", 236 },
       bg2 = { "#363944", 236 },
@@ -339,8 +336,6 @@ function M.bgtheme()
       fg_dim = fg_dim_def
     },
     deepblack = {
-      black = { "#151212", 232 },
-      bg_dim = { "#242020", 232 },
       bg0 = { "#2c2e34", 235 },
       bg1 = { "#322a2a", 236 },
       bg2 = { "#403936", 236 },
@@ -355,8 +350,6 @@ function M.bgtheme()
       fg_dim = fg_dim_def
     },
     pitchblack = {
-      black = { "#151212", 232 },
-      bg_dim = { "#242020", 232 },
       bg0 = { "#2c2e34", 235 },
       bg1 = { "#322a2a", 236 },
       bg2 = { "#403936", 236 },
@@ -365,6 +358,20 @@ function M.bgtheme()
       bg = "#020202",
       treebg = "#0d0d0d",
       floatbg = "#101010",
+      gutterbg = "#020202",
+      kittybg = "#0d0d0d",
+      fg = fg_def,
+      fg_dim = fg_dim_def
+    },
+    deepgreen = {
+      bg0 = { "#2c2e34", 235 },
+      bg1 = { "#322a2a", 236 },
+      bg2 = { "#403936", 236 },
+      bg4 = { "#555565", 237 },
+      statuslinebg = "#222228",
+      bg = "#0a120a",
+      treebg = "#101510",
+      floatbg = "#0e0d0d",
       gutterbg = "#020202",
       kittybg = "#0d0d0d",
       fg = fg_def,

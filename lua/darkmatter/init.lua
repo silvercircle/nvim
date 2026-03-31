@@ -223,7 +223,8 @@ local function configure()
   end
 
   -- merge the variant-dependent colors
-  local to_merge = { "black", "bg_dim", "bg0", "bg1", "bg2", "bg3", "bg4" }
+  --local to_merge = { "black", "bg_dim", "bg0", "bg1", "bg2", "bg3", "bg4" }
+  local to_merge = { "bg0", "bg1", "bg2", "bg3", "bg4" }
   for _, v in pairs(to_merge) do
     M.P[v] = M.T[conf.variant][v] or { "#ffffff", 256 }
   end
@@ -291,7 +292,7 @@ local function set_all()
   M.hl("PunctSpecial", M.P.styled.delim, M.NONE, conf.attrib.bold)
   M.hl_with_defaults("ScrollView", M.P.teal, M.P.c3)
   M.hl_with_defaults("Normal", M.P.fg, M.P.bg)
-  M.hl_with_defaults("Accent", M.P.black, M.P.accent)
+  M.hl_with_defaults("Accent", M.P.bg, M.P.accent)
   M.hl_with_defaults("Terminal", M.P.fg, M.P.treebg)
   M.hl_with_defaults("EndOfBuffer", M.P.bg4, M.NONE)
   M.hl_with_defaults("Folded", M.P.fg, M.P.diff_blue)
@@ -299,7 +300,7 @@ local function set_all()
   M.hl_with_defaults("FoldColumn", M.P.bg4, M.NONE)
   M.hl_with_defaults("SignColumn", M.P.fg, M.NONE)
   M.hl_with_defaults("IncSearch", M.P.yellow, M.P.deepred)
-  M.hl_with_defaults("Search", M.P.black, M.P.darkyellow)
+  M.hl_with_defaults("Search", M.P.bg, M.P.darkyellow)
   M.hl_with_defaults("ColorColumn", M.NONE, M.P.bg1)
   M.hl_with_defaults("Conceal", M.P.grey_dim, M.NONE)
   M.hl_with_defaults("Cursor", M.P.fg, M.P.fg)

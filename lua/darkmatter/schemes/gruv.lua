@@ -349,8 +349,6 @@ function M.bgtheme()
       visual = { "#2c2e44", 113}
     },
     cold = {
-      black = { "#151212", 232 },
-      bg_dim = { "#242020", 232 },
       bg0 = { "#2c2e34", 235 },
       bg1 = { "#322a2a", 236 },
       bg2 = { "#403936", 236 },
@@ -365,8 +363,6 @@ function M.bgtheme()
       fg_dim = fg_dim_def
     },
     warm = {
-      black = { "#121215", 232 },
-      bg_dim = { "#222327", 232 },
       bg0 = { "#202026", 235 },
       bg1 = { "#33353f", 236 },
       bg2 = { "#363944", 236 },
@@ -381,8 +377,6 @@ function M.bgtheme()
       fg_dim = fg_dim_def
     },
     deepblack = {
-      black = { "#151212", 232 },
-      bg_dim = { "#242020", 232 },
       bg0 = { "#2c2e34", 235 },
       bg1 = { "#322a2a", 236 },
       bg2 = { "#403936", 236 },
@@ -397,8 +391,6 @@ function M.bgtheme()
       fg_dim = fg_dim_def
     },
     pitchblack = {
-      black = { "#151212", 232 },
-      bg_dim = { "#242020", 232 },
       bg0 = { "#2c2e34", 235 },
       bg1 = { "#322a2a", 236 },
       bg2 = { "#403936", 236 },
@@ -413,15 +405,13 @@ function M.bgtheme()
       fg_dim = fg_dim_def
     },
     deepgreen = {
-      black = { "#151212", 232 },
-      bg_dim = { "#242020", 232 },
       bg0 = { "#2c2e34", 235 },
       bg1 = { "#322a2a", 236 },
       bg2 = { "#403936", 236 },
       bg4 = { "#555565", 237 },
       statuslinebg = "#222228",
-      bg = "#080f08",
-      treebg = "#0e130e",
+      bg = "#0a120a",
+      treebg = "#101510",
       floatbg = "#0e0d0d",
       gutterbg = "#020202",
       kittybg = "#0d0d0d",
