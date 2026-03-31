@@ -13,14 +13,15 @@
 local schemeconfig = {
   name = "Sonokai - dark",
   desc = "Sonokai - inspired color theme for Neovim",
-  avail = { "vivid", "medium", "pastel", "experimental"},
+  avail = { "vivid", "medium", "pastel", "experimental", "retro"},
   -- palettes must be represented in colorvariant
   -- each palette must be fully defined.
   palettes = {
     { cmd = "vivid", text = "Vivid (original gruvbox colors, high contrast)", p = 1 },
     { cmd = "medium", text = "Slightly reduced contrast and color intensity", p = 2 },
     { cmd = "pastel", text = "Very low contrast, colors desaturated", p = 3 },
-    { cmd = "experimental", text = "Experimental scheme", p = 4 }
+    { cmd = "experimental", text = "Experimental scheme", p = 4 },
+    { cmd = "retro", text = "Retro Scheme (green, white and amber tones, like old CRTs)", p = 5 },
   },
   -- the variants must be defined in bgtheme() (see below)
   variants = {
@@ -80,6 +81,48 @@ local colorstyles = {
   experimental = {
     braces        = "lila",
     delim         = "lpurple"
+  },
+  retro = {
+    identifier    = "lpurple",
+    keyword       = "green",
+    kwspec        = "altgreen",
+    kwconditional = "lila",
+    kwrepeat      = "lila",
+    kwexception   = "lila",
+    kwreturn      = "lila",
+    kwfunc        = "palegreen",
+    member        = "orange",
+    staticmember  = "orange",
+    method        = "brightteal",
+    func          = "teal",
+    operator      = "red",
+    builtin       = "darkyellow",
+    braces        = "blue",
+    delim         = "blue",
+    number        = "altgreen",
+    class         = "maroon",
+    interface     = "lila",
+    storage       = "palegreen",
+    constant      = "lpurple",
+    module        = "olive",
+    namespace     = "olive",
+    type          = "darkpurple",
+    struct        = "darkpurple",
+    bool          = "deepred",
+    constructor   = "altyellow",
+    macro         = "lpurple",
+    defaultlib    = "darkyellow",
+    staticmethod  = "palegreen",
+    attribute     = "olive",
+    strings       = "fg_dim",
+    parameter     = "fg_dim",
+    url           = "blue",
+    h1          =   "blue",
+    h2          =   "red",
+    h3          =   "green",
+    h4          =   "brown",
+    h5          =   "orange",
+    h6          =   "olive"
   }
 }
 
@@ -195,6 +238,34 @@ local colorvariants = {
     lpurple = { "#b39df3", 176 },
     brown = { "#905010", 233 },
     styled = { }
+  },
+  retro = {
+    orange = { "#ddaa00", 215 },
+    blue = { "#4a4aee", 239 },
+    altyellow = { "#af7f00", 231 },
+    altgreen = { "#30b030", 232 },
+    altblue = { "#0974a1", 239 },
+    lila = { "#20a020", 241 },
+    palegreen = { "#207020", 242 },
+    maroon = { "#b84e36", 243 },
+    purple = { "#177ab3", 241 },
+    teal = { "#20aaaa", 238 },
+    brightteal = { "#20cccc", 238 },
+    darkpurple = { "#146b9c", 240 },
+    red = { "#e65e4f", 203 },
+    yellow = { "#edc060", 231 },
+    green = { "#50c050", 231 },
+    darkyellow = { "#eab749", 180 },
+    grey = { "#4d6263", 2 },
+    grey_dim = { "#374646", 240 },
+    diff_red = { "#e34a39", 52 },
+    diff_green = { "#1c7060", 22 },
+    diff_blue = { "#253147", 17 },
+    deepred = { "#c75940", 203 },
+    olive = { "#55a6ab", 181 },
+    lpurple = { "#508050", 176 },
+    brown = { "#905010", 233 },
+    styled = { }
   }
 }
 
@@ -283,13 +354,15 @@ local fg_def = {
   vivid  = "#a2a0ac",
   pastel = "#a2a0ac",
   medium = "#a2a0ac",
-  experimental = "#82808c"
+  experimental = "#82808c",
+  retro = "#dddddd"
 }
 local fg_dim_def = {
   vivid  = "#909096",
   medium = "#909096",
   pastel = "#909096",
-  experimental = "#72707c"
+  experimental = "#72707c",
+  retro = "#aaaaaa"
 }
 
 function M.bgtheme()
@@ -373,7 +446,7 @@ function M.bgtheme()
       treebg = "#101510",
       floatbg = "#0e0d0d",
       gutterbg = "#020202",
-      kittybg = "#0d0d0d",
+      kittybg = "#101510",
       fg = fg_def,
       fg_dim = fg_dim_def
     }
