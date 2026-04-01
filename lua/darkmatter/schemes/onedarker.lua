@@ -249,13 +249,12 @@ function M.attributes()
       bolditalic    = { bold = true, italic = true },
       tabline       = {},
       cmpkind       = {},
-      uri           = {},
       bool          = { bold = true },
       module        = { bold = true },
       constant      = {},
       macro         = { bold = true },
       defaultlib    = {},
-      url           = { bold = true, underline = true },
+      uri           = { bold = true, underline = true },
       headings      = { bold = true }
     }
   }

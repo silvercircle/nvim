@@ -114,8 +114,8 @@ local colorstyles = {
     defaultlib    = "darkyellow",
     staticmethod  = "palegreen",
     attribute     = "olive",
-    strings       = "fg_dim",
-    parameter     = "fg_dim",
+    strings       = "yellow",
+    parameter     = "lpurple",
     url           = "blue",
     h1          =   "blue",
     h2          =   "red",
@@ -240,21 +240,21 @@ local colorvariants = {
     styled = { }
   },
   retro = {
-    orange = { "#ddaa00", 215 },
-    blue = { "#4a4aee", 239 },
-    altyellow = { "#af7f00", 231 },
+    orange = { "#c8b400", 215 },
+    blue = { "#5a5aff", 239 },
+    altyellow = { "#a87400", 231 },
     altgreen = { "#30b030", 232 },
     altblue = { "#0974a1", 239 },
-    lila = { "#20a020", 241 },
+    lila = { "#00dd31", 241 },
     palegreen = { "#207020", 242 },
-    maroon = { "#b84e36", 243 },
+    maroon = { "#8f5f00", 243 },
     purple = { "#177ab3", 241 },
-    teal = { "#20aaaa", 238 },
+    teal = { "#009999", 238 },
     brightteal = { "#20cccc", 238 },
     darkpurple = { "#146b9c", 240 },
     red = { "#e65e4f", 203 },
-    yellow = { "#edc060", 231 },
-    green = { "#50c050", 231 },
+    yellow = { "#999977", 231 },
+    green = { "#00ff41", 231 },
     darkyellow = { "#eab749", 180 },
     grey = { "#4d6263", 2 },
     grey_dim = { "#374646", 240 },
@@ -263,7 +263,7 @@ local colorvariants = {
     diff_blue = { "#253147", 17 },
     deepred = { "#c75940", 203 },
     olive = { "#55a6ab", 181 },
-    lpurple = { "#508050", 176 },
+    lpurple = { "#888888", 176 },
     brown = { "#905010", 233 },
     styled = { }
   }
@@ -344,7 +344,44 @@ function M.attributes()
       constant      = {},
       macro         = { bold = true },
       defaultlib    = { bold = true, italic = true },
-      url           = { bold = true },
+      headings      = { bold = true }
+    },
+    retro = {
+      comment       = {},
+      keyword       = { bold = true }, -- keywords
+      kwspecial     = { bold = true }, -- keywords
+      kwconditional = { bold = true }, -- if/then
+      kwrepeat      = { bold = true }, -- loops
+      kwexception   = { bold = true },
+      kwreturn      = { bold = true }, -- return keyword(s)
+      types         = {},              -- types (classes, interfaces)
+      storage       = { bold = true }, -- storage/visibility qualifiers (public, private...)
+      struct        = {},
+      class         = {},
+      interface     = {},
+      number        = {},
+      func          = {}, -- functions
+      method        = {}, -- class methods
+      attribute     = { bold = true, italic = true },
+      staticmethod  = { bold = true },
+      member        = {},                             -- class member (field, property...)
+      staticmember  = { bold = true },
+      operator      = { bold = true },                -- operators
+      parameter     = { italic = true, bold = true }, -- function/method arguments
+      delim         = { bold = true },                -- delimiters
+      brace         = { bold = true },                -- braces, brackets, parenthesis
+      str           = {},                             -- strings
+      bold          = { bold = true },
+      italic        = { italic = true },
+      bolditalic    = { bold = true, italic = true },
+      tabline       = {},
+      cmpkind       = {},
+      uri           = { bold = true, underline = true},
+      bool          = { bold = true },
+      module        = { bold = true },
+      constant      = {},
+      macro         = { bold = true },
+      defaultlib    = { bold = true, italic = true },
       headings      = { bold = true }
     }
   }
