@@ -68,7 +68,7 @@ local colorstyles = {
     defaultlib    = "palegreen",
     staticmethod  = "palegreen",
     attribute     = "olive",
-    strings       = "yellow",
+    string        = "yellow",
     parameter     = "fg_dim",
     url           = "blue",
     h1          =   "blue",
@@ -103,7 +103,7 @@ local colorstyles = {
     class         = "maroon",
     interface     = "lila",
     storage       = "palegreen",
-    constant      = "lpurple",
+    constant      = "darkyellow",
     module        = "olive",
     namespace     = "olive",
     type          = "darkpurple",
@@ -114,7 +114,7 @@ local colorstyles = {
     defaultlib    = "darkyellow",
     staticmethod  = "palegreen",
     attribute     = "olive",
-    strings       = "yellow",
+    string        = "c6",
     parameter     = "lpurple",
     url           = "blue",
     h1          =   "blue",
@@ -500,7 +500,8 @@ function M.custom_colors()
     c2 = "#cccc20",
     c3 = '#5050a0',
     c4 = '#4c2e2e',
-    c5 = '#2c2e4c'
+    c5 = '#a0e0a0',
+    c6 = '#a0c0a0'
   }
 end
 
