@@ -117,7 +117,15 @@ local adahl = [[
   "raise"
 ] @keyword.exception
 
-(comment) @comment @spell
+(
+  (comment) @comment
+  (#set! "priority" 110)
+)
+
+(
+  (comment) @spell
+  (#set! "priority" 100)
+)
 
 (string_literal) @string
 
