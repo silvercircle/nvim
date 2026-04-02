@@ -154,7 +154,7 @@ local icon_trans = {
 
 require("blink.cmp").setup({
   fuzzy = {
-    implementation = "lua",
+    implementation = T.fuzzy,
     use_proximity = false,
     sorts = {
       "score", "sort_text"

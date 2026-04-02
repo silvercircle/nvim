@@ -17,6 +17,9 @@
       "$LLS_Addons/luvit",
       "$HOME/.local/share/nvim/lazy"
     ],
-    "ignoreGlobs": ["**/*_spec.lua"]
+    "ignoreGlobs": ["**/*_spec.lua"],
+    "ignoreDir": [
+      "lua/lsp/serverconfig"
+    ]
   }
 }

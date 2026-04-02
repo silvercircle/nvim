@@ -97,6 +97,7 @@ Tweaks.dap = {
 Tweaks.blink = {
   -- if false, you have to manually invoke the completion popup (Control-Space)
   auto_show = false,
+  fuzzy = "lua",
   -- auto-show after that many milliseconds
   border = "thicc", -- see borderfactory() for supported values
   -- show the documentation window automatically
