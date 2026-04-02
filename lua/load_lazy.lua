@@ -124,7 +124,7 @@ lazy.setup({
     {
       "Saghen/blink.cmp",
       branch = "main",
-      commit = "cd79f572971c58784ca72551af29af3a63da9168",
+      -- commit = "cd79f572971c58784ca72551af29af3a63da9168",
       build = "cargo build --release",
       lazy = true,
       event = "ModeChanged",
@@ -257,6 +257,9 @@ lazy.setup({
           filetypes = {
             html = {
               mode = "foreground",
+            },
+            lua = {
+              mode = "virtualtext"
             },
             css = {
               names = true
