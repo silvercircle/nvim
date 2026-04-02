@@ -196,6 +196,8 @@ function M.restore_config()
   else
     M.perm_config = M.perm_config_default
   end
+
+  ---@type permconfig
   PCFG = M.perm_config
 
   PCFG.outline_filetype = "SymbolsSidebar"
