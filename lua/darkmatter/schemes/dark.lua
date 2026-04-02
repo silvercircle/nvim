@@ -29,7 +29,8 @@ local schemeconfig = {
     { hl = "Fg", cmd = "cold", text = "Cold (blue tint, high color temp)", p = 1 },
     { hl = "Fg", cmd = "deepblack", text = "Deep dark (very dark background)", p = 1 },
     { hl = "Fg", cmd = "pitchblack", text = "OLED (pitch black background)", p = 1 },
-    { hl = "Fg", cmd = "deepgreen", text = "Deep Green (very dark green background)", p = 1 }
+    { hl = "Fg", cmd = "deepgreen", text = "Deep Green (very dark green background)", p = 1 },
+    { hl = "Fg", cmd = "deepamber", text = "Deep Amber (very dark amber background)", p = 1 }
   }
 }
 
@@ -95,10 +96,10 @@ local colorstyles = {
     staticmember  = "orange",
     method        = "brightteal",
     func          = "teal",
-    operator      = "red",
+    operator      = "c5",
     builtin       = "darkyellow",
-    braces        = "blue",
-    delim         = "blue",
+    braces        = "altyellow",
+    delim         = "altyellow",
     number        = "altgreen",
     class         = "maroon",
     interface     = "lila",
@@ -108,7 +109,7 @@ local colorstyles = {
     namespace     = "olive",
     type          = "darkpurple",
     struct        = "darkpurple",
-    bool          = "deepred",
+    bool          = "c5",
     constructor   = "altyellow",
     macro         = "lpurple",
     defaultlib    = "darkyellow",
@@ -240,7 +241,7 @@ local colorvariants = {
     styled = { }
   },
   retro = {
-    orange = { "#c8b400", 215 },
+    orange = { "#a89400", 215 },
     blue = { "#5a5aff", 239 },
     altyellow = { "#a87400", 231 },
     altgreen = { "#30b030", 232 },
@@ -392,7 +393,7 @@ local fg_def = {
   pastel = "#a2a0ac",
   medium = "#a2a0ac",
   experimental = "#82808c",
-  retro = "#dddddd"
+  retro = "#bbbbbb"
 }
 local fg_dim_def = {
   vivid  = "#909096",
@@ -480,7 +481,21 @@ function M.bgtheme()
       bg4 = { "#555565", 237 },
       statuslinebg = "#222228",
       bg = "#0a120a",
-      treebg = "#101510",
+      treebg = "#0e160e",
+      floatbg = "#0e0d0d",
+      gutterbg = "#020202",
+      kittybg = "#101510",
+      fg = fg_def,
+      fg_dim = fg_dim_def
+    },
+    deepamber = {
+      bg0 = { "#2c2e34", 235 },
+      bg1 = { "#322a2a", 236 },
+      bg2 = { "#403936", 236 },
+      bg4 = { "#555565", 237 },
+      statuslinebg = "#222228",
+      bg = "#100b00",
+      treebg = "#120d00",
       floatbg = "#0e0d0d",
       gutterbg = "#020202",
       kittybg = "#101510",
@@ -500,7 +515,7 @@ function M.custom_colors()
     c2 = "#cccc20",
     c3 = '#5050a0',
     c4 = '#4c2e2e',
-    c5 = '#a0e0a0',
+    c5 = '#007711',
     c6 = '#a0c0a0'
   }
 end
