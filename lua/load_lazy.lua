@@ -1,73 +1,6 @@
 local lazy = require("lazy")
 lazy.setup({
     {
-      "stevearc/oil.nvim",
-      dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
-      -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
-      lazy = true,
-      config = function()
-        require("plugins.oilsetup")
-      end
-    },
-    --{
-    --  "nvim-tree/nvim-web-devicons",
-    --  config = function()
-    --    require("nvim-web-devicons").setup({
-    --      override = {
-    --        zsh = {
-    --          icon = " ",
-    --          color = "#428850",
-    --          cterm_color = "65",
-    --          name = "Zsh",
-    --        },
-    --        cs = {
-    --          color = "#59a006",
-    --          icon = "󰌛",
-    --          name = "CSharp"
-    --        },
-    --        css = {
-    --          icon = "",
-    --          color = "#20c0c0",
-    --          name = "CSS"
-    --        }
-    --      },
-    --      color_icons = true,
-    --      default = true
-    --    })
-    --  end
-    --},
-    --{
-    --  "jake-stewart/multicursor.nvim",
-    --  event = "BufReadPost",
-    --  branch = "1.0",
-    --  config = function()
-    --    require("plugins.others").setup.multicursor_stewart()
-    --  end
-    --},
-    --{
-    --  "j-hui/fidget.nvim",
-    --  cond = Tweaks.notifier == "fidget",
-    --  config = function()
-    --    require("plugins.others").setup.fidget()
-    --  end
-    --},
-    --{
-    --  "nvim-lualine/lualine.nvim",
-    --  event = "UIEnter",
-    --  config = function()
-    --    require("plugins.lualine_setup")
-    --    require("plugins.lualine_setup").fixhl()
-    --  end
-    --},
-    {
-      "ibhagwan/fzf-lua",
-      -- commit = "5d2ba91230356dce4dac52df32ddc6cf5a940d56",
-      lazy = true,
-      config = function()
-        require("plugins.fzf-lua_setup")
-      end
-    },
-    {
       dir = PCFG.is_dev and "/mnt/shared/data/code/neovim_plugins/commandpicker.nvim/" or nil,
       url = PCFG.is_dev and nil or "https://gitlab.com/silvercircle74/commandpicker.nvim",
       branch = "v1",
@@ -86,38 +19,6 @@ lazy.setup({
         })
       end
     },
-    {
-      "https://gitlab.com/silvercircle74/quickfavs.nvim",
-      lazy = true,
-      config = function()
-        require("quickfavs").setup({
-          filename = vim.fs.joinpath(vim.fn.stdpath("config"), "favs"),
-          telescope_theme = require("subspace.lib").Telescope_dropdown_theme,
-          picker = "snacks",
-          snacks_layout = SPL({ width = 120, height = 20, row = 5, input = "top" }),
-          fzf_winopts = Tweaks.fzf.winopts.narrow_small_preview,
-          explorer_layout = SPL({ width = 70 })
-        })
-      end
-    },
-    -- treesitter + friends
-    --{
-    --  "nvim-treesitter/nvim-treesitter",
-    --  branch = "main",
-    --  event = "BufReadPre",
-    --  build = ":TSUpdate",
-    --  config = function()
-    --    require("plugins.treesitter")
-    --  end,
-    --},
-    --{
-    --  "nvim-treesitter/nvim-treesitter-context",
-    --  lazy = true,
-    --  event = "BufReadPre",
-    --  config = function()
-    --    require("plugins.others").setup.treesitter_context()
-    --  end
-    --},
     {
       "Saghen/blink.cmp",
       branch = "main",
@@ -181,37 +82,6 @@ lazy.setup({
       end
     },
     {
-      "williamboman/mason.nvim",
-      cmd = "Mason",
-      config = function()
-        require("mason").setup({
-          ui = {
-            border = Borderfactory("thicc"),
-            backdrop = 100
-          },
-          registries = {
-            "github:mason-org/mason-registry",
-            "github:Crashdummyy/mason-registry",
-          }
-        })
-      end
-    },
-    {
-      "lewis6991/gitsigns.nvim",
-      lazy = true,
-      event = "BufReadPre",
-      config = function()
-        require("plugins.others").setup.gitsigns()
-      end
-    },
-    {
-      "folke/snacks.nvim",
-      lazy = false,
-      config = function()
-        require("plugins.snacks_setup")
-      end
-    },
-    {
       "petertriho/nvim-scrollbar",
       event = "BufReadPre",
       config = function()
@@ -266,42 +136,6 @@ lazy.setup({
       end
     },
     {
-      "nvim-tree/nvim-tree.lua",
-      cond = Tweaks.tree.version == "Nvim",
-      config = function()
-        require("plugins.nvim-tree")
-      end
-    },
-    {
-      "nvim-neo-tree/neo-tree.nvim",
-      cond = Tweaks.tree.version == "Neo",
-      branch = "main",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-        "MunifTanjim/nui.nvim",
-        -- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
-      },
-      config = function()
-        require("plugins.neotree")
-      end
-    },
-    {
-      "folke/todo-comments.nvim",
-      event = "BufReadPre",
-      config = function()
-        require("plugins.todo")
-      end
-    },
-    {
-      "goolord/alpha-nvim",
-      cond = true,
-      branch = "main",
-      config = function()
-        require("plugins.alpha")
-      end
-    },
-    {
       "rcarriga/nvim-dap-ui",
       cond = Tweaks.dap.enabled == true and Tweaks.dap.ui == "dap-ui",
       lazy = true,
@@ -326,27 +160,6 @@ lazy.setup({
         "nvim-neotest/nvim-nio"
       },
       config = function() require("dap.debugmaster") end
-    },
-    -- {
-    --   "silvercircle/nvim-cokeline",
-    --   lazy = true,
-    --   event = "UIEnter",
-    --   branch = "mine",
-    --   config = function()
-    --     require("plugins.cokeline")
-    --   end
-    -- },
-    {
-      "mfussenegger/nvim-jdtls",
-      lazy = true
-    },
-    {
-      "scalameta/nvim-metals",
-      cond = LSPDEF.advanced_config.scala,
-      ft = { "scala", "sbt" },
-      dependencies = {
-        "nvim-lua/plenary.nvim"
-      }
     },
     {
       "seblyng/roslyn.nvim",
@@ -443,34 +256,7 @@ lazy.setup({
         vim.g.typst_folding = 1
         vim.g.typst_foldnested = 1
       end
-    },
-    {
-      "FractalCodeRicardo/eyes-wide-bright",
-      config = function()
-        require("eyes-wide-bright").setup({
-          mode = "normal"  -- options: "normal", "warm", "cold"
-        })
-      end
-    },
-    --{
-    --  'DrKJeff16/project.nvim',
-    --  cmd = { -- Lazy-load by commands
-    --    'Project',
-    --    'ProjectAdd',
-    --    'ProjectConfig',
-    --    'ProjectDelete',
-    --    'ProjectExport',
-    --    'ProjectImport',
-    --    'ProjectHealth',
-    --    'ProjectHistory',
-    --    'ProjectRecents',
-    --    'ProjectRoot',
-    --    'ProjectSession',
-    --  },
-    --  config = function()
-    --    require("plugins.others").setup.project()
-    --  end
-    --}
+    }
   },
   {
     ui = {
