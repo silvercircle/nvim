@@ -42,6 +42,8 @@ end
   -- vim.cmd("map! <S-Insert> <C-R>+")
 -- end
 
+require("pack").setup()
+
 -- bootstrap lazy
 if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
@@ -53,9 +55,11 @@ if not vim.uv.fs_stat(lazypath) then
     lazypath,
   })
 end
+
 vim.opt.rtp:prepend(lazypath)
 require('options')
 require('load_lazy')
+require("pack").fixRtp()
 require("auto")
 require("keymaps.default")
 local _,_ = pcall(require, "keymaps.user")

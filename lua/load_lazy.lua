@@ -9,57 +9,56 @@ lazy.setup({
         require("plugins.oilsetup")
       end
     },
-    {
-      "nvim-tree/nvim-web-devicons",
-      config = function()
-        require("nvim-web-devicons").setup({
-          override = {
-            zsh = {
-              icon = " ",
-              color = "#428850",
-              cterm_color = "65",
-              name = "Zsh",
-            },
-            cs = {
-              color = "#59a006",
-              icon = "󰌛",
-              name = "CSharp"
-            },
-            css = {
-              icon = "",
-              color = "#20c0c0",
-              name = "CSS"
-            }
-          },
-          color_icons = true,
-          default = true
-        })
-      end
-    },
-    {
-      "jake-stewart/multicursor.nvim",
-      event = "BufReadPost",
-      branch = "1.0",
-      config = function()
-        require("plugins.others").setup.multicursor_stewart()
-      end
-    },
-    {
-      --(Tweaks.use_foldlevel_patch == true) and "silvercircle/fidget.nvim" or "j-hui/fidget.nvim",
-      "j-hui/fidget.nvim",
-      cond = Tweaks.notifier == "fidget",
-      config = function()
-        require("plugins.others").setup.fidget()
-      end
-    },
-    {
-      "nvim-lualine/lualine.nvim",
-      event = "UIEnter",
-      config = function()
-        require("plugins.lualine_setup")
-        require("plugins.lualine_setup").fixhl()
-      end
-    },
+    --{
+    --  "nvim-tree/nvim-web-devicons",
+    --  config = function()
+    --    require("nvim-web-devicons").setup({
+    --      override = {
+    --        zsh = {
+    --          icon = " ",
+    --          color = "#428850",
+    --          cterm_color = "65",
+    --          name = "Zsh",
+    --        },
+    --        cs = {
+    --          color = "#59a006",
+    --          icon = "󰌛",
+    --          name = "CSharp"
+    --        },
+    --        css = {
+    --          icon = "",
+    --          color = "#20c0c0",
+    --          name = "CSS"
+    --        }
+    --      },
+    --      color_icons = true,
+    --      default = true
+    --    })
+    --  end
+    --},
+    --{
+    --  "jake-stewart/multicursor.nvim",
+    --  event = "BufReadPost",
+    --  branch = "1.0",
+    --  config = function()
+    --    require("plugins.others").setup.multicursor_stewart()
+    --  end
+    --},
+    --{
+    --  "j-hui/fidget.nvim",
+    --  cond = Tweaks.notifier == "fidget",
+    --  config = function()
+    --    require("plugins.others").setup.fidget()
+    --  end
+    --},
+    --{
+    --  "nvim-lualine/lualine.nvim",
+    --  event = "UIEnter",
+    --  config = function()
+    --    require("plugins.lualine_setup")
+    --    require("plugins.lualine_setup").fixhl()
+    --  end
+    --},
     {
       "ibhagwan/fzf-lua",
       -- commit = "5d2ba91230356dce4dac52df32ddc6cf5a940d56",
@@ -102,29 +101,27 @@ lazy.setup({
       end
     },
     -- treesitter + friends
-    {
-      "nvim-treesitter/nvim-treesitter",
-      branch = "main",
-      event = "BufReadPre",
-      build = ":TSUpdate",
-      config = function()
-        require("plugins.treesitter")
-      end,
-      dependencies = {
-      }
-    },
-    {
-      "nvim-treesitter/nvim-treesitter-context",
-      lazy = true,
-      event = "BufReadPre",
-      config = function()
-        require("plugins.others").setup.treesitter_context()
-      end
-    },
+    --{
+    --  "nvim-treesitter/nvim-treesitter",
+    --  branch = "main",
+    --  event = "BufReadPre",
+    --  build = ":TSUpdate",
+    --  config = function()
+    --    require("plugins.treesitter")
+    --  end,
+    --},
+    --{
+    --  "nvim-treesitter/nvim-treesitter-context",
+    --  lazy = true,
+    --  event = "BufReadPre",
+    --  config = function()
+    --    require("plugins.others").setup.treesitter_context()
+    --  end
+    --},
     {
       "Saghen/blink.cmp",
       branch = "main",
-      -- commit = "cd79f572971c58784ca72551af29af3a63da9168",
+      commit = "cd79f572971c58784ca72551af29af3a63da9168",
       build = "cargo build --release",
       lazy = true,
       event = "ModeChanged",
@@ -330,15 +327,15 @@ lazy.setup({
       },
       config = function() require("dap.debugmaster") end
     },
-    {
-      "silvercircle/nvim-cokeline",
-      lazy = true,
-      event = "UIEnter",
-      branch = "mine",
-      config = function()
-        require("plugins.cokeline")
-      end
-    },
+    -- {
+    --   "silvercircle/nvim-cokeline",
+    --   lazy = true,
+    --   event = "UIEnter",
+    --   branch = "mine",
+    --   config = function()
+    --     require("plugins.cokeline")
+    --   end
+    -- },
     {
       "mfussenegger/nvim-jdtls",
       lazy = true
@@ -417,11 +414,11 @@ lazy.setup({
       lazy = true,
       cmd = { "DiffviewOpen" }
     },
-    {
-      "nmac427/guess-indent.nvim",
-      event = "UIEnter",
-      config = function() require("guess-indent").setup {} end,
-    },
+    --{
+    --  "nmac427/guess-indent.nvim",
+    --  event = "UIEnter",
+    --  config = function() require("guess-indent").setup {} end,
+    --},
     {
       'windwp/nvim-autopairs',
       event = "InsertEnter",

@@ -39,7 +39,7 @@ autocmd({ 'VimEnter' }, {
     if did_UIEnter == true then
       return
     end
-    -- internal theme can be disabled via tweaks. This allows 
+    -- internal theme can be disabled via tweaks. This allows
     -- to use an external theme
     if Tweaks.theme.disable == false then
       CFG.theme.set()
@@ -168,6 +168,9 @@ autocmd({ "UIEnter" }, {
     TABM.new(curtab)
     TABM.T[curtab].id_main = vim.fn.win_getid()
     main_layout(curtab)
+    require("plugins.lualine_setup")
+    require("plugins.lualine_setup").fixhl()
+    require("plugins.cokeline")
   end
 })
 
