@@ -12,7 +12,12 @@ local rtp_to_add = {
   "todo-comments.nvim",
   "gitsigns.nvim",
   "quickfavs.nvim",
-  "oil.nvim"
+  "oil.nvim",
+  "neominimap.nvim",
+  "glance.nvim",
+  "commandpicker.nvim",
+  "hover.nvim",
+  "nvim-colorizer.lua"
 }
 
 local autocmd = vim.api.nvim_create_autocmd
@@ -43,6 +48,13 @@ function M.setup()
     { src = "https://github.com/williamboman/mason.nvim" },
     { src = "https://github.com/stevearc/oil.nvim" },
     { src = "https://gitlab.com/silvercircle74/quickfavs.nvim" },
+    { src = "https://github.com/sindrets/diffview.nvim" },
+    { src = "https://github.com/Isrothy/neominimap.nvim" },
+    { src = "https://github.com/windwp/nvim-autopairs" },
+    { src = "https://github.com/dnlhc/glance.nvim" },
+    { src = "https://gitlab.com/silvercircle74/commandpicker.nvim" },
+    { src = "https://github.com/lewis6991/hover.nvim" },
+    { src = "https://github.com/catgoose/nvim-colorizer.lua" },
   })
   require("plugins.others").setup.multicursor_stewart()
   require("nvim-web-devicons").setup({
@@ -88,6 +100,12 @@ function M.setup()
     explorer_layout = SPL({ width = 70 })
   })
 
+  local npairs = require("nvim-autopairs")
+  npairs.setup({})
+  local Rule = require("nvim-autopairs.rule")
+  npairs.add_rules({
+    Rule("<", ">")
+  })
   require("plugins.alpha")
   require("plugins.oilsetup")
   require("plugins.treesitter")
@@ -98,6 +116,7 @@ function M.setup()
   })
   require("plugins.snacks_setup")
   require("plugins.fzf-lua_setup")
+  require("plugins.others").setup.glance()
 
   -- condidtional plugins
   if Tweaks.notifier == "fidget" then
@@ -118,19 +137,39 @@ function M.setup()
     table.insert(rtp_to_add, "neo-tree.nvim")
   end
 
+  -- blink.cmp
+  if Tweaks.completion.version == "blink" then
+    vim.pack.add({
+      {
+        src = "https://github.com/Saghen/blink.cmp",
+        commit = "cd79f572971c58784ca72551af29af3a63da9168"
+      },
+      {
+        src = "https://github.com/rafamadriz/friendly-snippets"
+      },
+      {
+        src = "https://github.com/moyiz/blink-emoji.nvim"
+      },
+      {
+        src = "https://gitlab.com/silvercircle74/blink-cmp-wordlist"
+      }
+    })
+    table.insert(rtp_to_add, "blink.cmp")
+    table.insert(rtp_to_add, "blink-cmp-wordlist")
+  end
+
   -- autocommands
   auto_pre = autocmd({ "BufReadPre" --[[, "BufNewFile"]] }, {
   callback = function(args)
     if vim.bo[args.buf].buftype ~= "" or vim.bo[args.buf].buflisted == false then return end
     if not auto_pre_done then
-      vim.notify("auto_pre command in pack group")
       require("plugins.todo")
       require("plugins.others").setup.gitsigns()
+      require("plugins.others").setup.neominimap()
       auto_pre_done = true
     end
     vim.schedule(function()
       if auto_pre ~= nil and auto_pre_done == true then
-        vim.notify("DELETING auto_pre command in pack group")
         vim.api.nvim_del_autocmd(auto_pre)
       end
     end)
@@ -141,17 +180,85 @@ function M.setup()
   callback = function(args)
     if vim.bo[args.buf].buftype ~= "" or vim.bo[args.buf].buflisted == false then return end
     if not auto_post_done then
-      vim.notify("auto_post command in pack group")
+      if Tweaks.completion.version == "blink" then
+        require("plugins.blink")
+        vim.schedule(function() require("plugins.blink").update_hl() end)
+      end
+      require("commandpicker").setup({
+        columns = {
+          desc = { hl = "String" }
+        },
+        order = { "desc", "cmd", "mappings", "category" },
+        custom_layout = SPL({ width = 120, height = 20, row = 5, input = "bottom", preview = false }),
+        width = 120,
+        height = 20,
+        preserve_mode = true
+      })
+
+      require("hover").setup({
+        init = function()
+          -- Require providers
+          require("hover.providers.lsp")
+          -- require('hover.providers.gh')
+          -- require('hover.providers.gh_user')
+          -- require('hover.providers.jira')
+          require("hover.providers.dictionary")
+          require("hover.providers.fold_preview")
+          require("hover.providers.diagnostic")
+          require("hover.providers.man")
+        end,
+        preview_opts = {
+          border = Borderfactory("thicc")
+        },
+        preview_window = true,
+        title = true
+      })
+
+      require("colorizer").setup({
+        -- filetypes = {
+        --   "!css",
+        --   "!sass"
+        -- },
+        user_default_options = {
+          names = false,
+          mode = "virtualtext",
+          virtualtext ="",
+          virtualtext_inline = "before",
+          css = true
+        },
+        filetypes = {
+          html = {
+            mode = "foreground",
+          },
+          lua = {
+            mode = "virtualtext"
+          },
+          css = {
+            names = true
+          }
+        }
+      })
       auto_post_done = true
     end
     vim.schedule(function()
       if auto_post ~= nil and auto_post_done == true then
-        vim.notify("DELETING auto_post command in pack group")
         vim.api.nvim_del_autocmd(auto_post)
       end
     end)
   end,
   group = agroup_pack})
+
+  vim.api.nvim_create_autocmd('PackChanged', {
+    callback = function(event)
+      local name, kind = event.data.spec.name, event.data.kind
+
+      if name == "nvim-treesitter" and kind == "update" then
+        if not event.data.active then
+          vim.cmd.packadd('nvim-treesitter')
+        end
+        vim.cmd('TSUpdate')
+      end
+  end})
 end
 
 function M.fixRtp()

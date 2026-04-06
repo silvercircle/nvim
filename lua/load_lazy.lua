@@ -1,87 +1,6 @@
 local lazy = require("lazy")
 lazy.setup({
     {
-      dir = PCFG.is_dev and "/mnt/shared/data/code/neovim_plugins/commandpicker.nvim/" or nil,
-      url = PCFG.is_dev and nil or "https://gitlab.com/silvercircle74/commandpicker.nvim",
-      branch = "v1",
-      lazy = true,
-      event = "BufReadPost",
-      config = function()
-        require("commandpicker").setup({
-          columns = {
-            desc = { hl = "String" }
-          },
-          order = { "desc", "cmd", "mappings", "category" },
-          custom_layout = SPL({ width = 120, height = 20, row = 5, input = "bottom", preview = false }),
-          width = 120,
-          height = 20,
-          preserve_mode = true,
-        })
-      end
-    },
-    {
-      "Saghen/blink.cmp",
-      branch = "main",
-      commit = "cd79f572971c58784ca72551af29af3a63da9168",
-      build = "cargo build --release",
-      lazy = true,
-      event = "ModeChanged",
-      cond = Tweaks.completion.version == "blink",
-      config = function()
-        require("plugins.blink")
-        vim.schedule(function() require("plugins.blink").update_hl() end)
-      end,
-      dependencies = {
-        { "rafamadriz/friendly-snippets" },
-        {
-          -- 'Kaiser-Yang/blink-cmp-dictionary',
-        },
-        { "moyiz/blink-emoji.nvim" },
-        {
-          "https://gitlab.com/silvercircle74/blink-cmp-wordlist"
-        }
-      }
-    },
-    {
-      "dnlhc/glance.nvim",
-      lazy = true,
-      config = function()
-        require("plugins.others").setup.glance()
-      end
-    },
-    {
-      "danymat/neogen",
-      lazy = true,
-      cmd = { "Neogen" },
-      config = function()
-        require("plugins.others").setup.neogen()
-      end
-    },
-    {
-      "lewis6991/hover.nvim",
-      event = "BufReadPost",
-      config = function()
-        require("hover").setup({
-          init = function()
-            -- Require providers
-            require("hover.providers.lsp")
-            -- require('hover.providers.gh')
-            -- require('hover.providers.gh_user')
-            -- require('hover.providers.jira')
-            require('hover.providers.dictionary')
-            require("hover.providers.fold_preview")
-            require("hover.providers.diagnostic")
-            require("hover.providers.man")
-          end,
-          preview_opts = {
-            border = Borderfactory("thicc")
-          },
-          preview_window = true,
-          title = true
-        })
-      end
-    },
-    {
       "petertriho/nvim-scrollbar",
       event = "BufReadPre",
       config = function()
@@ -104,36 +23,6 @@ lazy.setup({
           end
         }
       }
-    },
-    {
-      "catgoose/nvim-colorizer.lua",
-      event = "BufReadPost",
-      config = function()
-        require "colorizer".setup {
-          -- filetypes = {
-          --   "!css",
-          --   "!sass"
-          -- },
-          user_default_options = {
-            names = false,
-            mode = "virtualtext",
-            virtualtext ="",
-            virtualtext_inline = "before",
-            css = true
-          },
-          filetypes = {
-            html = {
-              mode = "foreground",
-            },
-            lua = {
-              mode = "virtualtext"
-            },
-            css = {
-              names = true
-            }
-          }
-        }
-      end
     },
     {
       "rcarriga/nvim-dap-ui",
@@ -211,37 +100,6 @@ lazy.setup({
       branch = PCFG.is_dev and "experiments" or "main",
       config = function()
         require("plugins.others").setup.symbols()
-      end
-    },
-    {
-      "Isrothy/neominimap.nvim",
-      branch = "v4",
-      lazy = true,
-      cond = true,
-      init = function()
-        require("plugins.others").setup.neominimap()
-      end
-    },
-    {
-      "sindrets/diffview.nvim",
-      lazy = true,
-      cmd = { "DiffviewOpen" }
-    },
-    --{
-    --  "nmac427/guess-indent.nvim",
-    --  event = "UIEnter",
-    --  config = function() require("guess-indent").setup {} end,
-    --},
-    {
-      'windwp/nvim-autopairs',
-      event = "InsertEnter",
-      config = function()
-        local npairs = require('nvim-autopairs')
-        npairs.setup({})
-        local Rule = require('nvim-autopairs.rule')
-        npairs.add_rules({
-          Rule("<", ">")
-        })
       end
     },
     {
