@@ -17,7 +17,15 @@ local rtp_to_add = {
   "glance.nvim",
   "commandpicker.nvim",
   "hover.nvim",
-  "nvim-colorizer.lua"
+  "nvim-colorizer.lua",
+  "quicker.nvim",
+  "typst.nvim",
+  "nvim-hlslens",
+  "nvim-scrollbar",
+  "nvim-dap",
+  "symbols.nvim",
+  "roslyn.nvim",
+  "rzls.nvim"
 }
 
 local autocmd = vim.api.nvim_create_autocmd
@@ -55,6 +63,12 @@ function M.setup()
     { src = "https://gitlab.com/silvercircle74/commandpicker.nvim" },
     { src = "https://github.com/lewis6991/hover.nvim" },
     { src = "https://github.com/catgoose/nvim-colorizer.lua" },
+    { src = "https://github.com/stevearc/quicker.nvim" },
+    { src = "https://github.com/kaarmu/typst.vim" },
+    { src = "https://github.com/kevinhwang91/nvim-hlslens" },
+    { src = "https://github.com/petertriho/nvim-scrollbar" },
+    { src = "https://github.com/seblyng/roslyn.nvim" },
+    { src = "https://github.com/tris203/rzls.nvim" }
   })
   require("plugins.others").setup.multicursor_stewart()
   require("nvim-web-devicons").setup({
@@ -137,6 +151,7 @@ function M.setup()
     table.insert(rtp_to_add, "neo-tree.nvim")
   end
 
+  require("plugins.others").setup.neominimap()
   -- blink.cmp
   if Tweaks.completion.version == "blink" then
     vim.pack.add({
@@ -158,6 +173,40 @@ function M.setup()
     table.insert(rtp_to_add, "blink-cmp-wordlist")
   end
 
+  -- DAP
+  if Tweaks.dap.enabled == true then
+    vim.pack.add({ "https://github.com/mfussenegger/nvim-dap", "https://github.com/nvim-neotest/nvim-nio" })
+    require("dap.nvim_dap")
+
+    if Tweaks.dap.ui == "dap-ui" then
+      vim.pack.add({ "https://github.com/rcarriga/nvim-dap-ui" })
+      require("dap.nvim_dap_ui")
+    end
+    if Tweaks.dap.ui == "debugmaster" then
+      vim.pack.add( { "https://github.com/miroshQa/debugmaster.nvim" })
+      require("dap.debugmaster")
+    end
+  end
+
+  -- needed for the roslyn/razor plugins
+  vim.filetype.add({
+    extension = {
+      razor = "razor",
+      cshtml = "razor",
+    }
+  })
+  -- Symbols
+  if PCFG.is_dev == true then
+    vim.notify("adding symbols to rtp")
+    vim.pack.add({
+      {
+        src = "/data/mnt/shared/data/code/neovim_plugins/symbols.nvim",
+        version = "experiments"
+      }
+    })
+  else
+    vim.pack.add({ "https://github.com/oskarrrrrrr/symbols.nvim" })
+  end
   -- autocommands
   auto_pre = autocmd({ "BufReadPre" --[[, "BufNewFile"]] }, {
   callback = function(args)
@@ -165,7 +214,16 @@ function M.setup()
     if not auto_pre_done then
       require("plugins.todo")
       require("plugins.others").setup.gitsigns()
-      require("plugins.others").setup.neominimap()
+      require("plugins.nvim-scrollbar")
+      CGLOBALS.set_scrollbar()
+      require("hlslens").setup({
+        build_position_cb = function(plist, _, _, _)
+          require("scrollbar.handlers.search").handler.show(plist.start_pos)
+        end,
+        calm_down = false, -- set to true to clear all lenses when cursor moves
+        nearest_float_when = "never",
+        nearest_only = true
+      })
       auto_pre_done = true
     end
     vim.schedule(function()
@@ -194,7 +252,7 @@ function M.setup()
         height = 20,
         preserve_mode = true
       })
-
+      require("plugins.others").setup.symbols()
       require("hover").setup({
         init = function()
           -- Require providers
@@ -212,6 +270,13 @@ function M.setup()
         },
         preview_window = true,
         title = true
+      })
+
+      require("quicker").setup({
+        opts = {
+          number = true,
+          signcolumn = "yes:3"
+        }
       })
 
       require("colorizer").setup({

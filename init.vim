@@ -45,20 +45,20 @@ end
 require("pack").setup()
 
 -- bootstrap lazy
-if not vim.uv.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
-end
+--if not vim.uv.fs_stat(lazypath) then
+--  vim.fn.system({
+--    "git",
+--    "clone",
+--    "--filter=blob:none",
+--    "https://github.com/folke/lazy.nvim.git",
+--    "--branch=stable", -- latest stable release
+--    lazypath,
+--  })
+--end
 
-vim.opt.rtp:prepend(lazypath)
+-- vim.opt.rtp:prepend(lazypath)
 require('options')
-require('load_lazy')
+-- require('load_lazy')
 require("pack").fixRtp()
 require("auto")
 require("keymaps.default")
