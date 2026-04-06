@@ -11,7 +11,7 @@
 --rewritten to lua and heavily modified for my personal Neovim config at:
 --https://gitlab.com/silvercircle74/nvim
 --License:      MIT
---TODO: 
+--TODO:
 --      * maybe (just maybe) a bright background variant
 --      * add variants of well known themes (gruv <done>, dracula <wip>)
 --      * outsource into a real plugin that can be loaded as a colorscheme.
@@ -771,6 +771,7 @@ function M.set_bg()
   end
 end
 
+--- param opts type 
 function M.reconfigure_and_set(opts)
   opts = opts or {}
 
