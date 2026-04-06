@@ -197,7 +197,6 @@ function M.setup()
   })
   -- Symbols
   if PCFG.is_dev == true then
-    vim.notify("adding symbols to rtp")
     vim.pack.add({
       {
         src = "/data/mnt/shared/data/code/neovim_plugins/symbols.nvim",
