@@ -197,6 +197,8 @@ function M.restore_config()
     M.perm_config = M.perm_config_default
   end
 
+  -- if ui2 is active...
+  M.perm_config.terminal.height = M.perm_config.terminal.height + 1
   ---@type permconfig
   PCFG = M.perm_config
 

@@ -35,7 +35,6 @@ local agroup_pack = vim.api.nvim_create_augroup("pack", {})
 
 function M.setup()
   -- vim.pack BEGIN (experimental)
-  -- this shall be outsourced to its own file
   vim.pack.add({
     { src = "https://github.com/jake-stewart/multicursor.nvim" },
     { src = "https://github.com/nvim-tree/nvim-web-devicons" },
