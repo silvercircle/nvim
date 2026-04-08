@@ -144,17 +144,20 @@ function M.setup()
   require("plugins.fzf-lua_setup")
 
   -- condidtional plugins
+  -- most of the conditions are defined in tweaks-dist.lua
   if Tweaks.notifier == "fidget" then
     vim.pack.add({ "https://github.com/j-hui/fidget.nvim" })
     require("plugins.others").setup.fidget()
   end
 
+  -- NvimTree was chosen as file tree
   if Tweaks.tree.version == "Nvim" then
     vim.pack.add({ "https://github.com/nvim-tree/nvim-tree.lua" })
     require("plugins.nvim-tree")
     table.insert(rtp_to_add, "nvim-tree.lua")
   end
 
+  -- NeoTree was chosen as file tree
   if Tweaks.tree.version == "Neo" then
     vim.pack.add({ "https://github.com/nvim-neo-tree/neo-tree.nvim" })
     vim.pack.add({ "https://github.com/MunifTanjim/nui.nvim" })
@@ -209,7 +212,9 @@ function M.setup()
       cshtml = "razor",
     }
   })
-  -- Symbols
+
+  -- Symbols sidebar
+  -- special case, use a local repo in case we are in dev mode
   if PCFG.is_dev == true then
     vim.pack.add({
       {
@@ -220,7 +225,9 @@ function M.setup()
   else
     vim.pack.add({ "https://github.com/oskarrrrrrr/symbols.nvim" })
   end
-  -- autocommands
+
+  -- autocommands that fire ONCE to initialize plugins at certain stages
+  -- BufReadPre
   auto_pre = autocmd({ "BufReadPre" --[[, "BufNewFile"]] }, {
   callback = function(args)
     if vim.bo[args.buf].buftype ~= "" or vim.bo[args.buf].buflisted == false then return end
@@ -247,6 +254,8 @@ function M.setup()
   end,
   group = agroup_pack})
 
+  -- when the first LSP attaches
+  -- set up lsp-related plugins
   auto_lsp = autocmd({ "LspAttach" }, {
   callback = function(args)
     if vim.bo[args.buf].buftype ~= "" or vim.bo[args.buf].buflisted == false then return end
@@ -270,6 +279,7 @@ function M.setup()
   end,
   group = agroup_pack})
 
+  -- BufReadPost
   auto_post = autocmd({ "BufReadPost" --[[, "BufNewFile"]] }, {
   callback = function(args)
     if vim.bo[args.buf].buftype ~= "" or vim.bo[args.buf].buflisted == false then return end
@@ -349,6 +359,7 @@ function M.setup()
   end,
   group = agroup_pack})
 
+  -- handle events sent by vim.pack. 
   vim.api.nvim_create_autocmd('PackChanged', {
     callback = function(event)
       local name, kind = event.data.spec.name, event.data.kind
@@ -362,6 +373,7 @@ function M.setup()
   end})
 end
 
+-- fix the runtime path, add all plugins that are needed later
 function M.fixRtp()
   local base = vim.fn.stdpath("data") .. "/site/pack/core/opt/"
   vim.iter(rtp_to_add):filter(function(v)
