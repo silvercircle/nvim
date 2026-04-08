@@ -1,3 +1,5 @@
+-- manage plugins with vim.pack()
+-- considered experimental for now
 local M = {}
 
 local rtp_to_add = {
@@ -32,6 +34,18 @@ local autocmd = vim.api.nvim_create_autocmd
 local auto_pre, auto_post, auto_lsp = nil, nil, nil
 local auto_pre_done, auto_post_done, auto_lsp_done = false, false, false
 local agroup_pack = vim.api.nvim_create_augroup("pack", {})
+
+-- this function rebuilds the rust fuzzy matcher for blink.cmp
+-- used as a hook
+local function build_blink(params)
+  vim.notify('Building blink.cmp', vim.log.levels.INFO)
+  local obj = vim.system({ 'cargo', 'build', '--release' }, { cwd = params.path }):wait()
+  if obj.code == 0 then
+    vim.notify('Building blink.cmp done', vim.log.levels.INFO)
+  else
+    vim.notify('Building blink.cmp failed', vim.log.levels.ERROR)
+  end
+end
 
 function M.setup()
   -- vim.pack BEGIN (experimental)
@@ -149,13 +163,16 @@ function M.setup()
   end
 
   require("plugins.others").setup.neominimap()
+
   -- blink.cmp
   if Tweaks.completion.version == "blink" then
     vim.pack.add({
       {
         src = "https://github.com/Saghen/blink.cmp",
         --commit = "cd79f572971c58784ca72551af29af3a63da9168"
-        version = "main"
+        version = "main",
+        post_install = build_blink,
+        post_checkout = build_blink
       },
       {
         src = "https://github.com/rafamadriz/friendly-snippets"
