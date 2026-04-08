@@ -30,7 +30,7 @@ local rtp_to_add = {
   "rzls.nvim"
 }
 
-local autocmd = vim.api.nvim_create_autocmd
+local autocmd = vim.api.nvim_create_autocmd         -- shortcut
 local auto_pre, auto_post, auto_lsp = nil, nil, nil
 local auto_pre_done, auto_post_done, auto_lsp_done = false, false, false
 local agroup_pack = vim.api.nvim_create_augroup("pack", {})
@@ -380,6 +380,11 @@ function M.fixRtp()
     vim.opt.rtp:prepend(base .. v)
     return v
   end)
+end
+
+-- launch the snacks picker to display all plugins
+function M.picker()
+  return require("pack.picker").pick()
 end
 
 return M

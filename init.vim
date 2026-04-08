@@ -13,7 +13,6 @@ vim.loader.enable()
 vim.cmd.copen = function(...) vim.cmd("below copen") end
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 require('config')
 require("subspace.lib.permconfig").restore_config()
 PCFG = require("subspace.lib.permconfig").perm_config
@@ -44,19 +43,6 @@ end
 require("pack").setup()
 
 vim.g._ts_force_sync_parsing = true
--- bootstrap lazy
---if not vim.uv.fs_stat(lazypath) then
---  vim.fn.system({
---    "git",
---    "clone",
---    "--filter=blob:none",
---    "https://github.com/folke/lazy.nvim.git",
---    "--branch=stable", -- latest stable release
---    lazypath,
---  })
---end
-
--- vim.opt.rtp:prepend(lazypath)
 require('options')
 -- require('load_lazy')
 require("pack").fixRtp()

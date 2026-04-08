@@ -246,7 +246,8 @@ vim.g.setkey({'n', 'i', 'v'}, '<C-S-Right>', function() perform_key('<C-i>') end
 vim.g.setkey({'n', 'i'}, '<A-Left>', function() perform_key('g;') end, "Change list prev")
 vim.g.setkey({'n', 'i'}, '<A-Right>', function() perform_key('g,') end, "Change list next")
 
-vim.g.setkey('n', fkeys.s_f11, function() perform_command('Lazy') end, "Open Lazy plugin manager UI")
+-- vim.g.setkey('n', fkeys.s_f11, function() perform_command('Lazy') end, "Open Lazy plugin manager UI")
+vim.g.setkey('n', fkeys.s_f11, function() require("pack.picker").pick() end, "Open vim.pack plugin list")
 
 -- utility functions
 -- they use a prefix key, by default <C-l>. Can be customized in tweaks.lua
