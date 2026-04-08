@@ -246,7 +246,7 @@ autocmd({ 'BufEnter' }, {
 })
 
 -- restore view when reading a file
-autocmd({ 'BufReadPost' }, {
+autocmd({ 'BufWinEnter' }, {
   pattern = "*",
   callback = function(args)
     vim.api.nvim_buf_set_var(0, "tsc", PCFG.treesitter_context)
@@ -255,8 +255,11 @@ autocmd({ 'BufReadPost' }, {
       -- make sure parsing is complete before loading the view because restoring the folds
       -- would not work otherwise. This is only needed when using async parsing.
       if vim.g._ts_force_sync_parsing ~= true then
-        local has, p = pcall(vim.treesitter.get_parser)
-        if has and p ~= nil then p:parse() end
+        local p = pcall(vim.treesitter.get_parser)
+        if p ~= nil then
+          vim.notify("parse")
+          p:parse()
+        end
       end
       vim.cmd("silent! loadview")
     end

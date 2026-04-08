@@ -166,7 +166,7 @@ require("blink.cmp").setup({
   appearance = {
     -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
     -- Adjusts spacing to ensure icons are aligned
-    nerd_font_variant = "normal",
+    nerd_font_variant = "mono",
     kind_icons = CFG.lspkind_symbols
   },
   keymap = {
@@ -341,11 +341,6 @@ require("blink.cmp").setup({
           end,
         }
       },
-      obsidian = {
-        module = "obsidian.completion.sources.blink.refs",
-        score_offset = 5,
-        min_keyword_length = 3
-      },
       --dictionary = {
       --  score_offset = -3,
       --  min_keyword_length = 3,
@@ -415,7 +410,7 @@ require("blink.cmp").setup({
           },
           label = {
             ellipsis = true,
-            width = { fill = true, max = T.label_max_width },
+            width = { fill = false, max = T.label_max_width },
             highlight = function(ctx)
               -- label and label details
               local highlights = {

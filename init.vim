@@ -14,7 +14,6 @@ vim.cmd.copen = function(...) vim.cmd("below copen") end
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
--- vim.g._ts_force_sync_parsing = true
 require('config')
 require("subspace.lib.permconfig").restore_config()
 PCFG = require("subspace.lib.permconfig").perm_config
@@ -37,13 +36,14 @@ end
   vim.g.neovide_cursor_trail_size = 0.0
   vim.g.neovide_remember_window_size = true
   vim.g.neovide_underline_stroke_scale = 1.05
-  vim.g.neovide_scale_factor = 0.82
+  vim.g.neovide_scale_factor = 1.0
   -- vim.g.neovide_underline_stroke_scale = 3.0 (for MonoLisa)
   -- vim.cmd("map! <S-Insert> <C-R>+")
 -- end
 
 require("pack").setup()
 
+vim.g._ts_force_sync_parsing = true
 -- bootstrap lazy
 --if not vim.uv.fs_stat(lazypath) then
 --  vim.fn.system({

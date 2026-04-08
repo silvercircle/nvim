@@ -29,8 +29,8 @@ local rtp_to_add = {
 }
 
 local autocmd = vim.api.nvim_create_autocmd
-local auto_pre, auto_post = nil, nil
-local auto_pre_done, auto_post_done = false, false
+local auto_pre, auto_post, auto_lsp = nil, nil, nil
+local auto_pre_done, auto_post_done, auto_lsp_done = false, false, false
 local agroup_pack = vim.api.nvim_create_augroup("pack", {})
 
 function M.setup()
@@ -120,7 +120,6 @@ function M.setup()
     Rule("<", ">")
   })
   require("plugins.alpha")
-  require("plugins.oilsetup")
   require("plugins.treesitter")
   require("plugins.others").setup.treesitter_context()
   require("guess-indent").setup()
@@ -129,7 +128,6 @@ function M.setup()
   })
   require("plugins.snacks_setup")
   require("plugins.fzf-lua_setup")
-  require("plugins.others").setup.glance()
 
   -- condidtional plugins
   if Tweaks.notifier == "fidget" then
@@ -156,7 +154,8 @@ function M.setup()
     vim.pack.add({
       {
         src = "https://github.com/Saghen/blink.cmp",
-        commit = "cd79f572971c58784ca72551af29af3a63da9168"
+        --commit = "cd79f572971c58784ca72551af29af3a63da9168"
+        version = "main"
       },
       {
         src = "https://github.com/rafamadriz/friendly-snippets"
@@ -175,15 +174,14 @@ function M.setup()
   -- DAP
   if Tweaks.dap.enabled == true then
     vim.pack.add({ "https://github.com/mfussenegger/nvim-dap", "https://github.com/nvim-neotest/nvim-nio" })
-    require("dap.nvim_dap")
 
     if Tweaks.dap.ui == "dap-ui" then
       vim.pack.add({ "https://github.com/rcarriga/nvim-dap-ui" })
-      require("dap.nvim_dap_ui")
+      table.insert(rtp_to_add, "nvim-dap-ui")
     end
     if Tweaks.dap.ui == "debugmaster" then
       vim.pack.add( { "https://github.com/miroshQa/debugmaster.nvim" })
-      require("dap.debugmaster")
+      table.insert(rtp_to_add, "debugmaster.nvim")
     end
   end
 
@@ -227,6 +225,29 @@ function M.setup()
     vim.schedule(function()
       if auto_pre ~= nil and auto_pre_done == true then
         vim.api.nvim_del_autocmd(auto_pre)
+      end
+    end)
+  end,
+  group = agroup_pack})
+
+  auto_lsp = autocmd({ "LspAttach" }, {
+  callback = function(args)
+    if vim.bo[args.buf].buftype ~= "" or vim.bo[args.buf].buflisted == false then return end
+    if not auto_lsp_done then
+      require("dap.nvim_dap")
+      if Tweaks.dap.ui == "dap-ui" then
+        require("dap.nvim_dap_ui")
+      end
+      if Tweaks.dap.ui == "debugmaster" then
+        require("dap.debugmaster")
+      end
+      require("plugins.oilsetup")
+      require("plugins.others").setup.glance()
+      auto_lsp_done = true
+    end
+    vim.schedule(function()
+      if auto_lsp ~= nil and auto_lsp_done == true then
+        vim.api.nvim_del_autocmd(auto_lsp)
       end
     end)
   end,
