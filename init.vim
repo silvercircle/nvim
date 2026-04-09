@@ -40,8 +40,8 @@ end
   -- vim.cmd("map! <S-Insert> <C-R>+")
 -- end
 
--- require("pack.v2").setup()
-require("pack").setup()
+require("pack.v2").setup()
+-- require("pack").setup()
 
 vim.g._ts_force_sync_parsing = true
 require('options')

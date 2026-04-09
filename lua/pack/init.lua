@@ -5,8 +5,6 @@ local M = {}
 local rtp_to_add = {
   "nvim-treesitter-context",
   "lualine.nvim",
-  -- "nvim-cokeline",
-  -- "plenary.nvim",
   "nvim-jdtls",
   "nvim-metals",
   "snacks.nvim",
@@ -21,7 +19,6 @@ local rtp_to_add = {
   "hover.nvim",
   "nvim-colorizer.lua",
   "quicker.nvim",
-  -- "typst.nvim",
   "nvim-hlslens",
   "nvim-scrollbar",
   "nvim-dap",
