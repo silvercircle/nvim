@@ -2,19 +2,28 @@
 -- all plugin defs are in an array of pack.Plugindef
 
 --- @class pack.Plugindef
---- @field name string
---- @field source string
+--- @field name string | nil
+--- @field source string | nil
+--- @field version string | nil
 --- @field condition boolean | function
 --- @field active boolean
 --- @field phase string
 --- @field config function | nil
 --- @field hook function | nil
 --- @field rtp string | nil
+--- @field fn function | nil
 
 local autocmd = vim.api.nvim_create_autocmd         -- shortcut
 local auto_pre, auto_post, auto_lsp, auto_uie = nil, nil, nil, nil
 local auto_pre_done, auto_post_done, auto_lsp_done, auto_uie_done = false, false, false, false
 local agroup_pack = vim.api.nvim_create_augroup("pack", {})
+local rtp_base = vim.fn.stdpath("data") .. "/site/pack/core/opt/"
+
+--- add a path fragment to the runtime path
+--- @param fragment string
+local function add_to_rtp(fragment)
+  vim.opt.rtp:prepend(rtp_base .. fragment)
+end
 
 local function setup_lualine()
   require("plugins.lualine_setup")
@@ -22,10 +31,42 @@ local function setup_lualine()
   require("plugins.cokeline")
 end
 
+-- this function rebuilds the rust fuzzy matcher for blink.cmp
+-- used as a hook
+local function build_blink(params)
+  vim.notify('Building blink.cmp', vim.log.levels.INFO)
+  local obj = vim.system({ 'cargo', 'build', '--release' }, { cwd = params.path }):wait()
+  if obj.code == 0 then
+    vim.notify('Building blink.cmp done', vim.log.levels.INFO)
+  else
+    vim.notify('Building blink.cmp failed', vim.log.levels.ERROR)
+  end
+end
+
+local function install_blink()
+  vim.pack.add({
+    {
+      src = "https://github.com/Saghen/blink.cmp",
+      --commit = "cd79f572971c58784ca72551af29af3a63da9168"
+      version = "main",
+      post_install = build_blink,
+      post_checkout = build_blink
+    },
+    {
+      src = "https://github.com/moyiz/blink-emoji.nvim"
+    },
+    {
+      src = "https://gitlab.com/silvercircle74/blink-cmp-wordlist"
+    }
+  })
+  add_to_rtp("blink.cmp")
+  add_to_rtp("blink-cmp-wordlist")
+end
+
 --- @type pack.Plugindef[]
 local plugins = {
   { -- multicursor
-    name = "multicusor.nvim", version = "main",
+    name = "multicursor.nvim", version = "main",
     source = "https://github.com/jake-stewart/multicursor.nvim",
     condition = true, active = true, phase = "boot",
     config = function() require("plugins.others").setup.multicursor_stewart() end, hook = nil,
@@ -150,7 +191,15 @@ local plugins = {
     name = "quickfavs.nvim", version = "main",
     source = "https://gitlab.com/silvercircle74/quickfavs.nvim",
     condition = true, active = true, phase = "boot",
-    config = function() require("quickfavs").setup() end,
+    config = function() require("quickfavs").setup({
+      filename = vim.fs.joinpath(vim.fn.stdpath("config"), "favs"),
+      telescope_theme = require("subspace.lib").Telescope_dropdown_theme,
+      picker = "snacks",
+      snacks_layout = SPL({ width = 120, height = 20, row = 5, input = "top" }),
+      fzf_winopts = Tweaks.fzf.winopts.narrow_small_preview,
+      explorer_layout = SPL({ width = 70 })
+    })
+    end,
     rtp = "quickfavs.nvim"
   },
   { -- symbols.nvim DEV version
@@ -185,6 +234,167 @@ local plugins = {
     end,
     rtp = "commandpicker.nvim"
   },
+  { -- friendly-snippets
+    name = "friendly-snippets", version = "main",
+    source = "https://github.com/rafamadriz/friendly-snippets",
+    condition = true, active = true, phase = "boot",
+    config = nil,
+    rtp = nil
+  },
+  { -- blink
+    fn = install_blink,
+    name = "blink.cmp", version = nil,
+    source = nil,
+    condition = Tweaks.completion.version == "blink", active = true, phase = "post",
+    config = function()
+      require("plugins.blink")
+      vim.schedule(function() require("plugins.blink").update_hl() end)
+    end,
+    rtp = nil
+  },
+  { -- glance.nvim
+    name = "glance.nvim", version = "main",
+    source = "https://github.com/dnlhc/glance.nvim",
+    condition = true, active = true, phase = "lsp",
+    config = function() require("plugins.others").setup.glance() end,
+    rtp = "glance.nvim"
+  },
+  { -- gitsigns
+    name = "gitsigns.nvim", version = "main",
+    source = "https://github.com/lewis6991/gitsigns.nvim",
+    condition = true, active = true, phase = "pre",
+    config = function() require("plugins.others").setup.gitsigns() end,
+    rtp = "gitsigns.nvim"
+  },
+  { -- nvim-scrollbar
+    name = "nvim-scrollbar", version = "main",
+    source = "https://github.com/petertriho/nvim-scrollbar",
+    condition = true, active = true, phase = "pre",
+    config = function()
+      require("plugins.nvim-scrollbar")
+      CGLOBALS.set_scrollbar()
+      require("hlslens").setup({
+        build_position_cb = function(plist, _, _, _)
+          require("scrollbar.handlers.search").handler.show(plist.start_pos)
+        end,
+        calm_down = false, -- set to true to clear all lenses when cursor moves
+        nearest_float_when = "never",
+        nearest_only = true
+      })
+    end,
+    rtp = "nvim-scrollbar"
+  },
+  { -- nvim-hlslens
+    name = "nvim-hlslens", version = "main",
+    source = "https://github.com/kevinhwang91/nvim-hlslens",
+    condition = true, active = true, phase = "pre",
+    config = function() end,
+    rtp = "nvim-hlslens"
+  },
+  { -- quicker.nvim
+    name = "quicker.nvim", version = "main",
+    source = "https://github.com/stevearc/quicker.nvim",
+    condition = true, active = true, phase = "post",
+    config = function()
+      require("quicker").setup({
+        opts = {
+          number = true,
+          signcolumn = "yes:3"
+        }
+      })
+    end,
+    rtp = "quicker.nvim"
+  },
+  { -- nvim-colorizer.lua
+    name = "nvim-colorizer.lua", version = "main",
+    source = "https://github.com/catgoose/nvim-colorizer.lua",
+    condition = true, active = true, phase = "post",
+    config = function()
+      require("colorizer").setup({
+        -- filetypes = {
+        --   "!css",
+        --   "!sass"
+        -- },
+        user_default_options = {
+          names = false,
+          mode = "virtualtext",
+          virtualtext ="",
+          virtualtext_inline = "before",
+          css = true
+        },
+        filetypes = {
+          html = {
+            mode = "foreground",
+          },
+          lua = {
+            mode = "virtualtext"
+          },
+          css = {
+            names = true
+          }
+        }
+      })
+    end,
+    rtp = "nvim-colorizer.lua"
+  },
+  { -- hover.nvim
+    name = "hover.nvim", version = "main",
+    source = "https://github.com/lewis6991/hover.nvim",
+    condition = true, active = true, phase = "lsp",
+    config = function()
+      require("hover").setup({
+        init = function()
+          -- Require providers
+          require("hover.providers.lsp")
+          -- require('hover.providers.gh')
+          -- require('hover.providers.gh_user')
+          -- require('hover.providers.jira')
+          require("hover.providers.dictionary")
+          require("hover.providers.fold_preview")
+          require("hover.providers.diagnostic")
+          require("hover.providers.man")
+        end,
+        preview_opts = {
+          border = Borderfactory("thicc")
+        },
+        preview_window = true,
+        title = true
+      })
+    end,
+    rtp = "hover.nvim"
+  },
+  { -- neominimap.nvim
+    name = "neominimap.nvim", version = "main",
+    source = "https://github.com/Isrothy/neominimap.nvim",
+    condition = true, active = true, phase = "boot",
+    config = function()
+      require("plugins.others").setup.neominimap()
+    end,
+    rtp = "neominimap.nvim"
+  },
+  { -- roslyn.nvim
+    name = "roslyn.nvim", version = "main",
+    source = "https://github.com/seblyng/roslyn.nvim",
+    condition = true, active = true, phase = "boot",
+    config = function() end,
+    rtp = "roslyn.nvim"
+  },
+  { -- rzls.nvim
+    name = "rzls.nvim", version = "main",
+    source = "https://github.com/tris203/rzls.nvim",
+    condition = true, active = true, phase = "boot",
+    config = function() end,
+    rtp = "rzls.nvim"
+  },
+  { -- todo-comments.nvim
+    name = "todo-comments.nvim", version = "main",
+    source = "https://github.com/folke/todo-comments.nvim",
+    condition = true, active = true, phase = "pre",
+    config = function()
+      require("plugins.todo")
+    end,
+    rtp = "todo-comments.nvim"
+  },
 }
 
 local phases_done = {
@@ -199,7 +409,7 @@ local function execute_configs(phase)
   vim.iter(plugins):filter(function(v)
     if v.active == true and v.condition == true then
       if v.phase == phase and v.config ~= nil and type(v.config) == "function" then
-        vim.notify("execute config for " .. v.name .. " in phase " .. phase)
+        -- vim.notify("execute config for " .. v.name .. " in phase " .. phase)
         v.config()
       end
     end
@@ -211,23 +421,25 @@ end
 local M = {}
 
 function M.setup()
-  local rtp_base = vim.fn.stdpath("data") .. "/site/pack/core/opt/"
-
   vim.iter(plugins):filter(function(v)
     if v.active == true and v.condition == true then
-      vim.notify(v.name)
-      vim.pack.add({
-        {
-          src = v.source,
-          name = v.name,
-          version = v.version
-        }
-      })
+      -- vim.notify(v.name)
+      if v.fn ~= nil and type(v.fn) == "function" then
+        v.fn()
+      else
+        vim.pack.add({
+          {
+            src = v.source,
+            name = v.name,
+            version = v.version
+          }
+        })
+      end
       if v.phase == "boot" and v.config ~= nil and type(v.config) == "function" then
         v.config()
       end
       if v.rtp ~= nil then
-        vim.opt.rtp:prepend(rtp_base .. v.rtp)
+        add_to_rtp(v.rtp)
       end
     end
     return v

@@ -168,9 +168,9 @@ autocmd({ "UIEnter" }, {
     TABM.new(curtab)
     TABM.T[curtab].id_main = vim.fn.win_getid()
     main_layout(curtab)
-    require("plugins.lualine_setup")
-    require("plugins.lualine_setup").fixhl()
-    require("plugins.cokeline")
+    --require("plugins.lualine_setup")
+    --require("plugins.lualine_setup").fixhl()
+    --require("plugins.cokeline")
   end
 })
 
