@@ -410,7 +410,7 @@ require("blink.cmp").setup({
           },
           label = {
             ellipsis = true,
-            width = { fill = false, max = T.label_max_width },
+            width = { fill = true, max = T.label_max_width },
             highlight = function(ctx)
               -- label and label details
               local highlights = {
@@ -430,10 +430,11 @@ require("blink.cmp").setup({
           },
           label_description = {
             text = function(ctx)
-              return ctx.label_description or ""
+              return (ctx.label_description .. " ") or ""
+              --return ctx.label_description  or ""
             end,
             ellipsis = true,
-            width = { fill = true, max = T.desc_max_width },
+            width = { fill = false, max = T.desc_max_width },
             highlight = "Comment"
           },
           source_name = {

@@ -78,6 +78,7 @@ local function fix_semantic_tokens(client)
 end
 
 require("roslyn").setup({
+  filewatching = "off",
   vim.lsp.config("roslyn", {
     cmd = { "dotnet", LSPDEF.server_bin["roslyn"],
       "--stdio",
