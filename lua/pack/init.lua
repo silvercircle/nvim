@@ -47,6 +47,15 @@ local function build_blink(params)
   end
 end
 
+-- fix the runtime path, add all plugins that are needed later
+local function fixRtp()
+  local base = vim.fn.stdpath("data") .. "/site/pack/core/opt/"
+  vim.iter(rtp_to_add):filter(function(v)
+    vim.opt.rtp:prepend(base .. v)
+    return v
+  end)
+end
+
 function M.setup()
   -- vim.pack BEGIN (experimental)
   vim.pack.add({
@@ -360,7 +369,7 @@ function M.setup()
   group = agroup_pack})
 
   -- handle events sent by vim.pack. 
-  vim.api.nvim_create_autocmd('PackChanged', {
+  autocmd('PackChanged', {
     callback = function(event)
       local name, kind = event.data.spec.name, event.data.kind
 
@@ -371,15 +380,7 @@ function M.setup()
         vim.cmd('TSUpdate')
       end
   end})
-end
-
--- fix the runtime path, add all plugins that are needed later
-function M.fixRtp()
-  local base = vim.fn.stdpath("data") .. "/site/pack/core/opt/"
-  vim.iter(rtp_to_add):filter(function(v)
-    vim.opt.rtp:prepend(base .. v)
-    return v
-  end)
+  fixRtp()
 end
 
 -- launch the snacks picker to display all plugins

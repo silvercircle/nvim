@@ -40,12 +40,11 @@ end
   -- vim.cmd("map! <S-Insert> <C-R>+")
 -- end
 
+-- require("pack.v2").setup()
 require("pack").setup()
 
 vim.g._ts_force_sync_parsing = true
 require('options')
--- require('load_lazy')
-require("pack").fixRtp()
 require("auto")
 require("keymaps.default")
 local _,_ = pcall(require, "keymaps.user")

@@ -3,7 +3,7 @@ local M = {}
 
 local conf = {
   -- the default filename
-  prompt = "prompt",
+  prompt = "List of installed vim.pack plugins",
   width = 124,
   picker = 'snacks',
   snacks_layout   = {
@@ -14,7 +14,7 @@ local conf = {
       border = "single",
       box = "vertical",
       width = 120,
-      height = 0.4,
+      height = 0.6,
       { win = "list",  border = "none" },
       { win = "input", height = 1, border = "top" },
     },
@@ -45,7 +45,7 @@ function M.pick()
 
   local plugins = vim.pack.get()
   if conf.snacks_layout.layout.title == nil then
-    conf.snacks_layout.layout.title = "prompt"
+    conf.snacks_layout.layout.title = conf.prompt
   end
 
   local filename_width = conf.snacks_layout.layout.width - conf.snacks_picker_cols.active.width -
@@ -59,6 +59,7 @@ function M.pick()
           title = item.spec.name,
           src = item.spec.src,
           active = item.active and "Active" or "Inactive",
+          is_active = item.active,
           version = item.spec.version ~= nil and item.spec.version or "<Unknown>"
         })
       end
@@ -81,12 +82,18 @@ function M.pick()
         vim.schedule(function() vim.notify(vim.inspect(item)) end)
       end,
     },
+    sort = {
+      fields = { "active:desc", "title:asc" }
+    },
+    matcher = {
+      sort_empty = true
+    },
     format = function(item, _)
       local entry = {}
       -- local icon, icon_hl = snacks.util.icon(item.ft, item.type == "@File" and "filetype" or "directory")
       local pos = #entry
 
-      entry[pos + 1] = { align(item.active, conf.snacks_picker_cols.active.width), conf.snacks_picker_cols.active.hl }
+      entry[pos + 1] = { align(item.active, conf.snacks_picker_cols.active.width), item.is_active and conf.snacks_picker_cols.active.hl or "Red" }
       entry[pos + 2] = { align(item.title, conf.snacks_picker_cols.title.width), conf.snacks_picker_cols.title.hl }
       entry[pos + 3] = { align(item.src, filename_width), conf.snacks_picker_cols.source.hl }
       entry[pos + 4] = { align(item.version, conf.snacks_picker_cols.version.width, { align = "right" }), conf.snacks_picker_cols.version.hl }
