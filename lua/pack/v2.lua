@@ -64,6 +64,20 @@ local function install_blink()
   add_to_rtp("blink-cmp-wordlist")
 end
 
+local function install_dap()
+  vim.pack.add({ "https://github.com/mfussenegger/nvim-dap", "https://github.com/nvim-neotest/nvim-nio" })
+  add_to_rtp("nvim-dap")
+
+  if Tweaks.dap.ui == "dap-ui" then
+    vim.pack.add({ "https://github.com/rcarriga/nvim-dap-ui" })
+    add_to_rtp("nvim-dap-ui")
+  end
+  if Tweaks.dap.ui == "debugmaster" then
+    vim.pack.add( { "https://github.com/miroshQa/debugmaster.nvim" })
+    add_to_rtp("debugmaster.nvim")
+  end
+end
+
 --- @type pack.Plugindef[]
 local plugins = {
   { -- multicursor
@@ -446,6 +460,47 @@ local plugins = {
     config = function() require("plugins.others").setup.fidget() end,
     rtp = nil
   },
+  { -- typst.vim
+    name = "typst.vim", version = nil,
+    source = "https://github.com/kaarmu/typst.vim",
+    condition = true, active = true, phase = "boot",
+    config = nil,
+    rtp = nil
+  },
+  { -- nvim-dap
+    fn = install_dap,
+    name = "nvim-dap", version = nil,
+    source = nil,
+    condition = Tweaks.dap.enabled == true, active = true, phase = "lsp",
+    config = function()
+      require("dap.nvim_dap")
+      if Tweaks.dap.ui == "dap-ui" then
+        vim.notify("configuring DAP for nvim_dap_ui")
+        require("dap.nvim_dap_ui")
+      end
+      if Tweaks.dap.ui == "debugmaster" then
+        vim.notify("configuring DAP for debugmaster")
+        require("dap.debugmaster")
+      end
+    end,
+    rtp = nil
+  },
+  { -- nvim-jdtls
+    -- special case. These are configured via ftplugin
+    name = "nvim-jdtls", version = nil,
+    source = "https://github.com/mfussenegger/nvim-jdtls",
+    condition = true, active = true, phase = "boot",
+    config = nil,
+    rtp = "nvim-jdtls"
+  },
+  { -- nvim-metals
+    -- special case. These are configured via ftplugin
+    name = "nvim-metals", version = nil,
+    source = "https://github.com/scalameta/nvim-metals",
+    condition = true, active = true, phase = "boot",
+    config = nil,
+    rtp = "nvim-metals"
+  },
 }
 
 local phases_done = {
@@ -461,7 +516,6 @@ local function execute_configs(phase)
   vim.iter(plugins):filter(function(v)
     if v.active == true and v.condition == true then
       if v.phase == phase and v.config ~= nil and type(v.config) == "function" then
-        -- vim.notify("execute config for " .. v.name .. " in phase " .. phase)
         v.config()
       end
     end

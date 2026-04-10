@@ -4,7 +4,7 @@ local M = {}
 local conf = {
   -- the default filename
   prompt = "List of installed vim.pack plugins",
-  width = 124,
+  width = 144,
   picker = 'snacks',
   snacks_layout   = {
     preset = "vertical",
@@ -13,7 +13,7 @@ local conf = {
       backdrop = false,
       border = "single",
       box = "vertical",
-      width = 120,
+      width = 144,
       height = 0.6,
       { win = "list",  border = "none" },
       { win = "input", height = 1, border = "top" },
@@ -30,9 +30,9 @@ local conf = {
   explorer_layout = { },
   snacks_picker_cols= {
     active =    { hl = "Type", width = 12 },
-    title =     { hl = "String", width = 34 },
+    title =     { hl = "String", width = 40 },
     source =    { hl = "Member", width = 0 }, -- note: the width for the filename is auto-calculated
-    version =   { hl = "Numer", width = 10 }, -- note: the width for the filename is auto-calculated
+    version =   { hl = "Number", width = 15 }, -- note: the width for the filename is auto-calculated
   }
 }
 
@@ -96,7 +96,7 @@ function M.pick()
       entry[pos + 1] = { align(item.active, conf.snacks_picker_cols.active.width), item.is_active and conf.snacks_picker_cols.active.hl or "Red" }
       entry[pos + 2] = { align(item.title, conf.snacks_picker_cols.title.width), conf.snacks_picker_cols.title.hl }
       entry[pos + 3] = { align(item.src, filename_width), conf.snacks_picker_cols.source.hl }
-      entry[pos + 4] = { align(item.version, conf.snacks_picker_cols.version.width, { align = "right" }), conf.snacks_picker_cols.version.hl }
+      entry[pos + 4] = { align(item.version == "<Unknown>" and "DEFAULT" or item.version, conf.snacks_picker_cols.version.width, { align = "right" }), conf.snacks_picker_cols.version.hl }
       return entry
     end,
     confirm = function(picker, item)
