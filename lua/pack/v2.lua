@@ -19,6 +19,7 @@ local auto_pre_done, auto_post_done, auto_lsp_done, auto_uie_done = false, false
 local agroup_pack = vim.api.nvim_create_augroup("pack", {})
 local rtp_base = vim.fn.stdpath("data") .. "/site/pack/core/opt/"
 
+
 --- add a path fragment to the runtime path
 --- @param fragment string
 local function add_to_rtp(fragment)
@@ -66,14 +67,14 @@ end
 --- @type pack.Plugindef[]
 local plugins = {
   { -- multicursor
-    name = "multicursor.nvim", version = "main",
+    name = "multicursor.nvim", version = "*",
     source = "https://github.com/jake-stewart/multicursor.nvim",
     condition = true, active = true, phase = "boot",
     config = function() require("plugins.others").setup.multicursor_stewart() end, hook = nil,
     rtp = nil
   },
   { -- nvim-web-devicons
-    name = "nvim-web-devicons", version = "main",
+    name = "nvim-web-devicons", version = "*",
     source = "https://github.com/nvim-tree/nvim-web-devicons",
     condition = true, active = true, phase = "boot",
     config = function() require("nvim-web-devicons").setup({
@@ -101,51 +102,50 @@ local plugins = {
     rtp = nil
   },
   { -- nvim-treesitter
-    name = "nvim-treesitter", version = "main",
+    name = "nvim-treesitter", version = "*",
     source = "https://github.com/nvim-treesitter/nvim-treesitter",
     condition = true, active = true, phase = "boot",
     config = function() require("plugins.treesitter") end,
     rtp = nil
   },
   { -- nvim-treesitter-context
-    name = "nvim-treesitter-context", version = "main",
+    name = "nvim-treesitter-context", version = "*",
     source = "https://github.com/nvim-treesitter/nvim-treesitter-context",
     condition = true, active = true, phase = "pre",
     config = function() require("plugins.others").setup.treesitter_context() end,
     rtp = "nvim-treesitter-context"
   },
   { -- lualine.nvim
-    name = "lualine.nvim", version = "main",
+    name = "lualine.nvim", version = "*",
     source = "https://github.com/nvim-lualine/lualine.nvim",
     condition = true, active = true, phase = "uie",
     config = function() setup_lualine() end,
     rtp = "lualine.nvim"
   },
   { -- guess-indent.nvim
-    name = "guess-indent.nvim", version = "main",
+    name = "guess-indent.nvim", version = "*",
     source = "https://github.com/nmac427/guess-indent.nvim",
     condition = true, active = true, phase = "uie",
     config = function() require("guess-indent").setup() end,
     rtp = nil
   },
   { -- nvim-cokeline
-    name = "nvim-cokeline", version = "main",
+    name = "nvim-cokeline", version = "*",
     source = "https://github.com/silvercircle/nvim-cokeline",
     condition = true, active = true, phase = "none",        -- will be initialized by lualine
     config = function() end,
     rtp = nil
   },
   { -- plenary.nvim
-    name = "plenary.nvim", version = "main",
+    name = "plenary.nvim", version = "*",
     source = "https://github.com/nvim-lua/plenary.nvim",
     condition = true, active = true, phase = "none",
     config = nil,
     rtp = nil
   },
   { -- eyes-wide-bright
-    name = "eyes-wide-bright", version = "main",
-    source = "https://github.com/silvercircle/nvim-cokeline",
-    src = "https://github.com/FractalCodeRicardo/eyes-wide-bright",
+    name = "eyes-wide-bright", version = nil,
+    source = "https://github.com/FractalCodeRicardo/eyes-wide-bright",
     condition = true, active = true, phase = "boot",
     config = function()
       require("eyes-wide-bright").setup({mode = "normal"})
@@ -153,42 +153,42 @@ local plugins = {
     rtp = nil
   },
   { -- snacks.nvim
-    name = "snacks.nvim", version = "main",
+    name = "snacks.nvim", version = nil,
     source = "https://github.com/folke/snacks.nvim",
     condition = true, active = true, phase = "boot",
     config = function() require("plugins.snacks_setup") end,
     rtp = "snacks.nvim"
   },
   { -- nvim-tree.lua
-    name = "nvim-tree.lua", version = "main",
+    name = "nvim-tree.lua", version = nil,
     source = "https://github.com/nvim-tree/nvim-tree.lua",
     condition = Tweaks.tree.version == "Nvim", active = true, phase = "boot",
     config = function() require("plugins.nvim-tree") end,
     rtp = "nvim-tree.lua"
   },
   { -- alpha.nvim
-    name = "alpha-nvim", version = "main",
+    name = "alpha-nvim", version = nil,
     source = "https://github.com/goolord/alpha-nvim",
     condition = true, active = true, phase = "boot",
     config = function() require("plugins.alpha") end,
     rtp = nil
   },
   { -- fzf-lua
-    name = "fzf-lua", version = "main",
+    name = "fzf-lua", version = nil,
     source = "https://github.com/ibhagwan/fzf-lua",
     condition = true, active = true, phase = "boot",
     config = function() require("plugins.fzf-lua_setup") end,
     rtp = "fzf-lua"
   },
   { -- mason
-    name = "mason.nvim", version = "main",
+    name = "mason.nvim", version = nil,
     source = "https://github.com/williamboman/mason.nvim",
     condition = true, active = true, phase = "boot",
     config = function() require("mason").setup() end,
     rtp = nil
   },
   { -- quickfavs.nvim
-    name = "quickfavs.nvim", version = "main",
+    name = "quickfavs.nvim", version = nil,
     source = "https://gitlab.com/silvercircle74/quickfavs.nvim",
     condition = true, active = true, phase = "boot",
     config = function() require("quickfavs").setup({
@@ -210,14 +210,14 @@ local plugins = {
     rtp = "symbols.nvim"
   },
   { -- symbols.nvim NORMAL
-    name = "symbols.nvim", version = "main",
+    name = "symbols.nvim", version = nil,
     source = "https://github.com/oskarrrrrrr/symbols.nvim",
     condition = PCFG.is_dev == false, active = true, phase = "pre",
     config = function() require("plugins.others").setup.symbols() end,
     rtp = "symbols.nvim"
   },
   { -- commandpicker.nvim
-    name = "commandpicker.nvim", version = "main",
+    name = "commandpicker.nvim", version = nil,
     source = "https://gitlab.com/silvercircle74/commandpicker.nvim",
     condition = true, active = true, phase = "post",
     config = function()
@@ -235,7 +235,7 @@ local plugins = {
     rtp = "commandpicker.nvim"
   },
   { -- friendly-snippets
-    name = "friendly-snippets", version = "main",
+    name = "friendly-snippets", version = nil,
     source = "https://github.com/rafamadriz/friendly-snippets",
     condition = true, active = true, phase = "boot",
     config = nil,
@@ -253,21 +253,21 @@ local plugins = {
     rtp = nil
   },
   { -- glance.nvim
-    name = "glance.nvim", version = "main",
+    name = "glance.nvim", version = nil,
     source = "https://github.com/dnlhc/glance.nvim",
     condition = true, active = true, phase = "lsp",
     config = function() require("plugins.others").setup.glance() end,
     rtp = "glance.nvim"
   },
   { -- gitsigns
-    name = "gitsigns.nvim", version = "main",
+    name = "gitsigns.nvim", version = nil,
     source = "https://github.com/lewis6991/gitsigns.nvim",
     condition = true, active = true, phase = "pre",
     config = function() require("plugins.others").setup.gitsigns() end,
     rtp = "gitsigns.nvim"
   },
   { -- nvim-scrollbar
-    name = "nvim-scrollbar", version = "main",
+    name = "nvim-scrollbar", version = nil,
     source = "https://github.com/petertriho/nvim-scrollbar",
     condition = true, active = true, phase = "pre",
     config = function()
@@ -285,14 +285,14 @@ local plugins = {
     rtp = "nvim-scrollbar"
   },
   { -- nvim-hlslens
-    name = "nvim-hlslens", version = "main",
+    name = "nvim-hlslens", version = nil,
     source = "https://github.com/kevinhwang91/nvim-hlslens",
     condition = true, active = true, phase = "pre",
     config = function() end,
     rtp = "nvim-hlslens"
   },
   { -- quicker.nvim
-    name = "quicker.nvim", version = "main",
+    name = "quicker.nvim", version = nil,
     source = "https://github.com/stevearc/quicker.nvim",
     condition = true, active = true, phase = "post",
     config = function()
@@ -306,7 +306,7 @@ local plugins = {
     rtp = "quicker.nvim"
   },
   { -- nvim-colorizer.lua
-    name = "nvim-colorizer.lua", version = "main",
+    name = "nvim-colorizer.lua", version = nil,
     source = "https://github.com/catgoose/nvim-colorizer.lua",
     condition = true, active = true, phase = "post",
     config = function()
@@ -338,7 +338,7 @@ local plugins = {
     rtp = "nvim-colorizer.lua"
   },
   { -- hover.nvim
-    name = "hover.nvim", version = "main",
+    name = "hover.nvim", version = nil,
     source = "https://github.com/lewis6991/hover.nvim",
     condition = true, active = true, phase = "lsp",
     config = function()
@@ -364,7 +364,7 @@ local plugins = {
     rtp = "hover.nvim"
   },
   { -- neominimap.nvim
-    name = "neominimap.nvim", version = "main",
+    name = "neominimap.nvim", version = nil,
     source = "https://github.com/Isrothy/neominimap.nvim",
     condition = true, active = true, phase = "boot",
     config = function()
@@ -373,21 +373,21 @@ local plugins = {
     rtp = "neominimap.nvim"
   },
   { -- roslyn.nvim
-    name = "roslyn.nvim", version = "main",
+    name = "roslyn.nvim", version = nil,
     source = "https://github.com/seblyng/roslyn.nvim",
     condition = true, active = true, phase = "boot",
     config = function() end,
     rtp = "roslyn.nvim"
   },
   { -- rzls.nvim
-    name = "rzls.nvim", version = "main",
+    name = "rzls.nvim", version = nil,
     source = "https://github.com/tris203/rzls.nvim",
     condition = true, active = true, phase = "boot",
     config = function() end,
     rtp = "rzls.nvim"
   },
   { -- todo-comments.nvim
-    name = "todo-comments.nvim", version = "main",
+    name = "todo-comments.nvim", version = nil,
     source = "https://github.com/folke/todo-comments.nvim",
     condition = true, active = true, phase = "pre",
     config = function()
@@ -395,12 +395,64 @@ local plugins = {
     end,
     rtp = "todo-comments.nvim"
   },
+  { -- nvim-autopairs
+    name = "nvim-autopairs", version = nil,
+    source = "https://github.com/windwp/nvim-autopairs",
+    condition = true, active = true, phase = "pre",
+    config = function()
+      local npairs = require("nvim-autopairs")
+      npairs.setup({})
+      local Rule = require("nvim-autopairs.rule")
+      npairs.add_rules({
+        Rule("<", ">")
+      })
+    end,
+    rtp = nil
+  },
+  { -- oil.nvim
+    name = "oil.nvim", version = nil,
+    source = "https://github.com/stevearc/oil.nvim",
+    condition = true, active = true, phase = "pre",
+    config = function()
+      require("plugins.oilsetup")
+    end,
+    rtp = "oil.nvim"
+  },
+  { -- diffview.nvim
+    name = "diffview.nvim", version = nil,
+    source = "https://github.com/sindrets/diffview.nvim",
+    condition = true, active = true, phase = "pre",
+    config = nil,
+    rtp = nil
+  },
+  { -- nui.nvim
+    name = "nui.nvim", version = nil,
+    source = "https://github.com/MunifTanjim/nui.nvim",
+    condition = Tweaks.tree.version == "Neo", active = true, phase = "boot",
+    config = nil,
+    rtp = nil
+  },
+  { -- neo-tree.nvim
+    name = "neo-tree.nvim", version = nil,
+    source = "https://github.com/nvim-neo-tree/neo-tree.nvim",
+    condition = Tweaks.tree.version == "Neo", active = true, phase = "boot",
+    config = function() require("plugins.neotree") end,
+    rtp = "neo-tree.nvim"
+  },
+  { -- fidget.nvim
+    name = "fidget.nvim", version = nil,
+    source = "https://github.com/j-hui/fidget.nvim",
+    condition = Tweaks.notifier == "fidget", active = true, phase = "boot",
+    config = function() require("plugins.others").setup.fidget() end,
+    rtp = nil
+  },
 }
 
 local phases_done = {
   uie = false, lsp = false, pre = false, post = false
 }
 
+--- execute all configs for the given phase
 --- @param phase string
 local function execute_configs(phase)
   if phases_done[phase] == nil or phases_done[phase] == true then
@@ -431,7 +483,7 @@ function M.setup()
           {
             src = v.source,
             name = v.name,
-            version = v.version
+            version = (v.version ~= nil and v.version ~= "*") and v.version or nil
           }
         })
       end
