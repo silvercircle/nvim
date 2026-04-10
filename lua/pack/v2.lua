@@ -13,6 +13,10 @@
 --- @field rtp string | nil
 --- @field fn function | nil
 
+--- @class pack.Phasedef
+--- @field phase string
+--- @field done  boolean
+
 local autocmd = vim.api.nvim_create_autocmd         -- shortcut
 local event_handler = nil
 local agroup_pack = vim.api.nvim_create_augroup("pack", {})
@@ -77,6 +81,7 @@ local function install_dap()
   end
 end
 
+--- this array of Plugindef records holds all configured plugins
 --- @type pack.Plugindef[]
 local plugins = {
   { -- multicursor
@@ -474,11 +479,9 @@ local plugins = {
     config = function()
       require("dap.nvim_dap")
       if Tweaks.dap.ui == "dap-ui" then
-        vim.notify("configuring DAP for nvim_dap_ui")
         require("dap.nvim_dap_ui")
       end
       if Tweaks.dap.ui == "debugmaster" then
-        vim.notify("configuring DAP for debugmaster")
         require("dap.debugmaster")
       end
     end,
@@ -502,6 +505,7 @@ local plugins = {
   },
 }
 
+--- @type pack.Phasedef[]
 local phases_done = {
   ["UIEnter"]     =  { phase = "uie",  done = false },
   ["LspAttach"]   =  { phase = "lsp",  done = false },
@@ -515,7 +519,6 @@ local function execute_configs(event)
   if phases_done[event] == nil or phases_done[event].done == true then
     return
   end
-  vim.notify("Executing configs for event " .. event .. " and phase " .. phases_done[event].phase)
   local this_phase = phases_done[event].phase
   vim.iter(plugins):filter(function(v)
     if v.active == true and v.condition == true then
@@ -533,7 +536,6 @@ local M = {}
 function M.setup()
   vim.iter(plugins):filter(function(v)
     if v.active == true and v.condition == true then
-      -- vim.notify(v.name)
       if v.fn ~= nil and type(v.fn) == "function" then
         v.fn()
       else
@@ -555,8 +557,8 @@ function M.setup()
     return v
   end)
 
-  -- autocommands that fire ONCE to initialize plugins at certain stages
-  -- UIEnter
+  -- autocommand handler that handles all initialization phases.
+  -- it uses phases_done[] to keep track of what has been done.
   event_handler = autocmd({ "UIEnter", "BufReadPre", "BufReadPost", "LspAttach" }, {
   callback = function(args)
     if not phases_done[args.event].done then
@@ -564,7 +566,7 @@ function M.setup()
     end
     if phases_done["UIEnter"].done == true and phases_done["LspAttach"].done == true
       and phases_done["BufReadPre"].done == true and phases_done["BufReadPost"].done == true then
-      vim.notify("ALL phases complete, deleting auto command")
+      vim.notify("pack.V2: ALL phases complete, deleting auto command")
       vim.schedule(function() vim.api.nvim_del_autocmd(event_handler) end)
     end
   end,
