@@ -125,7 +125,7 @@ local config = {
     bundles = {}
   },
   on_attach = function(client, buf)
-    vim.lsp.codelens.refresh()
+    vim.lsp.codelens.enable(true)
     ON_LSP_ATTACH(client, buf)
   end
 }
