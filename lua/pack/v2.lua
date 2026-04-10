@@ -14,8 +14,7 @@
 --- @field fn function | nil
 
 local autocmd = vim.api.nvim_create_autocmd         -- shortcut
-local auto_pre, auto_post, auto_lsp, auto_uie = nil, nil, nil, nil
-local auto_pre_done, auto_post_done, auto_lsp_done, auto_uie_done = false, false, false, false
+local event_handler = nil
 local agroup_pack = vim.api.nvim_create_augroup("pack", {})
 local rtp_base = vim.fn.stdpath("data") .. "/site/pack/core/opt/"
 
@@ -504,24 +503,29 @@ local plugins = {
 }
 
 local phases_done = {
-  uie = false, lsp = false, pre = false, post = false
+  ["UIEnter"]     =  { phase = "uie",  done = false },
+  ["LspAttach"]   =  { phase = "lsp",  done = false },
+  ["BufReadPre"]  =  { phase = "pre",  done = false },
+  ["BufReadPost"] =  { phase = "post", done = false }
 }
 
 --- execute all configs for the given phase
---- @param phase string
-local function execute_configs(phase)
-  if phases_done[phase] == nil or phases_done[phase] == true then
+--- @param event string the event name for which we execute configurations
+local function execute_configs(event)
+  if phases_done[event] == nil or phases_done[event].done == true then
     return
   end
+  vim.notify("Executing configs for event " .. event .. " and phase " .. phases_done[event].phase)
+  local this_phase = phases_done[event].phase
   vim.iter(plugins):filter(function(v)
     if v.active == true and v.condition == true then
-      if v.phase == phase and v.config ~= nil and type(v.config) == "function" then
+      if v.phase == this_phase and v.config ~= nil and type(v.config) == "function" then
         v.config()
       end
     end
     return v
   end)
-  phases_done[phase] = true
+  phases_done[event].done = true
 end
 
 local M = {}
@@ -553,68 +557,19 @@ function M.setup()
 
   -- autocommands that fire ONCE to initialize plugins at certain stages
   -- UIEnter
-  auto_uie = autocmd({ "UIEnter" --[[, "BufNewFile"]] }, {
-  callback = function(_)
-    if not auto_uie_done then
-      execute_configs("uie")
-      auto_uie_done = true
+  event_handler = autocmd({ "UIEnter", "BufReadPre", "BufReadPost", "LspAttach" }, {
+  callback = function(args)
+    if not phases_done[args.event].done then
+      execute_configs(args.event)
     end
-    vim.schedule(function()
-      if auto_uie ~= nil and auto_uie_done == true then
-        vim.api.nvim_del_autocmd(auto_uie)
-      end
-    end)
+    if phases_done["UIEnter"].done == true and phases_done["LspAttach"].done == true
+      and phases_done["BufReadPre"].done == true and phases_done["BufReadPost"].done == true then
+      vim.notify("ALL phases complete, deleting auto command")
+      vim.schedule(function() vim.api.nvim_del_autocmd(event_handler) end)
+    end
   end,
   group = agroup_pack})
 
-  -- BufReadPre
-  auto_pre = autocmd({ "BufReadPre" --[[, "BufNewFile"]] }, {
-  callback = function(args)
-    if vim.bo[args.buf].buftype ~= "" or vim.bo[args.buf].buflisted == false then return end
-    if not auto_pre_done then
-      execute_configs("pre")
-      auto_pre_done = true
-    end
-    vim.schedule(function()
-      if auto_pre ~= nil and auto_pre_done == true then
-        vim.api.nvim_del_autocmd(auto_pre)
-      end
-    end)
-  end,
-  group = agroup_pack})
-
-  -- when the first LSP attaches
-  -- set up lsp-related plugins
-  auto_lsp = autocmd({ "LspAttach" }, {
-  callback = function(args)
-    if vim.bo[args.buf].buftype ~= "" or vim.bo[args.buf].buflisted == false then return end
-    if not auto_lsp_done then
-      execute_configs("lsp")
-      auto_lsp_done = true
-    end
-    vim.schedule(function()
-      if auto_lsp ~= nil and auto_lsp_done == true then
-        vim.api.nvim_del_autocmd(auto_lsp)
-      end
-    end)
-  end,
-  group = agroup_pack})
-
-  -- BufReadPost
-  auto_post = autocmd({ "BufReadPost" --[[, "BufNewFile"]] }, {
-  callback = function(args)
-    if vim.bo[args.buf].buftype ~= "" or vim.bo[args.buf].buflisted == false then return end
-    if not auto_post_done then
-      execute_configs("post")
-      auto_post_done = true
-    end
-    vim.schedule(function()
-      if auto_post ~= nil and auto_post_done == true then
-        vim.api.nvim_del_autocmd(auto_post)
-      end
-    end)
-  end,
-  group = agroup_pack})
 end
 
 return M
