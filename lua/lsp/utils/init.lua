@@ -20,6 +20,10 @@ ON_LSP_ATTACH = function(client, buf)
   if not vim.tbl_contains(LSPDEF.exclude_navic, client.name) and not LSPDEF.disable_breadcrumb then
     navic.attach(client, buf)
   end
+  --if client.name == "roslyn" then
+  --  vim.notify("NAME: " .. client.name)
+  --  client.server_capabilities.semanticTokensProvider.range = nil
+  --end
   vim.g.inlay_hints_visible = true
   if client.server_capabilities.inlayHintProvider then
     vim.g.inlay_hints_visible = PCFG.lsp.inlay_hints

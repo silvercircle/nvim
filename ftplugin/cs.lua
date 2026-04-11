@@ -47,10 +47,4 @@ initializer: (initializer_expression) @fold
 ]]
 vim.treesitter.query.set("c_sharp", "folds", csfolds)
 
-require("rzls").setup({
-  capabilities = require("lsp.config").get_lsp_capabilities(),
-  on_attch = function(client, buf)
-    ON_LSP_ATTACH(client, buf)
-  end
-})
 require("plugins.roslyn")

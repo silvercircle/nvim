@@ -85,11 +85,13 @@ require("roslyn").setup({
       "--logLevel=Information",
       "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.log.get_filename()),
       "--razorSourceGenerator=" .. LSPDEF.roslyn.razor_compiler,
-      "--razorDesignTimePath=" ..  LSPDEF.roslyn.razor_designer
+      "--razorDesignTimePath=" ..  LSPDEF.roslyn.razor_designer,
+      "--extension",
+      LSPDEF.roslyn.razor_extension
     },
     filetypes = { "cs", "razor" },
     capabilities = require("lsp.config").get_lsp_capabilities(),
-    handlers = require "rzls.roslyn_handlers",
+    -- handlers = require "rzls.roslyn_handlers",
     --the project root needs a .sln file (mandatory)
     root_markers = { ".sln "},
     on_attach = ON_LSP_ATTACH,

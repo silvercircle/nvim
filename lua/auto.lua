@@ -280,6 +280,8 @@ autocmd({ "FileType" }, {
       local parser = args.match
       if args.match == "adagpr" then
         parser = "ada"
+      elseif args.match == "cs" then
+        parser = "c_sharp"
       end
       if args.match ~= "markdown" then
         vim.treesitter.start(args.buf, parser)

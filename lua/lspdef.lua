@@ -180,23 +180,34 @@ M.jdtls = {
   config = "config_linux"
 }
 
+local roslyn_version = "5.5.0-2.26103.6"
 -- definitions for the roslyn plugin. You may need to change this, depending on the
 -- locations you have installed the Roslyn and rzls language servers.
 M.roslyn = {
   razor_compiler = jp(
     M.masonbasepath,
     'packages',
-    "rzls",
+    "roslyn",
     "libexec",
+    ".razorExtension",
     "Microsoft.CodeAnalysis.Razor.Compiler.dll"
   ),
   razor_designer = jp(
     M.masonbasepath,
     "packages",
-    "rzls",
+    "roslyn",
     "libexec",
+    ".razorExtension",
     "Targets",
     "Microsoft.NET.Sdk.Razor.DesignTime.targets"
+  ),
+  razor_extension = jp(
+    M.masonbasepath,
+    "packages",
+    "roslyn",
+    "libexec",
+    ".razorExtension",
+    "Microsoft.VisualStudioCode.RazorExtension.dll"
   )
 }
 -- local custom lsp definitions that are not provided by nvim-lspconfig.
