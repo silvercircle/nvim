@@ -112,6 +112,11 @@ local plugins = {
           icon = "",
           color = "#20c0c0",
           name = "CSS"
+        },
+        yml = {
+          icon = "",
+          color = "#995555",
+          name = "Yaml"
         }
       },
       color_icons = true,
