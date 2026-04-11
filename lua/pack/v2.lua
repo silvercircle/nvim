@@ -202,7 +202,12 @@ local plugins = {
     name = "mason.nvim", version = nil,
     source = "https://github.com/williamboman/mason.nvim",
     condition = true, active = true, phase = "boot",
-    config = function() require("mason").setup() end,
+    config = function() require("mason").setup({
+      registries = {
+        "github:mason-org/mason-registry",
+        "github:Crashdummyy/mason-registry",
+      }
+    }) end,
     rtp = nil
   },
   { -- quickfavs.nvim
@@ -397,13 +402,6 @@ local plugins = {
     config = function() end,
     rtp = "roslyn.nvim"
   },
-  { -- rzls.nvim
-    name = "rzls.nvim", version = nil,
-    source = "https://github.com/tris203/rzls.nvim",
-    condition = true, active = true, phase = "boot",
-    config = function() end,
-    rtp = "rzls.nvim"
-  },
   { -- todo-comments.nvim
     name = "todo-comments.nvim", version = nil,
     source = "https://github.com/folke/todo-comments.nvim",
@@ -567,7 +565,10 @@ function M.setup()
     if phases_done["UIEnter"].done == true and phases_done["LspAttach"].done == true
       and phases_done["BufReadPre"].done == true and phases_done["BufReadPost"].done == true then
       vim.notify("pack.V2: ALL phases complete, deleting auto command")
-      vim.schedule(function() vim.api.nvim_del_autocmd(event_handler) end)
+      vim.schedule(function()
+        vim.api.nvim_del_autocmd(event_handler)
+        vim.api.nvim_del_augroup_by_id(agroup_pack)
+      end)
     end
   end,
   group = agroup_pack})
