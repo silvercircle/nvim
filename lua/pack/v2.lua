@@ -12,6 +12,7 @@
 --- @field hook function | nil
 --- @field rtp string | nil
 --- @field fn function | nil
+--- @field conf_valid boolean | nil
 
 --- @class pack.Phasedef
 --- @field phase string
@@ -524,8 +525,8 @@ local function execute_configs(event)
   end
   local this_phase = phases_done[event].phase
   vim.iter(plugins):filter(function(v)
-    if v.active == true and v.condition == true then
-      if v.phase == this_phase and v.config ~= nil and type(v.config) == "function" then
+    if v.phase == this_phase then
+      if v.conf_valid == true then
         v.config()
       end
     end
@@ -537,33 +538,42 @@ end
 local M = {}
 
 function M.setup()
+  local to_install = {}
+
   vim.iter(plugins):filter(function(v)
+    v.conf_valid = false
     if v.active == true and v.condition == true then
       if v.fn ~= nil and type(v.fn) == "function" then
         v.fn()
       else
-        vim.pack.add({
+        table.insert(to_install,
           {
             src = v.source,
             name = v.name,
             version = (v.version ~= nil and v.version ~= "*") and v.version or nil
           }
-        })
-      end
-      if v.phase == "boot" and v.config ~= nil and type(v.config) == "function" then
-        v.config()
+        )
       end
       if v.rtp ~= nil then
         add_to_rtp(v.rtp)
       end
+      if v.config ~= nil and type(v.config) == "function" then
+        v.conf_valid = true
+      end
     end
     return v
   end)
+  vim.pack.add(to_install)
 
+  vim.iter(plugins):filter(function(v)
+    if v.phase == "boot" and v.conf_valid == true then
+      v.config()
+    end
+    return v
+  end)
   -- autocommand handler that handles all initialization phases.
   -- it uses phases_done[] to keep track of what has been done.
-  event_handler = autocmd({ "UIEnter", "BufReadPre", "BufReadPost", "LspAttach" }, {
-  callback = function(args)
+  event_handler = autocmd({ "UIEnter", "BufReadPre", "BufReadPost", "LspAttach" }, { callback = function(args)
     if not phases_done[args.event].done then
       execute_configs(args.event)
     end
@@ -577,7 +587,6 @@ function M.setup()
     end
   end,
   group = agroup_pack})
-
 end
 
 return M
