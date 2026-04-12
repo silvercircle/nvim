@@ -12,6 +12,8 @@
 --- @field hook function | nil
 --- @field rtp string | nil
 --- @field fn function | nil
+--- indicates that a) config is not nil AND a function and b) active and condition
+--- are true. Essentially, the plugin is valid and active and config() must be executed
 --- @field conf_valid boolean | nil
 
 --- @class pack.Phasedef
@@ -21,7 +23,7 @@
 local autocmd = vim.api.nvim_create_autocmd         -- shortcut
 local event_handler = nil
 local agroup_pack = vim.api.nvim_create_augroup("pack", {})
-local rtp_base = vim.fn.stdpath("data") .. "/site/pack/core/opt/"
+local rtp_base = vim.fs.joinpath(vim.fn.stdpath("data"), "/site/pack/core/opt/")
 
 
 --- add a path fragment to the runtime path
@@ -149,24 +151,24 @@ local plugins = {
   { -- guess-indent.nvim
     name = "guess-indent.nvim", version = "*",
     source = "https://github.com/nmac427/guess-indent.nvim",
-    condition = true, active = true, phase = "uie",
+    condition = true, active = false, phase = "uie",
     config = function() require("guess-indent").setup() end,
     rtp = nil
   },
   { -- nvim-cokeline
-    name = "nvim-cokeline", version = "*",
+    name = "nvim-cokeline", version = "mine",
     source = "https://github.com/silvercircle/nvim-cokeline",
     condition = true, active = true, phase = "none",        -- will be initialized by lualine
     config = function() end,
     rtp = nil
   },
-  { -- plenary.nvim
-    name = "plenary.nvim", version = "*",
-    source = "https://github.com/nvim-lua/plenary.nvim",
-    condition = true, active = true, phase = "none",
-    config = nil,
-    rtp = nil
-  },
+  --{ -- plenary.nvim
+  --  name = "plenary.nvim", version = nil,
+  --  source = "https://github.com/nvim-lua/plenary.nvim",
+  --  condition = false, active = true, phase = "none",
+  --  config = nil,
+  --  rtp = nil
+  --},
   { -- eyes-wide-bright
     name = "eyes-wide-bright", version = nil,
     source = "https://github.com/FractalCodeRicardo/eyes-wide-bright",
@@ -525,10 +527,8 @@ local function execute_configs(event)
   end
   local this_phase = phases_done[event].phase
   vim.iter(plugins):filter(function(v)
-    if v.phase == this_phase then
-      if v.conf_valid == true then
-        v.config()
-      end
+    if v.phase == this_phase and v.conf_valid == true then
+      v.config()
     end
     return v
   end)
