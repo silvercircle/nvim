@@ -197,10 +197,10 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
     ignore_list = {},
   },
   -- ignore_ft_on_setup = {},
-  system_open = {
-    cmd = '',
-    args = {},
-  },
+  --system_open = {
+  --  cmd = '',
+  --  args = {},
+  --},
   diagnostics = {
     enable = true,
     show_on_dirs = false,

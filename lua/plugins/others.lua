@@ -372,8 +372,10 @@ M.setup = {
         },
         hl_details = "String",
         on_symbols_complete = function(ctx)
-          vim.api.nvim_set_option_value("statusline", "  Outline: " .. (ctx.pname or "None") ..
-            (" (" .. ctx.symbolcount .. ")" ) .. (ctx.followmode and " follow" or ""), { win = ctx.id_win })
+          if ctx.id_win > 0 and vim.api.nvim_win_is_valid(ctx.id_win) then
+            vim.api.nvim_set_option_value("statusline", "  Outline: " .. (ctx.pname or "None") ..
+              (" (" .. ctx.symbolcount .. ")" ) .. (ctx.followmode and " follow" or ""), { win = ctx.id_win })
+          end
           -- unfold for some filetypes. Not a good idea for others (like lua) because
           -- they have excessiv symbol spam so keep the list collapsed.
           local dont_unfold = { "lua", "json", "xml", "html" }

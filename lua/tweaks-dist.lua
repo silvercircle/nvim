@@ -84,13 +84,13 @@ Tweaks.indent = {
     char = " ",
     -- char = "·",
     hl = "SnacksIndentBlank", ---@type string|string[] hl group for blank spaces
-  },
-}
 
+  }
+}
 -- this enabled DAP and dap-ui
 Tweaks.dap = {
   enabled = true,
-  ui = "debugmaster"
+  ui = "dap-ui"
 }
 
 -- blink.cmp related tweaks
