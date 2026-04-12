@@ -410,7 +410,7 @@ function M.bgtheme()
       bg4 = { "#555565", 237 },
       statuslinebg = "#222228",
       bg = "#0a120a",
-      treebg = "#101510",
+      treebg = "#0e160e",
       floatbg = "#0e0d0d",
       gutterbg = "#020202",
       kittybg = "#101510",
