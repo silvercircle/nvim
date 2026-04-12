@@ -60,7 +60,8 @@ function M.pick()
           src = item.spec.src,
           active = item.active and "Active" or "Inactive",
           is_active = item.active,
-          version = item.spec.version ~= nil and item.spec.version or "<Unknown>"
+          version = item.spec.version ~= nil and item.spec.version or "<Unknown>",
+          text = item.spec.name .. " " .. item.spec.src
         })
       end
       return items
