@@ -82,6 +82,10 @@ local function install_dap()
     vim.pack.add( { "https://github.com/miroshQa/debugmaster.nvim" })
     add_to_rtp("debugmaster.nvim")
   end
+  if Tweaks.dap.ui == "dap-view" then
+    vim.pack.add( { "https://github.com/igorlfs/nvim-dap-view" })
+    add_to_rtp("nvim-dap-view")
+  end
 end
 
 --- this array of Plugindef records holds all configured plugins
@@ -127,13 +131,15 @@ local plugins = {
     end,
     rtp = nil
   },
+
   { -- nvim-treesitter
     name = "nvim-treesitter", version = "*",
     source = "https://github.com/nvim-treesitter/nvim-treesitter",
-    condition = true, active = true, phase = "boot",
+    condition = false, active = false, phase = "boot",
     config = function() require("plugins.treesitter") end,
     rtp = nil
   },
+
   { -- nvim-treesitter-context
     name = "nvim-treesitter-context", version = "*",
     source = "https://github.com/nvim-treesitter/nvim-treesitter-context",
@@ -489,6 +495,9 @@ local plugins = {
       end
       if Tweaks.dap.ui == "debugmaster" then
         require("dap.debugmaster")
+      end
+      if Tweaks.dap.ui == "dap-view" then
+        require("dap.dap_view")
       end
     end,
     rtp = nil
