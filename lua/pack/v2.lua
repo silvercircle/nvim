@@ -157,7 +157,7 @@ local plugins = {
   { -- guess-indent.nvim
     name = "guess-indent.nvim", version = "*",
     source = "https://github.com/nmac427/guess-indent.nvim",
-    condition = true, active = false, phase = "uie",
+    condition = true, active = true, phase = "uie",
     config = function() require("guess-indent").setup() end,
     rtp = nil
   },
