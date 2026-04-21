@@ -246,13 +246,6 @@ local plugins = {
     config = function() require("plugins.others").setup.symbols() end,
     rtp = "symbols.nvim"
   },
-  { -- symbols.nvim NORMAL
-    name = "symbols.nvim", version = nil,
-    source = "https://github.com/oskarrrrrrr/symbols.nvim",
-    condition = PCFG.is_dev == false, active = true, phase = "pre",
-    config = function() require("plugins.others").setup.symbols() end,
-    rtp = "symbols.nvim"
-  },
   { -- commandpicker.nvim
     name = "commandpicker.nvim", version = nil,
     source = "https://gitlab.com/silvercircle74/commandpicker.nvim",
@@ -518,6 +511,13 @@ local plugins = {
     config = nil,
     rtp = "nvim-metals"
   },
+  { -- vim-rst
+    name = "vim-rst", version = nil,
+    source = "https://github.com/habamax/vim-rst",
+    condition = false, active = false, phase = "boot",
+    config = nil,
+    rtp = "vim-rst"
+  }
 }
 
 --- @type pack.Phasedef[]

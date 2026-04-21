@@ -30,10 +30,7 @@ local tree_fts = {
 Tweaks.tree.filetype = tree_fts[Tweaks.tree.version]
 local nvim_11 = vim.fn.has("nvim-0.11")
 local nvim_12 = vim.fn.has("nvim-0.12")
-
---if nvim_12 == 1 then
-  -- vim.deprecate = function() end
---end
+local nvim_13 = vim.fn.has("nvim-0.13")
 
 vim.g.snacks_animate = false
 vim.filetype.add({
@@ -44,8 +41,6 @@ vim.filetype.add({
 vim.treesitter.language.register("ada", { "adagpr" })
 
 CFG = {
-  have_eleven = nvim_11,
-  have_twelve = nvim_12,
   minipicker_iprefix = "#>",
   treesitter = true,
   plain = (env_plain ~= nil or vim.g.want_plain == true) and true or false,
