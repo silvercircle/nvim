@@ -584,7 +584,7 @@ function M.setup()
       execute_configs(args.event)
     end
     if phases_done["UIEnter"].done == true and phases_done["LspAttach"].done == true
-      and phases_done["BufReadPre"].done == true and phases_done["BufReadPost"].done == true and event_handler ~= nil then
+      and phases_done["BufReadPre"].done == true and phases_done["BufReadPost"].done == true ~= nil then
       vim.notify("pack.V2: ALL phases complete, deleting auto command")
       vim.schedule(function()
         if event_handler ~= nil then
