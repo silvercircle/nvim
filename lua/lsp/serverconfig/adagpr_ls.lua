@@ -1,6 +1,7 @@
 local util = require("lsp.utils")
 
 ---@type vim.lsp.Config
+--- foobar
 return {
   cmd = { LSPDEF.serverconfigs["adagpr_ls"].cmd[1], "--language-gpr" },
   filetypes = { "adagpr" },
