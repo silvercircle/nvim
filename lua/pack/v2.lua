@@ -55,7 +55,7 @@ local function install_blink()
     {
       src = "https://github.com/Saghen/blink.cmp",
       --commit = "cd79f572971c58784ca72551af29af3a63da9168"
-      version = "main",
+      version = "v1",
       post_install = build_blink,
       post_checkout = build_blink
     },
@@ -64,9 +64,13 @@ local function install_blink()
     },
     {
       src = "https://gitlab.com/silvercircle74/blink-cmp-wordlist"
+    },
+    {
+      src = "https://github.com/saghen/blink.lib"
     }
   })
   add_to_rtp("blink.cmp")
+  add_to_rtp("blink.lib")
   add_to_rtp("blink-cmp-wordlist")
 end
 
@@ -510,13 +514,6 @@ local plugins = {
     condition = true, active = true, phase = "boot",
     config = nil,
     rtp = "nvim-metals"
-  },
-  { -- vim-rst
-    name = "vim-rst", version = nil,
-    source = "https://github.com/habamax/vim-rst",
-    condition = false, active = false, phase = "boot",
-    config = nil,
-    rtp = "vim-rst"
   }
 }
 
@@ -587,11 +584,17 @@ function M.setup()
       execute_configs(args.event)
     end
     if phases_done["UIEnter"].done == true and phases_done["LspAttach"].done == true
-      and phases_done["BufReadPre"].done == true and phases_done["BufReadPost"].done == true then
+      and phases_done["BufReadPre"].done == true and phases_done["BufReadPost"].done == true and event_handler ~= nil then
       vim.notify("pack.V2: ALL phases complete, deleting auto command")
       vim.schedule(function()
-        vim.api.nvim_del_autocmd(event_handler)
-        vim.api.nvim_del_augroup_by_id(agroup_pack)
+        if event_handler ~= nil then
+          vim.api.nvim_del_autocmd(event_handler)
+          event_handler = nil
+        end
+        if agroup_pack ~= 0 then
+          vim.api.nvim_del_augroup_by_id(agroup_pack)
+          agroup_pack = 0
+        end
       end)
     end
   end,
