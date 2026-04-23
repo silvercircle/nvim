@@ -395,7 +395,7 @@ require("blink.cmp").setup({
       draw = {
         align_to = "kind_icon",
         padding = { 0, 1 },
-        treesitter = { "lsp "},
+        treesitter = { "lsp" },
         columns = {
           { "kind_icon", "label",       "label_description", gap = 1 },
           { "kind",      "source_name", gap = 1 }
@@ -482,8 +482,8 @@ require("blink.cmp").setup({
   signature = {
     enabled = true,
     trigger = {
-      show_on_trigger_character = false,
-      show_on_insert_on_trigger_character = false
+    --  show_on_trigger_character = false,
+    --  show_on_insert_on_trigger_character = false
     },
     window = {
       border = Borderfactory(w_border),

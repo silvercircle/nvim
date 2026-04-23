@@ -152,8 +152,11 @@ M.serverconfigs = {
   ["sqlls"]                  = { active = false,
     cmd = { jp(M.masonbinpath, "sql-language-server"), "up", "--method", "stdio" }
   },
+  ["harper_ls"]              = { active = false,
+    cmd = { jp(M.localbin, "harper-ls") }
+  },
   --- these are DUMMY entries. They are handled by dedicated plugins in this
-  --- config.
+  --- config
   ["roslyn"]                = { active = false },
   ["jdtls"]                 = { active = false }
 }
