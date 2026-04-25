@@ -4,7 +4,9 @@ local lsputil = require("lsp.utils")
 local md5 = require("subspace.lib.md5")
 local hash
 local project_name = "tmp"
-local debug = true
+local debug = LSPDEF.jdtls.debug
+local caps = vim.deepcopy(require("lsp.config").get_lsp_capabilities())
+-- caps.textDocument.completion.editsNearCursor = false
 
 -- this tries to find a project root directory using common patterns. It searches
 -- for maven or gradle configuration files, eclipse or IDEA configurations and if all
@@ -62,8 +64,8 @@ local config = {
     "-Declipse.application=org.eclipse.jdt.ls.core.id1",
     "-Dosgi.bundles.defaultStartLevel=4",
     "-Declipse.product=org.eclipse.jdt.ls.core.product",
-    "-Dlog.protocol=true",
-    "-Dlog.level=ALL",
+    "-Dlog.protocol=false",
+    "-Dlog.level=ERROR",
     "-Xmx768m",
     "-Xms256m",
     "-XX:+UnlockExperimentalVMOptions",
@@ -71,7 +73,7 @@ local config = {
     "-XX:-TieredCompilation",
     "-XX:+UseStringDeduplication",
     "-XX:+UseCompressedOops",
-    "-XX:ReservedCodeCacheSize=70m",
+    "-XX:ReservedCodeCacheSize=50m",
     "-XX:+UseG1GC",
     "-XX:MaxGCPauseMillis=200",
     "-XX:MaxHeapFreeRatio=50",
@@ -87,7 +89,7 @@ local config = {
     "-configuration", vim.fn.expand(LSPDEF.jdtls.jdtls_install_dir) .. LSPDEF.jdtls.config,
     "-data", workspace_dir
   },
-  capabilities = require("lsp.config").get_lsp_capabilities(),
+  capabilities = caps,
 
   -- This is the default if not provided, you can remove it. Or adjust as needed.
   -- One dedicated LSP server & client will be started per unique root_dir
@@ -125,7 +127,7 @@ local config = {
     bundles = {}
   },
   on_attach = function(client, buf)
-    vim.lsp.codelens.enable(true)
+    vim.lsp.codelens.enable(PCFG.lsp.codelens)
     ON_LSP_ATTACH(client, buf)
   end
 }
