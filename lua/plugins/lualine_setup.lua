@@ -39,8 +39,9 @@ local function status_indicators()
   return (PCFG.treesitter_context == true and "C" or "c") ..
          (PCFG.is_dev == true and "D" or "d") ..
          (PCFG.autopair == true and "A" or "a") ..
-         (PCFG.cmp_automenu and 'O' or 'o') ..
-         (PCFG.cmp_ghost and 'G' or 'g') ..
+         ((vim.b.cmp_autoshow == nil and PCFG.cmp_automenu or vim.b.cmp_autoshow) and 'O' or 'o') ..
+         ((vim.b.completion == nil and true or vim.b.completion) and 'B' or 'b') ..
+         ((vim.b.cmp_ghost == nil and PCFG.cmp_ghost or vim.b.cmp_ghost) and 'G' or 'g') ..
          (PCFG.lsp.inlay_hints and 'H' or 'h')
 end
 

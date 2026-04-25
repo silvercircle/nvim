@@ -369,7 +369,7 @@ require("blink.cmp").setup({
   completion = {
     accept = {
       --create_undo_point = true,
-      resolve_timeout_ms = 5000, -- some lsps can be *that* slow, hello pyright :)
+      resolve_timeout_ms = 20000, -- some lsps can be *that* slow, hello pyright :)
       auto_brackets = {
         kind_resolution = {
           blocked_filetypes = { 'cpp', 'typescriptreact', 'javascriptreact', 'vue', 'rust' }
@@ -387,7 +387,11 @@ require("blink.cmp").setup({
     },
     menu = {
       enabled = true,
-      auto_show = function() return PCFG.cmp_automenu end,
+      auto_show = function() return (vim.b.cmp_autoshow == nil and PCFG.cmp_automenu or vim.b.cmp_autoshow) end,
+      trigger = {
+        show_on_keyword = false,
+        show_on_trigger_character = true,
+      },
       border = Borderfactory(w_border),
       winblend = T.winblend.menu,
       max_height = T.window_height,
@@ -476,7 +480,7 @@ require("blink.cmp").setup({
       }
     },
     ghost_text = {
-      enabled = function() return PCFG.cmp_ghost end,
+      enabled = function() return (vim.b.cmp_ghost == nil and PCFG.cmp_ghost or vim.b.cmp_ghost) end,
     }
   },
   signature = {

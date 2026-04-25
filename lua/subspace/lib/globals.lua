@@ -280,6 +280,11 @@ function M.toggle_inlayhints()
   PCFG.lsp.inlay_hints = not status
 end
 
+function M.toggle_codelens()
+  local status = vim.lsp.codelens.is_enabled({ bufnr = 0 })
+  vim.lsp.codelens.enable(not status, { bufnr = 0 })
+  PCFG.lsp.codelens = not status
+end
 --- get a custom buffer variable.
 -- @param bufnr number: The buffer id
 -- @param varname string: The variable's name

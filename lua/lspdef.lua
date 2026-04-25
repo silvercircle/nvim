@@ -180,7 +180,8 @@ M.jdtls = {
   java_executable = vim.fn.expand("~/.sdkman/candidates/java/current/bin/java"),
   jdtls_install_dir = "~/.local/share/nvim/mason/packages/jdtls/",
   equinox_version = "1.7.100.v20251111-0406",
-  config = "config_linux"
+  config = "config_linux",
+  debug = false
 }
 
 -- definitions for the roslyn plugin. You may need to change this, depending on the
@@ -240,6 +241,7 @@ M.advanced_config = {
   roslyn = true
 }
 M.inlay_hints = true
+M.codelens = true
 M.color_support = false
 M.ada_line_length = 120
 

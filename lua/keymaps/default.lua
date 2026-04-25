@@ -258,21 +258,27 @@ end, "Toggle absolute/relative line numbers")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'p', function()
   CGLOBALS.toggle_inlayhints()
 end, "Toggle LSP inlay hints")
+vim.g.setkey({ 'n', 'i' }, utility_key .. 'c', function()
+  CGLOBALS.toggle_codelens()
+end, "Toggle LSP codelens")
 
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'ca', function()
-  PCFG.cmp_automenu = not PCFG.cmp_automenu
-  STATMSG("**Blink.cmp** Menu auto_showis now: ", PCFG.cmp_automenu, 0, "Config")
-end, "Toggle color column display")
+  local val = (vim.b.cmp_autoshow == nil and PCFG.cmp_automenu or vim.b.cmp_autoshow)
+  vim.b.cmp_autoshow = not val
+  PCFG.cmp_automenu = not val
+  STATMSG("**Blink.cmp** Menu auto_showis now: ", not val, 0, "Config")
+end, "Toggle blink.cmp auto-menu display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'cg', function()
-  PCFG.cmp_ghost = not PCFG.cmp_ghost
-  STATMSG("**Blink.cmp**: Ghost Text is now: ", PCFG.cmp_ghost, 0, "Config")
-end, "Toggle color column display")
+  local val = (vim.b.cmp_ghost == nil and PCFG.cmp_ghost or vim.b.cmp_ghost)
+  vim.b.cmp_ghost = not val
+  PCFG.cmp_ghost = not val
+  STATMSG("**Blink.cmp**: Ghost Text is now: ", not val, 0, "Config")
+end, "Toggle blink.cmp completion menu ghost text")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'cc', function()
-  local s, val = pcall(vim.api.nvim_buf_get_var, 0, "completion")
-  local enabled = ((s == true and val == true ) or (s == false ))
-  vim.api.nvim_buf_set_var(0, "completion", not enabled)
-  STATMSG("**Blink.cmp**: Completion for this buffer is now: ", not enabled, 0, "Config")
-end, "Toggle color column display")
+  local val = (vim.b.completion == nil and true or vim.b.completion)
+  vim.b.completion = not val
+  STATMSG("**Blink.cmp**: Completion for this buffer is now: ", not val, 0, "Config")
+end, "Toggle completion via blink")
 
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'w', function() CGLOBALS.toggle_wrap() end, "Toggle word wrap")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'k', function() CGLOBALS.toggle_colorcolumn() end, "Toggle color column display")

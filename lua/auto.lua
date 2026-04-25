@@ -251,6 +251,7 @@ autocmd({ 'BufWinEnter' }, {
   callback = function(args)
     vim.api.nvim_buf_set_var(0, "tsc", PCFG.treesitter_context)
     vim.api.nvim_buf_set_var(0, "inlayhints", PCFG.lsp.inlay_hints)
+    vim.api.nvim_buf_set_var(0, "clens", PCFG.lsp.codelens)
     if #vim.fn.expand("%") > 0 and vim.api.nvim_get_option_value("buftype", { buf = args.buf }) ~= 'nofile' then
       -- make sure parsing is complete before loading the view because restoring the folds
       -- would not work otherwise. This is only needed when using async parsing.

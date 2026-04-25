@@ -97,6 +97,7 @@ Tweaks.dap = {
 Tweaks.blink = {
   -- if false, you have to manually invoke the completion popup (Control-Space)
   auto_show = false,
+  auto_show_only_on_trigger = true,
   fuzzy = "rust",
   -- auto-show after that many milliseconds
   border = "thicc", -- see borderfactory() for supported values
@@ -105,7 +106,7 @@ Tweaks.blink = {
   -- keymap preset to use. Read the blink docs. Note that some
   -- keys are overriden or customized from the preset. See lua/plugins/blink.lua
   keymap_preset = "enter",
-  ghost_text = true,  -- this might still be a bit buggy in blink.cmp.
+  ghost_text = false,  -- this might still be a bit buggy in blink.cmp.
   -- maximum height of the popup window
   window_height = 15,
   -- maximum width of the completion label
@@ -113,7 +114,7 @@ Tweaks.blink = {
   -- label_description maximum width
   desc_max_width = 30,
   -- prefetch on InsertEnter. This might improve performance
-  prefetch = false,
+  prefetch = true,
   -- if you use a theme that does not yet support blink.cmp, set this to true
   -- to use the fallback nvim-cmp hl groups which are supported by most themes
   winblend = {

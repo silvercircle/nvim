@@ -106,7 +106,8 @@ M.perm_config_default = {
   cmp_automenu = Tweaks.cmp.autocomplete,
   cmp_ghost = false,
   lsp = {
-    inlay_hints = LSPDEF.inlay_hints
+    inlay_hints = LSPDEF.inlay_hints,
+    codelens = LSPDEF.codelens
   },
   is_dev = true, --Tweaks.use_foldlevel_patch,
   outline_view = false,
