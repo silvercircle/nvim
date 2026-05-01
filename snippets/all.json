@@ -23,6 +23,14 @@
     "prefix": "dbracks",
     "body": "«$0»"
   },
+  "lbull": {
+    "prefix": "lbullet",
+    "body": "⁌"
+  },
+  "bbull": {
+    "prefix": "blackpointbullet",
+    "body": "⦿"
+  },
   "frontmatter": {
     "prefix": "frontmatter",
     "body": [

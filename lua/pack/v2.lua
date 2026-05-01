@@ -64,6 +64,7 @@ local function install_blink()
     },
     {
       src = "https://gitlab.com/silvercircle74/blink-cmp-wordlist"
+      -- src = "/data/mnt/shared/data/code/neovim_plugins/blink-cmp-wordlist.nvim"
     },
     {
       src = "https://github.com/saghen/blink.lib"
@@ -602,3 +603,4 @@ function M.setup()
 end
 
 return M
+

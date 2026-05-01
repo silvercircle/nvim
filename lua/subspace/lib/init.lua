@@ -250,7 +250,6 @@ function Utils.StopLsp(auto)
           if k.id == id then return false else return k end
         end):totable()
         picker:find()
-        collectgarbage("collect")
       end
     end
   end

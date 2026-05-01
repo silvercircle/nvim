@@ -38,10 +38,7 @@ local conf = {
 
 function M.pick()
   local snacks = require("snacks")
-  local lutils = require("quickfavs.utils")
   local align = snacks.picker.util.align
-
-  vim.notify("Picker")
 
   local plugins = vim.pack.get()
   if conf.snacks_layout.layout.title == nil then

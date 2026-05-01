@@ -102,7 +102,7 @@ Tweaks.blink = {
   -- auto-show after that many milliseconds
   border = "thicc", -- see borderfactory() for supported values
   -- show the documentation window automatically
-  auto_doc = true,
+  auto_doc = false,
   -- keymap preset to use. Read the blink docs. Note that some
   -- keys are overriden or customized from the preset. See lua/plugins/blink.lua
   keymap_preset = "enter",

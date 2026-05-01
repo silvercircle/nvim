@@ -141,9 +141,9 @@ local blink_menu_hl_group = {
 }
 
 local context_sources = {
-  default = { "lsp", "path", "snippets", "buffer", "wordlist" },
-  lua = { "lsp", "path", "snippets", "buffer", "wordlist" },
-  text = { "lsp", "path", "snippets", "emoji", "wordlist", "buffer" }-- , "dictionary" }
+  default = { "lsp", "path", "snippets"--[[, "buffer"]], "wordlist" },
+  lua = { "lsp", "path", "snippets"--[[, "buffer"]], "wordlist" },
+  text = { "lsp", "path", "snippets", "emoji", "wordlist"--[[, "buffer" ]] }-- , "dictionary" }
 }
 
 local icon_trans = {
@@ -249,7 +249,8 @@ require("blink.cmp").setup({
       end,
       "fallback"
     },
-    ["<C-k>"]      = {}
+    ["<C-k>"]      = {},
+    ['<f1>'] = { 'show_documentation', 'hide_documentation' }
   },
   cmdline = {
     keymap = {
@@ -279,7 +280,7 @@ require("blink.cmp").setup({
     default = function(_)
       if vim.bo.filetype == "lua" then
         return context_sources.lua
-      elseif vim.tbl_contains({ "tex", "markdown", "typst", "html" }, vim.bo.filetype) then
+      elseif vim.tbl_contains({ "tex", "markdown", "typst", "html", "rst" }, vim.bo.filetype) then
         return context_sources.text
       else
         return context_sources.default
@@ -287,14 +288,16 @@ require("blink.cmp").setup({
     end,
     providers = {
       wordlist = {
-        score_offset = 9,
+      score_offset = -8,
+      min_keyword_length = 2,
         module = "blink-cmp-wordlist",
         name = "wordlist",
         opts = {
           wordfiles = { "wordlist.txt", "personal.txt", "/home/alex/foolist" },
           debug = false,
           read_on_setup = false,
-          watch_files = true
+          watch_files = true,
+          trigger_characters = {}
         }
       },
       emoji = {
@@ -466,6 +469,7 @@ require("blink.cmp").setup({
     documentation = {
       auto_show = T.auto_doc,
       auto_show_delay_ms = 50,
+      treesitter_highlighting = true,
       window = {
         border = Borderfactory(w_border),
         winblend = T.winblend.doc,
