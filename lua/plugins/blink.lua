@@ -384,6 +384,8 @@ require("blink.cmp").setup({
     },
     trigger = {
       prefetch_on_insert = T.prefetch,
+      show_on_keyword = false,
+      show_on_trigger_character = true
     },
     list = {
       selection = { preselect = true, auto_insert = false }
@@ -391,10 +393,6 @@ require("blink.cmp").setup({
     menu = {
       enabled = true,
       auto_show = function() return (vim.b.cmp_autoshow == nil and PCFG.cmp_automenu or vim.b.cmp_autoshow) end,
-      trigger = {
-        show_on_keyword = false,
-        show_on_trigger_character = true,
-      },
       border = Borderfactory(w_border),
       winblend = T.winblend.menu,
       max_height = T.window_height,
