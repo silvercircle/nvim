@@ -461,6 +461,14 @@ vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'zt', function()
   require(wordlist_module).add_cword_with_translation()
 end, "Add current word with translation to wordlist")
 
+vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'zl', function()
+  require(wordlist_module).autolist()
+end, "Show the contens of the current auto list in a picker")
+
+vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'zf', function()
+  require(wordlist_module).select_word_file()
+end, "Select a word file to edit")
+
 vim.g.setkey({ 'n', 'i', 't', 'v' }, utility_key .. 'wt', function()
   require("subspace.content.wsplit").toggle_content()
 end, "Toggle weather/info content")
