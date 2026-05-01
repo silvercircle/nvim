@@ -105,6 +105,7 @@ M.perm_config_default = {
   cmp_layout = "classic",
   cmp_automenu = Tweaks.cmp.autocomplete,
   cmp_ghost = false,
+  cmp_autodoc = false,
   lsp = {
     inlay_hints = LSPDEF.inlay_hints,
     codelens = LSPDEF.codelens

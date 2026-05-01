@@ -8,6 +8,7 @@ local itemlist = nil
 local M = {}
 
 local Types = require("blink.cmp.types")
+local Config = require("blink.cmp.config")
 
 -- local workaround when using neovide. This just temporarily disables
 -- the cursor animation to avoid the confusing cursor-jumping when accepting
@@ -140,10 +141,13 @@ local blink_menu_hl_group = {
   wordlist = "CmpItemMenuBuffer"
 }
 
+-- filetype which qualify a "text" content source
+local text_sources = { "tex", "markdown", "typst", "html", "rst" }
+
 local context_sources = {
   default = { "lsp", "path", "snippets"--[[, "buffer"]], "wordlist" },
   lua = { "lsp", "path", "snippets"--[[, "buffer"]], "wordlist" },
-  text = { "lsp", "path", "snippets", "emoji", "wordlist"--[[, "buffer" ]] }-- , "dictionary" }
+  text = { "lsp", "path", "snippets", "emoji", "wordlist"--[[, "buffer"]] }
 }
 
 local icon_trans = {
@@ -250,7 +254,19 @@ require("blink.cmp").setup({
       "fallback"
     },
     ["<C-k>"]      = {},
-    ['<f1>'] = { 'show_documentation', 'hide_documentation' }
+    ['<f1>'] = {
+      function(cmp)
+        PCFG.cmp_autodoc = not PCFG.cmp_autodoc
+        Config.completion.documentation.auto_show = PCFG.cmp_autodoc
+        if PCFG.cmp_autodoc == true then
+          cmp.show_documentation()
+          vim.notify("Show documentation is now *enabled*")
+        else
+          cmp.hide_documentation()
+          vim.notify("Show documentation is now *disabled*")
+        end
+      end
+    }
   },
   cmdline = {
     keymap = {
@@ -280,7 +296,7 @@ require("blink.cmp").setup({
     default = function(_)
       if vim.bo.filetype == "lua" then
         return context_sources.lua
-      elseif vim.tbl_contains({ "tex", "markdown", "typst", "html", "rst" }, vim.bo.filetype) then
+      elseif vim.tbl_contains(text_sources, vim.bo.filetype) then
         return context_sources.text
       else
         return context_sources.default
@@ -288,7 +304,7 @@ require("blink.cmp").setup({
     end,
     providers = {
       wordlist = {
-      score_offset = -8,
+      score_offset = -7,
       min_keyword_length = 2,
         module = "blink-cmp-wordlist",
         name = "wordlist",
@@ -328,7 +344,7 @@ require("blink.cmp").setup({
         end
       },
       buffer = {
-        -- score_offset = -10,
+        score_offset = -20,
         module = "blink.cmp.sources.buffer",
         min_keyword_length = 3,
         opts = {
@@ -465,7 +481,7 @@ require("blink.cmp").setup({
       end
     },
     documentation = {
-      auto_show = T.auto_doc,
+      auto_show = PCFG.cmp_autodoc,
       auto_show_delay_ms = 50,
       treesitter_highlighting = true,
       window = {

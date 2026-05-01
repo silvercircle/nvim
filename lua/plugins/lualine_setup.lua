@@ -42,6 +42,7 @@ local function status_indicators()
          ((vim.b.cmp_autoshow == nil and PCFG.cmp_automenu or vim.b.cmp_autoshow) and 'O' or 'o') ..
          ((vim.b.completion == nil and true or vim.b.completion) and 'B' or 'b') ..
          ((vim.b.cmp_ghost == nil and PCFG.cmp_ghost or vim.b.cmp_ghost) and 'G' or 'g') ..
+         (PCFG.cmp_autodoc == true and 'D' or 'd') ..
          (PCFG.lsp.inlay_hints and 'H' or 'h')
 end
 
