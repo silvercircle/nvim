@@ -484,7 +484,7 @@ function M.bgtheme()
       treebg = "#0e160e",
       floatbg = "#0e0d0d",
       gutterbg = "#020202",
-      kittybg = "#101510",
+      kittybg = "#06160e",
       fg = fg_def,
       fg_dim = fg_dim_def
     },
@@ -498,7 +498,7 @@ function M.bgtheme()
       treebg = "#120d00",
       floatbg = "#0e0d0d",
       gutterbg = "#020202",
-      kittybg = "#101510",
+      kittybg = "#120d00",
       fg = fg_def,
       fg_dim = fg_dim_def
     }
