@@ -51,7 +51,7 @@ autocmd({ 'VimEnter' }, {
     econfig.properties.formatoptions = function(bufnr, val, _)
       vim.api.nvim_set_option_value("formatoptions", val, { buf = bufnr })
     end
-
+    vim.treesitter.language.register('c_sharp', { 'cs', 'razor' })
     require("vim._core.ui2").enable {
       enable = true,
       msg = { -- Options related to the message module.
