@@ -5,7 +5,7 @@ local md5 = require("subspace.lib.md5")
 local hash
 local project_name = "tmp"
 local debug = LSPDEF.jdtls.debug
-local caps = vim.deepcopy(require("lsp.config").get_lsp_capabilities())
+local caps = require("lsp.config").get_lsp_capabilities()
 -- caps.textDocument.completion.editsNearCursor = false
 
 -- this tries to find a project root directory using common patterns. It searches
