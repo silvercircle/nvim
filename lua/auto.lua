@@ -252,17 +252,19 @@ autocmd({ 'BufWinEnter' }, {
     vim.api.nvim_buf_set_var(0, "tsc", PCFG.treesitter_context)
     vim.api.nvim_buf_set_var(0, "inlayhints", PCFG.lsp.inlay_hints)
     vim.api.nvim_buf_set_var(0, "clens", PCFG.lsp.codelens)
-    if #vim.fn.expand("%") > 0 and vim.api.nvim_get_option_value("buftype", { buf = args.buf }) ~= 'nofile' then
-      -- make sure parsing is complete before loading the view because restoring the folds
-      -- would not work otherwise. This is only needed when using async parsing.
-      if vim.g._ts_force_sync_parsing ~= true then
-        local p = pcall(vim.treesitter.get_parser)
-        if p ~= nil then
-          vim.notify("parse")
-          p:parse()
+    if vim.b.view_loaded == nil or vim.b.view_loaded == false then
+      vim.b.view_loaded = true
+      if #vim.fn.expand("%") > 0 and vim.api.nvim_get_option_value("buftype", { buf = args.buf }) ~= 'nofile' then
+        -- make sure parsing is complete before loading the view because restoring the folds
+        -- would not work otherwise. This is only needed when using async parsing.
+        if vim.g._ts_force_sync_parsing ~= true then
+          local p = pcall(vim.treesitter.get_parser)
+          if p ~= nil then
+            p:parse()
+          end
         end
+        vim.cmd("silent! loadview")
       end
-      vim.cmd("silent! loadview")
     end
   end,
   group = agroup_views
