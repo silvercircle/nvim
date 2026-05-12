@@ -130,8 +130,7 @@ end
 
 local function navic_context()
   if vim.api.nvim_get_hl(0, { name = "NavicText" }).fg == nil then
-    vim.notify("fixing theme # 1")
-    Theme.set()
+    Theme.set(false)
   end
   return navic.get_location()
 end
