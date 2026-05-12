@@ -147,7 +147,7 @@ local text_sources = { "tex", "markdown", "typst", "html", "rst" }
 local context_sources = {
   default = { "lsp", "path", "snippets"--[[, "buffer"]], "wordlist" },
   lua = { "lsp", "path", "snippets"--[[, "buffer"]], "wordlist" },
-  text = { "lsp", "path", "snippets", "emoji", "wordlist"--[[, "buffer"]] }
+  text = { "lsp", "path", "snippets", "emoji", "wordlist", "buffer" }
 }
 
 local icon_trans = {

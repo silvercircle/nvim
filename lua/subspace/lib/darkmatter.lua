@@ -117,6 +117,7 @@ end
 --- configuration.
 --- @param what string: description what has changed
 function M.theme_callback(what)
+  vim.notify("callback " .. what)
   local conf = CFG.theme.get_conf()
   if what == 'variant' then
     PCFG.theme_variant = conf.variant

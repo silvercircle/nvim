@@ -37,6 +37,7 @@ autocmd({ 'VimEnter' }, {
   callback = function()
     local econfig = require("editorconfig")
     if did_UIEnter == true then
+      vim.notify("vimenter")
       return
     end
     -- internal theme can be disabled via tweaks. This allows
@@ -51,7 +52,7 @@ autocmd({ 'VimEnter' }, {
     econfig.properties.formatoptions = function(bufnr, val, _)
       vim.api.nvim_set_option_value("formatoptions", val, { buf = bufnr })
     end
-    vim.treesitter.language.register('c_sharp', { 'cs', 'razor' })
+    CGLOBALS.configure_treesitter()
     require("vim._core.ui2").enable {
       enable = true,
       msg = { -- Options related to the message module.
@@ -286,7 +287,7 @@ autocmd({ "FileType" }, {
       elseif args.match == "cs" then
         parser = "c_sharp"
       end
-      if args.match ~= "markdown" then
+      if vim.tbl_contains(CFG.treesitter_exclude_types, args.match) == false then
         vim.treesitter.start(args.buf, parser)
       end
     end
@@ -319,7 +320,7 @@ autocmd({ "FileType" }, {
       vim.cmd(
       "setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal fo-=c")
     elseif in_pattern(Tweaks.ft_patterns.conceal, args.match) then
-      vim.cmd("setlocal conceallevel=2 | setlocal concealcursor=nc | setlocal formatexpr=")
+      vim.cmd("setlocal conceallevel=0 | setlocal concealcursor=nc | setlocal formatexpr=")
     elseif in_pattern(Tweaks.ft_patterns.indentkeys, args.match) then
       vim.cmd("setlocal indentkeys-=: | setlocal cinkeys-=:")
     elseif (args.match == "scala" or args.match == "sbt") and LSPDEF.advanced_config.scala == true then
@@ -446,7 +447,6 @@ delcmd = autocmd({ "BufReadPost" }, {
     end
     _delayloaded = true
     require("subspace.content.move").setup()
-    CGLOBALS.configure_treesitter()
     vim.g.setkey( "v", "<A-l>", function() MiniMove.move_selection("right") end)
     vim.g.setkey( "v", "<A-h>", function() MiniMove.move_selection("left") end)
     vim.g.setkey( "v", "<A-k>", function() MiniMove.move_selection("up") end)

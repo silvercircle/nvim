@@ -71,7 +71,7 @@ M.serverconfigs = {
   ["adagpr_ls"]                = { active = true,
     cmd = { jp(M.masonbinpath, 'ada_language_server') }
   },
-  ["emmet_language_server"] = { active = true,
+  ["emmet_language_server"] = { active = false,
     cmd = { jp(M.masonbinpath, 'emmet-language-server') }
   },
   ["cssls"]                 = { active = true,
@@ -177,6 +177,7 @@ M.exclude_navic = { "ctags" }
 M.jdtls = {
   workspace_base = "~/.cache/jdtls_workspace/",
   -- java_executable = "/usr/bin/java",
+  -- java_executable = jp(M.masonbinpath, "jdtls"),
   java_executable = vim.fn.expand("~/.sdkman/candidates/java/current/bin/java"),
   jdtls_install_dir = "~/.local/share/nvim/mason/packages/jdtls/",
   equinox_version = "1.7.100.v20251111-0406",

@@ -1,5 +1,6 @@
 local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
-local navic = nil
+local navic = require("subspace.nav")
+local Theme = require("darkmatter")
 
 local LuaLineColors = {
   white = "#ffffff",
@@ -128,8 +129,9 @@ local function full_filename()
 end
 
 local function navic_context()
-  if navic == nil then
-    navic = require("subspace.nav")
+  if vim.api.nvim_get_hl(0, { name = "NavicText" }).fg == nil then
+    vim.notify("fixing theme # 1")
+    Theme.set()
   end
   return navic.get_location()
 end

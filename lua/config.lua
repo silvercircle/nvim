@@ -82,6 +82,7 @@ CFG = {
   treesitter_types_builtin = { "c", "lua", "markdown", "markdown_inline", "vim", "vimdoc" },
   treesitter_extend_types = { "adagpr", "cs" },
   treesitter_context_types = { "tex", "markdown", "telekasten" },
+  treesitter_exclude_types = { "ada", "markdown", "cs" },
   theme = require("darkmatter")
 }
 

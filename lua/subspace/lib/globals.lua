@@ -226,6 +226,7 @@ function M.configure_treesitter()
   vim.treesitter.language.register("css", "scss")
   vim.treesitter.language.register("html", "jsp")
   vim.treesitter.language.register("ini", "editorconfig")
+  vim.treesitter.language.register('c_sharp', { 'cs', 'razor' })
   -- disable injections for these languages, because they can be slow
   -- can be tweaked
   --if Tweaks.treesitter.perf_tweaks == true then

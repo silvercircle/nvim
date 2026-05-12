@@ -175,7 +175,7 @@ function Wx:render()
         lines,
         self.ws.prepare_line(
           " " .. results["7"] .. ": " .. cond,
-          "   " .. results["5"] .. "°C  " .. results["6"] .. "°C",
+          "   " .. results["5"] .. "  " .. results["6"],
           -1
         )
       )

@@ -22,11 +22,11 @@ local M = {}
 ---@type Options
 local config = {
   icons = CFG.lspkind_symbols,
-	highlight = true,
+	highlight = false,
 	separator = " > ",
 	depth_limit = 5,
 	depth_limit_indicator = "..",
-	safe_output = true,
+	safe_output = false,
 	click = false,
 	lsp = {
 		auto_attach = false,
