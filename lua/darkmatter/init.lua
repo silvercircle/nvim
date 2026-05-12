@@ -662,7 +662,8 @@ end
 --- it always calls configure(), no need to call this explicitely
 --- @param _c? boolean when true (default), call configure()
 function M.set(_c)
-  local need_conf = _c or true
+  if _c == nil or type(_c) ~= "boolean" then _c = true end
+  local need_conf = _c
 
   Scheme = require("darkmatter.schemes.".. conf.scheme)
   if conf.disabled == true then
