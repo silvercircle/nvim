@@ -5,8 +5,9 @@ local md5 = require("subspace.lib.md5")
 local hash
 local project_name = "tmp"
 local debug = LSPDEF.jdtls.debug
+--local caps = vim.deepcopy(require("lsp.config").get_lsp_capabilities(), true)
 local caps = require("lsp.config").get_lsp_capabilities()
--- caps.textDocument.completion.editsNearCursor = false
+--caps.textDocument.completion.editsNearCursor = false
 
 -- this tries to find a project root directory using common patterns. It searches
 -- for maven or gradle configuration files, eclipse or IDEA configurations and if all
@@ -59,8 +60,9 @@ local config = {
   cmd = {
 
     LSPDEF.jdtls.java_executable, -- or '/:path/to/java17_or_newer/bin/java'
+    "-javaagent:" .. vim.fn.expand(LSPDEF.jdtls.jdtls_install_dir) .. "lombok.jar",
+    -- "-Xbootclasspath/a:" .. vim.fn.expand(LSPDEF.jdtls.jdtls_install_dir) .. "lombok.jar",
     -- depends on if `java` is in your $PATH env variable and if it points to the right version.
-
     "-Declipse.application=org.eclipse.jdt.ls.core.id1",
     "-Dosgi.bundles.defaultStartLevel=4",
     "-Declipse.product=org.eclipse.jdt.ls.core.product",
@@ -78,10 +80,6 @@ local config = {
     "-XX:MaxGCPauseMillis=200",
     "-XX:MaxHeapFreeRatio=50",
     "-XX:MinHeapFreeRatio=20",
-    "-XX:ConcGCThreads=2",
-    "-XX:ParallelGCThreads=2",
-    use_lombok and "-javaagent:" .. vim.fn.expand(LSPDEF.jdtls.jdtls_install_dir) .. "lombok.jar" or "",
-    use_lombok and "-Xbootclasspath/a:" .. vim.fn.expand(LSPDEF.jdtls.jdtls_install_dir) .. "lombok.jar" or "",
     "--add-modules=ALL-SYSTEM",
     "--add-opens", "java.base/java.util=ALL-UNNAMED",
     "--add-opens", "java.base/java.lang=ALL-UNNAMED",
