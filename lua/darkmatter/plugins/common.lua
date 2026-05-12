@@ -352,6 +352,13 @@ local function _set()
   c.link("helpSpecial", "Purple")
   c.link("helpSectionDelim", "Grey")
 
+  -- syn_begin: Ada
+  c.link("adaSpecial", "Operator")
+  c.link("adaAssignment", "Operator")
+  c.link("csParens", "Braces")
+  c.link("csBraces", "Braces")
+  c.link("javaParen", "Braces")
+  c.link("javaParenT", "Braces")
   c.hl("SnippetTabstop", c.P.styled.keyword, c.NONE, conf.attrib.italic)
 end
 
