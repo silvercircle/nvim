@@ -1,5 +1,5 @@
 -- this is the main anchor for lsp server configuration. If you want to personalize this,
--- make a copy and name it lspdef_user.lua. If this exists (in the same directory as this 
+-- make a copy and name it lspdef_user.lua. If this exists (in the same directory as this
 -- lspdef.lua file), it will be used instead and you will not lose your settings when updating
 -- this file via git.
 local jp = vim.fs.joinpath
@@ -21,6 +21,11 @@ M.localbin        = jp(M.homepath, '.local/bin/')
 M.server_bin = {
   metals        =   '$HOME/.local/share/coursier/bin/metals',
   roslyn        =   jp(M.masonbasepath, "packages/roslyn/libexec/Microsoft.CodeAnalysis.LanguageServer.dll"),
+}
+
+M.kotlin = {
+  -- use either "intellij" or "kotlin-lsp"
+  server = "intellij"
 }
 
 -- exceptions:
@@ -119,8 +124,18 @@ M.serverconfigs = {
   ["groovyls"]              = { active = false,
     cmd = { jp(M.masonbinpath, 'groovy-language-server') }
   },
-  ["kotlin"]               = { active = true,
-    cmd = { jp(M.masonbasepath, 'kotlinlsp', "kotlin-lsp.sh"), "--stdio" }
+  ["kotlin"]               = { active = M.kotlin.server == "intellij",
+    cmd = { jp(M.homepath, ".local", "kotlinlsp", "bin", "intellij-server"), "--stdio" },
+    -- cmd = vim.lsp.rpc.connect('127.0.0.1', tonumber(9999)),
+    attach_config = function(client, _)
+      vim.notify("Customizing kotlinlsp")
+      client.capabilities.textDocument.completion.editsNearCursor = false
+      client.server_capabilities.foldingRangeProvider = false
+      -- client.server_capabilities.semanticTokensProvider = nil
+    end
+  },
+  ["kotlin-lsp"]               = { active = M.kotlin.server == "kotlin-lsp",
+    cmd = { jp(M.localbin, "kotlin-lsp"), "--smart" }
   },
   ["jsonls"]                = { active = true,
     cmd = { jp(M.masonbinpath, "vscode-json-language-server") }
@@ -182,7 +197,8 @@ M.jdtls = {
   jdtls_install_dir = "~/.local/share/nvim/mason/packages/jdtls/",
   equinox_version = "1.7.100.v20251111-0406",
   config = "config_linux",
-  debug = false
+  debug = false,
+  enabled = false
 }
 
 -- definitions for the roslyn plugin. You may need to change this, depending on the

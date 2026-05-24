@@ -19,7 +19,8 @@ local project_types = {
   ada = { ext = {"ads", "adb", "gpr", "json", "xml", "md" } },
   md = { ext = {"md", "rst", "css", "py", "toml" } },
   rst = { ext = {"md", "rst", "css", "py", "toml" } },
-  java = { ext = {"java", "sbt", "conf", "md", "xml", "properties", "gradle"} }
+  java = { ext = {"java", "kts", "kt", "sbt", "conf", "md", "xml", "properties", "gradle", "json"} },
+  kt = { ext = {"java", "kts", "kt", "sbt", "conf", "md", "xml", "properties", "gradle", "json"} }
 }
 
 M.smartfiles_or_grep = function(opts)

@@ -29,7 +29,7 @@ local function do_setup()
         end
         goto continue
       end
-      if v.cmd then
+      if v.cmd and type(v.cmd) ~= "function" and type(config.cmd) ~= "function" then
         if config.cmd == nil then
           config.cmd = v.cmd
         else

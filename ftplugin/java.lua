@@ -17,8 +17,18 @@ local caps = require("lsp.config").get_lsp_capabilities()
 -- try two levels of patterns. Gradle and maven project files are considered safe
 -- project roots, anything else *might* work.
 
+local s, jdtls = pcall(require, "jdtls")
+if s == false then
+  vim.notify("JDTLS not present, returning")
+end
+
+if LSPDEF.kotlin.server == "kotlin-lsp" then
+  vim.notify("JDTLS disabled, use kotlin-lsp for Java")
+  return
+end
+
 local root_patterns = {
-  safe = { "pom.xml", "settings.gradle", ".settings", ".gradle" },
+  safe = { "pom.xml", "settings.gradle", "settings.gradle.kts", ".settings", ".gradle" },
   guess = { ".project", "nbproject", ".git", ".idea" }
 }
 
@@ -57,10 +67,9 @@ end
 local config = {
   -- The command that starts the language server
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
+  name = "jdtls",
   cmd = {
-
     LSPDEF.jdtls.java_executable, -- or '/:path/to/java17_or_newer/bin/java'
-    "-javaagent:" .. vim.fn.expand(LSPDEF.jdtls.jdtls_install_dir) .. "lombok.jar",
     -- "-Xbootclasspath/a:" .. vim.fn.expand(LSPDEF.jdtls.jdtls_install_dir) .. "lombok.jar",
     -- depends on if `java` is in your $PATH env variable and if it points to the right version.
     "-Declipse.application=org.eclipse.jdt.ls.core.id1",
@@ -83,6 +92,7 @@ local config = {
     "--add-modules=ALL-SYSTEM",
     "--add-opens", "java.base/java.util=ALL-UNNAMED",
     "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+    -- "-javaagent:" .. vim.fn.expand(LSPDEF.jdtls.jdtls_install_dir) .. "lombok.jar",
     "-jar", vim.fn.expand(LSPDEF.jdtls.jdtls_install_dir) .. "plugins/org.eclipse.equinox.launcher_" .. LSPDEF.jdtls.equinox_version .. ".jar",
     "-configuration", vim.fn.expand(LSPDEF.jdtls.jdtls_install_dir) .. LSPDEF.jdtls.config,
     "-data", workspace_dir
@@ -125,10 +135,15 @@ local config = {
     bundles = {}
   },
   on_attach = function(client, buf)
+    --vim.notify(vim.inspect(client.server_capabilities.semanticTokensProvider))
+    -- vim.notify(vim.inspect(client.capabilities.textDocument.completion))
+    -- client.capabilities.textDocument.completion.editsNearCursor = false
+    -- client.server_capabilities.semanticTokensProvider.full.delta = false
+    -- client.server_capabilities.semanticTokensProvider = nil
     vim.lsp.codelens.enable(PCFG.lsp.codelens)
     ON_LSP_ATTACH(client, buf)
   end
 }
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
-require("jdtls").start_or_attach(config)
+jdtls.start_or_attach(config)

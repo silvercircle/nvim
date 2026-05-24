@@ -485,6 +485,29 @@ M.setup = {
   project = function()
     require("project").setup()
   end,
+  jls = function()
+    require("jls").setup({
+     jls_dir = "/home/alex/Downloads/jls",                 -- used to resolve dist/lang_server_*.sh
+      settings = {},                 -- passed through to the JLS LSP settings payload
+      root_markers = {
+        "pom.xml",
+        "build.gradle",
+        "build.gradle.kts",
+        "settings.gradle",
+        "settings.gradle.kts",
+        "WORKSPACE",
+        "WORKSPACE.bazel",
+        ".java-version",
+        ".git",
+      },
+      inlay_hints = {
+        enabled = false,             -- show parameter name hints at call sites
+      },
+      jvm_args = { "-Xmx768m", "-Xms256m","-XX:+UnlockExperimentalVMOptions", "-XX:+UseCompactObjectHeaders",
+        "-XX:-TieredCompilation", "-XX:+UseStringDeduplication", "-XX:+UseCompressedOops", "-XX:ReservedCodeCacheSize=50m",
+        "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=200", "-XX:MaxHeapFreeRatio=50", "-XX:MinHeapFreeRatio=20" }
+    })
+  end,
   neominimap = function()
     -- The following options are recommended when layout == "float"
     vim.opt.wrap = false
