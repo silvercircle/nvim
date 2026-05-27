@@ -25,7 +25,7 @@ M.server_bin = {
 
 M.kotlin = {
   -- use either "intellij" or "kotlin-lsp"
-  server = "intellij"
+  server = "kotlin-lsp"
 }
 
 -- exceptions:

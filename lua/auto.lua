@@ -53,29 +53,6 @@ autocmd({ 'VimEnter' }, {
       vim.api.nvim_set_option_value("formatoptions", val, { buf = bufnr })
     end
     CGLOBALS.configure_treesitter()
-    require("vim._core.ui2").enable {
-      enable = true,
-      msg = { -- Options related to the message module.
-        ---@type 'cmd'|'msg' Default message target, either in the
-        ---cmdline or in a separate ephemeral message window.
-        ---@type string|table<string, 'cmd'|'msg'|'pager'> Default message target
-        ---or table mapping |ui-messages| kinds and triggers to a target.
-        targets = "cmd",
-        cmd = { -- Options related to messages in the cmdline window.
-          height = 0.5, -- Maximum height while expanded for messages beyond 'cmdheight'.
-        },
-        dialog = { -- Options related to dialog window.
-          height = 0.5, -- Maximum height.
-        },
-        msg = { -- Options related to msg window.
-          height = 0.5, -- Maximum height.
-          timeout = 4000, -- Time a message is visible in the message window.
-        },
-        pager = { -- Options related to message window.
-          height = 0.5, -- Maximum height.
-        }
-      }
-    }
   end
 })
 
@@ -83,7 +60,8 @@ autocmd({ 'VimEnter' }, {
 local function main_layout(curtab)
   if CFG.plain == false then
     if PCFG.terminal.active == true then
-      vim.schedule(function() TABM.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(TABM.T[curtab].id_main) end)
+      --vim.schedule(function() TABM.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(TABM.T[curtab].id_main) end)
+      TABM.termToggle(PCFG.terminal.height + 1) vim.fn.win_gotoid(TABM.T[curtab].id_main)
     end
     if PCFG.tree.active == true then
       TABM.open_tree()
@@ -111,7 +89,8 @@ local function main_layout(curtab)
           local id = sizeevent.match
           local status, target = pcall(vim.api.nvim_win_get_var, tonumber(id), "termheight")
           if status and TABM.T[ct].term.id_win ~= nil then
-            vim.schedule(function() vim.api.nvim_win_set_height(TABM.T[ct].term.id_win, tonumber(target)) end)
+            --vim.schedule(function() vim.api.nvim_win_set_height(TABM.T[ct].term.id_win, tonumber(target)) end)
+            vim.api.nvim_win_set_height(TABM.T[ct].term.id_win, tonumber(target))
           end
         end
         if sizeevent.event == "WinResized" then
@@ -171,7 +150,30 @@ autocmd({ "UIEnter" }, {
     main_layout(curtab)
     --require("plugins.lualine_setup")
     --require("plugins.lualine_setup").fixhl()
-    --require("plugins.cokeline")
+    require('fzf-lua').register_ui_select()
+    require("vim._core.ui2").enable {
+      enable = true,
+      msg = { -- Options related to the message module.
+        ---@type 'cmd'|'msg' Default message target, either in the
+        ---cmdline or in a separate ephemeral message window.
+        ---@type string|table<string, 'cmd'|'msg'|'pager'> Default message target
+        ---or table mapping |ui-messages| kinds and triggers to a target.
+        targets = "msg",
+        cmd = { -- Options related to messages in the cmdline window.
+          height = 0.5, -- Maximum height while expanded for messages beyond 'cmdheight'.
+        },
+        dialog = { -- Options related to dialog window.
+          height = 0.5, -- Maximum height.
+        },
+        msg = { -- Options related to msg window.
+          height = 0.5, -- Maximum height.
+          timeout = 4000, -- Time a message is visible in the message window.
+        },
+        pager = { -- Options related to message window.
+          height = 0.5, -- Maximum height.
+        }
+      }
+    }
   end
 })
 

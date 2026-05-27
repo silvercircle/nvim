@@ -2,7 +2,7 @@ local lib = require("subspace.lib")
 
 return {
   filetypes = { 'kotlin', 'java' },
-  cmd = { LSPDEF.serverconfigs['kotlin-lsp'].cmd[1], "--smart", "--root=" .. lib.getroot_current() },
+  cmd = { LSPDEF.serverconfigs['kotlin-lsp'].cmd[1], "--smart" },
   single_file_support = true,
   -- cmd = vim.lsp.rpc.connect('127.0.0.1', tonumber(9999)),
   root_markers = {

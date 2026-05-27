@@ -515,13 +515,6 @@ local plugins = {
     condition = true, active = true, phase = "boot",
     config = nil,
     rtp = "nvim-metals"
-  },
-  { -- nvim-jls
-    name = "nvim-jls", version = nil,
-    source = "https://github.com/idelice/nvim-jls",
-    condition = false, active = false, phase = "boot",
-    config = function() require("plugins.others").setup.jls() end,
-    rtp = "nvim-jls"
   }
 }
 

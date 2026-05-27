@@ -133,7 +133,7 @@ function M.write_config()
     local usplit_id = TABM.get(1).usplit.id_win
     local state = {
       terminal = {
-        active = Tabs.T[1].term.id_win ~= nil and true or false,
+        active = Tabs.T[1].term.id_win ~= nil and true or false
       },
       weather = {
         active = wsplit_id ~= nil and true or false,

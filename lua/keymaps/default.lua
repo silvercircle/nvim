@@ -266,7 +266,7 @@ vim.g.setkey({ 'n', 'i' }, utility_key .. 'ca', function()
   local val = (vim.b.cmp_autoshow == nil and PCFG.cmp_automenu or vim.b.cmp_autoshow)
   vim.b.cmp_autoshow = not val
   PCFG.cmp_automenu = not val
-  STATMSG("**Blink.cmp** Menu auto_showis now: ", not val, 0, "Config")
+  STATMSG("**Blink.cmp** Menu auto_show is now: ", not val, 0, "Config")
 end, "Toggle blink.cmp auto-menu display")
 vim.g.setkey({ 'n', 'i' }, utility_key .. 'cg', function()
   local val = (vim.b.cmp_ghost == nil and PCFG.cmp_ghost or vim.b.cmp_ghost)
