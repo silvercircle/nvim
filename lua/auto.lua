@@ -214,7 +214,7 @@ autocmd({'BufWinLeave'}, {
   pattern = "*",
   callback = function()
     if Tweaks.mkview_on_leave == true then
-      -- CGLOBALS.mkview()
+      CGLOBALS.mkview()
     end
   end,
   group = agroup_views
