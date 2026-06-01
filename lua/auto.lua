@@ -37,7 +37,6 @@ autocmd({ 'VimEnter' }, {
   callback = function()
     local econfig = require("editorconfig")
     if did_UIEnter == true then
-      vim.notify("vimenter")
       return
     end
     -- internal theme can be disabled via tweaks. This allows

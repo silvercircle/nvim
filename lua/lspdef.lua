@@ -134,8 +134,11 @@ M.serverconfigs = {
       -- client.server_capabilities.semanticTokensProvider = nil
     end
   },
-  ["kotlin-lsp"]               = { active = M.kotlin.server == "kotlin-lsp",
-    cmd = { jp(M.localbin, "kotlin-lsp"), "--smart" }
+  ["kmp_lsp"]               = { active = M.kotlin.server == "kotlin-lsp",
+    cmd = { jp(M.localbin, "kmp-lsp"), "--smart" },
+    attach_config = function(client, _)
+      -- client.server_capabilities.semanticTokensProvider = nil
+    end
   },
   ["jsonls"]                = { active = true,
     cmd = { jp(M.masonbinpath, "vscode-json-language-server") }
