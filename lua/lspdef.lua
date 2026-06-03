@@ -137,6 +137,7 @@ M.serverconfigs = {
   ["kmp_lsp"]               = { active = M.kotlin.server == "kotlin-lsp",
     cmd = { jp(M.localbin, "kmp-lsp"), "--smart" },
     attach_config = function(client, _)
+      client.capabilities.textDocument.completion.completionItem.snippetSupport = false
       -- client.server_capabilities.semanticTokensProvider = nil
     end
   },

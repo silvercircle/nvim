@@ -223,7 +223,11 @@ function Utils.StopLsp(auto)
       if LSPDEF.verbose then
         vim.notify(string.format("Auto shutdown for LSP: %s (client_id=%d)", client["name"], client["id"]))
       end
-      vim.lsp.stop_client(client["id"], true)
+      local cl = vim.lsp.get_client_by_id(client['id'])
+      if cl ~= nil then
+        cl:stop(true)
+      end
+      -- vim.lsp.stop_client(client["id"], true)
     end
     if not auto then
       local entry = {
@@ -242,10 +246,12 @@ function Utils.StopLsp(auto)
   --- @param picker any the picker object
   local function do_terminate(id, picker)
     if id ~= nil and id > 0 then
-      if #vim.lsp.get_buffers_by_client_id(id) > 0 then
+      local cl = vim.lsp.get_client_by_id(id)
+      if cl == nil then return end
+      if #cl.attached_buffers > 0 then
         vim.notify("The LSP server with id " .. id .. " has attached buffers and cannot be terminated.")
       else
-        vim.lsp.stop_client(id, true)
+        cl:stop(true)
         entries = vim.iter(entries):filter(function(k, _)
           if k.id == id then return false else return k end
         end):totable()
