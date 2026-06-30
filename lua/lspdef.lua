@@ -16,6 +16,7 @@ M.masonbasepath   = jp(vim.fn.stdpath('data'), 'mason/')
 M.masonbinpath    = jp(M.masonbasepath, 'bin/')
 M.homepath        = vim.fn.getenv('HOME')
 M.localbin        = jp(M.homepath, '.local/bin/')
+M.localdir        = jp(M.homepath, '.local/')
 
 -- binaries for external LSP plugins not covered by lspconfig
 M.server_bin = {
@@ -71,10 +72,10 @@ M.serverconfigs = {
     cmd = { "ccls" }
   },
   ["ada_ls"]                = { active = true,
-    cmd = { jp(M.masonbinpath, 'ada_language_server') }
+    cmd = { jp(M.localbin, 'ada_language_server') }
   },
   ["adagpr_ls"]                = { active = true,
-    cmd = { jp(M.masonbinpath, 'ada_language_server') }
+    cmd = { jp(M.localbin, 'ada_language_server') }
   },
   ["emmet_language_server"] = { active = false,
     cmd = { jp(M.masonbinpath, 'emmet-language-server') }
@@ -113,10 +114,10 @@ M.serverconfigs = {
     cmd = { jp(M.masonbinpath, 'taplo') }
   },
   ["lua_ls"]                = { active = true,
-    cmd = { jp(M.masonbinpath, "lua-language-server"), '--logpath=' .. vim.fn.stdpath("state") },
+    cmd = { jp(M.localdir, "lua_ls", "bin", "lua-language-server"), '--logpath=' .. vim.fn.stdpath("state") },
   },
   ["emmylua_ls"]            = { active = false,
-    cmd = { jp(M.masonbinpath, "emmylua_ls") },
+    cmd = { jp(M.localbin, "emmylua_ls") },
   },
   ["rust_analyzer"]         = { active = false,
     cmd = { jp(M.masonbinpath, 'rust-analyzer') }
@@ -135,10 +136,14 @@ M.serverconfigs = {
     end
   },
   ["kmp_lsp"]               = { active = M.kotlin.server == "kotlin-lsp",
-    cmd = { jp(M.localbin, "kmp-lsp"), "--smart" },
+    cmd = { "taskset", "01", "nice", "-n 19", jp(M.localbin, "kmp-lsp"), "--smart" },
     attach_config = function(client, _)
-      client.capabilities.textDocument.completion.completionItem.snippetSupport = false
-      -- client.server_capabilities.semanticTokensProvider = nil
+      -- client.capabilities.textDocument.completion.completionItem.snippetSupport = false
+      -- client.capabilities.textDocument.semanticTokens.requests.range = false
+      -- client.capabilities.textDocument.semanticTokens.requests.full = false
+      -- client.server_capabilities.foldingRangeProvider = false
+      client.server_capabilities.semanticTokensProvider = nil
+      -- client.capabilities.textDocument.completion.editsNearCursor = false
     end
   },
   ["jsonls"]                = { active = true,
@@ -253,7 +258,7 @@ M.debug = false
 M.verbose = true
 M.virtual_lines = false
 M.virtual_text = true
-M.use_dynamic_registration = true
+M.use_dynamic_registration = false
 M.disable_breadcrumb = false
 -- automatically terminate unused (= 0 clients) lsp servers
 M.auto_shutdown = true

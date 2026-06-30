@@ -60,7 +60,7 @@ local function main_layout(curtab)
   if CFG.plain == false then
     if PCFG.terminal.active == true then
       --vim.schedule(function() TABM.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(TABM.T[curtab].id_main) end)
-      TABM.termToggle(PCFG.terminal.height + 1) vim.fn.win_gotoid(TABM.T[curtab].id_main)
+      TABM.termToggle(PCFG.terminal.height) vim.fn.win_gotoid(TABM.T[curtab].id_main)
     end
     if PCFG.tree.active == true then
       TABM.open_tree()
@@ -418,6 +418,11 @@ autocmd({ 'WinLeave' }, {
 autocmd({ 'LspAttach' }, {
   pattern = "*",
   callback = function(args)
+    --local client = vim.lsp.get_client_by_id(args.data.client_id)
+    --if client and client.name == 'kmp_lsp' then
+    --  vim.notify("disable diag for buf nr " .. args.buf)
+    --  vim.diagnostic.config(enable(false, { bufnr = args.buf })
+    --end
     if vim.bo[args.buf].ft == "razor" then
       vim.cmd("hi! link @lsp.type.field Member")
     end

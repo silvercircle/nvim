@@ -192,8 +192,13 @@ end
 
 -- enable/disable ibl
 function M.toggle_ibl()
-  PCFG.indent_guides = not PCFG.indent_guides
-  vim.g.snacks_indent = PCFG.indent_guides
+  --PCFG.indent_guides = not PCFG.indent_guides
+  --vim.g.snacks_indent = PCFG.indent_guides
+  if vim.b.snacks_indent == nil then
+    vim.b.snacks_indent = false
+  else
+    vim.b.snacks_indent = not vim.b.snacks_indent
+  end
   vim.schedule(function() vim.cmd.redraw() end)
 end
 

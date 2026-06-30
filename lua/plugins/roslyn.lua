@@ -5,8 +5,8 @@ require("roslyn").setup({
       "--stdio",
       "--logLevel=Information",
       "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.log.get_filename()),
-      "--razorSourceGenerator=" .. LSPDEF.roslyn.razor_compiler,
-      "--razorDesignTimePath=" ..  LSPDEF.roslyn.razor_designer,
+      --"--razorSourceGenerator=" .. LSPDEF.roslyn.razor_compiler,
+      --"--razorDesignTimePath=" ..  LSPDEF.roslyn.razor_designer,
       "--extension",
       LSPDEF.roslyn.razor_extension
     },

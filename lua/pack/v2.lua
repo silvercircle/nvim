@@ -515,7 +515,22 @@ local plugins = {
     condition = true, active = true, phase = "boot",
     config = nil,
     rtp = "nvim-metals"
+  },
+  {
+    name = "neogen", version = nil,
+    source = "https://github.com/danymat/neogen",
+    condition = true, active = true, phase = "post",
+    config = function() require("plugins.others").setup.neogen() end,
+    rtp = "neogen"
+  },
+  {
+    name = "neogit", version = nil,
+    source = "https://github.com/neogitorg/neogit",
+    condition = true, active = true, phase = "post",
+    config = function() require("plugins.others").setup.neogit() end,
+    rtp = "neogit"
   }
+
 }
 
 --- @type pack.Phasedef[]

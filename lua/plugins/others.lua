@@ -485,6 +485,18 @@ M.setup = {
   project = function()
     require("project").setup()
   end,
+  neogit = function()
+    require("neogit").setup({
+      kind = "floating",
+      floating = {
+        relative = "editor",
+        width = 0.9,
+        height = 0.9,
+        style = "minimal",
+        border = "single",
+      }
+    })
+  end,
   jls = function()
     require("jls").setup({
      jls_dir = "/home/alex/Downloads/jls",                 -- used to resolve dist/lang_server_*.sh

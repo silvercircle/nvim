@@ -1,6 +1,6 @@
 return {
   filetypes = { 'kotlin', 'java' },
-  cmd = { LSPDEF.serverconfigs['kmp_lsp'].cmd[1], "--smart" },
+  -- cmd = { "nice", "-n 15", LSPDEF.serverconfigs['kmp_lsp'].cmd[1], "--smart" },
   single_file_support = true,
   -- cmd = vim.lsp.rpc.connect('127.0.0.1', tonumber(9999)),
   root_markers = {
