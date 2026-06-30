@@ -496,8 +496,12 @@ M.setup = {
         border = "single",
       },
       commit_view = {
-        kind = "vsplit",
+        kind = "split_above",
         verify_commit = vim.fn.executable("gpg") == 1, -- Can be set to true or false, otherwise we try to find the binary
+      },
+      popup = {
+        kind = "split_below",
+        show_title = true
       },
       commit_editor = {
         kind = "floating",
