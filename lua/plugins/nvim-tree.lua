@@ -304,9 +304,6 @@ require('nvim-tree').setup({ -- BEGIN_DEFAULT_OPTS
       profile = false,
       watcher = false,
     },
-  },
-  experimental = {
-    multi_instance = false
   }
 }) -- END_DEFAULT_OPT
 

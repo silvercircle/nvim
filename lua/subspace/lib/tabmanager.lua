@@ -322,7 +322,7 @@ function M.open_outline(id_tab)
     local id_win = Symbols.sidebar.win(sb)
     if id_win and vim.api.nvim_win_is_valid(id_win) then
       vim.api.nvim_set_option_value("winhl", "Normal:TreeNormalNC,CursorLine:TreeCursorLine", { win = id_win })
-      vim.api.nvim_win_set_width(id_win, PCFG.outline.width)
+      vim.api.nvim_win_resize(id_win, PCFG.outline.width, -1)
       M.T[M.active].id_outline = id_win
     end
   end
@@ -385,7 +385,7 @@ function M.tree_open_handler()
   vim.api.nvim_set_option_value("signcolumn", "no", { scope = "local", win = w } )
   vim.api.nvim_set_option_value("number", false, { scope = "local", win = w } )
   M.adjust_layout()
-  vim.api.nvim_win_set_width(w, PCFG.tree.width)
+  vim.api.nvim_win_resize(w, PCFG.tree.width, -1)
   if PCFG.weather.active == true then
     ws.content = PCFG.weather.content
     if ws.id_win == nil then
@@ -394,7 +394,7 @@ function M.tree_open_handler()
   end
 
   if qfheight > 0 then
-    vim.api.nvim_win_set_height(id_qf, qfheight)
+    vim.api.nvim_win_resize(id_qf, -1, qfheight)
   end
 end
 
@@ -407,7 +407,7 @@ function M.tree_close_handler()
   M.T[M.active].id_tree = nil
   M.adjust_layout()
   if M.T[M.active].term.id_win ~= nil then
-    vim.api.nvim_win_set_height(M.T[M.active].term.id_win, M.T[M.active].term.height)
+    vim.api.nvim_win_resize(M.T[M.active].term.id_win, -1, M.T[M.active].term.height)
   end
 end
 
@@ -418,18 +418,18 @@ function M.adjust_layout()
 
   vim.o.cmdheight = Tweaks.cmdheight
   if usplit ~= nil then
-    vim.api.nvim_win_set_width(usplit, PCFG.sysmon.width)
+    vim.api.nvim_win_resize(usplit, PCFG.sysmon.width, -1)
   end
-  vim.api.nvim_win_set_height(M.T[M.active].id_main, 200)
+  vim.api.nvim_win_resize(M.T[M.active].id_main, -1, 200)
   if term.id_win ~= nil then
     local width = vim.api.nvim_win_get_width(term.id_win)
-    vim.api.nvim_win_set_height(term.id_win, term.height)
-    vim.api.nvim_win_set_width(term.id_win, width - 1)
-    vim.api.nvim_win_set_width(term.id_win, width)
+    vim.api.nvim_win_resize(term.id_win, -1, term.height)
+    vim.api.nvim_win_resize(term.id_win, width - 1, -1)
+    vim.api.nvim_win_resize(term.id_win, width, -1)
   end
   local outline = M.findWinByFiletype(PCFG.outline_filetype, true)
   if #outline > 0 then
-    vim.api.nvim_win_set_width(outline[1], PCFG.outline.width)
+    vim.api.nvim_win_resize(outline[1], PCFG.outline.width, -1)
   end
 end
 

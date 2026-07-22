@@ -89,7 +89,7 @@ local function main_layout(curtab)
           local status, target = pcall(vim.api.nvim_win_get_var, tonumber(id), "termheight")
           if status and TABM.T[ct].term.id_win ~= nil then
             --vim.schedule(function() vim.api.nvim_win_set_height(TABM.T[ct].term.id_win, tonumber(target)) end)
-            vim.api.nvim_win_set_height(TABM.T[ct].term.id_win, tonumber(target))
+            vim.api.nvim_win_resize(TABM.T[ct].term.id_win, -1, tonumber(target))
           end
         end
         if sizeevent.event == "WinResized" then
@@ -310,7 +310,7 @@ autocmd({ "FileType" }, {
     end
     if args.match == "SymbolsSidebar" then
       configure_outline_sidebar()
-      vim.api.nvim_win_set_width(0, PCFG.outline.width)
+      vim.api.nvim_win_resize(0, PCFG.outline.width, -1)
     elseif args.match == "mail" then
       vim.cmd("setlocal foldcolumn=0 | setlocal fo-=c | setlocal fo+=w | setlocal ff=unix | setlocal foldmethod=manual | setlocal spell spelllang=en_us,de_de")
     elseif args.match == "Glance" then
@@ -352,7 +352,7 @@ autocmd({ "FileType" }, {
             typeParameters = { enable = true },
           }
         }
-        --vim.api.nvim_set_hl(0, "@lsp.type.keyword.scala", {})
+        vim.api.nvim_set_hl(0, "@lsp.type.keyword.scala", {})
         metals.initialize_or_attach(cfg)
       end
     end
@@ -408,7 +408,7 @@ autocmd({ 'WinLeave' }, {
     if filetype == Tweaks.tree.filetype or filetype == "SymbolsSidebar" then
       if old_mode == 'i' then
         old_mode = ''
-        vim.cmd.startinsert()
+        vim.schedule(function() vim.cmd.startinsert() end)
       end
     end
   end,

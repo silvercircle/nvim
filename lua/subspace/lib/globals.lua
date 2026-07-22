@@ -152,7 +152,7 @@ function M.close_qf_or_loc()
       if winid[i] > 0 and vim.api.nvim_win_is_valid(winid[i]) then
         vim.api.nvim_win_close(winid[i], {})
         if TABM.T[TABM.active].term.id_win ~= nil then
-          vim.api.nvim_win_set_height(TABM.T[TABM.active].term.id_win, PCFG.terminal.height)
+          vim.api.nvim_win_resize(TABM.T[TABM.active].term.id_win, -1, PCFG.terminal.height)
         end
       end
     end
