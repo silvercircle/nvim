@@ -13,6 +13,15 @@ local conditions = {
     g = "󰖗 Showers",
     k = "󰖓 Thunderstorm",
   },
+  VCC = {
+    c = "󰖕 Partly Cloudy",
+    a = "󰖙 Clear",
+    e = "󰖐 Cloudy",
+    j = "󰖖 Rain",
+    o = "󰼶 Snow",
+    g = "󰖗 Showers",
+    k = "󰖓 Thunderstorm",
+  },
   CC = {
     c = "󰖕 Partly Cloudy",
     b = "󰖕 Mostly Clear",

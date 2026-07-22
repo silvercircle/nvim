@@ -321,7 +321,7 @@ autocmd({ "FileType" }, {
       vim.cmd(
       "setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal expandtab | setlocal softtabstop=2 | setlocal fo-=c")
     elseif in_pattern(Tweaks.ft_patterns.conceal, args.match) then
-      vim.cmd("setlocal conceallevel=0 | setlocal concealcursor=nc | setlocal formatexpr=")
+      vim.cmd("setlocal conceallevel=2 | setlocal concealcursor=nc | setlocal formatexpr=")
     elseif in_pattern(Tweaks.ft_patterns.indentkeys, args.match) then
       vim.cmd("setlocal indentkeys-=: | setlocal cinkeys-=:")
     elseif (args.match == "scala" or args.match == "sbt") and LSPDEF.advanced_config.scala == true then
@@ -344,6 +344,7 @@ autocmd({ "FileType" }, {
           },
           inlayHints = {
             byNameParameters = { enable = true },
+            namedParameters = { enable = true },
             hintsInPatternMatch = { enable = true },
             implicitArguments = { enable = true },
             implicitConversions = { enable = true },
@@ -351,7 +352,7 @@ autocmd({ "FileType" }, {
             typeParameters = { enable = true },
           }
         }
-        vim.api.nvim_set_hl(0, "@lsp.type.keyword.scala", {})
+        --vim.api.nvim_set_hl(0, "@lsp.type.keyword.scala", {})
         metals.initialize_or_attach(cfg)
       end
     end

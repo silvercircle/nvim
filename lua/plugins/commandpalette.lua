@@ -77,23 +77,10 @@ require("commandpicker").add({
     keys = { "n", "DR", },
     category = "@LSP Diagnostics"
   },
-  {
-    desc = "Neogit",
-    cmd = function()
-      require("neogit").open({ cwd = lutils.getroot_current() })
-    end,
-    keys = {
-      { "n", "<f6>", noremap },
-      { "i", "<f6>", noremap },
-    },
-    category = "@GIT"
-  },
   --{
-  --  -- open a float term with lazygit.
-  --  -- use the path of the current buffer to find the .git root. The LSP utils are useful here
-  --  desc = "Snacks LazyGit",
+  --  desc = "Neogit",
   --  cmd = function()
-  --    require("snacks").lazygit({ cwd = lutils.getroot_current() })
+  --    require("neogit").open({ cwd = lutils.getroot_current() })
   --  end,
   --  keys = {
   --    { "n", "<f6>", noremap },
@@ -101,6 +88,19 @@ require("commandpicker").add({
   --  },
   --  category = "@GIT"
   --},
+  {
+    -- open a float term with lazygit.
+    -- use the path of the current buffer to find the .git root. The LSP utils are useful here
+    desc = "Snacks LazyGit",
+    cmd = function()
+      require("snacks").lazygit({ cwd = lutils.getroot_current() })
+    end,
+    keys = {
+      { "n", "<f6>", noremap },
+      { "i", "<f6>", noremap },
+    },
+    category = "@GIT"
+  },
   {
     desc = "View Markdown in GUI viewer (" .. Tweaks.mdguiviewer .. ")",
     cmd = function()

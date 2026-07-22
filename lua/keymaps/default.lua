@@ -209,14 +209,9 @@ end
 --- show a hover for it instead.
 --- press <F1> again to enter the hover window, press <q> to dismiss it.
 vim.keymap.set({ "n", "i" }, "<f1>", function()
-  local api = vim.api
-  local hover_win = vim.b.hover_preview
-  if hover_win and api.nvim_win_is_valid(hover_win) then
-    api.nvim_set_current_win(hover_win)
-  else
-    require("hover").open()
-    --vim.lsp.buf.hover()
-  end
+  local w, b = vim.diagnostic.open_float()
+  if w ~= nil and b ~= nil then return end
+  require("pretty_hover").hover()
 end, { desc = "LSP hover window" })
 
 vim.g.setkey({ 'i', 'n' }, '<C-x>d', function()

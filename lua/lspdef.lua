@@ -30,7 +30,7 @@ M.kotlin = {
 }
 
 -- exceptions:
--- the language servers for Java (jdtls), C# (roslyn) and Scala (metal) are NOT
+-- the language servers for Java (jdtls), C# (roslyn) and Scala (metals) are NOT
 -- covered by this. They have dedicated plugins with more complex configurations.
 -- see: ftplugin/java.lua for Java support
 --      plugins/roslyn.lua for C#/Razor support
@@ -142,7 +142,7 @@ M.serverconfigs = {
       -- client.capabilities.textDocument.semanticTokens.requests.range = false
       -- client.capabilities.textDocument.semanticTokens.requests.full = false
       -- client.server_capabilities.foldingRangeProvider = false
-      client.server_capabilities.semanticTokensProvider = nil
+      -- client.server_capabilities.semanticTokensProvider = nil
       -- client.capabilities.textDocument.completion.editsNearCursor = false
     end
   },

@@ -218,16 +218,17 @@ local plugins = {
     rtp = "fzf-lua"
   },
   { -- mason
-    name = "mason.nvim", version = nil,
+    name = "mason.nvim", version = "12ddd182d9efbdc848b540f16484a583d52da0fb",
     source = "https://github.com/williamboman/mason.nvim",
     condition = true, active = true, phase = "boot",
     config = function() require("mason").setup({
       registries = {
         "github:mason-org/mason-registry",
-        "github:Crashdummyy/mason-registry",
-      }
+        "github:Crashdummyy/mason-registry"
+      },
+      log_level = vim.log.levels.DEBUG
     }) end,
-    rtp = nil
+    rtp = "mason.nvim"
   },
   { -- quickfavs.nvim
     name = "quickfavs.nvim", version = nil,
@@ -372,25 +373,42 @@ local plugins = {
     end,
     rtp = "nvim-colorizer.lua"
   },
+  { -- prettyhover
+    name = "pretty_hover", version = nil,
+    source = "https://github.com/Fildo7525/pretty_hover",
+    condition = true, active = true, phase = "lsp",
+    config = function()
+      require("pretty_hover").setup({
+        border = "single",
+        max_width = 140,
+        max_height= 25,
+        wrap = false
+      })
+    end,
+    rtp = "pretty_hover"
+  },
   { -- hover.nvim
     name = "hover.nvim", version = nil,
     source = "https://github.com/lewis6991/hover.nvim",
-    condition = true, active = true, phase = "lsp",
+    condition = false, active = false, phase = "lsp",
     config = function()
       require("hover").setup({
-        init = function()
-          -- Require providers
-          require("hover.providers.lsp")
-          -- require('hover.providers.gh')
-          -- require('hover.providers.gh_user')
-          -- require('hover.providers.jira')
-          require("hover.providers.dictionary")
-          require("hover.providers.fold_preview")
-          require("hover.providers.diagnostic")
-          require("hover.providers.man")
-        end,
+        providers = {
+        'hover.providers.diagnostic',
+        'hover.providers.lsp',
+        'hover.providers.dap',
+        'hover.providers.man',
+        -- 'hover.providers.dictionary',
+        -- Optional, disabled by default:
+        -- 'hover.providers.gh',
+        -- 'hover.providers.gh_user',
+        -- 'hover.providers.jira',
+        'hover.providers.fold_preview',
+        -- 'hover.providers.highlight',
+        },
         preview_opts = {
-          border = Borderfactory("thicc")
+          border = Borderfactory("thicc"),
+          conceallevel = 2
         },
         preview_window = true,
         title = true
@@ -446,13 +464,13 @@ local plugins = {
     end,
     rtp = "oil.nvim"
   },
-  { -- diffview.nvim
-    name = "diffview.nvim", version = nil,
-    source = "https://github.com/sindrets/diffview.nvim",
-    condition = true, active = true, phase = "pre",
-    config = nil,
-    rtp = nil
-  },
+  --{ -- diffview.nvim
+  --  name = "diffview.nvim", version = nil,
+  --  source = "https://github.com/sindrets/diffview.nvim",
+  --  condition = true, active = true, phase = "pre",
+  --  config = nil,
+  --  rtp = nil
+  --},
   { -- nui.nvim
     name = "nui.nvim", version = nil,
     source = "https://github.com/MunifTanjim/nui.nvim",
@@ -515,22 +533,21 @@ local plugins = {
     condition = true, active = true, phase = "boot",
     config = nil,
     rtp = "nvim-metals"
-  },
-  {
-    name = "neogen", version = nil,
-    source = "https://github.com/danymat/neogen",
-    condition = true, active = true, phase = "post",
-    config = function() require("plugins.others").setup.neogen() end,
-    rtp = "neogen"
-  },
-  {
-    name = "neogit", version = nil,
-    source = "https://github.com/neogitorg/neogit",
-    condition = true, active = true, phase = "post",
-    config = function() require("plugins.others").setup.neogit() end,
-    rtp = "neogit"
   }
-
+  --{
+  --  name = "neogen", version = nil,
+  --  source = "https://github.com/danymat/neogen",
+  --  condition = true, active = true, phase = "post",
+  --  config = function() require("plugins.others").setup.neogen() end,
+  --  rtp = "neogen"
+  --},
+  --{
+  --  name = "neogit", version = nil,
+  --  source = "https://github.com/neogitorg/neogit",
+  --  condition = false, active = false, phase = "post",
+  --  config = function() require("plugins.others").setup.neogit() end,
+  --  rtp = "neogit"
+  --}
 }
 
 --- @type pack.Phasedef[]
