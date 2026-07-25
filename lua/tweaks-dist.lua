@@ -368,7 +368,7 @@ Tweaks.snacks = {
 }
 
 Tweaks.minimap = {
-  features = { treesitter = true, git = false, search = false, diagnostic = true },
+  features = { treesitter = true, git = false, search = false, diagnostic = false },
   debounce = 800
 }
 Tweaks.smartpicker = {

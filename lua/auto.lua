@@ -232,10 +232,6 @@ autocmd({ 'BufEnter' }, {
       else
         vim.schedule(function() Tsc.disable() end)
       end
-      val = CGLOBALS.get_buffer_var(args.buf, "inlayhints")
-      if val ~= nil and type(val) == "boolean" then
-        vim.lsp.inlay_hint.enable(val, { bufnr = args.buf } )
-      end
     end
     CGLOBALS.get_bufsize()
     if TABM.T[TABM.active] and TABM.T[TABM.active].wsplit.content == 'info' then
@@ -252,8 +248,14 @@ autocmd({ 'BufWinEnter' }, {
   pattern = "*",
   callback = function(args)
     vim.api.nvim_buf_set_var(0, "tsc", PCFG.treesitter_context)
-    vim.api.nvim_buf_set_var(0, "inlayhints", PCFG.lsp.inlay_hints)
+    local ih = CGLOBALS.get_buffer_var(args.buf, "inlayhints")
+    if ih == nil then
+      vim.api.nvim_buf_set_var(0, "inlayhints", PCFG.lsp.inlay_hints)
+    end
     vim.api.nvim_buf_set_var(0, "clens", PCFG.lsp.codelens)
+    if ih ~= nil and type(ih) == "boolean" then
+      vim.lsp.inlay_hint.enable(ih, { bufnr = args.buf } )
+    end
     if vim.b.view_loaded == nil or vim.b.view_loaded == false then
       vim.b.view_loaded = true
       if #vim.fn.expand("%") > 0 and vim.api.nvim_get_option_value("buftype", { buf = args.buf }) ~= 'nofile' then

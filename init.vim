@@ -9,6 +9,17 @@ vim.iter(disabled_plugins):map(function(k)
   vim.g['loaded_' .. k] = 1
 end)
 
+if vim.fn.has("nvim-0.13") == 0 then
+  function vim.api.nvim_win_resize(id, width, height)
+    if width == -1 then
+      vim.api.nvim_win_set_height(id, height)
+    end
+    if height == -1 then
+      vim.api.nvim_win_set_width(id, width)
+    end
+  end
+end
+
 vim.loader.enable()
 vim.cmd.copen = function(...) vim.cmd("below copen") end
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
