@@ -145,8 +145,8 @@ local blink_menu_hl_group = {
 local text_sources = { "tex", "markdown", "typst", "html", "rst" }
 
 local context_sources = {
-  default = { "lsp", "path", "snippets"--[[, "buffer"]], "wordlist" },
-  lua = { "lsp", "path", "snippets"--[[, "buffer"]], "wordlist" },
+  default = { "lsp", "path", "snippets"--[[, "buffer", "wordlist"]] },
+  lua = { "lsp", "path", "snippets"--[[, "buffer", "wordlist"]] },
   text = { "lsp", "path", "snippets", "emoji", "wordlist", "buffer" }
 }
 

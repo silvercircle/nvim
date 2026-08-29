@@ -11,9 +11,11 @@ local scalafolds = [[
 
 [
   (class_definition)
+  (given_definition)
   (trait_definition)
   (object_definition)
   (function_definition)
+  (extension_definition)
   (val_definition)
   (import_declaration)
   (while_expression)
@@ -24,6 +26,8 @@ local scalafolds = [[
   (case_block)
   (match_expression)
   (if_expression)
+  (block_comment)
+  (enum_definition)
 ] @fold
 
 ]]
@@ -343,4 +347,4 @@ local scalahl = [[
 ]]
 
 vim.treesitter.query.set("scala", "folds", scalafolds)
-vim.treesitter.query.set("scala", "highlights", scalahl)
+-- vim.treesitter.query.set("scala", "highlights", scalahl)
