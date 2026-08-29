@@ -28,8 +28,6 @@ local tree_fts = {
   ['Explorer']  = "snacks_picker_list"
 }
 Tweaks.tree.filetype = tree_fts[Tweaks.tree.version]
-local nvim_11 = vim.fn.has("nvim-0.11")
-local nvim_12 = vim.fn.has("nvim-0.12")
 local nvim_13 = vim.fn.has("nvim-0.13")
 
 vim.g.snacks_animate = false
@@ -41,9 +39,10 @@ vim.filetype.add({
 vim.treesitter.language.register("ada", { "adagpr" })
 
 CFG = {
+  nightly = nvim_13 == 1 and true or false,
   minipicker_iprefix = "#>",
   treesitter = true,
-  plain = (env_plain ~= nil or vim.g.want_plain == true) and true or false,
+  plain = env_plain ~= nil and true or false,
   statuscol_normal = '%s%=%l %C ',
   statuscol_rel = '%s%=%l %C ',
   texoutput = "~/Documents/TEXOUTPUT/",
@@ -246,6 +245,8 @@ function SPL(params)
     }
   }
 end
+
+CFG.bufid_name = CFG.nightly == true and "buf_id" or "bufnr"
 
 -- recipe for the symbols sidebar plugin. Shows kind icons using my
 -- defaults.

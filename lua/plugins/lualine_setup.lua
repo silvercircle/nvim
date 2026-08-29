@@ -37,14 +37,14 @@ local function status()
 end
 
 local function status_indicators()
-  return (PCFG.treesitter_context == true and "C" or "c") ..
+  return (CGLOBALS.get_buffer_var(0, "tsc") and "C" or "c") ..
          (PCFG.is_dev == true and "D" or "d") ..
          (PCFG.autopair == true and "A" or "a") ..
          ((vim.b.cmp_autoshow == nil and PCFG.cmp_automenu or vim.b.cmp_autoshow) and 'O' or 'o') ..
          ((vim.b.completion == nil and true or vim.b.completion) and 'B' or 'b') ..
          ((vim.b.cmp_ghost == nil and PCFG.cmp_ghost or vim.b.cmp_ghost) and 'G' or 'g') ..
          (PCFG.cmp_autodoc == true and 'D' or 'd') ..
-         (PCFG.lsp.inlay_hints and 'H' or 'h')
+         (CGLOBALS.get_buffer_var(0, "inlayhints") and 'H' or 'h')
 end
 
 local function get_mem()

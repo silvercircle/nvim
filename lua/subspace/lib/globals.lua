@@ -282,13 +282,13 @@ end
 function M.toggle_inlayhints()
   local status = M.get_buffer_var(0, "inlayhints")
   vim.api.nvim_buf_set_var(0, "inlayhints", not status)
-  vim.lsp.inlay_hint.enable(not status, { bufnr = 0 })
-  PCFG.lsp.inlay_hints = not status
+  vim.lsp.inlay_hint.enable(not status, { buf_id = 0 })
+  -- PCFG.lsp.inlay_hints = not status
 end
 
 function M.toggle_codelens()
-  local status = vim.lsp.codelens.is_enabled({ bufnr = 0 })
-  vim.lsp.codelens.enable(not status, { bufnr = 0 })
+  local status = vim.lsp.codelens.is_enabled({[CFG.bufid_name] = 0 })
+  vim.lsp.codelens.enable(not status, { [CFG.bufid_name] = 0 })
   PCFG.lsp.codelens = not status
 end
 --- get a custom buffer variable.
@@ -296,7 +296,7 @@ end
 -- @param varname string: The variable's name
 function M.get_buffer_var(bufnr, varname)
   local status, value = pcall(vim.api.nvim_buf_get_var, bufnr, varname)
-  return (status == false) and nil or value
+  if status == true then return value else return nil end
 end
 
 return M

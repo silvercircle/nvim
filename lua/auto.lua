@@ -157,20 +157,7 @@ autocmd({ "UIEnter" }, {
         ---cmdline or in a separate ephemeral message window.
         ---@type string|table<string, 'cmd'|'msg'|'pager'> Default message target
         ---or table mapping |ui-messages| kinds and triggers to a target.
-        targets = "msg",
-        cmd = { -- Options related to messages in the cmdline window.
-          height = 0.5, -- Maximum height while expanded for messages beyond 'cmdheight'.
-        },
-        dialog = { -- Options related to dialog window.
-          height = 0.5, -- Maximum height.
-        },
-        msg = { -- Options related to msg window.
-          height = 0.5, -- Maximum height.
-          timeout = 4000, -- Time a message is visible in the message window.
-        },
-        pager = { -- Options related to message window.
-          height = 0.5, -- Maximum height.
-        }
+        targets = "msg"
       }
     }
   end
@@ -225,14 +212,6 @@ autocmd({'BufWinLeave'}, {
 autocmd({ 'BufEnter' }, {
   pattern = "*",
   callback = function(args)
-    if vim.api.nvim_get_option_value("buftype", { buf = args.buf }) == '' then
-      local val = CGLOBALS.get_buffer_var(args.buf, "tsc")
-      if val == true then
-        vim.schedule(function() Tsc.enable() end)
-      else
-        vim.schedule(function() Tsc.disable() end)
-      end
-    end
     CGLOBALS.get_bufsize()
     if TABM.T[TABM.active] and TABM.T[TABM.active].wsplit.content == 'info' then
       vim.schedule(function() Wsplit.refresh("BufEnter (auto.lua)") end)
@@ -247,15 +226,24 @@ autocmd({ 'BufEnter' }, {
 autocmd({ 'BufWinEnter' }, {
   pattern = "*",
   callback = function(args)
-    vim.api.nvim_buf_set_var(0, "tsc", PCFG.treesitter_context)
-    local ih = CGLOBALS.get_buffer_var(args.buf, "inlayhints")
-    if ih == nil then
-      vim.api.nvim_buf_set_var(0, "inlayhints", PCFG.lsp.inlay_hints)
+    if vim.api.nvim_get_option_value("buftype", { buf = args.buf }) == '' then
+      local realval
+      local val = CGLOBALS.get_buffer_var(args.buf, "tsc")
+      if val == nil then
+        realval = PCFG.treesitter_context
+        vim.api.nvim_buf_set_var(args.buf, "tsc", realval)
+      elseif type(val) == "boolean" then realval = val end
+      vim.schedule(function() if realval == true then Tsc.enable() else Tsc.disable() end end)
+
+      local ih = CGLOBALS.get_buffer_var(args.buf, "inlayhints")
+      local realih
+      if ih == nil then
+        realih = PCFG.lsp.inlay_hints
+        vim.api.nvim_buf_set_var(args.buf, "inlayhints", realih)
+      elseif type(ih) == "boolean" then realih = ih end
+      vim.schedule(function() vim.lsp.inlay_hint.enable(realih, {[CFG.bufid_name] = args.buf}) end)
     end
     vim.api.nvim_buf_set_var(0, "clens", PCFG.lsp.codelens)
-    if ih ~= nil and type(ih) == "boolean" then
-      vim.lsp.inlay_hint.enable(ih, { bufnr = args.buf } )
-    end
     if vim.b.view_loaded == nil or vim.b.view_loaded == false then
       vim.b.view_loaded = true
       if #vim.fn.expand("%") > 0 and vim.api.nvim_get_option_value("buftype", { buf = args.buf }) ~= 'nofile' then
@@ -338,11 +326,36 @@ autocmd({ "FileType" }, {
           startMcpServer = false,
           showImplicitArguments = true,
           excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
+          -- serverVersion = "2.0.0-M17",
           metalsBinaryPath = vim.fn.expand(LSPDEF.server_bin["metals"]),
           serverProperties = {
             "-Xmx1G", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=200", "-XX:+UseCompactObjectHeaders", "-XX:-TieredCompilation",
             "-XX:MaxHeapFreeRatio=60", "-XX:MinHeapFreeRatio=20", "-XX:ReservedCodeCacheSize=70m", "-XX:+UseStringDeduplication",
             "-XX:+UseCompressedOops"
+            --"-Djol.magicFieldOffset=true",
+            --"-Djol.tryWithSudo=true",
+            --"-Djdk.attach.allowAttachSelf",
+            --"--add-opens=java.base/java.nio=ALL-UNNAMED",
+            --"--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+            --"--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+            --"--add-exports=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
+            --"--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+            --"--add-exports=jdk.compiler/com.sun.tools.javac.jvm=ALL-UNNAMED",
+            --"--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
+            --"--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED",
+            --"--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+            --"--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+            --"--add-exports=jdk.compiler/com.sun.tools.javac.resources=ALL-UNNAMED",
+            --"--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+            --"--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+            --"--add-opens=java.base/sun.nio.ch=ALL-UNNAMED",
+            --"--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+            --"--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
+            --"--add-opens=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+            --"--add-opens=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+            --"-XX:+DisplayVMOutputToStderr",
+            --"-Xlog:disable",
+            --"-Xlog:all=warning,gc=warning:stderr"
           },
           inlayHints = {
             byNameParameters = { enable = true },

@@ -27,7 +27,7 @@ ON_LSP_ATTACH = function(client, buf)
   vim.g.inlay_hints_visible = true
   if client.server_capabilities.inlayHintProvider then
     vim.g.inlay_hints_visible = PCFG.lsp.inlay_hints
-    vim.lsp.inlay_hint.enable(PCFG.lsp.inlay_hints)
+    vim.lsp.inlay_hint.enable(PCFG.lsp.inlay_hints, { [CFG.bufid_name] = buf })
   end
   if LSPDEF.color_support == true and vim.lsp.document_color and client:supports_method("textDocument/documentColor") then
     vim.lsp.document_color.enable(true, buf, { style = "virtual" })
