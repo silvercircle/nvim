@@ -25,7 +25,14 @@ vim.cmd.copen = function(...) vim.cmd("below copen") end
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 require('config')
+
 require("subspace.lib.permconfig").restore_config()
+
+if CFG.plain == true then
+  PCFG.outline_view = false
+  PCFG.minimap_view = 1
+end
+
 PCFG = require("subspace.lib.permconfig").perm_config
 CGLOBALS.set_statuscol(PCFG.statuscol_current)
 
@@ -43,6 +50,8 @@ end
   vim.g.neovide_padding_right = 2
   vim.g.neovide_padding_left = 2
   vim.g.neovide_floating_corner_radius = 0.0
+  vim.g.neovide_cursor_animation_length = 0
+  vim.g.neovide_cursor_short_animation_length = 0
   vim.g.neovide_cursor_trail_size = 0.0
   vim.g.neovide_remember_window_size = true
   vim.g.neovide_underline_stroke_scale = 1.05

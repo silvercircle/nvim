@@ -93,4 +93,8 @@ o.cinoptions=":N,=4"
 o.splitbelow = true
 vim.opt.matchpairs:append("<:>")
 vim.o.winborder="single"
+if CFG.nightly == true then
+  vim.opt.messagesopt:append("progress:c,history:500,maxheight:50,timeout:4000")
+end
+
 -- o.secure=true
