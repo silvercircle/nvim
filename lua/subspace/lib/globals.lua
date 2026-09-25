@@ -299,4 +299,11 @@ function M.get_buffer_var(bufnr, varname)
   if status == true then return value else return nil end
 end
 
+function M.multicursor_clear_all()
+  local nsId = vim.api.nvim_get_namespaces()["nvim.multicursor"]
+  if nsId ~= nil then
+    vim.api.nvim_buf_clear_namespace(0, nsId, 0, -1)
+  end
+end
+
 return M

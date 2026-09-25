@@ -96,13 +96,13 @@ end
 --- this array of Plugindef records holds all configured plugins
 --- @type pack.Plugindef[]
 local plugins = {
-  { -- multicursor
-    name = "multicursor.nvim", version = "*",
-    source = "https://github.com/jake-stewart/multicursor.nvim",
-    condition = true, active = true, phase = "boot",
-    config = function() require("plugins.others").setup.multicursor_stewart() end, hook = nil,
-    rtp = nil
-  },
+  --{ -- multicursor
+  --  name = "multicursor.nvim", version = "*",
+  --  source = "https://github.com/jake-stewart/multicursor.nvim",
+  --  condition = false, active = false, phase = "boot",
+  --  config = function() require("plugins.others").setup.multicursor_stewart() end, hook = nil,
+  --  rtp = nil
+  --},
   { -- nvim-web-devicons
     name = "nvim-web-devicons", version = "*",
     source = "https://github.com/nvim-tree/nvim-web-devicons",

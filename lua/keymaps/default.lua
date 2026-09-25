@@ -554,6 +554,8 @@ vim.g.setkey( {"v", "n", "i"}, utility_key .. "td", function()
   require("dapui").open()
 end, "Open new tab page")
 
+vim.g.setkey( {"v", "n", "i"}, utility_key .. "<C-q>", function() CGLOBALS.multicursor_clear_all() end, "Clear all cursors")
+
 require("subspace.lib.marks").set_keymaps()
 vim.g.setkey( { "v", "n", "i" }, "<C-x><C-o>", function() Utils.obsidian_menu() end)
 vim.keymap.set('x', 'z/', '<C-\\><C-n>`</\\%V', { desc = 'Search forward within visual selection' })

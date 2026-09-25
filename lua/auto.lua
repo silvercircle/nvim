@@ -241,7 +241,7 @@ autocmd({ 'BufWinEnter' }, {
         realih = PCFG.lsp.inlay_hints
         vim.api.nvim_buf_set_var(args.buf, "inlayhints", realih)
       elseif type(ih) == "boolean" then realih = ih end
-      vim.schedule(function() vim.lsp.inlay_hint.enable(realih, {[CFG.bufid_name] = args.buf}) end)
+      vim.lsp.inlay_hint.enable(realih, {[CFG.bufid_name] = args.buf})
     end
     vim.api.nvim_buf_set_var(0, "clens", PCFG.lsp.codelens)
     if vim.b.view_loaded == nil or vim.b.view_loaded == false then
@@ -520,7 +520,7 @@ lspcmd = autocmd({ "BufReadPre" --[[, "BufNewFile"]] }, {
 
 autocmd("TextYankPost", {
   callback = function()
-    vim.highlight.on_yank()
+    vim.hl.hl_op()
     local copy_to_unnamedplus = require("vim.ui.clipboard.osc52").copy("+")
     copy_to_unnamedplus(vim.v.event.regcontents)
     local copy_to_unnamed = require("vim.ui.clipboard.osc52").copy("*")

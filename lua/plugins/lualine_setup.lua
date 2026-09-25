@@ -1,6 +1,7 @@
 local my_extension = { sections = { lualine_a = {'filetype'} }, filetypes = {'NvimTree'} }
 local navic = require("subspace.nav")
 local Theme = require("darkmatter")
+local mcns = vim.api.nvim_create_namespace("nvim.multicursor")
 
 local LuaLineColors = {
   white = "#ffffff",
@@ -103,18 +104,26 @@ local function setup_theme()
 end
 setup_theme()
 
+local function getCursors()
+  local extmarks = vim.api.nvim_buf_get_extmarks(0, mcns, 0, -1, {})
+  if #extmarks > 0 then
+    return " /" .. (#extmarks + 1)
+  end
+  return ""
+end
+
 local function getWordsV2()
+  local cursors = getCursors()
   if CGLOBALS.cur_bufsize > CFG.wordcount_limit * 1024 * 1024 then
     return "NaN"
   end
   local wc = vim.fn.wordcount()
   if wc["visual_words"] then -- text is selected in visual mode
-    return wc["visual_words"] .. "W/" .. wc['visual_chars'] .. "C (Vis)"
+    return wc["visual_words"] .. "W/" .. wc['visual_chars'] .. "C (Vis)" .. cursors
   else -- all of the document
-    return wc["words"]
+    return wc["words"] .. cursors
   end
 end
-
 
 local pad_string = string.rep(" ", 250)
 --- hack-ish. just return a very long string for the central section. Set the
