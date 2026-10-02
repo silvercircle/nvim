@@ -340,7 +340,7 @@ function M.bgtheme()
     alt_accent_color = "#501010",
     accent_fg = "#aaaa60",
     lualine = "internal", -- use 'internal' for the integrated theme or any valid lualine theme name
-    selbg = "#32304c",
+    selbg = "#42406c",
     treeselbg = "#38364c",
     cline = {
       normal = { "#2c2e34", 111},
