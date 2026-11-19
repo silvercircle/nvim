@@ -1,18 +1,5 @@
 require("scrollbar").setup({
-  show = true,
-  show_in_active_only = false,
-  throttle_ms = 100,
   set_highlights = true,
-  folds = 4000, -- handle folds, set to number to disable folds if no. of lines in buffer exceeds this
-  max_lines = false, -- disables if no. of lines in buffer exceeds this
-  hide_if_all_visible = false, -- Hides everything if all lines are visible
-  handle = {
-    text = " ",
-    color = nil,
-    color_nr = nil,
-    highlight = "ScrollView",
-    hide_if_all_visible = true, -- Hides handle if all lines are visible
-  },
   marks = {
     Cursor = {
       text = "■",
@@ -74,8 +61,8 @@ require("scrollbar").setup({
       text = "*",
       priority = 7,
       color = nil,
-      color_nr = nil,
       highlight = "GitSignsChange",
+      color_nr = nil,
     },
     GitDelete = {
       text = "—",
@@ -85,11 +72,12 @@ require("scrollbar").setup({
       highlight = "GitSignsDelete",
     },
   },
-  excluded_buftypes = {
-    "terminal",
-    "nofile"
-  },
-  excluded_filetypes = {
+  exclude = {
+    buftypes = {
+        "terminal",
+        "nofile"
+    },
+    filetypes = {
     "prompt",
     "mason",
     "lazy",
@@ -108,9 +96,17 @@ require("scrollbar").setup({
     "snacks_input",
     "neominimap",
     "oil_preview"
+    }
   },
-  autocmd = {
-    render = {
+  scrollbar = {
+    -- show_in_active_only = false,
+    visibility = "active",
+    throttle_ms = 100,
+    max_lines = false, -- disables if no. of lines in buffer exceeds this
+    hide_if_all_visible = false, -- Hides everything if all lines are visible
+    show = true,
+    unit = "line",
+    events = {
       "BufWinEnter",
       "TabEnter",
       "TermEnter",
@@ -120,18 +116,22 @@ require("scrollbar").setup({
       "VimResized",
       "WinScrolled",
     },
-    clear = {
-      "BufWinLeave",
-      "TabLeave",
-      "TermLeave",
-      "WinLeave",
-    },
+    thumb = {
+        text = " ",
+        color = nil,
+        color_nr = nil,
+        highlight = "ScrollView",
+        hide_if_all_visible = true, -- Hides handle if all lines are visible
+    }
   },
-  handlers = {
+  minimap = {
+    enabled = false,
+  },
+  providers = {
     cursor = true,
     diagnostic = true,
     gitsigns = true, -- Requires gitsigns
-    handle = true,
+    -- handle = true,
     search = true -- Requires hlslens
   },
 })

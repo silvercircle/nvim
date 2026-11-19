@@ -326,15 +326,15 @@ autocmd({ "FileType" }, {
           startMcpServer = false,
           showImplicitArguments = true,
           excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
-          -- serverVersion = "2.0.0-M17",
+          --serverVersion = "2.0.0-M19",
           metalsBinaryPath = vim.fn.expand(LSPDEF.server_bin["metals"]),
           serverProperties = {
             "-Xmx1G", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=200", "-XX:+UseCompactObjectHeaders", "-XX:-TieredCompilation",
             "-XX:MaxHeapFreeRatio=60", "-XX:MinHeapFreeRatio=20", "-XX:ReservedCodeCacheSize=70m", "-XX:+UseStringDeduplication",
-            "-XX:+UseCompressedOops"
-            --"-Djol.magicFieldOffset=true",
-            --"-Djol.tryWithSudo=true",
-            --"-Djdk.attach.allowAttachSelf",
+            "-XX:+UseCompressedOops",
+            "-Djol.magicFieldOffset=true",
+            "-Djol.tryWithSudo=true",
+            "-Djdk.attach.allowAttachSelf"
             --"--add-opens=java.base/java.nio=ALL-UNNAMED",
             --"--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
             --"--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
